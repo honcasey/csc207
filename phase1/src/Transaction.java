@@ -1,44 +1,119 @@
-public class Transaction {
-    String status;
-    String firstMeetingLocation;
-    int id;
-    static int numTransactions = 0;
-    int maxLocationEdit = 3;
-    int numLocationEdit = 0;
+/**
+ * This abstract class represents a meetup between 2 Users.
+ *
+ */
+public abstract class Transaction {
+    public String status;
+    protected String firstMeetingLocation;
+    protected int id;
+    protected static int numTransactions = 0;
+    protected static int maxEdit = 3;
+    protected int currentEdit = 0;
+    protected User user1;
+    protected User user2;
+    protected String firstMeetingTime;
 
-    void Transaction(){
+    /**
+     * Constructor of abstract class Transaction.
+     * @param user_1 one of the users involved in the transactions.
+     * @param user_2 one of the users involved in the transactions.
+     */
+    public Transaction(User user_1, User user_2){
         status = "pending";
         id = numTransactions + 1;
         numTransactions = numTransactions + 1;
+        this.user1 = user_1;
+        this.user2 = user_2;
     }
 
-    void setStatus(String newStatus){
+    /**
+     * Setter for status. This will be called by use case classes.
+     */
+
+    public void setStatus(String newStatus){
         status = newStatus;
     }
 
-    String getStatus(){
+    /**
+     * Getter for status. This will be called by use case classes.
+     */
+    public String getStatus(){
         return status;
     }
 
-    void setFirstMeetingLocation(String location){
+    /**
+     * Setter for the first meeting location. This will be called by use case classes.
+     */
+    public void setFirstMeetingLocation(String location){
         firstMeetingLocation = location;
     }
 
-    String getFirstMeetingLocation(){
+    /**
+     * Getter for the first meeting location. This will be called by use case classes.
+     */
+
+    public String getFirstMeetingLocation(){
         return firstMeetingLocation;
     }
 
-    void setMaxLocationEdit(int max){
-        maxLocationEdit = max;
+    /**
+     * Setter for maxEdit. This will be called by use case classes.
+     */
+
+    public void setMaxEdit(int max){
+        maxEdit = max;
     }
 
-    int getMaxLocationEdit(){
-        return maxLocationEdit;
+    /**
+     * getter for maxEdit. This will be called by use case classes.
+     */
+
+    public int getMaxEdit(){
+        return maxEdit;
     }
-    int getNumLocationEdit(){
-        return numLocationEdit;
+
+    /**
+     * setter for user1. This will be called by use case classes.
+     */
+
+    public void setUser1(User user1) {
+        this.user1 = user1;
+    }
+    /**
+     * getter for user1. This will be called by use case classes.
+     */
+
+    public User getUser1(){
+        return this.user1;
     }
 
+    /**
+     * setter for user1. This will be called by use case classes.
+     */
 
+    public void setUser2(User user2) {
+        this.user2 = user2;
+    }
+    /**
+     * getter for user2. This will be called by use case classes.
+     */
 
+    public User getUser2(){
+        return this.user2;
+    }
+
+    /**
+     * getter for meeting time. This will be called by use case classes.
+     */
+    public String getfirstmeetingTime() {
+        return firstMeetingTime;
+    }
+
+    /**
+     * setter for meeting time. This will be called by use case classes.
+     */
+
+    public void setfirstMeetingTime(String meetingTime) {
+        this.firstMeetingTime = meetingTime;
+    }
 }
