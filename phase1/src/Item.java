@@ -1,9 +1,9 @@
 import java.util.UUID;
 
+/**
+ * Represents an item in the trading system.
+ */
 public class Item {
-    /**
-     * Represents an item in the trading system.
-     */
     private UUID id = UUID.randomUUID();
     private String name;
     private String description = "This is an item for trade.";
