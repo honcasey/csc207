@@ -1,3 +1,6 @@
+
+import java.time.LocalDate;
+
 /**
  * This abstract class represents a meetup between 2 Users.
  *
@@ -11,19 +14,20 @@ public abstract class Transaction {
     protected int currentEdit = 0;
     protected User user1;
     protected User user2;
-    protected String firstMeetingTime;
+    protected LocalDate firstMeetingTime = LocalDate.now();
 
     /**
      * Constructor of abstract class Transaction.
      * @param user_1 one of the users involved in the transactions.
      * @param user_2 one of the users involved in the transactions.
      */
-    public Transaction(User user_1, User user_2){
+    public Transaction(User user_1, User user_2,String firstMeetingLocation){
         status = "pending";
         id = numTransactions + 1;
         numTransactions = numTransactions + 1;
         this.user1 = user_1;
         this.user2 = user_2;
+        this.firstMeetingLocation = firstMeetingLocation;
     }
 
     /**
@@ -105,7 +109,7 @@ public abstract class Transaction {
     /**
      * getter for meeting time. This will be called by use case classes.
      */
-    public String getfirstmeetingTime() {
+    public LocalDate getfirstmeetingTime() {
         return firstMeetingTime;
     }
 
@@ -113,7 +117,7 @@ public abstract class Transaction {
      * setter for meeting time. This will be called by use case classes.
      */
 
-    public void setfirstMeetingTime(String meetingTime) {
+    public void setfirstMeetingTime(LocalDate meetingTime) {
         this.firstMeetingTime = meetingTime;
     }
 }
