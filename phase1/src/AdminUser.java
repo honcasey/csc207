@@ -7,7 +7,7 @@ import java.util.UUID;
 public class AdminUser {
     private String username;
     private String password;
-    private UUID userId = UUID.randomUUID();
+    private UUID adminId = UUID.randomUUID();
 
     /**
      * Constructs an instance of an Admin User based on Strings of username and password.
@@ -30,16 +30,16 @@ public class AdminUser {
     public String getPassword() { return password; }
 
     /**
-     * Getter for userid as a UUID
-     * @return userid as a UUID
+     * Getter for admin id as a UUID
+     * @return admin id as a UUID
      */
-    public UUID getUserId() { return userId; }
+    public UUID getAdminId() { return adminId; }
 
     /**
      * Represents the current AdminUser by their username and userId
-     * @return the username and userid separated by a comma
+     * @return the username and adminid separated by a comma
      */
-    public String toString() { return username + ", " + userId; }
+    public String toString() { return username + ", " + adminId; }
 
 
 }
