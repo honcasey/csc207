@@ -1,14 +1,15 @@
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents a User in the trading system
  */
 
 public class User {
-    private final String username;
-    private final String password;
-    private final String email;
-    // private final int userId; I'll add an id counter once UserManager is done!
+    private String username;
+    private String password;
+    private String email;
+    private UUID userId = UUID.randomUUID();
     private List<Transaction> tradeHistory;
     private List<Item> inventory;
     private int numItemsLended = 0;
@@ -27,7 +28,6 @@ public class User {
          this.username = username;
          this.password = password;
          this.email = email;
-         // TO-DO: set user id String.valueOf(idCounter++);
      }
 
     /**
@@ -49,10 +49,10 @@ public class User {
     public String getEmail() { return email; }
 
     /**
-     * Getter for user id as an int
-     * @return userid as an integer
+     * Getter for user id as a UUID
+     * @return userid as a UUID
      */
-    public int getUserId() { return userId; }
+    public UUID getUserId() { return userId; }
 
     /**
      * Getter for this User's tradeHistory as list of Transactions they have previously been involved with.

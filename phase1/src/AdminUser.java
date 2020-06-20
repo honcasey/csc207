@@ -1,11 +1,13 @@
+import java.util.UUID;
+
 /**
  * Represents an administrative user in the trading system.
  */
 
 public class AdminUser {
-    String username;
-    String password;
-    int userId;
+    private String username;
+    private String password;
+    private UUID userId = UUID.randomUUID();
 
     /**
      * Constructs an instance of an Admin User based on Strings of username and password.
@@ -13,7 +15,6 @@ public class AdminUser {
     public AdminUser(String username, String password) {
         this.username = username;
         this.password = password;
-        // TO-DO: set a (random?) user id to each Admin User
     }
 
     /**
@@ -29,10 +30,10 @@ public class AdminUser {
     public String getPassword() { return password; }
 
     /**
-     * Getter for userid as an int
-     * @return userid as an integer
+     * Getter for userid as a UUID
+     * @return userid as a UUID
      */
-    public int getUserId() { return userId; }
+    public UUID getUserId() { return userId; }
 
     /**
      * Represents the current AdminUser by their username and userId
