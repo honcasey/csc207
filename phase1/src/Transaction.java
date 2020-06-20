@@ -1,5 +1,6 @@
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 /**
  * This abstract class represents a meetup between 2 Users.
@@ -8,9 +9,7 @@ import java.time.LocalDate;
 public abstract class Transaction {
     public String status;
     protected String firstMeetingLocation;
-    protected int id;
-    protected static int numTransactions = 0;
-    protected static int maxEdit = 3;
+    protected UUID id = UUID.randomUUID();
     protected int currentEdit = 0;
     protected User user1;
     protected User user2;
@@ -23,8 +22,6 @@ public abstract class Transaction {
      */
     public Transaction(User user_1, User user_2,String firstMeetingLocation){
         status = "pending";
-        id = numTransactions + 1;
-        numTransactions = numTransactions + 1;
         this.user1 = user_1;
         this.user2 = user_2;
         this.firstMeetingLocation = firstMeetingLocation;
@@ -58,22 +55,6 @@ public abstract class Transaction {
 
     public String getFirstMeetingLocation(){
         return firstMeetingLocation;
-    }
-
-    /**
-     * Setter for maxEdit. This will be called by use case classes.
-     */
-
-    public void setMaxEdit(int max){
-        maxEdit = max;
-    }
-
-    /**
-     * getter for maxEdit. This will be called by use case classes.
-     */
-
-    public int getMaxEdit(){
-        return maxEdit;
     }
 
     /**
