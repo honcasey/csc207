@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -5,13 +6,14 @@ import java.util.UUID;
  * Represents a User in the trading system
  */
 
-public class User {
+public class User implements Serializable {
     private String username;
     private String password;
     private String email;
     private UUID userId = UUID.randomUUID();
     private List<Transaction> tradeHistory;
     private List<Item> inventory;
+    private int numTransactions;
     private int numItemsLended = 0;
     private int numItemsBorrowed = 0;
     private int threshold = 1;
@@ -89,6 +91,14 @@ public class User {
      * @param wishlist list of Items
      */
     public void setWishlist(List<Item> wishlist) { this.wishlist = wishlist; }
+
+    /**
+     * Getter for this User's number of transactions.
+     * @return numTransactions as an integer.
+     */
+    public int getNumTransactions() {
+        return numTransactions;
+    }
 
     /**
      * Getter for numItemsLended as an int
