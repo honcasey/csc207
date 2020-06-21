@@ -25,7 +25,7 @@ public class TradeHistory {
         return (ArrayList<Transaction>) transactions.subList(transactions.size() - 4, transactions.size());
     }
     /**
-     * Returns the users top three trading partners
+     * Returns the usernames of the User's top three trading partners
      */
     public ArrayList<String> mostTradedWithUsers(){
         HashMap<User, Integer> temp = (HashMap<User, Integer>) usersNumTradeTimes.clone();
