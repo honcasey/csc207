@@ -4,20 +4,21 @@ import java.util.*;
  * Represents the trade history of a User
  */
 
-public class TradeHistory {
+public class TransactionHistory {
     private ArrayList <Transaction> transactions;
     private HashMap<User, Integer> usersNumTradeTimes;
     private int numTransactions = 0;
     private int numItemsLended = 0;
     private int numItemsBorrowed = 0;
-    // something that maps datetime to transactions
-    // get week transactions --> this should be a boolean and this should call the threshold from the User
+    // TODO: something that maps datetime to transactions
+    // TODO: get week transactions --> this should be a boolean and this should call the threshold from the User
+    // TODO: correct the javadoc according to new class name
     /**
-     * Constructs an instance of TradeHistory with an empty ArrayList transactions and an empty Hashtable usersNumTradeTimes
+     * Constructs an instance of TransactionHistory with an empty ArrayList transactions and an empty Hashtable usersNumTradeTimes
      * The most recent Transaction is added to the end of the list transactions
      */
 
-    public TradeHistory(){
+    public TransactionHistory(){
         transactions = new ArrayList<>();
         usersNumTradeTimes = new HashMap<>();
     }
