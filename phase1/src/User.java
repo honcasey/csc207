@@ -11,7 +11,7 @@ public class User implements Serializable {
     private String password;
     private String email;
     private UUID userId = UUID.randomUUID();
-    private TradeHistory tradeHistory;
+    private TransactionHistory tradeHistory;
     private List<Item> inventory;
     private int threshold = 1;
     private int weeklyThreshold = 3;
@@ -71,13 +71,13 @@ public class User implements Serializable {
      * Getter for this User's tradeHistory as list of Transactions they have previously been involved with.
      * @return list of Transaction objects
      */
-    public TradeHistory getTradeHistory() { return tradeHistory; }
+    public TransactionHistory getTradeHistory() { return tradeHistory; }
 
     /**
      * Setter for this User's tradeHistory.
      * @param tradeHistory list of Transactions
      */
-    public void setTradeHistory(TradeHistory tradeHistory) { this.tradeHistory = tradeHistory; }
+    public void setTradeHistory(TransactionHistory tradeHistory) { this.tradeHistory = tradeHistory; }
 
     /**
      * Getter for this User's inventory as a list of (approved) Items.
