@@ -11,9 +11,11 @@ public class User implements Serializable {
     private String password;
     private String email;
     private UUID userId = UUID.randomUUID();
-    private List<Transaction> tradeHistory;
+    private TradeHistory tradeHistory;
     private List<Item> inventory;
     private int threshold = 1;
+    private int weeklyThreshold = 3;
+    private int incompleteThreshold = 2;
     private List<Item> wishlist;
     private String status = "active";
 
@@ -36,10 +38,22 @@ public class User implements Serializable {
     public String getUsername() { return username; }
 
     /**
+     * Setter for username as a String
+     * @param username new username as a String
+     */
+    public void setUsername(String username) { this.username = username; }
+
+    /**
      * Getter for password as a String
      * @return password as a String
      */
     public String getPassword() { return password; }
+
+    /**
+     * Setter for password as a String
+     * @param password new password as a String
+     */
+    public void setPassword(String password) { this.password = password; }
 
     /**
      * Getter for email as a String
@@ -57,13 +71,13 @@ public class User implements Serializable {
      * Getter for this User's tradeHistory as list of Transactions they have previously been involved with.
      * @return list of Transaction objects
      */
-    public List<Transaction> getTradeHistory() { return tradeHistory; }
+    public TradeHistory getTradeHistory() { return tradeHistory; }
 
     /**
      * Setter for this User's tradeHistory.
      * @param tradeHistory list of Transactions
      */
-    public void setTradeHistory(List<Transaction> tradeHistory) { this.tradeHistory = tradeHistory; }
+    public void setTradeHistory(TradeHistory tradeHistory) { this.tradeHistory = tradeHistory; }
 
     /**
      * Getter for this User's inventory as a list of (approved) Items.

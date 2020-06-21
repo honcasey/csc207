@@ -13,10 +13,10 @@ public class AdminManager {
      * @param username user's account name identifier
      * @param password user's account password
      */
-    public void addAdmin(String username, String password) {
+    public AdminUser addAdmin(String username, String password) {
         AdminUser admin = new AdminUser(username, password);
         allAdmins.add(admin);
-        // return admin; ?
+        return admin;
     }
 
     /**
