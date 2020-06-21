@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -5,6 +6,9 @@ import java.util.UUID;
  * Change info in user and item entities.
  */
 public class UserManager {
+    //UserSerializer usersFromSerializer = new UserSerializer();
+    //List<User> users = usersFromSerializer.getUsers();
+    private List<User> allUsers = new ArrayList<>();
 
     /**
      * Add a new user with given info.
@@ -14,65 +18,60 @@ public class UserManager {
      */
     public void addUser(String username, String password, String email){
         User user = new User(username, password, email);
+        allUsers.add(user);
     }
 
     /**
-     * To retrieve a specific user.
+     * To retrieve a specific user by userID.
      * @param userId id of a specific user
      * @return username and userId as string separated by comma
      */
-    public User getUser(int userId){
-        List<User>users;
-        //TODO: get users(collection of users) from file once userSerializer is done.
-        User user;
-        for (user:users){
-            int curUserId = user.userId;
-            if (curUserId == userId) {
-                String userName = user.getUsername();
-                String userPassword = user.getPassword();
-                String userEmail = user.getEmail();
-                user = new User(userName,userPassword,userEmail);
+    public User getUser(UUID userId){
+        User desiredUser= new User(null,null,null);
+        for (User user : allUsers) {
+            if ((user.getUserId().equals(userId))) {
+                    desiredUser = user;
+                }
             }
-        }
-        return user;
+            return desiredUser;
+    }
+
+
+    /**
+     * To add an item to user's inventory.
+     * @param user An user in the trading system.
+     * @param itemId The id of an item.
+     */
+    public void addItem(User user, UUID itemId){
+        ItemManager itemManager = new ItemManager();
+        List<Item> userInventory = user.getInventory();
+        userInventory.add(itemManager.getItem(itemId));
     }
 
     /**
-     * Add an item with given name.
-     * @param name the name of the item
+     * To remove a item from user's inventory
+     * @param user An user in the trading system.
+     * @param itemId Id of an item.
      */
-    public void addItem(String name){
-        Item item = new Item(name);
-    }
+    public void removeItem(User user, UUID itemId) {
 
-    /**
-     * To remove a specific item with given itemId
-     * @param itemId the Id of the item
-     */
-    public void removeItem(UUID itemId) {
-        List<Item> items;
-        //TODO: get items(collection of items) from file once userSerializer is done.
-        Item item;
-        for (item:
-             items) {
-            UUID curItemId = item.getId();
-            if (curItemId == itemId) {
+        List<Item> items = user.getInventory();
+        for (Item item:items) {
+            if (item.getId().equals(itemId)) {
                 items.remove(item);
             }
-            //TODO: write to file
+            //write to file??
 
         }
     }
 
     /**
-     * ????
-     * @param itemId
+     * List of pending items.
+     * @param itemId id of an item.
      */
-
     public void pendingItem(UUID itemId){
         List<Item>pendingItems;
     }
-
 
 
     /**
@@ -95,7 +94,7 @@ public class UserManager {
     /**
      * Add a transaction to User's tradeHistory
      * @param user A user in the trading system.
-     * @param transaction
+     * @param transaction a meetup between 2 users.
      */
     public void addToTradeHistory(User user, Transaction transaction){
         List<Transaction> tradeHistory = user.getTradeHistory();
