@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Represents the trade history of a User
@@ -18,7 +15,7 @@ public class TradeHistory {
 
     public TradeHistory(){
         transactions = new ArrayList<>();
-        usersNumTradeTimes = new HashMap<User, Integer>();
+        usersNumTradeTimes = new HashMap<>();
     }
 
     /**
@@ -32,14 +29,13 @@ public class TradeHistory {
      */
     public ArrayList<String> mostTradedWithUsers(){
         HashMap<User, Integer> temp = (HashMap<User, Integer>) usersNumTradeTimes.clone();
-        ArrayList<User> mostTradedWith = new ArrayList<>();
+        ArrayList<Map.Entry<User, Integer>> mostTradedWith = new ArrayList<>();
         ArrayList<String> mostTradedWithUsernames = new ArrayList<>();
-        // TODO: Figure out how this top three situation is going to work
-        // fuck it, let's just iterate through multiple times because I dont want to deal with a linked hashmap jfc
+        // fuck it, let's just iterate through multiple times because I don't want to deal with a linked hashmap jfc
 
         // if the user hasn't traded with anyone yet
         if(usersNumTradeTimes.size() == 0){
-            String note = new String("You haven't traded with anyone yet!");
+            String note = "You haven't traded with anyone yet!";
             mostTradedWithUsernames.add(note);
             return mostTradedWithUsernames;
         }
@@ -52,19 +48,35 @@ public class TradeHistory {
             return mostTradedWithUsernames;
             }
 
-
         // if user has greater than 3 trades
+
+        // find the three most traded users
         int j = 0;
         while(j < 3){
-            ArrayList<HashMap<User, Integer>> max = new ArrayList<>();
-            for(User i: temp.keySet()){
-                if (temp.get(i) < max[0].value(){
-
+            Map.Entry<User, Integer> maxUser = null;
+            for(Map.Entry<User, Integer> entry: temp.entrySet()){
+                if(maxUser == null || entry.getValue() >= maxUser.getValue()){
+                    maxUser = entry;
+                }
             }
+            mostTradedWith.add(maxUser);
+            temp.remove(maxUser.getKey());
             j ++;
         }
+        // takes each max user and gets the username, sticks it in an array list. yay.
+        for(int counter = 0; counter < mostTradedWith.size();){
+            String username = mostTradedWith.get(counter).getKey().getUsername();
+            mostTradedWithUsernames.add(username);
+        }
+        return mostTradedWithUsernames;
 
+    }
 
+    public ArrayList <Transaction> getAllTransactions(){
+        return transactions;
+    }
+    public  HashMap<User, Integer> getUsersNumTradeTimes(){
+        return usersNumTradeTimes;
     }
 
 
