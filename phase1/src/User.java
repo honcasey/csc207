@@ -13,9 +13,6 @@ public class User implements Serializable {
     private UUID userId = UUID.randomUUID();
     private List<Transaction> tradeHistory;
     private List<Item> inventory;
-    private int numTransactions;
-    private int numItemsLended = 0;
-    private int numItemsBorrowed = 0;
     private int threshold = 1;
     private List<Item> wishlist;
     private String status = "active";
@@ -91,36 +88,6 @@ public class User implements Serializable {
      * @param wishlist list of Items
      */
     public void setWishlist(List<Item> wishlist) { this.wishlist = wishlist; }
-
-    /**
-     * Getter for this User's number of transactions.
-     * @return numTransactions as an integer.
-     */
-    public int getNumTransactions() {
-        return numTransactions;
-    }
-
-    /**
-     * Getter for numItemsLended as an int
-     * @return numItemsLended as an integer
-     */
-    public int getNumItemsLended() { return numItemsLended; }
-
-    /**
-     * Setter for numItemsLended, increases by 1 every time it is called
-     */
-    public void setNumItemsLended() { this.numItemsLended++; }
-
-    /**
-     * Getter for numItemsBorrowed
-     * @return numItemsBorrowed as an integer
-     */
-    public int getNumItemsBorrowed() { return numItemsBorrowed; }
-
-    /**
-     * Setter for numItemsBorrowed, increases by 1 every time it is called
-     */
-    public void setNumItemsBorrowed() { this.numItemsBorrowed++; }
 
     /**
      * Getter for the minimum number of Items that this User has to have lent before they can borrow an Item.
