@@ -7,7 +7,11 @@ import java.util.*;
 public class TradeHistory {
     private ArrayList <Transaction> transactions;
     private HashMap<User, Integer> usersNumTradeTimes;
-
+    private int numTransactions = 0;
+    private int numItemsLended = 0;
+    private int numItemsBorrowed = 0;
+    // something that maps datetime to transactions
+    // get week transactions --> this should be a boolean and this should call the threshold from the User
     /**
      * Constructs an instance of TradeHistory with an empty ArrayList transactions and an empty Hashtable usersNumTradeTimes
      * The most recent Transaction is added to the end of the list transactions
@@ -25,7 +29,7 @@ public class TradeHistory {
         return (ArrayList<Transaction>) transactions.subList(transactions.size() - 4, transactions.size());
     }
     /**
-     * Returns the usernames of the User's top three trading partners
+     * @return the usernames of the User's top three trading partners
      */
     public ArrayList<String> mostTradedWithUsers(){
         HashMap<User, Integer> temp = (HashMap<User, Integer>) usersNumTradeTimes.clone();
@@ -71,13 +75,47 @@ public class TradeHistory {
         return mostTradedWithUsernames;
 
     }
-
+    /**
+     * @return all the transactions
+     */
     public ArrayList <Transaction> getAllTransactions(){
         return transactions;
     }
+    /**
+     * @return all of users and the times they have been traded with
+     */
     public  HashMap<User, Integer> getUsersNumTradeTimes(){
         return usersNumTradeTimes;
     }
 
+    /**
+     * Getter for this User's number of transactions.
+     * @return numTransactions as an integer.
+     */
+    public int getNumTransactions() {
+        return numTransactions;
+    }
+
+    /**
+     * Getter for numItemsLended as an int
+     * @return numItemsLended as an integer
+     */
+    public int getNumItemsLended() { return numItemsLended; }
+
+    /**
+     * Setter for numItemsLended, increases by 1 every time it is called
+     */
+    public void setNumItemsLended() { this.numItemsLended++; }
+
+    /**
+     * Getter for numItemsBorrowed
+     * @return numItemsBorrowed as an integer
+     */
+    public int getNumItemsBorrowed() { return numItemsBorrowed; }
+
+    /**
+     * Setter for numItemsBorrowed, increases by 1 every time it is called
+     */
+    public void setNumItemsBorrowed() { this.numItemsBorrowed++; }
 
 }
