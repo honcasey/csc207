@@ -10,10 +10,11 @@ public class User implements Serializable {
     private String username;
     private String password;
     private String email;
-    private UUID userId = UUID.randomUUID();
-    private TransactionHistory tradeHistory;
+    private final UUID userId = UUID.randomUUID();
+    private TransactionHistory transactionHistory;
+    // private TransactionDetails transactionDetails;
     private List<Item> inventory;
-    private int threshold = 1;
+    private int borrowThreshold = 1;
     private int weeklyThreshold = 3;
     private int incompleteThreshold = 2;
     private List<Item> wishlist;
@@ -62,22 +63,28 @@ public class User implements Serializable {
     public String getEmail() { return email; }
 
     /**
+     * Setter for email as a String
+     * @param email new email as a String
+     */
+    public void setEmail(String email) { this.email = email; }
+
+    /**
      * Getter for user id as a UUID
      * @return userid as a UUID
      */
     public UUID getUserId() { return userId; }
 
     /**
-     * Getter for this User's tradeHistory as list of Transactions they have previously been involved with.
+     * Getter for this User's transactionHistory as list of Transactions they have previously been involved with.
      * @return list of Transaction objects
      */
-    public TransactionHistory getTradeHistory() { return tradeHistory; }
+    public TransactionHistory getTransactionHistory() { return transactionHistory; }
 
     /**
      * Setter for this User's tradeHistory.
-     * @param tradeHistory list of Transactions
+     * @param transactionHistory list of Transactions
      */
-    public void setTradeHistory(TransactionHistory tradeHistory) { this.tradeHistory = tradeHistory; }
+    public void setTradeHistory(TransactionHistory transactionHistory) { this.transactionHistory = transactionHistory; }
 
     /**
      * Getter for this User's inventory as a list of (approved) Items.
@@ -105,15 +112,39 @@ public class User implements Serializable {
 
     /**
      * Getter for the minimum number of Items that this User has to have lent before they can borrow an Item.
-     * @return threshold as an integer
+     * @return borrowThreshold as an integer
      */
-    public int getThreshold() { return threshold; }
+    public int getBorrowThreshold() { return borrowThreshold; }
 
     /**
      * Setter for the minimum number of Items that this User has to have lent before they can borrow an Item.
-     * @param threshold as an integer
+     * @param borrowThreshold as an integer
      */
-    public void setThreshold(int threshold) { this.threshold = threshold; }
+    public void setBorrowThreshold(int borrowThreshold) { this.borrowThreshold = borrowThreshold; }
+
+    /**
+     * Getter for maximum number of Transactions that this User can make in a given week.
+     * @return weeklyThreshold as an integer
+     */
+    public int getWeeklyThreshold() { return weeklyThreshold; }
+
+    /**
+     * Setter for maximum number of Transactions that this User can make in a given week.
+     * @param weeklyThreshold as an integer
+     */
+    public void setWeeklyThreshold(int weeklyThreshold) { this.weeklyThreshold = weeklyThreshold; }
+
+    /**
+     * Getter for maximum number of incomplete Transactions that this User can make before their account is frozen.
+     * @return incompleteThreshold as an integer
+     */
+    public int getIncompleteThreshold() { return incompleteThreshold; }
+
+    /**
+     * Setter for maximum number of incomplete Transactions that this User can make before their account is frozen.
+     * @param incompleteThreshold as an integer
+     */
+    public void setIncompleteThreshold(int incompleteThreshold) { this.incompleteThreshold = incompleteThreshold; }
 
     /**
      * Getter for the current User's account status, which can be active or frozen.
@@ -131,6 +162,7 @@ public class User implements Serializable {
      * Represents the current User by their username and userId
      * @return the username and userid separated by a comma
      */
+    @Override
     public String toString() { return username + ", " + userId; }
 
 }
