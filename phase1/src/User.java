@@ -12,7 +12,7 @@ public class User implements Serializable {
     private String email;
     private final UUID userId = UUID.randomUUID();
     private TransactionHistory transactionHistory;
-    // private TransactionDetails transactionDetails;
+    private TransactionDetails transactionDetails;
     private List<Item> inventory;
     private int borrowThreshold = 1;
     private int weeklyThreshold = 3;
@@ -84,7 +84,19 @@ public class User implements Serializable {
      * Setter for this User's tradeHistory.
      * @param transactionHistory list of Transactions
      */
-    public void setTradeHistory(TransactionHistory transactionHistory) { this.transactionHistory = transactionHistory; }
+    public void setTransactionHistory(TransactionHistory transactionHistory) { this.transactionHistory = transactionHistory; }
+
+    /**
+     * Getter for this User's TransactionDetails.
+     * @return list of Transaction objects
+     */
+    public TransactionDetails getTransactionDetails() { return transactionDetails; }
+
+    /**
+     * Setter for this User's TransactionDetails.
+     * @param transactionDetails list of Transactions
+     */
+    public void setTransactionDetails(TransactionDetails transactionDetails) {this.transactionDetails = transactionDetails; }
 
     /**
      * Getter for this User's inventory as a list of (approved) Items.
