@@ -24,8 +24,8 @@ public class LoginSystem {
         users = serializer.getUsers();
     }
 
+    // helper method to get username and password from user
     // cited from https://docs.oracle.com/javase/7/docs/api/java/util/Scanner.html
-
     public void getUserAndPass() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter username:");
