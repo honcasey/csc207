@@ -31,31 +31,111 @@ public class TransactionManager {
      */
 
 
-    public Transaction createOneWayTransaction(User user1, User user2, Item item1, String type, LocalDate date1,
-                                           LocalDate date2) throws Exception {
+    public Transaction createOneWayTransaction(User user1, User user2, Item item1, String type, String location1,
+                                           String location2) throws Exception {
         if (! transactionIsValid(user1, user2, "oneway")){
-            throw new Exception("the transaction is not valid");
+            throw new InvalidTransactionException("the transaction is not valid: the user's account may be frozen, or " +
+                    "they may have exceeded the maximum allowable transactions for this week");
         }
         if (type.equals("temp")) {
-            Transaction transaction = new TransactionOneWayTemp(user1, user2, item1, date1, date2);
+            Transaction transaction = new TransactionOneWayTemp(user1, user2, item1, location1, location2);
             allTransactions.add(transaction);
+            return transaction;
         }
+        else{
+            throw new InvalidTransactionException("if you provide two meeting dates for the transaction, " +
+                    " must be temporary");}
     }
 
-    public boolean createOneWayTransaction(User user1, User user2, Item item1, String type, LocalDate date1) {
-        if (! transactionIsValid(user1, user2, "twoway")){
-            throw exception("the transaction is not valid");
+
+    /**
+     * @return one-way transaction
+     * A transaction will be created only if it is valid, otherwise an error will be thrown     *
+     * @param user1 the user who has the item.
+     * @param user2 the user who want to borrow an item.
+     * @param item1 the item that user2 wants to borrow.
+     * @param item2 the item that user2 is offering user1 to borrow
+     * @param type must be either "temp" or "perm", specifies what type of transaction will be created
+     * @param location1 the first meeting location that the users will meet at to exchange items.
+     */
+    public Transaction createOneWayTransaction(User user1, User user2, Item item1, Item item2, String type,
+                                               String location1, String location2) throws Exception {
+        if (!transactionIsValid(user1, user2, "twoway")) {
+            throw new InvalidTransactionException("the transaction is not valid: the user's account may be frozen, or " +
+                    "they may have exceeded the maximum allowable transactions for this week");
         }
-        if (type.equals("perm")){
-            Transaction transaction = new TransactionOneWayTemp(user1, user2, item1, date1);
+        if (type.equals("perm")) {
+            Transaction transaction = new TransactionTwoWayPerm(user1, user2, item1, item2, location1);
             allTransactions.add(transaction);
-            return transaction
+            return transaction;
+        } else {
+            throw new InvalidTransactionException("if you provide one meeting dates for the transaction, " +
+                    " must be permanent");
         }
     }
 
 
+        /**
+         * @return two-way transaction
+         * A transaction will be created only if it is valid, otherwise an error will be thrown
+         * @param user1 the user who has the item.
+         * @param user2 the user who want to borrow an item.
+         * @param item1 the item that user2 wants to borrow.
+         * @param type must be either "temp" or "perm", specifies what type of transaction will be created
+         * @param location1 the first meeting location that the users will meet at to exchange items.
+         * @param location2 the second meeting location that the users will meet at to exchange items.
+         */
 
-    public void createTwoWayTransaction(User user1, User user2, Item item1, Item item2, String type){
 
-    }
+        public Transaction createTwoWayTransaction(User user1, User user2, Item item1, Item item2, String type, String location1,
+                                               String location2) throws Exception {
+            if (!transactionIsValid(user1, user2, "twoway")) {
+                throw new InvalidTransactionException("the transaction is not valid, the user's account may be frozen, or " +
+                        "they may have exceeded the maximum allowable transactions for this week");
+            }
+            if (type.equals("temp")) {
+                Transaction transaction = new TransactionTwoWayTemp(user1, user2, item1, item2, location1, location2);
+                allTransactions.add(transaction);
+                return transaction;
+            } else {
+                throw new InvalidTransactionException("if you provide one meeting dates for the transaction, " +
+                        " it must be temporary");
+            }
+        }
+
+
+        /**
+         * @return two-way transaction
+         * A transaction will be created only if it is valid, otherwise an error will be thrown
+         * @param user1 the user who has the item.
+         * @param user2 the user who want to borrow an item.
+         * @param item1 the item that user2 wants to borrow.
+         * @param type must be either "temp" or "perm", specifies what type of transaction will be created
+         * @param location1 the first meeting location that the users will meet at to exchange items.
+         */
+
+
+        public Transaction createTwoWayTransaction(User user1, User user2, Item item1, Item item2, String type,
+                String location1) throws Exception {
+            if (!transactionIsValid(user1, user2, "twoway")) {
+                throw new InvalidTransactionException("the transaction is not valid, the user's account may be frozen, or " +
+                        "they may have exceeded the maximum allowable transactions for this week");
+            }
+            if (type.equals("perm")) {
+                Transaction transaction = new TransactionTwoWayTemp(user1, user2, item1, item2, location1);
+                allTransactions.add(transaction);
+                return transaction;
+            } else {
+                throw new InvalidTransactionException("if you provide two meeting dates for the transaction, " +
+                        " it must be a temporary transaction")
+            }
+        }
+
+        
+
+
+
+
+
+
 }
