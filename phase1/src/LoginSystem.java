@@ -38,6 +38,7 @@ public class LoginSystem {
         deserialize();
         getUserAndPass();
 
+        // try to log in with current user and pass, if unsuccessful prompt for new user and pass and try again
         while (notLoggedIn) {
             for (AdminUser admin : admins) {
                 if (admin.getUsername().equals(username) && admin.getPassword().equals(password)) {
