@@ -11,6 +11,15 @@ public class UserManager {
     private List<User> allUsers = new ArrayList<>();
 
     /**
+     * Creates a new empty UserManager.
+     */
+    public UserManager(String filePath) {
+        allUsers = new ArrayList<User>();
+        Serializer serializer = new Serializer();
+        allUsers.addAll(serializer.getUsers());
+    }
+
+    /**
      * Add a new user with given info.
      * @param username online identifier of a User
      * @param password account password
