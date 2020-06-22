@@ -1,12 +1,21 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 /**
  * Create and manage instances of AdminUser.
  */
 public class AdminManager {
-    private List<AdminUser> allAdmins = new ArrayList<>();
+    private List<AdminUser> allAdmins;
+
+    /**
+     * Creates a new empty AdminManager.
+     */
+    public AdminManager(String filePath) {
+        allAdmins = new ArrayList<AdminUser>();
+        Serializer serializer = new Serializer();
+        allAdmins.addAll(serializer.getAdmins());
+    }
+
 
     /**
      * Creates a new AdminUser with given username and password.
