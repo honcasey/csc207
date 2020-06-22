@@ -1,11 +1,10 @@
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 // general ideas taken from lecture 6 StudentManager.java example
 public class Serializer {
-    List<User> users;
-    List<AdminUser> admins;
+    private List<User> users;
+    private List<AdminUser> admins;
 
     // cited from https://docs.oracle.com/javase/7/docs/api/java/io/ObjectOutputStream.html
 
@@ -72,7 +71,7 @@ public class Serializer {
 
     }
 
-    public void setUsers(ArrayList<User> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
 
@@ -81,7 +80,7 @@ public class Serializer {
         return users;
     }
 
-    public void setAdmins(ArrayList<AdminUser> admins) {
+    public void setAdmins(List<AdminUser> admins) {
         this.admins = admins;
     }
 
