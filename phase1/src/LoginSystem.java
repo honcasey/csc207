@@ -39,7 +39,6 @@ public class LoginSystem {
 
     // helper method to log in
     private void login() {
-        deserialize();
         getUserAndPass();
 
         // try to log in with current user and pass, if unsuccessful prompt for new user and pass and try again
@@ -67,16 +66,13 @@ public class LoginSystem {
     // helper method to create an account
     private void createAccount() {
         getUserAndPass();
-        Scanner scanner = new Scanner(System.in);
-        String email;
-        System.out.println("Please enter your email:");
-        email = scanner.nextLine();
+
         while (!userManager.checkAvailableUsername(username)) {
             System.out.println("Username already taken!");
             getUserAndPass();
         }
         // create a new user
-        userManager.addUser(username, password, email);
+        userManager.addUser(username, password);
         // get user who's using this program
         User user = userManager.getUser(username);
         UserMenuViewer.run(userManager, user);
@@ -84,6 +80,7 @@ public class LoginSystem {
 
     // only method that should be run in this class
     public void run() {
+        deserialize();
         boolean picking = true;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Select an option (number) \n1. Login to existing account \n2. Create a new account");
