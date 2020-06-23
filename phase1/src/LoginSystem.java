@@ -24,8 +24,8 @@ public class LoginSystem {
         serializer.readUsersFromFile(userFilePath);
         admins = serializer.getAdmins();
         users = serializer.getUsers();
-        adminManager = AdminManager(admins);
-        userManager = UserManager(users);
+        adminManager = new AdminManager(admins);
+        userManager = new UserManager(users);
     }
 
     // helper method to get username and password from user
@@ -86,7 +86,7 @@ public class LoginSystem {
     public void run() {
         boolean picking = true;
         Scanner scanner = new Scanner(System.in);
-        System.out.println("1. Login to existing account \n2. Create a new account");
+        System.out.println("Select an option (number) \n1. Login to existing account \n2. Create a new account");
         int input = scanner.nextInt();
         while (picking) {
             if (((Integer) input).equals(1)) {
