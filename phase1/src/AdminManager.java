@@ -10,10 +10,8 @@ public class AdminManager {
     /**
      * Creates a new empty AdminManager.
      */
-    public AdminManager(String filePath) {
-        allAdmins = new ArrayList<AdminUser>();
-        Serializer serializer = new Serializer();
-        allAdmins.addAll(serializer.getAdmins());
+    public AdminManager(List<AdminUser> admins) {
+        allAdmins = admins;
     }
 
 

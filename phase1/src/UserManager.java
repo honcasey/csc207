@@ -8,15 +8,13 @@ import java.util.UUID;
 public class UserManager {
     //UserSerializer usersFromSerializer = new UserSerializer();
     //List<User> users = usersFromSerializer.getUsers();
-    private List<User> allUsers = new ArrayList<>();
+    private List<User> allUsers;
 
     /**
      * Creates a new empty UserManager.
      */
-    public UserManager(String filePath) {
-        allUsers = new ArrayList<User>();
-        Serializer serializer = new Serializer();
-        allUsers.addAll(serializer.getUsers());
+    public UserManager(List<User> users) {
+        allUsers = users;
     }
 
     /**
@@ -111,4 +109,12 @@ public class UserManager {
         user.setTradeHistory(tradeHistory);
     }
 
+    public boolean checkAvailableUsername(String username) {
+        for (User user : allUsers) {
+            if (user.getUsername().equals(username)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

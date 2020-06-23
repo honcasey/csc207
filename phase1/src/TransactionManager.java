@@ -127,7 +127,7 @@ public class TransactionManager {
                 return transaction;
             } else {
                 throw new InvalidTransactionException("if you provide two meeting dates for the transaction, " +
-                        " it must be a temporary transaction")
+                        " it must be a temporary transaction");
             }
         }
 
