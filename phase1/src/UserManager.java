@@ -6,12 +6,10 @@ import java.util.UUID;
  * Change info in user and item entities.
  */
 public class UserManager {
-    //UserSerializer usersFromSerializer = new UserSerializer();
-    //List<User> users = usersFromSerializer.getUsers();
     private List<User> allUsers;
 
     /**
-     * Creates a new empty UserManager.
+     * Creates a list of users.
      */
     public UserManager(List<User> users) {
         allUsers = users;
@@ -21,22 +19,23 @@ public class UserManager {
      * Add a new user with given info.
      * @param username online identifier of a User
      * @param password account password
-     * @param email User's email address
+     * @return username and userId as string separated by comma.
      */
-    public void addUser(String username, String password, String email){
-        User user = new User(username, password, email);
+    public User addUser(String username, String password){
+        User user = new User(username, password);
         allUsers.add(user);
+        return user;
     }
 
     /**
-     * To retrieve a specific user by userID.
-     * @param userId id of a specific user
+     * To retrieve a specific user by username.
+     * @param username online identifier of a User
      * @return username and userId as string separated by comma
      */
-    public User getUser(UUID userId){
-        User desiredUser= new User(null,null,null);
+    public User getUser(String username){
+        User desiredUser= new User(null,null);
         for (User user : allUsers) {
-            if ((user.getUserId().equals(userId))) {
+            if ((user.getUsername().equals(username))) {
                     desiredUser = user;
                 }
             }
@@ -45,32 +44,53 @@ public class UserManager {
 
 
     /**
-     * To add an item to user's inventory.
-     * @param user An user in the trading system.
+     * To add an item to user's specified list, which is either the User's wishlist or inventory.
+     * @param username online identifier of a User
      * @param itemId The id of an item.
+     * @param listType either "wishlist" or "inventory" as a String
      */
-    public void addItem(User user, UUID itemId){
+    public void addItem(String username, UUID itemId, String listType){
         ItemManager itemManager = new ItemManager();
+        User user = getUser(username);
         List<Item> userInventory = user.getInventory();
-        userInventory.add(itemManager.getItem(itemId));
+        List<Item> userWishlist = user.getWishlist();
+
+        if(listType.equals("wishlist")){
+            userWishlist.add(itemManager.getItem(itemId));
+        }
+        else if(listType.equals("inventory")){
+            userInventory.add(itemManager.getItem(itemId));
+        }
+
     }
+
 
     /**
-     * To remove a item from user's inventory
+     * To remove a item from user's specified list, which is either the User's wishlist or inventory.
      * @param user An user in the trading system.
      * @param itemId Id of an item.
+     * @param listType either "wishlist" or "inventory" as a String
      */
-    public void removeItem(User user, UUID itemId) {
+    public void removeItem(User user, UUID itemId, String listType) {
+        List<Item> userInventory = user.getInventory();
+        List<Item> userWishlist = user.getWishlist();
 
-        List<Item> items = user.getInventory();
-        for (Item item:items) {
-            if (item.getId().equals(itemId)) {
-                items.remove(item);
+        if (listType.equals("wishlist")){
+            for (Item item:userWishlist) {
+                if (item.getId().equals(itemId)) {
+                    userWishlist.remove(item);
+                }
             }
-            //write to file??
-
+        }else if (listType.equals("inventory")){
+            for (Item item:userInventory) {
+                if (item.getId().equals(itemId)) {
+                    userInventory.remove(item);
+                }
+            }
         }
+
     }
+
 
     /**
      * List of pending items.
@@ -82,12 +102,31 @@ public class UserManager {
 
 
     /**
-     * To change the minimum number of Items that this User has to have lent before they can borrow an Item.
+     * To change the user's specified threshold.
      * @param user A user in the trading system.
-     * @param thresholdValue minimum number of Items that this User has to have lent before they can borrow an Item.
+     * @param thresholdValue new value of threshold as an int
+     * @param thresholdType either "borrow", "weekly", or "incomplete" as a String
      */
-    public void changeThreshold(User user, int thresholdValue){
-        user.setThreshold(thresholdValue);
+    public void changeThreshold(User user, int thresholdValue, String thresholdType){
+
+        if(thresholdType.equals("borrowThreshold")){
+            user.setBorrowThreshold(thresholdValue);
+        }
+        else if(thresholdType.equals("weeklyThreshold")){
+            user.setWeeklyThreshold(thresholdValue);
+        }
+        else if(thresholdType.equals("incompleteThreshold")){
+            user.setIncompleteThreshold(thresholdValue);
+        }
+    }
+
+
+    /**
+     * To change the status of an user's account to frozen.
+     * @param user A user in the trading system.
+     */
+    public void freezeAccount(User user){
+        user.setStatus("frozen");
     }
 
     /**
@@ -99,14 +138,14 @@ public class UserManager {
     }
 
     /**
-     * Add a transaction to User's tradeHistory
+     * Add a transaction to User's transaction history.
      * @param user A user in the trading system.
      * @param transaction a meetup between 2 users.
      */
-    public void addToTradeHistory(User user, Transaction transaction){
-        List<Transaction> tradeHistory = user.getTradeHistory();
-        tradeHistory.add(transaction);
-        user.setTradeHistory(tradeHistory);
+    public void addToTransactionHistory(User user, Transaction transaction){
+        TransactionHistory transactionHistory = user.getTransactionHistory();
+        transactionHistory.setTransactionHistory(transaction);
+        user.setTransactionHistory(transactionHistory);
     }
 
     public boolean checkAvailableUsername(String username) {
