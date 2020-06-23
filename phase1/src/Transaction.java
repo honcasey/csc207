@@ -13,18 +13,18 @@ public abstract class Transaction {
     protected int currentEdit = 0;
     protected User user1;
     protected User user2;
-    protected LocalDate firstMeetingTime = LocalDate.now();
+    protected Meeting firstMeeting;
 
     /**
      * Constructor of abstract class Transaction.
      * @param user_1 one of the users involved in the transactions.
      * @param user_2 one of the users involved in the transactions.
      */
-    public Transaction(User user_1, User user_2,String firstMeetingLocation){
+    public Transaction(User user_1, User user_2, Meeting firstMeeting){
         status = "pending";
         this.user1 = user_1;
         this.user2 = user_2;
-        this.firstMeetingLocation = firstMeetingLocation;
+        this.firstMeeting = firstMeeting;
     }
 
     /**
@@ -90,15 +90,15 @@ public abstract class Transaction {
     /**
      * getter for meeting time. This will be called by use case classes.
      */
-    public LocalDate getfirstmeetingTime() {
-        return firstMeetingTime;
+    public Meeting getfirstmeetingTime() {
+        return firstMeeting;
     }
 
     /**
      * setter for meeting time. This will be called by use case classes.
      */
 
-    public void setfirstMeetingTime(LocalDate meetingTime) {
-        this.firstMeetingTime = meetingTime;
+    public void setfirstMeeting(Meeting meeting) {
+        this.firstMeeting = meeting;
     }
 }

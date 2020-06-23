@@ -5,27 +5,27 @@ import java.time.LocalDate;
  * Note: user 1 owns the item and the second user borrows the item.
  */
 
-public class TransactionOneWayTemp extends Transaction{
+public class TransactionOneWayTemp extends Transaction {
     public String secondMeetingLocation;
     public Item item;
-    protected LocalDate returnTime;
+    public Meeting secondMeeting;
 
     /**
      * Constructor for TransactionTwowayTemp class. This constructor initializes a 2 way borrowing transaction with
      * the returnTime variable being given a default value of a month from the current date.
-     * @param User1 the first user.
-     * @param User2 the second user.
-     * @param item the item possessed originally by User1 that will be lent to User2.
-     * @param FirstMeetingLocation the first meeting location that the users will meet at to exchange items.
-     * @param secondMeetingLocation the second meeting location that the users will meet at to give back the items.
+     *
+     * @param User1         the first user.
+     * @param User2         the second user.
+     * @param item          the item possessed originally by User1 that will be lent to User2.
+     * @param FirstMeeting  the first meeting location that the users will meet at to exchange items.
+     * @param secondMeeting the second meeting location that the users will meet at to give back the items.
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionOneWayTemp(User User1, User User2,Item item, String FirstMeetingLocation
-            , String secondMeetingLocation){
-        super(User1,User2,FirstMeetingLocation);
+    public TransactionOneWayTemp(User User1, User User2, Item item, Meeting FirstMeeting
+            , Meeting secondMeeting) {
+        super(User1, User2, FirstMeeting);
         this.item = item;
-        this.returnTime = LocalDate.now().plusMonths(1);
-        this.secondMeetingLocation = secondMeetingLocation;
+        this.secondMeeting = secondMeeting;
     }
 
 
@@ -33,7 +33,7 @@ public class TransactionOneWayTemp extends Transaction{
      * Getter for item that user1 has.
      */
     //Constructor with a return time manually inputted
-    public Item getItem(){
+    public Item getItem() {
         return this.item;
     }
 
@@ -48,31 +48,16 @@ public class TransactionOneWayTemp extends Transaction{
      * Getter for the time
      */
 
-    public LocalDate getReturn_time(){
-        return this.returnTime;
+    public Meeting getSecondMeeting() {
+        return this.secondMeeting;
     }
 
     /**
      * Setter for the time
      */
 
-    public void setReturn_time(LocalDate return_time){
-        this.returnTime = return_time;
-    }
-
-    /**
-     * Getter for the second meeting location.
-     */
-
-    public String getSecondMeetingLocation(){
-        return this.secondMeetingLocation;
-    }
-
-    /**
-     * Setter for the second meeting location.
-     */
-
-    public void setSecondMeetingLocation(String returnMeeting){
-        this.secondMeetingLocation = returnMeeting;
+    public void setSecondMeeting(Meeting secondMeeting) {
+        this.secondMeeting = secondMeeting;
     }
 }
+

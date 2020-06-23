@@ -9,7 +9,7 @@ public class TransactionTwoWayTemp extends Transaction{
     public String secondMeetingLocation;
     public Item item1;
     public Item item2;
-    protected LocalDate returnTime;
+    public Meeting secondMeeting;
 
     /**
      * Constructor for TransactionTwowayTemp class. This constructor initializes a 2 way borrowing transaction with
@@ -18,17 +18,16 @@ public class TransactionTwoWayTemp extends Transaction{
      * @param User2 the second user.
      * @param Item1 the item possessed originally by User1.
      * @param Item2 the item possessed originally by User2
-     * @param FirstMeetingLocation the first meeting location that the users will meet at to exchange items.
-     * @param secondMeetingLocation the second meeting location that the users will meet at to give back the items.
+     * @param FirstMeeting the first meeting that the users will meet at to exchange items.
+     * @param secondMeeting the second meeting that the users will meet at to give back the items.
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionTwoWayTemp(User User1, User User2,Item Item1,Item Item2, String FirstMeetingLocation
-            , String secondMeetingLocation){
-        super(User1,User2,FirstMeetingLocation);
+    public TransactionTwoWayTemp(User User1, User User2,Item Item1,Item Item2,Meeting FirstMeeting
+            , Meeting secondMeeting){
+        super(User1,User2,FirstMeeting);
         this.item1 = Item1;
         this.item2 = Item2;
-        this.returnTime = LocalDate.now().plusMonths(1);
-        this.secondMeetingLocation = secondMeetingLocation;
+        this.secondMeeting = secondMeeting;
     }
 
 
@@ -63,34 +62,18 @@ public class TransactionTwoWayTemp extends Transaction{
     }
 
     /**
-     * Getter for the time
-     */
-
-    public LocalDate getReturn_time(){
-        return this.returnTime;
-    }
-
-    /**
-     * Setter for the time
-     */
-
-    public void setReturn_time(LocalDate return_time){
-        this.returnTime = return_time;
-    }
-
-    /**
      * Getter for the second meeting location.
      */
 
-    public String getSecondMeetingLocation(){
-        return this.secondMeetingLocation;
+    public Meeting getSecondMeeting(){
+        return this.secondMeeting;
     }
 
     /**
      * Setter for the second meeting location.
      */
 
-    public void setSecondMeetingLocation(String returnMeeting){
-        this.secondMeetingLocation = returnMeeting;
+    public void setSecondMeeting(Meeting secondMeeting){
+        this.secondMeeting = secondMeeting;
     }
 }

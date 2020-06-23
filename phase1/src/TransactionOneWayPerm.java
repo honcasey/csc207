@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 /**
  * This class represents a meetup between 2 Users where there is a permanent one way transaction happening.
  * Note: user 1 owns the item and the second user takes the item.
@@ -14,11 +16,11 @@ public class TransactionOneWayPerm extends Transaction{
      * @param User2 the second user.
      * @param item this is the item possessed by the lender of the one way transaction which will be assumed to be
      *             user1.
-     * @param firstMeetingLocation the first meeting location for the deal.(and the only because it is permanent.)
+     * @param firstMeeting the first meeting for the deal.(and the only one because it is permanent.)
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionOneWayPerm(User User1, User User2,Item item, String firstMeetingLocation){
-        super(User1,User2,firstMeetingLocation);
+    public TransactionOneWayPerm(User User1, User User2, Item item, Meeting firstMeeting){
+        super(User1,User2, firstMeeting);
         this.item = item;
     }
 

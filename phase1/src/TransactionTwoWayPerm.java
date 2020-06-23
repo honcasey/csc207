@@ -13,11 +13,11 @@ public class TransactionTwoWayPerm extends Transaction{
      * @param User2 the second user.
      * @param Item1 the item possessed originally by User1.
      * @param Item2 the item possessed originally by User2
-     * @param firstMeetingLocation the first meeting location for the deal.
+     * @param firstMeeting the first meeting location for the deal.
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionTwoWayPerm(User User1, User User2,Item Item1,Item Item2, String firstMeetingLocation){
-        super(User1,User2,firstMeetingLocation);
+    public TransactionTwoWayPerm(User User1, User User2,Item Item1,Item Item2, Meeting firstMeeting){
+        super(User1,User2,firstMeeting);
         this.item1 = Item1;
         this.item2 = Item2;
     }
