@@ -8,7 +8,7 @@ public class AdminMenuViewer {
     }
 
     public void run() {
-        AdminMenu adminMenu = new AdminMenu();
+        AdminMenu adminMenu = new AdminMenu(adminManager, admin);
         System.out.println("This will interact with AdminMenu.");
     }
 }

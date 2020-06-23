@@ -3,11 +3,13 @@
  */
 public class AdminMenu {
     private AdminUser currentAdmin;
-    // TO-DO: fix loading serialized info from Serializer
-    String serializedAdminInfo = "src/serializedAdmin.ser";
-    String serializedUserInfo = "src/serializedUser.ser";
-    AdminManager am = new AdminManager(serializedAdminInfo);
-    UserManager um = new UserManager(serializedUserInfo);
+    private AdminManager am;
+    private UserManager um;
+
+    public AdminMenu(AdminManager adminManager, AdminUser admin) {
+        currentAdmin = admin;
+        am = adminManager;
+    }
 
     /**
      * Creates and returns a new administrative user as an AdminUser.
