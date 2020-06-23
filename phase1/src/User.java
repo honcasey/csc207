@@ -9,7 +9,6 @@ import java.util.UUID;
 public class User implements Serializable {
     private String username;
     private String password;
-    private String email;
     private final UUID userId = UUID.randomUUID();
     private TransactionHistory transactionHistory;
     private TransactionDetails transactionDetails;
@@ -24,12 +23,10 @@ public class User implements Serializable {
      * Constructs an instance of User based on Strings of username, password, and email.
      * @param username online identifier of a User
      * @param password account password
-     * @param email User's email address
      */
-     public User(String username, String password, String email) {
+     public User(String username, String password) {
          this.username = username;
          this.password = password;
-         this.email = email;
      }
 
     /**
@@ -55,18 +52,6 @@ public class User implements Serializable {
      * @param password new password as a String
      */
     public void setPassword(String password) { this.password = password; }
-
-    /**
-     * Getter for email as a String
-     * @return email as a String
-     */
-    public String getEmail() { return email; }
-
-    /**
-     * Setter for email as a String
-     * @param email new email as a String
-     */
-    public void setEmail(String email) { this.email = email; }
 
     /**
      * Getter for user id as a UUID
