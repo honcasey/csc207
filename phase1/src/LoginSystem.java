@@ -47,14 +47,16 @@ public class LoginSystem {
             for (AdminUser admin : admins) {
                 if (admin.getUsername().equals(username) && admin.getPassword().equals(password)) {
                     notLoggedIn = false;
-                    AdminMenuViewer.run(adminManager, admin);
+                    AdminMenuViewer adminMenuViewer = new AdminMenuViewer(adminManager, admin);
+                    adminMenuViewer.run();
                 }
             }
             // check if credentials are for a user account
             for (User user : users) {
                 if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                     notLoggedIn = false;
-                    UserMenuViewer.run(userManager, user);
+                    UserMenuViewer userMenuViewer = new UserMenuViewer(userManager, user);
+                    userMenuViewer.run();
                 }
             }
             // no account that corresponds to user and pass
@@ -75,7 +77,8 @@ public class LoginSystem {
         userManager.addUser(username, password);
         // get user who's using this program
         User user = userManager.getUser(username);
-        UserMenuViewer.run(userManager, user);
+        UserMenuViewer userMenuViewer = new UserMenuViewer(userManager, user);
+        userMenuViewer.run();
     }
 
     // only method that should be run in this class
