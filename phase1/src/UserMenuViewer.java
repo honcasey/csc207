@@ -10,8 +10,7 @@ public class UserMenuViewer {
     public void run() {
         System.out.println("This will interact with UserMenu.");
 
-        // when the user decides they're done
-        Logout logoutSystem = new Logout();
-        Logout.run();
+        // when the user decides they're done and logs out
+        System.out.println("You have successfully logged out.");
     }
 }
