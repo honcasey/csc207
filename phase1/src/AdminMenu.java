@@ -12,8 +12,9 @@ public class AdminMenu {
     public List<Item> allPendingItems;
     public List<User> allPendingUsers;
 
-    public AdminMenu(AdminManager adminManager, AdminUser admin) {
+    public AdminMenu(AdminManager adminManager, UserManager userManager, AdminUser admin) {
         currentAdmin = admin;
+        um = userManager;
         am = adminManager;
     }
 
