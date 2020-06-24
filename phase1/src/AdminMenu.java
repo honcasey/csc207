@@ -10,11 +10,13 @@ public class AdminMenu {
     private AdminUser currentAdmin;
     private AdminManager am;
     private UserManager um;
-    public HashMap<Item, User> allPendingItems;
+    private HashMap<Item, User> allPendingItems;
     public List<User> allPendingUsers;
 
-    public AdminMenu(AdminManager adminManager, UserManager userManager, AdminUser admin) {
+    public AdminMenu(AdminManager adminManager, UserManager userManager,
+                     HashMap<Item, User> pendingItems, AdminUser admin) {
         currentAdmin = admin;
+        allPendingItems = pendingItems;
         um = userManager;
         am = adminManager;
     }

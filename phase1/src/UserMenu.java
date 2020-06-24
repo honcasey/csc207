@@ -1,12 +1,16 @@
+import java.util.HashMap;
 import java.util.UUID;
 
 public class UserMenu {
     private User currentUser;
     private AdminManager am;
     private UserManager um;
+    private HashMap<Item, User> allPendingItems;
 
-    public UserMenu(UserManager userManager, AdminManager adminManager, User currentUser) {
+    public UserMenu(UserManager userManager, AdminManager adminManager,
+                    HashMap<Item, User> pendingItems, User currentUser) {
         this.currentUser = currentUser;
+        HashMap<Item, User> allPendingItems;
         am = adminManager;
         um = userManager;
     }

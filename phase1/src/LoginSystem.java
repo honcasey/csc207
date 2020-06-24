@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,6 +15,7 @@ public class LoginSystem {
     private boolean notLoggedIn = true;
     private AdminManager adminManager;
     private UserManager userManager;
+    private HashMap<Item, User> pendingItems;
 
     /**
      * Helper method to retrieve the lists of all users and admins.
@@ -26,6 +28,7 @@ public class LoginSystem {
         users = serializer.getUsers();
         adminManager = new AdminManager(admins);
         userManager = new UserManager(users);
+        pendingItems = serializer.getPendingItems();
     }
 
     // helper method to get username and password from user
@@ -47,7 +50,8 @@ public class LoginSystem {
             for (AdminUser admin : admins) {
                 if (admin.getUsername().equals(username) && admin.getPassword().equals(password)) {
                     notLoggedIn = false;
-                    AdminMenuViewer adminMenuViewer = new AdminMenuViewer(adminManager, userManager, admin);
+                    AdminMenu adminMenu = new AdminMenu(adminManager, userManager, pendingItems, admin);
+                    AdminMenuViewer adminMenuViewer = new AdminMenuViewer(adminMenu);
                     adminMenuViewer.run();
                 }
             }
@@ -55,7 +59,8 @@ public class LoginSystem {
             for (User user : users) {
                 if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                     notLoggedIn = false;
-                    UserMenuViewer userMenuViewer = new UserMenuViewer(userManager, adminManager, user);
+                    UserMenu userMenu = new UserMenu(userManager, adminManager, pendingItems, user);
+                    UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
                     userMenuViewer.run();
                 }
             }
@@ -77,7 +82,8 @@ public class LoginSystem {
         userManager.addUser(username, password);
         // get user who's using this program
         User user = userManager.getUser(username);
-        UserMenuViewer userMenuViewer = new UserMenuViewer(userManager, user);
+        UserMenu userMenu = new UserMenu(userManager, adminManager, pendingItems, user);
+        UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
         userMenuViewer.run();
     }
 

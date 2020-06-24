@@ -1,16 +1,17 @@
-public class UserMenuViewer {
-    UserManager userManager;
-    AdminManager adminManager;
-    User user;
+import java.util.HashMap;
 
-    public UserMenuViewer(UserManager userManager, AdminManager adminManager, User user) {
-        this.userManager = userManager;
-        this.adminManager = adminManager;
-        this.user = user;
+public class UserMenuViewer {
+    private UserMenu um;
+
+    public UserMenuViewer(UserMenu userMenu) {
+        um = userMenu;
     }
 
     public void run() {
-        UserMenu userMenu = new UserMenu(userManager, adminManager, user);
         System.out.println("This will interact with UserMenu.");
+
+        // when the user decides they're done
+        LogoutSystem logoutSystem = new LogoutSystem();
+        LogoutSystem.run();
     }
 }
