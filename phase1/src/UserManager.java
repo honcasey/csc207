@@ -140,6 +140,11 @@ public class UserManager {
         user.setTransactionHistory(transactionHistory);
     }
 
+    /**
+     * To check whether the username is valid.
+     * @param username online identifier of a User
+     * @return True or False as boolean
+     */
     public boolean checkAvailableUsername(String username) {
         for (User user : allUsers) {
             if (user.getUsername().equals(username)) {
