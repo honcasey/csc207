@@ -10,7 +10,6 @@ public abstract class Transaction {
     public String status;
     protected String firstMeetingLocation;
     protected UUID id = UUID.randomUUID();
-    protected int currentEdit = 0;
     protected User user1;
     protected User user2;
     protected Meeting firstMeeting;
@@ -101,4 +100,5 @@ public abstract class Transaction {
     public void setfirstMeeting(Meeting meeting) {
         this.firstMeeting = meeting;
     }
+
 }
