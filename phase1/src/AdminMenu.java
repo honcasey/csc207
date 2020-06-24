@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 /**
  * Controls the system responsible for AdminUsers and an Administrative User's abilities in the trading system.
  */
@@ -5,6 +9,8 @@ public class AdminMenu {
     private AdminUser currentAdmin;
     private AdminManager am;
     private UserManager um;
+    public List<Item> allPendingItems;
+    public List<User> allPendingUsers;
 
     public AdminMenu(AdminManager adminManager, AdminUser admin) {
         currentAdmin = admin;
@@ -27,7 +33,7 @@ public class AdminMenu {
      * @param itemId ID of the item to be added as an integer
      * @param whichList either "wishlist" or "inventory" as a String
      */
-    public void addItem(String user, int itemId, String whichList) {
+    public void addItem(String user, UUID itemId, String whichList) {
         if (whichList.equals("wishlist")) {
             um.addItem(user, itemId, "wishlist");
         }
@@ -52,6 +58,26 @@ public class AdminMenu {
         if (whichThreshold.equals("incomplete")) {
             um.changeThreshold(user, thresholdValue, "incomplete");
         }
+    }
+
+    /**
+     * Adds a pending Item to a User's inventory once an Admin User has approved it.
+     * @param user which User has requested this item to be added
+     * @param item what Item to be added to the inventory
+     * @param approved whether this Item is approved by the Admin User or not
+     */
+    public void checkPendingItems(User user, Item item, boolean approved) {
+        if (approved) { um.addItem(user.getUsername(), item.getId(), "inventory"); }
+        // for now, if the item doesn't get approved nothing happens (no warning sent/user is not notified)
+    }
+
+    /**
+     * Freezes/unfreezes a User's account if it has been flagged by the system.
+     * @param user which User's account has been flagged to be frozen/unfrozen
+     */
+    public void checkPendingUsers(User user, boolean freeze) {
+        if (freeze) { um.freezeAccount(user); }
+        else { um.unfreezeAccount(user); }
     }
 
 
