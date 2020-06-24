@@ -93,15 +93,6 @@ public class UserManager {
 
 
     /**
-     * List of pending items.
-     * @param itemId id of an item.
-     */
-    public void pendingItem(UUID itemId){
-        List<Item>pendingItems;
-    }
-
-
-    /**
      * To change the user's specified threshold.
      * @param user A user in the trading system.
      * @param thresholdValue new value of threshold as an int
@@ -130,12 +121,13 @@ public class UserManager {
     }
 
     /**
-     * To change the status of an user's account to frozen.
+     * To change the status of an user's account to active.
      * @param user A user in the trading system.
      */
-    public void freezeAccount(User user){
-        user.setStatus("frozen");
+    public void unfreezeAccount(User user){
+        user.setStatus("active");
     }
+
 
     /**
      * Add a transaction to User's transaction history.
