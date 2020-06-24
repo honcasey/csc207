@@ -6,7 +6,6 @@ import java.time.LocalDate;
  */
 
 public class TransactionOneWayTemp extends Transaction {
-    public String secondMeetingLocation;
     public Item item;
     public Meeting secondMeeting;
 
@@ -17,8 +16,7 @@ public class TransactionOneWayTemp extends Transaction {
      * @param User1         the first user.
      * @param User2         the second user.
      * @param item          the item possessed originally by User1 that will be lent to User2.
-     * @param FirstMeeting  the first meeting location that the users will meet at to exchange items.
-     * @param secondMeeting the second meeting location that the users will meet at to give back the items.
+     * @param secondMeeting the second meeting details.
      */
     //Constructor with no return time given (default is a month (31 days))
     public TransactionOneWayTemp(User User1, User User2, Item item, Meeting FirstMeeting
