@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,11 +10,12 @@ public class AdminMenu {
     private AdminUser currentAdmin;
     private AdminManager am;
     private UserManager um;
-    public List<Item> allPendingItems;
+    public HashMap<Item, User> allPendingItems;
     public List<User> allPendingUsers;
 
-    public AdminMenu(AdminManager adminManager, AdminUser admin) {
+    public AdminMenu(AdminManager adminManager, UserManager userManager, AdminUser admin) {
         currentAdmin = admin;
+        um = userManager;
         am = adminManager;
     }
 
@@ -68,7 +70,7 @@ public class AdminMenu {
      */
     public void checkPendingItems(User user, Item item, boolean approved) {
         if (approved) { um.addItem(user.getUsername(), item.getId(), "inventory"); }
-        // for now, if the item doesn't get approved nothing happens (no warning sent/user is not notified)
+        else { allPendingItems.remove(item); }
     }
 
     /**

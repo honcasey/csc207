@@ -47,7 +47,7 @@ public class LoginSystem {
             for (AdminUser admin : admins) {
                 if (admin.getUsername().equals(username) && admin.getPassword().equals(password)) {
                     notLoggedIn = false;
-                    AdminMenuViewer adminMenuViewer = new AdminMenuViewer(adminManager, admin);
+                    AdminMenuViewer adminMenuViewer = new AdminMenuViewer(adminManager, userManager, admin);
                     adminMenuViewer.run();
                 }
             }
@@ -55,7 +55,7 @@ public class LoginSystem {
             for (User user : users) {
                 if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                     notLoggedIn = false;
-                    UserMenuViewer userMenuViewer = new UserMenuViewer(userManager, user);
+                    UserMenuViewer userMenuViewer = new UserMenuViewer(userManager, adminManager, user);
                     userMenuViewer.run();
                 }
             }
