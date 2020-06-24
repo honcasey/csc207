@@ -89,7 +89,7 @@ public abstract class Transaction {
     /**
      * getter for meeting time. This will be called by use case classes.
      */
-    public Meeting getfirstmeetingTime() {
+    public Meeting getfirstmeeting() {
         return firstMeeting;
     }
 
