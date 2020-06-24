@@ -1,33 +1,50 @@
 import java.util.*;
+import java.time.LocalDate;
+
 
 /**
  * Represents the trade history of a User
  */
 
 public class TransactionHistory {
-    private ArrayList <Transaction> transactions;
+    private ArrayList <Transaction> oneWayTransactions;
+    private ArrayList <Transaction> twoWayTransactions;
     private HashMap<User, Integer> usersNumTradeTimes;
+    private HashMap<LocalDate, Transaction> dateToTransaction;
     private int numTransactions = 0;
     private int numItemsLended = 0;
     private int numItemsBorrowed = 0;
-    // TODO: something that maps datetime to transactions
     // TODO: get week transactions --> this should be a boolean and this should call the threshold from the User
-    // TODO: correct the javadoc according to new class name
+    // TODO: toString id
+    // TODO: Add to transaction history method
     /**
      * Constructs an instance of TransactionHistory with an empty ArrayList transactions and an empty Hashtable usersNumTradeTimes
      * The most recent Transaction is added to the end of the list transactions
      */
 
     public TransactionHistory(){
-        transactions = new ArrayList<>();
-        usersNumTradeTimes = new HashMap<>();
+        oneWayTransactions = new ArrayList<Transaction>();
+        twoWayTransactions = new ArrayList<Transaction>();
+        usersNumTradeTimes = new HashMap<User,Integer>();
+        dateToTransaction = new HashMap<LocalDate, Transaction>();
+    }
+    /**
+     * @return the three most recent OneWay Transactions
+     */
+    public ArrayList<Transaction> mostRecentOneWayTransactions(){
+        if (oneWayTransactions.size() <= 3) {
+           return oneWayTransactions;
+        } return (ArrayList<Transaction>) oneWayTransactions.subList(oneWayTransactions.size() - 3, twoWayTransactions.size());
     }
 
     /**
-     * Returns the three most recent transactions
+     * @return the three most recent TwoWay Transaction
      */
-    public ArrayList<Transaction> mostRecentTransactions(){
-        return (ArrayList<Transaction>) transactions.subList(transactions.size() - 4, transactions.size());
+    public ArrayList<Transaction> mostRecentTwoWayTransactions(){
+        if(twoWayTransactions.size() <= 3){
+            return twoWayTransactions;
+        }
+        return (ArrayList<Transaction>) twoWayTransactions.subList(twoWayTransactions.size() - 3, twoWayTransactions.size());
     }
     /**
      * @return the usernames of the User's top three trading partners
@@ -45,6 +62,7 @@ public class TransactionHistory {
             return mostTradedWithUsernames;
         }
         // if user has less than or equal to 3 trades
+        //// this is not necessary actually now that I think about it
         if(usersNumTradeTimes.size() <= 3){
             Set<User> users = usersNumTradeTimes.keySet();
             for (User userTemp : users) {
@@ -77,11 +95,19 @@ public class TransactionHistory {
 
     }
     /**
-     * @return all the transactions
+     * @return all OneWay Transactions
      */
-    public ArrayList <Transaction> getAllTransactions(){
-        return transactions;
+    public ArrayList <Transaction> getOneWayTransactions(){
+        return oneWayTransactions;
     }
+
+    /**
+     * @return all TwoWay Transactions
+     */
+    public ArrayList<Transaction> getTwoWayTransactions(){
+        return twoWayTransactions;
+    }
+
     /**
      * @return all of users and the times they have been traded with
      */
@@ -102,6 +128,10 @@ public class TransactionHistory {
      * @return numItemsLended as an integer
      */
     public int getNumItemsLended() { return numItemsLended; }
+    /**
+     * Getter for dateToTransaction
+     */
+    public HashMap<LocalDate,Transaction> getDateToTransaction() {return dateToTransaction;}
 
     /**
      * Setter for numItemsLended, increases by 1 every time it is called
