@@ -7,6 +7,7 @@ public class Meeting {
     LocalTime time;
     Boolean user1approved = Boolean.FALSE;
     Boolean user2approved = Boolean.TRUE;
+    int numEdits = 0;
 
 
     Meeting(String location, int year, int month, int dayOfMonth, int hour, int minutes){
@@ -21,11 +22,13 @@ public class Meeting {
     String getLocation(){return location;}
     Boolean getUser1approved(){return user1approved;}
     Boolean getUser2approved(){return user2approved;}
+    int getNumEdits(){return numEdits;}
 
     void setLocation(String newLocation){location = newLocation;}
     void setDate(int year, int month, int dayOfMonth){this.date = LocalDate.of(year, month, dayOfMonth);}
     void setTime(int hour, int minutes){this.time = LocalTime.of(hour, minutes);}
     void setUser1approved(Boolean bool){user1approved = bool;}
     void setUser2approved(Boolean bool){user2approved = bool;}
+    void setNumEdits(int num){numEdits = num;}
 }
 

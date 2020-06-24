@@ -18,8 +18,7 @@ public class TransactionTwoWayTemp extends Transaction{
      * @param User2 the second user.
      * @param Item1 the item possessed originally by User1.
      * @param Item2 the item possessed originally by User2
-     * @param FirstMeeting the first meeting that the users will meet at to exchange items.
-     * @param secondMeeting the second meeting that the users will meet at to give back the items.
+     * @param secondMeeting the second meeting details.
      */
     //Constructor with no return time given (default is a month (31 days))
     public TransactionTwoWayTemp(User User1, User User2,Item Item1,Item Item2,Meeting FirstMeeting

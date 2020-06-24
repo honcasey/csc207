@@ -3,7 +3,7 @@ import java.time.LocalDate;
 
 
 /**
- * Represents the trade history of a User
+ * Represents the Transaction History of User by storing information about completed transactions
  */
 
 public class TransactionHistory {
@@ -148,5 +148,45 @@ public class TransactionHistory {
      * Setter for numItemsBorrowed, increases by 1 every time it is called
      */
     public void setNumItemsBorrowed() { this.numItemsBorrowed++; }
+
+    /**
+     * adds a Transaction to the Transaction History
+     * updates
+     * @param transaction the transaction being added to the history
+     */
+    public void addToTransactionHistory(Transaction transaction){
+
+        // update transaction lists
+        if(transaction instanceof TransactionOneWayPerm || transaction instanceof  TransactionOneWayTemp){
+            oneWayTransactions.add(transaction);
+        } else {
+            twoWayTransactions.add(transaction);
+        }
+
+        // update userNumTimes
+        if (usersNumTradeTimes.containsKey(transaction.user2)) {
+            usersNumTradeTimes.put(transaction.user2, usersNumTradeTimes.get(transaction.user2) + 1);
+        } else {
+            usersNumTradeTimes.put(transaction.user2, 1);
+        }
+
+        // update date to transaction
+        LocalDate transactionDate;
+        if (transaction instanceof  TransactionOneWayPerm ){
+            transactionDate = (TransactionOneWayPerm) transaction.getFirstMeeting().date; }
+        if(transaction instanceof  TransactionTwoWayPerm) {
+            transactionDate = (TransactionTwoWayPerm) transaction.getFirstMeeting().date; }
+        if(transaction instanceof TransactionOneWayTemp) {transactionDate = ((TransactionOneWayTemp) transaction).getSecondMeeting().date;}
+        else {transactionDate = ((TransactionTwoWayTemp) transaction).getSecondMeeting().date;}
+
+        dateToTransaction.put(transactionDate, transaction);
+
+        // update lent and borrowed
+        if(transaction instanceof TransactionOneWayTemp || transaction instanceof TransactionOneWayPerm) {
+            if(transaction.user1 == )
+        }
+
+
+    }
 
 }
