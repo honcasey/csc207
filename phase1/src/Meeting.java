@@ -6,7 +6,7 @@ public class Meeting {
     LocalDate date;
     LocalTime time;
     Boolean user1approved = Boolean.FALSE;
-    Boolean user2approved = Boolean.TRUE;
+    Boolean user2approved = Boolean.FALSE;
     int numEdits = 0;
 
 

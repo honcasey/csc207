@@ -7,7 +7,9 @@ import java.util.UUID;
  *
  */
 public abstract class Transaction {
-    public String status;
+    public String status1;
+    private String statusUser1;
+    private String statusUser2;
     protected String firstMeetingLocation;
     protected UUID id = UUID.randomUUID();
     protected User user1;
