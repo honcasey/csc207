@@ -6,12 +6,12 @@ import java.util.Scanner;
  * Allows a user to log in or create a new account.
  */
 
-public class LoginSystem {
+public class Login {
     private String username, password;
     List<AdminUser> admins;
     List<User> users;
-    // TODO what do we set as our file paths?
-    private String adminFilePath, userFilePath;
+    // TODO need to set file paths
+    private String adminFilePath, userFilePath, itemsFilePath;
     private boolean notLoggedIn = true;
     private AdminManager adminManager;
     private UserManager userManager;
@@ -24,6 +24,7 @@ public class LoginSystem {
         Serializer serializer = new Serializer();
         serializer.readAdminsFromFile(adminFilePath);
         serializer.readUsersFromFile(userFilePath);
+        serializer.readItemsFromFile(itemsFilePath);
         admins = serializer.getAdmins();
         users = serializer.getUsers();
         adminManager = new AdminManager(admins);

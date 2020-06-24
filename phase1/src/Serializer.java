@@ -72,7 +72,7 @@ public class Serializer {
 
     }
 
-    public void writePendingItems(String path) throws IOException {
+    public void writeItemsToFile(String path) throws IOException {
         OutputStream file = new FileOutputStream(path);
         ObjectOutput output = new ObjectOutputStream(file);
 
@@ -80,7 +80,7 @@ public class Serializer {
         output.close();
     }
 
-    public void readPendingItems(String path){
+    public void readItemsFromFile(String path){
         try {
             InputStream file = new FileInputStream(path);
             ObjectInput input = new ObjectInputStream(file);

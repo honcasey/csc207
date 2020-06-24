@@ -1,6 +1,6 @@
 public class TradingSystem {
     public static void main(String[] args) {
-        LoginSystem loginSystem = new LoginSystem();
-        loginSystem.run();
+        Login login = new Login();
+        login.run();
     }
 }

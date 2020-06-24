@@ -11,7 +11,7 @@ public class UserMenuViewer {
         System.out.println("This will interact with UserMenu.");
 
         // when the user decides they're done
-        LogoutSystem logoutSystem = new LogoutSystem();
-        LogoutSystem.run();
+        Logout logoutSystem = new Logout();
+        Logout.run();
     }
 }

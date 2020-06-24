@@ -11,7 +11,7 @@ public class AdminMenuViewer {
         System.out.println("This will interact with AdminMenu.");
 
         // when the user decides they're done
-        LogoutSystem logoutSystem = new LogoutSystem();
-        LogoutSystem.run();
+        Logout logoutSystem = new Logout();
+        Logout.run();
     }
 }
