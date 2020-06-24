@@ -46,20 +46,19 @@ public class UserManager {
     /**
      * To add an item to user's specified list, which is either the User's wishlist or inventory.
      * @param username online identifier of a User
-     * @param itemId The id of an item.
+     * @param item An item in the trading system.
      * @param listType either "wishlist" or "inventory" as a String
      */
-    public void addItem(String username, UUID itemId, String listType){
-        ItemManager itemManager = new ItemManager();
+    public void addItem(String username, Item item, String listType){
         User user = getUser(username);
         List<Item> userInventory = user.getInventory();
         List<Item> userWishlist = user.getWishlist();
 
         if(listType.equals("wishlist")){
-            userWishlist.add(itemManager.getItem(itemId));
+            userWishlist.add(item);
         }
         else if(listType.equals("inventory")){
-            userInventory.add(itemManager.getItem(itemId));
+            userInventory.add(item);
         }
 
     }
@@ -68,36 +67,19 @@ public class UserManager {
     /**
      * To remove a item from user's specified list, which is either the User's wishlist or inventory.
      * @param user An user in the trading system.
-     * @param itemId Id of an item.
+     * @param item An item in the trading system.
      * @param listType either "wishlist" or "inventory" as a String
      */
-    public void removeItem(User user, UUID itemId, String listType) {
+    public void removeItem(User user, Item item, String listType) {
         List<Item> userInventory = user.getInventory();
         List<Item> userWishlist = user.getWishlist();
 
         if (listType.equals("wishlist")){
-            for (Item item:userWishlist) {
-                if (item.getId().equals(itemId)) {
-                    userWishlist.remove(item);
-                }
-            }
+            userWishlist.remove(item);
         }else if (listType.equals("inventory")){
-            for (Item item:userInventory) {
-                if (item.getId().equals(itemId)) {
-                    userInventory.remove(item);
-                }
-            }
+            userInventory.remove(item);
         }
 
-    }
-
-
-    /**
-     * List of pending items.
-     * @param itemId id of an item.
-     */
-    public void pendingItem(UUID itemId){
-        List<Item>pendingItems;
     }
 
 
@@ -130,12 +112,13 @@ public class UserManager {
     }
 
     /**
-     * To change the status of an user's account to frozen.
+     * To change the status of an user's account to active.
      * @param user A user in the trading system.
      */
-    public void freezeAccount(User user){
-        user.setStatus("frozen");
+    public void unfreezeAccount(User user){
+        user.setStatus("active");
     }
+
 
     /**
      * Add a transaction to User's transaction history.
@@ -148,6 +131,11 @@ public class UserManager {
         user.setTransactionHistory(transactionHistory);
     }
 
+    /**
+     * To check whether the username is valid.
+     * @param username online identifier of a User
+     * @return True or False as boolean
+     */
     public boolean checkAvailableUsername(String username) {
         for (User user : allUsers) {
             if (user.getUsername().equals(username)) {

@@ -89,7 +89,7 @@ public abstract class Transaction {
     /**
      * getter for meeting time. This will be called by use case classes.
      */
-    public Meeting getfirstmeeting() {
+    public Meeting getFirstMeeting() {
         return firstMeeting;
     }
 
@@ -97,7 +97,7 @@ public abstract class Transaction {
      * setter for meeting time. This will be called by use case classes.
      */
 
-    public void setfirstMeeting(Meeting meeting) {
+    public void setFirstMeeting(Meeting meeting) {
         this.firstMeeting = meeting;
     }
 

@@ -10,27 +10,22 @@ class ItemTest {
     @org.junit.jupiter.api.Test
     void testToString() {
         Item item = new Item("Hamlet");
-
-        assertEquals(item.getName(), "Hamlet");
-    }
-
-    @org.junit.jupiter.api.Test
-    void getId() {
+        assertEquals(item.toString(), "Hamlet");
     }
 
     @org.junit.jupiter.api.Test
     void setName() {
-    }
-
-    @org.junit.jupiter.api.Test
-    void getName() {
+        Item item = new Item("Hamlet");
+        item.setName("Hamlet v2");
+        assertEquals(item.getName(), "Hamlet v2");
     }
 
     @org.junit.jupiter.api.Test
     void setDescription() {
-    }
-
-    @org.junit.jupiter.api.Test
-    void getDescription() {
+        Item item = new Item("Hamlet");
+        item.setDescription("A book");
+        assertEquals(item.getDescription(), "A book");
+        item.setDescription("A good book!!!");
+        assertEquals(item.getDescription(), "A good book!!!");
     }
 }
