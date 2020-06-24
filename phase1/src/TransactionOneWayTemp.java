@@ -19,8 +19,7 @@ public class TransactionOneWayTemp extends Transaction {
      * @param secondMeeting the second meeting details.
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionOneWayTemp(User User1, User User2, Item item, Meeting FirstMeeting
-            , Meeting secondMeeting) {
+    public TransactionOneWayTemp(User User1, User User2, Item item, Meeting FirstMeeting, Meeting secondMeeting) {
         super(User1, User2, FirstMeeting);
         this.item = item;
         this.secondMeeting = secondMeeting;

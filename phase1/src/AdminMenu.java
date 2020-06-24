@@ -83,8 +83,4 @@ public class AdminMenu {
         if (freeze) { um.freezeAccount(user); }
         else { um.unfreezeAccount(user); }
     }
-
-
-
-
 }
