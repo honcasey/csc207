@@ -93,23 +93,12 @@ public class TradingSystem {
     // only method that should be run in this class
     public void run() {
         readData();
-        boolean picking = true;
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Select an option (number) \n1. Login to existing account \n2. Create a new account");
-        int input = scanner.nextInt();
-        while (picking) {
-            if (((Integer) input).equals(1)) {
-                picking = false;
-                login();
-            } else if (((Integer) input).equals(2)) {
-                picking = false;
-                createAccount();
-            } else {
-                System.out.println("Not a valid option.");
-                System.out.println("1. Login to existing account \n2. Create a new account");
-                input = scanner.nextInt();
-            }
-        }
+        LoginWindow loginWindow = new LoginWindow();
+        int userInput = loginWindow.run();
+        if (userInput == 1) {
+            login();
+        } else if (userInput == 2) {
+            createAccount();
         writeData();
     }
 }
