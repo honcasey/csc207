@@ -21,23 +21,23 @@ public class UserMenu {
 
     /**
      * To withdraw item from user's specified list, which is either the User's wishlist or inventory.
-     * @param itemId the id of an item
+     * @param item An item in the trading system.
      * @param listType either "wishlist" or "inventory" as a String
      */
-    public void withdrawItem(UUID itemId, String listType){
+    public void withdrawItem(Item item, String listType){
         if(listType.equals("wishlist")){
-            um.removeItem(currentUser, itemId, "wishlist");
+            um.removeItem(currentUser, item, "wishlist");
         }else if (listType.equals("inventory")){
-            um.removeItem(currentUser,itemId,"inventory");
+            um.removeItem(currentUser,item,"inventory");
         }
     }
 
     /**
      * To add an given item to user's wishlist
-     * @param itemId the id of an item
+     * @param item An item in the trading system
      */
-    public void addToWishlist(UUID itemId){
-        um.addItem(currentUser.getUsername(), itemId, "wishlist");
+    public void addToWishlist(Item item){
+        um.addItem(currentUser.getUsername(), item, "wishlist");
     }
 
 }
