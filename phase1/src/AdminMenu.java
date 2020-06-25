@@ -19,13 +19,26 @@ public class AdminMenu {
     }
 
     /**
+     * Checks if this admin username has been taken or not.
+     * @param username online identifier of an AdminUser
+     * @return True or False as boolean
+     */
+    public boolean checkAvailableAdminUsername(String username) {
+        for (AdminUser admin : am.getAllAdmins()) {
+            if (admin.getUsername().equals(username)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Creates and returns a new administrative user as an AdminUser.
      * @param username new username as a String
      * @param password new password as a String
-     * @return a new AdminUser with given username and password
      */
-    public AdminUser createNewAdmin(String username, String password) {
-        return am.addAdmin(username, password);
+    public void createNewAdmin(String username, String password) {
+        am.addAdmin(username, password);
     }
 
     /**

@@ -44,7 +44,7 @@ public class AdminMenuViewer {
 
             } else if (input == 2) {
                 for (User user : am.allPendingUsers) {
-                    System.out.println(user); // how can we print why this user's account has been flagged?
+                    System.out.println(user); // TO-DO: how can we print why this user's account has been flagged?
                     System.out.println("1. Freeze account.");
                     System.out.println("2. Unfreeze account.");
                     System.out.println("3. Go to next user.");
@@ -57,10 +57,22 @@ public class AdminMenuViewer {
                     }
                 }
             } else if (input == 3) {
-                // am.createNewAdmin()
+                // TO-DO: check if this user is the firstAdmin before they can add new admins
+                System.out.println("Please enter new Administrative User's username: ");
+                String username = scanner.nextLine();
+                while (!am.checkAvailableAdminUsername(username)) {
+                    System.out.println("Username already taken.");
+                }
+                System.out.println("Please enter new Administrative User's password: ");
+                String password = scanner.nextLine();
+                am.createNewAdmin(username, password);
+                System.out.println("New Admin User " + username + " successfully created.");
+
+
             } else if (input == 4) {
                 // am.addItem()
             } else if (input == 5) {
+
                 // am.changeThreshold()
             } else if (input == 6) {
                 System.out.println("You have successfully logged out.");
