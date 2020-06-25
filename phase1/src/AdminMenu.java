@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Controls the system responsible for AdminUsers and an Administrative User's abilities in the trading system.
@@ -10,7 +7,7 @@ public class AdminMenu {
     private AdminUser currentAdmin;
     private AdminManager am;
     private UserManager um;
-    private HashMap<Item, User> allPendingItems;
+    public HashMap<Item, User> allPendingItems;
     public List<User> allPendingUsers;
 
     public AdminMenu(AdminManager adminManager, UserManager userManager,
