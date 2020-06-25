@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -15,7 +16,6 @@ public class TradingSystem {
             + File.separator + "Documents" + File.separator + "users.ser";
     private String itemsFilePath = System.getProperty("user.home")
             + File.separator + "Documents" + File.separator + "items.ser";
-    private boolean notLoggedIn = true;
     private List<AdminUser> admins;
     private List<User> users;
     private AdminManager adminManager;
@@ -25,7 +25,7 @@ public class TradingSystem {
 
 
     // only method that should be run in this class
-    public void run() throws IOException {
+    public void run() throws IOException, ClassNotFoundException {
         readData();
         loginWindow = new LoginWindow();
         int userInput = loginWindow.run();
@@ -40,7 +40,7 @@ public class TradingSystem {
     /**
      * Helper method to retrieve data from files.
      */
-    private void readData() throws IOException {
+    private void readData() throws IOException, ClassNotFoundException {
         // make sure files exists so they can be read
         checkFileExists(adminsFilePath);
         checkFileExists(usersFilePath);
@@ -48,16 +48,13 @@ public class TradingSystem {
 
         // files exists so we can deserialize them
         Serializer serializer = new Serializer();
-        serializer.readAdminsFromFile(adminsFilePath);
-        serializer.readUsersFromFile(usersFilePath);
-        serializer.readItemsFromFile(itemsFilePath);
+        admins = serializer.readAdminsFromFile(adminsFilePath);
+        users = serializer.readUsersFromFile(usersFilePath);
+        pendingItems = serializer.readItemsFromFile(itemsFilePath);
 
-        // set the retrieved objects to local variables
-        admins = serializer.getAdmins();
-        users = serializer.getUsers();
+        // create new Managers
         adminManager = new AdminManager(admins);
         userManager = new UserManager(users);
-        pendingItems = serializer.getPendingItems();
     }
 
     // helper method to make sure files exists before we read them, if they
@@ -71,21 +68,22 @@ public class TradingSystem {
             Serializer serializer = new Serializer();
             if (filePath.equals(adminsFilePath)) {
                 List<AdminUser> list = new ArrayList<>();
-                serializer.setAdmins(list);
-                serializer.writeAdminsToFile(filePath);
+                serializer.writeAdminsToFile(filePath, list);
             } else if (filePath.equals(usersFilePath)) {
                 List<User> list = new ArrayList<>();
-                serializer.setUsers(list);
-                serializer.writeUsersToFile(filePath);
+                serializer.writeUsersToFile(filePath ,list);
             } else if (filePath.equals(itemsFilePath)) {
                 HashMap<Item, User> map = new HashMap<>();
-                serializer.setItems(map);
-                serializer.writeItemsToFile(filePath);
+                serializer.writeItemsToFile(filePath, map);
             }
         }
     }
 
-    private void writeData() {
+    private void writeData() throws IOException {
+        Serializer serializer = new Serializer();
+        serializer.writeUsersToFile(usersFilePath, userManager.getAllUsers());
+        serializer.writeAdminsToFile(adminsFilePath, adminManager.getAllAdmins());
+        serializer.writeItemsToFile(itemsFilePath, pendingItems);
     }
 
     // helper method to get username and password
@@ -99,29 +97,27 @@ public class TradingSystem {
         // get username and password
         parseCredentials(loginWindow.getUserAndPass());
 
+        boolean notLoggedIn = true;
         // try to log in with current user and pass, if unsuccessful prompt for new user and pass and try again
         while (notLoggedIn) {
-            // check if credentials are for an admin account
-            for (AdminUser admin : admins) {
-                if (admin.getUsername().equals(username) && admin.getPassword().equals(password)) {
-                    notLoggedIn = false;
-                    AdminMenu adminMenu = new AdminMenu(adminManager, userManager, pendingItems, admin);
-                    AdminMenuViewer adminMenuViewer = new AdminMenuViewer(adminMenu);
-                    adminMenuViewer.run();
-                }
+
+            if (adminManager.validAdmin(username, password)) {
+                notLoggedIn = false;
+                AdminMenu adminMenu = new AdminMenu(adminManager,
+                        userManager, pendingItems, adminManager.getAdmin(username));
+                AdminMenuViewer adminMenuViewer = new AdminMenuViewer(adminMenu);
+                adminMenuViewer.run();
+            } else if (userManager.validUser(username, password)) {
+                notLoggedIn = false;
+                UserMenu userMenu = new UserMenu(userManager,
+                        adminManager, pendingItems, userManager.getUser(username));
+                UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
+                userMenuViewer.run();
+            } else {
+                // no user or admin account that corresponds to user and pass
+                System.out.println("Incorrect username or password.");
+                parseCredentials(loginWindow.getUserAndPass());
             }
-            // not admin so check if credentials are for a user account
-            for (User user : users) {
-                if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                    notLoggedIn = false;
-                    UserMenu userMenu = new UserMenu(userManager, adminManager, pendingItems, user);
-                    UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
-                    userMenuViewer.run();
-                }
-            }
-            // no user or admin account that corresponds to user and pass
-            System.out.println("Incorrect username or password.");
-            parseCredentials(loginWindow.getUserAndPass());
         }
     }
 
@@ -135,8 +131,10 @@ public class TradingSystem {
             System.out.println("Username already taken!");
             parseCredentials(loginWindow.getUserAndPass());
         }
+
         // create a new user
         userManager.addUser(username, password);
+
         // get user who's using this program
         User user = userManager.getUser(username);
         UserMenu userMenu = new UserMenu(userManager, adminManager, pendingItems, user);

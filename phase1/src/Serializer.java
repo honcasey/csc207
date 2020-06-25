@@ -1,16 +1,14 @@
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // general ideas taken from lecture 6 StudentManager.java example
 public class Serializer {
-    private List<User> users;
-    private List<AdminUser> admins;
-    private HashMap<Item, User> pendingItems;
 
     // cited from https://docs.oracle.com/javase/7/docs/api/java/io/ObjectOutputStream.html
 
-    public void writeUsersToFile(String path) throws IOException {
+    public void writeUsersToFile(String path, List<User> users) throws IOException {
 
         // create a connection to the file specified by path
         OutputStream file = new FileOutputStream(path);
@@ -23,7 +21,7 @@ public class Serializer {
         output.close();
     }
 
-    public void writeAdminsToFile(String path) throws IOException {
+    public void writeAdminsToFile(String path, List<AdminUser> admins) throws IOException {
 
         // create a connection to the file specified by path
         OutputStream file = new FileOutputStream(path);
@@ -38,41 +36,37 @@ public class Serializer {
 
     // cited from here https://docs.oracle.com/javase/7/docs/api/java/io/ObjectInputStream.html
 
-    public void readUsersFromFile(String path) {
-        try {
-            // create a connection to the file specified by path
-            InputStream file = new FileInputStream(path);
-            ObjectInput input = new ObjectInputStream(file);
+    public List<User> readUsersFromFile(String path) throws IOException, ClassNotFoundException {
+        // create a connection to the file specified by path
+        InputStream file = new FileInputStream(path);
+        ObjectInput input = new ObjectInputStream(file);
 
-            // deserialize the list
-            users = (List<User>) input.readObject();
+        // deserialize the list
+        List<User> users = (List<User>) input.readObject();
 
-            // close the file
-            input.close();
-        } catch (IOException | ClassNotFoundException e) {
-            // TODO idk what we should return if an error is caught
-        }
+        // close the file
+        input.close();
 
+        // return the list
+        return users;
     }
 
-    public void readAdminsFromFile(String path) {
-        try {
-            // create a connection to the file specified by path
-            InputStream file = new FileInputStream(path);
-            ObjectInput input = new ObjectInputStream(file);
+    public List<AdminUser> readAdminsFromFile(String path) throws IOException, ClassNotFoundException {
+        // create a connection to the file specified by path
+        InputStream file = new FileInputStream(path);
+        ObjectInput input = new ObjectInputStream(file);
 
-            // deserialize the list
-            admins = (List<AdminUser>) input.readObject();
+        // deserialize the list
+        List<AdminUser> admins = (List<AdminUser>) input.readObject();
 
-            // close the file
-            input.close();
-        } catch (IOException | ClassNotFoundException e) {
-            // TODO idk what we should return if an error is caught
-        }
+        // close the file
+        input.close();
 
+        // return the list
+        return admins;
     }
 
-    public void writeItemsToFile(String path) throws IOException {
+    public void writeItemsToFile(String path, HashMap<Item, User> pendingItems) throws IOException {
         OutputStream file = new FileOutputStream(path);
         ObjectOutput output = new ObjectOutputStream(file);
 
@@ -80,38 +74,11 @@ public class Serializer {
         output.close();
     }
 
-    public void readItemsFromFile(String path){
-        try {
-            InputStream file = new FileInputStream(path);
-            ObjectInput input = new ObjectInputStream(file);
-            pendingItems = (HashMap<Item, User>) input.readObject();
-            input.close();
-        } catch (IOException | ClassNotFoundException e) {
-            //TODO do something
-        }
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setAdmins(List<AdminUser> admins) {
-        this.admins = admins;
-    }
-
-    public List<AdminUser> getAdmins() {
-        return admins;
-    }
-
-    public void setItems(HashMap<Item, User> pendingItems) {
-        this.pendingItems = pendingItems;
-    }
-
-    public HashMap<Item, User> getPendingItems() {
+    public HashMap<Item, User> readItemsFromFile(String path) throws IOException, ClassNotFoundException {
+        InputStream file = new FileInputStream(path);
+        ObjectInput input = new ObjectInputStream(file);
+        HashMap<Item, User> pendingItems = (HashMap<Item, User>) input.readObject();
+        input.close();
         return pendingItems;
     }
 }
