@@ -14,7 +14,6 @@ public class AdminManager {
         allAdmins = admins;
     }
 
-
     /**
      * Creates a new AdminUser with given username and password.
      * @param username user's account name identifier
@@ -22,8 +21,11 @@ public class AdminManager {
      */
     public AdminUser addAdmin(String username, String password) {
         AdminUser admin = new AdminUser(username, password);
-        allAdmins.add(admin);
-        return admin;
+        if (!allAdmins.contains(admin)) {
+            allAdmins.add(admin);
+            return admin;
+        }
+        return null;
     }
 
     public AdminUser getAdmin(String username) {
@@ -48,4 +50,5 @@ public class AdminManager {
         }
         return false;
     }
+
 }

@@ -1,5 +1,4 @@
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Controls the system responsible for AdminUsers and an Administrative User's abilities in the trading system.
@@ -8,7 +7,7 @@ public class AdminMenu {
     private AdminUser currentAdmin;
     private AdminManager am;
     private UserManager um;
-    private HashMap<Item, User> allPendingItems;
+    public HashMap<Item, User> allPendingItems;
     public List<User> allPendingUsers;
 
     public AdminMenu(AdminManager adminManager, UserManager userManager,
@@ -20,13 +19,26 @@ public class AdminMenu {
     }
 
     /**
+     * Checks if this admin username has been taken or not.
+     * @param username online identifier of an AdminUser
+     * @return True or False as boolean
+     */
+    public boolean checkAvailableAdminUsername(String username) {
+        for (AdminUser admin : am.getAllAdmins()) {
+            if (admin.getUsername().equals(username)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Creates and returns a new administrative user as an AdminUser.
      * @param username new username as a String
      * @param password new password as a String
-     * @return a new AdminUser with given username and password
      */
-    public AdminUser createNewAdmin(String username, String password) {
-        return am.addAdmin(username, password);
+    public void createNewAdmin(String username, String password) {
+        am.addAdmin(username, password);
     }
 
     /**

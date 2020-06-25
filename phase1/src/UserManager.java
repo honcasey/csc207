@@ -71,15 +71,12 @@ public class UserManager {
      * @param listType either "wishlist" or "inventory" as a String
      */
     public void removeItem(User user, Item item, String listType) {
-        List<Item> userInventory = user.getInventory();
-        List<Item> userWishlist = user.getWishlist();
-
         if (listType.equals("wishlist")){
-            userWishlist.remove(item);
-        }else if (listType.equals("inventory")){
-            userInventory.remove(item);
+            user.getWishlist().remove(item);
         }
-
+        else if (listType.equals("inventory")){
+            user.getInventory().remove(item);
+        }
     }
 
 
@@ -102,7 +99,6 @@ public class UserManager {
         }
     }
 
-
     /**
      * To change the status of an user's account to frozen.
      * @param user A user in the trading system.
@@ -118,7 +114,6 @@ public class UserManager {
     public void unfreezeAccount(User user){
         user.setStatus("active");
     }
-
 
     /**
      * Add a transaction to User's transaction history.
