@@ -26,18 +26,26 @@ public class AdminManager {
         return admin;
     }
 
-    /**
-     * Retrieves an AdminUser with specified ID. Returns null otherwise.
-     * @param adminId The AdminUser's account id.
-     */
-    public AdminUser getAdmin(UUID adminId) {
-        AdminUser desiredAdmin = null;
+    public AdminUser getAdmin(String username) {
         for (AdminUser admin : allAdmins) {
-            if ((admin.getAdminId().equals(adminId))) {
-                desiredAdmin = admin;
+            if (admin.getUsername().equals(username)) {
+                return admin;
             }
         }
-        return desiredAdmin;
+        // TODO precondition that this admin must exist
+        return null;
     }
 
+    public List<AdminUser> getAllAdmins() {
+        return allAdmins;
+    }
+
+    public boolean validAdmin(String username, String password) {
+        for (AdminUser admin : allAdmins) {
+            if (admin.getUsername().equals(username) && admin.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -139,4 +139,17 @@ public class UserManager {
         }
         return true;
     }
+
+    public List<User> getAllUsers() {
+        return allUsers;
+    }
+
+    public boolean validUser(String username, String password) {
+        for (User user : allUsers) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
