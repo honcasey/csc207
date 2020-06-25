@@ -7,12 +7,12 @@ import java.util.UUID;
  *
  */
 public abstract class Transaction {
-    public String status;
-    protected String firstMeetingLocation;
-    protected UUID id = UUID.randomUUID();
-    protected User user1;
-    protected User user2;
-    protected Meeting firstMeeting;
+    private String status;
+    private String firstMeetingLocation;
+    private UUID id = UUID.randomUUID();
+    private User user1;
+    private User user2;
+    private Meeting firstMeeting;
 
     /**
      * Constructor of abstract class Transaction.

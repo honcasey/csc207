@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -100,7 +99,6 @@ public class TradingSystem {
         boolean notLoggedIn = true;
         // try to log in with current user and pass, if unsuccessful prompt for new user and pass and try again
         while (notLoggedIn) {
-
             if (adminManager.validAdmin(username, password)) {
                 notLoggedIn = false;
                 AdminMenu adminMenu = new AdminMenu(adminManager,
