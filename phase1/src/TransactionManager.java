@@ -14,9 +14,9 @@ public class TransactionManager {
      */
     public boolean transactionIsValid(User user1, User user2, String type){
         if (user1.getStatus().equals("frozen") || user2.getStatus().equals("frozen")){return false;}
-        else
+        // else
         else if (type.equals("twoway")){return true;}
-        else if ((user2.getNumItemsLended() - user2.getNumItemsBorrowed()) < user2.getThreshold()){return false;}
+        // else if ((user2.getNumItemsLended() - user2.getNumItemsBorrowed()) < user2.getThreshold()){return false;}
         else{return true;}
 
     }

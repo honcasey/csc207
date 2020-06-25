@@ -173,9 +173,9 @@ public class TransactionHistory {
         // update date to transaction
         LocalDate transactionDate;
         if (transaction instanceof  TransactionOneWayPerm ){
-            transactionDate = (TransactionOneWayPerm) transaction.getFirstMeeting().date; }
+            transactionDate = ((TransactionOneWayPerm) transaction).getFirstMeeting().date; }
         if(transaction instanceof  TransactionTwoWayPerm) {
-            transactionDate = (TransactionTwoWayPerm) transaction.getFirstMeeting().date; }
+            transactionDate = ((TransactionTwoWayPerm) transaction).getFirstMeeting().date; }
         if(transaction instanceof TransactionOneWayTemp) {transactionDate = ((TransactionOneWayTemp) transaction).getSecondMeeting().date;}
         else {transactionDate = ((TransactionTwoWayTemp) transaction).getSecondMeeting().date;}
 
@@ -183,7 +183,7 @@ public class TransactionHistory {
 
         // update lent and borrowed
         if(transaction instanceof TransactionOneWayTemp || transaction instanceof TransactionOneWayPerm) {
-            if(transaction.user1 == )
+            // if(transaction.user1 == )
         }
 
 

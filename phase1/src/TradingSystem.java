@@ -1,6 +1,6 @@
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Allows a user to log in or create a new account.
@@ -8,23 +8,51 @@ import java.util.Scanner;
 
 public class TradingSystem {
     private String username, password;
-    List<AdminUser> admins;
-    List<User> users;
-    // TODO need to set file paths
-    private String adminFilePath, userFilePath, itemsFilePath;
+    // how to get file cited from here https://stackoverflow.com/questions/21059085/how-can-i-create-a-file-in-the-current-users-home-directory-using-java
+    private String adminsFilePath = System.getProperty("user.home")
+            + File.separator + "Documents" + File.separator + "admins.ser";
+    private String usersFilePath = System.getProperty("user.home")
+            + File.separator + "Documents" + File.separator + "users.ser";
+    private String itemsFilePath = System.getProperty("user.home")
+            + File.separator + "Documents" + File.separator + "items.ser";
     private boolean notLoggedIn = true;
+    private List<AdminUser> admins;
+    private List<User> users;
     private AdminManager adminManager;
     private UserManager userManager;
     private HashMap<Item, User> pendingItems;
+    private LoginWindow loginWindow;
+
+
+    // only method that should be run in this class
+    public void run() throws IOException {
+        readData();
+        loginWindow = new LoginWindow();
+        int userInput = loginWindow.run();
+        if (userInput == 1) {
+            login();
+        } else if (userInput == 2) {
+            createAccount();
+        }
+        writeData();
+    }
 
     /**
      * Helper method to retrieve data from files.
      */
-    private void readData() {
+    private void readData() throws IOException {
+        // make sure files exists so they can be read
+        checkFileExists(adminsFilePath);
+        checkFileExists(usersFilePath);
+        checkFileExists(itemsFilePath);
+
+        // files exists so we can deserialize them
         Serializer serializer = new Serializer();
-        serializer.readAdminsFromFile(adminFilePath);
-        serializer.readUsersFromFile(userFilePath);
+        serializer.readAdminsFromFile(adminsFilePath);
+        serializer.readUsersFromFile(usersFilePath);
         serializer.readItemsFromFile(itemsFilePath);
+
+        // set the retrieved objects to local variables
         admins = serializer.getAdmins();
         users = serializer.getUsers();
         adminManager = new AdminManager(admins);
@@ -32,20 +60,44 @@ public class TradingSystem {
         pendingItems = serializer.getPendingItems();
     }
 
-    private void writeData() {}
+    // helper method to make sure files exists before we read them, if they
+    // don't exist then create new files
+    private void checkFileExists(String filePath) throws IOException {
+        File file = new File(filePath);
+        if (file.exists()) {
+            ; // do nothing
+        } else {
+            // create a new file
+            Serializer serializer = new Serializer();
+            if (filePath.equals(adminsFilePath)) {
+                List<AdminUser> list = new ArrayList<>();
+                serializer.setAdmins(list);
+                serializer.writeAdminsToFile(filePath);
+            } else if (filePath.equals(usersFilePath)) {
+                List<User> list = new ArrayList<>();
+                serializer.setUsers(list);
+                serializer.writeUsersToFile(filePath);
+            } else if (filePath.equals(itemsFilePath)) {
+                HashMap<Item, User> map = new HashMap<>();
+                serializer.setItems(map);
+                serializer.writeItemsToFile(filePath);
+            }
+        }
+    }
 
-    // helper method to get username and password from user
-    private void getUserAndPass() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter username:");
-        username = scanner.nextLine();
-        System.out.println("Enter password:");
-        password = scanner.nextLine();
+    private void writeData() {
+    }
+
+    // helper method to get username and password
+    private void parseCredentials(String[] credentials) {
+        username = credentials[0];
+        password = credentials[1];
     }
 
     // helper method to log in
     private void login() {
-        getUserAndPass();
+        // get username and password
+        parseCredentials(loginWindow.getUserAndPass());
 
         // try to log in with current user and pass, if unsuccessful prompt for new user and pass and try again
         while (notLoggedIn) {
@@ -58,7 +110,7 @@ public class TradingSystem {
                     adminMenuViewer.run();
                 }
             }
-            // check if credentials are for a user account
+            // not admin so check if credentials are for a user account
             for (User user : users) {
                 if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                     notLoggedIn = false;
@@ -67,19 +119,21 @@ public class TradingSystem {
                     userMenuViewer.run();
                 }
             }
-            // no account that corresponds to user and pass
+            // no user or admin account that corresponds to user and pass
             System.out.println("Incorrect username or password.");
-            getUserAndPass();
+            parseCredentials(loginWindow.getUserAndPass());
         }
     }
 
     // helper method to create an account
     private void createAccount() {
-        getUserAndPass();
+        // get username and password
+        parseCredentials(loginWindow.getUserAndPass());
 
+        // continue loop if username is already taken
         while (!userManager.checkAvailableUsername(username)) {
             System.out.println("Username already taken!");
-            getUserAndPass();
+            parseCredentials(loginWindow.getUserAndPass());
         }
         // create a new user
         userManager.addUser(username, password);
@@ -90,16 +144,5 @@ public class TradingSystem {
         userMenuViewer.run();
     }
 
-    // only method that should be run in this class
-    public void run() {
-        readData();
-        LoginWindow loginWindow = new LoginWindow();
-        int userInput = loginWindow.run();
-        if (userInput == 1) {
-            login();
-        } else if (userInput == 2) {
-            createAccount();
-        writeData();
-    }
 }
 

@@ -22,7 +22,8 @@ public class AdminMenuViewer {
         } else if (input == 2) {
             // call am.method 2
         } else if (input == 3) {
-            System.out.println("You have successfully logged out.");
+            System.out.println("You are being logged out, saving data.");
+
         }
 
     }

@@ -18,4 +18,15 @@ public class LoginWindow {
         return input;
     }
 
+    public String[] getUserAndPass() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter username:");
+        String username = scanner.nextLine();
+        System.out.println("Enter password:");
+        String password = scanner.nextLine();
+        String[] credentials = {username, password};
+        return credentials;
+    }
+
+
 }

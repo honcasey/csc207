@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.UUID;
 
 public class UserMenu {
     private User currentUser;
@@ -16,7 +15,7 @@ public class UserMenu {
     }
 
     public String requestAddItem(String itemName){
-
+        return (String) "a";
     }
 
     /**
