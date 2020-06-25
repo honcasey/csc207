@@ -16,7 +16,6 @@ public class TransactionHistory {
     private int numItemsBorrowed = 0;
     // TODO: get week transactions --> this should be a boolean and this should call the threshold from the User
     // TODO: toString id
-    // TODO: Add to transaction history method
     /**
      * Constructs an instance of TransactionHistory with an empty ArrayList transactions and an empty Hashtable usersNumTradeTimes
      * The most recent Transaction is added to the end of the list transactions
@@ -186,9 +185,9 @@ public class TransactionHistory {
         }
 
 
-    }
-    public String toString(){
-        // TODO: toString here
-    }
+
+//    public String toString(){
+//        // TODO: toString here
+//    }
 
 }

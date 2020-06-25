@@ -39,4 +39,22 @@ public class UserMenu {
         um.addItem(currentUser.getUsername(), item, "wishlist");
     }
 
+    //Transaction methods
+    /**
+     * To change a Transaction status to canceled
+     * @param transaction A transaction to be canceled and to remove transaction from tra
+     */
+    public void cancelTransaction(Transaction transaction){
+        currentUser.getTransactionDetails().getIncomingOffers().remove(transaction);
+        transaction.setStatus("cancelled");
+    }
+    /**
+     * creates a Transaction and adds it to users
+     * adds the Transaction to transaction details of both users
+     * @param targetUser The User to whom currUser sends a Transaction
+     */
+    public void createTransaction(User targetUser){
+        //TODO: method body
+    }
+
 }
