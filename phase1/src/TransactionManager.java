@@ -131,12 +131,4 @@ public class TransactionManager {
                         " it must be a temporary transaction");
             }
         }
-
-        
-
-
-
-
-
-
 }
