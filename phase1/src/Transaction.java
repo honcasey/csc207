@@ -100,5 +100,5 @@ public abstract class Transaction {
     public void setFirstMeeting(Meeting meeting) {
         this.firstMeeting = meeting;
     }
-
 }
+
