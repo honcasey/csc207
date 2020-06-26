@@ -124,7 +124,7 @@ public class TradingSystem {
         parseCredentials(loginWindow.getUserAndPass());
 
         // continue loop if username is already taken
-        while (userManager.checkAvailableUsername(username) | !adminManager.checkAvailableUsername(username)) {
+        while (!userManager.checkAvailableUsername(username) | !adminManager.checkAvailableUsername(username)) {
             System.out.println("Username already taken!");
             parseCredentials(loginWindow.getUserAndPass());
         }
