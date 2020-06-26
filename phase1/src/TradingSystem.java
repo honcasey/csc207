@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -16,8 +15,6 @@ public class TradingSystem {
             + File.separator + "Documents" + File.separator + "users.ser";
     private String itemsFilePath = System.getProperty("user.home")
             + File.separator + "Documents" + File.separator + "items.ser";
-    private List<AdminUser> admins;
-    private List<User> users;
     private AdminManager adminManager;
     private UserManager userManager;
     private HashMap<Item, User> pendingItems;
@@ -25,8 +22,9 @@ public class TradingSystem {
 
 
     // only method that should be run in this class
-    public void run() throws IOException, ClassNotFoundException {
+    public void run() throws Exception {
         readData();
+        checkFirstAdmin();
         loginWindow = new LoginWindow();
         int userInput = loginWindow.run();
         if (userInput == 1) {
@@ -48,8 +46,8 @@ public class TradingSystem {
 
         // files exists so we can deserialize them
         Serializer serializer = new Serializer();
-        admins = serializer.readAdminsFromFile(adminsFilePath);
-        users = serializer.readUsersFromFile(usersFilePath);
+        List<AdminUser> admins = serializer.readAdminsFromFile(adminsFilePath);
+        List<User> users = serializer.readUsersFromFile(usersFilePath);
         pendingItems = serializer.readItemsFromFile(itemsFilePath);
 
         // create new Managers
@@ -62,7 +60,7 @@ public class TradingSystem {
     private void checkFileExists(String filePath) throws IOException {
         File file = new File(filePath);
         if (file.exists()) {
-            ; // do nothing
+            // do nothing
         } else {
             // create a new file
             Serializer serializer = new Serializer();
@@ -93,14 +91,13 @@ public class TradingSystem {
     }
 
     // helper method to log in
-    private void login() {
+    private void login() throws Exception {
         // get username and password
         parseCredentials(loginWindow.getUserAndPass());
 
         boolean notLoggedIn = true;
         // try to log in with current user and pass, if unsuccessful prompt for new user and pass and try again
         while (notLoggedIn) {
-
             if (adminManager.validAdmin(username, password)) {
                 notLoggedIn = false;
                 AdminMenu adminMenu = new AdminMenu(adminManager,
@@ -122,7 +119,7 @@ public class TradingSystem {
     }
 
     // helper method to create an account
-    private void createAccount() {
+    private void createAccount() throws Exception {
         // get username and password
         parseCredentials(loginWindow.getUserAndPass());
 
@@ -142,5 +139,13 @@ public class TradingSystem {
         userMenuViewer.run();
     }
 
+    private void checkFirstAdmin() {
+        if (adminManager.validAdmin("admin", "password")) {
+            // the first admin exists, do nothing
+        } else {
+            // the first admin does not exist yet, create it
+            adminManager.addAdmin("admin", "password").setFirstAdmin(true);
+        }
+    }
 }
 

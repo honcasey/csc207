@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class UserMenu {
     private User currentUser;
@@ -36,8 +38,21 @@ public class UserMenu {
      * @param item An item in the trading system
      */
     public void addToWishlist(Item item){
-        um.addItem(currentUser.getUsername(), item, "wishlist");
+        um.addItem(currentUser, item, "wishlist");
     }
+
+    /**
+     * To return the wishlist of currUser
+     * @return list of items
+     */
+    public List<Item> getUserWishlist(){return currentUser.getWishlist();}
+
+    /**
+     * TO return the inventory of currUser
+     * @return list of items
+     */
+    public List<Item> getUserInventory(){return currentUser.getInventory();}
+
 
     //Transaction methods
     /**
@@ -56,5 +71,6 @@ public class UserMenu {
     public void createTransaction(User targetUser){
         //TODO: method body
     }
+
 
 }

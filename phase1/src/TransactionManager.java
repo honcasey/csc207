@@ -14,6 +14,8 @@ public class TransactionManager {
      */
     //ToDo fix this method, need a method that gives me the numWeeklyTransactions, and numIncompleteTransactions
     public boolean transactionIsValid(User user1, User user2, String type){
+        // TODO
+        return true;
     }
 
     /**

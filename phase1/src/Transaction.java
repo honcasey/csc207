@@ -7,7 +7,7 @@ import java.util.UUID;
  *
  */
 public abstract class Transaction {
-    public String status1;
+    public String status;
     private String statusUser1;
     private String statusUser2;
     protected String firstMeetingLocation;

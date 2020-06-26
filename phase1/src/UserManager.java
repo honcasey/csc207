@@ -7,6 +7,7 @@ import java.util.UUID;
  */
 public class UserManager {
     private List<User> allUsers;
+    private Exception InvalidUserException;
 
     /**
      * Creates a list of users.
@@ -22,9 +23,16 @@ public class UserManager {
      * @return username and userId as string separated by comma.
      */
     public User addUser(String username, String password){
-        User user = new User(username, password);
-        allUsers.add(user);
-        return user;
+        User newUser = new User(username, password);
+        for (User user : allUsers) {
+            if (user.getUsername().equals(username)) {
+                return null;
+            } else {
+                allUsers.add(newUser);
+                return newUser;
+            }
+        }
+        return null;
     }
 
     /**
@@ -32,25 +40,22 @@ public class UserManager {
      * @param username online identifier of a User
      * @return username and userId as string separated by comma
      */
-    public User getUser(String username){
-        User desiredUser= new User(null,null);
+    public User getUser(String username) throws Exception {
         for (User user : allUsers) {
             if ((user.getUsername().equals(username))) {
-                    desiredUser = user;
+                return user;
                 }
             }
-            return desiredUser;
+        throw InvalidUserException;
     }
-
 
     /**
      * To add an item to user's specified list, which is either the User's wishlist or inventory.
-     * @param username online identifier of a User
+     * @param user the user
      * @param item An item in the trading system.
      * @param listType either "wishlist" or "inventory" as a String
      */
-    public void addItem(String username, Item item, String listType){
-        User user = getUser(username);
+    public void addItem(User user, Item item, String listType){
         List<Item> userInventory = user.getInventory();
         List<Item> userWishlist = user.getWishlist();
 
@@ -88,14 +93,16 @@ public class UserManager {
      */
     public void changeThreshold(User user, int thresholdValue, String thresholdType){
 
-        if(thresholdType.equals("borrowThreshold")){
-            user.setBorrowThreshold(thresholdValue);
-        }
-        else if(thresholdType.equals("weeklyThreshold")){
-            user.setWeeklyThreshold(thresholdValue);
-        }
-        else if(thresholdType.equals("incompleteThreshold")){
-            user.setIncompleteThreshold(thresholdValue);
+        switch (thresholdType) {
+            case "borrowThreshold":
+                user.setBorrowThreshold(thresholdValue);
+                break;
+            case "weeklyThreshold":
+                user.setWeeklyThreshold(thresholdValue);
+                break;
+            case "incompleteThreshold":
+                user.setIncompleteThreshold(thresholdValue);
+                break;
         }
     }
 
@@ -120,11 +127,46 @@ public class UserManager {
      * @param user A user in the trading system.
      * @param transaction a meetup between 2 users.
      */
-    public void addToTransactionHistory(User user, Transaction transaction){
-        TransactionHistory transactionHistory = user.getTransactionHistory();
-        transactionHistory.setTransactionHistory(transaction);
-        user.setTransactionHistory(transactionHistory);
+    public void addToTransactionHistory(User user, Transaction transaction) {
+        TransactionHistory tH = user.getTransactionHistory();
+        tH.setTransactionHistory(transaction);
+        user.setTransactionHistory(tH);
+        updateTransactionHistoryValues(user, transaction);
     }
+
+    /**
+     * A private helper method for addToTransactionHistory that updates UserNumTradeTimes, NumItemsBorrowed, and NumItemsLended
+     * @param user A user in a trading system
+     * @param transaction a transaction between two Users
+     */
+
+    // consider splitting into two methods. Reasoning for having one method, user1 == user is needed for both updating the UserNumTradeTimes and NumItemsBorrowed, NumItemsLended
+     private void updateTransactionHistoryValues(User user, Transaction transaction){
+            TransactionHistory tH = user.getTransactionHistory();
+         if (transaction.getUser1() == user) {
+             User u2 = transaction.getUser2();
+             if (tH.getUsersNumTradeTimes().containsKey(u2)) {
+                 tH.getUsersNumTradeTimes().put(transaction.getUser2(), tH.getUsersNumTradeTimes().get(u2) + 1);
+             } else {
+                 tH.getUsersNumTradeTimes().put(u2, 1);
+             }
+             if (transaction instanceof TransactionTwoWayPerm || transaction instanceof TransactionTwoWayTemp) { // TODO: Code smell. We may need to consider having a boolean in the transaction subclasses that say if they're two way or not
+                 user.getTransactionHistory().setNumItemsBorrowed();
+             }
+         } else {
+             user.getTransactionHistory().setNumItemsBorrowed();
+             User u1 = transaction.getUser1();
+             if (tH.getUsersNumTradeTimes().containsKey(u1)) {
+                 tH.getUsersNumTradeTimes().put(transaction.getUser2(), tH.getUsersNumTradeTimes().get(u1) + 1);
+             } else {
+                 tH.getUsersNumTradeTimes().put(u1, 1);
+                 if (transaction instanceof TransactionTwoWayTemp || transaction instanceof TransactionTwoWayPerm) {
+                     user.getTransactionHistory().setNumItemsLended();
+                 }
+             }
+         }
+        }
+
 
     /**
      * To check whether the username is valid.

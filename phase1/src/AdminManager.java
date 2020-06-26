@@ -6,6 +6,7 @@ import java.util.UUID;
  */
 public class AdminManager {
     private List<AdminUser> allAdmins;
+    private Exception InvalidUserException;
 
     /**
      * Creates a new empty AdminManager.
@@ -14,26 +15,37 @@ public class AdminManager {
         allAdmins = admins;
     }
 
-
     /**
      * Creates a new AdminUser with given username and password.
      * @param username user's account name identifier
      * @param password user's account password
      */
     public AdminUser addAdmin(String username, String password) {
-        AdminUser admin = new AdminUser(username, password);
-        allAdmins.add(admin);
-        return admin;
+        AdminUser newAdmin = new AdminUser(username, password);
+        for (AdminUser admin : allAdmins) {
+            if (admin.getUsername().equals(username)) {
+                return null;
+            } else {
+                allAdmins.add(newAdmin);
+                return newAdmin;
+            }
+        }
+        return null;
     }
 
-    public AdminUser getAdmin(String username) {
+    /**
+     * Getter for AdminUser specified by their username.
+     * @param username desired AdminUser's username
+     * @return AdminUser
+     * @throws Exception InvalidUserException
+     */
+    public AdminUser getAdmin(String username) throws Exception {
         for (AdminUser admin : allAdmins) {
             if (admin.getUsername().equals(username)) {
                 return admin;
             }
         }
-        // TODO precondition that this admin must exist
-        return null;
+        throw InvalidUserException;
     }
 
     public List<AdminUser> getAllAdmins() {
@@ -48,4 +60,5 @@ public class AdminManager {
         }
         return false;
     }
+
 }
