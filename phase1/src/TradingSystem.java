@@ -15,8 +15,6 @@ public class TradingSystem {
             + File.separator + "Documents" + File.separator + "users.ser";
     private String itemsFilePath = System.getProperty("user.home")
             + File.separator + "Documents" + File.separator + "items.ser";
-    private List<AdminUser> admins;
-    private List<User> users;
     private AdminManager adminManager;
     private UserManager userManager;
     private HashMap<Item, User> pendingItems;
@@ -26,6 +24,7 @@ public class TradingSystem {
     // only method that should be run in this class
     public void run() throws IOException, ClassNotFoundException {
         readData();
+        checkFirstAdmin();
         loginWindow = new LoginWindow();
         int userInput = loginWindow.run();
         if (userInput == 1) {
@@ -47,8 +46,8 @@ public class TradingSystem {
 
         // files exists so we can deserialize them
         Serializer serializer = new Serializer();
-        admins = serializer.readAdminsFromFile(adminsFilePath);
-        users = serializer.readUsersFromFile(usersFilePath);
+        List<AdminUser> admins = serializer.readAdminsFromFile(adminsFilePath);
+        List<User> users = serializer.readUsersFromFile(usersFilePath);
         pendingItems = serializer.readItemsFromFile(itemsFilePath);
 
         // create new Managers
@@ -140,5 +139,13 @@ public class TradingSystem {
         userMenuViewer.run();
     }
 
+    private void checkFirstAdmin() {
+        if (adminManager.validAdmin("admin", "password")) {
+            ; // the first admin exists, do nothing
+        } else {
+            // the first admin does not exist yet, create it
+            adminManager.addAdmin("admin", "password").setFirstAdmin(true);
+        }
+    }
 }
 

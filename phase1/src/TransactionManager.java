@@ -13,6 +13,8 @@ public class TransactionManager {
      * and if they have lent more items than they have borrowed as specified by their threshold number
      */
     public boolean transactionIsValid(User user1, User user2, String type){
+        // TODO
+        return true;
     }
 
     /**

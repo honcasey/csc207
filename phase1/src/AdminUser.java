@@ -1,14 +1,15 @@
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Represents an administrative user in the trading system.
  */
 
-public class AdminUser {
+public class AdminUser implements Serializable {
     private String username;
     private String password;
     private final UUID adminId = UUID.randomUUID();
-    public boolean firstAdmin = false;
+    private boolean firstAdmin = false;
 
     /**
      * Constructs an instance of an Admin User based on Strings of username and password.
