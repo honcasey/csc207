@@ -28,7 +28,7 @@ public class UserTest {
         Meeting meetup1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
         Transaction tran1 = new TransactionOneWayPerm(casey, annie, book, meetup1);
         TransactionHistory his1 = new TransactionHistory();
-        his1.addToTransactionHistory(tran1);
+        his1.setTransactionHistory(tran1);
         casey.setTransactionHistory(his1);
         assertEquals(casey.getTransactionHistory(), his1);
     }

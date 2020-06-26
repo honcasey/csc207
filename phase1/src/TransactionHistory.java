@@ -16,7 +16,6 @@ public class TransactionHistory {
     private int numItemsBorrowed = 0;
     // TODO: get week transactions --> this should be a boolean and this should call the threshold from the User
     // TODO: toString id
-    // TODO: Add to transaction history method
     /**
      * Constructs an instance of TransactionHistory with an empty ArrayList transactions and an empty Hashtable usersNumTradeTimes
      * The most recent Transaction is added to the end of the list transactions
@@ -151,10 +150,9 @@ public class TransactionHistory {
 
     /**
      * adds a Transaction to the Transaction History
-     * updates
      * @param transaction the transaction being added to the history
      */
-    public void addToTransactionHistory(Transaction transaction){
+    public void setTransactionHistory(Transaction transaction){
 
         // update transaction lists
         if(transaction instanceof TransactionOneWayPerm || transaction instanceof  TransactionOneWayTemp){
@@ -164,29 +162,32 @@ public class TransactionHistory {
         }
 
         // update userNumTimes
-        if (usersNumTradeTimes.containsKey(transaction.user2)) {
-            usersNumTradeTimes.put(transaction.user2, usersNumTradeTimes.get(transaction.user2) + 1);
-        } else {
-            usersNumTradeTimes.put(transaction.user2, 1);
+//        if (usersNumTradeTimes.containsKey(transaction.user2)) {
+//            usersNumTradeTimes.put(transaction.user2, usersNumTradeTimes.get(transaction.user2) + 1);
+//        } else {
+//            usersNumTradeTimes.put(transaction.user2, 1);
+//        }
+
+//        // update date to transaction
+//        LocalDate transactionDate;
+//        if (transaction instanceof  TransactionOneWayPerm ){
+//            transactionDate = transaction.getfirstmeeting().date; }
+//        if(transaction instanceof  TransactionTwoWayPerm) {
+//            transactionDate = transaction.getfirstmeeting().date; }
+//        if(transaction instanceof TransactionOneWayTemp) {transactionDate = ((TransactionOneWayTemp) transaction).getSecondMeeting().date;}
+//        else {transactionDate = ((TransactionTwoWayTemp) transaction).getSecondMeeting().date;}
+//
+//        dateToTransaction.put(transactionDate, transaction);
+//
+//        // update lent and borrowed
+//        if(transaction instanceof TransactionOneWayTemp || transaction instanceof TransactionOneWayPerm) {
+//            if(transaction.user1 ==  )
         }
 
-        // update date to transaction
-        LocalDate transactionDate;
-        if (transaction instanceof  TransactionOneWayPerm ){
-            transactionDate = (TransactionOneWayPerm) transaction.getFirstMeeting().date; }
-        if(transaction instanceof  TransactionTwoWayPerm) {
-            transactionDate = (TransactionTwoWayPerm) transaction.getFirstMeeting().date; }
-        if(transaction instanceof TransactionOneWayTemp) {transactionDate = ((TransactionOneWayTemp) transaction).getSecondMeeting().date;}
-        else {transactionDate = ((TransactionTwoWayTemp) transaction).getSecondMeeting().date;}
-
-        dateToTransaction.put(transactionDate, transaction);
-
-        // update lent and borrowed
-        if(transaction instanceof TransactionOneWayTemp || transaction instanceof TransactionOneWayPerm) {
-            if(transaction.user1 == )
-        }
 
 
-    }
+//    public String toString(){
+//        // TODO: toString here
+//    }
 
 }

@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Controls the system responsible for AdminUsers and an Administrative User's abilities in the trading system.
@@ -10,7 +7,7 @@ public class AdminMenu {
     private AdminUser currentAdmin;
     private AdminManager am;
     private UserManager um;
-    private HashMap<Item, User> allPendingItems;
+    public HashMap<Item, User> allPendingItems;
     public List<User> allPendingUsers;
 
     public AdminMenu(AdminManager adminManager, UserManager userManager,
@@ -34,15 +31,15 @@ public class AdminMenu {
     /**
      * Adds the given Item to a User's specified list, which is either the User's wishlist or inventory.
      * @param user which User's list to add the item to as a User
-     * @param itemId ID of the item to be added as an integer
+     * @param item the item to be added as an integer
      * @param whichList either "wishlist" or "inventory" as a String
      */
-    public void addItem(String user, UUID itemId, String whichList) {
+    public void addItem(String user, Item item, String whichList) {
         if (whichList.equals("wishlist")) {
-            um.addItem(user, itemId, "wishlist");
+            um.addItem(user, item, "wishlist");
         }
         if (whichList.equals("inventory")) {
-            um.addItem(user, itemId, "inventory");
+            um.addItem(user, item, "inventory");
         }
     }
 
@@ -71,7 +68,7 @@ public class AdminMenu {
      * @param approved whether this Item is approved by the Admin User or not
      */
     public void checkPendingItems(User user, Item item, boolean approved) {
-        if (approved) { um.addItem(user.getUsername(), item.getId(), "inventory"); }
+        if (approved) { um.addItem(user.getUsername(), item, "inventory"); }
         else { allPendingItems.remove(item); }
     }
 
