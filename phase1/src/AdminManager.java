@@ -61,4 +61,12 @@ public class AdminManager {
         return false;
     }
 
+    public boolean checkAvailableUsername(String username) {
+        for (AdminUser admin : allAdmins) {
+            if (admin.getUsername().equals(username)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
