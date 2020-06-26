@@ -65,6 +65,7 @@ public class AdminUser implements Serializable {
      * Represents the current AdminUser by their username and userId
      * @return the username and adminid separated by a comma
      */
+    @Override
     public String toString() { return username + ", " + adminId; }
 
 

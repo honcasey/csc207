@@ -23,9 +23,16 @@ public class UserManager {
      * @return username and userId as string separated by comma.
      */
     public User addUser(String username, String password){
-        User user = new User(username, password);
-        allUsers.add(user);
-        return user;
+        User newUser = new User(username, password);
+        for (User user : allUsers) {
+            if (user.getUsername().equals(username)) {
+                return null;
+            } else {
+                allUsers.add(newUser);
+                return newUser;
+            }
+        }
+        return null;
     }
 
     /**
@@ -86,14 +93,16 @@ public class UserManager {
      */
     public void changeThreshold(User user, int thresholdValue, String thresholdType){
 
-        if(thresholdType.equals("borrowThreshold")){
-            user.setBorrowThreshold(thresholdValue);
-        }
-        else if(thresholdType.equals("weeklyThreshold")){
-            user.setWeeklyThreshold(thresholdValue);
-        }
-        else if(thresholdType.equals("incompleteThreshold")){
-            user.setIncompleteThreshold(thresholdValue);
+        switch (thresholdType) {
+            case "borrowThreshold":
+                user.setBorrowThreshold(thresholdValue);
+                break;
+            case "weeklyThreshold":
+                user.setWeeklyThreshold(thresholdValue);
+                break;
+            case "incompleteThreshold":
+                user.setIncompleteThreshold(thresholdValue);
+                break;
         }
     }
 

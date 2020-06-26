@@ -22,7 +22,7 @@ public class TradingSystem {
 
 
     // only method that should be run in this class
-    public void run() throws IOException, ClassNotFoundException {
+    public void run() throws Exception {
         readData();
         checkFirstAdmin();
         loginWindow = new LoginWindow();
@@ -60,7 +60,7 @@ public class TradingSystem {
     private void checkFileExists(String filePath) throws IOException {
         File file = new File(filePath);
         if (file.exists()) {
-            ; // do nothing
+            // do nothing
         } else {
             // create a new file
             Serializer serializer = new Serializer();
@@ -91,7 +91,7 @@ public class TradingSystem {
     }
 
     // helper method to log in
-    private void login() {
+    private void login() throws Exception {
         // get username and password
         parseCredentials(loginWindow.getUserAndPass());
 
@@ -119,7 +119,7 @@ public class TradingSystem {
     }
 
     // helper method to create an account
-    private void createAccount() {
+    private void createAccount() throws Exception {
         // get username and password
         parseCredentials(loginWindow.getUserAndPass());
 
@@ -141,7 +141,7 @@ public class TradingSystem {
 
     private void checkFirstAdmin() {
         if (adminManager.validAdmin("admin", "password")) {
-            ; // the first admin exists, do nothing
+            // the first admin exists, do nothing
         } else {
             // the first admin does not exist yet, create it
             adminManager.addAdmin("admin", "password").setFirstAdmin(true);
