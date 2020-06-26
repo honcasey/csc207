@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class UserMenu {
     private User currentUser;
@@ -39,6 +41,19 @@ public class UserMenu {
         um.addItem(currentUser, item, "wishlist");
     }
 
+    /**
+     * To return the wishlist of currUser
+     * @return list of items
+     */
+    public List<Item> getUserWishlist(){return currentUser.getWishlist();}
+
+    /**
+     * TO return the inventory of currUser
+     * @return list of items
+     */
+    public List<Item> getUserInventory(){return currentUser.getInventory();}
+
+
     //Transaction methods
     /**
      * To change a Transaction status to canceled
@@ -56,5 +71,6 @@ public class UserMenu {
     public void createTransaction(User targetUser){
         //TODO: method body
     }
+
 
 }
