@@ -1,18 +1,25 @@
-
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.UUID;
 
 /**
  * This abstract class represents a meetup between 2 Users.
+ * Variables:
+ *
+ * user1, user2: user involved in the transaction.
+ *
+ * firstMeeting: The first meeting of a transaction.
+ *
+ * status: The possible values of this and what they mean are:
+ *
  *
  */
 public abstract class Transaction {
-    private String status;
-    private String firstMeetingLocation;
     private UUID id = UUID.randomUUID();
     private User user1;
     private User user2;
     private Meeting firstMeeting;
+    private String status;
 
     /**
      * Constructor of abstract class Transaction.
@@ -39,21 +46,6 @@ public abstract class Transaction {
      */
     public String getStatus(){
         return status;
-    }
-
-    /**
-     * Setter for the first meeting location. This will be called by use case classes.
-     */
-    public void setFirstMeetingLocation(String location){
-        firstMeetingLocation = location;
-    }
-
-    /**
-     * Getter for the first meeting location. This will be called by use case classes.
-     */
-
-    public String getFirstMeetingLocation(){
-        return firstMeetingLocation;
     }
 
     /**
@@ -86,19 +78,6 @@ public abstract class Transaction {
         return this.user2;
     }
 
-    /**
-     * getter for meeting time. This will be called by use case classes.
-     */
-    public Meeting getFirstMeeting() {
-        return firstMeeting;
-    }
-
-    /**
-     * setter for meeting time. This will be called by use case classes.
-     */
-
-    public void setFirstMeeting(Meeting meeting) {
-        this.firstMeeting = meeting;
-    }
+    protected abstract boolean userchangeFirstMeetingByString(String Field, Object NewVal);
 }
 
