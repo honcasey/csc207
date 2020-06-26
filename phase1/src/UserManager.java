@@ -127,11 +127,46 @@ public class UserManager {
      * @param user A user in the trading system.
      * @param transaction a meetup between 2 users.
      */
-    public void addToTransactionHistory(User user, Transaction transaction){
-        TransactionHistory transactionHistory = user.getTransactionHistory();
-        transactionHistory.setTransactionHistory(transaction);
-        user.setTransactionHistory(transactionHistory);
+    public void addToTransactionHistory(User user, Transaction transaction) {
+        TransactionHistory tH = user.getTransactionHistory();
+        tH.setTransactionHistory(transaction);
+        user.setTransactionHistory(tH);
+        updateTransactionHistoryValues(user, transaction);
     }
+
+    /**
+     * A private helper method for addToTransactionHistory that updates UserNumTradeTimes, NumItemsBorrowed, and NumItemsLended
+     * @param user A user in a trading system
+     * @param transaction a transaction between two Users
+     */
+
+    // consider splitting into two methods. Reasoning for having one method, user1 == user is needed for both updating the UserNumTradeTimes and NumItemsBorrowed, NumItemsLended
+     private void updateTransactionHistoryValues(User user, Transaction transaction){
+            TransactionHistory tH = user.getTransactionHistory();
+         if (transaction.getUser1() == user) {
+             User u2 = transaction.getUser2();
+             if (tH.getUsersNumTradeTimes().containsKey(u2)) {
+                 tH.getUsersNumTradeTimes().put(transaction.getUser2(), tH.getUsersNumTradeTimes().get(u2) + 1);
+             } else {
+                 tH.getUsersNumTradeTimes().put(u2, 1);
+             }
+             if (transaction instanceof TransactionTwoWayPerm || transaction instanceof TransactionTwoWayTemp) { // TODO: Code smell. We may need to consider having a boolean in the transaction subclasses that say if they're two way or not
+                 user.getTransactionHistory().setNumItemsBorrowed();
+             }
+         } else {
+             user.getTransactionHistory().setNumItemsBorrowed();
+             User u1 = transaction.getUser1();
+             if (tH.getUsersNumTradeTimes().containsKey(u1)) {
+                 tH.getUsersNumTradeTimes().put(transaction.getUser2(), tH.getUsersNumTradeTimes().get(u1) + 1);
+             } else {
+                 tH.getUsersNumTradeTimes().put(u1, 1);
+                 if (transaction instanceof TransactionTwoWayTemp || transaction instanceof TransactionTwoWayPerm) {
+                     user.getTransactionHistory().setNumItemsLended();
+                 }
+             }
+         }
+        }
+
 
     /**
      * To check whether the username is valid.
