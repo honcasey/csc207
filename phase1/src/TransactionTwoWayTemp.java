@@ -74,4 +74,21 @@ public class TransactionTwoWayTemp extends Transaction{
     public void setSecondMeeting(Meeting secondMeeting){
         this.secondMeeting = secondMeeting;
     }
+
+    @Override
+    public boolean isOneWay() {
+        return false;
+    }
+
+    /**
+     * THE IMPLEMENTATION OF THIS METHOD STILL NEEDS TO BE DONE.
+     * @param Field this is the detail of the transaction you want to change.
+     *              (the values it can take on are listed above:)
+     * @param NewVal this is the new value of the detail you want changed.
+     * @return this returns true iff the field is found and changed successfully.
+     */
+    @Override
+    protected boolean userChangeFirstMeetingByString(String Field, Object NewVal) {
+        return false;
+    }
 }

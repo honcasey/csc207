@@ -51,5 +51,22 @@ public class TransactionTwoWayPerm extends Transaction{
     public void setItem2(Item item2){
         this.item2 = item2;
     }
+
+    @Override
+    public boolean isOneWay() {
+        return false;
+    }
+
+    /**
+     * THE IMPLEMENTATION OF THIS METHOD STILL NEEDS TO BE DONE.
+     * @param Field this is the detail of the transaction you want to change.
+     *              (the values it can take on are listed above:)
+     * @param NewVal this is the new value of the detail you want changed.
+     * @return this returns true iff the transaction detail was found and changed successfully.
+     */
+    @Override
+    protected boolean userChangeFirstMeetingByString(String Field, Object NewVal) {
+        return false;
+    }
 }
 
