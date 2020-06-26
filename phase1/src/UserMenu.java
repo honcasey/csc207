@@ -36,7 +36,7 @@ public class UserMenu {
      * @param item An item in the trading system
      */
     public void addToWishlist(Item item){
-        um.addItem(currentUser.getUsername(), item, "wishlist");
+        um.addItem(currentUser, item, "wishlist");
     }
 
     //Transaction methods

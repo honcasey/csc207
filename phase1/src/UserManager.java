@@ -7,6 +7,7 @@ import java.util.UUID;
  */
 public class UserManager {
     private List<User> allUsers;
+    private Exception InvalidUserException;
 
     /**
      * Creates a list of users.
@@ -32,25 +33,22 @@ public class UserManager {
      * @param username online identifier of a User
      * @return username and userId as string separated by comma
      */
-    public User getUser(String username){
-        User desiredUser= new User(null,null);
+    public User getUser(String username) throws Exception {
         for (User user : allUsers) {
             if ((user.getUsername().equals(username))) {
-                    desiredUser = user;
+                return user;
                 }
             }
-            return desiredUser;
+        throw InvalidUserException;
     }
-
 
     /**
      * To add an item to user's specified list, which is either the User's wishlist or inventory.
-     * @param username online identifier of a User
+     * @param user the user
      * @param item An item in the trading system.
      * @param listType either "wishlist" or "inventory" as a String
      */
-    public void addItem(String username, Item item, String listType){
-        User user = getUser(username);
+    public void addItem(User user, Item item, String listType){
         List<Item> userInventory = user.getInventory();
         List<Item> userWishlist = user.getWishlist();
 

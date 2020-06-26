@@ -43,16 +43,16 @@ public class AdminMenu {
 
     /**
      * Adds the given Item to a User's specified list, which is either the User's wishlist or inventory.
-     * @param user which User's list to add the item to as a User
+     * @param username which User's list to add the item to as a User
      * @param item the item to be added as an integer
      * @param whichList either "wishlist" or "inventory" as a String
      */
-    public void addItem(String user, Item item, String whichList) {
+    public void addItem(String username, Item item, String whichList) throws Exception {
         if (whichList.equals("wishlist")) {
-            um.addItem(user, item, "wishlist");
+            um.addItem(um.getUser(username), item, "wishlist");
         }
         if (whichList.equals("inventory")) {
-            um.addItem(user, item, "inventory");
+            um.addItem(um.getUser(username), item, "inventory");
         }
     }
 
@@ -81,7 +81,7 @@ public class AdminMenu {
      * @param approved whether this Item is approved by the Admin User or not
      */
     public void checkPendingItems(User user, Item item, boolean approved) {
-        if (approved) { um.addItem(user.getUsername(), item, "inventory"); }
+        if (approved) { um.addItem(user, item, "inventory"); }
         else { allPendingItems.remove(item); }
     }
 
@@ -93,4 +93,10 @@ public class AdminMenu {
         if (freeze) { um.freezeAccount(user); }
         else { um.unfreezeAccount(user); }
     }
+
+    /**
+     * Getter for this AdminMenu's UserManager.
+     * @return um UserManager
+     */
+    public UserManager getUm() { return um; }
 }
