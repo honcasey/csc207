@@ -10,8 +10,7 @@ public class TransactionHistory {
     private ArrayList <Transaction> oneWayTransactions;
     private ArrayList <Transaction> twoWayTransactions;
     private HashMap<User, Integer> usersNumTradeTimes;
-    private HashMap<LocalDate, Transaction> dateToTransaction;
-    private int numTransactions = 0;
+    private HashMap<LocalDate, Transaction> dateToTransaction; // decide if this is really needed
     private int numItemsLended = 0;
     private int numItemsBorrowed = 0;
     // TODO: get week transactions --> this should be a boolean and this should call the threshold from the User
@@ -22,10 +21,10 @@ public class TransactionHistory {
      */
 
     public TransactionHistory(){
-        oneWayTransactions = new ArrayList<Transaction>();
-        twoWayTransactions = new ArrayList<Transaction>();
-        usersNumTradeTimes = new HashMap<User,Integer>();
-        dateToTransaction = new HashMap<LocalDate, Transaction>();
+        oneWayTransactions = new ArrayList<>();
+        twoWayTransactions = new ArrayList<>();
+        usersNumTradeTimes = new HashMap<>();
+        dateToTransaction = new HashMap<>();
     }
     /**
      * @return the three most recent OneWay Transactions
@@ -119,7 +118,7 @@ public class TransactionHistory {
      * @return numTransactions as an integer.
      */
     public int getNumTransactions() {
-        return numTransactions;
+        return oneWayTransactions.size() + twoWayTransactions.size();
     }
 
     /**
