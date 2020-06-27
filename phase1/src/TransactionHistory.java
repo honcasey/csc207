@@ -154,7 +154,7 @@ public class TransactionHistory {
     public void setTransactionHistory(Transaction transaction){
 
         // update transaction lists
-        if(transaction instanceof TransactionOneWayPerm || transaction instanceof  TransactionOneWayTemp){
+        if(transaction.isOneWay()){
             oneWayTransactions.add(transaction);
         } else {
             twoWayTransactions.add(transaction);
