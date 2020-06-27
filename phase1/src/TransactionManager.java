@@ -302,7 +302,7 @@ public class TransactionManager {
         else{
             String ustatus1 = transaction.getStatusUser1();
             String ustatus2 = transaction.getStatusUser2();
-            if (ustatus1.equals("traded") & ustatus2.equals("traded")){
+            if (ustatus1.equals("returned") & ustatus2.equals("returned")){
                 transaction.setStatus("complete");
                 return true;
             }
