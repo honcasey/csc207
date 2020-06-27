@@ -1,3 +1,4 @@
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.HashMap;
 
@@ -16,7 +17,7 @@ public class TransactionOneWayPerm extends Transaction{
      * NOTE: getters and setters for certain information still remain camel-case.
      */
 
-    private HashMap<String,Object> userEditable;
+    private Item item;
 
     /**
      * Constructor for TransactionOneWayPerm. The way the constructor is implemented assumes that User2 takes the
@@ -31,7 +32,7 @@ public class TransactionOneWayPerm extends Transaction{
     //Constructor with no return time given (default is a month (31 days))
     public TransactionOneWayPerm(User User1, User User2, Item item, Meeting firstMeeting){
         super(User1,User2, firstMeeting);
-        this.userEditable.put("Item",item);
+        this.item = item;
     }
 
 
@@ -40,31 +41,18 @@ public class TransactionOneWayPerm extends Transaction{
      */
     //Constructor with a return time manually inputted
     public Item getItem(){
-        return (Item) this.userEditable.get("Item");
+        return(this.item);
     }
 
     /**
      * Setter for item in the transaction.
      */
     public void setItem(Item item1) {
-        this.userEditable.put("Item",item1);
+        this.item = item1;
     }
 
     @Override
     public boolean isOneWay() {
         return true;
     }
-
-    /**
-     * THE IMPLEMENTATION OF THIS METHOD NEEDS TO BE DONE.
-     * @param Field this is the detail of the transaction you want to change.
-     *              (the values it can take on are listed above:)
-     * @param NewVal this is the new value of the detail you want changed.
-     * @return this returns true iff the transaction detail was found and changed successfully.
-     */
-    @Override
-    protected boolean userChangeFirstMeetingByString(String Field, Object NewVal){
-        return(false);
-    }
 }
-

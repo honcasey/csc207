@@ -107,17 +107,25 @@ public abstract class Transaction {
     public abstract boolean isOneWay();
 
     /**
-     * This abstract method is to make changes to transaction details by taking in a string. This will be implemented
+     * This method is to make changes to transaction details by taking in a string. This will be implemented
      * in the subclasses.
      * Possible fields to change:
      * Any of the changeable fields in meeting1 and meeting2 (using userChangeByString method.)
      * item1, item2(if two way)
      *
-     * @param Field this is the detail of the transaction you want to change.
+     * @param FieldString this is the detail of the transaction you want to change.
      *              (the values it can take on are listed above:)
      * @param NewVal this is the new value of the detail you want changed.
      * @return this returns true iff the transaction detail was found and changed successfully.
      */
-    protected abstract boolean userChangeFirstMeetingByString(String Field, Object NewVal);
+    protected boolean userChangeFirstMeetingByString(String FieldString, Object NewVal){
+        if(this.getFirstMeeting().getuserEditable().containsKey(FieldString)){
+            this.getFirstMeeting().getuserEditable().put(FieldString,NewVal);
+            return(true);
+        }
+        else{
+            return(false);
+        }
+    }
 }
 

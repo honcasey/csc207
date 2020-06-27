@@ -109,6 +109,15 @@ public class Meeting {
     }
 
     /**
+     * This is a getter for the hashmap of user-editable information.
+     * @return returns user editable hashmap.
+     */
+
+    protected HashMap<String, Object> getuserEditable(){
+        return(this.userEditable);
+    }
+
+    /**
      * This is a setter for changing a new location. This u
      * @param newLocation the new location.
      */
