@@ -1,11 +1,9 @@
-import java.time.LocalDate;
-
 /**
  * This class represents a meetup between 2 Users where there is a one way borrowing transaction happening.
  * Note: user 1 owns the item and the second user borrows the item.
  */
 
-public class TransactionOneWayTemp extends Transaction {
+public class TransactionOneWayTemp extends Transaction implements TempTransactions {
     public Item item;
     public Meeting secondMeeting;
 
@@ -43,6 +41,7 @@ public class TransactionOneWayTemp extends Transaction {
 
     /**
      * Getter for the time
+     * @return
      */
 
     public Meeting getSecondMeeting() {

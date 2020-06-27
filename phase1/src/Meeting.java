@@ -13,9 +13,12 @@ public class Meeting {
      *
      * user2approved: explained above.
      *
-     * numedits: this stores the number of times that both users have made an edit to the program (check phase 1
+     * numEdits: this stores the number of times that both users have made an edit to the program (check phase 1
      * if you disagree.) example: user1 and user2 need to both edit this meeting in order for numedits to increase to 1
      * from 0.
+     *
+     * maxNumEdits: this stores the maximum number of edits that can be done by both users before the transaction is
+     * cancelled.
      *
      * userEditable: This is a mapping of all the information that the user can change. This contains capitalized
      * strings mapping to the information they change.
@@ -27,6 +30,7 @@ public class Meeting {
     private Boolean user1approved = Boolean.FALSE;
     private Boolean user2approved = Boolean.TRUE;
     private int numEdits = 0;
+    private int maxNumEdits = 3;
     private HashMap<String,Object> userEditable = new HashMap<>();
 
     /**
@@ -165,5 +169,19 @@ public class Meeting {
      */
     public void setNumEdits(int num){this.numEdits = num;}
 
+    /**
+     * Getter for number of maxNumedits for this particular meeting.
+     * @return returns the number of times both users are allowed to edit a meeting.
+     */
+    public int getMaxNumEdits() {
+        return maxNumEdits;
+    }
+    /**
+     * this is the setter for the maxNumEdits variable defined in the beggining of the documentation for this class.
+     * @param num new value for numedits variable.
+     */
+    public void setMaxNumEdits(int num){
+        maxNumEdits = num;
+    }
 }
 

@@ -102,4 +102,87 @@ public class TransactionManager {
                 throw new Exception("userNum must be either 1 or 2");
             }
     }
+
+    /**
+     * @return True if the status of the transaction has been changed to confirmed
+     * @param transaction the transaction who's status is being changed
+     */
+    private boolean pendingToConfirmed(Transaction transaction){
+        if (!transaction.getStatus().equals("pending")){
+            return false;
+        }
+        Meeting meeting1 = transaction.getFirstMeeting();
+        if (!(transaction instanceof TempTransactions)){
+            if (meeting1.getUser1approved() & meeting1.getUser2approved()){
+                transaction.setStatus("confirmed");
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            Meeting meeting2 = ((TempTransactions)transaction).getSecondMeeting();
+            if (meeting1.getUser1approved() & meeting1.getUser2approved() & meeting2.getUser1approved()
+                    & meeting2.getUser2approved()){
+                transaction.setStatus("confirmed");
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+
+    }
+
+    /**
+     * @return True if the status of the transaction has been changed to cancelled
+     * @param transaction the transaction who's status is being changed
+     */
+    private boolean pendingToCancelled(Transaction transaction){
+        String ustatus1 = transaction.getStatusUser1();
+        String ustatus2 = transaction.getStatusUser2();
+        String status = transaction.getStatus();
+        if (status.equals("pending") & (ustatus1.equals("cancel") || ustatus2.equals("cancel"))){
+            transaction.setStatus("cancelled");
+            return true;
+        }
+        if (status.equals("confirmed") & (ustatus1.equals("cancel") || ustatus2.equals("cancel"))){
+            if (ustatus1.equals("traded") || ustatus1.equals("complete")){
+                return false;
+            }
+            if (ustatus2.equals("traded") || ustatus2.equals("complete")){
+                return false;
+            }
+            else{
+                transaction.setStatus("cancelled");
+                return true;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+
+    private boolean confirmedToTraded(Transaction transaction){
+        if (!transaction.getStatus().equals("confirmed")){
+            return false;
+        }
+        else if (transaction.isPerm()){
+            return false;
+        }
+        else{
+            String ustatus1 = transaction.getStatusUser1();
+            String ustatus2 = transaction.getStatusUser2();
+            if (ustatus1.equals("traded") || ustatus2.equals("traded")){
+                
+            }
+
+        }
+    }
+    private boolean confirmedToIncomplete(Transaction transaction){}
+    private boolean confirmedToComplete(Transaction transaction){}
+    private boolean tradedToComplete(){}
+    private boolean tradedToNeverReturned
 }

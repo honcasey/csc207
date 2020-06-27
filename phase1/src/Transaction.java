@@ -26,6 +26,8 @@ public abstract class Transaction {
     private User user2;
     private Meeting firstMeeting;
     private String status;
+    private String statusUser1;
+    private String statusUser2;
 
     /**
      * Constructor of abstract class Transaction.
@@ -133,5 +135,30 @@ public abstract class Transaction {
             return(false);
         }
     }
+
+    /**
+     * Getter for status. This will be called by use case classes.
+     */
+
+    public String getStatusUser1() {return statusUser1;}
+
+    /**
+     * setter for user1. This will be called by use case classes.
+     */
+    public void setStatusUser1(String newStatus) {statusUser1 = newStatus;}
+
+    /**
+     * Getter for status. This will be called by use case classes.
+     */
+    public String getStatusUser2() {
+        return statusUser1;
+    }
+
+    /**
+     * setter for user1. This will be called by use case classes.
+     */
+    public void setStatusUser2(String newStatus){statusUser2 = newStatus;}
+
+
 }
 
