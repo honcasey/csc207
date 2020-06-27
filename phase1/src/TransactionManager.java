@@ -125,6 +125,23 @@ public class TransactionManager {
     }
 
     /**
+     * @param transaction the transaction who's status is being updated
+     * @return true if the status of the transaction has been updated, the transaction status will we updated based on
+     * user input by changing their statususer
+     */
+    public boolean updateStatus(Transaction transaction){
+        if (pendingToConfirmed(transaction)){return true;}
+        if (pendingToCancelled(transaction)){return true;}
+        if (confirmedToTraded(transaction)){return true;}
+        if (confirmedToIncomplete(transaction)){return true;}
+        if (confirmedToComplete(transaction)){return true;}
+        if (tradedToComplete(transaction)){return true;}
+        if (tradedToNeverReturned(transaction)){return true;}
+        else{return false;}
+    }
+
+
+    /**
      * @return True if the meeting may be edited.
      * A meeting may be edited if a user hasn't reached his maximum number of edits yet
      * @param meeting the meeting that a user wants to edit
