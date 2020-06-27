@@ -44,9 +44,16 @@ public class TransactionTwoWayPerm extends Transaction{
         return this.item2;
     }
 
+    @Override
+    public boolean isPerm() {
+        return true;
+    }
+
     /**
      * Setter for item that user2 has.
      */
+
+
 
     public void setItem2(Item item2){
         this.item2 = item2;

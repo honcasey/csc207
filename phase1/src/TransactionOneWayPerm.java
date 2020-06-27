@@ -55,4 +55,9 @@ public class TransactionOneWayPerm extends Transaction{
     public boolean isOneWay() {
         return true;
     }
+
+    @Override
+    public boolean isPerm() {
+        return true;
+    }
 }

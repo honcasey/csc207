@@ -107,6 +107,12 @@ public abstract class Transaction {
     public abstract boolean isOneWay();
 
     /**
+     * This is an abstract method that checks if you have a permenant transaction.
+     * @return returns true iff the transaction you call the method on is a one way transaction.
+     */
+    public abstract boolean isPerm();
+
+    /**
      * This method is to make changes to transaction details by taking in a string. This will be implemented
      * in the subclasses.
      * Possible fields to change:
