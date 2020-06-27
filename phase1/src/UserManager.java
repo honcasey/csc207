@@ -144,13 +144,14 @@ public class UserManager {
      private void updateTransactionHistoryValues(User user, Transaction transaction){
             TransactionHistory tH = user.getTransactionHistory();
          if (transaction.getUser1() == user) {
+             user.getTransactionHistory().setNumItemsLended();
              User u2 = transaction.getUser2();
              if (tH.getUsersNumTradeTimes().containsKey(u2)) {
                  tH.getUsersNumTradeTimes().put(transaction.getUser2(), tH.getUsersNumTradeTimes().get(u2) + 1);
              } else {
                  tH.getUsersNumTradeTimes().put(u2, 1);
              }
-             if (transaction instanceof TransactionTwoWayPerm || transaction instanceof TransactionTwoWayTemp) { // TODO: Code smell. We may need to consider having a boolean in the transaction subclasses that say if they're two way or not
+             if (!transaction.isOneWay()) {
                  user.getTransactionHistory().setNumItemsBorrowed();
              }
          } else {
@@ -160,7 +161,7 @@ public class UserManager {
                  tH.getUsersNumTradeTimes().put(transaction.getUser2(), tH.getUsersNumTradeTimes().get(u1) + 1);
              } else {
                  tH.getUsersNumTradeTimes().put(u1, 1);
-                 if (transaction instanceof TransactionTwoWayTemp || transaction instanceof TransactionTwoWayPerm) {
+                 if (!transaction.isOneWay()) {
                      user.getTransactionHistory().setNumItemsLended();
                  }
              }

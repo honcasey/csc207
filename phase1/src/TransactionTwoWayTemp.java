@@ -80,6 +80,9 @@ public class TransactionTwoWayTemp extends Transaction{
         return false;
     }
 
+    @Override
+    public boolean isPerm(){return false;}
+
     /**
      * This method changes the second meeting details by passing in a string and an object of the thing
      * you want changed.

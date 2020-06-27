@@ -62,6 +62,9 @@ public class TransactionOneWayTemp extends Transaction {
         return true;
     }
 
+    @Override
+    public boolean isPerm(){return false;}
+
     /**
      * This method changes the second meeting details by passing in a string and an object of the thing
      * you want changed.
@@ -79,5 +82,7 @@ public class TransactionOneWayTemp extends Transaction {
             return(false);
         }
     }
+
+
 }
 
