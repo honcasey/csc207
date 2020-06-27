@@ -3,11 +3,13 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Change info in user and item entities.
+ * This class manages user.
  */
 public class UserManager {
     private List<User> allUsers;
     private Exception InvalidUserException;
+    private List<User> naughtyList;
+
 
     /**
      * Creates a list of users.
@@ -195,4 +197,14 @@ public class UserManager {
         }
         return false;
     }
+
+    /**
+     * Add a specific user to the naughty list.
+     * @param username online identifier of a User
+     * @throws Exception throws invalidUserException
+     */
+    public void addToNaughtyList(String username) throws Exception {
+        naughtyList.add(getUser(username));
+    }
+
 }
