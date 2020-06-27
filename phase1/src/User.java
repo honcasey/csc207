@@ -163,6 +163,10 @@ public class User implements Serializable {
     @Override
     public String toString() { return username + ", " + userId; }
 
+    public boolean isFrozen(){
+        return status.equals("frozen");
+    }
+
 
 
 }
