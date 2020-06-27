@@ -1,12 +1,23 @@
+import java.lang.reflect.Field;
 import java.time.LocalDate;
-
-/**
- * This class represents a meetup between 2 Users where there is a permanent one way transaction happening.
- * Note: user 1 owns the item and the second user takes the item.
- */
+import java.util.HashMap;
 
 public class TransactionOneWayPerm extends Transaction{
-    public Item item;
+    /**
+     * This class represents a meetup between 2 Users where there is a permanent one way transaction happening.
+     * Note: user 1 owns the item and the second user takes the item.
+     *
+     * Class Variables:
+     *
+     * userEditable: This is a mapping of all the information that the user can change. This contains capitalized
+     * strings mapping to the information they change.
+     *
+     * -- userEditable Variables --
+     * Item. (will be stored in the hashmap)
+     * NOTE: getters and setters for certain information still remain camel-case.
+     */
+
+    private Item item;
 
     /**
      * Constructor for TransactionOneWayPerm. The way the constructor is implemented assumes that User2 takes the
@@ -30,7 +41,7 @@ public class TransactionOneWayPerm extends Transaction{
      */
     //Constructor with a return time manually inputted
     public Item getItem(){
-        return this.item;
+        return(this.item);
     }
 
     /**
@@ -39,5 +50,9 @@ public class TransactionOneWayPerm extends Transaction{
     public void setItem(Item item1) {
         this.item = item1;
     }
-}
 
+    @Override
+    public boolean isOneWay() {
+        return true;
+    }
+}

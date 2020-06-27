@@ -53,6 +53,20 @@ public class UserMenu {
      */
     public List<Item> getUserInventory(){return currentUser.getInventory();}
 
+    /**
+     * To return all the available items in other user's inventory.
+     * @return list of items that are available in other user's inventory.
+     */
+    public List<Item> getAvailableItems(){
+        List<Item> availableItems = new ArrayList<>();
+        List<User> allUsers = um.getAllUsers();
+        for (User user:allUsers) {
+            if(!user.equals(currentUser)){
+                availableItems.addAll(user.getInventory());
+            }
+        }return availableItems;
+    }
+
 
     //Transaction methods
     /**

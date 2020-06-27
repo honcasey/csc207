@@ -13,20 +13,21 @@ public class Meeting {
      *
      * user2approved: explained above.
      *
-     * numedits: this stores the number of times that both users has made an edit to the program (check phase 1
+     * numedits: this stores the number of times that both users have made an edit to the program (check phase 1
      * if you disagree.) example: user1 and user2 need to both edit this meeting in order for numedits to increase to 1
      * from 0.
      *
      * userEditable: This is a mapping of all the information that the user can change. This contains capitalized
      * strings mapping to the information they change.
      *
-     * NOTE: the following variables are considered USER EDITABLE: Time, Date, Location. (will be stored in the hashmap)
+     * -- userEditable Variables --
+     * Time, Date, Location. (will be stored in the hashmap)
      * NOTE: getters and setters for certain information still remain camel-case.
      */
     private Boolean user1approved = Boolean.FALSE;
     private Boolean user2approved = Boolean.TRUE;
     private int numEdits = 0;
-    private HashMap<String,Object> userEditable;
+    private HashMap<String,Object> userEditable = new HashMap<>();
 
     /**
      * The constructor for the class Meeting.
@@ -41,7 +42,7 @@ public class Meeting {
     Meeting(String location, int year, int month, int dayOfMonth, int hour, int minutes){
         this.userEditable.put("Location",location);
         this.userEditable.put("Time",LocalTime.of(hour, minutes));
-        this.userEditable.put("Date", LocalTime.of(hour, minutes));
+        this.userEditable.put("Date", LocalDate.of(year,month,dayOfMonth));
     }
 
     /**
@@ -64,6 +65,32 @@ public class Meeting {
     public int getNumEdits(){return numEdits;}
 
     /**
+     * This is a getter for location.
+     * @return this returns the value of location for the meeting.
+     */
+
+    public String getLocation(){
+        return (String) this.userEditable.get("Location");
+    }
+
+    /**
+     * This is a getter for the time of the meeting.
+     * @return this returns an instance for the time of the meeting.
+     */
+    public LocalTime getTime(){
+        return (LocalTime) this.userEditable.get("Time");
+    }
+
+    /**
+     * This is a getter for the date of the meeting.
+     * @return this returns the instance of the date for the meeting.
+     */
+    public LocalDate getDate(){
+        return (LocalDate) this.userEditable.get("Date");
+    }
+
+
+    /**
      * This method is a helper method that lets usecase classes edit user-editable information.
      * DO NOT USE THIS AS A GETTER(if you have any tips on how to make this so only certain classes can access this
      * that would be great.)
@@ -79,6 +106,15 @@ public class Meeting {
         else{
             return(false);
         }
+    }
+
+    /**
+     * This is a getter for the hashmap of user-editable information.
+     * @return returns user editable hashmap.
+     */
+
+    protected HashMap<String, Object> getuserEditable(){
+        return(this.userEditable);
     }
 
     /**

@@ -74,4 +74,30 @@ public class TransactionTwoWayTemp extends Transaction{
     public void setSecondMeeting(Meeting secondMeeting){
         this.secondMeeting = secondMeeting;
     }
+
+    @Override
+    public boolean isOneWay() {
+        return false;
+    }
+
+    @Override
+    public boolean isPerm(){return false;}
+
+    /**
+     * This method changes the second meeting details by passing in a string and an object of the thing
+     * you want changed.
+     * @param Field this is the detail of the transaction you want to change.
+     *              (the values it can take on are listed above:)
+     * @param NewVal this is the new value of the detail you want changed.
+     * @return this returns true iff the transaction detail was found and changed successfully.
+     */
+    protected boolean userChangeSecondMeetingByString(String Field, Object NewVal) {
+        if(this.getSecondMeeting().getuserEditable().containsKey(Field)){
+            this.getSecondMeeting().getuserEditable().put(Field,NewVal);
+            return(true);
+        }
+        else{
+            return(false);
+        }
+    }
 }

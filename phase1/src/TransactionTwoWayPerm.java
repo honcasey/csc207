@@ -51,5 +51,11 @@ public class TransactionTwoWayPerm extends Transaction{
     public void setItem2(Item item2){
         this.item2 = item2;
     }
+
+    @Override
+    public boolean isOneWay() {
+        return false;
+    }
+
 }
 
