@@ -119,5 +119,11 @@ public abstract class Transaction {
      * @return this returns true iff the transaction detail was found and changed successfully.
      */
     protected abstract boolean userChangeFirstMeetingByString(String Field, Object NewVal);
+
+    /**
+     * Abstract class that returns of a transaction is perm or not
+     * @return boolean
+     */
+    public abstract boolean isPerm();
 }
 

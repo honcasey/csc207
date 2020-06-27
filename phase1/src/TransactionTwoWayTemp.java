@@ -80,6 +80,9 @@ public class TransactionTwoWayTemp extends Transaction{
         return false;
     }
 
+    @Override
+    public boolean isPerm(){return false;}
+
     /**
      * THE IMPLEMENTATION OF THIS METHOD STILL NEEDS TO BE DONE.
      * @param Field this is the detail of the transaction you want to change.

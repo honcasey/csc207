@@ -62,6 +62,9 @@ public class TransactionOneWayTemp extends Transaction {
         return true;
     }
 
+    @Override
+    public boolean isPerm(){return false;}
+
     /**
      * THE IMPLEMENTATION OF THIS METHOD NEEDS TO BE DONE.
      * @param Field this is the detail of the transaction you want to change.
@@ -73,5 +76,7 @@ public class TransactionOneWayTemp extends Transaction {
     protected boolean userChangeFirstMeetingByString(String Field, Object NewVal) {
         return false;
     }
+
+
 }
 

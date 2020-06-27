@@ -151,42 +151,28 @@ public class TransactionHistory {
      * adds a Transaction to the Transaction History
      * @param transaction the transaction being added to the history
      */
-    public void setTransactionHistory(Transaction transaction){
-
-        // update transaction lists
-        if(transaction.isOneWay()){
+    public void setTransactionHistory(Transaction transaction) {
+        if (transaction.isOneWay()) {
             oneWayTransactions.add(transaction);
         } else {
             twoWayTransactions.add(transaction);
         }
+    }
 
-        // update userNumTimes
-//        if (usersNumTradeTimes.containsKey(transaction.user2)) {
-//            usersNumTradeTimes.put(transaction.user2, usersNumTradeTimes.get(transaction.user2) + 1);
-//        } else {
-//            usersNumTradeTimes.put(transaction.user2, 1);
-//        }
-
-//        // update date to transaction
-//        LocalDate transactionDate;
-//        if (transaction instanceof  TransactionOneWayPerm ){
-//            transactionDate = transaction.getfirstmeeting().date; }
-//        if(transaction instanceof  TransactionTwoWayPerm) {
-//            transactionDate = transaction.getfirstmeeting().date; }
-//        if(transaction instanceof TransactionOneWayTemp) {transactionDate = ((TransactionOneWayTemp) transaction).getSecondMeeting().date;}
-//        else {transactionDate = ((TransactionTwoWayTemp) transaction).getSecondMeeting().date;}
-//
-//        dateToTransaction.put(transactionDate, transaction);
-//
-//        // update lent and borrowed
-//        if(transaction instanceof TransactionOneWayTemp || transaction instanceof TransactionOneWayPerm) {
-//            if(transaction.user1 ==  )
-        }
-
-
-
+//    /**
+//     * Returns a String Representation of User's Transaction History
+//     * @return
+//     */
 //    public String toString(){
-//        // TODO: toString here
+//        StringBuilder newString = new StringBuilder("Your Transaction History:" + "/n");
+//       for (int i = 0; i < oneWayTransactions.size();) {
+//           if(oneWayTransactions.get(i).isPerm()){
+//               newString.append(oneWayTransactions.get(i).getFirstMeeting().getDate()).append(",");
+//               newString.append(oneWayTransactions.get(i).getItem())
+//           }
+//           i++;
+//        }
+//       return newString.toString();
 //    }
 
 }

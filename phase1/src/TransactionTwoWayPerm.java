@@ -57,6 +57,8 @@ public class TransactionTwoWayPerm extends Transaction{
         return false;
     }
 
+    @Override
+    public boolean isPerm(){return true;}
     /**
      * THE IMPLEMENTATION OF THIS METHOD STILL NEEDS TO BE DONE.
      * @param Field this is the detail of the transaction you want to change.
@@ -68,5 +70,7 @@ public class TransactionTwoWayPerm extends Transaction{
     protected boolean userChangeFirstMeetingByString(String Field, Object NewVal) {
         return false;
     }
+
+
 }
 
