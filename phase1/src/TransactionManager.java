@@ -93,14 +93,47 @@ public class TransactionManager {
            return meeting;
     }
 
-    public void confirmMeeting(Meeting meeting, int userNum) throws Exception{
+    public boolean confirmMeeting(Meeting meeting, int userNum) throws Exception{
             if (userNum == 1) {
-            meeting.setUser1approved(true);}
-            else if (userNum == 2){
-            meeting.setUser2approved(true);}
-            else{
-                throw new Exception("userNum must be either 1 or 2");
+                meeting.setUser1approved(true);
+                return true;
             }
+            else if (userNum == 2){
+                meeting.setUser2approved(true);
+                return true;
+            }
+            else{
+                return false;
+            }
+    }
+
+
+    /**
+     * @return True if the meeting has been edited
+     * @param meeting the transaction who's status is being changed
+     * @param usernum the number of the user who is editing the transaction, must be either 1 or 2
+     */
+    //TODO: I don't know the best way to have an edit meeting function, do we want overloading, or if someone edits they
+    //TODO:edit all parameters at once?
+    public boolean editMeeting(Meeting meeting, int usernum){
+            if (canEdit(meeting)){
+                if (usernum == 1){meeting.user1edits();}
+                else {meeting.user2edits();}
+                return true;
+            }
+            else{return false;}
+    }
+
+    /**
+     * @return True if the meeting may be edited.
+     * A meeting may be edited if a user hasn't reached his maximum number of edits yet
+     * @param meeting the meeting that a user wants to edit
+     */
+    private boolean canEdit(Meeting meeting) {
+            int edits1 = meeting.getNumEditsUser1();
+            int edits2 = meeting.getNumEditsUser2();
+            int max = meeting.getMaxNumEdits();
+        return edits1 < max & edits2 < max;
     }
 
     /**
@@ -165,6 +198,10 @@ public class TransactionManager {
         }
     }
 
+    /**
+     * @return True if the status of the transaction has been changed to traded
+     * @param transaction the transaction who's status is being changed
+     */
     private boolean confirmedToTraded(Transaction transaction){
         if (!transaction.getStatus().equals("confirmed")){
             return false;
@@ -175,14 +212,110 @@ public class TransactionManager {
         else{
             String ustatus1 = transaction.getStatusUser1();
             String ustatus2 = transaction.getStatusUser2();
-            if (ustatus1.equals("traded") || ustatus2.equals("traded")){
-                
+            if (ustatus1.equals("traded") & ustatus2.equals("traded")){
+                transaction.setStatus("traded");
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+
+    /**
+     * @return True if the status of the transaction has been changed to incomplete
+     * @param transaction the transaction who's status is being changed
+     */
+    private boolean confirmedToIncomplete(Transaction transaction){
+        if (!transaction.getStatus().equals("confirmed")){
+            return false;
+        }
+        else if (transaction.isPerm()){
+            return false;
+        }
+        else{
+            String ustatus1 = transaction.getStatusUser1();
+            String ustatus2 = transaction.getStatusUser2();
+            if (ustatus1.equals("incomplete") || ustatus2.equals("incomplete")){
+                transaction.setStatus("incomplete");
+                return true;
+            }
+            else{
+                return false;
             }
 
         }
     }
-    private boolean confirmedToIncomplete(Transaction transaction){}
-    private boolean confirmedToComplete(Transaction transaction){}
-    private boolean tradedToComplete(){}
-    private boolean tradedToNeverReturned
+
+    /**
+     * @return True if the status of the transaction has been changed to complete
+     * @param transaction the transaction who's status is being changed
+     */
+    private boolean confirmedToComplete(Transaction transaction){
+        if (!transaction.getStatus().equals("confirmed")){
+            return false;
+        }
+        else if (!transaction.isPerm()){
+            return false;
+        }
+        else{
+            String ustatus1 = transaction.getStatusUser1();
+            String ustatus2 = transaction.getStatusUser2();
+            if (ustatus1.equals("traded") & ustatus2.equals("traded")){
+                transaction.setStatus("complete");
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+
+    /**
+     * @return True if the status of the transaction has been changed to complete
+     * @param transaction the transaction who's status is being changed
+     */
+    private boolean tradedToComplete(Transaction transaction){
+        if (!transaction.getStatus().equals("traded")){
+            return false;
+        }
+        else if (transaction.isPerm()){
+            return false;
+        }
+        else{
+            String ustatus1 = transaction.getStatusUser1();
+            String ustatus2 = transaction.getStatusUser2();
+            if (ustatus1.equals("traded") & ustatus2.equals("traded")){
+                transaction.setStatus("complete");
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+
+    /**
+     * @return True if the status of the transaction has been changed to neverReturned
+     * @param transaction the transaction who's status is being changed
+     */
+    private boolean tradedToNeverReturned(Transaction transaction){
+        if (!transaction.getStatus().equals("traded")){
+            return false;
+        }
+        else if (transaction.isPerm()){
+            return false;
+        }
+        else{
+            String ustatus1 = transaction.getStatusUser1();
+            String ustatus2 = transaction.getStatusUser2();
+            if (ustatus1.equals("neverReturned") || ustatus2.equals("neverReturned")){
+                transaction.setStatus("neverReturned");
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
 }

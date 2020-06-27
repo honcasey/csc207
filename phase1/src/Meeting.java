@@ -29,7 +29,8 @@ public class Meeting {
      */
     private Boolean user1approved = Boolean.FALSE;
     private Boolean user2approved = Boolean.TRUE;
-    private int numEdits = 0;
+    private int numEditsUser1 = 0;
+    private int numEditsUser2 = 0;
     private int maxNumEdits = 3;
     private HashMap<String,Object> userEditable = new HashMap<>();
 
@@ -63,10 +64,17 @@ public class Meeting {
     public Boolean getUser2approved(){return user2approved;}
 
     /**
-     * Getter for number of edits for this particular meeting.
-     * @return returns the number of times both users have edited a meeting.
+     * Getter for number of edits for this particular meeting by User1.
+     * @return returns the number of times when user1 has edited a meeting.
      */
-    public int getNumEdits(){return numEdits;}
+    public int getNumEditsUser1(){return numEditsUser1;}
+
+    /**
+     * Getter for number of edits for this particular meeting by User2.
+     * @return returns the number of times when user2 has edited a meeting.
+     */
+    public int getNumEditsUser2(){return numEditsUser2;}
+
 
     /**
      * This is a getter for location.
@@ -164,18 +172,23 @@ public class Meeting {
     public void setUser2approved(Boolean bool){this.user2approved = bool;}
 
     /**
-     * this is the setter for the numEdits variable defined in the beggining of the documentation for this class.
-     * @param num new value for numedits variable.
+     * this method is called when user1 edits the meeting, his number of edit increase by one
      */
-    public void setNumEdits(int num){this.numEdits = num;}
+    public void user1edits(){this.numEditsUser1 ++;}
 
     /**
-     * Getter for number of maxNumedits for this particular meeting.
+     * this method is called when user2 edits the meeting, his number of edit increase by one
+     */
+    public void user2edits(){this.numEditsUser2 ++;}
+
+    /**
+     * Getter for number of maxNumeditsUser1 for this particular meeting.
      * @return returns the number of times both users are allowed to edit a meeting.
      */
     public int getMaxNumEdits() {
         return maxNumEdits;
     }
+
     /**
      * this is the setter for the maxNumEdits variable defined in the beggining of the documentation for this class.
      * @param num new value for numedits variable.
