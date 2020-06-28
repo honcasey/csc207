@@ -1,3 +1,5 @@
+import java.lang.reflect.Array;
+import java.time.ZoneId;
 import java.util.*;
 import java.time.LocalDate;
 
@@ -6,7 +8,7 @@ import java.time.LocalDate;
  * Represents the Transaction History of User by storing information about completed transactions
  */
 
-public class TransactionHistory {
+public class TransactionHistory{
     private ArrayList <Transaction> oneWayTransactions;
     private ArrayList <Transaction> twoWayTransactions;
     private HashMap<User, Integer> usersNumTradeTimes;
@@ -107,6 +109,17 @@ public class TransactionHistory {
     }
 
     /**
+     * Getter for all the transactions in TransactionHistory
+     * @return an array list of all transactions, regardless of type
+     */
+    public ArrayList<Transaction> getAllTransactions(){
+        ArrayList<Transaction> allTransactions = new ArrayList<>();
+        allTransactions.addAll(oneWayTransactions);
+        allTransactions.addAll(twoWayTransactions);
+        return allTransactions;
+    }
+
+    /**
      * @return all of users and the times they have been traded with
      */
     public  HashMap<User, Integer> getUsersNumTradeTimes(){
@@ -175,4 +188,38 @@ public class TransactionHistory {
 //       return newString.toString();
 //    }
 
+//    /**
+//     * returns the number of transactions made in the last calendar week
+//     * @return number of transactions in a week
+//     */
+//   public int numTransactionsInWeek(){
+//        int numTransactions = 0;
+//        ArrayList<Transaction> allTransactions = getAllTransactions();
+////        ZoneId k = ZoneId.of("America/Montreal");
+////        LocalDate today = LocalDate.now(k); alternative way of doing it; saving just in case
+//        Calendar currentCal = Calendar.getInstance();
+//        int week = currentCal.get(Calendar.WEEK_OF_YEAR);
+//        int year = currentCal.get(Calendar.YEAR);
+//        Calendar targetCal = Calendar.getInstance();
+//        int targetWeek;
+//        int targetYear;
+//        for (int i = 0; i < allTransactions.size();){
+//            LocalDate date;
+//            if(allTransactions.get(i).isPerm()){
+//                date = allTransactions.get(i).getFirstMeeting().getDate();
+//            } else {
+//                date = allTransactions.get(i).getSecondMeeting().getDate(); //TODO: reconsider design of getSecondMeeting
+//            }
+//            Date setDate = java.sql.Date.valueOf(date);
+//            targetCal.setTime(setDate);
+//            targetWeek = targetCal.get(Calendar.WEEK_OF_YEAR);
+//            targetYear = targetCal.get(Calendar.YEAR);
+//            if(targetWeek == week && targetYear == year){
+//                numTransactions ++;
+//            }
+//            i++;
+//        }
+//       // main idea of this code from: https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
+//        return numTransactions;
+//   }
 }
