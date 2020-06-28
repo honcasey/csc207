@@ -44,7 +44,7 @@ public class AdminMenuViewer {
     }
 
     private void checkPendingItems(Scanner scanner) {
-        Iterator<Item> itemIterator = am.allPendingItems.keySet().iterator();
+        Iterator<Item> itemIterator = am.getAllPendingItems().keySet().iterator();
 
         while (itemIterator.hasNext()) {
             System.out.println(itemIterator.next());
@@ -53,16 +53,16 @@ public class AdminMenuViewer {
             System.out.println("3. Go to next item.");
             input = scanner.nextInt();
             if (input == 1) {
-                am.checkPendingItems(am.allPendingItems.get(itemIterator.next()), itemIterator.next(), true);
+                am.checkPendingItems(am.getAllPendingItems().get(itemIterator.next()), itemIterator.next(), true);
             }
             else if (input == 2) {
-                am.checkPendingItems(am.allPendingItems.get(itemIterator.next()), itemIterator.next(), false);
+                am.checkPendingItems(am.getAllPendingItems().get(itemIterator.next()), itemIterator.next(), false);
             }
         }
     }
 
     private void checkPendingUsers(Scanner scanner) {
-        for (User user : am.allPendingUsers) {
+        for (User user : am.getAllPendingUsers()) {
             System.out.println(user); // TO-DO: how can we print why this user's account has been flagged?
             System.out.println("1. Freeze account.");
             System.out.println("2. Unfreeze account.");

@@ -7,13 +7,14 @@ public class AdminMenu {
     private AdminUser currentAdmin;
     private AdminManager am;
     private UserManager um;
-    public HashMap<Item, User> allPendingItems;
-    public List<User> allPendingUsers;
+    private HashMap<Item, User> allPendingItems;
+    private List<User> allPendingUsers;
 
-    public AdminMenu(AdminManager adminManager, UserManager userManager,
-                     HashMap<Item, User> pendingItems, AdminUser admin) {
+    public AdminMenu(AdminManager adminManager, UserManager userManager, HashMap<Item, User> pendingItems,
+                     List<User> pendingUsers, AdminUser admin) {
         currentAdmin = admin;
         allPendingItems = pendingItems;
+        allPendingUsers = pendingUsers;
         um = userManager;
         am = adminManager;
     }
@@ -99,4 +100,12 @@ public class AdminMenu {
      * @return um UserManager
      */
     public UserManager getUm() { return um; }
+
+    public HashMap<Item, User> getAllPendingItems() {
+        return allPendingItems;
+    }
+
+    public List<User> getAllPendingUsers() {
+        return allPendingUsers;
+    }
 }
