@@ -13,9 +13,12 @@ public class Meeting {
      *
      * user2approved: explained above.
      *
-     * numedits: this stores the number of times that both users have made an edit to the program (check phase 1
+     * numEdits: this stores the number of times that both users have made an edit to the program (check phase 1
      * if you disagree.) example: user1 and user2 need to both edit this meeting in order for numedits to increase to 1
      * from 0.
+     *
+     * maxNumEdits: this stores the maximum number of edits that can be done by both users before the transaction is
+     * cancelled.
      *
      * userEditable: This is a mapping of all the information that the user can change. This contains capitalized
      * strings mapping to the information they change.
@@ -26,7 +29,9 @@ public class Meeting {
      */
     private Boolean user1approved = Boolean.FALSE;
     private Boolean user2approved = Boolean.TRUE;
-    private int numEdits = 0;
+    private int numEditsUser1 = 0;
+    private int numEditsUser2 = 0;
+    private int maxNumEdits = 3;
     private HashMap<String,Object> userEditable = new HashMap<>();
 
     /**
@@ -59,10 +64,17 @@ public class Meeting {
     public Boolean getUser2approved(){return user2approved;}
 
     /**
-     * Getter for number of edits for this particular meeting.
-     * @return returns the number of times both users have edited a meeting.
+     * Getter for number of edits for this particular meeting by User1.
+     * @return returns the number of times when user1 has edited a meeting.
      */
-    public int getNumEdits(){return numEdits;}
+    public int getNumEditsUser1(){return numEditsUser1;}
+
+    /**
+     * Getter for number of edits for this particular meeting by User2.
+     * @return returns the number of times when user2 has edited a meeting.
+     */
+    public int getNumEditsUser2(){return numEditsUser2;}
+
 
     /**
      * This is a getter for location.
@@ -160,10 +172,29 @@ public class Meeting {
     public void setUser2approved(Boolean bool){this.user2approved = bool;}
 
     /**
-     * this is the setter for the numEdits variable defined in the beggining of the documentation for this class.
+     * this method is called when user1 edits the meeting, his number of edit increase by one
+     */
+    public void user1edits(){this.numEditsUser1 ++;}
+
+    /**
+     * this method is called when user2 edits the meeting, his number of edit increase by one
+     */
+    public void user2edits(){this.numEditsUser2 ++;}
+
+    /**
+     * Getter for number of maxNumeditsUser1 for this particular meeting.
+     * @return returns the number of times both users are allowed to edit a meeting.
+     */
+    public int getMaxNumEdits() {
+        return maxNumEdits;
+    }
+
+    /**
+     * this is the setter for the maxNumEdits variable defined in the beggining of the documentation for this class.
      * @param num new value for numedits variable.
      */
-    public void setNumEdits(int num){this.numEdits = num;}
-
+    public void setMaxNumEdits(int num){
+        maxNumEdits = num;
+    }
 }
 
