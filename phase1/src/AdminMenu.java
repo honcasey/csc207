@@ -8,13 +8,13 @@ public class AdminMenu {
     private AdminManager am;
     private UserManager um;
     private HashMap<Item, User> allPendingItems;
-    private List<User> allPendingUsers;
+    private List<User> frozenAccounts;
 
     public AdminMenu(AdminManager adminManager, UserManager userManager, HashMap<Item, User> pendingItems,
-                     List<User> pendingUsers, AdminUser admin) {
+                     List<User> frozenAccounts, AdminUser admin) {
         currentAdmin = admin;
         allPendingItems = pendingItems;
-        allPendingUsers = pendingUsers;
+        this.frozenAccounts = frozenAccounts;
         um = userManager;
         am = adminManager;
     }
@@ -105,7 +105,7 @@ public class AdminMenu {
         return allPendingItems;
     }
 
-    public List<User> getAllPendingUsers() {
-        return allPendingUsers;
+    public List<User> getFrozenAccounts() {
+        return frozenAccounts;
     }
 }
