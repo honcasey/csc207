@@ -11,17 +11,16 @@ public class AdminMenuViewer {
     }
 
     public void run() {
-        System.out.println("1. Check Pending Items for Approval");
-        System.out.println("2. Check Pending Users for Approval");
-        System.out.println("3. Create New Admin User");
-        System.out.println("4. Add New Item to a User's Wishlist/Inventory");
-        System.out.println("5. Change User Threshold");
-        System.out.println("6. Logout");
-
         Scanner scanner = new Scanner(System.in);
         boolean userInteracting = true;
 
         while (userInteracting) {
+            System.out.println("1. Check Pending Items for Approval");
+            System.out.println("2. Check Pending Users for Approval");
+            System.out.println("3. Create New Admin User");
+            System.out.println("4. Add New Item to a User's Wishlist/Inventory");
+            System.out.println("5. Change User Threshold");
+            System.out.println("6. Logout");
             System.out.println("Pick an option.");
             input = scanner.nextInt();
 
@@ -62,7 +61,7 @@ public class AdminMenuViewer {
     }
 
     private void checkPendingUsers(Scanner scanner) {
-        for (User user : am.getAllPendingUsers()) {
+        for (User user : am.getFlaggedAccounts()) {
             System.out.println(user); // TO-DO: how can we print why this user's account has been flagged?
             System.out.println("1. Freeze account.");
             System.out.println("2. Unfreeze account.");

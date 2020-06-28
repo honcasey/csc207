@@ -15,9 +15,12 @@ public class TradingSystem {
             + File.separator + "Documents" + File.separator + "users.ser";
     private String itemsFilePath = System.getProperty("user.home")
             + File.separator + "Documents" + File.separator + "items.ser";
+    private String flaggedAccountsFilePath = System.getProperty("user.home")
+            + File.separator + "Documents" + File.separator + "flaggedAccounts.ser";
     private AdminManager adminManager;
     private UserManager userManager;
     private HashMap<Item, User> pendingItems;
+    private List<User> flaggedAccounts;
     private LoginWindow loginWindow;
 
 
@@ -43,12 +46,14 @@ public class TradingSystem {
         checkFileExists(adminsFilePath);
         checkFileExists(usersFilePath);
         checkFileExists(itemsFilePath);
+        checkFileExists(flaggedAccountsFilePath);
 
         // files exists so we can deserialize them
         Serializer serializer = new Serializer();
         List<AdminUser> admins = serializer.readAdminsFromFile(adminsFilePath);
         List<User> users = serializer.readUsersFromFile(usersFilePath);
         pendingItems = serializer.readItemsFromFile(itemsFilePath);
+        flaggedAccounts = serializer.readFlaggedAccountsFromFile(flaggedAccountsFilePath);
 
         // create new Managers
         adminManager = new AdminManager(admins);
@@ -73,6 +78,9 @@ public class TradingSystem {
             } else if (filePath.equals(itemsFilePath)) {
                 HashMap<Item, User> map = new HashMap<>();
                 serializer.writeItemsToFile(filePath, map);
+            } else if (filePath.equals(flaggedAccountsFilePath)) {
+                List<User> users = new ArrayList<>();
+                serializer.writeFlaggedAccountsToFile(filePath, users);
             }
         }
     }
@@ -101,13 +109,13 @@ public class TradingSystem {
             if (adminManager.validAdmin(username, password)) {
                 notLoggedIn = false;
                 AdminMenu adminMenu = new AdminMenu(adminManager,
-                        userManager, pendingItems, adminManager.getAdmin(username));
+                        userManager, pendingItems, flaggedAccounts, adminManager.getAdmin(username));
                 AdminMenuViewer adminMenuViewer = new AdminMenuViewer(adminMenu);
                 adminMenuViewer.run();
             } else if (userManager.validUser(username, password)) {
                 notLoggedIn = false;
                 UserMenu userMenu = new UserMenu(userManager,
-                        adminManager, pendingItems, userManager.getUser(username));
+                        adminManager, pendingItems, flaggedAccounts, userManager.getUser(username));
                 UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
                 userMenuViewer.run();
             } else {
@@ -134,7 +142,7 @@ public class TradingSystem {
 
         // get user who's using this program
         User user = userManager.getUser(username);
-        UserMenu userMenu = new UserMenu(userManager, adminManager, pendingItems, user);
+        UserMenu userMenu = new UserMenu(userManager, adminManager, pendingItems, flaggedAccounts, user);
         UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
         userMenuViewer.run();
     }

@@ -4,17 +4,17 @@ import java.util.*;
  * Controls the system responsible for AdminUsers and an Administrative User's abilities in the trading system.
  */
 public class AdminMenu {
-    private AdminUser currentAdmin;
+    private AdminUser currentAdmin; // admin that's logged in
     private AdminManager am;
     private UserManager um;
     private HashMap<Item, User> allPendingItems;
-    private List<User> frozenAccounts;
+    private List<User> flaggedAccounts;
 
     public AdminMenu(AdminManager adminManager, UserManager userManager, HashMap<Item, User> pendingItems,
-                     List<User> frozenAccounts, AdminUser admin) {
+                     List<User> flaggedAccounts, AdminUser admin) {
         currentAdmin = admin;
         allPendingItems = pendingItems;
-        this.frozenAccounts = frozenAccounts;
+        this.flaggedAccounts = flaggedAccounts;
         um = userManager;
         am = adminManager;
     }
@@ -105,7 +105,7 @@ public class AdminMenu {
         return allPendingItems;
     }
 
-    public List<User> getFrozenAccounts() {
-        return frozenAccounts;
+    public List<User> getFlaggedAccounts() {
+        return flaggedAccounts;
     }
 }

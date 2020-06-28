@@ -4,17 +4,17 @@ import java.util.HashMap;
 import java.util.List;
 
 public class UserMenu {
-    private User currentUser;
+    private User currentUser; // user that's logged in
     private AdminManager am;
     private UserManager um;
     private HashMap<Item, User> allPendingItems;
-    private List<User> frozenAccounts;
+    private List<User> flaggedAccounts;
 
     public UserMenu(UserManager userManager, AdminManager adminManager,
-                    HashMap<Item, User> pendingItems, List<User> frozenAccounts, User currentUser) {
+                    HashMap<Item, User> pendingItems, List<User> flaggedAccounts, User currentUser) {
         this.currentUser = currentUser;
         allPendingItems = pendingItems;
-        this.frozenAccounts = frozenAccounts;
+        this.flaggedAccounts = flaggedAccounts;
         am = adminManager;
         um = userManager;
     }
@@ -95,6 +95,8 @@ public class UserMenu {
     public void createTransaction(User targetUser){
         //TODO: method body
     }
+
+
 
 
 }

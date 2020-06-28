@@ -69,7 +69,6 @@ public class Serializer {
     public void writeItemsToFile(String path, HashMap<Item, User> pendingItems) throws IOException {
         OutputStream file = new FileOutputStream(path);
         ObjectOutput output = new ObjectOutputStream(file);
-
         output.writeObject(pendingItems);
         output.close();
     }
@@ -80,5 +79,20 @@ public class Serializer {
         HashMap<Item, User> pendingItems = (HashMap<Item, User>) input.readObject();
         input.close();
         return pendingItems;
+    }
+
+    public void writeFlaggedAccountsToFile(String path, List<User> frozenAccounts) throws IOException {
+        OutputStream file = new FileOutputStream(path);
+        ObjectOutput output = new ObjectOutputStream(file);
+        output.writeObject(frozenAccounts);
+        output.close();
+    }
+
+    public List<User> readFlaggedAccountsFromFile(String path) throws IOException, ClassNotFoundException {
+        InputStream file = new FileInputStream(path);
+        ObjectInput input = new ObjectInputStream(file);
+        List<User> flaggedAccounts = (List<User>) input.readObject();
+        input.close();
+        return flaggedAccounts;
     }
 }
