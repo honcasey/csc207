@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,8 +19,15 @@ public class UserMenu {
         um = userManager;
     }
 
-    public String requestAddItem(String itemName){
-        return (String) "a";
+    /**
+     * This helper method constructs a new instance of item from user input then adds the item to th pending items list.
+     * @param itemName the name of the item to be requested.
+     * @param itemDescript this is the description of the item.
+     */
+    public void requestAddItemInput(String itemName, String itemDescript){
+        Item RequestedItem = new Item(itemName);
+        RequestedItem.setDescription(itemDescript);
+        allPendingItems.put(RequestedItem,this.currentUser);
     }
 
     /**
@@ -42,7 +50,6 @@ public class UserMenu {
     public void addToWishlist(Item item){
         um.addItem(currentUser, item, "wishlist");
     }
-
     /**
      * To return the wishlist of currUser
      * @return list of items
@@ -53,7 +60,9 @@ public class UserMenu {
      * TO return the inventory of currUser
      * @return list of items
      */
-    public List<Item> getUserInventory(){return currentUser.getInventory();}
+    public List<Item> getUserInventory(){
+        return currentUser.getInventory();
+    }
 
     /**
      * To return all the available items in other user's inventory.
@@ -68,7 +77,6 @@ public class UserMenu {
             }
         }return availableItems;
     }
-
 
     //Transaction methods
     /**
