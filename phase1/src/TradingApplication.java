@@ -9,8 +9,6 @@ public class TradingApplication {
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Caught an Exception");
             e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

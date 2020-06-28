@@ -24,8 +24,7 @@ public class LoginWindow {
         String username = scanner.nextLine();
         System.out.println("Enter password:");
         String password = scanner.nextLine();
-        String[] credentials = {username, password};
-        return credentials;
+        return new String[]{username, password};
     }
 
 

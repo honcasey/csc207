@@ -47,7 +47,7 @@ public class AdminMenu {
      * @param item the item to be added as an integer
      * @param whichList either "wishlist" or "inventory" as a String
      */
-    public void addItem(String username, Item item, String whichList) throws Exception {
+    public void addItem(String username, Item item, String whichList) throws InvalidUserException {
         if (whichList.equals("wishlist")) {
             um.addItem(um.getUser(username), item, "wishlist");
         }
