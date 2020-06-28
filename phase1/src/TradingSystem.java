@@ -22,7 +22,7 @@ public class TradingSystem {
 
 
     // only method that should be run in this class
-    public void run() throws Exception {
+    public void run() throws IOException, ClassNotFoundException {
         readData();
         checkFirstAdmin();
         loginWindow = new LoginWindow();
@@ -91,7 +91,7 @@ public class TradingSystem {
     }
 
     // helper method to log in
-    private void login() throws Exception {
+    private void login(){
         // get username and password
         parseCredentials(loginWindow.getUserAndPass());
 
@@ -119,12 +119,12 @@ public class TradingSystem {
     }
 
     // helper method to create an account
-    private void createAccount() throws Exception {
+    private void createAccount() {
         // get username and password
         parseCredentials(loginWindow.getUserAndPass());
 
         // continue loop if username is already taken
-        while (!userManager.checkAvailableUsername(username)) {
+        while (!userManager.checkAvailableUsername(username) | !adminManager.checkAvailableUsername(username)) {
             System.out.println("Username already taken!");
             parseCredentials(loginWindow.getUserAndPass());
         }

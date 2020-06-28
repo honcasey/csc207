@@ -42,13 +42,13 @@ public class UserManager {
      * @param username online identifier of a User
      * @return username and userId as string separated by comma
      */
-    public User getUser(String username) throws Exception {
+    public User getUser(String username) throws InvalidUserException {
         for (User user : allUsers) {
             if ((user.getUsername().equals(username))) {
                 return user;
                 }
             }
-        throw InvalidUserException;
+        throw new InvalidUserException();
     }
 
     /**

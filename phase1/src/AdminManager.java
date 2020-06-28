@@ -39,13 +39,13 @@ public class AdminManager {
      * @return AdminUser
      * @throws Exception InvalidUserException
      */
-    public AdminUser getAdmin(String username) throws Exception {
+    public AdminUser getAdmin(String username) throws InvalidAdminException {
         for (AdminUser admin : allAdmins) {
             if (admin.getUsername().equals(username)) {
                 return admin;
             }
         }
-        throw InvalidUserException;
+        throw new InvalidAdminException();
     }
 
     public List<AdminUser> getAllAdmins() {
@@ -61,4 +61,12 @@ public class AdminManager {
         return false;
     }
 
+    public boolean checkAvailableUsername(String username) {
+        for (AdminUser admin : allAdmins) {
+            if (admin.getUsername().equals(username)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -7,13 +7,14 @@ public class AdminMenu {
     private AdminUser currentAdmin;
     private AdminManager am;
     private UserManager um;
-    public HashMap<Item, User> allPendingItems;
-    public List<User> allPendingUsers;
+    private HashMap<Item, User> allPendingItems;
+    private List<User> frozenAccounts;
 
-    public AdminMenu(AdminManager adminManager, UserManager userManager,
-                     HashMap<Item, User> pendingItems, AdminUser admin) {
+    public AdminMenu(AdminManager adminManager, UserManager userManager, HashMap<Item, User> pendingItems,
+                     List<User> frozenAccounts, AdminUser admin) {
         currentAdmin = admin;
         allPendingItems = pendingItems;
+        this.frozenAccounts = frozenAccounts;
         um = userManager;
         am = adminManager;
     }
@@ -47,7 +48,7 @@ public class AdminMenu {
      * @param item the item to be added as an integer
      * @param whichList either "wishlist" or "inventory" as a String
      */
-    public void addItem(String username, Item item, String whichList) throws Exception {
+    public void addItem(String username, Item item, String whichList) throws InvalidUserException {
         if (whichList.equals("wishlist")) {
             um.addItem(um.getUser(username), item, "wishlist");
         }
@@ -99,4 +100,12 @@ public class AdminMenu {
      * @return um UserManager
      */
     public UserManager getUm() { return um; }
+
+    public HashMap<Item, User> getAllPendingItems() {
+        return allPendingItems;
+    }
+
+    public List<User> getFrozenAccounts() {
+        return frozenAccounts;
+    }
 }

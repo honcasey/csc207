@@ -7,11 +7,13 @@ public class UserMenu {
     private AdminManager am;
     private UserManager um;
     private HashMap<Item, User> allPendingItems;
+    private List<User> frozenAccounts;
 
     public UserMenu(UserManager userManager, AdminManager adminManager,
-                    HashMap<Item, User> pendingItems, User currentUser) {
+                    HashMap<Item, User> pendingItems, List<User> frozenAccounts, User currentUser) {
         this.currentUser = currentUser;
-        HashMap<Item, User> allPendingItems;
+        allPendingItems = pendingItems;
+        this.frozenAccounts = frozenAccounts;
         am = adminManager;
         um = userManager;
     }
