@@ -10,7 +10,7 @@ public class AdminMenuViewer {
         am = adminMenu;
     }
 
-    public void run() {
+    public void run() throws InvalidAdminException {
         Scanner scanner = new Scanner(System.in);
         boolean userInteracting = true;
 
@@ -76,17 +76,19 @@ public class AdminMenuViewer {
         }
     }
 
-    private void createAdmin(Scanner scanner) {
-        // TO-DO: check if this user is the firstAdmin before they can add new admins
-        System.out.println("Please enter new Administrative User's username: ");
-        String username = scanner.nextLine();
-        while (!am.checkAvailableAdminUsername(username)) {
-            System.out.println("Username already taken.");
+    private void createAdmin(Scanner scanner) throws InvalidAdminException {
+        if (am.currentAdmin.isFirstAdmin()) {
+            System.out.println("Please enter new Administrative User's username: ");
+            String username = scanner.nextLine();
+            while (!am.checkAvailableAdminUsername(username)) {
+                System.out.println("Username already taken.");
+            }
+            System.out.println("Please enter new Administrative User's password: ");
+            String password = scanner.nextLine();
+            am.createNewAdmin(username, password);
+            System.out.println("New Admin User " + username + " successfully created.");
         }
-        System.out.println("Please enter new Administrative User's password: ");
-        String password = scanner.nextLine();
-        am.createNewAdmin(username, password);
-        System.out.println("New Admin User " + username + " successfully created.");
+        else { System.out.println("Permission denied, only the first admin can create new administrative user accounts.");}
     }
 
     private void addItemToUser(Scanner scanner) {

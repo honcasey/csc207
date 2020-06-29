@@ -4,7 +4,7 @@ import java.util.*;
  * Controls the system responsible for AdminUsers and an Administrative User's abilities in the trading system.
  */
 public class AdminMenu {
-    private AdminUser currentAdmin; // admin that's logged in
+    public AdminUser currentAdmin; // admin that's logged in
     private AdminManager am;
     private UserManager um;
     private HashMap<Item, User> allPendingItems;
@@ -38,7 +38,7 @@ public class AdminMenu {
      * @param username new username as a String
      * @param password new password as a String
      */
-    public void createNewAdmin(String username, String password) {
+    public void createNewAdmin(String username, String password) throws InvalidAdminException {
         am.addAdmin(username, password);
     }
 
@@ -100,6 +100,12 @@ public class AdminMenu {
      * @return um UserManager
      */
     public UserManager getUm() { return um; }
+
+    /**
+     * Getter for this AdminMenu's AdminManager.
+     * @return am AdminManager
+     */
+    public AdminManager getAm() {return am; }
 
     public HashMap<Item, User> getAllPendingItems() {
         return allPendingItems;

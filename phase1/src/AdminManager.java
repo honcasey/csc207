@@ -25,15 +25,16 @@ public class AdminManager {
         if (allAdmins.size() == 0) {
             allAdmins.add(newAdmin);
             return newAdmin;
-        } else{
+        } else {
             for (AdminUser admin : allAdmins) {
                 if (admin.getUsername().equals(username)) {
-                    throw new InvalidAdminException;
+                    throw new InvalidAdminException();
                 } else {
                     allAdmins.add(newAdmin);
                     return newAdmin;
                 }
             }
+            throw new InvalidAdminException();
         }
     }
 

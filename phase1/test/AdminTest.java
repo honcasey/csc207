@@ -40,7 +40,7 @@ public class AdminTest {
 
     // AdminManager use case tests
     @Test
-    void addAdmin() {
+    void addAdmin() throws InvalidAdminException {
         AdminUser admin1 = new AdminUser("annie", "pwd123");
         AdminUser admin2 = new AdminUser("casey", "pwd123");
         List<AdminUser> adminUserList = new ArrayList<>();
