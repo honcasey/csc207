@@ -15,14 +15,17 @@ public class TradingSystem {
             + File.separator + "Documents" + File.separator + "users.ser";
     private String itemsFilePath = System.getProperty("user.home")
             + File.separator + "Documents" + File.separator + "items.ser";
+    private String flaggedAccountsFilePath = System.getProperty("user.home")
+            + File.separator + "Documents" + File.separator + "flaggedAccounts.ser";
     private AdminManager adminManager;
     private UserManager userManager;
     private HashMap<Item, User> pendingItems;
+    private List<User> flaggedAccounts;
     private LoginWindow loginWindow;
 
 
     // only method that should be run in this class
-    public void run() throws IOException, ClassNotFoundException {
+    public void run() throws IOException, ClassNotFoundException, InvalidUserException {
         readData();
         checkFirstAdmin();
         loginWindow = new LoginWindow();
@@ -43,12 +46,14 @@ public class TradingSystem {
         checkFileExists(adminsFilePath);
         checkFileExists(usersFilePath);
         checkFileExists(itemsFilePath);
+        checkFileExists(flaggedAccountsFilePath);
 
         // files exists so we can deserialize them
         Serializer serializer = new Serializer();
         List<AdminUser> admins = serializer.readAdminsFromFile(adminsFilePath);
         List<User> users = serializer.readUsersFromFile(usersFilePath);
         pendingItems = serializer.readItemsFromFile(itemsFilePath);
+        flaggedAccounts = serializer.readFlaggedAccountsFromFile(flaggedAccountsFilePath);
 
         // create new Managers
         adminManager = new AdminManager(admins);
@@ -73,6 +78,9 @@ public class TradingSystem {
             } else if (filePath.equals(itemsFilePath)) {
                 HashMap<Item, User> map = new HashMap<>();
                 serializer.writeItemsToFile(filePath, map);
+            } else if (filePath.equals(flaggedAccountsFilePath)) {
+                List<User> users = new ArrayList<>();
+                serializer.writeFlaggedAccountsToFile(filePath, users);
             }
         }
     }
@@ -91,7 +99,7 @@ public class TradingSystem {
     }
 
     // helper method to log in
-    private void login(){
+    private void login() {
         // get username and password
         parseCredentials(loginWindow.getUserAndPass());
 
@@ -100,16 +108,26 @@ public class TradingSystem {
         while (notLoggedIn) {
             if (adminManager.validAdmin(username, password)) {
                 notLoggedIn = false;
-                AdminMenu adminMenu = new AdminMenu(adminManager,
-                        userManager, pendingItems, adminManager.getAdmin(username));
-                AdminMenuViewer adminMenuViewer = new AdminMenuViewer(adminMenu);
-                adminMenuViewer.run();
+                try {
+                    AdminMenu adminMenu = new AdminMenu(adminManager,
+                            userManager, pendingItems, flaggedAccounts, adminManager.getAdmin(username));
+                    AdminMenuViewer adminMenuViewer = new AdminMenuViewer(adminMenu);
+                    adminMenuViewer.run();
+                } catch(InvalidAdminException e) {
+                    // we already checked this username corresponds to a valid admin on line 109
+                    // so technically adminManager.getAdmin(username) should never throw an exception
+                }
             } else if (userManager.validUser(username, password)) {
                 notLoggedIn = false;
-                UserMenu userMenu = new UserMenu(userManager,
-                        adminManager, pendingItems, userManager.getUser(username));
-                UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
-                userMenuViewer.run();
+                try {
+                    UserMenu userMenu = new UserMenu(userManager,
+                            adminManager, pendingItems, flaggedAccounts, userManager.getUser(username));
+                    UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
+                    userMenuViewer.run();
+                } catch(InvalidUserException e) {
+                    // we already checked this username corresponds to a valid user on line 120
+                    // so technically userManager.getUser(username) should never throw an exception
+                }
             } else {
                 // no user or admin account that corresponds to user and pass
                 System.out.println("Incorrect username or password.");
@@ -119,7 +137,7 @@ public class TradingSystem {
     }
 
     // helper method to create an account
-    private void createAccount() {
+    private void createAccount() throws InvalidUserException {
         // get username and password
         parseCredentials(loginWindow.getUserAndPass());
 
@@ -132,11 +150,15 @@ public class TradingSystem {
         // create a new user
         userManager.addUser(username, password);
 
-        // get user who's using this program
-        User user = userManager.getUser(username);
-        UserMenu userMenu = new UserMenu(userManager, adminManager, pendingItems, user);
-        UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
-        userMenuViewer.run();
+        try {
+            User user = userManager.getUser(username);
+            UserMenu userMenu = new UserMenu(userManager, adminManager, pendingItems, flaggedAccounts, user);
+            UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
+            userMenuViewer.run();
+        } catch(InvalidUserException e) {
+            // we just created this new user so we know it's a valid user so userManager.getUser()
+            // should not throw an exception
+        }
     }
 
     private void checkFirstAdmin() {
@@ -144,7 +166,12 @@ public class TradingSystem {
             // the first admin exists, do nothing
         } else {
             // the first admin does not exist yet, create it
-            adminManager.addAdmin("admin", "password").setFirstAdmin(true);
+            try {
+                adminManager.addAdmin("admin", "password").setFirstAdmin(true);
+            } catch(InvalidAdminException e) {
+                // If this admin is the first to be added in the list then it will never
+                // conflict with another admin so an exception will never be thrown by addAdmin()
+            }
         }
     }
 }

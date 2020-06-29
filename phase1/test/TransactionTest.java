@@ -27,17 +27,6 @@ class TransactionTest {
     }
 
     @Test
-    void getFirstMeetingLocation() {User casey = new User("caseyh", "pwd123");
-        User annie = new User("anniel", "pwd456");
-        Item book = new Item("book");
-        Meeting meeting = new Meeting("uoft", 2020, 6, 30, 10, 30);
-        Transaction tran = new TransactionOneWayPerm(casey, annie, book, meeting);
-        assertEquals(tran.getFirstMeetingLocation(), "uoft");
-        tran.setFirstMeetingLocation("gerstein");
-        assertEquals(tran.getFirstMeetingLocation(), "gerstein");
-    }
-
-    @Test
     void getUser1() {
         User casey = new User("caseyh", "pwd123");
         User annie = new User("anniel", "pwd456");

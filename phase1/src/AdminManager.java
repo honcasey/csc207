@@ -20,24 +20,27 @@ public class AdminManager {
      * @param username user's account name identifier
      * @param password user's account password
      */
-    public AdminUser addAdmin(String username, String password) {
+    public AdminUser addAdmin(String username, String password) throws InvalidAdminException {
         AdminUser newAdmin = new AdminUser(username, password);
-        for (AdminUser admin : allAdmins) {
-            if (admin.getUsername().equals(username)) {
-                return null;
-            } else {
-                allAdmins.add(newAdmin);
-                return newAdmin;
+        if (allAdmins.size() == 0) {
+            allAdmins.add(newAdmin);
+            return newAdmin;
+        } else{
+            for (AdminUser admin : allAdmins) {
+                if (admin.getUsername().equals(username)) {
+                    throw new InvalidAdminException();
+                }
             }
         }
-        return null;
+        allAdmins.add(newAdmin);
+        return newAdmin;
     }
 
     /**
      * Getter for AdminUser specified by their username.
      * @param username desired AdminUser's username
      * @return AdminUser
-     * @throws Exception InvalidUserException
+     * @throws InvalidUserException
      */
     public AdminUser getAdmin(String username) throws InvalidAdminException {
         for (AdminUser admin : allAdmins) {

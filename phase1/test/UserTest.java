@@ -103,7 +103,7 @@ public class UserTest {
     // UserManager use case tests
 
     @Test
-    void addUser() {
+    void addUser() throws InvalidUserException {
         User user1 = new User("casey", "pwd123");
         User user2 = new User("annie", "pwd123");
         List<User> userList = new ArrayList<>();

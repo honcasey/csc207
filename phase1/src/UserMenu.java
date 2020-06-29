@@ -1,25 +1,33 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class UserMenu {
-    private User currentUser;
+    private User currentUser; // user that's logged in
     private AdminManager am;
     private UserManager um;
     private HashMap<Item, User> allPendingItems;
-    private List<User> frozenAccounts;
+    private List<User> flaggedAccounts;
 
     public UserMenu(UserManager userManager, AdminManager adminManager,
-                    HashMap<Item, User> pendingItems, List<User> frozenAccounts, User currentUser) {
+                    HashMap<Item, User> pendingItems, List<User> flaggedAccounts, User currentUser) {
         this.currentUser = currentUser;
         allPendingItems = pendingItems;
-        this.frozenAccounts = frozenAccounts;
+        this.flaggedAccounts = flaggedAccounts;
         am = adminManager;
         um = userManager;
     }
 
-    public String requestAddItem(String itemName){
-        return (String) "a";
+    /**
+     * This helper method constructs a new instance of item from user input then adds the item to th pending items list.
+     * @param itemName the name of the item to be requested.
+     * @param itemDescript this is the description of the item.
+     */
+    public void requestAddItemInput(String itemName, String itemDescript){
+        Item RequestedItem = new Item(itemName);
+        RequestedItem.setDescription(itemDescript);
+        allPendingItems.put(RequestedItem,this.currentUser);
     }
 
     /**
@@ -42,7 +50,6 @@ public class UserMenu {
     public void addToWishlist(Item item){
         um.addItem(currentUser, item, "wishlist");
     }
-
     /**
      * To return the wishlist of currUser
      * @return list of items
@@ -53,22 +60,25 @@ public class UserMenu {
      * TO return the inventory of currUser
      * @return list of items
      */
-    public List<Item> getUserInventory(){return currentUser.getInventory();}
+    public List<Item> getUserInventory(){
+        return currentUser.getInventory();
+    }
 
     /**
-     * To return all the available items in other user's inventory.
-     * @return list of items that are available in other user's inventory.
+     * To return a HashMap of all the available items in other user's inventory.
+     * @return HashMap of items that are available in other user's inventory.
      */
-    public List<Item> getAvailableItems(){
-        List<Item> availableItems = new ArrayList<>();
+    public HashMap<Item,User> getAvailableItems(){
         List<User> allUsers = um.getAllUsers();
+        HashMap<Item,User> availableItems = new HashMap<>();
         for (User user:allUsers) {
-            if(!user.equals(currentUser)){
-                availableItems.addAll(user.getInventory());
+            if(!user.equals(currentUser)) {
+                for (Item item : user.getInventory()) {
+                    availableItems.put(item, user);
+                }
             }
         }return availableItems;
     }
-
 
     //Transaction methods
     /**
@@ -87,6 +97,8 @@ public class UserMenu {
     public void createTransaction(User targetUser){
         //TODO: method body
     }
+
+
 
 
 }

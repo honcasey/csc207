@@ -8,7 +8,7 @@ import java.util.UUID;
 public class UserManager {
     private List<User> allUsers;
     private Exception InvalidUserException;
-    private List<User> naughtyList;
+    private List<User> blackList;
 
 
     /**
@@ -24,17 +24,21 @@ public class UserManager {
      * @param password account password
      * @return username and userId as string separated by comma.
      */
-    public User addUser(String username, String password){
+    public User addUser(String username, String password) throws InvalidUserException {
         User newUser = new User(username, password);
-        for (User user : allUsers) {
-            if (user.getUsername().equals(username)) {
-                return null;
-            } else {
-                allUsers.add(newUser);
-                return newUser;
+        if (allUsers.size() == 0) {
+            allUsers.add(newUser);
+            return newUser;
+        }
+        else {
+            for (User user : allUsers) {
+                if (user.getUsername().equals(username)) {
+                    throw new InvalidUserException();
+                }
             }
         }
-        return null;
+        allUsers.add(newUser);
+        return newUser;
     }
 
     /**
@@ -199,12 +203,12 @@ public class UserManager {
     }
 
     /**
-     * Add a specific user to the naughty list.
+     * Add a specific user to the blacklist.
      * @param username online identifier of a User
      * @throws Exception throws invalidUserException
      */
-    public void addToNaughtyList(String username) throws Exception {
-        naughtyList.add(getUser(username));
+    public void addToBlackList(String username) throws Exception {
+        blackList.add(getUser(username));
     }
 
 }

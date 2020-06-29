@@ -23,7 +23,6 @@ public class User implements Serializable {
      * Constructs an instance of User based on Strings of username, password, and email.
      * @param username online identifier of a User
      * @param password account password
-     * @param status
      */
      public User(String username, String password) {
          this.username = username;
