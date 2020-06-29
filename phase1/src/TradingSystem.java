@@ -25,7 +25,7 @@ public class TradingSystem {
 
 
     // only method that should be run in this class
-    public void run() throws IOException, ClassNotFoundException, InvalidUserException, InvalidAdminException {
+    public void run() throws IOException, ClassNotFoundException {
         readData();
         checkFirstAdmin();
         loginWindow = new LoginWindow();
@@ -99,7 +99,7 @@ public class TradingSystem {
     }
 
     // helper method to log in
-    private void login() throws InvalidAdminException, InvalidUserException {
+    private void login() {
         // get username and password
         parseCredentials(loginWindow.getUserAndPass());
 
@@ -108,16 +108,24 @@ public class TradingSystem {
         while (notLoggedIn) {
             if (adminManager.validAdmin(username, password)) {
                 notLoggedIn = false;
-                AdminMenu adminMenu = new AdminMenu(adminManager,
-                        userManager, pendingItems, flaggedAccounts, adminManager.getAdmin(username));
-                AdminMenuViewer adminMenuViewer = new AdminMenuViewer(adminMenu);
-                adminMenuViewer.run();
+                try {
+                    AdminMenu adminMenu = new AdminMenu(adminManager,
+                            userManager, pendingItems, flaggedAccounts, adminManager.getAdmin(username));
+                    AdminMenuViewer adminMenuViewer = new AdminMenuViewer(adminMenu);
+                    adminMenuViewer.run();
+                } catch(InvalidAdminException e) {
+                    // TODO
+                }
             } else if (userManager.validUser(username, password)) {
                 notLoggedIn = false;
-                UserMenu userMenu = new UserMenu(userManager,
-                        adminManager, pendingItems, flaggedAccounts, userManager.getUser(username));
-                UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
-                userMenuViewer.run();
+                try {
+                    UserMenu userMenu = new UserMenu(userManager,
+                            adminManager, pendingItems, flaggedAccounts, userManager.getUser(username));
+                    UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
+                    userMenuViewer.run();
+                } catch(InvalidUserException e) {
+                    // TODO
+                }
             } else {
                 // no user or admin account that corresponds to user and pass
                 System.out.println("Incorrect username or password.");
@@ -127,7 +135,7 @@ public class TradingSystem {
     }
 
     // helper method to create an account
-    private void createAccount() throws InvalidUserException {
+    private void createAccount() {
         // get username and password
         parseCredentials(loginWindow.getUserAndPass());
 
@@ -140,11 +148,14 @@ public class TradingSystem {
         // create a new user
         userManager.addUser(username, password);
 
-        // get user who's using this program
-        User user = userManager.getUser(username);
-        UserMenu userMenu = new UserMenu(userManager, adminManager, pendingItems, flaggedAccounts, user);
-        UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
-        userMenuViewer.run();
+        try {
+            User user = userManager.getUser(username);
+            UserMenu userMenu = new UserMenu(userManager, adminManager, pendingItems, flaggedAccounts, user);
+            UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
+            userMenuViewer.run();
+        } catch(InvalidUserException e) {
+            // TODO
+        }
     }
 
     private void checkFirstAdmin() {
