@@ -25,7 +25,7 @@ public class TradingSystem {
 
 
     // only method that should be run in this class
-    public void run() throws IOException, ClassNotFoundException {
+    public void run() throws IOException, ClassNotFoundException, InvalidUserException {
         readData();
         checkFirstAdmin();
         loginWindow = new LoginWindow();
@@ -137,7 +137,7 @@ public class TradingSystem {
     }
 
     // helper method to create an account
-    private void createAccount() {
+    private void createAccount() throws InvalidUserException {
         // get username and password
         parseCredentials(loginWindow.getUserAndPass());
 

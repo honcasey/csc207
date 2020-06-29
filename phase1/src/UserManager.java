@@ -24,17 +24,21 @@ public class UserManager {
      * @param password account password
      * @return username and userId as string separated by comma.
      */
-    public User addUser(String username, String password){
+    public User addUser(String username, String password) throws InvalidUserException {
         User newUser = new User(username, password);
-        for (User user : allUsers) {
-            if (user.getUsername().equals(username)) {
-                return null;
-            } else {
-                allUsers.add(newUser);
-                return newUser;
+        if (allUsers.size() == 0) {
+            allUsers.add(newUser);
+            return newUser;
+        }
+        else {
+            for (User user : allUsers) {
+                if (user.getUsername().equals(username)) {
+                    throw new InvalidUserException();
+                }
             }
         }
-        return null;
+        allUsers.add(newUser);
+        return newUser;
     }
 
     /**
