@@ -28,13 +28,12 @@ public class AdminManager {
         } else{
             for (AdminUser admin : allAdmins) {
                 if (admin.getUsername().equals(username)) {
-                    throw new InvalidAdminException;
-                } else {
-                    allAdmins.add(newAdmin);
-                    return newAdmin;
+                    throw new InvalidAdminException();
                 }
             }
         }
+        allAdmins.add(newAdmin);
+        return newAdmin;
     }
 
     /**

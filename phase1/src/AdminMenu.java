@@ -38,7 +38,7 @@ public class AdminMenu {
      * @param username new username as a String
      * @param password new password as a String
      */
-    public void createNewAdmin(String username, String password) {
+    public void createNewAdmin(String username, String password) throws InvalidAdminException {
         am.addAdmin(username, password);
     }
 

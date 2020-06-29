@@ -80,13 +80,14 @@ public class AdminMenuViewer {
         // TO-DO: check if this user is the firstAdmin before they can add new admins
         System.out.println("Please enter new Administrative User's username: ");
         String username = scanner.nextLine();
-        while (!am.checkAvailableAdminUsername(username)) {
-            System.out.println("Username already taken.");
-        }
         System.out.println("Please enter new Administrative User's password: ");
         String password = scanner.nextLine();
-        am.createNewAdmin(username, password);
-        System.out.println("New Admin User " + username + " successfully created.");
+        try {
+            am.createNewAdmin(username, password);
+            System.out.println("New Admin User " + username + " successfully created.");
+        } catch(InvalidAdminException e) {
+            System.out.println("UserName already taken.");
+        }
     }
 
     private void addItemToUser(Scanner scanner) {
