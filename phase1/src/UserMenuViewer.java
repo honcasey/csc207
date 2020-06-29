@@ -50,7 +50,7 @@ public class UserMenuViewer {
      * @param scanner the scanner being used by the main run method of the
      */
 
-    public void requestAddItem(Scanner scanner){
+    private void requestAddItem(Scanner scanner){
         System.out.println("What is the name of your item?");
         String itemName = scanner.nextLine();
         System.out.println("What is the description of this item?");
@@ -59,7 +59,7 @@ public class UserMenuViewer {
         System.out.println("Item has been requested and is now being reviewed by the administrators.");
     }
 
-    public void DisplayAvailableItems(Scanner scanner){
+    private void DisplayAvailableItems(Scanner scanner){
         String ItemOutputName = ") Item Name:";
         String ItemOutputDescription = " ||  Item Description:";
         List<Item> AvailableItems = this.userMenu.getAvailableItems();
@@ -73,7 +73,7 @@ public class UserMenuViewer {
         String LastOption =") Go back";
         System.out.println(LastIndex+LastOption);
     }
-    public void SelectAvailableItem(Scanner scanner){
+    private void SelectAvailableItem(Scanner scanner){
         int nextOption = scanner.nextInt();
         List<Item> AvailableItems = this.userMenu.getAvailableItems();
 
@@ -82,7 +82,7 @@ public class UserMenuViewer {
 
     }
 
-    public void CreateTransaction(Scanner scanner){
+    private void CreateTransaction(Scanner scanner){
 
     }
 
