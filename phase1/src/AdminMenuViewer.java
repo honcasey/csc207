@@ -44,36 +44,49 @@ public class AdminMenuViewer {
 
     private void checkPendingItems() {
         Scanner scanner = new Scanner(System.in);
-        Iterator<Item> itemIterator = am.getAllPendingItems().keySet().iterator();
-
-        while (itemIterator.hasNext()) {
-            System.out.println(itemIterator.next());
-            System.out.println("1. Approve item for User's inventory."); // TO-DO optionally: make this print the User's username
-            System.out.println("2. Decline item.");
-            System.out.println("3. Go to next item.");
-            input = scanner.nextInt();
-            if (input == 1) {
-                am.checkPendingItems(am.getAllPendingItems().get(itemIterator.next()), itemIterator.next(), true);
-            }
-            else if (input == 2) {
-                am.checkPendingItems(am.getAllPendingItems().get(itemIterator.next()), itemIterator.next(), false);
+        if (am.getAllPendingItems().isEmpty()) {
+            System.out.println("No pending items to be approved");
+        }
+        else {
+            Iterator<Item> itemIterator = am.getAllPendingItems().keySet().iterator();
+            while (itemIterator.hasNext()) {
+                System.out.println(itemIterator.next());
+                System.out.println("1. Approve item for User's inventory."); // TO-DO optionally: make this print the User's username
+                System.out.println("2. Decline item.");
+                System.out.println("3. Go to next item.");
+                input = scanner.nextInt();
+                if (input == 1) {
+                    am.checkPendingItems(am.getAllPendingItems().get(itemIterator.next()), itemIterator.next(), true);
+                    System.out.println("Item has been approved."); // TO-DO optionally: make this print the item and user name
+                }
+                else if (input == 2) {
+                    am.checkPendingItems(am.getAllPendingItems().get(itemIterator.next()), itemIterator.next(), false);
+                    System.out.println("Item has been declined.");
+                }
             }
         }
     }
 
     private void checkPendingUsers() {
         Scanner scanner = new Scanner(System.in);
-        for (User user : am.getFlaggedAccounts()) {
-            System.out.println(user); // TO-DO: how can we print why this user's account has been flagged?
-            System.out.println("1. Freeze account.");
-            System.out.println("2. Unfreeze account.");
-            System.out.println("3. Go to next user.");
-            input = scanner.nextInt();
-            if (input == 1) {
-                am.checkPendingUsers(user, true);
-            }
-            else if (input == 2) {
-                am.checkPendingUsers(user, false);
+        if (am.getFlaggedAccounts().isEmpty()) {
+            System.out.println("No flagged users to be checked.");
+        }
+        else {
+            for (User user : am.getFlaggedAccounts()) {
+                System.out.println(user); // TO-DO: how can we print why this user's account has been flagged?
+                System.out.println("1. Freeze account.");
+                System.out.println("2. Unfreeze account.");
+                System.out.println("3. Go to next user.");
+                input = scanner.nextInt();
+                if (input == 1) {
+                    am.checkPendingUsers(user, true);
+                    System.out.println(user.getUsername() + "'s account has been set to frozen.");
+                }
+                else if (input == 2) {
+                    am.checkPendingUsers(user, false);
+                    System.out.println(user.getUsername() + "'s account has been set to active.");
+                }
             }
         }
     }
@@ -107,9 +120,11 @@ public class AdminMenuViewer {
         try {
             if (whichList.equals("wishlist")) {
                 am.addItem(username, newItem, "wishlist");
+                System.out.println(itemName + "successfully added to " + username + "'s wishlist.");
             }
             else if (whichList.equals("inventory")) {
                 am.addItem(username, newItem, "inventory");
+                System.out.println(itemName + "successfully added to " + username + "'s inventory.");
             }
             else { System.out.println("Not a valid option, you have to pick 'wishlist' or 'inventory'");}
         } catch(InvalidUserException e) {
@@ -130,6 +145,7 @@ public class AdminMenuViewer {
                     System.out.println("What would you like to change the borrow threshold to?");
                     int newThreshold = scanner.nextInt();
                     am.changeThreshold(am.getUm().getUser(username), newThreshold, "borrow");
+                    System.out.println("Successfully changed " + username + "'s " + whichThreshold + "threshold");
                     break;
                 }
                 case "weekly": {
@@ -137,6 +153,7 @@ public class AdminMenuViewer {
                     System.out.println("What would you like to change the weekly threshold to?");
                     int newThreshold = scanner.nextInt();
                     am.changeThreshold(am.getUm().getUser(username), newThreshold, "weekly");
+                    System.out.println("Successfully changed " + username + "'s " + whichThreshold + "threshold");
                     break;
                 }
                 case "incomplete": {
@@ -144,6 +161,7 @@ public class AdminMenuViewer {
                     System.out.println("What would you like to change the incomplete threshold to?");
                     int newThreshold = scanner.nextInt();
                     am.changeThreshold(am.getUm().getUser(username), newThreshold, "incomplete");
+                    System.out.println("Successfully changed " + username + "'s " + whichThreshold + "threshold");
                     break;
                 }
                 default:
