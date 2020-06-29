@@ -28,7 +28,7 @@ public class UserMenuViewer {
             if (input == 1) {
                 this.requestAddItem(scanner);
             } else if (input == 2) {
-                 this.getAvailableItemsFlow(scanner);
+                // this.getAvailableItemsFlow(scanner);
             } else if (input == 3) {
                 // call this.um.getActiveTransactions()
             } else if (input == 4) {
