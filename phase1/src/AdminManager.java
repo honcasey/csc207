@@ -40,7 +40,7 @@ public class AdminManager {
      * Getter for AdminUser specified by their username.
      * @param username desired AdminUser's username
      * @return AdminUser
-     * @throws Exception InvalidUserException
+     * @throws InvalidUserException
      */
     public AdminUser getAdmin(String username) throws InvalidAdminException {
         for (AdminUser admin : allAdmins) {
