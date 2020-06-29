@@ -10,7 +10,7 @@ public class AdminMenuViewer {
         am = adminMenu;
     }
 
-    public void run() throws InvalidAdminException {
+    public void run() {
         Scanner scanner = new Scanner(System.in);
         boolean userInteracting = true;
 
@@ -25,15 +25,15 @@ public class AdminMenuViewer {
             input = scanner.nextInt();
 
             if (input == 1) {
-                checkPendingItems(scanner);
+                checkPendingItems();
             } else if (input == 2) {
-                checkPendingUsers(scanner);
+                checkPendingUsers();
             } else if (input == 3) {
-                createAdmin(scanner);
+                createAdmin();
             } else if (input == 4) {
-                addItemToUser(scanner);
+                addItemToUser();
             } else if (input == 5) {
-                changeUserThreshold(scanner);
+                changeUserThreshold();
             } else if (input == 6) {
                 System.out.println("You have successfully logged out.");
                 // stop the while loop
@@ -42,7 +42,8 @@ public class AdminMenuViewer {
         }
     }
 
-    private void checkPendingItems(Scanner scanner) {
+    private void checkPendingItems() {
+        Scanner scanner = new Scanner(System.in);
         Iterator<Item> itemIterator = am.getAllPendingItems().keySet().iterator();
 
         while (itemIterator.hasNext()) {
@@ -60,7 +61,8 @@ public class AdminMenuViewer {
         }
     }
 
-    private void checkPendingUsers(Scanner scanner) {
+    private void checkPendingUsers() {
+        Scanner scanner = new Scanner(System.in);
         for (User user : am.getFlaggedAccounts()) {
             System.out.println(user); // TO-DO: how can we print why this user's account has been flagged?
             System.out.println("1. Freeze account.");
@@ -76,22 +78,25 @@ public class AdminMenuViewer {
         }
     }
 
-    private void createAdmin(Scanner scanner) throws InvalidAdminException {
+    private void createAdmin() {
         if (am.currentAdmin.isFirstAdmin()) {
+            Scanner scanner = new Scanner(System.in);
             System.out.println("Please enter new Administrative User's username: ");
             String username = scanner.nextLine();
-            while (!am.checkAvailableAdminUsername(username)) {
-                System.out.println("Username already taken.");
-            }
             System.out.println("Please enter new Administrative User's password: ");
             String password = scanner.nextLine();
-            am.createNewAdmin(username, password);
-            System.out.println("New Admin User " + username + " successfully created.");
+            try {
+                am.createNewAdmin(username, password);
+                System.out.println("New Admin User " + username + " successfully created.");
+            } catch(InvalidAdminException e) {
+                System.out.println("Username already taken.");
+            }
         }
         else { System.out.println("Permission denied, only the first admin can create new administrative user accounts.");}
     }
 
-    private void addItemToUser(Scanner scanner) {
+    private void addItemToUser() {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the name of the item: ");
         String itemName = scanner.nextLine();
         Item newItem = new Item(itemName);
@@ -112,7 +117,8 @@ public class AdminMenuViewer {
         }
     }
 
-    private void changeUserThreshold(Scanner scanner) {
+    private void changeUserThreshold() {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the username of the User you would like to change thresholds for: ");
         String username = scanner.nextLine();
         System.out.println("Please enter which threshold ('borrow', 'weekly', or 'incomplete') that you would like to change: ");
