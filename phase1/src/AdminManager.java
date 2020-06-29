@@ -22,15 +22,21 @@ public class AdminManager {
      */
     public AdminUser addAdmin(String username, String password) {
         AdminUser newAdmin = new AdminUser(username, password);
-        for (AdminUser admin : allAdmins) {
-            if (admin.getUsername().equals(username)) {
-                return null;
-            } else {
-                allAdmins.add(newAdmin);
-                return newAdmin;
-            }
+        if (allAdmins.size() == 0) {
+            allAdmins.add(newAdmin);
+            return newAdmin;
         }
-        return null;
+        else{
+            for (AdminUser admin : allAdmins) {
+                if (admin.getUsername().equals(username)) {
+                    return null;
+                } else {
+                    allAdmins.add(newAdmin);
+                    return newAdmin;
+                }
+            }
+            return null;
+        }
     }
 
     /**
