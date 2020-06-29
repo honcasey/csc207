@@ -65,15 +65,17 @@ public class UserMenu {
     }
 
     /**
-     * To return all the available items in other user's inventory.
-     * @return list of items that are available in other user's inventory.
+     * To return a HashMap of all the available items in other user's inventory.
+     * @return HashMap of items that are available in other user's inventory.
      */
-    public List<Item> getAvailableItems(){
-        List<Item> availableItems = new ArrayList<>();
+    public HashMap<Item,User> getAvailableItems(){
         List<User> allUsers = um.getAllUsers();
+        HashMap<Item,User> availableItems = new HashMap<>();
         for (User user:allUsers) {
-            if(!user.equals(currentUser)){
-                availableItems.addAll(user.getInventory());
+            if(!user.equals(currentUser)) {
+                for (Item item : user.getInventory()) {
+                    availableItems.put(item, user);
+                }
             }
         }return availableItems;
     }
