@@ -114,7 +114,8 @@ public class TradingSystem {
                     AdminMenuViewer adminMenuViewer = new AdminMenuViewer(adminMenu);
                     adminMenuViewer.run();
                 } catch(InvalidAdminException e) {
-                    // TODO
+                    // we already checked this username corresponds to a valid admin on line 109
+                    // so technically adminManager.getAdmin(username) should never throw an exception
                 }
             } else if (userManager.validUser(username, password)) {
                 notLoggedIn = false;
@@ -124,7 +125,8 @@ public class TradingSystem {
                     UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
                     userMenuViewer.run();
                 } catch(InvalidUserException e) {
-                    // TODO
+                    // we already checked this username corresponds to a valid user on line 120
+                    // so technically userManager.getUser(username) should never throw an exception
                 }
             } else {
                 // no user or admin account that corresponds to user and pass
@@ -154,7 +156,8 @@ public class TradingSystem {
             UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
             userMenuViewer.run();
         } catch(InvalidUserException e) {
-            // TODO
+            // we just created this new user so we know it's a valid user so userManager.getUser()
+            // should not throw an exception
         }
     }
 
