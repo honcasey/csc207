@@ -8,7 +8,7 @@ import java.util.UUID;
 public class UserManager {
     private List<User> allUsers;
     private Exception InvalidUserException;
-    private List<User> naughtyList;
+    private List<User> blackList;
 
 
     /**
@@ -203,12 +203,12 @@ public class UserManager {
     }
 
     /**
-     * Add a specific user to the naughty list.
+     * Add a specific user to the blacklist.
      * @param username online identifier of a User
      * @throws Exception throws invalidUserException
      */
-    public void addToNaughtyList(String username) throws Exception {
-        naughtyList.add(getUser(username));
+    public void addToBlackList(String username) throws Exception {
+        blackList.add(getUser(username));
     }
 
 }
