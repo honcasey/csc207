@@ -166,7 +166,12 @@ public class TradingSystem {
             // the first admin exists, do nothing
         } else {
             // the first admin does not exist yet, create it
-            adminManager.addAdmin("admin", "password").setFirstAdmin(true);
+            try {
+                adminManager.addAdmin("admin", "password").setFirstAdmin(true);
+            } catch(InvalidAdminException e) {
+                // If this admin is the first to be added in the list then it will never
+                // conflict with another admin so an exception will never be thrown by addAdmin()
+            }
         }
     }
 }

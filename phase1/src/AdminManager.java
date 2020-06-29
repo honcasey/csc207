@@ -17,15 +17,24 @@ public class AdminManager {
 
     /**
      * Creates a new AdminUser with given username and password.
-     * Precondition: the admin being added can not share the same username with one
-     * that already exists.
      * @param username user's account name identifier
      * @param password user's account password
      */
-    public AdminUser addAdmin(String username, String password) {
+    public AdminUser addAdmin(String username, String password) throws InvalidAdminException {
         AdminUser newAdmin = new AdminUser(username, password);
-        allAdmins.add(newAdmin);
-        return newAdmin;
+        if (allAdmins.size() == 0) {
+            allAdmins.add(newAdmin);
+            return newAdmin;
+        } else{
+            for (AdminUser admin : allAdmins) {
+                if (admin.getUsername().equals(username)) {
+                    throw new InvalidAdminException;
+                } else {
+                    allAdmins.add(newAdmin);
+                    return newAdmin;
+                }
+            }
+        }
     }
 
     /**
