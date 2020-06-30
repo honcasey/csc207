@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class represents a meetup between 2 Users where there is a two way borrowing transaction happening.
  * Note: user 1 originally had item 1 and user 2 originally had item 2.
@@ -58,8 +61,8 @@ public class TransactionTwoWayTemp extends Transaction implements TempTransactio
     }
 
     /**
-     * Getter for the second meeting location.
-     * @return
+     * Getter for the second meeting.
+     * @return returns the second meeting
      */
 
     public Meeting getSecondMeeting(){
@@ -82,6 +85,31 @@ public class TransactionTwoWayTemp extends Transaction implements TempTransactio
     @Override
     public boolean isPerm() {
         return false;
+    }
+
+    @Override
+    public String toString(){
+        String FirstMeetingString = this.getFirstMeeting().toString();
+        String SecondMeetingString = this.getSecondMeeting().toString();
+        String Item1String = this.getItem1().toString();
+        String Item2String = this.getItem2().toString();
+        return("One way transaction to trade"+Item1String+" for " +Item2String +"Where the first "+ FirstMeetingString
+                +". The second" + SecondMeetingString);
+    }
+    @Override
+    public List<Meeting> getTransactionMeetings(){
+        List<Meeting> MeetingReturnList = new ArrayList<>();
+        MeetingReturnList.add(this.getFirstMeeting());
+        MeetingReturnList.add(this.getSecondMeeting());
+        return(MeetingReturnList);
+    }
+
+    @Override
+    public List<Item> getTransactionItems(){
+        List<Item> ItemReturnList = new ArrayList<>();
+        ItemReturnList.add(this.getItem1());
+        ItemReturnList.add(this.getItem2());
+        return(ItemReturnList);
     }
 
     /**

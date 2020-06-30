@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -115,6 +116,7 @@ public abstract class Transaction {
     public abstract boolean isPerm();
 
     /**
+     * THIS SHOULD PROBABLY BE DELETED? -Christian
      * This method is to make changes to transaction details by taking in a string. This will be implemented
      * in the subclasses.
      * Possible fields to change:
@@ -135,6 +137,33 @@ public abstract class Transaction {
             return(false);
         }
     }
+
+
+    /**
+     * This is an abstract method that get's all of the meetings involved in the transaction. Size of list returned
+     * will depend directly on the type of transaction taking place.
+     * @return returns a list of
+     *         meetings in the order of them happening in the transaction. (A list of either 1 or 2 meetings.)
+     */
+    public abstract List<Meeting> getTransactionMeetings();
+
+    /**
+     * This is an abstract method that gets all the items involved in the transactions. Size of list returned will
+     * depend directly on the type of transaction taking place.
+     *
+     * @return Returns list of items. The order of the items in the list are Item1,Item2(if applicable).
+     */
+    public abstract List<Item> getTransactionItems();
+
+
+    /**
+     * This abstract method will return a string representation of the transaction. This will be implemented in the
+     * subclasses in order to make output related to type which this method was called for.
+     * @return returns a string representation of the transaction based on the transaction type.
+     */
+    @Override
+    public abstract String toString();
+
 
     /**
      * Getter for status. This will be called by use case classes.

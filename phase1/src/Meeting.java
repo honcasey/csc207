@@ -196,5 +196,13 @@ public class Meeting {
     public void setMaxNumEdits(int num){
         maxNumEdits = num;
     }
+
+    @Override
+    public String toString(){
+        String MeetingTime = this.getTime().toString();
+        String MeetingDate = this.getDate().toString();
+        return("Meeting is at "+this.getLocation()+ "at this time:" +this.getTime().toString()+ " on this day:" +
+                this.getDate().toString());
+    }
 }
 
