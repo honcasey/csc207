@@ -21,15 +21,18 @@ public class TradingSystem {
             + File.separator + "Documents" + File.separator + "items.ser";
     private String flaggedAccountsFilePath = System.getProperty("user.home")
             + File.separator + "Documents" + File.separator + "flaggedAccounts.ser";
+    private String frozenAccountsFilePath = System.getProperty("user.home")
+            + File.separator + "Documents" + File.separator + "frozenAccounts.ser";
     private AdminManager adminManager;
     private UserManager userManager;
     private HashMap<Item, User> pendingItems;
     private List<User> flaggedAccounts;
+    private List<User> frozenAccounts;
     private LoginWindow loginWindow;
 
 
     // only method that should be run in this class
-    public void run() throws IOException, ClassNotFoundException, InvalidUserException {
+    public void run() throws IOException, ClassNotFoundException {
         readData();
         checkFirstAdmin();
         loginWindow = new LoginWindow();
@@ -57,11 +60,12 @@ public class TradingSystem {
         List<AdminUser> admins = serializer.readAdminsFromFile(adminsFilePath);
         List<User> users = serializer.readUsersFromFile(usersFilePath);
         pendingItems = serializer.readItemsFromFile(itemsFilePath);
-        flaggedAccounts = serializer.readFlaggedAccountsFromFile(flaggedAccountsFilePath);
+        flaggedAccounts = serializer.readAccountsFromFile(flaggedAccountsFilePath);
+        frozenAccounts = serializer.readAccountsFromFile(frozenAccountsFilePath);
 
         // create new Managers
-        adminManager = new AdminManager(admins);
-        userManager = new UserManager(users);
+        adminManager = new AdminManager(admins, flaggedAccounts, frozenAccounts);
+        userManager = new UserManager(users, flaggedAccounts, frozenAccounts);
     }
 
     /**
@@ -88,7 +92,10 @@ public class TradingSystem {
                 serializer.writeItemsToFile(filePath, map);
             } else if (filePath.equals(flaggedAccountsFilePath)) {
                 List<User> users = new ArrayList<>();
-                serializer.writeFlaggedAccountsToFile(filePath, users);
+                serializer.writeAccountsToFile(filePath, users);
+            } else if (filePath.equals(frozenAccountsFilePath)) {
+                List<User> users = new ArrayList<>();
+                serializer.writeAccountsToFile(filePath, users);
             }
         }
     }
@@ -122,23 +129,25 @@ public class TradingSystem {
                 notLoggedIn = false;
                 try {
                     AdminMenu adminMenu = new AdminMenu(adminManager,
-                            userManager, pendingItems, flaggedAccounts, adminManager.getAdmin(username));
+                            userManager, pendingItems, adminManager.getAdmin(username));
                     AdminMenuViewer adminMenuViewer = new AdminMenuViewer(adminMenu);
                     adminMenuViewer.run();
                 } catch(InvalidAdminException e) {
                     // we already checked this username corresponds to a valid admin on line 109
                     // so technically adminManager.getAdmin(username) should never throw an exception
+                    System.out.println("Invalid Administrator.");
                 }
             } else if (userManager.validUser(username, password)) {
                 notLoggedIn = false;
                 try {
                     UserMenu userMenu = new UserMenu(userManager,
-                            adminManager, pendingItems, flaggedAccounts, userManager.getUser(username));
+                            adminManager, pendingItems, userManager.getUser(username));
                     UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
                     userMenuViewer.run();
                 } catch(InvalidUserException e) {
                     // we already checked this username corresponds to a valid user on line 120
                     // so technically userManager.getUser(username) should never throw an exception
+                    System.out.println("Invalid User.");
                 }
             } else {
                 // no user or admin account that corresponds to user and pass
@@ -149,7 +158,7 @@ public class TradingSystem {
     }
 
     // helper method to create an account
-    private void createAccount() throws InvalidUserException {
+    private void createAccount() {
         // get username and password
         parseCredentials(loginWindow.getUserAndPass());
 
@@ -159,17 +168,15 @@ public class TradingSystem {
             parseCredentials(loginWindow.getUserAndPass());
         }
 
-        // create a new user
-        userManager.addUser(username, password);
-
         try {
-            User user = userManager.getUser(username);
-            UserMenu userMenu = new UserMenu(userManager, adminManager, pendingItems, flaggedAccounts, user);
+            User user = userManager.addUser(username, password);
+            UserMenu userMenu = new UserMenu(userManager, adminManager, pendingItems, user);
             UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
             userMenuViewer.run();
         } catch(InvalidUserException e) {
             // we just created this new user so we know it's a valid user so userManager.getUser()
-            // should not throw an exception
+            // should not throw an InvalidUserException
+            System.out.println("Invalid User.");
         }
     }
 

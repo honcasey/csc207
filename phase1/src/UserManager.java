@@ -7,15 +7,17 @@ import java.util.UUID;
  */
 public class UserManager {
     private List<User> allUsers;
-    private Exception InvalidUserException;
-    private List<User> blackList;
+    private List<User> flaggedAccounts;
+    private List<User> frozenAccounts;
 
 
     /**
      * Creates a list of users.
      */
-    public UserManager(List<User> users) {
+    public UserManager(List<User> users, List<User> flaggedAccounts, List<User> frozenAccounts) {
         allUsers = users;
+        this.flaggedAccounts = flaggedAccounts;
+        this.frozenAccounts = frozenAccounts;
     }
 
     /**

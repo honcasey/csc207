@@ -6,13 +6,16 @@ import java.util.UUID;
  */
 public class AdminManager {
     private List<AdminUser> allAdmins;
-    private Exception InvalidUserException;
+    private List<User> flaggedAccounts;
+    private List<User> frozenAccounts;
 
     /**
      * Creates a new empty AdminManager.
      */
-    public AdminManager(List<AdminUser> admins) {
+    public AdminManager(List<AdminUser> admins, List<User> flaggedAccounts, List<User> frozenAccounts) {
         allAdmins = admins;
+        this.flaggedAccounts = flaggedAccounts;
+        this.frozenAccounts = frozenAccounts;
     }
 
     /**
