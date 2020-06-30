@@ -220,19 +220,21 @@ public class UserMenuViewer {
             System.out.println("Your inventory is empty.");
             System.out.println("Loading Previous Menu");
         }
-        Iterator<Item> itemIterator = userMenu.getUserInventory().iterator();
-        List<String> optionList = new ArrayList<>();
-        while (itemIterator.hasNext()) {
-            optionList.add(itemIterator.next().toString());
-            System.out.println(itemIterator.next().toString());
-        }
-        int optionChosen = HandleOptions(scanner, optionList, true, "Select an item if you wish to remove it from your inventory.");
-        if (optionChosen == optionList.size() + 1) {
-            System.out.println("Loading Previous Menu");
-        }
         else {
-            userMenu.withdrawItem(userMenu.getUserInventory().get(optionChosen), "inventory");
-            System.out.println("The item has been removed from your inventory.");
+            Iterator<Item> itemIterator = userMenu.getUserInventory().iterator();
+            List<String> optionList = new ArrayList<>();
+            while (itemIterator.hasNext()) {
+                optionList.add(itemIterator.next().toString());
+                System.out.println(itemIterator.next().toString());
+            }
+            int optionChosen = HandleOptions(scanner, optionList, true, "Select an item if you wish to remove it from your inventory.");
+            if (optionChosen == optionList.size() + 1) {
+                System.out.println("Loading Previous Menu");
+            }
+            else {
+                userMenu.withdrawItem(userMenu.getUserInventory().get(optionChosen), "inventory");
+                System.out.println("The item has been removed from your inventory.");
+            }
         }
     }
 }
