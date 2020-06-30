@@ -24,8 +24,7 @@ public class UserMenuViewer {
             do {
                 System.out.println(OptionPrompt);
                 while (!scanner.hasNextInt()) {
-                    System.out.println("That is not a valid option." +
-                            " Please enter a number corresponding to one of the options.");
+                    System.out.println("That is not a valid option. Please enter a number corresponding to one of the options.");
                     scanner.next();
                 }
                 OptionChosen = scanner.nextInt();
@@ -37,8 +36,7 @@ public class UserMenuViewer {
             do {
                 System.out.println(OptionPrompt);
                 while (!scanner.hasNextInt()) {
-                    System.out.println("That is not a valid option." +
-                            "Please enter a number corresponding to one of the options.");
+                    System.out.println("That is not a valid option. Please enter a number corresponding to one of the options.");
                     scanner.next();
                 }
                 OptionChosen = scanner.nextInt();
@@ -59,22 +57,20 @@ public class UserMenuViewer {
             System.out.println("5. View Wishlist");
             System.out.println("6. View Inventory");
             System.out.println("7. Log Out");
-
             System.out.println("Pick an option from above.");
             input = scanner.nextInt();
-
             if (input == 1) {
-                requestAddItem(scanner);
+                requestAddItem();
             } else if (input == 2) {
-                 DisplayAvailableItems(scanner);
+                 DisplayAvailableItems();
             } else if (input == 3) {
                 // call this.um.getActiveTransactions()
             } else if (input == 4) {
                 // call um.method()
             } else if (input == 5) {
-                viewWishlist(scanner);
+                viewWishlist();
             } else if (input == 6) {
-                viewInventory(scanner);
+                viewInventory();
             } else if (input == 7) {
                 System.out.println("You have successfully logged out.");
                 // stop the while loop
@@ -85,10 +81,10 @@ public class UserMenuViewer {
 
     /**
      * This takes in input from user and creates
-     * @param scanner the scanner being used by the main run method of the
      */
 
-    private void requestAddItem(Scanner scanner){
+    private void requestAddItem(){
+        Scanner scanner = new Scanner(System.in);
         System.out.println("What is the name of your item?");
         String itemName = scanner.nextLine();
         System.out.println("What is the description of this item?");
@@ -107,9 +103,9 @@ public class UserMenuViewer {
      * QUESTION: ARE THE AVAILABLE ITEMS FROM OTHER USERS WHO CAN TRADE? DO WE CHECK BEFORE ADDING TO AVAILABLE ITEMS
      * OR DO WE CHECK ONCE THE USER HAS SELECTED AN ITEM?
      *
-     * @param scanner the scanner constructed from the run method.
      */
-    private void DisplayAvailableItems(Scanner scanner){
+    private void DisplayAvailableItems(){
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Available Items for Trade:");
         String ItemOutputName = ") Item Name: ";
         String ItemOutputDescription = " |  Item Description: ";
@@ -144,21 +140,20 @@ public class UserMenuViewer {
 
     }
 
-
     /**
      * NOT FINISHED!
      * This method handles the flow for setting up a transaction for an available item assuming that the transaction
      * is allowed between the 2 users.
      *
-     * @param scanner the scanner constructed in the run method.
      * @param item The item that is going to be traded.
      * @param Owner The other user that is currently the owner of the item you want to trade for.
      */
-    private void CreateTransactionMenu(Scanner scanner, Item item, User Owner){
+    private void CreateTransactionMenu(Item item, User Owner){
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Transaction Menu");
         System.out.println("----------------");
 
-        MeetingDetailsMenu(scanner, "First Meeting Details");
+        MeetingDetailsMenu("First Meeting Details");
         List<String> OptionList = new ArrayList<>();
         OptionList.add("One Way Temporary Trade");
         OptionList.add("One Way Permanent Trade");
@@ -183,19 +178,19 @@ public class UserMenuViewer {
      * NOT FINISHED!
      *
      * Question: Is it ok if I just ask sequentially about the meeting?(Even though this might not be extendable)
-     * @param scanner the scanner of the
      * @param MeetingTitle The first thing that will be displayed "Second Meeting Details"/"First Meeting Details"
      */
-    private void MeetingDetailsMenu(Scanner scanner, String MeetingTitle){
+    private void MeetingDetailsMenu(String MeetingTitle){
+        Scanner scanner = new Scanner(System.in);
         System.out.println(MeetingTitle);
         System.out.println("----------------------");
         System.out.println("What Location");
     }
 
-    private void viewWishlist(Scanner scanner) {
+    private void viewWishlist() {
+        Scanner scanner = new Scanner(System.in);
         if (userMenu.getUserWishlist() == null) {
             System.out.println("Your wishlist is empty.");
-            System.out.println("Loading Previous Menu");
         }
         else {
             Iterator<Item> itemIterator = userMenu.getUserWishlist().iterator();
@@ -215,10 +210,10 @@ public class UserMenuViewer {
         }
     }
 
-    private void viewInventory(Scanner scanner) {
+    private void viewInventory() {
+        Scanner scanner = new Scanner(System.in);
         if (userMenu.getUserInventory() == null) {
             System.out.println("Your inventory is empty.");
-            System.out.println("Loading Previous Menu");
         }
         else {
             Iterator<Item> itemIterator = userMenu.getUserInventory().iterator();
