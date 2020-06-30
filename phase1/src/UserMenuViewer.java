@@ -9,7 +9,7 @@ public class UserMenuViewer {
         this.userMenu = userMenu;
     }
 
-    private int HandleOptions(Scanner scanner, List<String> OptionList, boolean BackOption, String OptionPrompt){
+    private int HandleOptions(Scanner scanner, List<String> OptionList, boolean BackOption, String OptionPrompt) {
         for(int i = 0; i < OptionList.size(); i++){
             String index = Integer.toString(i+1);
             String OutputLine =  index + ". " + OptionList.get(i);
@@ -31,7 +31,7 @@ public class UserMenuViewer {
             } while (OptionChosen > OptionList.size() + 1 || OptionChosen <= 0);
             return (OptionChosen);
         }
-        else{
+        else {
             int OptionChosen;
             do {
                 System.out.println(OptionPrompt);
