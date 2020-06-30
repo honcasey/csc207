@@ -1,5 +1,8 @@
 import java.util.Scanner;
 
+/**
+ * A window
+ */
 public class LoginWindow {
     private int input;
 

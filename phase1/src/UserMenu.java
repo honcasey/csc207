@@ -9,12 +9,16 @@ public class UserMenu {
     private UserManager um;
     private HashMap<Item, User> allPendingItems;
     private List<User> flaggedAccounts;
+    private List<User> requestUnfrozen;
 
-    public UserMenu(UserManager userManager, AdminManager adminManager,
-                    HashMap<Item, User> pendingItems, List<User> flaggedAccounts, User currentUser) {
+    public UserMenu(UserManager userManager, AdminManager adminManager, HashMap<Item, User> pendingItems,
+                    List<User> flaggedAccounts, List<User> requestUnfrozen, User currentUser) {
         this.currentUser = currentUser;
         allPendingItems = pendingItems;
         this.flaggedAccounts = flaggedAccounts;
+        this.requestUnfrozen = requestUnfrozen;
+
+
         am = adminManager;
         um = userManager;
     }
