@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 // general ideas taken from lecture 6 StudentManager.java example
 public class Serializer {

@@ -3,7 +3,11 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Allows a user to log in or create a new account.
+ * The TradingSystem class handles logging on and the creation of new User accounts.
+ * <p>
+ * If logging on to an existing account, directs the user to either the administrator menu
+ * or the user menu.
+ * </p>
  */
 
 public class TradingSystem {
@@ -60,8 +64,12 @@ public class TradingSystem {
         userManager = new UserManager(users);
     }
 
-    // helper method to make sure files exists before we read them, if they
-    // don't exist then create new files
+    /**
+     * A helper function to check if the file specified by filePath exists. If this file does
+     * not exist, this method generates it.
+     * @param filePath a string filePath giving the location of the file
+     * @throws IOException
+     */
     private void checkFileExists(String filePath) throws IOException {
         File file = new File(filePath);
         if (file.exists()) {
@@ -85,6 +93,10 @@ public class TradingSystem {
         }
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     private void writeData() throws IOException {
         Serializer serializer = new Serializer();
         serializer.writeUsersToFile(usersFilePath, userManager.getAllUsers());
