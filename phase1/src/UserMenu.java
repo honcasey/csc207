@@ -22,11 +22,11 @@ public class UserMenu {
     /**
      * This helper method constructs a new instance of item from user input then adds the item to th pending items list.
      * @param itemName the name of the item to be requested.
-     * @param itemDescript this is the description of the item.
+     * @param itemDescription this is the description of the item.
      */
-    public void requestAddItemInput(String itemName, String itemDescript){
+    public void requestAddItemInput(String itemName, String itemDescription){
         Item RequestedItem = new Item(itemName);
-        RequestedItem.setDescription(itemDescript);
+        RequestedItem.setDescription(itemDescription);
         allPendingItems.put(RequestedItem,this.currentUser);
     }
 
