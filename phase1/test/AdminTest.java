@@ -44,9 +44,11 @@ public class AdminTest {
         AdminUser admin1 = new AdminUser("annie", "pwd123");
         AdminUser admin2 = new AdminUser("casey", "pwd123");
         List<AdminUser> adminUserList = new ArrayList<>();
+        List<User> flaggedAccounts = new ArrayList<>();
+        List<User> frozenAccounts = new ArrayList<>();
         adminUserList.add(admin1);
         adminUserList.add(admin2);
-        AdminManager am = new AdminManager(adminUserList);
+        AdminManager am = new AdminManager(adminUserList, flaggedAccounts, frozenAccounts);
         assertEquals(am.addAdmin("anna", "pwd123").getUsername(), "anna");
         assertNull(am.addAdmin("annie", "pwd456"));
 
@@ -57,9 +59,11 @@ public class AdminTest {
         AdminUser admin1 = new AdminUser("annie", "pwd123");
         AdminUser admin2 = new AdminUser("casey", "pwd123");
         List<AdminUser> adminUserList = new ArrayList<>();
+        List<User> flaggedAccounts = new ArrayList<>();
+        List<User> frozenAccounts = new ArrayList<>();
         adminUserList.add(admin1);
         adminUserList.add(admin2);
-        AdminManager am = new AdminManager(adminUserList);
+        AdminManager am = new AdminManager(adminUserList, flaggedAccounts, frozenAccounts);
         assertEquals(am.getAdmin("annie"), admin1);
         assertEquals(am.getAdmin("casey"), admin2);
     }
@@ -69,9 +73,11 @@ public class AdminTest {
         AdminUser admin1 = new AdminUser("annie", "pwd123");
         AdminUser admin2 = new AdminUser("casey", "pwd123");
         List<AdminUser> adminUserList = new ArrayList<>();
+        List<User> flaggedAccounts = new ArrayList<>();
+        List<User> frozenAccounts = new ArrayList<>();
         adminUserList.add(admin1);
         adminUserList.add(admin2);
-        AdminManager am = new AdminManager(adminUserList);
+        AdminManager am = new AdminManager(adminUserList, flaggedAccounts, frozenAccounts);
         assertEquals(am.getAllAdmins(), adminUserList);
     }
 
@@ -80,9 +86,11 @@ public class AdminTest {
         AdminUser admin1 = new AdminUser("annie", "pwd123");
         AdminUser admin2 = new AdminUser("casey", "pwd123");
         List<AdminUser> adminUserList = new ArrayList<>();
+        List<User> flaggedAccounts = new ArrayList<>();
+        List<User> frozenAccounts = new ArrayList<>();
         adminUserList.add(admin1);
         adminUserList.add(admin2);
-        AdminManager am = new AdminManager(adminUserList);
+        AdminManager am = new AdminManager(adminUserList, flaggedAccounts, frozenAccounts);
         assertTrue(am.validAdmin("casey", "pwd123"));
         assertTrue(am.validAdmin("annie", "pwd123"));
         assertFalse(am.validAdmin("casey", "pwd456"));

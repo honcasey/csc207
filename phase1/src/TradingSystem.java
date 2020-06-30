@@ -14,15 +14,15 @@ public class TradingSystem {
     private String username, password;
     // how to get file cited from here https://stackoverflow.com/questions/21059085/how-can-i-create-a-file-in-the-current-users-home-directory-using-java
     private String adminsFilePath = System.getProperty("user.home")
-            + File.separator + "Documents" + File.separator + "admins.ser";
+            + File.separator + "admins.ser";
     private String usersFilePath = System.getProperty("user.home")
-            + File.separator + "Documents" + File.separator + "users.ser";
+            + File.separator + "users.ser";
     private String itemsFilePath = System.getProperty("user.home")
-            + File.separator + "Documents" + File.separator + "items.ser";
+            + File.separator + "items.ser";
     private String flaggedAccountsFilePath = System.getProperty("user.home")
-            + File.separator + "Documents" + File.separator + "flaggedAccounts.ser";
+            + File.separator + "flaggedAccounts.ser";
     private String frozenAccountsFilePath = System.getProperty("user.home")
-            + File.separator + "Documents" + File.separator + "frozenAccounts.ser";
+            + File.separator + "frozenAccounts.ser";
     private AdminManager adminManager;
     private UserManager userManager;
     private HashMap<Item, User> pendingItems;
@@ -54,6 +54,7 @@ public class TradingSystem {
         checkFileExists(usersFilePath);
         checkFileExists(itemsFilePath);
         checkFileExists(flaggedAccountsFilePath);
+        checkFileExists(frozenAccountsFilePath);
 
         // files exists so we can deserialize them
         Serializer serializer = new Serializer();

@@ -69,11 +69,11 @@ public class AdminMenuViewer {
 
     private void checkPendingUsers() {
         Scanner scanner = new Scanner(System.in);
-        if (am.getFlaggedAccounts().isEmpty()) {
+        if (am.getUm().getFlaggedAccounts().isEmpty()) {
             System.out.println("No flagged users to be checked.");
         }
         else {
-            for (User user : am.getFlaggedAccounts()) {
+            for (User user : am.getUm().getFlaggedAccounts()) {
                 System.out.println(user); // TO-DO: how can we print why this user's account has been flagged?
                 System.out.println("1. Freeze account.");
                 System.out.println("2. Unfreeze account.");

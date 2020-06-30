@@ -212,13 +212,11 @@ public class UserManager {
         return false;
     }
 
-    /**
-     * Adds a specific user to the blacklist.
-     * @param username online identifier of a User
-     * @throws Exception throws invalidUserException
-     */
-    public void addToBlackList(String username) throws Exception {
-        blackList.add(getUser(username));
+    public void addToFlaggedAccounts(User user){
+        flaggedAccounts.add(user);
     }
 
+    public List<User> getFlaggedAccounts() {
+        return flaggedAccounts;
+    }
 }
