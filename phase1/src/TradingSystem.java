@@ -12,17 +12,14 @@ import java.util.*;
 
 public class TradingSystem {
     private String username, password;
-    // how to get file cited from here https://stackoverflow.com/questions/21059085/how-can-i-create-a-file-in-the-current-users-home-directory-using-java
-    private String adminsFilePath = "admins.ser";
-    private String usersFilePath = "users.ser";
-    private String itemsFilePath = "items.ser";
-    private String flaggedAccountsFilePath = "flaggedAccounts.ser";
-    private String frozenAccountsFilePath = "frozenAccounts.ser";
+    private final String adminsFilePath = "admins.ser";
+    private final String usersFilePath = "users.ser";
+    private final String itemsFilePath = "items.ser";
+    private final String flaggedAccountsFilePath = "flaggedAccounts.ser";
+    private final String frozenAccountsFilePath = "frozenAccounts.ser";
     private AdminManager adminManager;
     private UserManager userManager;
     private HashMap<Item, User> pendingItems;
-    private List<User> flaggedAccounts;
-    private List<User> frozenAccounts;
     private LoginWindow loginWindow;
 
 
@@ -56,8 +53,8 @@ public class TradingSystem {
         List<AdminUser> admins = serializer.readAdminsFromFile(adminsFilePath);
         List<User> users = serializer.readUsersFromFile(usersFilePath);
         pendingItems = serializer.readItemsFromFile(itemsFilePath);
-        flaggedAccounts = serializer.readAccountsFromFile(flaggedAccountsFilePath);
-        frozenAccounts = serializer.readAccountsFromFile(frozenAccountsFilePath);
+        List<User> flaggedAccounts = serializer.readAccountsFromFile(flaggedAccountsFilePath);
+        List<User> frozenAccounts = serializer.readAccountsFromFile(frozenAccountsFilePath);
 
         // create new Managers
         adminManager = new AdminManager(admins, flaggedAccounts, frozenAccounts);
