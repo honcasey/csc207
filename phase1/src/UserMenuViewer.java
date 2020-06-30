@@ -47,15 +47,11 @@ public class UserMenuViewer {
         }
     }
 
-
     public void run() {
         Scanner scanner = new Scanner(System.in);
         boolean UserMenuActivity = true;
 
         while (UserMenuActivity) {
-            System.out.println("Main Menu");
-            System.out.println("---------");
-
             System.out.println("1. Request Item for Approval");
             System.out.println("2. Browse Available Items for Trade");
             System.out.println("3. View Active Transactions");
@@ -68,17 +64,17 @@ public class UserMenuViewer {
             input = scanner.nextInt();
 
             if (input == 1) {
-                this.requestAddItem(scanner);
+                requestAddItem(scanner);
             } else if (input == 2) {
-                 this.DisplayAvailableItems(scanner);
+                 DisplayAvailableItems(scanner);
             } else if (input == 3) {
                 // call this.um.getActiveTransactions()
             } else if (input == 4) {
                 // call um.method()
             } else if (input == 5) {
-                // call um.method
+                viewWishlist(scanner);
             } else if (input == 6) {
-                // call um.method
+                viewInventory(scanner);
             } else if (input == 7) {
                 System.out.println("You have successfully logged out.");
                 // stop the while loop
@@ -114,9 +110,7 @@ public class UserMenuViewer {
      * @param scanner the scanner constructed from the run method.
      */
     private void DisplayAvailableItems(Scanner scanner){
-
         System.out.println("Available Items for Trade:");
-        System.out.println("--------------------------");
         String ItemOutputName = ") Item Name: ";
         String ItemOutputDescription = " |  Item Description: ";
         HashMap<Item, User> AvailableItems  = this.userMenu.getAvailableItems();
@@ -125,9 +119,7 @@ public class UserMenuViewer {
 
         List<String> OptionList = new ArrayList<>();
         for (Item item : ItemList) {
-            String OutputLine = ItemOutputName + item.getName() +
-                    ItemOutputDescription + item.getDescription();
-            OptionList.add(OutputLine);
+            OptionList.add(ItemOutputName + item.getName() + ItemOutputDescription + item.getDescription());
         }
         String AvailableItemsPrompt = "Type the number corresponding to the item you wish to" +
                 " create transaction for. To go back to the previous menu, type the number corresponding to that" +
@@ -137,18 +129,17 @@ public class UserMenuViewer {
         // Logic handling back to other menu vs. Proceed to make transaction.
         if(OptionChosen > OptionList.size()){
             System.out.println("Loading Previous Menu");
-            System.out.println(".........");
         }
         else{
             Item TransactionItem = ItemList.get(OptionChosen -1);
             User TransactionItemOwner = AvailableItems.get(TransactionItem);
             // This next control flow accounts for if a user can make a transaction. DO I NEED TO DO THIS??
-            if(){
-                CreateTransactionMenu(scanner,TransactionItem,TransactionItemOwner);
-            }
-            else{
+            //if(){
+                //CreateTransactionMenu(scanner,TransactionItem,TransactionItemOwner);
+            //}
+            //else{
 
-            }
+            //}
         }
 
     }
@@ -167,15 +158,13 @@ public class UserMenuViewer {
         System.out.println("Transaction Menu");
         System.out.println("----------------");
 
-        String FirstMeetingtitle ="First Meeting Details";
-        MeetingDetailsMenu(scanner, FirstMeetingtitle);
+        MeetingDetailsMenu(scanner, "First Meeting Details");
         List<String> OptionList = new ArrayList<>();
         OptionList.add("One Way Temporary Trade");
         OptionList.add("One Way Permanent Trade");
         OptionList.add("Two Way Temporary Trade");
         OptionList.add("Two Way Permanent Trade");
-        String OptionPrompt = "Select the kind of trade you would like to make for this item?";
-        int OptionChosen = this.HandleOptions(scanner,OptionList,true,OptionPrompt);
+        int OptionChosen = this.HandleOptions(scanner,OptionList,true, "Select the kind of trade you would like to make for this item?");
 
 
 
@@ -201,5 +190,47 @@ public class UserMenuViewer {
         System.out.println(MeetingTitle);
         System.out.println("----------------------");
         System.out.println("What Location");
+    }
+
+    private void viewWishlist(Scanner scanner) {
+        if (userMenu.getUserWishlist().isEmpty()) {
+            System.out.println("Your wishlist is empty.");
+        }
+        else {
+            Iterator<Item> itemIterator = userMenu.getUserWishlist().iterator();
+            List<String> optionList = new ArrayList<>();
+            while (itemIterator.hasNext()) {
+                optionList.add(itemIterator.next().toString());
+                System.out.println(itemIterator.next().toString());
+            }
+            int optionChosen = HandleOptions(scanner, optionList, true, "Select an item if you wish to remove it from your wishlist.");
+            if (optionChosen == optionList.size() + 1) {
+                System.out.println("Loading Previous Menu");
+            }
+            else {
+                userMenu.withdrawItem(userMenu.getUserWishlist().get(optionChosen), "wishlist");
+                System.out.println("The item has been removed from your wishlist.");
+            }
+        }
+    }
+
+    private void viewInventory(Scanner scanner) {
+        if (userMenu.getUserInventory().isEmpty()) {
+            System.out.println("Your inventory is empty.");
+        }
+        Iterator<Item> itemIterator = userMenu.getUserInventory().iterator();
+        List<String> optionList = new ArrayList<>();
+        while (itemIterator.hasNext()) {
+            optionList.add(itemIterator.next().toString());
+            System.out.println(itemIterator.next().toString());
+        }
+        int optionChosen = HandleOptions(scanner, optionList, true, "Select an item if you wish to remove it from your inventory.");
+        if (optionChosen == optionList.size() + 1) {
+            System.out.println("Loading Previous Menu");
+        }
+        else {
+            userMenu.withdrawItem(userMenu.getUserInventory().get(optionChosen), "inventory");
+            System.out.println("The item has been removed from your inventory.");
+        }
     }
 }
