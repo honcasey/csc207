@@ -13,16 +13,11 @@ import java.util.*;
 public class TradingSystem {
     private String username, password;
     // how to get file cited from here https://stackoverflow.com/questions/21059085/how-can-i-create-a-file-in-the-current-users-home-directory-using-java
-    private String adminsFilePath = System.getProperty("user.home")
-            + File.separator + "admins.ser";
-    private String usersFilePath = System.getProperty("user.home")
-            + File.separator + "users.ser";
-    private String itemsFilePath = System.getProperty("user.home")
-            + File.separator + "items.ser";
-    private String flaggedAccountsFilePath = System.getProperty("user.home")
-            + File.separator + "flaggedAccounts.ser";
-    private String frozenAccountsFilePath = System.getProperty("user.home")
-            + File.separator + "frozenAccounts.ser";
+    private String adminsFilePath = "admins.ser";
+    private String usersFilePath = "users.ser";
+    private String itemsFilePath = "items.ser";
+    private String flaggedAccountsFilePath = "flaggedAccounts.ser";
+    private String frozenAccountsFilePath = "frozenAccounts.ser";
     private AdminManager adminManager;
     private UserManager userManager;
     private HashMap<Item, User> pendingItems;
