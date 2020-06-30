@@ -82,7 +82,6 @@ public class UserMenuViewer {
     /**
      * This takes in input from user and creates
      */
-
     private void requestAddItem(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("What is the name of your item?");
@@ -220,8 +219,7 @@ public class UserMenuViewer {
             List<String> optionList = new ArrayList<>();
             while (itemIterator.hasNext()) {
                 optionList.add(itemIterator.next().toString());
-                System.out.println(itemIterator.next().toString());
-            }
+            } // TO-DO: can this be shortened to add all the items at once in one line?
             int optionChosen = HandleOptions(scanner, optionList, true, "Select an item if you wish to remove it from your inventory.");
             if (optionChosen == optionList.size() + 1) {
                 System.out.println("Loading Previous Menu");

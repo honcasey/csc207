@@ -18,7 +18,6 @@ public class UserMenu {
         this.flaggedAccounts = flaggedAccounts;
         this.frozenAccounts = frozenAccounts;
 
-
         am = adminManager;
         um = userManager;
     }
