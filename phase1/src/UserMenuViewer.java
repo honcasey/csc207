@@ -193,8 +193,9 @@ public class UserMenuViewer {
     }
 
     private void viewWishlist(Scanner scanner) {
-        if (userMenu.getUserWishlist().isEmpty()) {
+        if (userMenu.getUserWishlist() == null) {
             System.out.println("Your wishlist is empty.");
+            System.out.println("Loading Previous Menu");
         }
         else {
             Iterator<Item> itemIterator = userMenu.getUserWishlist().iterator();
@@ -215,8 +216,9 @@ public class UserMenuViewer {
     }
 
     private void viewInventory(Scanner scanner) {
-        if (userMenu.getUserInventory().isEmpty()) {
+        if (userMenu.getUserInventory() == null) {
             System.out.println("Your inventory is empty.");
+            System.out.println("Loading Previous Menu");
         }
         Iterator<Item> itemIterator = userMenu.getUserInventory().iterator();
         List<String> optionList = new ArrayList<>();
