@@ -114,4 +114,9 @@ public class AdminMenu {
         return allPendingItems;
     }
 
+    /**
+     * Getter for this AdminMenu's list of all pending users who may be frozen
+     * @return List of Users who may be frozen
+     */
+    public List<User> getPendingFrozenUsers(){return pendingFrozenUsers;}
 }
