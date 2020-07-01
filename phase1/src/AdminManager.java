@@ -14,11 +14,11 @@ public class AdminManager {
     /**
      * Creates a new empty AdminManager.
      */
-    public AdminManager(List<AdminUser> admins, List<User> flaggedAccounts, List<User> frozenAccounts, List<User> pendingFrozenUsers) {
+    public AdminManager(List<AdminUser> admins, List<User> flaggedAccounts, List<User> frozenAccounts) {
         allAdmins = admins;
         this.flaggedAccounts = flaggedAccounts;
         this.frozenAccounts = frozenAccounts;
-        this.pendingFrozenUsers = pendingFrozenUsers;
+        pendingFrozenUsers = new ArrayList<>();
     }
 
     /**
