@@ -24,13 +24,12 @@ public class TransactionManager {
      * @param user1 the user who has the item.
      * @param user2 the user who want to borrow an item.
      * @param item1 the item that user2 wants to borrow.
-     * @param type must be either "temp" or "perm", specifies what type of transaction will be created
      * @param meeting1 the first meeting location that the users will meet at to exchange items.
      * @param meeting2 the second meeting location that the users will meet at to exchange items.
      */
 
 
-    public Transaction createTransaction(User user1, User user2, Item item1, String type, Meeting meeting1,
+    public Transaction createTransaction(User user1, User user2, Item item1, Meeting meeting1,
                                            Meeting meeting2) {
         Transaction transaction = new TransactionOneWayTemp(user1, user2, item1, meeting1, meeting2);
         allTransactions.add(transaction);
@@ -43,10 +42,9 @@ public class TransactionManager {
      * @param user1 the user who has the item.
      * @param user2 the user who want to borrow an item.
      * @param item1 the item that user2 wants to borrow.
-     * @param type must be either "temp" or "perm", specifies what type of transaction will be created
      * @param meeting1 the first meeting location that the users will meet at to exchange items.
      */
-    public Transaction createTransaction(User user1, User user2, Item item1, String type,
+    public Transaction createTransaction(User user1, User user2, Item item1,
                                                Meeting meeting1) throws InvalidTransactionException {
             Transaction transaction = new TransactionOneWayPerm(user1, user2, item1, meeting1);
             allTransactions.add(transaction);
@@ -60,13 +58,12 @@ public class TransactionManager {
          * @param user1 the user who has the item.
          * @param user2 the user who want to borrow an item.
          * @param item1 the item that user2 wants to borrow.
-         * @param type must be either "temp" or "perm", specifies what type of transaction will be created
          * @param meeting1 the first meeting location that the users will meet at to exchange items.
          * @param meeting2 the second meeting location that the users will meet at to exchange items.
          */
 
 
-        public Transaction createTransaction(User user1, User user2, Item item1, Item item2, String type,
+        public Transaction createTransaction(User user1, User user2, Item item1, Item item2,
                                                    Meeting meeting1, Meeting meeting2) {
             Transaction transaction = new TransactionTwoWayTemp(user1, user2, item1, item2, meeting1, meeting2);
             allTransactions.add(transaction);
@@ -78,11 +75,10 @@ public class TransactionManager {
          * @param user1 the user who has the item.
          * @param user2 the user who want to borrow an item.
          * @param item1 the item that user2 wants to borrow.
-         * @param type must be either "temp" or "perm", specifies what type of transaction will be created
          * @param meeting1 the first meeting location that the users will meet at to exchange items.
          */
 
-        public Transaction createTransaction(User user1, User user2, Item item1, Item item2, String type,
+        public Transaction createTransaction(User user1, User user2, Item item1, Item item2,
                 Meeting meeting1) throws InvalidTransactionException {
                 Transaction transaction = new TransactionTwoWayPerm(user1, user2, item1, item2, meeting1);
                 allTransactions.add(transaction);
@@ -161,20 +157,10 @@ public class TransactionManager {
         if (!transaction.getStatus().equals("pending")){
             return false;
         }
-        Meeting meeting1 = transaction.getFirstMeeting();
-        if (!(transaction instanceof TempTransactions)){
-            if (meeting1.getUser1approved() & meeting1.getUser2approved()){
-                transaction.setStatus("confirmed");
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
         else{
-            Meeting meeting2 = ((TempTransactions)transaction).getSecondMeeting();
-            if (meeting1.getUser1approved() & meeting1.getUser2approved() & meeting2.getUser1approved()
-                    & meeting2.getUser2approved()){
+            String ustatus1 = transaction.getStatusUser1();
+            String ustatus2 = transaction.getStatusUser2();
+            if (ustatus1.equals("confirm") & ustatus2.equals("confirm")){
                 transaction.setStatus("confirmed");
                 return true;
             }
@@ -182,9 +168,8 @@ public class TransactionManager {
                 return false;
             }
         }
-
-
     }
+
 
     /**
      * @return True if the status of the transaction has been changed to cancelled

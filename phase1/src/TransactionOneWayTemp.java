@@ -3,7 +3,7 @@
  * Note: user 1 owns the item and the second user borrows the item.
  */
 
-public class TransactionOneWayTemp extends Transaction implements TempTransactions {
+public class TransactionOneWayTemp extends Transaction {
     public Item item;
     public Meeting secondMeeting;
 

@@ -3,7 +3,7 @@
  * Note: user 1 originally had item 1 and user 2 originally had item 2.
  */
 
-public class TransactionTwoWayTemp extends Transaction implements TempTransactions{
+public class TransactionTwoWayTemp extends Transaction{
     public String secondMeetingLocation;
     public Item item1;
     public Item item2;
