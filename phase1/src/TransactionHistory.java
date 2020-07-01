@@ -15,17 +15,18 @@ public class TransactionHistory {
     private int numItemsBorrowed = 0;
     // TODO: get week transactions --> this should be a boolean and this should call the threshold from the User
     // TODO: toString id
+
     /**
      * Constructs an instance of TransactionHistory with an empty ArrayList transactions and an empty Hashtable usersNumTradeTimes
      * The most recent Transaction is added to the end of the list transactions
      */
-
     public TransactionHistory(){
         oneWayTransactions = new ArrayList<>();
         twoWayTransactions = new ArrayList<>();
         usersNumTradeTimes = new HashMap<>();
         dateToTransaction = new HashMap<>();
     }
+
     /**
      * @return the three most recent OneWay Transactions
      */
@@ -44,6 +45,7 @@ public class TransactionHistory {
         }
         return (ArrayList<Transaction>) twoWayTransactions.subList(twoWayTransactions.size() - 3, twoWayTransactions.size());
     }
+
     /**
      * @return the usernames of the User's top three trading partners
      */
@@ -92,6 +94,7 @@ public class TransactionHistory {
         return mostTradedWithUsernames;
 
     }
+
     /**
      * @return all OneWay Transactions
      */

@@ -8,6 +8,7 @@ public class AdminMenu {
     private AdminManager am;
     private UserManager um;
     private HashMap<Item, User> allPendingItems;
+    private List<User> pendingFrozenUsers;
 
     public AdminMenu(AdminManager adminManager, UserManager userManager,
                      HashMap<Item, User> pendingItems, AdminUser admin) {
@@ -95,16 +96,20 @@ public class AdminMenu {
 
     /**
      * Getter for this AdminMenu's UserManager.
-     * @return um UserManager
+     * @return the UserManager
      */
     public UserManager getUm() { return um; }
 
     /**
      * Getter for this AdminMenu's AdminManager.
-     * @return am AdminManager
+     * @return the AdminManager
      */
     public AdminManager getAm() {return am; }
 
+    /**
+     * Getter for this AdminMenu's list of all pending items that have been requested by users to be added to their inventory.
+     * @return HashMap that maps each Item to the User who requested it.
+     */
     public HashMap<Item, User> getAllPendingItems() {
         return allPendingItems;
     }

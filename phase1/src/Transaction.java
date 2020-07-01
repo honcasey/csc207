@@ -15,7 +15,7 @@ import java.util.UUID;
  * -- "Pending" -- Status given initially while transaction is still being negotiated.
  * -- "Confirmed" -- status given when details of all meetings involved in transaction has been confirmed by users.
  * -- "Traded" -- first meeting has been confirmed by both users as taken place.(only used for one way)
- * -- "Complete" -- the last meeeting of the transaction has happened and confirmed by both users.
+ * -- "Complete" -- the last meeting of the transaction has happened and confirmed by both users.
  * -- "Cancelled" -- transaction has been cancelled. The transaction can only be in this state after pending
  *                   (too many times edited).
  * -- "No-Show" -- there was a no show at meeting 1.

@@ -56,13 +56,14 @@ public class UserMenuViewer {
             System.out.println("4. View Past Transaction Details");
             System.out.println("5. View Wishlist");
             System.out.println("6. View Inventory");
-            System.out.println("7. Log Out");
+            System.out.println("7. Request Admin to Unfreeze Account");
+            System.out.println("8. Log Out");
             System.out.println("Pick an option from above.");
             input = scanner.nextInt();
             if (input == 1) {
                 requestAddItem();
             } else if (input == 2) {
-                 DisplayAvailableItems();
+                DisplayAvailableItems();
             } else if (input == 3) {
                 // call this.um.getActiveTransactions()
             } else if (input == 4) {
@@ -72,6 +73,8 @@ public class UserMenuViewer {
             } else if (input == 6) {
                 viewInventory();
             } else if (input == 7) {
+                requestUnfreezeAccount();
+            } else if (input == 8) {
                 System.out.println("You have successfully logged out.");
                 // stop the while loop
                 UserMenuActivity = false;
@@ -228,6 +231,16 @@ public class UserMenuViewer {
                 userMenu.withdrawItem(userMenu.getUserInventory().get(optionChosen), "inventory");
                 System.out.println("The item has been removed from your inventory.");
             }
+        }
+    }
+
+    private void requestUnfreezeAccount() {
+        if (userMenu.currentUser.isFrozen()) {
+            userMenu.requestUnfreezeAccount();
+            System.out.println("You have successfully requested for your account to be unfrozen.");
+        }
+        else {
+            System.out.println("Your account is not frozen.");
         }
     }
 }
