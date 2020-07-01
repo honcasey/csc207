@@ -15,8 +15,7 @@ public class TransactionHistory{
     private HashMap<LocalDate, Transaction> dateToTransaction; // decide if this is really needed
     private int numItemsLended = 0;
     private int numItemsBorrowed = 0;
-    // TODO: get week transactions --> this should be a boolean and this should call the threshold from the User
-    // TODO: toString id
+
     /**
      * Constructs an instance of TransactionHistory with an empty ArrayList transactions and an empty Hashtable usersNumTradeTimes
      * The most recent Transaction is added to the end of the list transactions
@@ -172,18 +171,45 @@ public class TransactionHistory{
         }
     }
 
-//    /**
-//     * Returns a String Representation of User's Transaction History
-//     * @return
-//     */
+    /**
+     * Returns a String Representation of User's Transaction History
+     * @return a String of User's transaction History
+     */
 //    public String toString(){
 //        StringBuilder newString = new StringBuilder("Your Transaction History:" + "/n");
 //       for (int i = 0; i < oneWayTransactions.size();) {
 //           if(oneWayTransactions.get(i).isPerm()){
-//               newString.append(oneWayTransactions.get(i).getFirstMeeting().getDate()).append(",");
-//               newString.append(oneWayTransactions.get(i).getItem())
+//               newString.append(oneWayTransactions.get(i).getFirstMeeting().getDate().toString());
+//               newString.append(",");
+//               newString.append(oneWayTransactions.get(i).getItem().getName());
+//               newString.append("/n");
+//           }
+//           if(!oneWayTransactions.get(i).isPerm()) {
+//               newString.append(oneWayTransactions.get(i).getSecondMeeting().getDate().toString());
+//               newString.append(",");
+//               newString.append(oneWayTransactions.get(i).getItem().getName());
+//               newString.append("/n");
 //           }
 //           i++;
+//        }
+//        for (int i = 0; i < twoWayTransactions.size();) {
+//            if(twoWayTransactions.get(i).isPerm()){
+//                newString.append(twoWayTransactions.get(i).getFirstMeeting().getDate().toString());
+//                newString.append(",");
+//                newString.append(twoWayTransactions.get(i).getItem1().getName());
+//                newString.append(",");
+//                newString.append(twoWayTransactions.get(i).getItem2().getName());
+//                newString.append("/n");
+//            }
+//            if(!twoWayTransactions.get(i).isPerm()) {
+//                newString.append(twoWayTransactions.get(i).getSecondMeeting().getDate().toString());
+//                newString.append(",");
+//                newString.append(twoWayTransactions.get(i).getItem1().getName());
+//                newString.append(",");
+//                newString.append(twoWayTransactions.get(i).getItem2().getName());
+//                newString.append("/n");
+//            }
+//            i++;
 //        }
 //       return newString.toString();
 //    }
