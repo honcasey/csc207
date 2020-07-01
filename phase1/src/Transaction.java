@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -51,6 +52,7 @@ public abstract class Transaction {
 
     /**
      * Getter for status. This will be called by use case classes.
+     * @return returns the status of the transaction which can take on values specified in class documentation.
      */
     public String getStatus(){
         return status;
@@ -65,6 +67,7 @@ public abstract class Transaction {
     }
     /**
      * getter for user1. This will be called by use case classes.
+     * @return returns user1 of the transaction.
      */
 
     public User getUser1(){
@@ -80,6 +83,7 @@ public abstract class Transaction {
     }
     /**
      * getter for user2. This will be called by use case classes.
+     * @return returns user2 of the transaction.
      */
 
     public User getUser2(){
@@ -114,27 +118,32 @@ public abstract class Transaction {
      */
     public abstract boolean isPerm();
 
+
     /**
-     * This method is to make changes to transaction details by taking in a string. This will be implemented
-     * in the subclasses.
-     * Possible fields to change:
-     * Any of the changeable fields in meeting1 and meeting2 (using userChangeByString method.)
-     * item1, item2(if two way)
-     *
-     * @param FieldString this is the detail of the transaction you want to change.
-     *              (the values it can take on are listed above:)
-     * @param NewVal this is the new value of the detail you want changed.
-     * @return this returns true iff the transaction detail was found and changed successfully.
+     * This is an abstract method that get's all of the meetings involved in the transaction. Size of list returned
+     * will depend directly on the type of transaction taking place.
+     * @return returns a list of
+     *         meetings in the order of them happening in the transaction. (A list of either 1 or 2 meetings.)
      */
-    protected boolean userChangeFirstMeetingByString(String FieldString, Object NewVal){
-        if(this.getFirstMeeting().getuserEditable().containsKey(FieldString)){
-            this.getFirstMeeting().getuserEditable().put(FieldString,NewVal);
-            return(true);
-        }
-        else{
-            return(false);
-        }
-    }
+    public abstract List<Meeting> getTransactionMeetings();
+
+    /**
+     * This is an abstract method that gets all the items involved in the transactions. Size of list returned will
+     * depend directly on the type of transaction taking place.
+     *
+     * @return Returns list of items. The order of the items in the list are Item1,Item2(if applicable).
+     */
+    public abstract List<Item> getTransactionItems();
+
+
+    /**
+     * This abstract method will return a string representation of the transaction. This will be implemented in the
+     * subclasses in order to make output related to type which this method was called for.
+     * @return returns a string representation of the transaction based on the transaction type.
+     */
+    @Override
+    public abstract String toString();
+
 
     /**
      * Getter for status. This will be called by use case classes.

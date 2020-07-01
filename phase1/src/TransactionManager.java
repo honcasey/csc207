@@ -19,8 +19,8 @@ public class TransactionManager {
     }
 
     /**
-     * @return one-way transaction
-     * A transaction will be created only if it is valid, otherwise an error will be thrown     *
+     * A transaction will be created only if it is valid, otherwise an error will be thrown
+     * @return a one-way transaction
      * @param user1 the user who has the item.
      * @param user2 the user who want to borrow an item.
      * @param item1 the item that user2 wants to borrow.
@@ -37,8 +37,8 @@ public class TransactionManager {
     }
 
     /**
-     * @return one-way transaction
-     * A transaction will be created only if it is valid, otherwise an error will be thrown     *
+     * A transaction will be created only if it is valid, otherwise an error will be thrown
+     * @return a one-way transaction
      * @param user1 the user who has the item.
      * @param user2 the user who want to borrow an item.
      * @param item1 the item that user2 wants to borrow.
@@ -51,10 +51,10 @@ public class TransactionManager {
             return transaction;
     }
 
-
     /**
+<<<<<<< HEAD
          * @return two-way transaction
-         * A transaction will be created only if it is valid, otherwise an error will be thrown
+         * A transaction will be created only if it is valid.
          * @param user1 the user who has the item.
          * @param user2 the user who want to borrow an item.
          * @param item1 the item that user2 wants to borrow.
@@ -69,9 +69,10 @@ public class TransactionManager {
             allTransactions.add(transaction);
             return transaction;
         }
+
         /**
-         * @return two-way transaction
          * A transaction will be created only if it is valid, otherwise an error will be thrown
+         * @return a two-way transaction
          * @param user1 the user who has the item.
          * @param user2 the user who want to borrow an item.
          * @param item1 the item that user2 wants to borrow.
@@ -84,6 +85,7 @@ public class TransactionManager {
                 allTransactions.add(transaction);
                 return transaction;
         }
+
     public Meeting createMeeting(String location, int year, int month, int dayOfMonth, int hour, int minutes){
            Meeting meeting = new Meeting(location, year, month, dayOfMonth, hour, minutes);
            return meeting;
@@ -113,7 +115,9 @@ public class TransactionManager {
     //TODO:edit all parameters at once?
     public boolean editMeeting(Meeting meeting, int usernum){
             if (canEdit(meeting)){
-                if (usernum == 1){meeting.user1edits();}
+                if (usernum == 1){
+                    meeting.user1edits();
+                }
                 else {meeting.user2edits();}
                 return true;
             }
@@ -123,30 +127,21 @@ public class TransactionManager {
     /**
      * @param transaction the transaction who's status is being updated
      * @return true if the status of the transaction has been updated, the transaction status will we updated based on
-     * user input by changing their statususer
+     * user input by changing their status user
      */
     public boolean updateStatus(Transaction transaction){
-        if (pendingToConfirmed(transaction)){return true;}
-        if (pendingToCancelled(transaction)){return true;}
-        if (confirmedToTraded(transaction)){return true;}
-        if (confirmedToIncomplete(transaction)){return true;}
-        if (confirmedToComplete(transaction)){return true;}
-        if (tradedToComplete(transaction)){return true;}
-        if (tradedToNeverReturned(transaction)){return true;}
-        else{return false;}
+        return (pendingToCancelled(transaction) | pendingToConfirmed(transaction) | confirmedToTraded(transaction) |
+                confirmedToIncomplete(transaction) | confirmedToComplete(transaction) | tradedToComplete(transaction) |
+                tradedToNeverReturned(transaction));
     }
 
-
     /**
-     * @return True if the meeting may be edited.
-     * A meeting may be edited if a user hasn't reached his maximum number of edits yet
+     * @return True if the meeting can be edited.
+     * A meeting can be edited if a user hasn't reached his maximum number of edits yet
      * @param meeting the meeting that a user wants to edit
      */
     private boolean canEdit(Meeting meeting) {
-            int edits1 = meeting.getNumEditsUser1();
-            int edits2 = meeting.getNumEditsUser2();
-            int max = meeting.getMaxNumEdits();
-        return edits1 < max & edits2 < max;
+        return meeting.getNumEditsUser1() < meeting.getMaxNumEdits() & meeting.getNumEditsUser2() < meeting.getMaxNumEdits();
     }
 
     /**

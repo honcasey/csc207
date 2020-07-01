@@ -8,17 +8,11 @@ public class UserMenu {
     private AdminManager am;
     private UserManager um;
     private HashMap<Item, User> allPendingItems;
-    private List<User> flaggedAccounts;
-    private List<User> frozenAccounts;
 
-    public UserMenu(UserManager userManager, AdminManager adminManager, HashMap<Item, User> pendingItems,
-                    List<User> flaggedAccounts, List<User> frozenAccounts, User currentUser) {
+    public UserMenu(UserManager userManager, AdminManager adminManager,
+                    HashMap<Item, User> pendingItems, User currentUser) {
         this.currentUser = currentUser;
         allPendingItems = pendingItems;
-        this.flaggedAccounts = flaggedAccounts;
-        this.frozenAccounts = frozenAccounts;
-
-
         am = adminManager;
         um = userManager;
     }
@@ -102,7 +96,4 @@ public class UserMenu {
         //TODO: method body
     }
 
-    public List<User> getFrozenAccounts() {
-        return frozenAccounts;
-    }
 }

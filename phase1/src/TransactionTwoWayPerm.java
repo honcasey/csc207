@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class represents a meetup between 2 Users where there is a two way permanent transaction happening.
  * Note: user 1 originally had item 1 and user 2 originally had item 2.
@@ -24,6 +27,7 @@ public class TransactionTwoWayPerm extends Transaction{
 
     /**
      * Getter for item that user1 has.
+     * @return returns the item that was owned by user1 at the beginning of the transaction.
      */
     //Constructor with a return time manually inputted
     public Item getItem1(){
@@ -38,7 +42,8 @@ public class TransactionTwoWayPerm extends Transaction{
     }
 
     /**
-     * Getter for item that user2 has .
+     * Getter for item that user2 has.
+     * @return this returns the item that user2 owned at the beginning of the transaction.
      */
     public Item getItem2(){
         return this.item2;
@@ -52,9 +57,6 @@ public class TransactionTwoWayPerm extends Transaction{
     /**
      * Setter for item that user2 has.
      */
-
-
-
     public void setItem2(Item item2){
         this.item2 = item2;
     }
@@ -62,6 +64,28 @@ public class TransactionTwoWayPerm extends Transaction{
     @Override
     public boolean isOneWay() {
         return false;
+    }
+
+    @Override
+    public String toString(){
+        String FirstMeetingString = this.getFirstMeeting().toString();
+        String Item1String = this.getItem1().toString();
+        String Item2String = this.getItem2().toString();
+        return("One way transaction to trade"+Item1String+" for " +Item2String +"Where the"+ FirstMeetingString +".");
+    }
+    @Override
+    public List<Meeting> getTransactionMeetings(){
+        List<Meeting> MeetingReturnList = new ArrayList<>();
+        MeetingReturnList.add(this.getFirstMeeting());
+        return(MeetingReturnList);
+    }
+
+    @Override
+    public List<Item> getTransactionItems(){
+        List<Item> ItemReturnList = new ArrayList<>();
+        ItemReturnList.add(this.getItem1());
+        ItemReturnList.add(this.getItem2());
+        return(ItemReturnList);
     }
 
 }

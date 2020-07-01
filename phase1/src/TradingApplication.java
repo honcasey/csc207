@@ -6,7 +6,7 @@ public class TradingApplication {
         TradingSystem tradingSystem = new TradingSystem();
         try {
             tradingSystem.run();
-        } catch (IOException | ClassNotFoundException | InvalidUserException e) {
+        } catch (IOException | ClassNotFoundException e) {
             System.out.println("Caught an Exception");
             e.printStackTrace();
         }
