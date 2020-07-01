@@ -1,6 +1,7 @@
-import java.lang.reflect.Field;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class TransactionOneWayPerm extends Transaction{
     /**
@@ -38,6 +39,7 @@ public class TransactionOneWayPerm extends Transaction{
 
     /**
      * Getter for item in the transaction.
+     * @return returns the item that is in the transaction.
      */
     //Constructor with a return time manually inputted
     public Item getItem(){
@@ -59,5 +61,25 @@ public class TransactionOneWayPerm extends Transaction{
     @Override
     public boolean isPerm() {
         return true;
+    }
+
+    @Override
+    public String toString(){
+        String FirstMeetingString = this.getFirstMeeting().toString();
+        String ItemString = this.getItem().toString();
+        return("One way transaction to trade"+ItemString+"Where the "+ FirstMeetingString +".");
+    }
+    @Override
+    public List<Meeting> getTransactionMeetings(){
+        List<Meeting> MeetingReturnList = new ArrayList<>();
+        MeetingReturnList.add(this.getFirstMeeting());
+        return(MeetingReturnList);
+    }
+
+    @Override
+    public List<Item> getTransactionItems(){
+        List<Item> ItemReturnList = new ArrayList<>();
+        ItemReturnList.add(this.getItem());
+        return(ItemReturnList);
     }
 }

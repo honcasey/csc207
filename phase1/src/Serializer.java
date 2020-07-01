@@ -80,18 +80,19 @@ public class Serializer {
         return pendingItems;
     }
 
-    public void writeFlaggedAccountsToFile(String path, List<User> frozenAccounts) throws IOException {
+    public void writeAccountsToFile(String path, List<User> Accounts) throws IOException {
         OutputStream file = new FileOutputStream(path);
         ObjectOutput output = new ObjectOutputStream(file);
-        output.writeObject(frozenAccounts);
+        output.writeObject(Accounts);
         output.close();
     }
 
-    public List<User> readFlaggedAccountsFromFile(String path) throws IOException, ClassNotFoundException {
+    public List<User> readAccountsFromFile(String path) throws IOException, ClassNotFoundException {
         InputStream file = new FileInputStream(path);
         ObjectInput input = new ObjectInputStream(file);
-        List<User> flaggedAccounts = (List<User>) input.readObject();
+        List<User> Accounts = (List<User>) input.readObject();
         input.close();
-        return flaggedAccounts;
+        return Accounts;
     }
+
 }

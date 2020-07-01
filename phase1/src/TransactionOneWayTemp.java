@@ -1,9 +1,12 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class represents a meetup between 2 Users where there is a one way borrowing transaction happening.
  * Note: user 1 owns the item and the second user borrows the item.
  */
 
-public class TransactionOneWayTemp extends Transaction implements TempTransactions {
+public class TransactionOneWayTemp extends Transaction {
     public Item item;
     public Meeting secondMeeting;
 
@@ -26,6 +29,7 @@ public class TransactionOneWayTemp extends Transaction implements TempTransactio
 
     /**
      * Getter for item that user1 has.
+     * @return returns the item that user1 has at the beginning of the transaction.
      */
     //Constructor with a return time manually inputted
     public Item getItem() {
@@ -40,8 +44,8 @@ public class TransactionOneWayTemp extends Transaction implements TempTransactio
     }
 
     /**
-     * Getter for the time
-     * @return
+     * Getter for the Second meeting
+     * @return  returns the second meeting class variable.
      */
 
     public Meeting getSecondMeeting() {
@@ -49,7 +53,7 @@ public class TransactionOneWayTemp extends Transaction implements TempTransactio
     }
 
     /**
-     * Setter for the time
+     * Setter for the secondmeeting class variable.
      */
 
     public void setSecondMeeting(Meeting secondMeeting) {
@@ -64,24 +68,28 @@ public class TransactionOneWayTemp extends Transaction implements TempTransactio
     @Override
     public boolean isPerm(){return false;}
 
-    /**
-     * This method changes the second meeting details by passing in a string and an object of the thing
-     * you want changed.
-     * @param Field this is the detail of the transaction you want to change.
-     *              (the values it can take on are listed above:)
-     * @param NewVal this is the new value of the detail you want changed.
-     * @return this returns true iff the transaction detail was found and changed successfully.
-     */
-    protected boolean userChangeSecondMeetingByString(String Field, Object NewVal) {
-        if(this.getSecondMeeting().getuserEditable().containsKey(Field)){
-            this.getSecondMeeting().getuserEditable().put(Field,NewVal);
-            return(true);
-        }
-        else{
-            return(false);
-        }
+    @Override
+    public String toString(){
+        String FirstMeetingString = this.getFirstMeeting().toString();
+        String SecondMeetingString = this.getSecondMeeting().toString();
+        String ItemString = this.getItem().toString();
+        return("One way transaction to trade"+ItemString+"Where the first "+ FirstMeetingString +". The Second "
+                +SecondMeetingString );
+    }
+    @Override
+    public List<Meeting> getTransactionMeetings(){
+        List<Meeting> MeetingReturnList = new ArrayList<>();
+        MeetingReturnList.add(this.getFirstMeeting());
+        MeetingReturnList.add(this.getSecondMeeting());
+        return(MeetingReturnList);
     }
 
+    @Override
+    public List<Item> getTransactionItems(){
+        List<Item> ItemReturnList = new ArrayList<>();
+        ItemReturnList.add(this.getItem());
+        return(ItemReturnList);
+    }
 
 }
 

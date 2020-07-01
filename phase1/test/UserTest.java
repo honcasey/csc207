@@ -107,9 +107,11 @@ public class UserTest {
         User user1 = new User("casey", "pwd123");
         User user2 = new User("annie", "pwd123");
         List<User> userList = new ArrayList<>();
+        List<User> flaggedAccounts = new ArrayList<>();
+        List<User> frozenAccounts = new ArrayList<>();
         userList.add(user1);
         userList.add(user2);
-        UserManager um = new UserManager(userList);
+        UserManager um = new UserManager(userList, flaggedAccounts, frozenAccounts);
         assertEquals(um.addUser("anna", "pwd123").getUsername(), "anna");
         assertNull(um.addUser("casey", "pwd123"));
     }
@@ -119,9 +121,11 @@ public class UserTest {
         User user1 = new User("casey", "pwd123");
         User user2 = new User("annie", "pwd123");
         List<User> userList = new ArrayList<>();
+        List<User> flaggedAccounts = new ArrayList<>();
+        List<User> frozenAccounts = new ArrayList<>();
         userList.add(user1);
         userList.add(user2);
-        UserManager um = new UserManager(userList);
+        UserManager um = new UserManager(userList, flaggedAccounts, frozenAccounts);
         assertEquals(um.getUser("casey"), user1);
         assertEquals(um.getUser("annie"), user2);
 
@@ -132,9 +136,11 @@ public class UserTest {
         User user1 = new User("casey", "pwd123");
         User user2 = new User("annie", "pwd123");
         List<User> userList = new ArrayList<>();
+        List<User> flaggedAccounts = new ArrayList<>();
+        List<User> frozenAccounts = new ArrayList<>();
         userList.add(user1);
         userList.add(user2);
-        UserManager um = new UserManager(userList);
+        UserManager um = new UserManager(userList, flaggedAccounts, frozenAccounts);
         Item book = new Item("hamlet");
         um.addItem(user1, book, "wishlist");
         assertTrue(user1.getWishlist().contains(book));
@@ -145,9 +151,11 @@ public class UserTest {
         User user1 = new User("casey", "pwd123");
         User user2 = new User("annie", "pwd123");
         List<User> userList = new ArrayList<>();
+        List<User> flaggedAccounts = new ArrayList<>();
+        List<User> frozenAccounts = new ArrayList<>();
         userList.add(user1);
         userList.add(user2);
-        UserManager um = new UserManager(userList);
+        UserManager um = new UserManager(userList, flaggedAccounts, frozenAccounts);
         Item book = new Item("hamlet");
         um.addItem(user1, book, "wishlist");
         assertTrue(user1.getWishlist().contains(book));

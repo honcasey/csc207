@@ -19,18 +19,17 @@ public class TransactionManager {
     }
 
     /**
-     * @return one-way transaction
-     * A transaction will be created only if it is valid, otherwise an error will be thrown     *
+     * A transaction will be created only if it is valid, otherwise an error will be thrown
+     * @return a one-way transaction
      * @param user1 the user who has the item.
      * @param user2 the user who want to borrow an item.
      * @param item1 the item that user2 wants to borrow.
-     * @param type must be either "temp" or "perm", specifies what type of transaction will be created
      * @param meeting1 the first meeting location that the users will meet at to exchange items.
      * @param meeting2 the second meeting location that the users will meet at to exchange items.
      */
 
 
-    public Transaction createTransaction(User user1, User user2, Item item1, String type, Meeting meeting1,
+    public Transaction createTransaction(User user1, User user2, Item item1, Meeting meeting1,
                                            Meeting meeting2) {
         Transaction transaction = new TransactionOneWayTemp(user1, user2, item1, meeting1, meeting2);
         allTransactions.add(transaction);
@@ -38,56 +37,55 @@ public class TransactionManager {
     }
 
     /**
-     * @return one-way transaction
-     * A transaction will be created only if it is valid, otherwise an error will be thrown     *
+     * A transaction will be created only if it is valid, otherwise an error will be thrown
+     * @return a one-way transaction
      * @param user1 the user who has the item.
      * @param user2 the user who want to borrow an item.
      * @param item1 the item that user2 wants to borrow.
-     * @param type must be either "temp" or "perm", specifies what type of transaction will be created
      * @param meeting1 the first meeting location that the users will meet at to exchange items.
      */
-    public Transaction createTransaction(User user1, User user2, Item item1, String type,
+    public Transaction createTransaction(User user1, User user2, Item item1,
                                                Meeting meeting1) throws InvalidTransactionException {
             Transaction transaction = new TransactionOneWayPerm(user1, user2, item1, meeting1);
             allTransactions.add(transaction);
             return transaction;
     }
 
-
     /**
+<<<<<<< HEAD
          * @return two-way transaction
-         * A transaction will be created only if it is valid, otherwise an error will be thrown
+         * A transaction will be created only if it is valid.
          * @param user1 the user who has the item.
          * @param user2 the user who want to borrow an item.
          * @param item1 the item that user2 wants to borrow.
-         * @param type must be either "temp" or "perm", specifies what type of transaction will be created
          * @param meeting1 the first meeting location that the users will meet at to exchange items.
          * @param meeting2 the second meeting location that the users will meet at to exchange items.
          */
 
 
-        public Transaction createTransaction(User user1, User user2, Item item1, Item item2, String type,
+        public Transaction createTransaction(User user1, User user2, Item item1, Item item2,
                                                    Meeting meeting1, Meeting meeting2) {
             Transaction transaction = new TransactionTwoWayTemp(user1, user2, item1, item2, meeting1, meeting2);
             allTransactions.add(transaction);
             return transaction;
         }
+
         /**
-         * @return two-way transaction
          * A transaction will be created only if it is valid, otherwise an error will be thrown
+         * @return a two-way transaction
          * @param user1 the user who has the item.
          * @param user2 the user who want to borrow an item.
          * @param item1 the item that user2 wants to borrow.
-         * @param type must be either "temp" or "perm", specifies what type of transaction will be created
          * @param meeting1 the first meeting location that the users will meet at to exchange items.
          */
 
-        public Transaction createTransaction(User user1, User user2, Item item1, Item item2, String type,
+        public Transaction createTransaction(User user1, User user2, Item item1, Item item2,
                 Meeting meeting1) throws InvalidTransactionException {
                 Transaction transaction = new TransactionTwoWayPerm(user1, user2, item1, item2, meeting1);
                 allTransactions.add(transaction);
                 return transaction;
         }
+
     public Meeting createMeeting(String location, int year, int month, int dayOfMonth, int hour, int minutes){
            Meeting meeting = new Meeting(location, year, month, dayOfMonth, hour, minutes);
            return meeting;
@@ -107,7 +105,6 @@ public class TransactionManager {
             }
     }
 
-
     /**
      * @return True if the meeting has been edited
      * @param meeting the transaction who's status is being changed
@@ -117,7 +114,9 @@ public class TransactionManager {
     //TODO:edit all parameters at once?
     public boolean editMeeting(Meeting meeting, int usernum){
             if (canEdit(meeting)){
-                if (usernum == 1){meeting.user1edits();}
+                if (usernum == 1){
+                    meeting.user1edits();
+                }
                 else {meeting.user2edits();}
                 return true;
             }
@@ -127,30 +126,21 @@ public class TransactionManager {
     /**
      * @param transaction the transaction who's status is being updated
      * @return true if the status of the transaction has been updated, the transaction status will we updated based on
-     * user input by changing their statususer
+     * user input by changing their status user
      */
     public boolean updateStatus(Transaction transaction){
-        if (pendingToConfirmed(transaction)){return true;}
-        if (pendingToCancelled(transaction)){return true;}
-        if (confirmedToTraded(transaction)){return true;}
-        if (confirmedToIncomplete(transaction)){return true;}
-        if (confirmedToComplete(transaction)){return true;}
-        if (tradedToComplete(transaction)){return true;}
-        if (tradedToNeverReturned(transaction)){return true;}
-        else{return false;}
+        return (pendingToCancelled(transaction) | pendingToConfirmed(transaction) | confirmedToTraded(transaction) |
+                confirmedToIncomplete(transaction) | confirmedToComplete(transaction) | tradedToComplete(transaction) |
+                tradedToNeverReturned(transaction));
     }
 
-
     /**
-     * @return True if the meeting may be edited.
-     * A meeting may be edited if a user hasn't reached his maximum number of edits yet
+     * @return True if the meeting can be edited.
+     * A meeting can be edited if a user hasn't reached his maximum number of edits yet
      * @param meeting the meeting that a user wants to edit
      */
     private boolean canEdit(Meeting meeting) {
-            int edits1 = meeting.getNumEditsUser1();
-            int edits2 = meeting.getNumEditsUser2();
-            int max = meeting.getMaxNumEdits();
-        return edits1 < max & edits2 < max;
+        return meeting.getNumEditsUser1() < meeting.getMaxNumEdits() & meeting.getNumEditsUser2() < meeting.getMaxNumEdits();
     }
 
     /**
@@ -161,20 +151,8 @@ public class TransactionManager {
         if (!transaction.getStatus().equals("pending")){
             return false;
         }
-        Meeting meeting1 = transaction.getFirstMeeting();
-        if (!(transaction instanceof TempTransactions)){
-            if (meeting1.getUser1approved() & meeting1.getUser2approved()){
-                transaction.setStatus("confirmed");
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
         else{
-            Meeting meeting2 = ((TempTransactions)transaction).getSecondMeeting();
-            if (meeting1.getUser1approved() & meeting1.getUser2approved() & meeting2.getUser1approved()
-                    & meeting2.getUser2approved()){
+            if (transaction.getStatusUser1().equals("confirm") & transaction.getStatusUser2().equals("confirm")){
                 transaction.setStatus("confirmed");
                 return true;
             }
@@ -182,8 +160,6 @@ public class TransactionManager {
                 return false;
             }
         }
-
-
     }
 
     /**
@@ -191,18 +167,15 @@ public class TransactionManager {
      * @param transaction the transaction who's status is being changed
      */
     private boolean pendingToCancelled(Transaction transaction){
-        String ustatus1 = transaction.getStatusUser1();
-        String ustatus2 = transaction.getStatusUser2();
-        String status = transaction.getStatus();
-        if (status.equals("pending") & (ustatus1.equals("cancel") || ustatus2.equals("cancel"))){
+        if (transaction.getStatus().equals("pending") & (transaction.getStatusUser1().equals("cancel") || transaction.getStatusUser2().equals("cancel"))){
             transaction.setStatus("cancelled");
             return true;
         }
-        if (status.equals("confirmed") & (ustatus1.equals("cancel") || ustatus2.equals("cancel"))){
-            if (ustatus1.equals("traded") || ustatus1.equals("complete")){
+        if (transaction.getStatus().equals("confirmed") & (transaction.getStatusUser1().equals("cancel") || transaction.getStatusUser2().equals("cancel"))){
+            if (transaction.getStatusUser1().equals("traded") || transaction.getStatusUser1().equals("complete")){
                 return false;
             }
-            if (ustatus2.equals("traded") || ustatus2.equals("complete")){
+            if (transaction.getStatusUser2().equals("traded") || transaction.getStatusUser2().equals("complete")){
                 return false;
             }
             else{
@@ -227,9 +200,7 @@ public class TransactionManager {
             return false;
         }
         else{
-            String ustatus1 = transaction.getStatusUser1();
-            String ustatus2 = transaction.getStatusUser2();
-            if (ustatus1.equals("traded") & ustatus2.equals("traded")){
+            if (transaction.getStatusUser1().equals("traded") & transaction.getStatusUser2().equals("traded")){
                 transaction.setStatus("traded");
                 return true;
             }
@@ -251,9 +222,7 @@ public class TransactionManager {
             return false;
         }
         else{
-            String ustatus1 = transaction.getStatusUser1();
-            String ustatus2 = transaction.getStatusUser2();
-            if (ustatus1.equals("incomplete") || ustatus2.equals("incomplete")){
+            if (transaction.getStatusUser1().equals("incomplete") || transaction.getStatusUser2().equals("incomplete")){
                 transaction.setStatus("incomplete");
                 return true;
             }
@@ -276,9 +245,7 @@ public class TransactionManager {
             return false;
         }
         else{
-            String ustatus1 = transaction.getStatusUser1();
-            String ustatus2 = transaction.getStatusUser2();
-            if (ustatus1.equals("traded") & ustatus2.equals("traded")){
+            if (transaction.getStatusUser1().equals("traded") & transaction.getStatusUser2().equals("traded")){
                 transaction.setStatus("complete");
                 return true;
             }
@@ -300,9 +267,7 @@ public class TransactionManager {
             return false;
         }
         else{
-            String ustatus1 = transaction.getStatusUser1();
-            String ustatus2 = transaction.getStatusUser2();
-            if (ustatus1.equals("returned") & ustatus2.equals("returned")){
+            if (transaction.getStatusUser1().equals("returned") & transaction.getStatusUser2().equals("returned")){
                 transaction.setStatus("complete");
                 return true;
             }
@@ -324,9 +289,7 @@ public class TransactionManager {
             return false;
         }
         else{
-            String ustatus1 = transaction.getStatusUser1();
-            String ustatus2 = transaction.getStatusUser2();
-            if (ustatus1.equals("neverReturned") || ustatus2.equals("neverReturned")){
+            if (transaction.getStatusUser1().equals("neverReturned") || transaction.getStatusUser2().equals("neverReturned")){
                 transaction.setStatus("neverReturned");
                 return true;
             }
