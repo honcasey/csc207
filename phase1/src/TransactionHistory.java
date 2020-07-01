@@ -170,21 +170,20 @@ public class TransactionHistory {
         }
     }
 
-//    /**
-//     * Returns a String Representation of User's Transaction History
-//     * @return
-//     */
-//    public String toString(){
-//        StringBuilder newString = new StringBuilder("Your Transaction History:" + "/n");
-//       for (int i = 0; i < oneWayTransactions.size();) {
-//           if(oneWayTransactions.get(i).isPerm()){
-//               newString.append(oneWayTransactions.get(i).getFirstMeeting().getDate()).append(",");
-//               newString.append(oneWayTransactions.get(i).getItem())
-//           }
-//           i++;
-//        }
-//       return newString.toString();
-//    }
+    /**
+     * Returns a String Representation of User's Transaction History
+     * @return String Representation of User's Transaction History
+     */
+    public String toString(){
+        StringBuilder newString = new StringBuilder("Your Transaction History:" + "/n");
+        ArrayList<Transaction> allTrans = getAllTransactions();
+       for (int i = 0; i < allTrans.size();) {
+           newString.append(allTrans.get(i).toString());
+           newString.append("/n");
+           i++;
+        }
+       return newString.toString();
+    }
 
 public int numTransactionsInWeek(){
         int numTransactions = 0;
