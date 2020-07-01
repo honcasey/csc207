@@ -1,4 +1,3 @@
-import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +39,7 @@ public class TransactionOneWayPerm extends Transaction{
 
     /**
      * Getter for item in the transaction.
+     * @return returns the item that is in the transaction.
      */
     //Constructor with a return time manually inputted
     public Item getItem(){

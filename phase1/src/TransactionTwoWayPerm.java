@@ -27,6 +27,7 @@ public class TransactionTwoWayPerm extends Transaction{
 
     /**
      * Getter for item that user1 has.
+     * @return returns the item that was owned by user1 at the beginning of the transaction.
      */
     //Constructor with a return time manually inputted
     public Item getItem1(){
@@ -41,7 +42,8 @@ public class TransactionTwoWayPerm extends Transaction{
     }
 
     /**
-     * Getter for item that user2 has .
+     * Getter for item that user2 has.
+     * @return this returns the item that user2 owned at the beginning of the transaction.
      */
     public Item getItem2(){
         return this.item2;
@@ -55,9 +57,6 @@ public class TransactionTwoWayPerm extends Transaction{
     /**
      * Setter for item that user2 has.
      */
-
-
-
     public void setItem2(Item item2){
         this.item2 = item2;
     }

@@ -52,6 +52,7 @@ public abstract class Transaction {
 
     /**
      * Getter for status. This will be called by use case classes.
+     * @return returns the status of the transaction which can take on values specified in class documentation.
      */
     public String getStatus(){
         return status;
@@ -66,6 +67,7 @@ public abstract class Transaction {
     }
     /**
      * getter for user1. This will be called by use case classes.
+     * @return returns user1 of the transaction.
      */
 
     public User getUser1(){
@@ -81,6 +83,7 @@ public abstract class Transaction {
     }
     /**
      * getter for user2. This will be called by use case classes.
+     * @return returns user2 of the transaction.
      */
 
     public User getUser2(){
@@ -114,29 +117,6 @@ public abstract class Transaction {
      * @return returns true iff the transaction you call the method on is a one way transaction.
      */
     public abstract boolean isPerm();
-
-    /**
-     * THIS SHOULD PROBABLY BE DELETED? -Christian
-     * This method is to make changes to transaction details by taking in a string. This will be implemented
-     * in the subclasses.
-     * Possible fields to change:
-     * Any of the changeable fields in meeting1 and meeting2 (using userChangeByString method.)
-     * item1, item2(if two way)
-     *
-     * @param FieldString this is the detail of the transaction you want to change.
-     *              (the values it can take on are listed above:)
-     * @param NewVal this is the new value of the detail you want changed.
-     * @return this returns true iff the transaction detail was found and changed successfully.
-     */
-    protected boolean userChangeFirstMeetingByString(String FieldString, Object NewVal){
-        if(this.getFirstMeeting().getuserEditable().containsKey(FieldString)){
-            this.getFirstMeeting().getuserEditable().put(FieldString,NewVal);
-            return(true);
-        }
-        else{
-            return(false);
-        }
-    }
 
 
     /**

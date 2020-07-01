@@ -32,6 +32,7 @@ public class TransactionTwoWayTemp extends Transaction implements TempTransactio
 
     /**
      * Getter for item that user1 has.
+     * @return returns the item that user1 has at the beginning of the transaction.
      */
     //Constructor with a return time manually inputted
     public Item getItem1(){
@@ -46,7 +47,8 @@ public class TransactionTwoWayTemp extends Transaction implements TempTransactio
     }
 
     /**
-     * Getter for item that user2 has .
+     * Getter for item that user2 has.
+     * @return returns the item that user2 has at the beginniing of the transaction.
      */
     public Item getItem2(){
         return this.item2;
@@ -62,7 +64,7 @@ public class TransactionTwoWayTemp extends Transaction implements TempTransactio
 
     /**
      * Getter for the second meeting.
-     * @return returns the second meeting
+     * @return returns the second meeting of the transaction.
      */
 
     public Meeting getSecondMeeting(){
@@ -112,21 +114,4 @@ public class TransactionTwoWayTemp extends Transaction implements TempTransactio
         return(ItemReturnList);
     }
 
-    /**
-     * This method changes the second meeting details by passing in a string and an object of the thing
-     * you want changed.
-     * @param Field this is the detail of the transaction you want to change.
-     *              (the values it can take on are listed above:)
-     * @param NewVal this is the new value of the detail you want changed.
-     * @return this returns true iff the transaction detail was found and changed successfully.
-     */
-    protected boolean userChangeSecondMeetingByString(String Field, Object NewVal) {
-        if(this.getSecondMeeting().getuserEditable().containsKey(Field)){
-            this.getSecondMeeting().getuserEditable().put(Field,NewVal);
-            return(true);
-        }
-        else{
-            return(false);
-        }
-    }
 }

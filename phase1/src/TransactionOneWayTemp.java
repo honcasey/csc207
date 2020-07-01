@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +29,7 @@ public class TransactionOneWayTemp extends Transaction implements TempTransactio
 
     /**
      * Getter for item that user1 has.
+     * @return returns the item that user1 has at the beginning of the transaction.
      */
     //Constructor with a return time manually inputted
     public Item getItem() {
