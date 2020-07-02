@@ -123,5 +123,12 @@ public class UserMenu {
      */
     public void requestUnfreezeAccount() { am.getPendingFrozenUsers().add(currentUser); }
 
+    /**
+     * Deletes a transaction that is in progress
+     */
+    public void deleteTransaction(Transaction transaction){
+    // TODO: Method Body once I confirm some things about the details of this method
+    }
+
 
 }
