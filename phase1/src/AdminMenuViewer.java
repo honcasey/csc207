@@ -172,4 +172,22 @@ public class AdminMenuViewer {
             System.out.println("Username does not exist. Please enter an existing User's username.");
         }
     }
+    private void checkPendingFrozenAccounts(){
+        Scanner scanner = new Scanner(System.in);
+        if(am.getPendingFrozenUsers().isEmpty()){
+            System.out.println("No pending frozen accounts to check.");
+        }
+        else {
+            for (User user: am.getPendingFrozenUsers()) {
+                System.out.println(user);
+                System.out.println("1. Unfreeze Account.");
+                System.out.println("2. Go to next user.");
+                input = scanner.nextInt();
+                if (input == 1) {
+                    am.getUm().unfreezeAccount(user);
+                    System.out.println(user.getUsername() + "'s  accounts has been set to active.");
+                }
+            }
+        }
+    }
 }
