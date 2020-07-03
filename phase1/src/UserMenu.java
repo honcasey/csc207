@@ -85,8 +85,9 @@ public class UserMenu {
      * @param transaction A transaction to be cancelled and to remove transaction from tra
      */
     public void cancelTransaction(Transaction transaction){
+        // TODO: delete from both people's incoming/outcoming
         currentUser.getTransactionDetails().getIncomingOffers().remove(transaction);
-        transaction.setStatus("cancelled");
+        transaction.setStatus("cancelled"); // we don't need this, just remove this shit and yeet it
     }
 
     /**
