@@ -67,7 +67,7 @@ public class UserMenuViewer {
             } else if (input == 3) {
                 // call this.um.getActiveTransactions()
             } else if (input == 4) {
-                // call um.method()
+                viewPastTransaction();
             } else if (input == 5) {
                 viewWishlist();
             } else if (input == 6) {
@@ -241,6 +241,16 @@ public class UserMenuViewer {
         }
         else {
             System.out.println("Your account is not frozen.");
+        }
+    }
+
+    private void viewPastTransaction(){
+        TransactionHistory transactionHistory= userMenu.currentUser.getTransactionHistory();
+        if (transactionHistory == null){
+            System.out.println("Your transaction history is empty.");
+        }
+        else {
+            System.out.println(transactionHistory.toString());
         }
     }
 }
