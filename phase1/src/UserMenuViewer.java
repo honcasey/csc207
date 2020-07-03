@@ -67,7 +67,7 @@ public class UserMenuViewer {
             } else if (input == 3) {
                 // call this.um.getActiveTransactions()
             } else if (input == 4) {
-                // call um.method()
+                viewPastTransaction();
             } else if (input == 5) {
                 viewWishlist();
             } else if (input == 6) {
@@ -191,11 +191,11 @@ public class UserMenuViewer {
 
     private void viewWishlist() {
         Scanner scanner = new Scanner(System.in);
-        if (userMenu.getUserWishlist() == null) {
+        if (userMenu.currentUser.getWishlist() == null) {
             System.out.println("Your wishlist is empty.");
         }
         else {
-            Iterator<Item> itemIterator = userMenu.getUserWishlist().iterator();
+            Iterator<Item> itemIterator = userMenu.currentUser.getWishlist().iterator();
             List<String> optionList = new ArrayList<>();
             while (itemIterator.hasNext()) {
                 optionList.add(itemIterator.next().toString());
@@ -206,7 +206,7 @@ public class UserMenuViewer {
                 System.out.println("Loading Previous Menu");
             }
             else {
-                userMenu.withdrawItem(userMenu.getUserWishlist().get(optionChosen), "wishlist");
+                userMenu.withdrawItem(userMenu.currentUser.getWishlist().get(optionChosen), "wishlist");
                 System.out.println("The item has been removed from your wishlist.");
             }
         }
@@ -214,11 +214,11 @@ public class UserMenuViewer {
 
     private void viewInventory() {
         Scanner scanner = new Scanner(System.in);
-        if (userMenu.getUserInventory() == null) {
+        if (userMenu.currentUser.getInventory() == null) {
             System.out.println("Your inventory is empty.");
         }
         else {
-            Iterator<Item> itemIterator = userMenu.getUserInventory().iterator();
+            Iterator<Item> itemIterator = userMenu.currentUser.getInventory().iterator();
             List<String> optionList = new ArrayList<>();
             while (itemIterator.hasNext()) {
                 optionList.add(itemIterator.next().toString());
@@ -228,7 +228,7 @@ public class UserMenuViewer {
                 System.out.println("Loading Previous Menu");
             }
             else {
-                userMenu.withdrawItem(userMenu.getUserInventory().get(optionChosen), "inventory");
+                userMenu.withdrawItem(userMenu.currentUser.getInventory().get(optionChosen), "inventory");
                 System.out.println("The item has been removed from your inventory.");
             }
         }
@@ -241,6 +241,16 @@ public class UserMenuViewer {
         }
         else {
             System.out.println("Your account is not frozen.");
+        }
+    }
+
+    private void viewPastTransaction(){
+        TransactionHistory transactionHistory= userMenu.currentUser.getTransactionHistory();
+        if (transactionHistory == null){
+            System.out.println("Your transaction history is empty.");
+        }
+        else {
+            System.out.println(transactionHistory.toString());
         }
     }
 }
