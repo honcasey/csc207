@@ -50,20 +50,6 @@ public class UserMenu {
     }
 
     /**
-     * Returns the wishlist of the current user.
-     * @return list of items
-     */
-    public List<Item> getUserWishlist(){return currentUser.getWishlist();}
-
-    /**
-     * Returns the inventory of the current user.
-     * @return list of items
-     */
-    public List<Item> getUserInventory(){
-        return currentUser.getInventory();
-    }
-
-    /**
      * Returns a HashMap of all the available items in other user's inventory.
      * @return HashMap of items that are available in other user's inventory.
      */
