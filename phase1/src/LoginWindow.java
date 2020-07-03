@@ -6,6 +6,10 @@ import java.util.Scanner;
 public class LoginWindow {
     private int input;
 
+    /**
+     * Prompts the user and returns 1 or 2 depending if they want to log in or create a new account.
+     * @return either 1 or 2 as an int
+     */
     // cited from https://stackoverflow.com/questions/3059333/validating-input-using-java-util-scanner/3059367#3059367
     public int run() {
         boolean picking = true;
