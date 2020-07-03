@@ -1,15 +1,6 @@
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
 
 public class AdminMenuPresenter {
-    private AdminMenu am;
-    private int input;
-
-    public AdminMenuPresenter(AdminMenu adminMenu) {
-        am = adminMenu;
-    }
 
     public String mainMenu() {
         return "1. Check Pending Items for Approval. \n2. Check Pending Users for Approval \n3. Create " +
