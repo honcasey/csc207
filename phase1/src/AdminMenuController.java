@@ -2,11 +2,11 @@ import java.util.*;
 
 public class AdminMenuController {
     public AdminUser currentAdmin; // admin that's logged in
-    private AdminManager am;
-    public UserManager um;
+    private final AdminManager am;
+    private final UserManager um;
     private HashMap<Item, User> allPendingItems;
     private List<User> pendingFrozenUsers;
-    private AdminMenuPresenter amp;
+    private final AdminMenuPresenter amp;
     private int input;
 
     public AdminMenuController(AdminManager adminManager, UserManager userManager,
@@ -51,9 +51,7 @@ public class AdminMenuController {
 
     private void checkPendingItems() {
         Scanner scanner = new Scanner(System.in);
-        if (allPendingItems.isEmpty()) {
-            amp.empty("Pending Items");
-        }
+        if (allPendingItems.isEmpty()) { amp.empty("Pending Items"); }
         else {
             Iterator<Item> itemIterator = allPendingItems.keySet().iterator();
             while (itemIterator.hasNext()) {
@@ -100,8 +98,13 @@ public class AdminMenuController {
     }
 
     private boolean checkAvailableAdminUsername(String username) {
-        for (AdminUser admin : am.getAllAdmins()) { // TO-DO: this should iterate through Admin and User usernames
+        for (AdminUser admin : am.getAllAdmins()) {
             if (admin.getUsername().equals(username)) {
+                return false;
+            }
+        }
+        for (User user : um.getAllUsers()) {
+            if (user.getUsername().equals(username)) {
                 return false;
             }
         }
@@ -189,11 +192,11 @@ public class AdminMenuController {
                     break;
             }
         } catch(InvalidUserException e) {
-            System.err.print("Username does not exist. Please enter an existing User's username.");
+            System.err.print("Username does not exist. Please enter an existing User's username."); // TO-DO: get exception to print this message
         }
     }
 
-    private void checkPendingFrozenAccounts(){
+    private void checkPendingFrozenAccounts(){ // TO-DO
         Scanner scanner = new Scanner(System.in);
         if(am.getPendingFrozenUsers().isEmpty()){
             amp.empty("Pending Frozen Users");
