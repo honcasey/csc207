@@ -24,7 +24,7 @@ public class AdminMenu {
      * @return True or False as boolean
      */
     public boolean checkAvailableAdminUsername(String username) {
-        for (AdminUser admin : am.getAllAdmins()) {
+        for (AdminUser admin : am.getAllAdmins()) { // TO-DO: this should iterate through Admin and User usernames
             if (admin.getUsername().equals(username)) {
                 return false;
             }

@@ -32,6 +32,10 @@ public class AdminMenuPresenter {
         return "What would you like to change the " + whichThreshold + " threshold to?";
     }
 
+    public String usernameTaken() {
+        return "Username already taken. Please enter a different one.";
+    }
+
 
 
 

@@ -8,7 +8,7 @@ public class AdminMenuController {
     private AdminMenuPresenter amp;
     private int input;
 
-    public void run() {
+    public void run() throws InvalidAdminException {
         Scanner scanner = new Scanner(System.in);
         boolean userInteracting = true;
 
@@ -79,18 +79,19 @@ public class AdminMenuController {
         }
     }
 
-    private void createAdmin() {
+    private void createAdmin() throws InvalidAdminException {
         if (am.currentAdmin.isFirstAdmin()) {
             Scanner scanner = new Scanner(System.in);
             System.out.println(amp.enterName("new Admin"));
             String username = scanner.nextLine();
-            System.out.println("Please enter new Administrative User's password: ");
-            String password = scanner.nextLine();
-            try {
+            if (am.checkAvailableAdminUsername(username)) {
+                System.out.println("Please enter new Administrative User's password: ");
+                String password = scanner.nextLine();
                 am.createNewAdmin(username, password);
                 System.out.println("New Admin User " + username + " successfully created.");
-            } catch(InvalidAdminException e) {
-                System.out.println("Username already taken.");
+            }
+            else {
+                System.out.println(amp.usernameTaken());
             }
         }
         else { System.out.println("Permission denied, only the first admin can create new administrative user accounts.");}
