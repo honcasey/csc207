@@ -1,49 +1,71 @@
 import javax.swing.text.html.Option;
 import java.util.*;
 
-public class UserMenuViewer {
+public class UserMenuController {
+    /**
+     *
+     */
+
+
     private UserMenu userMenu;
     private int input;
 
-    public UserMenuViewer(UserMenu userMenu) {
+    public UserMenuController(UserMenu userMenu) {
         this.userMenu = userMenu;
     }
 
+    /**
+     * takes in a list of options, scanner
+     * @param scanner
+     * @param OptionList
+     * @param BackOption
+     * @param OptionPrompt
+     * @return
+     */
     private int HandleOptions(Scanner scanner, List<String> OptionList, boolean BackOption, String OptionPrompt) {
+        if(BackOption) {
+            this.addBackOption(OptionList);
+        }
+        this.displayOptions(OptionList);
+        return (this.selectOption(OptionList,OptionPrompt));
+    }
+
+    /**
+     * Formats and displays a list of options to the user.
+     * @param OptionList the list of options that you want to be displayed.
+     */
+    public void displayOptions(List<String> OptionList){
         for(int i = 0; i < OptionList.size(); i++){
             String index = Integer.toString(i+1);
             String OutputLine =  index + ". " + OptionList.get(i);
             System.out.println(OutputLine);
         }
-        if(BackOption) {
-            String LastIndex = Integer.toString(OptionList.size() + 1);
-            String LastOption = ". Go back";
-            System.out.println(LastIndex + LastOption);
-
-            int OptionChosen;
-            do {
-                System.out.println(OptionPrompt);
-                while (!scanner.hasNextInt()) {
-                    System.out.println("That is not a valid option. Please enter a number corresponding to one of the options.");
-                    scanner.next();
-                }
-                OptionChosen = scanner.nextInt();
-            } while (OptionChosen > OptionList.size() + 1 || OptionChosen <= 0);
-            return (OptionChosen);
-        }
-        else {
-            int OptionChosen;
-            do {
-                System.out.println(OptionPrompt);
-                while (!scanner.hasNextInt()) {
-                    System.out.println("That is not a valid option. Please enter a number corresponding to one of the options.");
-                    scanner.next();
-                }
-                OptionChosen = scanner.nextInt();
-            } while (OptionChosen > OptionList.size() || OptionChosen <= 0);
-            return (OptionChosen);
-        }
     }
+
+    /**
+     * Adds Back option at the end of options being displayed to the user.
+     * @param OptionList The list of options being displayed prior to calling this method.
+     */
+    public void addBackOption(List<String> OptionList){
+        String LastIndex = Integer.toString(OptionList.size() + 1);
+        String LastOption = ". Go back";
+        OptionList.add(LastIndex + LastOption);
+    }
+
+    public int selectOption(List<String> OptionList, String OptionPrompt){
+        Scanner scanner = new Scanner(System.in);
+        int OptionChosen;
+        do {
+            System.out.println(OptionPrompt);
+            while (!scanner.hasNextInt()) {
+                System.out.println("That is not a valid option. Please enter a number corresponding to one of the options.");
+                scanner.next();
+            }
+            OptionChosen = scanner.nextInt();
+        } while (OptionChosen > OptionList.size() || OptionChosen <= 0);
+        return(OptionChosen);
+    }
+
 
     public void run() {
         Scanner scanner = new Scanner(System.in);

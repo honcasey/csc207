@@ -138,8 +138,8 @@ public class TradingSystem {
                 try {
                     UserMenu userMenu = new UserMenu(userManager,
                             adminManager, pendingItems, userManager.getUser(username));
-                    UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
-                    userMenuViewer.run();
+                    UserMenuController userMenuController = new UserMenuController(userMenu);
+                    userMenuController.run();
                 } catch(InvalidUserException e) {
                     // we already checked this username corresponds to a valid user on line 120
                     // so technically userManager.getUser(username) should never throw an exception
@@ -161,8 +161,8 @@ public class TradingSystem {
         try {
             User user = userManager.addUser(username, password);
             UserMenu userMenu = new UserMenu(userManager, adminManager, pendingItems, user);
-            UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
-            userMenuViewer.run();
+            UserMenuController userMenuController = new UserMenuController(userMenu);
+            userMenuController.run();
         } catch(InvalidUserException e) {
             // we just created this new user so we know it's a valid user so userManager.getUser()
             // should not throw an InvalidUserException
