@@ -7,6 +7,7 @@ public class UserMenu {
     private User currentUser; // user that's logged in
     private AdminManager am;
     private UserManager um;
+    private TransactionManager tm;
     private HashMap<Item, User> allPendingItems;
 
     public UserMenu(UserManager userManager, AdminManager adminManager,
@@ -85,7 +86,14 @@ public class UserMenu {
      */
     public void cancelTransaction(Transaction transaction){
         currentUser.getTransactionDetails().getIncomingOffers().remove(transaction);
-        transaction.setStatus("cancelled");
+       User u =  transaction.getUser1();
+       if (u == currentUser){
+           transaction.setStatusUser1("cancel");
+       }
+       else{
+           transaction.setStatusUser2("cancel");
+       }
+       tm.updateStatus(transaction);
     }
     /**
      * creates a Transaction and adds it to users
