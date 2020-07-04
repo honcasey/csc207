@@ -86,33 +86,15 @@ public class TransactionManager {
                 allTransactions.add(transaction);
                 return transaction;
         }
-
-    public Meeting createMeeting(String location, int year, int month, int dayOfMonth, int hour, int minutes){
-        return new Meeting(location, year, month, dayOfMonth, hour, minutes);
-    }
-
-    public boolean confirmMeeting(Meeting meeting, int userNum) throws Exception{
-            if (userNum == 1) {
-                meeting.setUser1approved(true);
-                return true;
-            }
-            else if (userNum == 2){
-                meeting.setUser2approved(true);
-                return true;
-            }
-            else{
-                return false;
-            }
-    }
+        
 
     /**
-     * @return True if the meeting has been edited
-     * @param meeting the transaction who's status is being changed
-     * @param usernum the number of the user who is editing the transaction, must be either 1 or 2
+     * This method determines if the user who is editing a transaction or meeting is user1 or user2
+     * @param transaction the transaction that the user wants to work with
+     * @param userId the UUID of the user
+     * @return an interger either 1 or 2
      */
-    //TODO: I don't know the best way to have an edit meeting function, do we want overloading, or if someone edits they
-    //TODO:edit all parameters at once?
-    private int findUserNum(Transaction transaction, UUID userId){
+    public int findUserNum(Transaction transaction, UUID userId){
         if (transaction.getUser1().equals(userId)){
             return 1;
         }
