@@ -6,7 +6,7 @@ import java.util.*;
 public class AdminMenu {
     public AdminUser currentAdmin; // admin that's logged in
     private AdminManager am;
-    private UserManager um;
+    public UserManager um;
     private HashMap<Item, User> allPendingItems;
     private List<User> pendingFrozenUsers;
 
@@ -24,7 +24,7 @@ public class AdminMenu {
      * @return True or False as boolean
      */
     public boolean checkAvailableAdminUsername(String username) {
-        for (AdminUser admin : am.getAllAdmins()) {
+        for (AdminUser admin : am.getAllAdmins()) { // TO-DO: this should iterate through Admin and User usernames
             if (admin.getUsername().equals(username)) {
                 return false;
             }
@@ -93,18 +93,6 @@ public class AdminMenu {
         if (freeze) { um.freezeAccount(user); }
         else { um.unfreezeAccount(user); }
     }
-
-    /**
-     * Getter for this AdminMenu's UserManager.
-     * @return the UserManager
-     */
-    public UserManager getUm() { return um; }
-
-    /**
-     * Getter for this AdminMenu's AdminManager.
-     * @return the AdminManager
-     */
-    public AdminManager getAm() {return am; }
 
     /**
      * Getter for this AdminMenu's list of all pending items that have been requested by users to be added to their inventory.
