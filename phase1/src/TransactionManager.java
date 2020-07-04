@@ -87,8 +87,7 @@ public class TransactionManager {
         }
 
     public Meeting createMeeting(String location, int year, int month, int dayOfMonth, int hour, int minutes){
-           Meeting meeting = new Meeting(location, year, month, dayOfMonth, hour, minutes);
-           return meeting;
+        return new Meeting(location, year, month, dayOfMonth, hour, minutes);
     }
 
     public boolean confirmMeeting(Meeting meeting, int userNum) throws Exception{
