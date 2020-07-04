@@ -1,49 +1,71 @@
 import javax.swing.text.html.Option;
 import java.util.*;
 
-public class UserMenuViewer {
+public class UserMenuController {
+    /**
+     *
+     */
+
+
     private UserMenu userMenu;
     private int input;
 
-    public UserMenuViewer(UserMenu userMenu) {
+    public UserMenuController(UserMenu userMenu) {
         this.userMenu = userMenu;
     }
 
+    /**
+     * takes in a list of options, scanner
+     * @param scanner
+     * @param OptionList
+     * @param BackOption
+     * @param OptionPrompt
+     * @return
+     */
     private int HandleOptions(Scanner scanner, List<String> OptionList, boolean BackOption, String OptionPrompt) {
+        if(BackOption) {
+            this.addBackOption(OptionList);
+        }
+        this.displayOptions(OptionList);
+        return (this.selectOption(OptionList,OptionPrompt));
+    }
+
+    /**
+     * Formats and displays a list of options to the user.
+     * @param OptionList the list of options that you want to be displayed.
+     */
+    public void displayOptions(List<String> OptionList){
         for(int i = 0; i < OptionList.size(); i++){
             String index = Integer.toString(i+1);
             String OutputLine =  index + ". " + OptionList.get(i);
             System.out.println(OutputLine);
         }
-        if(BackOption) {
-            String LastIndex = Integer.toString(OptionList.size() + 1);
-            String LastOption = ". Go back";
-            System.out.println(LastIndex + LastOption);
-
-            int OptionChosen;
-            do {
-                System.out.println(OptionPrompt);
-                while (!scanner.hasNextInt()) {
-                    System.out.println("That is not a valid option. Please enter a number corresponding to one of the options.");
-                    scanner.next();
-                }
-                OptionChosen = scanner.nextInt();
-            } while (OptionChosen > OptionList.size() + 1 || OptionChosen <= 0);
-            return (OptionChosen);
-        }
-        else {
-            int OptionChosen;
-            do {
-                System.out.println(OptionPrompt);
-                while (!scanner.hasNextInt()) {
-                    System.out.println("That is not a valid option. Please enter a number corresponding to one of the options.");
-                    scanner.next();
-                }
-                OptionChosen = scanner.nextInt();
-            } while (OptionChosen > OptionList.size() || OptionChosen <= 0);
-            return (OptionChosen);
-        }
     }
+
+    /**
+     * Adds Back option at the end of options being displayed to the user.
+     * @param OptionList The list of options being displayed prior to calling this method.
+     */
+    public void addBackOption(List<String> OptionList){
+        String LastIndex = Integer.toString(OptionList.size() + 1);
+        String LastOption = ". Go back";
+        OptionList.add(LastIndex + LastOption);
+    }
+
+    public int selectOption(List<String> OptionList, String OptionPrompt){
+        Scanner scanner = new Scanner(System.in);
+        int OptionChosen;
+        do {
+            System.out.println(OptionPrompt);
+            while (!scanner.hasNextInt()) {
+                System.out.println("That is not a valid option. Please enter a number corresponding to one of the options.");
+                scanner.next();
+            }
+            OptionChosen = scanner.nextInt();
+        } while (OptionChosen > OptionList.size() || OptionChosen <= 0);
+        return(OptionChosen);
+    }
+
 
     public void run() {
         Scanner scanner = new Scanner(System.in);
@@ -56,22 +78,25 @@ public class UserMenuViewer {
             System.out.println("4. View Past Transaction Details");
             System.out.println("5. View Wishlist");
             System.out.println("6. View Inventory");
-            System.out.println("7. Log Out");
+            System.out.println("7. Request Admin to Unfreeze Account");
+            System.out.println("8. Log Out");
             System.out.println("Pick an option from above.");
             input = scanner.nextInt();
             if (input == 1) {
                 requestAddItem();
             } else if (input == 2) {
-                 DisplayAvailableItems();
+                DisplayAvailableItems();
             } else if (input == 3) {
                 // call this.um.getActiveTransactions()
             } else if (input == 4) {
-                // call um.method()
+                viewPastTransaction();
             } else if (input == 5) {
                 viewWishlist();
             } else if (input == 6) {
                 viewInventory();
             } else if (input == 7) {
+                requestUnfreezeAccount();
+            } else if (input == 8) {
                 System.out.println("You have successfully logged out.");
                 // stop the while loop
                 UserMenuActivity = false;
@@ -188,11 +213,11 @@ public class UserMenuViewer {
 
     private void viewWishlist() {
         Scanner scanner = new Scanner(System.in);
-        if (userMenu.getUserWishlist() == null) {
+        if (userMenu.currentUser.getWishlist() == null) {
             System.out.println("Your wishlist is empty.");
         }
         else {
-            Iterator<Item> itemIterator = userMenu.getUserWishlist().iterator();
+            Iterator<Item> itemIterator = userMenu.currentUser.getWishlist().iterator();
             List<String> optionList = new ArrayList<>();
             while (itemIterator.hasNext()) {
                 optionList.add(itemIterator.next().toString());
@@ -203,7 +228,7 @@ public class UserMenuViewer {
                 System.out.println("Loading Previous Menu");
             }
             else {
-                userMenu.withdrawItem(userMenu.getUserWishlist().get(optionChosen), "wishlist");
+                userMenu.withdrawItem(userMenu.currentUser.getWishlist().get(optionChosen), "wishlist");
                 System.out.println("The item has been removed from your wishlist.");
             }
         }
@@ -211,11 +236,11 @@ public class UserMenuViewer {
 
     private void viewInventory() {
         Scanner scanner = new Scanner(System.in);
-        if (userMenu.getUserInventory() == null) {
+        if (userMenu.currentUser.getInventory() == null) {
             System.out.println("Your inventory is empty.");
         }
         else {
-            Iterator<Item> itemIterator = userMenu.getUserInventory().iterator();
+            Iterator<Item> itemIterator = userMenu.currentUser.getInventory().iterator();
             List<String> optionList = new ArrayList<>();
             while (itemIterator.hasNext()) {
                 optionList.add(itemIterator.next().toString());
@@ -225,9 +250,29 @@ public class UserMenuViewer {
                 System.out.println("Loading Previous Menu");
             }
             else {
-                userMenu.withdrawItem(userMenu.getUserInventory().get(optionChosen), "inventory");
+                userMenu.withdrawItem(userMenu.currentUser.getInventory().get(optionChosen), "inventory");
                 System.out.println("The item has been removed from your inventory.");
             }
+        }
+    }
+
+    private void requestUnfreezeAccount() {
+        if (userMenu.currentUser.isFrozen()) {
+            userMenu.requestUnfreezeAccount();
+            System.out.println("You have successfully requested for your account to be unfrozen.");
+        }
+        else {
+            System.out.println("Your account is not frozen.");
+        }
+    }
+
+    private void viewPastTransaction(){
+        TransactionHistory transactionHistory= userMenu.currentUser.getTransactionHistory();
+        if (transactionHistory == null){
+            System.out.println("Your transaction history is empty.");
+        }
+        else {
+            System.out.println(transactionHistory.toString());
         }
     }
 }

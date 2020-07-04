@@ -23,7 +23,11 @@ public class TradingSystem {
     private LoginWindow loginWindow;
 
 
-    // only method that should be run in this class
+    /**
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public void run() throws IOException, ClassNotFoundException {
         readData();
         checkFirstAdmin();
@@ -62,10 +66,8 @@ public class TradingSystem {
     }
 
     /**
-     * A helper function to check if the file specified by filePath exists. If this file does
+     * A helper method to check if the file specified by filePath exists. If this file does
      * not exist, this method generates it.
-     * @param filePath a string filePath giving the location of the file
-     * @throws IOException
      */
     private void checkFileExists(String filePath) throws IOException {
         File file = new File(filePath);
@@ -94,8 +96,7 @@ public class TradingSystem {
     }
 
     /**
-     *
-     * @throws IOException
+     * A helper method that saves the changes made by the user.
      */
     private void writeData() throws IOException {
         Serializer serializer = new Serializer();
@@ -104,13 +105,15 @@ public class TradingSystem {
         serializer.writeItemsToFile(itemsFilePath, pendingItems);
     }
 
-    // helper method to get username and password
+    /**
+     * A helper method to get username and password inputted by the user.
+     */
     private void parseCredentials(String[] credentials) {
         username = credentials[0];
         password = credentials[1];
     }
 
-    // helper method to log in
+    // A helper method used to validate the username and password, if correct run the correct menu.
     private void login() {
         // get username and password
         parseCredentials(loginWindow.getUserAndPass());
@@ -135,8 +138,8 @@ public class TradingSystem {
                 try {
                     UserMenu userMenu = new UserMenu(userManager,
                             adminManager, pendingItems, userManager.getUser(username));
-                    UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
-                    userMenuViewer.run();
+                    UserMenuController userMenuController = new UserMenuController(userMenu);
+                    userMenuController.run();
                 } catch(InvalidUserException e) {
                     // we already checked this username corresponds to a valid user on line 120
                     // so technically userManager.getUser(username) should never throw an exception
@@ -150,29 +153,27 @@ public class TradingSystem {
         }
     }
 
-    // helper method to create an account
+    // A helper method to create a new user account.
     private void createAccount() {
         // get username and password
         parseCredentials(loginWindow.getUserAndPass());
 
-        // continue loop if username is already taken
-        while (!userManager.checkAvailableUsername(username) | !adminManager.checkAvailableUsername(username)) {
-            System.out.println("Username already taken!");
-            parseCredentials(loginWindow.getUserAndPass());
-        }
-
         try {
             User user = userManager.addUser(username, password);
             UserMenu userMenu = new UserMenu(userManager, adminManager, pendingItems, user);
-            UserMenuViewer userMenuViewer = new UserMenuViewer(userMenu);
-            userMenuViewer.run();
+            UserMenuController userMenuController = new UserMenuController(userMenu);
+            userMenuController.run();
         } catch(InvalidUserException e) {
             // we just created this new user so we know it's a valid user so userManager.getUser()
             // should not throw an InvalidUserException
-            System.out.println("Invalid User.");
+            System.out.println("Username already taken.");
         }
     }
 
+    /**
+     * A helper method to check if the first admin already exists. If the first admin does not exist
+     * this method creates it.
+     */
     private void checkFirstAdmin() {
         if (adminManager.validAdmin("admin", "password")) {
             // the first admin exists, do nothing

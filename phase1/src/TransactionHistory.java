@@ -13,19 +13,19 @@ public class TransactionHistory {
     private HashMap<LocalDate, Transaction> dateToTransaction; // decide if this is really needed
     private int numItemsLended = 0;
     private int numItemsBorrowed = 0;
-    // TODO: get week transactions --> this should be a boolean and this should call the threshold from the User
-    // TODO: toString id
+
+
     /**
      * Constructs an instance of TransactionHistory with an empty ArrayList transactions and an empty Hashtable usersNumTradeTimes
      * The most recent Transaction is added to the end of the list transactions
      */
-
     public TransactionHistory(){
         oneWayTransactions = new ArrayList<>();
         twoWayTransactions = new ArrayList<>();
         usersNumTradeTimes = new HashMap<>();
         dateToTransaction = new HashMap<>();
     }
+
     /**
      * @return the three most recent OneWay Transactions
      */
@@ -44,6 +44,7 @@ public class TransactionHistory {
         }
         return (ArrayList<Transaction>) twoWayTransactions.subList(twoWayTransactions.size() - 3, twoWayTransactions.size());
     }
+
     /**
      * @return the usernames of the User's top three trading partners
      */
@@ -92,6 +93,7 @@ public class TransactionHistory {
         return mostTradedWithUsernames;
 
     }
+
     /**
      * @return all OneWay Transactions
      */
@@ -107,9 +109,18 @@ public class TransactionHistory {
     }
 
     /**
+     * @return an ArrayList of all Transactions
+     */
+    public ArrayList<Transaction>getAllTransactions(){
+        ArrayList<Transaction> allTransactions = new ArrayList<>();
+        allTransactions.addAll(oneWayTransactions);
+        allTransactions.addAll(twoWayTransactions);
+        return allTransactions;
+    }
+    /**
      * @return all of users and the times they have been traded with
      */
-    public  HashMap<User, Integer> getUsersNumTradeTimes(){
+    public HashMap<User, Integer> getUsersNumTradeTimes(){
         return usersNumTradeTimes;
     }
 
@@ -159,20 +170,46 @@ public class TransactionHistory {
         }
     }
 
-//    /**
-//     * Returns a String Representation of User's Transaction History
-//     * @return
-//     */
-//    public String toString(){
-//        StringBuilder newString = new StringBuilder("Your Transaction History:" + "/n");
-//       for (int i = 0; i < oneWayTransactions.size();) {
-//           if(oneWayTransactions.get(i).isPerm()){
-//               newString.append(oneWayTransactions.get(i).getFirstMeeting().getDate()).append(",");
-//               newString.append(oneWayTransactions.get(i).getItem())
-//           }
-//           i++;
-//        }
-//       return newString.toString();
-//    }
+    /**
+     * Returns a String Representation of User's Transaction History
+     * @return String Representation of User's Transaction History
+     */
+    public String toString(){
+        StringBuilder newString = new StringBuilder("Your Transaction History:" + "/n");
+        ArrayList<Transaction> allTrans = getAllTransactions();
+       for (int i = 0; i < allTrans.size();) {
+           newString.append(allTrans.get(i).toString());
+           newString.append("/n");
+           i++;
+        }
+       return newString.toString();
+    }
 
+public int numTransactionsInWeek(){
+        int numTransactions = 0;
+        ArrayList<Transaction> allTransactions = getAllTransactions();
+//        ZoneId k = ZoneId.of("America/Montreal");
+//        LocalDate today = LocalDate.now(k); alternative way of doing it; saving just in case
+        Calendar currentCal = Calendar.getInstance();
+        int week = currentCal.get(Calendar.WEEK_OF_YEAR);
+        int year = currentCal.get(Calendar.YEAR);
+        Calendar targetCal = Calendar.getInstance();
+        int targetWeek;
+        int targetYear;
+        for (int i = 0; i < allTransactions.size();){
+            LocalDate date;
+            Transaction currTrans = allTransactions.get(i);
+            date = currTrans.getTransactionMeetings().get(currTrans.getTransactionMeetings().size() - 1).getDate();
+            Date setDate = java.sql.Date.valueOf(date);
+            targetCal.setTime(setDate);
+            targetWeek = targetCal.get(Calendar.WEEK_OF_YEAR);
+            targetYear = targetCal.get(Calendar.YEAR);
+            if(targetWeek == week && targetYear == year){
+                numTransactions ++;
+            }
+            i++;
+        }
+       // main idea of this code from: https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
+        return numTransactions;
+   }
 }

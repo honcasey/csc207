@@ -76,7 +76,6 @@ public class UserManager {
 
     }
 
-
     /**
      * To remove a item from user's specified list, which is either the User's wishlist or inventory.
      * @param user An user in the trading system.
@@ -91,7 +90,6 @@ public class UserManager {
             user.getInventory().remove(item);
         }
     }
-
 
     /**
      * To change the user's specified threshold.
@@ -114,7 +112,7 @@ public class UserManager {
     }
 
     /**
-     * To change the status of an user's account to frozen.
+     * Changes the status of a user's account from active to frozen.
      * @param user A user in the trading system.
      */
     public void freezeAccount(User user){
@@ -122,7 +120,7 @@ public class UserManager {
     }
 
     /**
-     * To change the status of an user's account to active.
+     * Changes the status of a user's account from frozen to active.
      * @param user A user in the trading system.
      */
     public void unfreezeAccount(User user){
@@ -130,7 +128,7 @@ public class UserManager {
     }
 
     /**
-     * Add a transaction to User's transaction history.
+     * Adds a transaction to User's transaction history.
      * @param user A user in the trading system.
      * @param transaction a meetup between 2 users.
      */
@@ -176,7 +174,7 @@ public class UserManager {
         }
 
     /**
-     * To check whether the username is valid.
+     * Checks whether the input username is valid.
      * @param username online identifier of a User
      * @return True or False as boolean
      */

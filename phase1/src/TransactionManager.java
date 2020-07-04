@@ -87,8 +87,7 @@ public class TransactionManager {
         }
 
     public Meeting createMeeting(String location, int year, int month, int dayOfMonth, int hour, int minutes){
-           Meeting meeting = new Meeting(location, year, month, dayOfMonth, hour, minutes);
-           return meeting;
+        return new Meeting(location, year, month, dayOfMonth, hour, minutes);
     }
 
     public boolean confirmMeeting(Meeting meeting, int userNum) throws Exception{
@@ -104,7 +103,6 @@ public class TransactionManager {
                 return false;
             }
     }
-
 
     /**
      * @return True if the meeting has been edited
@@ -153,9 +151,7 @@ public class TransactionManager {
             return false;
         }
         else{
-            String ustatus1 = transaction.getStatusUser1();
-            String ustatus2 = transaction.getStatusUser2();
-            if (ustatus1.equals("confirm") & ustatus2.equals("confirm")){
+            if (transaction.getStatusUser1().equals("confirm") & transaction.getStatusUser2().equals("confirm")){
                 transaction.setStatus("confirmed");
                 return true;
             }
@@ -165,24 +161,20 @@ public class TransactionManager {
         }
     }
 
-
     /**
      * @return True if the status of the transaction has been changed to cancelled
      * @param transaction the transaction who's status is being changed
      */
     private boolean pendingToCancelled(Transaction transaction){
-        String ustatus1 = transaction.getStatusUser1();
-        String ustatus2 = transaction.getStatusUser2();
-        String status = transaction.getStatus();
-        if (status.equals("pending") & (ustatus1.equals("cancel") || ustatus2.equals("cancel"))){
+        if (transaction.getStatus().equals("pending") & (transaction.getStatusUser1().equals("cancel") || transaction.getStatusUser2().equals("cancel"))){
             transaction.setStatus("cancelled");
             return true;
         }
-        if (status.equals("confirmed") & (ustatus1.equals("cancel") || ustatus2.equals("cancel"))){
-            if (ustatus1.equals("traded") || ustatus1.equals("complete")){
+        if (transaction.getStatus().equals("confirmed") & (transaction.getStatusUser1().equals("cancel") || transaction.getStatusUser2().equals("cancel"))){
+            if (transaction.getStatusUser1().equals("traded") || transaction.getStatusUser1().equals("complete")){
                 return false;
             }
-            if (ustatus2.equals("traded") || ustatus2.equals("complete")){
+            if (transaction.getStatusUser2().equals("traded") || transaction.getStatusUser2().equals("complete")){
                 return false;
             }
             else{
@@ -207,9 +199,7 @@ public class TransactionManager {
             return false;
         }
         else{
-            String ustatus1 = transaction.getStatusUser1();
-            String ustatus2 = transaction.getStatusUser2();
-            if (ustatus1.equals("traded") & ustatus2.equals("traded")){
+            if (transaction.getStatusUser1().equals("traded") & transaction.getStatusUser2().equals("traded")){
                 transaction.setStatus("traded");
                 return true;
             }
@@ -231,9 +221,7 @@ public class TransactionManager {
             return false;
         }
         else{
-            String ustatus1 = transaction.getStatusUser1();
-            String ustatus2 = transaction.getStatusUser2();
-            if (ustatus1.equals("incomplete") || ustatus2.equals("incomplete")){
+            if (transaction.getStatusUser1().equals("incomplete") || transaction.getStatusUser2().equals("incomplete")){
                 transaction.setStatus("incomplete");
                 return true;
             }
@@ -256,9 +244,7 @@ public class TransactionManager {
             return false;
         }
         else{
-            String ustatus1 = transaction.getStatusUser1();
-            String ustatus2 = transaction.getStatusUser2();
-            if (ustatus1.equals("traded") & ustatus2.equals("traded")){
+            if (transaction.getStatusUser1().equals("traded") & transaction.getStatusUser2().equals("traded")){
                 transaction.setStatus("complete");
                 return true;
             }
@@ -280,9 +266,7 @@ public class TransactionManager {
             return false;
         }
         else{
-            String ustatus1 = transaction.getStatusUser1();
-            String ustatus2 = transaction.getStatusUser2();
-            if (ustatus1.equals("returned") & ustatus2.equals("returned")){
+            if (transaction.getStatusUser1().equals("returned") & transaction.getStatusUser2().equals("returned")){
                 transaction.setStatus("complete");
                 return true;
             }
@@ -304,9 +288,7 @@ public class TransactionManager {
             return false;
         }
         else{
-            String ustatus1 = transaction.getStatusUser1();
-            String ustatus2 = transaction.getStatusUser2();
-            if (ustatus1.equals("neverReturned") || ustatus2.equals("neverReturned")){
+            if (transaction.getStatusUser1().equals("neverReturned") || transaction.getStatusUser2().equals("neverReturned")){
                 transaction.setStatus("neverReturned");
                 return true;
             }
