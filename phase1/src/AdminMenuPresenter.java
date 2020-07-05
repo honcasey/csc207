@@ -6,7 +6,7 @@ public class AdminMenuPresenter implements PresenterStrings{
     public void mainMenu() {
         System.out.println("1. Check Pending Items for Approval. \n2. Check Pending Users for Approval \n3. Create " +
                 "New Admin User \n4. Add New Item to a User's Wishlist/Inventory \n5. Change User Threshold " +
-                "\n6. Logout \nPick an option.");
+                "\n6. Check Pending Frozen Users Request \n7. Check Frozen Users Request  \n8. Logout  \nPick an option.");
     }
 
     @Override

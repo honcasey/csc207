@@ -37,6 +37,10 @@ public class AdminMenuController {
             } else if (input == 5) {
                 changeUserThreshold();
             } else if (input == 6) {
+                checkFrozenAccounts("pendingFrozenUsers");
+            } else if (input == 7) {
+                checkFrozenAccounts("frozenUsers");
+            } else if (input == 8) {
                 System.out.println("You have successfully logged out.");
                 // stop the while loop
                 userInteracting = false;
@@ -196,19 +200,37 @@ public class AdminMenuController {
         }
     }
 
-    private void checkPendingFrozenAccounts(){ // TO-DO
+    private void checkFrozenAccounts(String listType){ // TO-DO
         Scanner scanner = new Scanner(System.in);
-        if(am.getPendingFrozenUsers().isEmpty()){
-            amp.empty("Pending Frozen Users");
+        if (listType.equals("pendingFrozenUsers")){
+            if(am.getPendingFrozenUsers().isEmpty()){
+                amp.empty("Pending Frozen Users");
+            }
+            else {
+                for (User user: am.getPendingFrozenUsers()) {
+                    System.out.println(user);
+                    System.out.println("1. Unfreeze Account. \n2. Go to next user.");
+                    input = scanner.nextInt();
+                    if (input == 1) {
+                        um.unfreezeAccount(user);
+                        System.out.println(user.getUsername() + "'s  account has been set to active.");
+                    }
+                }
+            }
         }
-        else {
-            for (User user: am.getPendingFrozenUsers()) {
-                System.out.println(user);
-                System.out.println("1. Unfreeze Account. \n2. Go to next user.");
-                input = scanner.nextInt();
-                if (input == 1) {
-                    um.unfreezeAccount(user);
-                    System.out.println(user.getUsername() + "'s  account has been set to active.");
+        else{
+            if(am.getFrozenAccounts().isEmpty()){
+                amp.empty("Frozen Users");
+            }
+            else {
+                for (User user: am.getFrozenAccounts()) {
+                    System.out.println(user);
+                    System.out.println("1. Unfreeze Account. \n2. Go to next user.");
+                    input = scanner.nextInt();
+                    if (input == 1) {
+                        um.unfreezeAccount(user);
+                        System.out.println(user.getUsername() + "'s  account has been set to active.");
+                    }
                 }
             }
         }

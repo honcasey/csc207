@@ -99,4 +99,10 @@ public class AdminManager {
      * @return a list of all users that have requested to be unfrozen.
      */
     public List<User> getPendingFrozenUsers() { return pendingFrozenUsers; }
+
+    /**
+     * Getter for this AdminMenu's list of all frozen Users that have been requested to be unfrozen.
+     * @return a list of all frozen users that have requested to be unfrozen.
+     */
+    public List<User> getFrozenAccounts() { return frozenAccounts; }
 }
