@@ -7,7 +7,7 @@ import java.util.UUID;
  * This class manages a transaction between two users. A transaction begins once a user expresses interest in an item.
  */
 public class TransactionManager {
-    private List<Transaction>q allTransactions = new ArrayList<>();
+    private List<Transaction>allTransactions = new ArrayList<>();
     /**
      * Checks if this transaction can be initiated based on the status of the users
      * A transaction is valid if both users accounts are not frozen, and transaction doesn't
