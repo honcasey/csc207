@@ -1,5 +1,6 @@
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
 
@@ -32,22 +33,21 @@ public class Meeting {
     private int numEditsUser1 = 0;
     private int numEditsUser2 = 0;
     private int maxNumEdits = 3;
-    private HashMap<String,Object> userEditable = new HashMap<>();
+    private String location;
+    private LocalDate meetingDate;
+    private LocalTime meetingTime;
 
     /**
      * The constructor for the class Meeting.
      * @param location location to be stored in usereditable hashmap.
-     * @param year The year for the date of the meeting.
-     * @param month the month for the date of the meeting
-     * @param dayOfMonth the day of the month for the meeting.
-     * @param hour the hour for the meeting.
-     * @param minutes the minute for the meeting.
+     * @param meetingDate the dateof the meetup as a  LocalDate object.
+     * @param meetingTime The time of the meetup as a localTime object.
      */
 
-    Meeting(String location, int year, int month, int dayOfMonth, int hour, int minutes){
-        this.userEditable.put("Location",location);
-        this.userEditable.put("Time",LocalTime.of(hour, minutes));
-        this.userEditable.put("Date", LocalDate.of(year,month,dayOfMonth));
+    Meeting(String location, LocalTime meetingTime, LocalDate meetingDate){
+        this.location = location;
+        this.meetingDate = meetingDate;
+        this.meetingTime = meetingTime;
     }
 
     /**
@@ -82,7 +82,7 @@ public class Meeting {
      */
 
     public String getLocation(){
-        return (String) this.userEditable.get("Location");
+        return(this.location);
     }
 
     /**
@@ -90,7 +90,15 @@ public class Meeting {
      * @return this returns an instance for the time of the meeting.
      */
     public LocalTime getTime(){
-        return (LocalTime) this.userEditable.get("Time");
+        return(this.meetingTime);
+    }
+
+    /**
+     * This method returns a string representation of the meeting time.
+     * @return this returns a string representation of the meeting time.
+     */
+    public String DisplayMeetingTime(){
+        return(this.meetingTime.toString());
     }
 
     /**
@@ -98,65 +106,32 @@ public class Meeting {
      * @return this returns the instance of the date for the meeting.
      */
     public LocalDate getDate(){
-        return (LocalDate) this.userEditable.get("Date");
-    }
-
-
-    /**
-     * This method is a helper method that lets usecase classes edit user-editable information.
-     * DO NOT USE THIS AS A GETTER(if you have any tips on how to make this so only certain classes can access this
-     * that would be great.)
-     * @param FieldString The field that needs to be changed.
-     * @param NewVal the new value corresponding the field above.
-     * @return returns true iff method finds information in hashmap and changes it successfully.
-     */
-    protected Boolean userChangeByString(String FieldString, Object NewVal){
-        if(this.userEditable.containsKey(FieldString)) {
-            this.userEditable.put(FieldString, NewVal);
-            return(true);
-        }
-        else{
-            return(false);
-        }
+        return(this.meetingDate);
     }
 
     /**
-     * This is a getter for the hashmap of user-editable information.
-     * @return returns user editable hashmap.
-     */
-
-    protected HashMap<String, Object> getuserEditable(){
-        return(this.userEditable);
-    }
-
-    /**
-     * This is a setter for changing a new location. This u
+     * Setter for the location variable in the meeting class.
      * @param newLocation the new location.
      */
-
     public void setLocation(String newLocation){
-        this.userEditable.put("Location",newLocation);
+        this.location = newLocation;
     }
-
 
     /**
      * This is a setter for the date of the transaction.
-     * @param year year of the date to be set.
-     * @param month month of the date to be set.
-     * @param dayOfMonth day of the month to be set.
+     * @param NewDate this is an instance of the new date object.
      */
-    public void setDate(int year, int month, int dayOfMonth) {
-        this.userEditable.put("Date", LocalDate.of(year, month, dayOfMonth));
+    public void setDate(LocalDate NewDate) {
+        this.meetingDate =  NewDate;
     }
 
     /**
      * This is a setter for the time of the transaction.
-     * @param hour the hour of the time to be set.
-     * @param minutes the minute of the time to be set.
+     * @param NewTime the hour of the time to be set.
      */
 
-    public void setTime(int hour, int minutes){
-        this.userEditable.put("Time",LocalTime.of(hour, minutes));
+    public void setTime(LocalTime NewTime){
+        this.meetingTime = NewTime;
     }
 
     /**
@@ -199,8 +174,6 @@ public class Meeting {
 
     @Override
     public String toString(){
-        String MeetingTime = this.getTime().toString();
-        String MeetingDate = this.getDate().toString();
         return("Meeting is at "+this.getLocation()+ "at this time:" +this.getTime().toString()+ " on this day:" +
                 this.getDate().toString());
     }

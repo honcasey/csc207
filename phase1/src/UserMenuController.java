@@ -1,5 +1,10 @@
 import javax.swing.text.html.Option;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class UserMenuController {
@@ -100,21 +105,21 @@ public class UserMenuController {
         String input = this.HandleOptions(this.userMenuPresenter.constructMainMenu(),
                 false,"User Main Menu","Please type a number corresponding to one of" +
                         "the above options.");
-            if (input == "Request Item for Approval"){
+            if(input.equals("Request Item for Approval")){
                 requestAddItem();
-            } else if (input == "Browse Available Items for Trade") {
+            } else if (input.equals("Browse Available Items for Trade")) {
                 DisplayAvailableItems();
-            } else if (input ==  "View Active Transactions") {
+            } else if (input.equals("View Active Transactions")) {
                 //This Still needs to be done. this.userMenu.getActiveTransactions();
-            } else if (input == "View Past Transaction Details") {
+            } else if (input.equals("View Past Transaction Details")) {
                 viewPastTransaction();
-            } else if (input == "View Wishlist") {
+            } else if (input.equals("View Wishlist")) {
                 viewWishlist();
-            } else if (input == "View Inventory") {
+            } else if (input.equals("View Inventory")) {
                 viewInventory();
-            } else if (input == "Request Admin to Unfreeze Account") {
+            } else if (input.equals("Request Admin to Unfreeze Account")) {
                 requestUnfreezeAccount();
-            } else if (input == "Log Out") {
+            } else if (input.equals("Log Out")) {
                 System.out.println("You have successfully logged out.");
                 userInteracting = false;
             }
@@ -198,7 +203,7 @@ public class UserMenuController {
                     "Select from one of " +
                             "the transaction types above.");
             Meeting FirstMeeting = MeetingDetailsMenu("First Meeting Details");
-            if (OptionChosen == "back") {
+            if (OptionChosen.equals("back")) {
                 System.out.println("Loading Previous Menu");
                 userInteracting = false;
             }
@@ -214,15 +219,58 @@ public class UserMenuController {
         Scanner scanner = new Scanner(System.in);
         System.out.println(MeetingTitle);
         System.out.println("Where do you want to have the first meeting?");
-
-        return(LocalTime.of(hour, minutes));
+        String MeetingLocation = scanner.nextLine();
+        LocalTime MeetingTime = this.UserTimeGetter();
+        LocalDate MeetingDate = this.UserDateGetter();
+        Meeting returnMeeting = new Meeting(MeetingLocation,MeetingTime,MeetingDate);
+        return(returnMeeting);
     }
-    private UserTimeGetter(){
+
+
+    /**
+     * Checks the date string that the user has inputted to see if it is in the accepted format.
+     * @return this returns tru iff Returns true iff it is
+     *      in the accepted format dd/mm/yyyy.
+     */
+
+    private LocalTime UserTimeGetter(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Please Enter the time of your meeting in the format: HH:MM");
+        LocalTime returnTime;
+        while (true) {
+            try {
+                System.out.println("Please Enter the time of your meeting in the format: HH:mm:ss");
+                String DateString = scanner.nextLine();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                returnTime = LocalTime.parse(DateString, formatter);
+                break;
+            }
+            catch(DateTimeParseException e){
+                System.out.println("Invalid time please,try again.");
 
-        LocalTime.of(hour, minutes));
+            }
+        }
+        return(returnTime);
     }
+
+    private LocalDate UserDateGetter(){
+        Scanner scanner = new Scanner(System.in);
+        LocalDate returnDate;
+        while (true) {
+            try {
+                System.out.println("Please Enter the date of your meeting in the format: dd-mm-yyyy");
+                String DateString = scanner.nextLine();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-uuuu");
+                returnDate = LocalDate.parse(DateString, formatter);
+                break;
+            }
+            catch(DateTimeParseException e){
+                System.out.println("Invalid Date please,try again.");
+
+            }
+        }
+        return(returnDate);
+    }
+
 
 
     private void viewWishlist() {
