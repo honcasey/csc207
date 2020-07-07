@@ -140,7 +140,10 @@ public class UserMenu {
     /**
      * Requests the admin user to unfreeze the current user's account, if it's status is already frozen.
      */
-    public void requestUnfreezeAccount() { am.getPendingFrozenUsers().add(currentUser); }
+    public void requestUnfreezeAccount() {
+        am.getPendingFrozenUsers().add(currentUser);
+        am.getFrozenAccounts().remove(currentUser);
+    }
 
     /**
      * Deletes a transaction that is in progress

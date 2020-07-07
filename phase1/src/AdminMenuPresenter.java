@@ -1,12 +1,23 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AdminMenuPresenter implements PresenterStrings{
 
+    public List<String> allThresholds = Arrays.asList("borrow", "weekly", "incomplete");
+    public List<String> userLists = Arrays.asList("wishlist", "inventory");
+
     @Override
-    public String mainMenu() {
-        return "1. Check Pending Items for Approval. \n2. Check Pending Users for Approval \n3. Create " +
-                "New Admin User \n4. Add New Item to a User's Wishlist/Inventory \n5. Change User Threshold " +
-                "\n6. Check Pending Frozen Users Request \n7. Check Frozen Users Request  \n8. Logout  \nPick an option.";
+    public List<String> mainMenu() {
+        List<String> AdminMenuOptions = new ArrayList<>(); // are lists ordered?
+        AdminMenuOptions.add("Check Pending Items for Approval");
+        AdminMenuOptions.add("Check Flagged Users");
+        AdminMenuOptions.add("Create New Admin User");
+        AdminMenuOptions.add("Add New Item to a User's Wishlist/Inventory");
+        AdminMenuOptions.add("Change User Threshold");
+        AdminMenuOptions.add("Check Unfreeze Account Requests");
+        AdminMenuOptions.add("Log Out");
+        return AdminMenuOptions;
     }
 
     @Override
@@ -46,11 +57,14 @@ public class AdminMenuPresenter implements PresenterStrings{
     }
 
     @Override
-    public String freeze(String who, String frozen) {
+    public String accountFrozen(String who, String frozen) {
         return who + "'s account has been set to " + frozen;
     }
 
     @Override
     public String logout() { return "You have successfully logged out."; }
+
+    @Override
+    public String invalidOption() { return "Not a valid option. Please enter a valid option."; }
 
 }

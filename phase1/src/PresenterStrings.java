@@ -2,7 +2,7 @@ import java.util.List;
 
 public interface PresenterStrings {
 
-    String mainMenu();
+    List<String> mainMenu();
 
     String empty(String which);
 
@@ -20,9 +20,11 @@ public interface PresenterStrings {
 
     String currentThreshold(String description, int threshold);
 
-    String freeze(String who, String frozen);
+    String accountFrozen(String who, String frozen);
 
     String logout();
+
+    String invalidOption();
 
 
 }
