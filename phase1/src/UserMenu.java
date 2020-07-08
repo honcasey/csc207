@@ -32,6 +32,7 @@ public class UserMenu {
     public User currentUser; // user that's logged in
     private AdminManager am;
     private UserManager um;
+    private TransactionManager tm;
     private HashMap<Item, User> allPendingItems;
 
     public UserMenu(UserManager userManager, AdminManager adminManager,
@@ -96,9 +97,15 @@ public class UserMenu {
      * @param transaction A transaction to be cancelled and to remove transaction from tra
      */
     public void cancelTransaction(Transaction transaction){
-        // TODO: delete from both people's incoming/outcoming
         currentUser.getTransactionDetails().getIncomingOffers().remove(transaction);
-        transaction.setStatus("cancelled"); // we don't need this, just remove this shit and yeet it
+       User u =  transaction.getUser1();
+       if (u == currentUser){
+           transaction.setStatusUser1("cancel");
+       }
+       else{
+           transaction.setStatusUser2("cancel");
+       }
+       tm.updateStatus(transaction);
     }
 
     /**
@@ -133,7 +140,10 @@ public class UserMenu {
     /**
      * Requests the admin user to unfreeze the current user's account, if it's status is already frozen.
      */
-    public void requestUnfreezeAccount() { am.getPendingFrozenUsers().add(currentUser); }
+    public void requestUnfreezeAccount() {
+        am.getPendingFrozenUsers().add(currentUser);
+        am.getFrozenAccounts().remove(currentUser);
+    }
 
     /**
      * Deletes a transaction that is in progress

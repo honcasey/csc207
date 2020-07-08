@@ -1,5 +1,3 @@
-import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,8 +21,8 @@ import java.util.UUID;
  */
 public abstract class Transaction {
     private UUID id = UUID.randomUUID();
-    private User user1;
-    private User user2;
+    private UUID user1;
+    private UUID user2;
     private Meeting firstMeeting;
     private String status;
     private String statusUser1;
@@ -35,7 +33,7 @@ public abstract class Transaction {
      * @param user_1 one of the users involved in the transactions.
      * @param user_2 one of the users involved in the transactions.
      */
-    public Transaction(User user_1, User user_2, Meeting firstMeeting){
+    public Transaction(UUID user_1, UUID user_2, Meeting firstMeeting){
         status = "pending";
         this.user1 = user_1;
         this.user2 = user_2;
@@ -62,7 +60,7 @@ public abstract class Transaction {
      * setter for user1. This will be called by use case classes.
      */
 
-    public void setUser1(User user1) {
+    public void setUser1(UUID user1) {
         this.user1 = user1;
     }
     /**
@@ -70,15 +68,16 @@ public abstract class Transaction {
      * @return returns user1 of the transaction.
      */
 
-    public User getUser1(){
+    public UUID getUser1(){
         return this.user1;
     }
 
     /**
      * setter for user1. This will be called by use case classes.
+     * @param user2
      */
 
-    public void setUser2(User user2) {
+    public void setUser2(UUID user2) {
         this.user2 = user2;
     }
     /**
@@ -86,7 +85,7 @@ public abstract class Transaction {
      * @return returns user2 of the transaction.
      */
 
-    public User getUser2(){
+    public UUID getUser2(){
         return this.user2;
     }
 
@@ -160,7 +159,7 @@ public abstract class Transaction {
      * Getter for status. This will be called by use case classes.
      */
     public String getStatusUser2() {
-        return statusUser1;
+        return statusUser2;
     }
 
     /**

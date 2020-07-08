@@ -1,105 +1,127 @@
 import javax.swing.text.html.Option;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class UserMenuController {
     /**
      *
      */
-
-
     private UserMenu userMenu;
-    private int input;
+    private UserMenuPresenter userMenuPresenter;
 
-    public UserMenuController(UserMenu userMenu) {
+
+    public UserMenuController(UserMenu userMenu,UserMenuPresenter userMenuPresenter) {
         this.userMenu = userMenu;
+        this.userMenuPresenter = userMenuPresenter;
     }
 
     /**
-     * takes in a list of options, scanner
-     * @param scanner
-     * @param OptionList
-     * @param BackOption
-     * @param OptionPrompt
-     * @return
+     * This method takes in a list of options and handles option display and selection.(generic)
+     * @param OptionList the list of options you want displayed.
+     * @param BackOption boolean representing if you want a back option appended to the option list and displayed.
+     * @param OptionTitle the title of the menu.
+     * @param OptionPrompt what to be displayed after the options on the screen.
+     * @return this returns the option that was selected by the user as a string.
      */
-    private int HandleOptions(Scanner scanner, List<String> OptionList, boolean BackOption, String OptionPrompt) {
-        if(BackOption) {
-            this.addBackOption(OptionList);
+    private String HandleOptions(List<String> OptionList, boolean BackOption, String OptionTitle, String OptionPrompt) {
+        if (BackOption) {
+            this.userMenuPresenter.addBackOption(OptionList);
         }
-        this.displayOptions(OptionList);
-        return (this.selectOption(OptionList,OptionPrompt));
+        System.out.println(OptionTitle);
+        this.userMenuPresenter.displayOptions(OptionList,OptionPrompt);
+        return(this.selectOption(OptionList));
     }
 
-    /**
-     * Formats and displays a list of options to the user.
-     * @param OptionList the list of options that you want to be displayed.
-     */
-    public void displayOptions(List<String> OptionList){
-        for(int i = 0; i < OptionList.size(); i++){
-            String index = Integer.toString(i+1);
-            String OutputLine =  index + ". " + OptionList.get(i);
-            System.out.println(OutputLine);
-        }
-    }
-
-    /**
-     * Adds Back option at the end of options being displayed to the user.
-     * @param OptionList The list of options being displayed prior to calling this method.
-     */
-    public void addBackOption(List<String> OptionList){
-        String LastIndex = Integer.toString(OptionList.size() + 1);
-        String LastOption = ". Go back";
-        OptionList.add(LastIndex + LastOption);
-    }
-
-    public int selectOption(List<String> OptionList, String OptionPrompt){
+    private String selectOption(List<String> OptionList){
         Scanner scanner = new Scanner(System.in);
         int OptionChosen;
         do {
-            System.out.println(OptionPrompt);
             while (!scanner.hasNextInt()) {
                 System.out.println("That is not a valid option. Please enter a number corresponding to one of the options.");
                 scanner.next();
             }
             OptionChosen = scanner.nextInt();
         } while (OptionChosen > OptionList.size() || OptionChosen <= 0);
-        return(OptionChosen);
+        return(OptionList.get(OptionChosen-1));
     }
+
+    private int GetUserInt(String ErrorMsg){
+        Scanner scanner = new Scanner(System.in);
+        int UserInt;
+        do {
+            while (!scanner.hasNextInt()) {
+                System.out.println("That is not a valid number.");
+                scanner.next();
+            }
+            UserInt = scanner.nextInt();
+        } while (UserInt < 0);
+        return(UserInt);
+    }
+
+    /**
+     * This method takes in a list of options and handles option display and selection. (generic)
+     * @param OptionList the list of options you want displayed.
+     * @param BackOption boolean representing if you want a back option appended to the option list and displayed.
+     * @param OptionTitle the title of the option's page.
+     * @param OptionPrompt what to be displayed after the options on the screen.
+     * @return returns the index of the option chosen by the user corresponding the option list that was passed in.
+     *          So that optionlist.get(return value) gives the option that the user has chosen.
+     */
+    private int HandleOptionsByIndex(List<String> OptionList, boolean BackOption, String
+            OptionTitle,String OptionPrompt) {
+        if (BackOption) {
+            this.userMenuPresenter.addBackOption(OptionList);
+        }
+        System.out.println(OptionTitle);
+        this.userMenuPresenter.displayOptions(OptionList,OptionPrompt);
+        return(this.selectOptionByIndex(OptionList));
+    }
+
+    private int selectOptionByIndex(List<String> OptionList){
+        Scanner scanner = new Scanner(System.in);
+        int OptionChosen;
+        do {
+            while (!scanner.hasNextInt()) {
+                System.out.println("That is not a valid option. Please enter a number corresponding to one of the options.");
+                scanner.next();
+            }
+            OptionChosen = scanner.nextInt();
+        } while (OptionChosen > OptionList.size() || OptionChosen <= 0);
+        return(OptionChosen -1);
+    }
+
+    // THE ABOVE ARE ALL JUST HELPER METHODS THAT WILL BE USED BELOW:
 
 
     public void run() {
+        boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
-        boolean UserMenuActivity = true;
-
-        while (UserMenuActivity) {
-            System.out.println("1. Request Item for Approval");
-            System.out.println("2. Browse Available Items for Trade");
-            System.out.println("3. View Active Transactions");
-            System.out.println("4. View Past Transaction Details");
-            System.out.println("5. View Wishlist");
-            System.out.println("6. View Inventory");
-            System.out.println("7. Request Admin to Unfreeze Account");
-            System.out.println("8. Log Out");
-            System.out.println("Pick an option from above.");
-            input = scanner.nextInt();
-            if (input == 1) {
+        while(userInteracting){
+        String input = this.HandleOptions(this.userMenuPresenter.constructMainMenu(),
+                false,"User Main Menu","Please type a number corresponding to one of" +
+                        "the above options.");
+            if(input.equals("Request Item for Approval")){
                 requestAddItem();
-            } else if (input == 2) {
+            } else if (input.equals("Browse Available Items for Trade")) {
                 DisplayAvailableItems();
-            } else if (input == 3) {
-                // call this.um.getActiveTransactions()
-            } else if (input == 4) {
+            } else if (input.equals("View Active Transactions")) {
+                //This Still needs to be done. this.userMenu.getActiveTransactions();
+            } else if (input.equals("View Past Transaction Details")) {
                 viewPastTransaction();
-            } else if (input == 5) {
+            } else if (input.equals("View Wishlist")) {
                 viewWishlist();
-            } else if (input == 6) {
+            } else if (input.equals("View Inventory")) {
                 viewInventory();
-            } else if (input == 7) {
+            } else if (input.equals("Request Admin to Unfreeze Account")) {
                 requestUnfreezeAccount();
-            } else if (input == 8) {
+            } else if (input.equals("Log Out")) {
                 System.out.println("You have successfully logged out.");
-                // stop the while loop
-                UserMenuActivity = false;
+                userInteracting = false;
             }
         }
     }
@@ -118,98 +140,138 @@ public class UserMenuController {
     }
 
     /**
-     * NOT FINISHED! (Almost finished though)
      * This is the method for handling the flow of:
      * 1) Displaying all available items to trade.
-     * 2) Allowing the user to go to an item.
-     * 3) Check if the transaction can occur.
-     *
-     * QUESTION: ARE THE AVAILABLE ITEMS FROM OTHER USERS WHO CAN TRADE? DO WE CHECK BEFORE ADDING TO AVAILABLE ITEMS
-     * OR DO WE CHECK ONCE THE USER HAS SELECTED AN ITEM?
-     *
+     * 2) Allowing the user to click on an item
+     * 3) if the account is not frozen then the user can make a transaction for an item.
      */
     private void DisplayAvailableItems(){
+        boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Available Items for Trade:");
-        String ItemOutputName = ") Item Name: ";
-        String ItemOutputDescription = " |  Item Description: ";
-        HashMap<Item, User> AvailableItems  = this.userMenu.getAvailableItems();
-        List<Item> ItemList = new ArrayList<>(AvailableItems.keySet());
-        // Making Option List
 
-        List<String> OptionList = new ArrayList<>();
-        for (Item item : ItemList) {
-            OptionList.add(ItemOutputName + item.getName() + ItemOutputDescription + item.getDescription());
-        }
-        String AvailableItemsPrompt = "Type the number corresponding to the item you wish to" +
-                " create transaction for. To go back to the previous menu, type the number corresponding to that" +
+        while(userInteracting){
+            HashMap<Item, User> AvailableItems  = this.userMenu.getAvailableItems();
+            List<Item> ItemList = new ArrayList<>(AvailableItems.keySet());
+
+            List<String> OptionList = this.userMenuPresenter.constructAvailableItemsMenu(ItemList);
+            String AvailableItemsTitle = "Available Items For Transaction:";
+            String AvailableItemsPrompt = "Type the number corresponding to the item you wish to" +
+                " create a transaction for. To go back to the previous menu, type the number corresponding to that" +
                 "option.";
 
-        int OptionChosen = this.HandleOptions(scanner,OptionList,true,AvailableItemsPrompt);
-        // Logic handling back to other menu vs. Proceed to make transaction.
-        if(OptionChosen > OptionList.size()){
-            System.out.println("Loading Previous Menu");
-        }
-        else{
-            Item TransactionItem = ItemList.get(OptionChosen -1);
-            User TransactionItemOwner = AvailableItems.get(TransactionItem);
-            // This next control flow accounts for if a user can make a transaction. DO I NEED TO DO THIS??
-            //if(){
-                //CreateTransactionMenu(scanner,TransactionItem,TransactionItemOwner);
-            //}
-            //else{
-
-            //}
+            int OptionChosen = this.HandleOptionsByIndex(OptionList,true,AvailableItemsPrompt,
+                AvailableItemsTitle);
+            // Logic handling back to other menu vs. your account is frozen vs proceed to make create transaction menu.
+            if(OptionChosen == OptionList.size()){
+                System.out.println("Loading Previous Menu");
+                userInteracting = false;
+            }
+            else{
+                if(this.userMenu.currentUser.isFrozen()){
+                    System.out.println("Your account is frozen so you cannot make an offer for this item. Please request" +
+                        "to have your account unfrozen.");
+                    System.out.println("You will now be taken back to the main user menu.");
+                    userInteracting = false;
+                }
+                else {
+                    Item TransactionItem = ItemList.get(OptionChosen);
+                    User TransactionItemOwner = AvailableItems.get(TransactionItem);
+                    userInteracting = CreateTransactionMenu(TransactionItem,TransactionItemOwner);
+                }
+            }
         }
 
     }
 
     /**
-     * NOT FINISHED!
      * This method handles the flow for setting up a transaction for an available item assuming that the transaction
      * is allowed between the 2 users.
      *
      * @param item The item that is going to be traded.
      * @param Owner The other user that is currently the owner of the item you want to trade for.
+     * @return this method returns a true if the user wants to make another transaction and returns false if the user
+     * wants to head back to the main menu.
      */
-    private void CreateTransactionMenu(Item item, User Owner){
+    private boolean CreateTransactionMenu(Item item, User Owner) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Transaction Menu");
-        System.out.println("----------------");
-
-        MeetingDetailsMenu("First Meeting Details");
-        List<String> OptionList = new ArrayList<>();
-        OptionList.add("One Way Temporary Trade");
-        OptionList.add("One Way Permanent Trade");
-        OptionList.add("Two Way Temporary Trade");
-        OptionList.add("Two Way Permanent Trade");
-        int OptionChosen = this.HandleOptions(scanner,OptionList,true, "Select the kind of trade you would like to make for this item?");
-
-
-
-        int OneWayOption = scanner.nextInt();
-        if(OneWayOption == 1){
-            System.out.println("First Meeting Details");
-            System.out.println("----------------------");
-
+        boolean userInteracting = true;
+        while (userInteracting) {
+            System.out.println("Transaction Menu");
+            System.out.println("----------------");
+            List<String> transOptionList = this.userMenuPresenter.constructTransactionTypeMenu();
+            String OptionChosen = this.HandleOptions(transOptionList, true, "",
+                    "Select from one of " +
+                            "the transaction types above.");
+            Meeting FirstMeeting = MeetingDetailsMenu("First Meeting Details");
+            if (OptionChosen.equals("back")) {
+                System.out.println("Loading Previous Menu");
+                userInteracting = false;
+            }
         }
-
-
-
     }
+
 
     /**
-     * NOT FINISHED!
-     *
-     * Question: Is it ok if I just ask sequentially about the meeting?(Even though this might not be extendable)
+     * This method walks the user through the details required for a meeting, then constructs a meeting.
      * @param MeetingTitle The first thing that will be displayed "Second Meeting Details"/"First Meeting Details"
      */
-    private void MeetingDetailsMenu(String MeetingTitle){
+    private Meeting MeetingDetailsMenu(String MeetingTitle){
         Scanner scanner = new Scanner(System.in);
         System.out.println(MeetingTitle);
-        System.out.println("----------------------");
-        System.out.println("What Location");
+        System.out.println("Where do you want to have the first meeting?");
+        String MeetingLocation = scanner.nextLine();
+        LocalTime MeetingTime = this.UserTimeGetter();
+        LocalDate MeetingDate = this.UserDateGetter();
+        Meeting returnMeeting = new Meeting(MeetingLocation,MeetingTime,MeetingDate);
+        return(returnMeeting);
     }
+
+
+    /**
+     * Checks the date string that the user has inputted to see if it is in the accepted format.
+     * @return this returns tru iff Returns true iff it is
+     *      in the accepted format dd/mm/yyyy.
+     */
+
+    private LocalTime UserTimeGetter(){
+        Scanner scanner = new Scanner(System.in);
+        LocalTime returnTime;
+        while (true) {
+            try {
+                System.out.println("Please Enter the time of your meeting in the format: HH:mm:ss");
+                String DateString = scanner.nextLine();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                returnTime = LocalTime.parse(DateString, formatter);
+                break;
+            }
+            catch(DateTimeParseException e){
+                System.out.println("Invalid time please,try again.");
+
+            }
+        }
+        return(returnTime);
+    }
+
+    private LocalDate UserDateGetter(){
+        Scanner scanner = new Scanner(System.in);
+        LocalDate returnDate;
+        while (true) {
+            try {
+                System.out.println("Please Enter the date of your meeting in the format: dd-mm-yyyy");
+                String DateString = scanner.nextLine();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-uuuu");
+                returnDate = LocalDate.parse(DateString, formatter);
+                break;
+            }
+            catch(DateTimeParseException e){
+                System.out.println("Invalid Date please,try again.");
+
+            }
+        }
+        return(returnDate);
+    }
+
+
 
     private void viewWishlist() {
         Scanner scanner = new Scanner(System.in);
@@ -223,8 +285,9 @@ public class UserMenuController {
                 optionList.add(itemIterator.next().toString());
                 System.out.println(itemIterator.next().toString());
             }
-            int optionChosen = HandleOptions(scanner, optionList, true, "Select an item if you wish to remove it from your wishlist.");
-            if (optionChosen == optionList.size() + 1) {
+            int optionChosen = HandleOptionsByIndex(optionList, true, "Wishlist Menu",
+                    "Select an item if you wish to remove it from your wishlist.");
+            if (optionChosen == optionList.size()) {
                 System.out.println("Loading Previous Menu");
             }
             else {
@@ -245,8 +308,9 @@ public class UserMenuController {
             while (itemIterator.hasNext()) {
                 optionList.add(itemIterator.next().toString());
             } // TO-DO: can this be shortened to add all the items at once in one line?
-            int optionChosen = HandleOptions(scanner, optionList, true, "Select an item if you wish to remove it from your inventory.");
-            if (optionChosen == optionList.size() + 1) {
+            int optionChosen = HandleOptionsByIndex(optionList, true,
+                    "Inventory Menu","Select an item if you wish to remove it from your inventory.");
+            if (optionChosen == optionList.size()) {
                 System.out.println("Loading Previous Menu");
             }
             else {

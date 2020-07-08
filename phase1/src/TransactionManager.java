@@ -1,12 +1,13 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.UUID;
 
 /**
  * This class manages a transaction between two users. A transaction begins once a user expresses interest in an item.
  */
 public class TransactionManager {
-    private List<Transaction> allTransactions = new ArrayList<>();
+    private List<Transaction>allTransactions = new ArrayList<>();
     /**
      * Checks if this transaction can be initiated based on the status of the users
      * A transaction is valid if both users accounts are not frozen, and transaction doesn't
@@ -85,42 +86,101 @@ public class TransactionManager {
                 allTransactions.add(transaction);
                 return transaction;
         }
+        
 
-    public Meeting createMeeting(String location, int year, int month, int dayOfMonth, int hour, int minutes){
-           Meeting meeting = new Meeting(location, year, month, dayOfMonth, hour, minutes);
-           return meeting;
-    }
-
-    public boolean confirmMeeting(Meeting meeting, int userNum) throws Exception{
-            if (userNum == 1) {
-                meeting.setUser1approved(true);
-                return true;
-            }
-            else if (userNum == 2){
-                meeting.setUser2approved(true);
-                return true;
-            }
-            else{
-                return false;
-            }
+    /**
+     * This method determines if the user who is editing a transaction or meeting is user1 or user2
+     * @param transaction the transaction that the user wants to work with
+     * @param userId the UUID of the user
+     * @return an interger either 1 or 2
+     */
+    public int findUserNum(Transaction transaction, UUID userId){
+        if (transaction.getUser1().equals(userId)){
+            return 1;
+        }
+        else{
+            return 2;
+        }
     }
 
     /**
-     * @return True if the meeting has been edited
-     * @param meeting the transaction who's status is being changed
-     * @param usernum the number of the user who is editing the transaction, must be either 1 or 2
+     * This a method for editing a meeting, this method uses overloading to selectively edit either the location, time
+     * or date
+     * @param meeting the meeting that the user wants to edit
+     * @param transaction the transaction to which the meeting belongs to
+     * @param userId the UUID of the User who want to edit the transaction
+     * @param newLocation the new location that the user want to the meeting to take place
+     * @return True if the meeting was successfully edited
      */
-    //TODO: I don't know the best way to have an edit meeting function, do we want overloading, or if someone edits they
-    //TODO:edit all parameters at once?
-    public boolean editMeeting(Meeting meeting, int usernum){
-            if (canEdit(meeting)){
-                if (usernum == 1){
-                    meeting.user1edits();
-                }
-                else {meeting.user2edits();}
-                return true;
+    public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, String newLocation) {
+        int userNum = findUserNum(transaction, userId);
+        if (canEdit(meeting, userNum)) {
+            meeting.setLocation(newLocation);
+            if (userNum == 1){
+                meeting.user1edits();
             }
-            else{return false;}
+            else{
+                meeting.user2edits();
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * This a method for editing a meeting, this method uses overloading to selectively edit either the location, time
+     * or date
+     * @param meeting the meeting that the user wants to edit
+     * @param transaction the transaction to which the meeting belongs to
+     * @param userId the UUID of the User who want to edit the transaction
+     * @param newHour the new hour the user want to have the meeting take place
+     * @param newMinute the newMinute the user wants to have the meeting take place
+     * @return True if the meeting was successfully edited
+     */
+    public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, int newHour, int newMinute) {
+        int userNum = findUserNum(transaction, userId);
+        if (canEdit(meeting, userNum)) {
+            meeting.setTime(newHour, newMinute);
+            if (userNum == 1){
+                meeting.user1edits();
+            }
+            else{
+                meeting.user2edits();
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * This a method for editing a meeting, this method uses overloading to selectively edit either the location, time
+     * or date
+     * @param meeting the meeting that the user wants to edit
+     * @param transaction the transaction to which the meeting belongs to
+     * @param userId the UUID of the User who want to edit the transaction
+     * @param newYear the new Year the user want to have the meeting take place
+     * @param newMonth the new month the user wants to have the meeting take place
+     * @param newDay the new day that the user wants to have the meeting take placec
+     * @return True if the meeting was successfully edited
+     */
+    public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, int newYear, int newMonth,
+                               int newDay) {
+        int userNum = findUserNum(transaction, userId);
+        if (canEdit(meeting, userNum)) {
+            meeting.setDate(newYear, newMonth, newDay);
+            if (userNum == 1){
+                meeting.user1edits();
+            }
+            else{
+                meeting.user2edits();
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -139,8 +199,13 @@ public class TransactionManager {
      * A meeting can be edited if a user hasn't reached his maximum number of edits yet
      * @param meeting the meeting that a user wants to edit
      */
-    private boolean canEdit(Meeting meeting) {
-        return meeting.getNumEditsUser1() < meeting.getMaxNumEdits() & meeting.getNumEditsUser2() < meeting.getMaxNumEdits();
+    private boolean canEdit(Meeting meeting, int userNum) {
+        if (userNum == 1){
+            return meeting.getNumEditsUser1() < meeting.getMaxNumEdits();
+        }
+        else{
+            return meeting.getNumEditsUser2() < meeting.getMaxNumEdits();
+         }
     }
 
     /**
