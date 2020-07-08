@@ -175,7 +175,7 @@ public class AdminMenuController {
                 input = scanner.nextInt();
                 if (input == 1) {
                     am.um.unfreezeAccount(user);
-                    System.out.println(user.getUsername() + "'s  account has been set to active.");
+                    System.out.println(user.getUsername() + "'s account has been set to active.");
                 }
             }
         }
