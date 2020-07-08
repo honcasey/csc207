@@ -29,7 +29,7 @@ public class UserMenu {
      *
      */
 
-    public User currentUser; // user that's logged in
+    private User currentUser; // user that's logged in
     private AdminManager am;
     private UserManager um;
     private TransactionManager tm;
