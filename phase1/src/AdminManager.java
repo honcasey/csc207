@@ -7,9 +7,9 @@ import java.util.UUID;
  */
 public class AdminManager {
     private List<AdminUser> allAdmins;
-    private List<User> flaggedAccounts;
-    private List<User> frozenAccounts;
-    private List<User> pendingFrozenUsers;
+    private List<User> flaggedAccounts; //list of  Users that have had their account flagged to be frozen automatically by the system
+    private List<User> frozenAccounts;  //list of Users that have had their account frozen after approval by Admin
+    private List<User> pendingFrozenUsers; //list of Users that have requested their account to be unfrozen
 
     /**
      * Creates a new empty AdminManager.
@@ -99,4 +99,14 @@ public class AdminManager {
      * @return a list of all users that have requested to be unfrozen.
      */
     public List<User> getPendingFrozenUsers() { return pendingFrozenUsers; }
+
+    public List<User> getFrozenAccounts() { return frozenAccounts; }
+
+    /**
+     * Getter for this AdminMenu's list of all flagged Users that have been flagged to be frozen by the system.
+     * @return a list of all users that have been flagged to be frozen.
+     */
+    public List<User> getFlaggedAccounts() { return flaggedAccounts; }
+
+
 }

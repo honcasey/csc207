@@ -4,9 +4,35 @@ import java.util.HashMap;
 import java.util.List;
 
 public class UserMenu {
+
+    /**
+     * This class will be responsible for the main flows and keeping track of what menu the user is in.
+     * No logic will be here(except for location tracking).
+     *
+     * UserLocationChoices = Hashmap mapping (menu --> List(choices)) that represents the current menu out of the many menus the user can be in.
+     *(The "many menus above will be kept track with static final variables kept in UserMenu class
+     * so that there aren't capitalization problems")
+     *
+     *
+     * (The Menus that UserLocation will represent are the sub-methods in the old UserMenuViewer class that was wrote.)
+     * This will make calls to the methods
+     * in UserMenuController and UserMenuPresenter classes that do all the work. The only thing this class will do
+     * is make the calls to these methods in an order that depends on the structure of our program.
+     *
+     * For example: If a user wants to make a transaction the flow will be: (method names are just to tell you what is
+     * happening, they are less important)
+     *
+     * UsermenuPresenter.displayOptions(Static class variable representing list of options.);
+     * Input_String = UserMenuController.HandleOptionInput(); <-- this will return the actual option name the user selected.
+     * UserMenu.UserLocation = Input_String <- this updates UserLocation
+     *
+     *
+     */
+
     public User currentUser; // user that's logged in
     private AdminManager am;
     private UserManager um;
+    private TransactionManager tm;
     private HashMap<Item, User> allPendingItems;
 
     public UserMenu(UserManager userManager, AdminManager adminManager,
@@ -72,7 +98,14 @@ public class UserMenu {
      */
     public void cancelTransaction(Transaction transaction){
         currentUser.getTransactionDetails().getIncomingOffers().remove(transaction);
-        transaction.setStatus("cancelled");
+       User u =  transaction.getUser1();
+       if (u == currentUser){
+           transaction.setStatusUser1("cancel");
+       }
+       else{
+           transaction.setStatusUser2("cancel");
+       }
+       tm.updateStatus(transaction);
     }
 
     /**
@@ -107,7 +140,10 @@ public class UserMenu {
     /**
      * Requests the admin user to unfreeze the current user's account, if it's status is already frozen.
      */
-    public void requestUnfreezeAccount() { am.getPendingFrozenUsers().add(currentUser); }
+    public void requestUnfreezeAccount() {
+        am.getPendingFrozenUsers().add(currentUser);
+        am.getFrozenAccounts().remove(currentUser);
+    }
 
     /**
      * Deletes a transaction that is in progress

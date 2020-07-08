@@ -1,14 +1,23 @@
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class AdminMenuController {
-    private AdminMenu am;
-    private AdminMenuPresenter amp;
+    public AdminUser currentAdmin; // admin that's logged in
+    private final AdminManager am;
+    private final UserManager um;
+    private HashMap<Item, User> allPendingItems;
+    private final AdminMenuPresenter amp;
     private int input;
 
-    public void run() {
+    public AdminMenuController(AdminManager adminManager, UserManager userManager,
+                               HashMap<Item, User> pendingItems, AdminUser admin, AdminMenuPresenter adminPresenter) {
+        currentAdmin = admin;
+        allPendingItems = pendingItems;
+        um = userManager;
+        am = adminManager;
+        amp = adminPresenter;
+    }
+
+    public void run() throws InvalidAdminException {
         Scanner scanner = new Scanner(System.in);
         boolean userInteracting = true;
 
@@ -19,7 +28,7 @@ public class AdminMenuController {
             if (input == 1) {
                 checkPendingItems();
             } else if (input == 2) {
-                checkPendingUsers();
+                checkUsers("flaggedUsers");
             } else if (input == 3) {
                 createAdmin();
             } else if (input == 4) {
@@ -27,73 +36,57 @@ public class AdminMenuController {
             } else if (input == 5) {
                 changeUserThreshold();
             } else if (input == 6) {
-                System.out.println("You have successfully logged out.");
+                checkUsers("pendingFrozenUsers");
+            } else if (input == 7) {
+                System.out.println(amp.logout());
                 // stop the while loop
                 userInteracting = false;
-            } else { System.out.println("Not a valid option. Please enter a valid option."); }
+            } else { System.out.println(amp.invalidOption()); }
         }
+    }
+
+    private void approveInventory(User user, Item item, boolean approved) {
+        if (approved) { um.addItem(user, item, "inventory");
+        System.out.println("Item has been approved.");}
+        else { allPendingItems.remove(item);
+        System.out.println("Item has been declined.");}
     }
 
     private void checkPendingItems() {
         Scanner scanner = new Scanner(System.in);
-        if (am.getAllPendingItems().isEmpty()) {
-            System.out.println(amp.empty("Pending Items"));
-        }
+        if (allPendingItems.isEmpty()) { amp.empty("Pending Items"); }
         else {
-            Iterator<Item> itemIterator = am.getAllPendingItems().keySet().iterator();
+            Iterator<Item> itemIterator = allPendingItems.keySet().iterator();
             while (itemIterator.hasNext()) {
                 System.out.println(itemIterator.next());
                 System.out.println("1. Approve item for User's inventory. \n2. Decline item. \n3. Go to next item.");
                 input = scanner.nextInt();
                 if (input == 1) {
-                    am.checkPendingItems(am.getAllPendingItems().get(itemIterator.next()), itemIterator.next(), true);
-                    System.out.println("Item has been approved."); // TO-DO optionally: make this print the item and user name
+                    approveInventory(allPendingItems.get(itemIterator.next()), itemIterator.next(), true);
                 }
                 else if (input == 2) {
-                    am.checkPendingItems(am.getAllPendingItems().get(itemIterator.next()), itemIterator.next(), false);
-                    System.out.println("Item has been declined.");
+                    approveInventory(allPendingItems.get(itemIterator.next()), itemIterator.next(), false);
                 }
             }
         }
     }
 
-    private void checkPendingUsers() {
-        Scanner scanner = new Scanner(System.in);
-        if (am.um.getFlaggedAccounts().isEmpty()) {
-            System.out.println(amp.empty("Flagged Accounts"));
-        }
-        else {
-            for (User user : am.um.getFlaggedAccounts()) {
-                System.out.println(user); // TO-DO: how can we print why this user's account has been flagged?
-                System.out.println("1. Freeze account. \n2. Unfreeze account. \n3. Go to next user.");
-                input = scanner.nextInt();
-                if (input == 1) {
-                    am.checkPendingUsers(user, true);
-                    System.out.println(user.getUsername() + "'s account has been set to frozen.");
-                }
-                else if (input == 2) {
-                    am.checkPendingUsers(user, false);
-                    System.out.println(user.getUsername() + "'s account has been set to active.");
-                }
-            }
-        }
-    }
-
-    private void createAdmin() {
-        if (am.currentAdmin.isFirstAdmin()) {
+    private void createAdmin() throws InvalidAdminException {
+        if (currentAdmin.isFirstAdmin()) {
             Scanner scanner = new Scanner(System.in);
             System.out.println(amp.enterName("new Admin"));
             String username = scanner.nextLine();
-            System.out.println("Please enter new Administrative User's password: ");
-            String password = scanner.nextLine();
-            try {
-                am.createNewAdmin(username, password);
+            if (am.checkAvailableUsername(username)) {
+                System.out.println("Please enter new Administrative User's password: ");
+                String password = scanner.nextLine();
+                am.addAdmin(username, password);
                 System.out.println("New Admin User " + username + " successfully created.");
-            } catch(InvalidAdminException e) {
-                System.out.println("Username already taken.");
+            }
+            else {
+                System.out.println(amp.usernameTaken());
             }
         }
-        else { System.out.println("Permission denied, only the first admin can create new administrative user accounts.");}
+        else { System.out.println("Permission denied, only the first admin can create new administrative user accounts.");} // TO-DO: get exception to print message
     }
 
     private void addItemToUser() {
@@ -107,77 +100,100 @@ public class AdminMenuController {
         String whichList = scanner.nextLine();
         try {
             if (whichList.equals("wishlist")) {
-                am.addItem(username, newItem, "wishlist");
+                um.addItem(um.getUser(username), newItem, "wishlist");
                 System.out.println(amp.successfullyAdded(newItem.toString(), username, "wishlist"));
             }
             else if (whichList.equals("inventory")) {
-                am.addItem(username, newItem, "inventory");
+                um.addItem(um.getUser(username), newItem, "wishlist");
                 System.out.println(amp.successfullyAdded(newItem.toString(), username, "inventory"));
             }
-            else { List<String> optionList = Arrays.asList("wishlist", "inventory");
-                System.out.println(amp.validOptions(optionList));}
+            else { System.out.println(amp.validOptions(amp.userLists));}
         } catch(InvalidUserException e) {
-            System.out.println("Username does not exist. Please enter an existing User's username.");
+            System.out.println("Username does not exist. Please enter an existing User's username."); // TO-DO: change so exception prints message
         }
+    }
+
+    private void helperChangeThreshold(String username, String whichThreshold) throws InvalidUserException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(amp.whichThreshold(whichThreshold));
+        int newThreshold = scanner.nextInt();
+        um.changeThreshold(um.getUser(username), newThreshold, whichThreshold);
+        System.out.println(amp.successfullyChanged(whichThreshold, username));
     }
 
     private void changeUserThreshold() {
         Scanner scanner = new Scanner(System.in);
         System.out.println(amp.enterName("User"));
         String username = scanner.nextLine();
-        List<String> optionList = Arrays.asList("borrow", "weekly", "incomplete");
-        System.out.println(amp.validOptions(optionList));
+        System.out.println(amp.validOptions(amp.allThresholds));
         String whichThreshold = scanner.nextLine();
         try {
             switch (whichThreshold) {
                 case "borrow": {
-                    System.out.println("The current minimum number of times that this user must lend something before they can borrow/trade is: " + am.um.getUser(username).getBorrowThreshold());
-                    System.out.println(amp.whichThreshold("borrow"));
-                    int newThreshold = scanner.nextInt();
-                    am.changeThreshold(am.um.getUser(username), newThreshold, "borrow");
-                    System.out.println(amp.successfullyChanged(whichThreshold, username));
+                    System.out.println(amp.currentThreshold("minimum number of times that this user must lend something before they can borrow/trade",
+                            um.getUser(username).getBorrowThreshold()));
+                    helperChangeThreshold(username, whichThreshold);
                     break;
                 }
                 case "weekly": {
-                    System.out.println("The current maximum number of transactions that this user can participate in a week is: " + am.um.getUser(username).getWeeklyThreshold());
-                    System.out.println(amp.whichThreshold("weekly"));
-                    int newThreshold = scanner.nextInt();
-                    am.changeThreshold(am.um.getUser(username), newThreshold, "weekly");
-                    System.out.println(amp.successfullyChanged(whichThreshold, username));
+                    System.out.println(amp.currentThreshold("maximum number of transactions that this user can participate in a week",
+                            um.getUser(username).getWeeklyThreshold()));
+                    helperChangeThreshold(username, whichThreshold);
                     break;
                 }
                 case "incomplete": {
-                    System.out.println("The current maximum number of incomplete transactions before this user's account is frozen is: " + am.um.getUser(username).getIncompleteThreshold());
-                    System.out.println(amp.whichThreshold("incomplete"));
-                    int newThreshold = scanner.nextInt();
-                    am.changeThreshold(am.um.getUser(username), newThreshold, "incomplete");
-                    System.out.println(amp.successfullyChanged(whichThreshold, username));
+                    System.out.println(amp.currentThreshold("maximum number of incomplete transactions before this user's account is frozen",
+                            um.getUser(username).getIncompleteThreshold()));
+                    helperChangeThreshold(username, whichThreshold);
                     break;
                 }
                 default:
-                    System.out.println(amp.validOptions(optionList));
+                    System.out.println(amp.validOptions(amp.allThresholds));
                     break;
             }
         } catch(InvalidUserException e) {
-            System.err.print("Username does not exist. Please enter an existing User's username.");
+            System.err.print("Username does not exist. Please enter an existing User's username."); // TO-DO: get exception to print this message
         }
     }
 
-    private void checkPendingFrozenAccounts(){
+    private void checkUsers(String listType){
         Scanner scanner = new Scanner(System.in);
-        if(am.getPendingFrozenUsers().isEmpty()){
-            System.out.println(amp.empty("Pending Frozen Users"));
+        if (listType.equals("pendingFrozenUsers")) {
+            if (am.getPendingFrozenUsers().isEmpty()) {
+                System.out.println(amp.empty("Frozen User Requests"));
+            }
+            else {
+                for (User user: am.getPendingFrozenUsers()) {
+                    System.out.println(user);
+                    System.out.println("1. Unfreeze Account. \n2. Go to next user.");
+                    input = scanner.nextInt();
+                    if (input == 1) {
+                        um.unfreezeAccount(user);
+                        am.getPendingFrozenUsers().remove(user);
+                        System.out.println(amp.accountFrozen(user.toString(), user.getStatus()));
+                    }
+                }
         }
-        else {
-            for (User user: am.getPendingFrozenUsers()) {
-                System.out.println(user);
-                System.out.println("1. Unfreeze Account. \n2. Go to next user.");
-                input = scanner.nextInt();
-                if (input == 1) {
-                    am.um.unfreezeAccount(user);
-                    System.out.println(user.getUsername() + "'s account has been set to active.");
+        if (listType.equals("flaggedUsers")) {
+            if (am.getFlaggedAccounts().isEmpty()) {
+                System.out.println(amp.empty("Flagged Users"));
+            }
+            else {
+                for (User user: am.getFlaggedAccounts()) {
+                    System.out.println(user);
+                    System.out.println("1. Freeze Account. \n2.Unfreeze Account. \n3. Go to next user.");
+                    input = scanner.nextInt();
+                    if (input == 1) {
+                        um.freezeAccount(user);
+                        am.getFrozenAccounts().add(user);
+                        System.out.println(amp.accountFrozen(user.toString(), user.getStatus()));
+                    }
+                    if (input == 2) {
+                        um.unfreezeAccount(user);
+                        am.getFlaggedAccounts().remove(user);
+                        System.out.println(amp.accountFrozen(user.toString(), user.getStatus()));
+                    }
                 }
             }
-        }
     }
-}
+}}}
