@@ -1,3 +1,8 @@
+package Transactions;
+
+import Transactions.*;
+import Users.User;
+
 import java.time.LocalTime;
 import java.util.*;
 import java.time.LocalDate;
@@ -32,7 +37,7 @@ public class TransactionManager {
      * @param meeting2 the second meeting location that the users will meet at to exchange items.
      */
     public Transaction createTransaction(User user1, User user2, Item item1, Meeting meeting1,
-                                           Meeting meeting2) {
+                                         Meeting meeting2) {
         Transaction transaction = new TransactionOneWayTemp(user1, user2, item1, meeting1, meeting2);
         UUID id = transaction.getId();
         allTransactions.put(id, transaction);
@@ -66,7 +71,7 @@ public class TransactionManager {
      */
 
     public Transaction createTransaction(User user1, User user2, Item item1, Item item2,
-                                               Meeting meeting1, Meeting meeting2) {
+                                         Meeting meeting1, Meeting meeting2) {
         Transaction transaction = new TransactionTwoWayTemp(user1, user2, item1, item2, meeting1, meeting2);
         UUID id = transaction.getId();
         allTransactions.put(id, transaction);
@@ -83,7 +88,7 @@ public class TransactionManager {
      */
 
     public Transaction createTransaction(User user1, User user2, Item item1, Item item2,
-            Meeting meeting1) {
+                                         Meeting meeting1) {
             Transaction transaction = new TransactionTwoWayPerm(user1, user2, item1, item2, meeting1);
             UUID id = transaction.getId();
             allTransactions.put(id, transaction);
@@ -110,7 +115,7 @@ public class TransactionManager {
      * or date
      * @param meeting the meeting that the user wants to edit
      * @param transaction the transaction to which the meeting belongs to
-     * @param userId the UUID of the User who want to edit the transaction
+     * @param userId the UUID of the Users.User who want to edit the transaction
      * @param newLocation the new location that the user want to the meeting to take place
      * @return True if the meeting was successfully edited
      */
@@ -136,7 +141,7 @@ public class TransactionManager {
      * or date
      * @param meeting the meeting that the user wants to edit
      * @param transaction the transaction to which the meeting belongs to
-     * @param userId the UUID of the User who want to edit the transaction
+     * @param userId the UUID of the Users.User who want to edit the transaction
      * @param newHour the new hour the user want to have the meeting take place
      * @param newMinute the newMinute the user wants to have the meeting take place
      * @return True if the meeting was successfully edited
@@ -163,7 +168,7 @@ public class TransactionManager {
      * or date
      * @param meeting the meeting that the user wants to edit
      * @param transaction the transaction to which the meeting belongs to
-     * @param userId the UUID of the User who want to edit the transaction
+     * @param userId the UUID of the Users.User who want to edit the transaction
      * @param newYear the new Year the user want to have the meeting take place
      * @param newMonth the new month the user wants to have the meeting take place
      * @param newDay the new day that the user wants to have the meeting take placec

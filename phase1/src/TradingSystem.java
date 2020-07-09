@@ -1,9 +1,21 @@
+import Admins.AdminManager;
+import Admins.AdminMenuController;
+import Admins.AdminUser;
+import Exceptions.InvalidAdminException;
+import Exceptions.InvalidUserException;
+import Transactions.Transaction;
+import Transactions.TransactionManager;
+import Users.User;
+import Users.UserManager;
+import Users.UserMenu;
+import Users.UserMenuController;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 /**
- * The TradingSystem class handles logging on and the creation of new User accounts.
+ * The TradingSystem class handles logging on and the creation of new Users.User accounts.
  * <p>
  * If logging on to an existing account, directs the user to either the administrator menu
  * or the user menu.
@@ -152,7 +164,7 @@ public class TradingSystem {
                 } catch(InvalidUserException e) {
                     // we already checked this username corresponds to a valid user on line 120
                     // so technically userManager.getUser(username) should never throw an exception
-                    System.out.println("Invalid User.");
+                    System.out.println("Invalid Users.User.");
                 }
             } else {
                 // no user or admin account that corresponds to user and pass
@@ -176,7 +188,7 @@ public class TradingSystem {
             userMenuController.run();
         } catch(InvalidUserException e) {
             // we just created this new user so we know it's a valid user so userManager.getUser()
-            // should not throw an InvalidUserException
+            // should not throw an Exceptions.InvalidUserException
             System.out.println("Username already taken.");
         }
     }

@@ -1,3 +1,5 @@
+package Transactions;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -29,7 +31,7 @@ public abstract class Transaction {
     private String statusUser2;
 
     /**
-     * Constructor of abstract class Transaction.
+     * Constructor of abstract class Transactions.Transaction.
      * @param user_1 one of the users involved in the transactions.
      * @param user_2 one of the users involved in the transactions.
      */

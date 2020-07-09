@@ -1,9 +1,12 @@
-import java.time.LocalDate;
+package Transactions;
+
+import Transactions.Transaction;
+import Users.User;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class TransactionOneWayPerm extends Transaction{
+public class TransactionOneWayPerm extends Transaction {
     /**
      * This class represents a meetup between 2 Users where there is a permanent one way transaction happening.
      * Note: user 1 owns the item and the second user takes the item.
@@ -21,7 +24,7 @@ public class TransactionOneWayPerm extends Transaction{
     private Item item;
 
     /**
-     * Constructor for TransactionOneWayPerm. The way the constructor is implemented assumes that User2 takes the
+     * Constructor for Transactions.TransactionOneWayPerm. The way the constructor is implemented assumes that User2 takes the
      * item from User1.
      * The Item's path is: User1 --> User2
      * @param User1 the first user.

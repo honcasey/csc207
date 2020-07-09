@@ -1,3 +1,5 @@
+package Admins;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -12,7 +14,7 @@ public class AdminUser implements Serializable {
     private boolean firstAdmin = false;
 
     /**
-     * Constructs an instance of an Admin User based on Strings of username and password.
+     * Constructs an instance of an Admin Users.User based on Strings of username and password.
      */
     public AdminUser(String username, String password) {
         this.username = username;
@@ -38,19 +40,19 @@ public class AdminUser implements Serializable {
     public UUID getAdminId() { return adminId; }
 
     /**
-     * Getter for if this AdminUser is the initial administrative user
-     * @return boolean whether AdminUser is initial user
+     * Getter for if this Admins.AdminUser is the initial administrative user
+     * @return boolean whether Admins.AdminUser is initial user
      */
     public boolean isFirstAdmin() { return firstAdmin; }
 
     /**
-     * Setter for AdminUser firstAdmin
+     * Setter for Admins.AdminUser firstAdmin
      * @param isFirstAdmin as boolean
      */
     public void setFirstAdmin(boolean isFirstAdmin) { this.firstAdmin = isFirstAdmin; }
 
     /**
-     * Represents the current AdminUser by their username and userId
+     * Represents the current Admins.AdminUser by their username and userId
      * @return the username and adminid separated by a comma
      */
     @Override

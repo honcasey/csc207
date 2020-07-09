@@ -1,4 +1,9 @@
-import org.junit.*;
+import Exceptions.InvalidUserException;
+import Transactions.Transaction;
+import Transactions.TransactionHistory;
+import Transactions.TransactionOneWayPerm;
+import Users.User;
+import Users.UserManager;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 
 public class UserTest {
 
-    // User entity tests
+    // Users.User entity tests
     @Test
     public void testUser() {
         User casey = new User("caseyh", "pwd123");
@@ -100,7 +105,7 @@ public class UserTest {
         assertEquals(casey.toString(), "caseyh, " + casey.getUserId());
     }
 
-    // UserManager use case tests
+    // Users.UserManager use case tests
 
     @Test
     void addUser() throws InvalidUserException {

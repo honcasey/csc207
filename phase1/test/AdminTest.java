@@ -1,3 +1,7 @@
+import Admins.AdminManager;
+import Admins.AdminUser;
+import Exceptions.InvalidAdminException;
+import Users.User;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -9,7 +13,7 @@ public class AdminTest {
 
     private Object InvalidUserException;
 
-    // AdminUser entity tests
+    // Admins.AdminUser entity tests
     @Test
     void testAdmin() { AdminUser admin1 = new AdminUser("casey", "pwd123");
     }
@@ -38,7 +42,7 @@ public class AdminTest {
         assertFalse(admin1.isFirstAdmin());
     }
 
-    // AdminManager use case tests
+    // Admins.AdminManager use case tests
     @Test
     void addAdmin() throws InvalidAdminException {
         AdminUser admin1 = new AdminUser("annie", "pwd123");

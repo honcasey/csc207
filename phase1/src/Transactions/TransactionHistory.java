@@ -1,9 +1,14 @@
+package Transactions;
+
+import Transactions.Transaction;
+import Users.User;
+
 import java.util.*;
 import java.time.LocalDate;
 
 
 /**
- * Represents the Transaction History of User by storing information about completed transactions
+ * Represents the Transactions.Transaction History of Users.User by storing information about completed transactions
  */
 
 public class TransactionHistory {
@@ -16,8 +21,8 @@ public class TransactionHistory {
 
 
     /**
-     * Constructs an instance of TransactionHistory with an empty ArrayList transactions and an empty Hashtable usersNumTradeTimes
-     * The most recent Transaction is added to the end of the list transactions
+     * Constructs an instance of Transactions.TransactionHistory with an empty ArrayList transactions and an empty Hashtable usersNumTradeTimes
+     * The most recent Transactions.Transaction is added to the end of the list transactions
      */
     public TransactionHistory(){
         oneWayTransactions = new ArrayList<>();
@@ -36,7 +41,7 @@ public class TransactionHistory {
     }
 
     /**
-     * @return the three most recent TwoWay Transaction
+     * @return the three most recent TwoWay Transactions.Transaction
      */
     public ArrayList<Transaction> mostRecentTwoWayTransactions(){
         if(twoWayTransactions.size() <= 3){
@@ -46,7 +51,7 @@ public class TransactionHistory {
     }
 
     /**
-     * @return the usernames of the User's top three trading partners
+     * @return the usernames of the Users.User's top three trading partners
      */
     public ArrayList<String> mostTradedWithUsers(){
         HashMap<User, Integer> temp = (HashMap<User, Integer>) usersNumTradeTimes.clone();
@@ -125,7 +130,7 @@ public class TransactionHistory {
     }
 
     /**
-     * Getter for this User's number of transactions.
+     * Getter for this Users.User's number of transactions.
      * @return numTransactions as an integer.
      */
     public int getNumTransactions() {
@@ -159,7 +164,7 @@ public class TransactionHistory {
     public void setNumItemsBorrowed() { this.numItemsBorrowed++; }
 
     /**
-     * adds a Transaction to the Transaction History
+     * adds a Transactions.Transaction to the Transactions.Transaction History
      * @param transaction the transaction being added to the history
      */
     public void setTransactionHistory(Transaction transaction) {
@@ -171,11 +176,11 @@ public class TransactionHistory {
     }
 
     /**
-     * Returns a String Representation of User's Transaction History
-     * @return String Representation of User's Transaction History
+     * Returns a String Representation of Users.User's Transactions.Transaction History
+     * @return String Representation of Users.User's Transactions.Transaction History
      */
     public String toString(){
-        StringBuilder newString = new StringBuilder("Your Transaction History:" + "/n");
+        StringBuilder newString = new StringBuilder("Your Transactions.Transaction History:" + "/n");
         ArrayList<Transaction> allTrans = getAllTransactions();
        for (int i = 0; i < allTrans.size();) {
            newString.append(allTrans.get(i).toString());

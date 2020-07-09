@@ -1,3 +1,8 @@
+package Transactions;
+
+import Transactions.Transaction;
+import Users.User;
+
 import java.util.ArrayList;
 import java.util.List;
 

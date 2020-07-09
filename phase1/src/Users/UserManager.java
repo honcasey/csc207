@@ -1,4 +1,7 @@
-import java.util.ArrayList;
+package Users;
+
+import Users.User;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -25,7 +28,7 @@ public class UserManager {
 
     /**
      * Adds a new user with given info.
-     * @param username online identifier of a User
+     * @param username online identifier of a Users.User
      * @param password account password
      * @return username and userId as string separated by comma.
      */
@@ -50,7 +53,7 @@ public class UserManager {
 
     /**
      * To retrieve a specific user by username.
-     * @param username online identifier of a User
+     * @param username online identifier of a Users.User
      * @return username and userId as string separated by comma
      */
     public User getUser(String username) throws InvalidUserException {
@@ -63,8 +66,8 @@ public class UserManager {
     }
 
     /**
-     * To retrieve a specific user by userId. Assumes that the User exists in the directory of Users
-     * @param id UUID identifier of a User
+     * To retrieve a specific user by userId. Assumes that the Users.User exists in the directory of Users
+     * @param id UUID identifier of a Users.User
      * @return user who has the userId id
      */
     public User getUserById(UUID id){
@@ -72,7 +75,7 @@ public class UserManager {
     }
 
     /**
-     * To add an item to user's specified list, which is either the User's wishlist or inventory.
+     * To add an item to user's specified list, which is either the Users.User's wishlist or inventory.
      * @param user the user
      * @param item An item in the trading system.
      * @param listType either "wishlist" or "inventory" as a String
@@ -91,7 +94,7 @@ public class UserManager {
     }
 
     /**
-     * To remove a item from user's specified list, which is either the User's wishlist or inventory.
+     * To remove a item from user's specified list, which is either the Users.User's wishlist or inventory.
      * @param user An user in the trading system.
      * @param item An item in the trading system.
      * @param listType either "wishlist" or "inventory" as a String
@@ -142,7 +145,7 @@ public class UserManager {
     }
 
     /**
-     * Adds a transaction to User's transaction history.
+     * Adds a transaction to Users.User's transaction history.
      * @param user A user in the trading system.
      * @param transaction a meetup between 2 users.
      */
@@ -189,7 +192,7 @@ public class UserManager {
 
     /**
      * Checks whether the input username is valid.
-     * @param username online identifier of a User
+     * @param username online identifier of a Users.User
      * @return True or False as boolean
      */
     public boolean checkAvailableUsername(String username) {

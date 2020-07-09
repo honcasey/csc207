@@ -1,3 +1,7 @@
+package Admins;
+
+import Admins.AdminManager;
+
 import java.util.*;
 
 public class AdminMenuController {
@@ -58,7 +62,7 @@ public class AdminMenuController {
             Iterator<Item> itemIterator = allPendingItems.keySet().iterator();
             while (itemIterator.hasNext()) {
                 System.out.println(itemIterator.next());
-                System.out.println("1. Approve item for User's inventory. \n2. Decline item. \n3. Go to next item.");
+                System.out.println("1. Approve item for Users.User's inventory. \n2. Decline item. \n3. Go to next item.");
                 input = scanner.nextInt();
                 if (input == 1) {
                     approveInventory(allPendingItems.get(itemIterator.next()), itemIterator.next(), true);
@@ -76,10 +80,10 @@ public class AdminMenuController {
             System.out.println(amp.enterName("new Admin"));
             String username = scanner.nextLine();
             if (am.checkAvailableUsername(username)) {
-                System.out.println("Please enter new Administrative User's password: ");
+                System.out.println("Please enter new Administrative Users.User's password: ");
                 String password = scanner.nextLine();
                 am.addAdmin(username, password);
-                System.out.println("New Admin User " + username + " successfully created.");
+                System.out.println("New Admin Users.User " + username + " successfully created.");
             }
             else {
                 System.out.println(amp.usernameTaken());
@@ -93,7 +97,7 @@ public class AdminMenuController {
         System.out.println(amp.enterName("new Item"));
         String itemName = scanner.nextLine();
         Item newItem = new Item(itemName);
-        System.out.println(amp.enterName("User"));
+        System.out.println(amp.enterName("Users.User"));
         String username = scanner.nextLine();
         System.out.println("Would you like to add this item to the user's wishlist or inventory?");
         String whichList = scanner.nextLine();
@@ -108,7 +112,7 @@ public class AdminMenuController {
             }
             else { System.out.println(amp.validOptions(amp.userLists));}
         } catch(InvalidUserException e) {
-            System.out.println("Username does not exist. Please enter an existing User's username."); // TO-DO: change so exception prints message
+            System.out.println("Username does not exist. Please enter an existing Users.User's username."); // TO-DO: change so exception prints message
         }
     }
 
@@ -122,7 +126,7 @@ public class AdminMenuController {
 
     private void changeUserThreshold() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println(amp.enterName("User"));
+        System.out.println(amp.enterName("Users.User"));
         String username = scanner.nextLine();
         System.out.println(amp.validOptions(amp.allThresholds));
         String whichThreshold = scanner.nextLine();
@@ -151,7 +155,7 @@ public class AdminMenuController {
                     break;
             }
         } catch(InvalidUserException e) {
-            System.err.print("Username does not exist. Please enter an existing User's username."); // TO-DO: get exception to print this message
+            System.err.print("Username does not exist. Please enter an existing Users.User's username."); // TO-DO: get exception to print this message
         }
     }
 
@@ -159,7 +163,7 @@ public class AdminMenuController {
         Scanner scanner = new Scanner(System.in);
         if (listType.equals("pendingFrozenUsers")) {
             if (am.getPendingFrozenUsers().isEmpty()) {
-                System.out.println(amp.empty("Frozen User Requests"));
+                System.out.println(amp.empty("Frozen Users.User Requests"));
             }
             else {
                 for (User user: am.getPendingFrozenUsers()) {

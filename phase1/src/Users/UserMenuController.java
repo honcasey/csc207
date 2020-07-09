@@ -1,13 +1,16 @@
-import javax.swing.text.html.Option;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+package Users;
+
+import Users.User;
+import Users.UserMenu;
+import Users.UserMenuPresenter;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-public class UserMenuController extends MenuPresenter{
+public class UserMenuController extends MenuPresenter {
     /**
      *
      */
@@ -24,7 +27,7 @@ public class UserMenuController extends MenuPresenter{
         Scanner scanner = new Scanner(System.in);
         while(userInteracting){
         String input = this.HandleOptions(this.userMenuPresenter.constructMainMenu(),
-                false,"User Main Menu","Please type a number corresponding to one of" +
+                false,"Users.User Main Menu","Please type a number corresponding to one of" +
                         "the above options.");
             if(input.equals("Request Item for Approval")){
                 requestAddItem();
@@ -32,7 +35,7 @@ public class UserMenuController extends MenuPresenter{
                 DisplayAvailableItems();
             } else if (input.equals("View Active Transactions")) {
                 //This Still needs to be done. this.userMenu.getActiveTransactions();
-            } else if (input.equals("View Past Transaction Details")) {
+            } else if (input.equals("View Past Transactions.Transaction Details")) {
                 viewPastTransaction();
             } else if (input.equals("View Wishlist")) {
                 viewWishlist();
@@ -75,7 +78,7 @@ public class UserMenuController extends MenuPresenter{
             List<Item> ItemList = new ArrayList<>(AvailableItems.keySet());
 
             List<String> OptionList = this.userMenuPresenter.constructAvailableItemsMenu(ItemList);
-            String AvailableItemsTitle = "Available Items For Transaction:";
+            String AvailableItemsTitle = "Available Items For Transactions.Transaction:";
             String AvailableItemsPrompt = "Type the number corresponding to the item you wish to" +
                 " create a transaction for. To go back to the previous menu, type the number corresponding to that" +
                 "option.";
@@ -117,7 +120,7 @@ public class UserMenuController extends MenuPresenter{
         Scanner scanner = new Scanner(System.in);
         boolean userInteracting = true;
         while (userInteracting) {
-            System.out.println("Transaction Menu");
+            System.out.println("Transactions.Transaction Menu");
             System.out.println("----------------");
             List<String> transOptionList = this.userMenuPresenter.constructTransactionTypeMenu();
             String OptionChosen = this.HandleOptions(transOptionList, true, "",

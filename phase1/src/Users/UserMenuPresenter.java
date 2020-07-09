@@ -1,3 +1,5 @@
+package Users;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.List;
  *
  * Class variables:
  *
- * UserMenu: Instance of UserMenu class.
+ * Users.UserMenu: Instance of Users.UserMenu class.
  * menuOptions: This is a dictionary mapping the menu to the options that a user can Select.
  */
 

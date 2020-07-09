@@ -1,3 +1,8 @@
+package Transactions;
+
+import Transactions.Transaction;
+import Users.User;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,7 +11,7 @@ import java.util.List;
  * Note: user 1 originally had item 1 and user 2 originally had item 2.
  */
 
-public class TransactionTwoWayTemp extends Transaction{
+public class TransactionTwoWayTemp extends Transaction {
     public String secondMeetingLocation;
     public Item item1;
     public Item item2;
@@ -22,7 +27,7 @@ public class TransactionTwoWayTemp extends Transaction{
      * @param secondMeeting the second meeting details.
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionTwoWayTemp(User User1, User User2,Item Item1,Item Item2,Meeting FirstMeeting, Meeting secondMeeting){
+    public TransactionTwoWayTemp(User User1, User User2, Item Item1, Item Item2, Meeting FirstMeeting, Meeting secondMeeting){
         super(User1,User2,FirstMeeting);
         this.item1 = Item1;
         this.item2 = Item2;

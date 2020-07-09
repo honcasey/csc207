@@ -1,5 +1,9 @@
-import java.io.IOException;
-import java.util.ArrayList;
+package Users;
+
+import Admins.AdminManager;
+import Users.User;
+import Users.UserManager;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,21 +14,21 @@ public class UserMenu {
      * No logic will be here(except for location tracking).
      *
      * UserLocationChoices = Hashmap mapping (menu --> List(choices)) that represents the current menu out of the many menus the user can be in.
-     *(The "many menus above will be kept track with static final variables kept in UserMenu class
+     *(The "many menus above will be kept track with static final variables kept in Users.UserMenu class
      * so that there aren't capitalization problems")
      *
      *
      * (The Menus that UserLocation will represent are the sub-methods in the old UserMenuViewer class that was wrote.)
      * This will make calls to the methods
-     * in UserMenuController and UserMenuPresenter classes that do all the work. The only thing this class will do
+     * in Users.UserMenuController and Users.UserMenuPresenter classes that do all the work. The only thing this class will do
      * is make the calls to these methods in an order that depends on the structure of our program.
      *
      * For example: If a user wants to make a transaction the flow will be: (method names are just to tell you what is
      * happening, they are less important)
      *
      * UsermenuPresenter.displayOptions(Static class variable representing list of options.);
-     * Input_String = UserMenuController.HandleOptionInput(); <-- this will return the actual option name the user selected.
-     * UserMenu.UserLocation = Input_String <- this updates UserLocation
+     * Input_String = Users.UserMenuController.HandleOptionInput(); <-- this will return the actual option name the user selected.
+     * Users.UserMenu.UserLocation = Input_String <- this updates UserLocation
      *
      *
      */
@@ -56,7 +60,7 @@ public class UserMenu {
     }
 
     /**
-     * To withdraw item from user's specified list, which is either the User's wishlist or inventory.
+     * To withdraw item from user's specified list, which is either the Users.User's wishlist or inventory.
      * @param item An item in the trading system.
      * @param listType either "wishlist" or "inventory" as a String
      */
@@ -94,7 +98,7 @@ public class UserMenu {
     }
 
     /**
-     * Changes a Transaction status to cancelled
+     * Changes a Transactions.Transaction status to cancelled
      * @param transaction A transaction to be cancelled and to remove transaction from tra
      */
     public void cancelTransaction(Transaction transaction)  {
@@ -110,16 +114,16 @@ public class UserMenu {
     }
 
     /**
-     * Creates a Transaction and adds it to users
-     * adds the Transaction to transaction details of both users
-     * @param targetUser The User to whom currUser sends a Transaction
+     * Creates a Transactions.Transaction and adds it to users
+     * adds the Transactions.Transaction to transaction details of both users
+     * @param targetUser The Users.User to whom currUser sends a Transactions.Transaction
      */
     public void createTransaction(User targetUser){
         //TODO: method body
     }
 
     /**
-     * Changes status of a Transaction to confirmed, when details of all meetings have been confirmed by both users.
+     * Changes status of a Transactions.Transaction to confirmed, when details of all meetings have been confirmed by both users.
      * @param transaction the transaction to be confirmed
      */
     public void acceptTransaction(Transaction transaction) {
@@ -127,7 +131,7 @@ public class UserMenu {
     }
 
     /**
-     * Changes status of a Transaction to completed, when the last meeting of the transaction has occurred and been completed by both users.
+     * Changes status of a Transactions.Transaction to completed, when the last meeting of the transaction has occurred and been completed by both users.
      * @param transaction the transaction to be completed
      */
     public void confirmTransaction(Transaction transaction) {

@@ -1,3 +1,5 @@
+package Admins;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +15,7 @@ AdminManager {
     private List<User> pendingFrozenUsers; //list of Users that have requested their account to be unfrozen
 
     /**
-     * Creates a new empty AdminManager.
+     * Creates a new empty Admins.AdminManager.
      */
     public AdminManager(List<AdminUser> admins, List<User> flaggedAccounts, List<User> frozenAccounts) {
         allAdmins = admins;
@@ -23,7 +25,7 @@ AdminManager {
     }
 
     /**
-     * Creates a new AdminUser with given username and password.
+     * Creates a new Admins.AdminUser with given username and password.
      * @param username user's account name identifier
      * @param password user's account password
      */
@@ -44,10 +46,10 @@ AdminManager {
     }
 
     /**
-     * Getter for AdminUser specified by their username.
-     * @param username desired AdminUser's username
-     * @return AdminUser
-     * @throws InvalidAdminException the inputted username does not match any existing AdminUser account in the system.
+     * Getter for Admins.AdminUser specified by their username.
+     * @param username desired Admins.AdminUser's username
+     * @return Admins.AdminUser
+     * @throws InvalidAdminException the inputted username does not match any existing Admins.AdminUser account in the system.
      */
     public AdminUser getAdmin(String username) throws InvalidAdminException {
         for (AdminUser admin : allAdmins) {
@@ -67,12 +69,12 @@ AdminManager {
     }
 
     /**
-     * Returns whether the input username and password match an existing AdminUser account.
+     * Returns whether the input username and password match an existing Admins.AdminUser account.
      * @param username inputted username
      * @param password inputted password
-     * @return boolean whether the inputs match an existing AdminUser account or not.
+     * @return boolean whether the inputs match an existing Admins.AdminUser account or not.
      */
-    public boolean validAdmin(String username, String password) { // TO-DO: check if the account also matches a normal User, and if yes, should throw something?
+    public boolean validAdmin(String username, String password) { // TO-DO: check if the account also matches a normal Users.User, and if yes, should throw something?
         for (AdminUser admin : allAdmins) {
             if (admin.getUsername().equals(username) && admin.getPassword().equals(password)) {
                 return true;
@@ -84,9 +86,9 @@ AdminManager {
     /**
      * Returns whether the input username is available, or in other words, does not match any existing account usernames.
      * @param username inputted username
-     * @return boolean whether the input matches an existing AdminUser account or not.
+     * @return boolean whether the input matches an existing Admins.AdminUser account or not.
      */
-    public boolean checkAvailableUsername(String username) { // TO-DO: check if the username also matches any usernames of a normal User and not just AdminUsers?
+    public boolean checkAvailableUsername(String username) { // TO-DO: check if the username also matches any usernames of a normal Users.User and not just AdminUsers?
         for (AdminUser admin : allAdmins) {
             if (admin.getUsername().equals(username)) {
                 return false;
