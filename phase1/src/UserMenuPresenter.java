@@ -21,6 +21,26 @@ public class UserMenuPresenter extends MenuPresenter {
 
 
     /**
+     * Construct methods like this return a list of options/prompts that the menu will have.
+     *
+     * This particular method constructs the option list that the user will be greeted with upon first logging into
+     * the program.
+     * @return this returns a list of options that the user can choose from.
+     */
+    public List<String> constructMainMenu(){
+        List<String> MenuOptionList = new ArrayList<>();
+        MenuOptionList.add("Request Item for Approval");
+        MenuOptionList.add("Browse Available Items for Trade");
+        MenuOptionList.add("View Active Transactions");
+        MenuOptionList.add("View Past Transaction Details");
+        MenuOptionList.add("View Wishlist");
+        MenuOptionList.add("View Inventory");
+        MenuOptionList.add("Request Admin to Unfreeze Account");
+        MenuOptionList.add("Log Out");
+        return(MenuOptionList);
+    }
+
+    /**
      * Construct methods like this will return a list of options/prompts that the menu will have.
      * @param ItemList this is a list of items(all available items that are for trade from other users.)
      * @return this returns the list of options that the user can choose from.
