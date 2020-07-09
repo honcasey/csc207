@@ -95,17 +95,17 @@ public class Serializer {
         return transactionMap;
     }
 
-    public void writeItemsToFile(String path, HashMap<Item, User> pendingItems) throws IOException {
+    public void writeItemsToFile(String path, HashMap<UUID, Item> pendingItems) throws IOException {
         OutputStream file = new FileOutputStream(path);
         ObjectOutput output = new ObjectOutputStream(file);
         output.writeObject(pendingItems);
         output.close();
     }
 
-    public HashMap<Item, User> readItemsFromFile(String path) throws IOException, ClassNotFoundException {
+    public HashMap<UUID, Item> readItemsFromFile(String path) throws IOException, ClassNotFoundException {
         InputStream file = new FileInputStream(path);
         ObjectInput input = new ObjectInputStream(file);
-        HashMap<Item, User> pendingItems = (HashMap<Item, User>) input.readObject();
+        HashMap<UUID, Item> pendingItems = (HashMap<UUID, Item>) input.readObject();
         input.close();
         return pendingItems;
     }
