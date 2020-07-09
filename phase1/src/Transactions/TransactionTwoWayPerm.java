@@ -6,6 +6,7 @@ import Users.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * This class represents a meetup between 2 Users where there is a two way permanent transaction happening.
@@ -13,8 +14,8 @@ import java.util.List;
  */
 
 public class TransactionTwoWayPerm extends Transaction {
-    public Item item1;
-    public Item item2;
+    public UUID item1;
+    public UUID item2;
 
     /**
      * Constructor for Transactions.TransactionTwoWayPerm class. This constructor initializes a 2 way permanent transaction with
@@ -24,7 +25,7 @@ public class TransactionTwoWayPerm extends Transaction {
      * @param Item2 the item possessed originally by User2
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionTwoWayPerm(User User1, User User2, Item Item1, Item Item2, Meeting firstMeeting){
+    public TransactionTwoWayPerm(UUID User1, UUID User2, UUID Item1, UUID Item2, Meeting firstMeeting){
         super(User1,User2,firstMeeting);
         this.item1 = Item1;
         this.item2 = Item2;
@@ -36,14 +37,14 @@ public class TransactionTwoWayPerm extends Transaction {
      * @return returns the item that was owned by user1 at the beginning of the transaction.
      */
     //Constructor with a return time manually inputted
-    public Item getItem1(){
+    public UUID getItem1(){
         return this.item1;
     }
 
     /**
      * Setter for item that user1 has.
      */
-    public void setItem1(Item item1) {
+    public void setItem1(UUID item1) {
         this.item1 = item1;
     }
 
@@ -51,7 +52,7 @@ public class TransactionTwoWayPerm extends Transaction {
      * Getter for item that user2 has.
      * @return this returns the item that user2 owned at the beginning of the transaction.
      */
-    public Item getItem2(){
+    public UUID getItem2(){
         return this.item2;
     }
 
@@ -63,7 +64,7 @@ public class TransactionTwoWayPerm extends Transaction {
     /**
      * Setter for item that user2 has.
      */
-    public void setItem2(Item item2){
+    public void setItem2(UUID item2){
         this.item2 = item2;
     }
 
@@ -87,8 +88,8 @@ public class TransactionTwoWayPerm extends Transaction {
     }
 
     @Override
-    public List<Item> getTransactionItems(){
-        List<Item> ItemReturnList = new ArrayList<>();
+    public List<UUID> getTransactionItems(){
+        List<UUID> ItemReturnList = new ArrayList<>();
         ItemReturnList.add(this.getItem1());
         ItemReturnList.add(this.getItem2());
         return(ItemReturnList);

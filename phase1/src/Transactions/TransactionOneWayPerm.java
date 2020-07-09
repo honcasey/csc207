@@ -6,6 +6,7 @@ import Users.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class TransactionOneWayPerm extends Transaction {
     /**
@@ -22,7 +23,7 @@ public class TransactionOneWayPerm extends Transaction {
      * NOTE: getters and setters for certain information still remain camel-case.
      */
 
-    private Item item;
+    private UUID item;
 
     /**
      * Constructor for Transactions.TransactionOneWayPerm. The way the constructor is implemented assumes that User2 takes the
@@ -35,7 +36,7 @@ public class TransactionOneWayPerm extends Transaction {
      * @param firstMeeting the first meeting for the deal.(and the only one because it is permanent.)
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionOneWayPerm(User User1, User User2, Item item, Meeting firstMeeting){
+    public TransactionOneWayPerm(UUID User1, UUID User2, UUID item, Meeting firstMeeting){
         super(User1,User2, firstMeeting);
         this.item = item;
     }
@@ -46,14 +47,14 @@ public class TransactionOneWayPerm extends Transaction {
      * @return returns the item that is in the transaction.
      */
     //Constructor with a return time manually inputted
-    public Item getItem(){
+    public UUID getItem(){
         return(this.item);
     }
 
     /**
      * Setter for item in the transaction.
      */
-    public void setItem(Item item1) {
+    public void setItem(UUID item1) {
         this.item = item1;
     }
 
@@ -81,8 +82,8 @@ public class TransactionOneWayPerm extends Transaction {
     }
 
     @Override
-    public List<Item> getTransactionItems(){
-        List<Item> ItemReturnList = new ArrayList<>();
+    public List<UUID> getTransactionItems(){
+        List<UUID> ItemReturnList = new ArrayList<>();
         ItemReturnList.add(this.getItem());
         return(ItemReturnList);
     }

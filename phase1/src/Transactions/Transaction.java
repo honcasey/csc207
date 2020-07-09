@@ -145,7 +145,7 @@ public abstract class Transaction {
      *
      * @return Returns list of items. The order of the items in the list are Item1,Item2(if applicable).
      */
-    public abstract List<Item> getTransactionItems();
+    public abstract List<UUID> getTransactionItems();
 
 
     /**

@@ -6,6 +6,7 @@ import Users.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * This class represents a meetup between 2 Users where there is a one way borrowing transaction happening.
@@ -13,7 +14,7 @@ import java.util.List;
  */
 
 public class TransactionOneWayTemp extends Transaction {
-    public Item item;
+    public UUID item;
     public Meeting secondMeeting;
 
     /**
@@ -26,7 +27,7 @@ public class TransactionOneWayTemp extends Transaction {
      * @param secondMeeting the second meeting details.
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionOneWayTemp(User User1, User User2, Item item, Meeting FirstMeeting, Meeting secondMeeting) {
+    public TransactionOneWayTemp(UUID User1, UUID User2, UUID item, Meeting FirstMeeting, Meeting secondMeeting) {
         super(User1, User2, FirstMeeting);
         this.item = item;
         this.secondMeeting = secondMeeting;
@@ -38,14 +39,14 @@ public class TransactionOneWayTemp extends Transaction {
      * @return returns the item that user1 has at the beginning of the transaction.
      */
     //Constructor with a return time manually inputted
-    public Item getItem() {
+    public UUID getItem() {
         return this.item;
     }
 
     /**
      * Setter for item that user1 has.
      */
-    public void setItem1(Item item) {
+    public void setItem1(UUID item) {
         this.item = item;
     }
 
@@ -91,8 +92,8 @@ public class TransactionOneWayTemp extends Transaction {
     }
 
     @Override
-    public List<Item> getTransactionItems(){
-        List<Item> ItemReturnList = new ArrayList<>();
+    public List<UUID> getTransactionItems(){
+        List<UUID> ItemReturnList = new ArrayList<>();
         ItemReturnList.add(this.getItem());
         return(ItemReturnList);
     }
