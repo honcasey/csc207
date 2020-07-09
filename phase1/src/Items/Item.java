@@ -59,4 +59,7 @@ public class Item {
         return description;
     }
 
+    public UUID getId() {
+        return id;
+    }
 }
