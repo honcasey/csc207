@@ -3,6 +3,8 @@ package Admins;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import Presenters.MenuPresenter;
+import Interfaces.PresenterStrings;
 
 
 public class AdminMenuPresenter extends MenuPresenter implements PresenterStrings {

@@ -56,7 +56,7 @@ public class MenuPresenter {
      * @param OptionPrompt what to be displayed after the options on the screen.
      * @return this returns the option that was selected by the user as a string.
      */
-    String HandleOptions(List<String> OptionList, boolean BackOption, String OptionTitle, String OptionPrompt) {
+    protected String HandleOptions(List<String> OptionList, boolean BackOption, String OptionTitle, String OptionPrompt) {
         if (BackOption) {
             this.addBackOption(OptionList);
         }
