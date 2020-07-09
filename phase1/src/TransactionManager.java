@@ -1,3 +1,4 @@
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -146,7 +147,8 @@ public class TransactionManager {
     public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, int newHour, int newMinute) {
         int userNum = findUserNum(transaction, userId);
         if (canEdit(meeting, userNum)) {
-            meeting.setTime(newHour, newMinute);
+            LocalTime time = LocalTime.of(newHour, newMinute);
+            meeting.setTime(time);
             if (userNum == 1){
                 meeting.user1edits();
             }
@@ -174,7 +176,8 @@ public class TransactionManager {
                                int newDay) {
         int userNum = findUserNum(transaction, userId);
         if (canEdit(meeting, userNum)) {
-            meeting.setDate(newYear, newMonth, newDay);
+            LocalDate date = LocalDate.of(newYear, newMonth, newDay);
+            meeting.setDate(date);
             if (userNum == 1){
                 meeting.user1edits();
             }
