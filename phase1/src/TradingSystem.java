@@ -169,7 +169,7 @@ public class TradingSystem {
                 notLoggedIn = false;
                 try {
                     UserMenu userMenu = new UserMenu(userManager, adminManager, transactionManager,
-                            itemManager, pendingItems, userManager.getUser(username));
+                            itemManager, pendingItems, userManager.getUser(username).getUserId());
                     UserMenuController userMenuController = new UserMenuController(userMenu);
                     userMenuController.run();
                 } catch(InvalidUserException e) {
@@ -195,7 +195,7 @@ public class TradingSystem {
         try {
             User user = userManager.addUser(username, password);
             UserMenu userMenu = new UserMenu(userManager, adminManager, transactionManager,
-                    itemManager, pendingItems, user);
+                    itemManager, pendingItems, user.getUserId());
             UserMenuController userMenuController = new UserMenuController(userMenu);
             userMenuController.run();
         } catch(InvalidUserException e) {
