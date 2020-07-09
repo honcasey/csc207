@@ -215,7 +215,7 @@ public class TradingSystem {
 
     private int getUserInput() {
         boolean picking = true;
-        int input;
+        int input = 0;
         while (picking) {
             input = getNumericInput();
             if (input == 1 | input == 2) {

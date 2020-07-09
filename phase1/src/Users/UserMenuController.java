@@ -1,6 +1,7 @@
 package Users;
 
 import Items.Item;
+import Presenters.MenuPresenter;
 import Transactions.Meeting;
 import Users.User;
 import Users.UserMenu;
