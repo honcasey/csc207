@@ -100,7 +100,7 @@ public class MenuPresenter {
      * @return returns the index of the option chosen by the user corresponding the option list that was passed in.
      *          So that optionlist.get(return value) gives the option that the user has chosen.
      */
-    int HandleOptionsByIndex(List<String> OptionList, boolean BackOption, String
+    protected int HandleOptionsByIndex(List<String> OptionList, boolean BackOption, String
             OptionTitle, String OptionPrompt) {
         if (BackOption) {
             this.addBackOption(OptionList);
