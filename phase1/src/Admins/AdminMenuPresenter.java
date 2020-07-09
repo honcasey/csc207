@@ -1,12 +1,11 @@
 package Admins;
 
-import Interfaces.PresenterStrings;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AdminMenuPresenter implements PresenterStrings {
+
+public class AdminMenuPresenter extends MenuPresenter implements PresenterStrings {
 
     public List<String> allThresholds = Arrays.asList("borrow", "weekly", "incomplete");
     public List<String> userLists = Arrays.asList("wishlist", "inventory");
@@ -16,9 +15,9 @@ public class AdminMenuPresenter implements PresenterStrings {
         List<String> AdminMenuOptions = new ArrayList<>(); // are lists ordered?
         AdminMenuOptions.add("Check Pending Items for Approval");
         AdminMenuOptions.add("Check Flagged Users");
-        AdminMenuOptions.add("Create New Admin Users.User");
-        AdminMenuOptions.add("Add New Items.Item to a Users.User's Wishlist/Inventory");
-        AdminMenuOptions.add("Change Users.User Threshold");
+        AdminMenuOptions.add("Create New Admin User");
+        AdminMenuOptions.add("Add New Item to a User's Wishlist/Inventory");
+        AdminMenuOptions.add("Change User Threshold");
         AdminMenuOptions.add("Check Unfreeze Account Requests");
         AdminMenuOptions.add("Log Out");
         return AdminMenuOptions;

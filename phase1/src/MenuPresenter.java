@@ -38,7 +38,7 @@ public class MenuPresenter {
         MenuOptionList.add("Request Items.Item for Approval");
         MenuOptionList.add("Browse Available Items for Trade");
         MenuOptionList.add("View Active Transactions");
-        MenuOptionList.add("View Past Transactions.Transaction Details");
+        MenuOptionList.add("View Past Transaction Details");
         MenuOptionList.add("View Wishlist");
         MenuOptionList.add("View Inventory");
         MenuOptionList.add("Request Admin to Unfreeze Account");
