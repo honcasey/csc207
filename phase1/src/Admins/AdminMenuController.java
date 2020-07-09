@@ -84,7 +84,7 @@ public class AdminMenuController {
             Scanner scanner = new Scanner(System.in);
             System.out.println(amp.enterName("new Admin"));
             String username = scanner.nextLine();
-            try{
+            try {
                 System.out.println("Please enter new Administrative Users.User's password: ");
                 String password = scanner.nextLine();
                 am.addAdmin(username, password);
@@ -92,8 +92,9 @@ public class AdminMenuController {
             } catch (InvalidAdminException e) {
                 System.out.println(amp.usernameTaken());
             }
+        } else {
+            System.out.println("Permission denied, only the first admin can create new administrative user accounts.");
         }
-        else { System.out.println("Permission denied, only the first admin can create new administrative user accounts.");} // TO-DO: get exception to print message
     }
 
     private void addItemToUser() {
