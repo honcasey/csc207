@@ -5,16 +5,15 @@ public class AdminMenuController {
     private final AdminManager am;
     private final UserManager um;
     private HashMap<Item, User> allPendingItems;
-    private final AdminMenuPresenter amp;
+    private final AdminMenuPresenter amp = new AdminMenuPresenter();
     private int input;
 
     public AdminMenuController(AdminManager adminManager, UserManager userManager,
-                               HashMap<Item, User> pendingItems, AdminUser admin, AdminMenuPresenter adminPresenter) {
+                               HashMap<Item, User> pendingItems, AdminUser admin) {
         currentAdmin = admin;
         allPendingItems = pendingItems;
         um = userManager;
         am = adminManager;
-        amp = adminPresenter;
     }
 
     public void run() throws InvalidAdminException {

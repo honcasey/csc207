@@ -6,8 +6,6 @@ import java.util.UUID;
 // general ideas taken from lecture 6 StudentManager.java example
 public class Serializer {
 
-    // cited from https://docs.oracle.com/javase/7/docs/api/java/io/ObjectOutputStream.html
-
     public void writeUsersToFile(String path, List<User> users) throws IOException {
 
         // create a connection to the file specified by path
@@ -20,34 +18,6 @@ public class Serializer {
         // close the file
         output.close();
     }
-
-    public void writeTransactionsToFile(String path, HashMap<UUID, Transaction> transactionMap) throws IOException {
-
-        // create a connection to the file specified by path
-        OutputStream file = new FileOutputStream(path);
-        ObjectOutput output = new ObjectOutputStream(file);
-
-        // write user into the file
-        output.writeObject(transactionMap);
-
-        // close the file
-        output.close();
-    }
-
-    public void writeAdminsToFile(String path, List<AdminUser> admins) throws IOException {
-
-        // create a connection to the file specified by path
-        OutputStream file = new FileOutputStream(path);
-        ObjectOutput output = new ObjectOutputStream(file);
-
-        // write user into the file
-        output.writeObject(admins);
-
-        // close the file
-        output.close();
-    }
-
-    // cited from here https://docs.oracle.com/javase/7/docs/api/java/io/ObjectInputStream.html
 
     public List<User> readUsersFromFile(String path) throws IOException, ClassNotFoundException {
         // create a connection to the file specified by path
@@ -64,6 +34,19 @@ public class Serializer {
         return users;
     }
 
+    public void writeAdminsToFile(String path, List<AdminUser> admins) throws IOException {
+
+        // create a connection to the file specified by path
+        OutputStream file = new FileOutputStream(path);
+        ObjectOutput output = new ObjectOutputStream(file);
+
+        // write user into the file
+        output.writeObject(admins);
+
+        // close the file
+        output.close();
+    }
+
     public List<AdminUser> readAdminsFromFile(String path) throws IOException, ClassNotFoundException {
         // create a connection to the file specified by path
         InputStream file = new FileInputStream(path);
@@ -78,6 +61,20 @@ public class Serializer {
         // return the list
         return admins;
     }
+
+    public void writeTransactionsToFile(String path, HashMap<UUID, Transaction> transactionMap) throws IOException {
+
+        // create a connection to the file specified by path
+        OutputStream file = new FileOutputStream(path);
+        ObjectOutput output = new ObjectOutputStream(file);
+
+        // write user into the file
+        output.writeObject(transactionMap);
+
+        // close the file
+        output.close();
+    }
+
     public HashMap<UUID, Transaction> readTransactionMapFromFile(String path) throws IOException, ClassNotFoundException {
         // create a connection to the file specified by path
         InputStream file = new FileInputStream(path);

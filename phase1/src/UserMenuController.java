@@ -11,13 +11,12 @@ public class UserMenuController {
     /**
      *
      */
-    private UserMenu userMenu;
-    private UserMenuPresenter userMenuPresenter;
+    private final UserMenu userMenu;
+    private final UserMenuPresenter userMenuPresenter = new UserMenuPresenter();
 
 
-    public UserMenuController(UserMenu userMenu,UserMenuPresenter userMenuPresenter) {
+    public UserMenuController(UserMenu userMenu) {
         this.userMenu = userMenu;
-        this.userMenuPresenter = userMenuPresenter;
     }
 
     /**
