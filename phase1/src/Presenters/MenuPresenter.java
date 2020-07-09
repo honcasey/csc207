@@ -1,5 +1,9 @@
 package Presenters;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -58,7 +62,7 @@ public class MenuPresenter {
      * @param OptionTitle the title of the menu.
      * @return this returns the option that was selected by the user as a string.
      */
-    public String HandleOptions(List<String> OptionList, boolean BackOption, String OptionTitle) {
+    public String handleOptions(List<String> OptionList, boolean BackOption, String OptionTitle) {
         if (BackOption) {
             this.addBackOption(OptionList);
         }
@@ -101,7 +105,7 @@ public class MenuPresenter {
      * @return returns the index of the option chosen by the user corresponding the option list that was passed in.
      *          So that optionlist.get(return value) gives the option that the user has chosen.
      */
-    public int HandleOptionsByIndex(List<String> OptionList, boolean BackOption, String
+    public int handleOptionsByIndex(List<String> OptionList, boolean BackOption, String
             OptionTitle) {
         if (BackOption) {
             this.addBackOption(OptionList);
@@ -122,5 +126,54 @@ public class MenuPresenter {
             OptionChosen = scanner.nextInt();
         } while (OptionChosen > OptionList.size() || OptionChosen <= 0);
         return(OptionChosen -1);
+    }
+    /** inputTimeGetter
+     * Checks the date string that the user has inputted to see if it is in the accepted format.
+     * @return this returns tru iff Returns true iff it is
+     *      in the accepted format dd/mm/yyyy.
+     */
+
+    public LocalTime inputTimeGetter(String optionTimePrompt){
+        Scanner scanner = new Scanner(System.in);
+        LocalTime returnTime;
+        while (true) {
+            try {
+                System.out.println(optionTimePrompt);
+                String DateString = scanner.nextLine();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                returnTime = LocalTime.parse(DateString, formatter);
+                break;
+            }
+            catch(DateTimeParseException e){
+                System.out.println("Invalid time please,try again.");
+
+            }
+        }
+        return(returnTime);
+    }
+
+
+    /** inputDateGetter
+     * This method prompts the user for information to construct a date object, then
+     * @param optionDatePrompt
+     * @return
+     */
+    public LocalDate inputDateGetter(String optionDatePrompt){
+        Scanner scanner = new Scanner(System.in);
+        LocalDate returnDate;
+        while (true) {
+            try {
+                System.out.println(optionDatePrompt);
+                String DateString = scanner.nextLine();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-uuuu");
+                returnDate = LocalDate.parse(DateString, formatter);
+                break;
+            }
+            catch(DateTimeParseException e){
+                System.out.println("Invalid Date please,try again.");
+
+            }
+        }
+        return(returnDate);
     }
 }
