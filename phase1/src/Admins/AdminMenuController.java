@@ -29,7 +29,7 @@ public class AdminMenuController {
         boolean userInteracting = true;
 
         while (userInteracting) {
-            String input = amp.HandleOptions(amp.constructMainMenu(), false,"Admin Main Menu");
+            String input = amp.handleOptions(amp.constructMainMenu(), false,"Admin Main Menu");
 
             switch (input) { //TO-DO: handleoptionsbyindex ?
                 case "Check Pending Items for Approval":
@@ -86,7 +86,7 @@ public class AdminMenuController {
 
                 while (itemIterator.hasNext()) {
                     System.out.println(itemIterator.next().toString()); //prints the current item + the options
-                    int optionChosen = amp.HandleOptionsByIndex(optionList, true, "Actions");
+                    int optionChosen = amp.handleOptionsByIndex(optionList, true, "Actions");
                     if (optionList.get(optionChosen).equals("Approve item for User's inventory.")) { // TO-DO: try catch block here?
                         approveInventory(allPendingItems.get(itemIterator.next()), itemIterator.next(), true);
                     }
@@ -152,7 +152,7 @@ public class AdminMenuController {
         Scanner scanner = new Scanner(System.in);
         System.out.println(amp.enterName("User"));
         String username = scanner.nextLine();
-        String whichThreshold = amp.HandleOptions(amp.allThresholds, true, "User Thresholds");
+        String whichThreshold = amp.handleOptions(amp.allThresholds, true, "User Thresholds");
         try {
             switch (whichThreshold) {
                 case "borrow": {
@@ -195,7 +195,7 @@ public class AdminMenuController {
                         List<String> optionList = new ArrayList<>();
                         optionList.add("Unfreeze Account."); // should i add a "leave user frozen" option, or just assume the admin knows by skipping the user, they're leaving that user frozen?
                         optionList.add("Go to next user."); // or change this option to "Leave User Frozen"?
-                        int optionChosen = amp.HandleOptionsByIndex(optionList, true, "Check Frozen Users");
+                        int optionChosen = amp.handleOptionsByIndex(optionList, true, "Check Frozen Users");
                         if (optionChosen == optionList.size()) {
                             userInteracting = false;
                         } else if (optionList.get(optionChosen).equals("Unfreeze Account.")) {
@@ -216,7 +216,7 @@ public class AdminMenuController {
                         optionList2.add("Freeze Account.");
                         optionList2.add("Unfreeze Account.");
                         optionList2.add("Go to next user.");
-                        int optionChosen2 = amp.HandleOptionsByIndex(optionList2, true, "Check Flagged Users");
+                        int optionChosen2 = amp.handleOptionsByIndex(optionList2, true, "Check Flagged Users");
                         if (optionChosen2 == optionList2.size()) {
                             userInteracting = false;
                         } else if (optionList2.get(optionChosen2).equals("Freeze Account.")) {
