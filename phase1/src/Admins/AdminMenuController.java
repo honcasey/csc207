@@ -14,7 +14,7 @@ public class AdminMenuController {
     private final UserManager um;
     private HashMap<Item, User> allPendingItems;
     private final AdminMenuPresenter amp = new AdminMenuPresenter();
-    private int input;
+    private int input; // do we need this?
 
     public AdminMenuController(AdminManager adminManager, UserManager userManager,
                                HashMap<Item, User> pendingItems, AdminUser admin) {

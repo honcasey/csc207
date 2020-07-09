@@ -176,4 +176,32 @@ public class MenuPresenter {
         }
         return(returnDate);
     }
+
+    public String empty(String which) { return which + " list is empty. Nothing to be checked."; }
+
+    public String enterName(String name) {
+        return "Please enter name for this " + name;
+    }
+
+    public String successfullyAdded(String what, String who, String where) {
+        return what + "has been successfully added to " + who + "'s " + where;
+    }
+
+    public String successfullyChanged(String what, String who) {
+        return who + "'s " + what + "has been successfully changed.";
+    }
+
+    public String validOptions(List<String> optionList) {
+        return "Valid options include: " + optionList.toString();
+    }
+
+    public String usernameTaken() { return "Username already taken. Please enter a different one."; }
+
+    public String accountFrozen(String who, String frozen) {
+        return who + "'s account has been set to " + frozen;
+    }
+
+    public String logout() { return "You have successfully logged out."; }
+
+    public String invalidOption() { return "Not a valid option. Please enter a valid option."; }
 }
