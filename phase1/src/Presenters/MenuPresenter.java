@@ -37,7 +37,7 @@ public class MenuPresenter {
      */
     public List<String> constructMainMenu(){
         List<String> MenuOptionList = new ArrayList<>();
-        MenuOptionList.add("Request Items.Item for Approval");
+        MenuOptionList.add("Request Item for Approval");
         MenuOptionList.add("Browse Available Items for Trade");
         MenuOptionList.add("View Active Transactions");
         MenuOptionList.add("View Past Transaction Details");

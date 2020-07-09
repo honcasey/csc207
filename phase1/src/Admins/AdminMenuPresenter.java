@@ -6,7 +6,6 @@ import java.util.List;
 import Presenters.MenuPresenter;
 import Interfaces.PresenterStrings;
 
-
 public class AdminMenuPresenter extends MenuPresenter implements PresenterStrings {
 
     public List<String> allThresholds = Arrays.asList("borrow", "weekly", "incomplete");

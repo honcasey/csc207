@@ -31,7 +31,7 @@ public class UserMenuController extends MenuPresenter {
         String input = this.HandleOptions(this.userMenuPresenter.constructMainMenu(),
                 false,"Users.User Main Menu","Please type a number corresponding to one of" +
                         "the above options.");
-            if(input.equals("Request Items.Item for Approval")){
+            if (input.equals("Request Items.Item for Approval")){
                 requestAddItem();
             } else if (input.equals("Browse Available Items for Trade")) {
                 DisplayAvailableItems();
@@ -106,7 +106,6 @@ public class UserMenuController extends MenuPresenter {
                 }
             }
         }
-
     }
 
     /**
@@ -135,7 +134,6 @@ public class UserMenuController extends MenuPresenter {
             }
         }
     }
-
 
     /**
      * This method walks the user through the details required for a meeting, then constructs a meeting.
@@ -196,8 +194,6 @@ public class UserMenuController extends MenuPresenter {
         }
         return(returnDate);
     }
-
-
 
     private void viewWishlist() {
         Scanner scanner = new Scanner(System.in);
