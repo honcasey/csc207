@@ -94,7 +94,7 @@ public class UserMenuController extends MenuPresenter {
                 userInteracting = false;
             }
             else{
-                if(this.userMenu.currentUser.isFrozen()){
+                if(this.userMenu.getCurrentUser().isFrozen()){
                     System.out.println("Your account is frozen so you cannot make an offer for this item. Please request" +
                         "to have your account unfrozen.");
                     System.out.println("You will now be taken back to the main user menu.");
@@ -197,11 +197,11 @@ public class UserMenuController extends MenuPresenter {
 
     private void viewWishlist() {
         Scanner scanner = new Scanner(System.in);
-        if (userMenu.currentUser.getWishlist() == null) {
+        if (userMenu.getCurrentUser().getWishlist() == null) {
             System.out.println("Your wishlist is empty.");
         }
         else {
-            Iterator<Item> itemIterator = userMenu.currentUser.getWishlist().iterator();
+            Iterator<Item> itemIterator = userMenu.getCurrentUser().getWishlist().iterator();
             List<String> optionList = new ArrayList<>();
             while (itemIterator.hasNext()) {
                 optionList.add(itemIterator.next().toString());
@@ -213,7 +213,7 @@ public class UserMenuController extends MenuPresenter {
                 System.out.println("Loading Previous Menu");
             }
             else {
-                userMenu.withdrawItem(userMenu.currentUser.getWishlist().get(optionChosen), "wishlist");
+                userMenu.withdrawItem(userMenu.getCurrentUser().getWishlist().get(optionChosen), "wishlist");
                 System.out.println("The item has been removed from your wishlist.");
             }
         }
@@ -221,11 +221,11 @@ public class UserMenuController extends MenuPresenter {
 
     private void viewInventory() {
         Scanner scanner = new Scanner(System.in);
-        if (userMenu.currentUser.getInventory() == null) {
+        if (userMenu.getCurrentUser().getInventory() == null) {
             System.out.println("Your inventory is empty.");
         }
         else {
-            Iterator<Item> itemIterator = userMenu.currentUser.getInventory().iterator();
+            Iterator<Item> itemIterator = userMenu.getCurrentUser().getInventory().iterator();
             List<String> optionList = new ArrayList<>();
             while (itemIterator.hasNext()) {
                 optionList.add(itemIterator.next().toString());
@@ -236,14 +236,14 @@ public class UserMenuController extends MenuPresenter {
                 System.out.println("Loading Previous Menu");
             }
             else {
-                userMenu.withdrawItem(userMenu.currentUser.getInventory().get(optionChosen), "inventory");
+                userMenu.withdrawItem(userMenu.getCurrentUser().getInventory().get(optionChosen), "inventory");
                 System.out.println("The item has been removed from your inventory.");
             }
         }
     }
 
     private void requestUnfreezeAccount() {
-        if (userMenu.currentUser.isFrozen()) {
+        if (userMenu.getCurrentUser().isFrozen()) {
             userMenu.requestUnfreezeAccount();
             System.out.println("You have successfully requested for your account to be unfrozen.");
         }
@@ -253,7 +253,7 @@ public class UserMenuController extends MenuPresenter {
     }
 
     private void viewPastTransaction(){
-        TransactionHistory transactionHistory= userMenu.currentUser.getTransactionHistory();
+        TransactionHistory transactionHistory= userMenu.getCurrentUser().getTransactionHistory();
         if (transactionHistory == null){
             System.out.println("Your transaction history is empty.");
         }

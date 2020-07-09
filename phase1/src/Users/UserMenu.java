@@ -9,6 +9,7 @@ import Users.UserManager;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class UserMenu {
 
@@ -36,19 +37,22 @@ public class UserMenu {
      *
      */
 
-    private User currentUser; // user that's logged in
+    private UUID currentUserId; // user that's logged in
     private AdminManager am;
     private UserManager um;
     private TransactionManager tm;
     private HashMap<Item, User> allPendingItems;
 
     public UserMenu(UserManager userManager, AdminManager adminManager, TransactionManager transactionManager,
-                    HashMap<Item, User> pendingItems, User currentUser) {
-        this.currentUser = currentUser;
+                    HashMap<Item, User> pendingItems, UUID currentUserId) {
+        this.currentUserId = currentUserId;
         allPendingItems = pendingItems;
         am = adminManager;
         um = userManager;
         tm = transactionManager;
+    }
+    public User getCurrentUser(){
+        return um.getUserById(currentUserId);
     }
 
     /**
@@ -59,7 +63,7 @@ public class UserMenu {
     public void requestAddItemInput(String itemName, String itemDescription){
         Item RequestedItem = new Item(itemName);
         RequestedItem.setDescription(itemDescription);
-        allPendingItems.put(RequestedItem,this.currentUser);
+        allPendingItems.put(RequestedItem,getCurrentUser());
     }
 
     /**
@@ -69,9 +73,9 @@ public class UserMenu {
      */
     public void withdrawItem(Item item, String listType){
         if(listType.equals("wishlist")){
-            um.removeItem(currentUser, item, "wishlist");
+            um.removeItem(getCurrentUser(), item, "wishlist");
         }else if (listType.equals("inventory")){
-            um.removeItem(currentUser,item,"inventory");
+            um.removeItem(getCurrentUser(),item,"inventory");
         }
     }
 
@@ -80,7 +84,7 @@ public class UserMenu {
      * @param item An item in the trading system
      */
     public void addToWishlist(Item item){
-        um.addItem(currentUser, item, "wishlist");
+        um.addItem(getCurrentUser(), item, "wishlist");
     }
 
     /**
@@ -91,7 +95,7 @@ public class UserMenu {
         List<User> allUsers = um.getAllUsers();
         HashMap<Item,User> availableItems = new HashMap<>();
         for (User user:allUsers) {
-            if(!user.equals(currentUser)) {
+            if(!user.equals(getCurrentUser())) {
                 for (Item item : user.getInventory()) {
                     availableItems.put(item, user);
                 }
@@ -105,9 +109,9 @@ public class UserMenu {
      * @param transaction A transaction to be cancelled and to remove transaction from tra
      */
     public void cancelTransaction(Transaction transaction)  {
-        currentUser.getTransactionDetails().getIncomingOffers().remove(transaction);
+        getCurrentUser().getCurrentTransactions().getUsersTransactions().remove(transaction);
        User u =  um.getUserById(transaction.getUser1());
-       if (u == currentUser){
+       if (u == getCurrentUser()){
            transaction.setStatusUser1("cancel");
        }
        else{
@@ -143,16 +147,16 @@ public class UserMenu {
         User user2 = um.getUserById(transaction.getUser2());
         um.addToTransactionHistory(user1, transaction);
         um.addToTransactionHistory(user2, transaction);
-        user1.getTransactionDetails().getSentOffers().remove(transaction); // Is the transaction in both user's "sent offers"?
-        user2.getTransactionDetails().getSentOffers().remove(transaction);
+        user1.getCurrentTransactions().getUsersTransactions().remove(transaction); // Is the transaction in both user's "sent offers"?
+        user2.getCurrentTransactions().getUsersTransactions().remove(transaction);
     }
 
     /**
      * Requests the admin user to unfreeze the current user's account, if it's status is already frozen.
      */
     public void requestUnfreezeAccount() {
-        am.getPendingFrozenUsers().add(currentUser);
-        am.getFrozenAccounts().remove(currentUser);
+        am.getPendingFrozenUsers().add(getCurrentUser());
+        am.getFrozenAccounts().remove(getCurrentUser());
     }
 
     /**
