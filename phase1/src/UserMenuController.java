@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-public class UserMenuController {
+public class UserMenuController extends MenuPresenter{
     /**
      *
      */
@@ -18,84 +18,6 @@ public class UserMenuController {
     public UserMenuController(UserMenu userMenu) {
         this.userMenu = userMenu;
     }
-
-    /**
-     * This method takes in a list of options and handles option display and selection.(generic)
-     * @param OptionList the list of options you want displayed.
-     * @param BackOption boolean representing if you want a back option appended to the option list and displayed.
-     * @param OptionTitle the title of the menu.
-     * @param OptionPrompt what to be displayed after the options on the screen.
-     * @return this returns the option that was selected by the user as a string.
-     */
-    private String HandleOptions(List<String> OptionList, boolean BackOption, String OptionTitle, String OptionPrompt) {
-        if (BackOption) {
-            this.userMenuPresenter.addBackOption(OptionList);
-        }
-        System.out.println(OptionTitle);
-        this.userMenuPresenter.displayOptions(OptionList,OptionPrompt);
-        return(this.selectOption(OptionList));
-    }
-
-    private String selectOption(List<String> OptionList){
-        Scanner scanner = new Scanner(System.in);
-        int OptionChosen;
-        do {
-            while (!scanner.hasNextInt()) {
-                System.out.println("That is not a valid option. Please enter a number corresponding to one of the options.");
-                scanner.next();
-            }
-            OptionChosen = scanner.nextInt();
-        } while (OptionChosen > OptionList.size() || OptionChosen <= 0);
-        return(OptionList.get(OptionChosen-1));
-    }
-
-    private int GetUserInt(String ErrorMsg){
-        Scanner scanner = new Scanner(System.in);
-        int UserInt;
-        do {
-            while (!scanner.hasNextInt()) {
-                System.out.println("That is not a valid number.");
-                scanner.next();
-            }
-            UserInt = scanner.nextInt();
-        } while (UserInt < 0);
-        return(UserInt);
-    }
-
-    /**
-     * This method takes in a list of options and handles option display and selection. (generic)
-     * @param OptionList the list of options you want displayed.
-     * @param BackOption boolean representing if you want a back option appended to the option list and displayed.
-     * @param OptionTitle the title of the option's page.
-     * @param OptionPrompt what to be displayed after the options on the screen.
-     * @return returns the index of the option chosen by the user corresponding the option list that was passed in.
-     *          So that optionlist.get(return value) gives the option that the user has chosen.
-     */
-    private int HandleOptionsByIndex(List<String> OptionList, boolean BackOption, String
-            OptionTitle,String OptionPrompt) {
-        if (BackOption) {
-            this.userMenuPresenter.addBackOption(OptionList);
-        }
-        System.out.println(OptionTitle);
-        this.userMenuPresenter.displayOptions(OptionList,OptionPrompt);
-        return(this.selectOptionByIndex(OptionList));
-    }
-
-    private int selectOptionByIndex(List<String> OptionList){
-        Scanner scanner = new Scanner(System.in);
-        int OptionChosen;
-        do {
-            while (!scanner.hasNextInt()) {
-                System.out.println("That is not a valid option. Please enter a number corresponding to one of the options.");
-                scanner.next();
-            }
-            OptionChosen = scanner.nextInt();
-        } while (OptionChosen > OptionList.size() || OptionChosen <= 0);
-        return(OptionChosen -1);
-    }
-
-    // THE ABOVE ARE ALL JUST HELPER METHODS THAT WILL BE USED BELOW:
-
 
     public void run() {
         boolean userInteracting = true;

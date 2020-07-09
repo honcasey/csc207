@@ -17,51 +17,8 @@ import java.util.List;
  * menuOptions: This is a dictionary mapping the menu to the options that a user can Select.
  */
 
-public class UserMenuPresenter {
+public class UserMenuPresenter extends MenuPresenter {
 
-    /**
-     * Formats and displays a list of options to the user.
-     * @param OptionList the list of options that you want to be displayed.
-     */
-    protected void displayOptions(List<String> OptionList, String OptionPrompt){
-        for(int i = 0; i < OptionList.size(); i++){
-            String index = Integer.toString(i+1);
-            String OutputLine =  index + ". " + OptionList.get(i);
-            System.out.println(OutputLine);
-        }
-        System.out.println(OptionPrompt);
-    }
-
-    /**
-     * Adds Back option at the end of options being displayed to the user.
-     * @param OptionList The list of options being displayed prior to calling this method.
-     */
-    protected void addBackOption(List<String> OptionList){
-        String LastIndex = Integer.toString(OptionList.size() + 1);
-        String LastOption = ". Go back";
-        OptionList.add(LastIndex + LastOption);
-    }
-
-
-    /**
-     * Construct methods like this return a list of options/prompts that the menu will have.
-     *
-     * This particular method constructs the option list that the user will be greeted with upon first logging into
-     * the program.
-     * @return this returns a list of options that the user can choose from.
-     */
-    public List<String> constructMainMenu(){
-        List<String> MenuOptionList = new ArrayList<>();
-        MenuOptionList.add("Request Item for Approval");
-        MenuOptionList.add("Browse Available Items for Trade");
-        MenuOptionList.add("View Active Transactions");
-        MenuOptionList.add("View Past Transaction Details");
-        MenuOptionList.add("View Wishlist");
-        MenuOptionList.add("View Inventory");
-        MenuOptionList.add("Request Admin to Unfreeze Account");
-        MenuOptionList.add("Log Out");
-        return(MenuOptionList);
-    }
 
     /**
      * Construct methods like this will return a list of options/prompts that the menu will have.
