@@ -1,5 +1,7 @@
 package Transactions;
 
+import Exceptions.InvalidItemException;
+import Exceptions.InvalidTransactionException;
 import Items.Item;
 import Transactions.*;
 import Users.User;
@@ -32,8 +34,12 @@ public class TransactionManager {
      * @param id the UUID of the transaction
      * @return the transaction
      */
-    public Transaction getTransactionFromId(UUID id){
-        return allTransactions.get(id);
+    public Transaction getTransactionFromId(UUID id) throws InvalidTransactionException {
+        if (allTransactions.containsKey(id)){
+        return allTransactions.get(id);}
+        else{
+            throw new InvalidTransactionException();
+        }
     }
 
     /**
@@ -45,7 +51,7 @@ public class TransactionManager {
      * @param meeting1 the first meeting location that the users will meet at to exchange items.
      * @param meeting2 the second meeting location that the users will meet at to exchange items.
      */
-    public Transaction createTransaction(User user1, User user2, Item item1, Meeting meeting1,
+    public Transaction createTransaction(UUID user1, UUID user2, UUID item1, Meeting meeting1,
                                          Meeting meeting2) {
         Transaction transaction = new TransactionOneWayTemp(user1, user2, item1, meeting1, meeting2);
         UUID id = transaction.getId();
@@ -61,7 +67,7 @@ public class TransactionManager {
      * @param item1 the item that user2 wants to borrow.
      * @param meeting1 the first meeting location that the users will meet at to exchange items.
      */
-    public Transaction createTransaction(User user1, User user2, Item item1,
+    public Transaction createTransaction(UUID user1, UUID user2, UUID item1,
                                                Meeting meeting1){
             Transaction transaction = new TransactionOneWayPerm(user1, user2, item1, meeting1);
             UUID id = transaction.getId();
@@ -79,7 +85,7 @@ public class TransactionManager {
      * @param meeting2 the second meeting location that the users will meet at to exchange items.
      */
 
-    public Transaction createTransaction(User user1, User user2, Item item1, Item item2,
+    public Transaction createTransaction(UUID user1, UUID user2, UUID item1, UUID item2,
                                          Meeting meeting1, Meeting meeting2) {
         Transaction transaction = new TransactionTwoWayTemp(user1, user2, item1, item2, meeting1, meeting2);
         UUID id = transaction.getId();
@@ -96,7 +102,7 @@ public class TransactionManager {
      * @param meeting1 the first meeting location that the users will meet at to exchange items.
      */
 
-    public Transaction createTransaction(User user1, User user2, Item item1, Item item2,
+    public Transaction createTransaction(UUID user1, UUID user2, UUID item1, UUID item2,
                                          Meeting meeting1) {
             Transaction transaction = new TransactionTwoWayPerm(user1, user2, item1, item2, meeting1);
             UUID id = transaction.getId();

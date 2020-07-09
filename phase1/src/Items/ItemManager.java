@@ -1,23 +1,24 @@
 package Items;
 
 import Exceptions.InvalidItemException;
+import Transactions.Transaction;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 public class ItemManager {
-    private List<Item> items;
+    private HashMap<UUID, Item> allItems;
 
-    public ItemManager(List<Item> items) {
-        this.items = items;
+    public ItemManager(HashMap<UUID, Item> items) {
+        this.allItems = items;
     }
 
     public Item getItem(UUID id) throws InvalidItemException {
-        for (Item item : items) {
-            if (item.getId().equals(id)) {
-                return item;
-            }
+        if (allItems.containsKey(id)){
+        return allItems.get(id);
         }
-        throw new InvalidItemException();
+        else{
+        throw new InvalidItemException();}
     }
 }

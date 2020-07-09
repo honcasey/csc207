@@ -271,6 +271,8 @@ public class UserMenuController extends MenuPresenter {
     /**
      * TODO: this is the method where the user can edit their statusUser for their transactions
      */
-    private void changeTransactionStatus(){}
+    private void changeTransactionStatus(){
+
+    }
 }
 
