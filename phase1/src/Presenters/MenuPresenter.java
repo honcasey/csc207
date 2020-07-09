@@ -9,13 +9,16 @@ public class MenuPresenter {
      * Formats and displays a list of options to the user.
      * @param OptionList the list of options that you want to be displayed.
      */
-    protected void displayOptions(List<String> OptionList, String OptionPrompt){
+
+    private String optionPrompt = "Please type a number corresponding to one of the above options.";
+
+    protected void displayOptions(List<String> OptionList){
         for(int i = 0; i < OptionList.size(); i++){
             String index = Integer.toString(i+1);
             String OutputLine =  index + ". " + OptionList.get(i);
             System.out.println(OutputLine);
         }
-        System.out.println(OptionPrompt);
+        System.out.println(optionPrompt);
     }
 
     /**
@@ -35,7 +38,7 @@ public class MenuPresenter {
      * the program.
      * @return this returns a list of options that the user can choose from.
      */
-    public List<String> constructMainMenu(){
+    public List<String> constructMainMenu(){ // TO-DO: remove body
         List<String> MenuOptionList = new ArrayList<>();
         MenuOptionList.add("Request Item for Approval");
         MenuOptionList.add("Browse Available Items for Trade");
@@ -53,15 +56,14 @@ public class MenuPresenter {
      * @param OptionList the list of options you want displayed.
      * @param BackOption boolean representing if you want a back option appended to the option list and displayed.
      * @param OptionTitle the title of the menu.
-     * @param OptionPrompt what to be displayed after the options on the screen.
      * @return this returns the option that was selected by the user as a string.
      */
-    protected String HandleOptions(List<String> OptionList, boolean BackOption, String OptionTitle, String OptionPrompt) {
+    public String HandleOptions(List<String> OptionList, boolean BackOption, String OptionTitle) {
         if (BackOption) {
             this.addBackOption(OptionList);
         }
         System.out.println(OptionTitle);
-        this.displayOptions(OptionList,OptionPrompt);
+        this.displayOptions(OptionList);
         return(this.selectOption(OptionList));
     }
 
@@ -96,17 +98,16 @@ public class MenuPresenter {
      * @param OptionList the list of options you want displayed.
      * @param BackOption boolean representing if you want a back option appended to the option list and displayed.
      * @param OptionTitle the title of the option's page.
-     * @param OptionPrompt what to be displayed after the options on the screen.
      * @return returns the index of the option chosen by the user corresponding the option list that was passed in.
      *          So that optionlist.get(return value) gives the option that the user has chosen.
      */
-    protected int HandleOptionsByIndex(List<String> OptionList, boolean BackOption, String
-            OptionTitle, String OptionPrompt) {
+    public int HandleOptionsByIndex(List<String> OptionList, boolean BackOption, String
+            OptionTitle) {
         if (BackOption) {
             this.addBackOption(OptionList);
         }
         System.out.println(OptionTitle);
-        this.displayOptions(OptionList,OptionPrompt);
+        this.displayOptions(OptionList);
         return(this.selectOptionByIndex(OptionList));
     }
 

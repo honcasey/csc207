@@ -3,9 +3,6 @@ package Users;
 import Items.Item;
 import Presenters.MenuPresenter;
 import Transactions.Meeting;
-import Users.User;
-import Users.UserMenu;
-import Users.UserMenuPresenter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -30,8 +27,7 @@ public class UserMenuController extends MenuPresenter {
         Scanner scanner = new Scanner(System.in);
         while(userInteracting){
         String input = this.HandleOptions(this.userMenuPresenter.constructMainMenu(),
-                false,"Users.User Main Menu","Please type a number corresponding to one of" +
-                        "the above options.");
+                false,"Users.User Main Menu");
             if (input.equals("Request Items.Item for Approval")){
                 requestAddItem();
             } else if (input.equals("Browse Available Items for Trade")) {
@@ -86,8 +82,8 @@ public class UserMenuController extends MenuPresenter {
                 " create a transaction for. To go back to the previous menu, type the number corresponding to that" +
                 "option.";
 
-            int OptionChosen = this.HandleOptionsByIndex(OptionList,true,AvailableItemsPrompt,
-                AvailableItemsTitle);
+            int OptionChosen = this.HandleOptionsByIndex(OptionList,true,AvailableItemsPrompt
+            );
             // Logic handling back to other menu vs. your account is frozen vs proceed to make create transaction menu.
             if(OptionChosen == OptionList.size()){
                 System.out.println("Loading Previous Menu");
@@ -125,9 +121,8 @@ public class UserMenuController extends MenuPresenter {
             System.out.println("Transactions.Transaction Menu");
             System.out.println("----------------");
             List<String> transOptionList = this.userMenuPresenter.constructTransactionTypeMenu();
-            String OptionChosen = this.HandleOptions(transOptionList, true, "",
-                    "Select from one of " +
-                            "the transaction types above.");
+            String OptionChosen = this.HandleOptions(transOptionList, true, ""
+            );
             Meeting FirstMeeting = MeetingDetailsMenu("First Transactions.Meeting Details");
             if (OptionChosen.equals("back")) {
                 System.out.println("Loading Previous Menu");
@@ -207,8 +202,8 @@ public class UserMenuController extends MenuPresenter {
                 optionList.add(itemIterator.next().toString());
                 System.out.println(itemIterator.next().toString());
             }
-            int optionChosen = HandleOptionsByIndex(optionList, true, "Wishlist Menu",
-                    "Select an item if you wish to remove it from your wishlist.");
+            int optionChosen = HandleOptionsByIndex(optionList, true, "Wishlist Menu"
+            );
             if (optionChosen == optionList.size()) {
                 System.out.println("Loading Previous Menu");
             }
@@ -231,7 +226,7 @@ public class UserMenuController extends MenuPresenter {
                 optionList.add(itemIterator.next().toString());
             } // TO-DO: can this be shortened to add all the items at once in one line?
             int optionChosen = HandleOptionsByIndex(optionList, true,
-                    "Inventory Menu","Select an item if you wish to remove it from your inventory.");
+                    "Inventory Menu");
             if (optionChosen == optionList.size()) {
                 System.out.println("Loading Previous Menu");
             }

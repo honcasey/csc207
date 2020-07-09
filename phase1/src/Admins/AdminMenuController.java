@@ -1,16 +1,14 @@
 package Admins;
 
-import Admins.AdminManager;
 import Exceptions.InvalidAdminException;
 import Exceptions.InvalidUserException;
 import Items.Item;
-import Presenters.MenuPresenter;
 import Users.User;
 import Users.UserManager;
 
 import java.util.*;
 
-public class AdminMenuController extends MenuPresenter {
+public class AdminMenuController {
     public AdminUser currentAdmin; // admin that's logged in
     private final AdminManager am;
     private final UserManager um;
@@ -31,8 +29,7 @@ public class AdminMenuController extends MenuPresenter {
         boolean userInteracting = true;
 
         while (userInteracting) {
-            String input = HandleOptions(amp.constructMainMenu(),
-                    false,"Admin Main Menu","Please type a number corresponding to one of the above options.");
+            String input = amp.HandleOptions(amp.constructMainMenu(), false,"Admin Main Menu");
 
             switch (input) {
                 case "Check Pending Items for Approval":
@@ -73,23 +70,33 @@ public class AdminMenuController extends MenuPresenter {
     }
 
     private void checkPendingItems() {
+        boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
-        if (allPendingItems.isEmpty()) { amp.empty("Pending Items"); }
-        else {
-            Iterator<Item> itemIterator = allPendingItems.keySet().iterator();
-            while (itemIterator.hasNext()) {
-                System.out.println(itemIterator.next());
-                System.out.println("1. Approve item for User's inventory. \n2. Decline item. \n3. Go to next item.");
-                input = scanner.nextInt();
-                if (input == 1) {
-                    approveInventory(allPendingItems.get(itemIterator.next()), itemIterator.next(), true);
-                }
-                else if (input == 2) {
-                    approveInventory(allPendingItems.get(itemIterator.next()), itemIterator.next(), false);
+        while (userInteracting) {
+            if (allPendingItems.isEmpty()) {
+                amp.empty("Pending Items");
+                userInteracting = false;
+            }
+            else {
+                Iterator<Item> itemIterator = allPendingItems.keySet().iterator();
+                List<String> optionList = new ArrayList<>();
+                optionList.add("Approve item for User's inventory.");
+                optionList.add("Decline item.");
+
+                while (itemIterator.hasNext()) {
+                    System.out.println(itemIterator.next().toString()); //print the current item + the options
+                    int optionChosen = amp.HandleOptionsByIndex(optionList, true, "Actions");
+                    if (optionList.get(optionChosen).equals("Approve item for User's inventory.")) {
+                        approveInventory(allPendingItems.get(itemIterator.next()), itemIterator.next(), true);
+                    }
+                    else if (optionList.get(optionChosen).equals("Decline item.")) {
+                        approveInventory(allPendingItems.get(itemIterator.next()), itemIterator.next(), false);
+                    }
                 }
             }
         }
-    }
+
+        }
 
     private void createAdmin() {
         if (currentAdmin.isFirstAdmin()) {
