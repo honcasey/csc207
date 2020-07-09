@@ -31,7 +31,7 @@ public class AdminMenuController {
         while (userInteracting) {
             String input = amp.HandleOptions(amp.constructMainMenu(), false,"Admin Main Menu");
 
-            switch (input) {
+            switch (input) { //TO-DO: handleoptionsbyindex ?
                 case "Check Pending Items for Approval":
                     checkPendingItems();
                     break;
@@ -62,7 +62,7 @@ public class AdminMenuController {
         }
     }
 
-    private void approveInventory(User user, Item item, boolean approved) {
+    private void approveInventory(User user, Item item, boolean approved) { // helper method for checkPendingItems
         if (approved) { um.addItem(user, item, "inventory");
         System.out.println("Item has been approved.");}
         else { allPendingItems.remove(item);
@@ -71,7 +71,7 @@ public class AdminMenuController {
 
     private void checkPendingItems() {
         boolean userInteracting = true;
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in); // do we need this?
         while (userInteracting) {
             if (allPendingItems.isEmpty()) {
                 amp.empty("Pending Items");
@@ -82,11 +82,12 @@ public class AdminMenuController {
                 List<String> optionList = new ArrayList<>();
                 optionList.add("Approve item for User's inventory.");
                 optionList.add("Decline item.");
+                optionList.add("Go to next item.");
 
                 while (itemIterator.hasNext()) {
-                    System.out.println(itemIterator.next().toString()); //print the current item + the options
+                    System.out.println(itemIterator.next().toString()); //prints the current item + the options
                     int optionChosen = amp.HandleOptionsByIndex(optionList, true, "Actions");
-                    if (optionList.get(optionChosen).equals("Approve item for User's inventory.")) {
+                    if (optionList.get(optionChosen).equals("Approve item for User's inventory.")) { // TO-DO: try catch block here?
                         approveInventory(allPendingItems.get(itemIterator.next()), itemIterator.next(), true);
                     }
                     else if (optionList.get(optionChosen).equals("Decline item.")) {
@@ -95,8 +96,7 @@ public class AdminMenuController {
                 }
             }
         }
-
-        }
+    }
 
     private void createAdmin() {
         if (currentAdmin.isFirstAdmin()) {
@@ -136,11 +136,11 @@ public class AdminMenuController {
             }
             else { System.out.println(amp.validOptions(amp.userLists));}
         } catch(InvalidUserException e) {
-            System.out.println("Username does not exist. Please enter an existing User's username."); // TO-DO: change so exception prints message
+            System.out.println("Username does not exist. Please enter an existing User's username.");
         }
     }
 
-    private void helperChangeThreshold(String username, String whichThreshold) throws InvalidUserException {
+    private void helperChangeThreshold(String username, String whichThreshold) throws InvalidUserException { // helper method for changeUserThreshold
         Scanner scanner = new Scanner(System.in);
         System.out.println(amp.whichThreshold(whichThreshold));
         int newThreshold = scanner.nextInt();
@@ -152,8 +152,7 @@ public class AdminMenuController {
         Scanner scanner = new Scanner(System.in);
         System.out.println(amp.enterName("User"));
         String username = scanner.nextLine();
-        System.out.println(amp.validOptions(amp.allThresholds));
-        String whichThreshold = scanner.nextLine();
+        String whichThreshold = amp.HandleOptions(amp.allThresholds, true, "User Thresholds");
         try {
             switch (whichThreshold) {
                 case "borrow": {
@@ -184,43 +183,53 @@ public class AdminMenuController {
     }
 
     private void checkUsers(String listType){
-        Scanner scanner = new Scanner(System.in);
-        if (listType.equals("pendingFrozenUsers")) {
-            if (am.getPendingFrozenUsers().isEmpty()) {
-                System.out.println(amp.empty("Frozen User Requests"));
+        boolean userInteracting = true;
+        Scanner scanner = new Scanner(System.in); // do we need this?
+        while (userInteracting) {
+            if (listType.equals("pendingFrozenUsers")) {
+                if (am.getPendingFrozenUsers().isEmpty()) {
+                    System.out.println(amp.empty("Frozen User Requests"));
+                } else {
+                    for (User user : am.getPendingFrozenUsers()) {
+                        System.out.println(user.toString());
+                        List<String> optionList = new ArrayList<>();
+                        optionList.add("Unfreeze Account."); // should i add a "leave user frozen" option, or just assume the admin knows by skipping the user, they're leaving that user frozen?
+                        optionList.add("Go to next user."); // or change this option to "Leave User Frozen"?
+                        int optionChosen = amp.HandleOptionsByIndex(optionList, true, "Check Frozen Users");
+                        if (optionChosen == optionList.size()) {
+                            userInteracting = false;
+                        } else if (optionList.get(optionChosen).equals("Unfreeze Account.")) {
+                            um.unfreezeAccount(user);
+                            am.getPendingFrozenUsers().remove(user);
+                            System.out.println(amp.accountFrozen(user.toString(), user.getStatus()));
+                        }
+                    }
+                }
             }
-            else {
-                for (User user: am.getPendingFrozenUsers()) {
-                    System.out.println(user);
-                    System.out.println("1. Unfreeze Account. \n2. Go to next user.");
-                    input = scanner.nextInt();
-                    if (input == 1) {
-                        um.unfreezeAccount(user);
-                        am.getPendingFrozenUsers().remove(user);
-                        System.out.println(amp.accountFrozen(user.toString(), user.getStatus()));
+            if (listType.equals("flaggedUsers")) {
+                if (am.getFlaggedAccounts().isEmpty()) {
+                    System.out.println(amp.empty("Flagged Users"));
+                } else {
+                    for (User user: am.getFlaggedAccounts()) {
+                        System.out.println(user.toString());
+                        List<String> optionList2 = new ArrayList<>();
+                        optionList2.add("Freeze Account.");
+                        optionList2.add("Unfreeze Account.");
+                        optionList2.add("Go to next user.");
+                        int optionChosen2 = amp.HandleOptionsByIndex(optionList2, true, "Check Flagged Users");
+                        if (optionChosen2 == optionList2.size()) {
+                            userInteracting = false;
+                        } else if (optionList2.get(optionChosen2).equals("Freeze Account.")) {
+                            um.freezeAccount(user);
+                            am.getFrozenAccounts().add(user);
+                            System.out.println(amp.accountFrozen(user.toString(), user.getStatus()));
+                        } else if (optionList2.get(optionChosen2).equals("Unfreeze Account.")) {
+                            um.unfreezeAccount(user);
+                            am.getFlaggedAccounts().remove(user);
+                            System.out.println(amp.accountFrozen(user.toString(), user.getStatus()));
+                        }
                     }
                 }
         }
-        if (listType.equals("flaggedUsers")) {
-            if (am.getFlaggedAccounts().isEmpty()) {
-                System.out.println(amp.empty("Flagged Users"));
-            }
-            else {
-                for (User user: am.getFlaggedAccounts()) {
-                    System.out.println(user);
-                    System.out.println("1. Freeze Account. \n2.Unfreeze Account. \n3. Go to next user.");
-                    input = scanner.nextInt();
-                    if (input == 1) {
-                        um.freezeAccount(user);
-                        am.getFrozenAccounts().add(user);
-                        System.out.println(amp.accountFrozen(user.toString(), user.getStatus()));
-                    }
-                    if (input == 2) {
-                        um.unfreezeAccount(user);
-                        am.getFlaggedAccounts().remove(user);
-                        System.out.println(amp.accountFrozen(user.toString(), user.getStatus()));
-                    }
-                }
-            }
     }
 }}}
