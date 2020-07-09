@@ -1,5 +1,6 @@
 package Transactions;
 
+import Items.Item;
 import Transactions.Transaction;
 import Users.User;
 
