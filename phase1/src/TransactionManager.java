@@ -1,22 +1,25 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalTime;
+import java.util.*;
 import java.time.LocalDate;
-import java.util.UUID;
+import java.util.ArrayList;
 
 /**
  * This class manages a transaction between two users. A transaction begins once a user expresses interest in an item.
  */
 public class TransactionManager {
-    private List<Transaction>allTransactions = new ArrayList<>();
+    private HashMap<UUID, Transaction> allTransactions;
+
+    public TransactionManager(HashMap<UUID, Transaction> transactions) {
+        allTransactions = transactions;
+    }
+
     /**
-     * Checks if this transaction can be initiated based on the status of the users
-     * A transaction is valid if both users accounts are not frozen, and transaction doesn't
-     * and if they have lent more items than they have borrowed as specified by their threshold number
+     * get the transaction from the list of all of the transactions by calling the id
+     * @param id the UUID of the transaction
+     * @return the transaction
      */
-    //ToDo fix this method, need a method that gives me the numWeeklyTransactions, and numIncompleteTransactions
-    public boolean transactionIsValid(User user1, User user2, String type){
-        // TODO
-        return true;
+    public Transaction getTransactionFromId(UUID id){
+        return allTransactions.get(id);
     }
 
     /**
@@ -28,12 +31,11 @@ public class TransactionManager {
      * @param meeting1 the first meeting location that the users will meet at to exchange items.
      * @param meeting2 the second meeting location that the users will meet at to exchange items.
      */
-
-
     public Transaction createTransaction(User user1, User user2, Item item1, Meeting meeting1,
                                            Meeting meeting2) {
         Transaction transaction = new TransactionOneWayTemp(user1, user2, item1, meeting1, meeting2);
-        allTransactions.add(transaction);
+        UUID id = transaction.getId();
+        allTransactions.put(id, transaction);
         return transaction;
     }
 
@@ -46,53 +48,53 @@ public class TransactionManager {
      * @param meeting1 the first meeting location that the users will meet at to exchange items.
      */
     public Transaction createTransaction(User user1, User user2, Item item1,
-                                               Meeting meeting1) throws InvalidTransactionException {
+                                               Meeting meeting1){
             Transaction transaction = new TransactionOneWayPerm(user1, user2, item1, meeting1);
-            allTransactions.add(transaction);
+            UUID id = transaction.getId();
+            allTransactions.put(id, transaction);
             return transaction;
     }
 
     /**
-<<<<<<< HEAD
-         * @return two-way transaction
-         * A transaction will be created only if it is valid.
-         * @param user1 the user who has the item.
-         * @param user2 the user who want to borrow an item.
-         * @param item1 the item that user2 wants to borrow.
-         * @param meeting1 the first meeting location that the users will meet at to exchange items.
-         * @param meeting2 the second meeting location that the users will meet at to exchange items.
-         */
+     * @return two-way transaction
+     * A transaction will be created only if it is valid.
+     * @param user1 the user who has the item.
+     * @param user2 the user who want to borrow an item.
+     * @param item1 the item that user2 wants to borrow.
+     * @param meeting1 the first meeting location that the users will meet at to exchange items.
+     * @param meeting2 the second meeting location that the users will meet at to exchange items.
+     */
 
+    public Transaction createTransaction(User user1, User user2, Item item1, Item item2,
+                                               Meeting meeting1, Meeting meeting2) {
+        Transaction transaction = new TransactionTwoWayTemp(user1, user2, item1, item2, meeting1, meeting2);
+        UUID id = transaction.getId();
+        allTransactions.put(id, transaction);
+        return transaction;
+    }
 
-        public Transaction createTransaction(User user1, User user2, Item item1, Item item2,
-                                                   Meeting meeting1, Meeting meeting2) {
-            Transaction transaction = new TransactionTwoWayTemp(user1, user2, item1, item2, meeting1, meeting2);
-            allTransactions.add(transaction);
+    /**
+     * A transaction will be created only if it is valid, otherwise an error will be thrown
+     * @return a two-way transaction
+     * @param user1 the user who has the item.
+     * @param user2 the user who want to borrow an item.
+     * @param item1 the item that user2 wants to borrow.
+     * @param meeting1 the first meeting location that the users will meet at to exchange items.
+     */
+
+    public Transaction createTransaction(User user1, User user2, Item item1, Item item2,
+            Meeting meeting1) {
+            Transaction transaction = new TransactionTwoWayPerm(user1, user2, item1, item2, meeting1);
+            UUID id = transaction.getId();
+            allTransactions.put(id, transaction);
             return transaction;
-        }
-
-        /**
-         * A transaction will be created only if it is valid, otherwise an error will be thrown
-         * @return a two-way transaction
-         * @param user1 the user who has the item.
-         * @param user2 the user who want to borrow an item.
-         * @param item1 the item that user2 wants to borrow.
-         * @param meeting1 the first meeting location that the users will meet at to exchange items.
-         */
-
-        public Transaction createTransaction(User user1, User user2, Item item1, Item item2,
-                Meeting meeting1) throws InvalidTransactionException {
-                Transaction transaction = new TransactionTwoWayPerm(user1, user2, item1, item2, meeting1);
-                allTransactions.add(transaction);
-                return transaction;
-        }
-        
+    }
 
     /**
      * This method determines if the user who is editing a transaction or meeting is user1 or user2
      * @param transaction the transaction that the user wants to work with
      * @param userId the UUID of the user
-     * @return an interger either 1 or 2
+     * @return an integer either 1 or 2
      */
     public int findUserNum(Transaction transaction, UUID userId){
         if (transaction.getUser1().equals(userId)){
@@ -142,7 +144,8 @@ public class TransactionManager {
     public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, int newHour, int newMinute) {
         int userNum = findUserNum(transaction, userId);
         if (canEdit(meeting, userNum)) {
-            meeting.setTime(newHour, newMinute);
+            LocalTime time = LocalTime.of(newHour, newMinute);
+            meeting.setTime(time);
             if (userNum == 1){
                 meeting.user1edits();
             }
@@ -170,7 +173,8 @@ public class TransactionManager {
                                int newDay) {
         int userNum = findUserNum(transaction, userId);
         if (canEdit(meeting, userNum)) {
-            meeting.setDate(newYear, newMonth, newDay);
+            LocalDate date = LocalDate.of(newYear, newMonth, newDay);
+            meeting.setDate(date);
             if (userNum == 1){
                 meeting.user1edits();
             }
@@ -182,6 +186,30 @@ public class TransactionManager {
             return false;
         }
     }
+
+
+    public ArrayList<String> userTransactionActions(Transaction transaction){
+        String status = transaction.getStatus();
+        ArrayList<String> options = new ArrayList<String>();
+        if (status.equals("pending")){
+            String[] list = new String[] {"1. Edit Meeting", "2. Confirm Meeting","3. Cancel transaction"};
+            options.addAll(Arrays.asList(list));
+        }
+        if (status.equals("confirmed")){
+            String[] list = new String[] {"1. Confirm the exchange has taken place", "2. Claim that the exchange has not taken place"};
+            options.addAll(Arrays.asList(list));
+        }
+        if (status.equals("traded")){
+            String[] list = new String[] {"1. Confirm the item has been returned", "Claim that the item has not been returned past due date"};
+            options.addAll(Arrays.asList(list));
+        }
+        else{
+            String[] list = new String[] {"There are no actions that can be done to this transaction"};
+            options.addAll(Arrays.asList(list));
+            }
+        return options;
+        }
+
 
     /**
      * @param transaction the transaction who's status is being updated

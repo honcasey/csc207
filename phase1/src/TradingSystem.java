@@ -17,22 +17,24 @@ public class TradingSystem {
     private final String itemsFilePath = "items.ser";
     private final String flaggedAccountsFilePath = "flaggedAccounts.ser";
     private final String frozenAccountsFilePath = "frozenAccounts.ser";
+    private final String transactionsFilePath = "transactions.ser";
     private AdminManager adminManager;
     private UserManager userManager;
+    private TransactionManager transactionManager;
     private HashMap<Item, User> pendingItems;
-    private LoginWindow loginWindow;
+    private final BootupMenuPresenter bmp = new BootupMenuPresenter();
 
 
     /**
-     *
+     * Reads data from saved files, redirects user to appropriate class depending on
+     * user input, saves changes by updating files before program exits.
      * @throws IOException
      * @throws ClassNotFoundException
      */
     public void run() throws IOException, ClassNotFoundException {
         readData();
         checkFirstAdmin();
-        loginWindow = new LoginWindow();
-        int userInput = loginWindow.run();
+        int userInput = getUserInput();
         if (userInput == 1) {
             login();
         } else if (userInput == 2) {
@@ -51,6 +53,7 @@ public class TradingSystem {
         checkFileExists(itemsFilePath);
         checkFileExists(flaggedAccountsFilePath);
         checkFileExists(frozenAccountsFilePath);
+        checkFileExists(transactionsFilePath);
 
         // files exists so we can deserialize them
         Serializer serializer = new Serializer();
@@ -59,10 +62,12 @@ public class TradingSystem {
         pendingItems = serializer.readItemsFromFile(itemsFilePath);
         List<User> flaggedAccounts = serializer.readAccountsFromFile(flaggedAccountsFilePath);
         List<User> frozenAccounts = serializer.readAccountsFromFile(frozenAccountsFilePath);
+        HashMap<UUID, Transaction> transactions = serializer.readTransactionMapFromFile(transactionsFilePath);
 
         // create new Managers
         adminManager = new AdminManager(admins, flaggedAccounts, frozenAccounts);
         userManager = new UserManager(users, flaggedAccounts, frozenAccounts);
+        transactionManager = new TransactionManager(transactions);
     }
 
     /**
@@ -91,6 +96,9 @@ public class TradingSystem {
             } else if (filePath.equals(frozenAccountsFilePath)) {
                 List<User> users = new ArrayList<>();
                 serializer.writeAccountsToFile(filePath, users);
+            } else if (filePath.equals(transactionsFilePath)) {
+                HashMap<UUID, Transaction> transactions = new HashMap<>();
+                serializer.writeTransactionsToFile(filePath, transactions);
             }
         }
     }
@@ -113,10 +121,12 @@ public class TradingSystem {
         password = credentials[1];
     }
 
-    // A helper method used to validate the username and password, if correct run the correct menu.
+    /**
+     *  A helper method used to validate the username and password, if correct run the correct menu.
+     */
     private void login() {
         // get username and password
-        parseCredentials(loginWindow.getUserAndPass());
+        parseCredentials(getUserAndPass());
 
         boolean notLoggedIn = true;
         // try to log in with current user and pass, if unsuccessful prompt for new user and pass and try again
@@ -124,10 +134,9 @@ public class TradingSystem {
             if (adminManager.validAdmin(username, password)) {
                 notLoggedIn = false;
                 try {
-                    AdminMenu adminMenu = new AdminMenu(adminManager,
+                    AdminMenuController adminMenuController = new AdminMenuController(adminManager,
                             userManager, pendingItems, adminManager.getAdmin(username));
-                    AdminMenuViewer adminMenuViewer = new AdminMenuViewer(adminMenu);
-                    adminMenuViewer.run();
+                    adminMenuController.run();
                 } catch(InvalidAdminException e) {
                     // we already checked this username corresponds to a valid admin on line 109
                     // so technically adminManager.getAdmin(username) should never throw an exception
@@ -136,8 +145,8 @@ public class TradingSystem {
             } else if (userManager.validUser(username, password)) {
                 notLoggedIn = false;
                 try {
-                    UserMenu userMenu = new UserMenu(userManager,
-                            adminManager, pendingItems, userManager.getUser(username));
+                    UserMenu userMenu = new UserMenu(userManager, adminManager, transactionManager,
+                            pendingItems, userManager.getUser(username));
                     UserMenuController userMenuController = new UserMenuController(userMenu);
                     userMenuController.run();
                 } catch(InvalidUserException e) {
@@ -147,20 +156,22 @@ public class TradingSystem {
                 }
             } else {
                 // no user or admin account that corresponds to user and pass
-                System.out.println("Incorrect username or password.");
-                parseCredentials(loginWindow.getUserAndPass());
+                System.out.println(bmp.invalidCredentials());
+                parseCredentials(getUserAndPass());
             }
         }
     }
 
-    // A helper method to create a new user account.
+    /**
+     * A helper method to create a new user account.
+     */
     private void createAccount() {
         // get username and password
-        parseCredentials(loginWindow.getUserAndPass());
+        parseCredentials(getUserAndPass());
 
         try {
             User user = userManager.addUser(username, password);
-            UserMenu userMenu = new UserMenu(userManager, adminManager, pendingItems, user);
+            UserMenu userMenu = new UserMenu(userManager, adminManager, transactionManager, pendingItems, user);
             UserMenuController userMenuController = new UserMenuController(userMenu);
             userMenuController.run();
         } catch(InvalidUserException e) {
@@ -187,5 +198,38 @@ public class TradingSystem {
             }
         }
     }
+
+    private int getUserInput() {
+        boolean picking = true;
+        int input;
+        while (picking) {
+            input = getNumericInput();
+            if (input == 1 | input == 2) {
+                picking = false;
+            }
+        }
+        return input;
+    }
+
+    private int getNumericInput() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(bmp.selectOption());
+        while (!scanner.hasNextInt()) {
+            System.out.println(bmp.notValid());
+            scanner.next();
+            System.out.println(bmp.selectOption());
+        }
+        return scanner.nextInt();
+    }
+
+    public String[] getUserAndPass() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(bmp.enterUsername());
+        String username = scanner.nextLine();
+        System.out.println(bmp.enterPassword());
+        String password = scanner.nextLine();
+        return new String[]{username, password};
+    }
 }
+
 

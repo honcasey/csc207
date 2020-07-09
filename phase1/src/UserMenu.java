@@ -29,18 +29,19 @@ public class UserMenu {
      *
      */
 
-    public User currentUser; // user that's logged in
+    private User currentUser; // user that's logged in
     private AdminManager am;
     private UserManager um;
     private TransactionManager tm;
     private HashMap<Item, User> allPendingItems;
 
-    public UserMenu(UserManager userManager, AdminManager adminManager,
+    public UserMenu(UserManager userManager, AdminManager adminManager, TransactionManager transactionManager,
                     HashMap<Item, User> pendingItems, User currentUser) {
         this.currentUser = currentUser;
         allPendingItems = pendingItems;
         am = adminManager;
         um = userManager;
+        tm = transactionManager;
     }
 
     /**

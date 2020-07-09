@@ -11,13 +11,12 @@ public class UserMenuController {
     /**
      *
      */
-    private UserMenu userMenu;
-    private UserMenuPresenter userMenuPresenter;
+    private final UserMenu userMenu;
+    private final UserMenuPresenter userMenuPresenter = new UserMenuPresenter();
 
 
-    public UserMenuController(UserMenu userMenu,UserMenuPresenter userMenuPresenter) {
+    public UserMenuController(UserMenu userMenu) {
         this.userMenu = userMenu;
-        this.userMenuPresenter = userMenuPresenter;
     }
 
     /**
@@ -339,4 +338,16 @@ public class UserMenuController {
             System.out.println(transactionHistory.toString());
         }
     }
+
+    /**
+     * TODO: This method should display all the transaction that are in progress for the user
+     */
+    private void viewCurrentTransactions(){
+    }
+
+    /**
+     * TODO: this is the method where the user can edit their statusUser for their transactions
+     */
+    private void changeTransactionStatus(){}
 }
+

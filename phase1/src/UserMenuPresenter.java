@@ -2,28 +2,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * This Presenter class contains helper methods that will be used to format and output the prompts that a user sees.
+ *
+ * Class variables representing common strings that users will see as prompts will be here.
+ *
+ * Methods that combine these common strings will be here.
+ *
+ * Methods that print output(Phase 1)/ display stuff(Phase 2) will be here.
+ *
+ * Class variables:
+ *
+ * UserMenu: Instance of UserMenu class.
+ * menuOptions: This is a dictionary mapping the menu to the options that a user can Select.
+ */
+
 public class UserMenuPresenter {
-
-    private UserMenu userMenu;
-
-    /**
-     * This Presenter class contains helper methods that will be used to format and output the prompts that a user sees.
-     *
-     * Class variables representing common strings that users will see as prompts will be here.
-     *
-     * Methods that combine these common strings will be here.
-     *
-     * Methods that print output(Phase 1)/ display stuff(Phase 2) will be here.
-     *
-     * Class variables:
-     *
-     * UserMenu: Instance of UserMenu class.
-     * menuOptions: This is a dictionary mapping the menu to the options that a user can Select.
-     */
-
-    public UserMenuPresenter(UserMenu userMenu){
-        this.userMenu = userMenu;
-    }
 
     /**
      * Formats and displays a list of options to the user.
