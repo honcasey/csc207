@@ -97,9 +97,9 @@ public class UserMenu {
      * Changes a Transaction status to cancelled
      * @param transaction A transaction to be cancelled and to remove transaction from tra
      */
-    public void cancelTransaction(Transaction transaction){
+    public void cancelTransaction(Transaction transaction)  {
         currentUser.getTransactionDetails().getIncomingOffers().remove(transaction);
-       User u =  transaction.getUser1();
+       User u =  um.getUserById(transaction.getUser1());
        if (u == currentUser){
            transaction.setStatusUser1("cancel");
        }
@@ -132,10 +132,12 @@ public class UserMenu {
      */
     public void confirmTransaction(Transaction transaction) {
         transaction.setStatus("completed");
-        um.addToTransactionHistory(transaction.getUser1(), transaction);
-        um.addToTransactionHistory(transaction.getUser2(), transaction);
-        transaction.getUser1().getTransactionDetails().getSentOffers().remove(transaction); // Is the transaction in both user's "sent offers"?
-        transaction.getUser2().getTransactionDetails().getSentOffers().remove(transaction);
+        User user1 = um.getUserById(transaction.getUser1());
+        User user2 = um.getUserById(transaction.getUser2());
+        um.addToTransactionHistory(user1, transaction);
+        um.addToTransactionHistory(user2, transaction);
+        user1.getTransactionDetails().getSentOffers().remove(transaction); // Is the transaction in both user's "sent offers"?
+        user2.getTransactionDetails().getSentOffers().remove(transaction);
     }
 
     /**

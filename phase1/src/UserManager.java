@@ -63,16 +63,12 @@ public class UserManager {
     }
 
     /**
-     * To retrieve a specific user by userId
+     * To retrieve a specific user by userId. Assumes that the User exists in the directory of Users
      * @param id UUID identifier of a User
      * @return user who has the userId id
      */
-    public User getUserById(UUID id) throws InvalidUserException{
-      if(idToUser.containsKey(id)){
-          return idToUser.get(id);
-      }  else {
-          throw new InvalidUserException();
-          }
+    public User getUserById(UUID id){
+        return idToUser.get(id);
     }
 
     /**
