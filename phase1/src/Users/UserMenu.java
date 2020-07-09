@@ -2,6 +2,7 @@ package Users;
 
 import Admins.AdminManager;
 import Items.Item;
+import Items.ItemManager;
 import Transactions.Transaction;
 import Transactions.TransactionManager;
 import Users.User;
@@ -9,6 +10,7 @@ import Users.UserManager;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class UserMenu {
@@ -41,15 +43,17 @@ public class UserMenu {
     private AdminManager am;
     private UserManager um;
     private TransactionManager tm;
-    private HashMap<Item, User> allPendingItems;
+    private ItemManager im;
+    private Map<Item, User> allPendingItems;
 
     public UserMenu(UserManager userManager, AdminManager adminManager, TransactionManager transactionManager,
-                    HashMap<Item, User> pendingItems, UUID currentUserId) {
+                    ItemManager itemManager, Map<Item, User> pendingItems, UUID currentUserId) {
         this.currentUserId = currentUserId;
         allPendingItems = pendingItems;
         am = adminManager;
         um = userManager;
         tm = transactionManager;
+        im = itemManager;
     }
     public User getCurrentUser(){
         return um.getUserById(currentUserId);

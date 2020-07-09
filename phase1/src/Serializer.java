@@ -4,8 +4,8 @@ import Transactions.Transaction;
 import Users.User;
 
 import java.io.*;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 // general ideas taken from lecture 6 StudentManager.java example
@@ -67,45 +67,32 @@ public class Serializer {
         return admins;
     }
 
-    public void writeTransactionsToFile(String path, HashMap<UUID, Transaction> transactionMap) throws IOException {
-
-        // create a connection to the file specified by path
+    public void writeTransactionsToFile(String path, Map<UUID, Transaction> transactionMap) throws IOException {
         OutputStream file = new FileOutputStream(path);
         ObjectOutput output = new ObjectOutputStream(file);
-
-        // write user into the file
         output.writeObject(transactionMap);
-
-        // close the file
         output.close();
     }
 
-    public HashMap<UUID, Transaction> readTransactionMapFromFile(String path) throws IOException, ClassNotFoundException {
-        // create a connection to the file specified by path
+    public Map<UUID, Transaction> readTransactionMapFromFile(String path) throws IOException, ClassNotFoundException {
         InputStream file = new FileInputStream(path);
         ObjectInput input = new ObjectInputStream(file);
-
-        // deserialize the list
-        HashMap<UUID, Transaction> transactionMap = (HashMap<UUID, Transaction>) input.readObject();
-
-        // close the file
+        Map<UUID, Transaction> transactionMap = (Map<UUID, Transaction>) input.readObject();
         input.close();
-
-        // return the list
         return transactionMap;
     }
 
-    public void writeItemsToFile(String path, HashMap<UUID, Item> pendingItems) throws IOException {
+    public void writeItemsToFile(String path, Map<Item, User> pendingItems) throws IOException {
         OutputStream file = new FileOutputStream(path);
         ObjectOutput output = new ObjectOutputStream(file);
         output.writeObject(pendingItems);
         output.close();
     }
 
-    public HashMap<UUID, Item> readItemsFromFile(String path) throws IOException, ClassNotFoundException {
+    public Map<Item, User> readItemsFromFile(String path) throws IOException, ClassNotFoundException {
         InputStream file = new FileInputStream(path);
         ObjectInput input = new ObjectInputStream(file);
-        HashMap<UUID, Item> pendingItems = (HashMap<UUID, Item>) input.readObject();
+        Map<Item, User> pendingItems = (Map<Item, User>) input.readObject();
         input.close();
         return pendingItems;
     }
@@ -125,4 +112,18 @@ public class Serializer {
         return Accounts;
     }
 
+    public void writeItemsMapToFile(String path, Map<UUID, Item> itemMap) throws IOException {
+        OutputStream file = new FileOutputStream(path);
+        ObjectOutput output = new ObjectOutputStream(file);
+        output.writeObject(itemMap);
+        output.close();
+    }
+
+    public Map<UUID, Item> readItemMapFromFile(String path) throws IOException, ClassNotFoundException {
+        InputStream file = new FileInputStream(path);
+        ObjectInput input = new ObjectInputStream(file);
+        Map<UUID, Item> itemMap = (Map<UUID, Item>) input.readObject();
+        input.close();
+        return itemMap;
+    }
 }

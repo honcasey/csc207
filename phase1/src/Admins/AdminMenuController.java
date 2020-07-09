@@ -12,12 +12,12 @@ public class AdminMenuController {
     public AdminUser currentAdmin; // admin that's logged in
     private final AdminManager am;
     private final UserManager um;
-    private HashMap<Item, User> allPendingItems;
+    private Map<Item, User> allPendingItems;
     private final AdminMenuPresenter amp = new AdminMenuPresenter();
     private int input; // do we need this?
 
     public AdminMenuController(AdminManager adminManager, UserManager userManager,
-                               HashMap<Item, User> pendingItems, AdminUser admin) {
+                               Map<Item, User> pendingItems, AdminUser admin) {
         currentAdmin = admin;
         allPendingItems = pendingItems;
         um = userManager;
