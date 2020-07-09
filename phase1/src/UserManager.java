@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,6 +10,7 @@ public class UserManager {
     private List<User> allUsers;
     private List<User> flaggedAccounts;
     private List<User> frozenAccounts;
+    private HashMap<UUID, User> idtoUser;
 
 
     /**
@@ -30,16 +32,18 @@ public class UserManager {
         User newUser = new User(username, password);
         if (allUsers.size() == 0) {
             allUsers.add(newUser);
+            idtoUser.put(newUser.getUserId(),newUser);
             return newUser;
         }
         else {
             for (User user : allUsers) {
-                if (user.getUsername().equals(username)) {
+                if (user.getUsername().equals(username) | user.getUserId().equals(newUser.getUserId())) {
                     throw new InvalidUserException();
                 }
             }
         }
         allUsers.add(newUser);
+        idtoUser.put(newUser.getUserId(), newUser);
         return newUser;
     }
 
@@ -55,6 +59,19 @@ public class UserManager {
                 }
             }
         throw new InvalidUserException();
+    }
+
+    /**
+     * To retrieve a specific user by userId
+     * @param id UUID identifier of a User
+     * @return user who has the userId id
+     */
+    public User getUserById(UUID id) throws InvalidUserException{
+      if(idtoUser.containsKey(id)){
+          return idtoUser.get(id);
+      }  else {
+          throw new InvalidUserException();
+          }
     }
 
     /**
@@ -150,9 +167,9 @@ public class UserManager {
             TransactionHistory tH = user.getTransactionHistory();
          if (transaction.getUser1() == user.getUserId()) {
              user.getTransactionHistory().setNumItemsLended();
-             UUID u2 = transaction.getUser2();
+             User u2 = idtoUser.get(transaction.getUser2());
              if (tH.getUsersNumTradeTimes().containsKey(u2)) {
-                 tH.getUsersNumTradeTimes().put(transaction.getUser2(), tH.getUsersNumTradeTimes().get(u2) + 1);
+                 tH.getUsersNumTradeTimes().put(u2, tH.getUsersNumTradeTimes().get(u2) + 1);
              } else {
                  tH.getUsersNumTradeTimes().put(u2, 1);
              }
@@ -161,9 +178,9 @@ public class UserManager {
              }
          } else {
              user.getTransactionHistory().setNumItemsBorrowed();
-             User u1 = transaction.getUser1();
+             User u1 = idtoUser.get(transaction.getUser1());
              if (tH.getUsersNumTradeTimes().containsKey(u1)) {
-                 tH.getUsersNumTradeTimes().put(transaction.getUser2(), tH.getUsersNumTradeTimes().get(u1) + 1);
+                 tH.getUsersNumTradeTimes().put(u1, tH.getUsersNumTradeTimes().get(u1) + 1);
              } else {
                  tH.getUsersNumTradeTimes().put(u1, 1);
                  if (!transaction.isOneWay()) {
