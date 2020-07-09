@@ -13,16 +13,13 @@ public class TransactionManager {
         allTransactions = transactions;
     }
 
-
     /**
-     * Checks if this transaction can be initiated based on the status of the users
-     * A transaction is valid if both users accounts are not frozen, and transaction doesn't
-     * and if they have lent more items than they have borrowed as specified by their threshold number
+     * get the transaction from the list of all of the transactions by calling the id
+     * @param id the UUID of the transaction
+     * @return the transaction
      */
-    //ToDo fix this method, need a method that gives me the numWeeklyTransactions, and numIncompleteTransactions
-    public boolean transactionIsValid(User user1, User user2, String type){
-        // TODO
-        return true;
+    public Transaction getTransactionFromId(UUID id){
+        return allTransactions.get(id);
     }
 
     /**
@@ -86,7 +83,7 @@ public class TransactionManager {
      */
 
     public Transaction createTransaction(User user1, User user2, Item item1, Item item2,
-            Meeting meeting1) throws InvalidTransactionException {
+            Meeting meeting1) {
             Transaction transaction = new TransactionTwoWayPerm(user1, user2, item1, item2, meeting1);
             UUID id = transaction.getId();
             allTransactions.put(id, transaction);
