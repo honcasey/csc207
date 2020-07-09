@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.UUID;
+import java.util.ArrayList;
 
 /**
  * This class manages a transaction between two users. A transaction begins once a user expresses interest in an item.
@@ -188,6 +189,11 @@ public class TransactionManager {
         } else {
             return false;
         }
+    }
+
+    
+    public ArrayList<String> userTransactionActions(Transaction transaction){
+
     }
 
     /**
