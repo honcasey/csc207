@@ -1,9 +1,6 @@
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.time.LocalDate;
-import java.util.UUID;
 import java.util.ArrayList;
 
 /**
@@ -100,7 +97,7 @@ public class TransactionManager {
      * This method determines if the user who is editing a transaction or meeting is user1 or user2
      * @param transaction the transaction that the user wants to work with
      * @param userId the UUID of the user
-     * @return an interger either 1 or 2
+     * @return an integer either 1 or 2
      */
     public int findUserNum(Transaction transaction, UUID userId){
         if (transaction.getUser1().equals(userId)){
@@ -195,8 +192,27 @@ public class TransactionManager {
 
 
     public ArrayList<String> userTransactionActions(Transaction transaction){
-
-    }
+        String status = transaction.getStatus();
+        ArrayList<String> options = new ArrayList<String>();
+        if (status.equals("pending")){
+            String[] list = new String[] {"1. Edit Meeting", "2. Confirm Meeting","3. Cancel transaction"};
+            options.addAll(Arrays.asList(list));
+        }
+        if (status.equals("confirmed")){
+            String[] list = new String[] {"1. Confirm the exchange has taken place", "2. Claim that the exchange has not taken place"};
+            options.addAll(Arrays.asList(list));
+        }
+        if (status.equals("traded")){
+            String[] list = new String[] {"1. Confirm the item has been returned", "Claim that the item has not been returned past due date"};
+            options.addAll(Arrays.asList(list));
+        }
+        else{
+            String[] list = new String[] {"There are no actions that can be done to this transaction"};
+            options.addAll(Arrays.asList(list));
+            }
+        return options;
+        }
+        
 
     /**
      * @param transaction the transaction who's status is being updated
