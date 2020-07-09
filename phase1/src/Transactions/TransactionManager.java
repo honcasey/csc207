@@ -20,6 +20,14 @@ public class TransactionManager {
     }
 
     /**
+     * The getter that returns all of the Transactions across the whole system
+     * @return allTransactions, a HashMap<UUID, Transaction>
+     */
+    public HashMap<UUID, Transaction> getAllTransactions() {
+        return allTransactions;
+    }
+
+    /**
      * get the transaction from the list of all of the transactions by calling the id
      * @param id the UUID of the transaction
      * @return the transaction
