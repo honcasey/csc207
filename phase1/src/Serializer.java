@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 // general ideas taken from lecture 6 StudentManager.java example
 public class Serializer {
@@ -15,6 +16,19 @@ public class Serializer {
 
         // write user into the file
         output.writeObject(users);
+
+        // close the file
+        output.close();
+    }
+
+    public void writeTransactionsToFile(String path, HashMap<UUID, Transaction> transactionMap) throws IOException {
+
+        // create a connection to the file specified by path
+        OutputStream file = new FileOutputStream(path);
+        ObjectOutput output = new ObjectOutputStream(file);
+
+        // write user into the file
+        output.writeObject(transactionMap);
 
         // close the file
         output.close();
@@ -63,6 +77,20 @@ public class Serializer {
 
         // return the list
         return admins;
+    }
+    public HashMap<UUID, Transaction> readTransactionMapFromFile(String path) throws IOException, ClassNotFoundException {
+        // create a connection to the file specified by path
+        InputStream file = new FileInputStream(path);
+        ObjectInput input = new ObjectInputStream(file);
+
+        // deserialize the list
+        HashMap<UUID, Transaction> transactionMap = (HashMap<UUID, Transaction>) input.readObject();
+
+        // close the file
+        input.close();
+
+        // return the list
+        return transactionMap;
     }
 
     public void writeItemsToFile(String path, HashMap<Item, User> pendingItems) throws IOException {

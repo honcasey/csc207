@@ -40,6 +40,15 @@ public abstract class Transaction {
         this.firstMeeting = firstMeeting;
     }
 
+
+    /**
+     * The getter for a transaction id
+     * @return the id of the transaction, a UUID object
+     */
+    public UUID getId() {
+        return id;
+    }
+
     /**
      * Setter for status. This will be called by use case classes.
      */

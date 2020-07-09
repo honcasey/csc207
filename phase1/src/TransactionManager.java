@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -7,33 +8,14 @@ import java.util.UUID;
  * This class manages a transaction between two users. A transaction begins once a user expresses interest in an item.
  */
 public class TransactionManager {
-    private List<Transaction>q allTransactions = new ArrayList<>();
-    /**
-     * Checks if this transaction can be initiated based on the status of the users
-     * A transaction is valid if both users accounts are not frozen, and transaction doesn't
-     * and if they have lent more items than they have borrowed as specified by their threshold number
-     */
-    //ToDo fix this method, need a method that gives me the numWeeklyTransactions, and numIncompleteTransactions
-    public boolean transactionIsValid(User user1, User user2, String type){
-        // TODO
-        return true;
-    }
-
-    /**
-     * A transaction will be created only if it is valid, otherwise an error will be thrown
-     * @return a one-way transaction
-     * @param user1 the user who has the item.
-     * @param user2 the user who want to borrow an item.
-     * @param item1 the item that user2 wants to borrow.
-     * @param meeting1 the first meeting location that the users will meet at to exchange items.
-     * @param meeting2 the second meeting location that the users will meet at to exchange items.
-     */
+    private HashMap<UUID, Transaction> allTransactions;
 
 
     public Transaction createTransaction(User user1, User user2, Item item1, Meeting meeting1,
                                            Meeting meeting2) {
         Transaction transaction = new TransactionOneWayTemp(user1, user2, item1, meeting1, meeting2);
-        allTransactions.add(transaction);
+        UUID id = transaction.getId();
+        allTransactions.put(id, transaction);
         return transaction;
     }
 
@@ -48,7 +30,8 @@ public class TransactionManager {
     public Transaction createTransaction(User user1, User user2, Item item1,
                                                Meeting meeting1) throws InvalidTransactionException {
             Transaction transaction = new TransactionOneWayPerm(user1, user2, item1, meeting1);
-            allTransactions.add(transaction);
+            UUID id = transaction.getId();
+            allTransactions.put(id, transaction);
             return transaction;
     }
 
@@ -67,7 +50,8 @@ public class TransactionManager {
         public Transaction createTransaction(User user1, User user2, Item item1, Item item2,
                                                    Meeting meeting1, Meeting meeting2) {
             Transaction transaction = new TransactionTwoWayTemp(user1, user2, item1, item2, meeting1, meeting2);
-            allTransactions.add(transaction);
+            UUID id = transaction.getId();
+            allTransactions.put(id, transaction);
             return transaction;
         }
 
@@ -83,10 +67,11 @@ public class TransactionManager {
         public Transaction createTransaction(User user1, User user2, Item item1, Item item2,
                 Meeting meeting1) throws InvalidTransactionException {
                 Transaction transaction = new TransactionTwoWayPerm(user1, user2, item1, item2, meeting1);
-                allTransactions.add(transaction);
+                UUID id = transaction.getId();
+                allTransactions.put(id, transaction);
                 return transaction;
         }
-        
+
 
     /**
      * This method determines if the user who is editing a transaction or meeting is user1 or user2

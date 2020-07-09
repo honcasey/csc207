@@ -275,4 +275,16 @@ public class UserMenuController {
             System.out.println(transactionHistory.toString());
         }
     }
+
+    /**
+     * TODO: This method should display all the transaction that are in progress for the user
+     */
+    private void viewCurrentTransactions(){
+    }
+
+    /**
+     * TODO: this is the method where the user can edit their statusUser for their transactions
+     */
+    private void changeTransactionStatus(){}
 }
+
