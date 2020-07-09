@@ -148,9 +148,9 @@ public class UserManager {
     // consider splitting into two methods. Reasoning for having one method, user1 == user is needed for both updating the UserNumTradeTimes and NumItemsBorrowed, NumItemsLended
      private void updateTransactionHistoryValues(User user, Transaction transaction){
             TransactionHistory tH = user.getTransactionHistory();
-         if (transaction.getUser1() == user) {
+         if (transaction.getUser1() == user.getUserId()) {
              user.getTransactionHistory().setNumItemsLended();
-             User u2 = transaction.getUser2();
+             UUID u2 = transaction.getUser2();
              if (tH.getUsersNumTradeTimes().containsKey(u2)) {
                  tH.getUsersNumTradeTimes().put(transaction.getUser2(), tH.getUsersNumTradeTimes().get(u2) + 1);
              } else {

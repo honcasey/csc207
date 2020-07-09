@@ -89,6 +89,7 @@ public class TransactionTwoWayTemp extends Transaction{
         return false;
     }
 
+
     @Override
     public String toString(){
         String FirstMeetingString = this.getFirstMeeting().toString();
