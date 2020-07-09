@@ -44,7 +44,7 @@ public class Meeting {
      * @param meetingTime The time of the meetup as a localTime object.
      */
 
-    Meeting(String location, LocalTime meetingTime, LocalDate meetingDate){
+    public Meeting(String location, LocalTime meetingTime, LocalDate meetingDate){
         this.location = location;
         this.meetingDate = meetingDate;
         this.meetingTime = meetingTime;

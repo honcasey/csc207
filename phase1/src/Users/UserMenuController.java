@@ -147,8 +147,7 @@ public class UserMenuController extends MenuPresenter {
         String MeetingLocation = scanner.nextLine();
         LocalTime MeetingTime = this.UserTimeGetter();
         LocalDate MeetingDate = this.UserDateGetter();
-        Meeting returnMeeting = new Meeting(MeetingLocation,MeetingTime,MeetingDate);
-        return(returnMeeting);
+        return new Meeting(MeetingLocation,MeetingTime,MeetingDate);
     }
 
 
