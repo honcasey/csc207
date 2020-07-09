@@ -26,14 +26,6 @@ public class Item {
     }
 
     /**
-     * Returns a unique id associated with this item.
-     * @return this item's id.
-     */
-    public UUID getId() {
-        return id;
-    }
-
-    /**
      * Sets this item's name.
      * @param name This item's name.
      */

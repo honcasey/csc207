@@ -2,21 +2,29 @@ import java.util.List;
 
 public interface PresenterStrings {
 
-    void mainMenu();
+    List<String> mainMenu();
 
-    void empty(String which);
+    String empty(String which);
 
-    void enterName(String name);
+    String enterName(String name);
 
-    void successfullyAdded(String what, String who, String where);
+    String successfullyAdded(String what, String who, String where);
 
-    void successfullyChanged(String what, String who);
+    String successfullyChanged(String what, String who);
 
-    void validOptions(List<String> optionList);
+    String validOptions(List<String> optionList);
 
-    void whichThreshold(String whichThreshold);
+    String whichThreshold(String whichThreshold);
 
-    void usernameTaken();
+    String usernameTaken();
 
-    void currentThreshold(String description, int threshold);
+    String currentThreshold(String description, int threshold);
+
+    String accountFrozen(String who, String frozen);
+
+    String logout();
+
+    String invalidOption();
+
+
 }

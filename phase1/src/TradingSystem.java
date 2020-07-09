@@ -20,7 +20,7 @@ public class TradingSystem {
     private AdminManager adminManager;
     private UserManager userManager;
     private HashMap<Item, User> pendingItems;
-    private LoginWindow loginWindow;
+    private BootupMenuPresenter bmp = new BootupMenuPresenter();
 
 
     /**
@@ -31,8 +31,7 @@ public class TradingSystem {
     public void run() throws IOException, ClassNotFoundException {
         readData();
         checkFirstAdmin();
-        loginWindow = new LoginWindow();
-        int userInput = loginWindow.run();
+        int userInput = getUserInput();
         if (userInput == 1) {
             login();
         } else if (userInput == 2) {
@@ -116,7 +115,7 @@ public class TradingSystem {
     // A helper method used to validate the username and password, if correct run the correct menu.
     private void login() {
         // get username and password
-        parseCredentials(loginWindow.getUserAndPass());
+        parseCredentials(getUserAndPass());
 
         boolean notLoggedIn = true;
         // try to log in with current user and pass, if unsuccessful prompt for new user and pass and try again
@@ -124,10 +123,10 @@ public class TradingSystem {
             if (adminManager.validAdmin(username, password)) {
                 notLoggedIn = false;
                 try {
-                    AdminMenu adminMenu = new AdminMenu(adminManager,
-                            userManager, pendingItems, adminManager.getAdmin(username));
-                    AdminMenuViewer adminMenuViewer = new AdminMenuViewer(adminMenu);
-                    adminMenuViewer.run();
+                    AdminMenuPresenter adminMenuPresenter = new AdminMenuPresenter();
+                    AdminMenuController adminMenuController = new AdminMenuController(adminManager,
+                            userManager, pendingItems, adminManager.getAdmin(username), adminMenuPresenter);
+                    adminMenuController.run();
                 } catch(InvalidAdminException e) {
                     // we already checked this username corresponds to a valid admin on line 109
                     // so technically adminManager.getAdmin(username) should never throw an exception
@@ -148,7 +147,7 @@ public class TradingSystem {
             } else {
                 // no user or admin account that corresponds to user and pass
                 System.out.println("Incorrect username or password.");
-                parseCredentials(loginWindow.getUserAndPass());
+                parseCredentials(getUserAndPass());
             }
         }
     }
@@ -156,7 +155,7 @@ public class TradingSystem {
     // A helper method to create a new user account.
     private void createAccount() {
         // get username and password
-        parseCredentials(loginWindow.getUserAndPass());
+        parseCredentials(getUserAndPass());
 
         try {
             User user = userManager.addUser(username, password);
@@ -187,5 +186,38 @@ public class TradingSystem {
             }
         }
     }
+
+    private int getUserInput() {
+        boolean picking = true;
+        int input;
+        while (picking) {
+            input = getNumericInput();
+            if (input == 1 | input == 2) {
+                picking = false;
+            }
+        }
+        return input;
+    }
+
+    private int getNumericInput() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(bmp.selectOption());
+        while (!scanner.hasNextInt()) {
+            System.out.println(bmp.notValid());
+            scanner.next();
+            System.out.println(bmp.selectOption());
+        }
+        return scanner.nextInt();
+    }
+
+    public String[] getUserAndPass() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(bmp.enterUsername());
+        String username = scanner.nextLine();
+        System.out.println(bmp.enterPassword());
+        String password = scanner.nextLine();
+        return new String[]{username, password};
+    }
 }
+
 
