@@ -5,7 +5,8 @@ import java.util.UUID;
  * Creates and manages instances of AdminUsers, as well as all accounts that have been flagged or frozen, and a list
  * of Users who have requested their accounts to be unfrozen.
  */
-public class AdminManager {
+public class
+AdminManager {
     private List<AdminUser> allAdmins;
     private List<User> flaggedAccounts; //list of  Users that have had their account flagged to be frozen automatically by the system
     private List<User> frozenAccounts;  //list of Users that have had their account frozen after approval by Admin
