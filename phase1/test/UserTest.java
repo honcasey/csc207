@@ -1,6 +1,8 @@
 import Exceptions.InvalidUserException;
+import Items.Item;
+import Transactions.Meeting;
 import Transactions.Transaction;
-import Transactions.TransactionHistory;
+import Users.TransactionHistory;
 import Transactions.TransactionOneWayPerm;
 import Users.User;
 import Users.UserManager;

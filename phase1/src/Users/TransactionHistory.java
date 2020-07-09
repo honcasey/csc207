@@ -1,4 +1,4 @@
-package Transactions;
+package Users;
 
 import Transactions.Transaction;
 import Users.User;
@@ -21,7 +21,7 @@ public class TransactionHistory {
 
 
     /**
-     * Constructs an instance of Transactions.TransactionHistory with an empty ArrayList transactions and an empty Hashtable usersNumTradeTimes
+     * Constructs an instance of Users.TransactionHistory with an empty ArrayList transactions and an empty Hashtable usersNumTradeTimes
      * The most recent Transactions.Transaction is added to the end of the list transactions
      */
     public TransactionHistory(){

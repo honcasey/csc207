@@ -1,5 +1,6 @@
 package Transactions;
 
+import Items.Item;
 import Transactions.*;
 import Users.User;
 
@@ -197,7 +198,7 @@ public class TransactionManager {
         String status = transaction.getStatus();
         ArrayList<String> options = new ArrayList<String>();
         if (status.equals("pending")){
-            String[] list = new String[] {"1. Edit Meeting", "2. Confirm Meeting","3. Cancel transaction"};
+            String[] list = new String[] {"1. Edit Transactions.Meeting", "2. Confirm Transactions.Meeting","3. Cancel transaction"};
             options.addAll(Arrays.asList(list));
         }
         if (status.equals("confirmed")){

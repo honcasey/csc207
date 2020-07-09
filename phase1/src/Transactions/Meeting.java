@@ -1,3 +1,4 @@
+package Transactions;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -37,7 +38,7 @@ public class Meeting {
     private LocalTime meetingTime;
 
     /**
-     * The constructor for the class Meeting.
+     * The constructor for the class Transactions.Meeting.
      * @param location location to be stored in usereditable hashmap.
      * @param meetingDate the dateof the meetup as a  LocalDate object.
      * @param meetingTime The time of the meetup as a localTime object.
@@ -173,7 +174,7 @@ public class Meeting {
 
     @Override
     public String toString(){
-        return("Meeting is at "+this.getLocation()+ "at this time:" +this.getTime().toString()+ " on this day:" +
+        return("Transactions.Meeting is at "+this.getLocation()+ "at this time:" +this.getTime().toString()+ " on this day:" +
                 this.getDate().toString());
     }
 }

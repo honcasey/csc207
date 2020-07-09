@@ -1,5 +1,7 @@
 package Users;
 
+import Items.Item;
+import Transactions.Meeting;
 import Users.User;
 import Users.UserMenu;
 import Users.UserMenuPresenter;
@@ -29,7 +31,7 @@ public class UserMenuController extends MenuPresenter {
         String input = this.HandleOptions(this.userMenuPresenter.constructMainMenu(),
                 false,"Users.User Main Menu","Please type a number corresponding to one of" +
                         "the above options.");
-            if(input.equals("Request Item for Approval")){
+            if(input.equals("Request Items.Item for Approval")){
                 requestAddItem();
             } else if (input.equals("Browse Available Items for Trade")) {
                 DisplayAvailableItems();
@@ -60,7 +62,7 @@ public class UserMenuController extends MenuPresenter {
         System.out.println("What is the description of this item?");
         String itemDescription = scanner.nextLine();
         this.userMenu.requestAddItemInput(itemName,itemDescription);
-        System.out.println("Item has been requested and is now being reviewed by the administrators.");
+        System.out.println("Items.Item has been requested and is now being reviewed by the administrators.");
     }
 
     /**
@@ -126,7 +128,7 @@ public class UserMenuController extends MenuPresenter {
             String OptionChosen = this.HandleOptions(transOptionList, true, "",
                     "Select from one of " +
                             "the transaction types above.");
-            Meeting FirstMeeting = MeetingDetailsMenu("First Meeting Details");
+            Meeting FirstMeeting = MeetingDetailsMenu("First Transactions.Meeting Details");
             if (OptionChosen.equals("back")) {
                 System.out.println("Loading Previous Menu");
                 userInteracting = false;
@@ -137,7 +139,7 @@ public class UserMenuController extends MenuPresenter {
 
     /**
      * This method walks the user through the details required for a meeting, then constructs a meeting.
-     * @param MeetingTitle The first thing that will be displayed "Second Meeting Details"/"First Meeting Details"
+     * @param MeetingTitle The first thing that will be displayed "Second Transactions.Meeting Details"/"First Transactions.Meeting Details"
      */
     private Meeting MeetingDetailsMenu(String MeetingTitle){
         Scanner scanner = new Scanner(System.in);

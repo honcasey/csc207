@@ -17,7 +17,7 @@ public class TransactionOneWayPerm extends Transaction {
      * strings mapping to the information they change.
      *
      * -- userEditable Variables --
-     * Item. (will be stored in the hashmap)
+     * Items.Item. (will be stored in the hashmap)
      * NOTE: getters and setters for certain information still remain camel-case.
      */
 
@@ -26,7 +26,7 @@ public class TransactionOneWayPerm extends Transaction {
     /**
      * Constructor for Transactions.TransactionOneWayPerm. The way the constructor is implemented assumes that User2 takes the
      * item from User1.
-     * The Item's path is: User1 --> User2
+     * The Items.Item's path is: User1 --> User2
      * @param User1 the first user.
      * @param User2 the second user.
      * @param item this is the item possessed by the lender of the one way transaction which will be assumed to be

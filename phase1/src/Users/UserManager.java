@@ -1,5 +1,7 @@
 package Users;
 
+import Exceptions.InvalidUserException;
+import Items.Item;
 import Users.User;
 
 import java.util.HashMap;

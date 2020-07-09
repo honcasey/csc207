@@ -1,3 +1,4 @@
+import Items.Item;
 import Transactions.*;
 import Users.User;
 import org.junit.jupiter.api.Test;

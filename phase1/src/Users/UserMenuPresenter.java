@@ -1,5 +1,7 @@
 package Users;
 
+import Items.Item;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +33,7 @@ public class UserMenuPresenter extends MenuPresenter {
      */
     public List<String> constructMainMenu(){
         List<String> MenuOptionList = new ArrayList<>();
-        MenuOptionList.add("Request Item for Approval");
+        MenuOptionList.add("Request Items.Item for Approval");
         MenuOptionList.add("Browse Available Items for Trade");
         MenuOptionList.add("View Active Transactions");
         MenuOptionList.add("View Past Transaction Details");
@@ -49,8 +51,8 @@ public class UserMenuPresenter extends MenuPresenter {
      */
     public List<String> constructAvailableItemsMenu(List<Item> ItemList){
         System.out.println("Available Items for Trade:");
-        String ItemOutputName = " Item Name: ";
-        String ItemOutputDescription = " |  Item Description: ";
+        String ItemOutputName = " Items.Item Name: ";
+        String ItemOutputDescription = " |  Items.Item Description: ";
         // Making Option List
 
         List<String> AvailableItemOptionList = new ArrayList<>();

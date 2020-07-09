@@ -1,5 +1,7 @@
 package Users;
 
+import Items.Item;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +15,7 @@ public class User implements Serializable {
     private String password;
     private final UUID userId = UUID.randomUUID();
     private TransactionHistory transactionHistory;
-    private TransactionDetails transactionDetails;
+    private CurrentTransactions currentTransactions;
     private List<Item> inventory;
     private int borrowThreshold = 1;
     private int weeklyThreshold = 3;
@@ -65,13 +67,13 @@ public class User implements Serializable {
      * Getter for this Users.User's TransactionDetails.
      * @return list of Transactions.Transaction objects
      */
-    public TransactionDetails getTransactionDetails() { return transactionDetails; }
+    public CurrentTransactions getCurrentTransactions() { return currentTransactions; }
 
     /**
      * Setter for this Users.User's TransactionDetails.
-     * @param transactionDetails list of Transactions
+     * @param currentTransactions list of Transactions
      */
-    public void setTransactionDetails(TransactionDetails transactionDetails) {this.transactionDetails = transactionDetails; }
+    public void setCurrentTransactions(CurrentTransactions currentTransactions) {this.currentTransactions = currentTransactions; }
 
     /**
      * Getter for this Users.User's inventory as a list of (approved) Items.
@@ -98,13 +100,13 @@ public class User implements Serializable {
     public void setWishlist(List<Item> wishlist) { this.wishlist = wishlist; }
 
     /**
-     * Getter for the minimum number of Items that this Users.User has to have lent before they can borrow an Item.
+     * Getter for the minimum number of Items that this Users.User has to have lent before they can borrow an Items.Item.
      * @return borrowThreshold as an integer
      */
     public int getBorrowThreshold() { return borrowThreshold; }
 
     /**
-     * Setter for the minimum number of Items that this Users.User has to have lent before they can borrow an Item.
+     * Setter for the minimum number of Items that this Users.User has to have lent before they can borrow an Items.Item.
      * @param borrowThreshold as an integer
      */
     public void setBorrowThreshold(int borrowThreshold) { this.borrowThreshold = borrowThreshold; }

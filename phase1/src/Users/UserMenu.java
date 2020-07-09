@@ -1,6 +1,8 @@
 package Users;
 
 import Admins.AdminManager;
+import Items.Item;
+import Transactions.TransactionManager;
 import Users.User;
 import Users.UserManager;
 

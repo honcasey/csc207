@@ -1,5 +1,7 @@
 package Transactions;
 
+import Items.Item;
+
 import java.util.List;
 import java.util.UUID;
 

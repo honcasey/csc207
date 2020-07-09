@@ -1,6 +1,11 @@
 package Admins;
 
 import Admins.AdminManager;
+import Exceptions.InvalidAdminException;
+import Exceptions.InvalidUserException;
+import Items.Item;
+import Users.User;
+import Users.UserManager;
 
 import java.util.*;
 
@@ -50,9 +55,9 @@ public class AdminMenuController {
 
     private void approveInventory(User user, Item item, boolean approved) {
         if (approved) { um.addItem(user, item, "inventory");
-        System.out.println("Item has been approved.");}
+        System.out.println("Items.Item has been approved.");}
         else { allPendingItems.remove(item);
-        System.out.println("Item has been declined.");}
+        System.out.println("Items.Item has been declined.");}
     }
 
     private void checkPendingItems() {
@@ -94,7 +99,7 @@ public class AdminMenuController {
 
     private void addItemToUser() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println(amp.enterName("new Item"));
+        System.out.println(amp.enterName("new Items.Item"));
         String itemName = scanner.nextLine();
         Item newItem = new Item(itemName);
         System.out.println(amp.enterName("Users.User"));
