@@ -212,7 +212,7 @@ public class TransactionManager {
             }
         return options;
         }
-        
+
 
     /**
      * @param transaction the transaction who's status is being updated
