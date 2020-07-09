@@ -191,7 +191,7 @@ public class TransactionManager {
         }
     }
 
-    
+
     public ArrayList<String> userTransactionActions(Transaction transaction){
 
     }
