@@ -1,6 +1,7 @@
 package Users;
 
 import Admins.AdminManager;
+import Exceptions.InvalidTransactionException;
 import Items.Item;
 import Items.ItemManager;
 import Transactions.Transaction;
@@ -8,10 +9,7 @@ import Transactions.TransactionManager;
 import Users.User;
 import Users.UserManager;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class UserMenu {
 
@@ -168,6 +166,10 @@ public class UserMenu {
      */
     public void deleteTransaction(Transaction transaction){
     // TODO: Method Body once I confirm some things about the details of this method
+    }
+
+    public ArrayList<Transaction> getTransactionList(List<UUID> idList) throws InvalidTransactionException {
+        return tm.getTransactionsFromIdList(idList);
     }
 
 

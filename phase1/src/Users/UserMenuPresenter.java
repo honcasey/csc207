@@ -2,6 +2,7 @@ package Users;
 
 import Items.Item;
 import Presenters.MenuPresenter;
+import Transactions.Transaction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,6 +76,18 @@ public class UserMenuPresenter extends MenuPresenter {
         OptionList.add("Two Way Temporary Trade");
         OptionList.add("Two Way Permanent Trade");
         return(OptionList);
+    }
+
+
+    public List<String> constructCurrentTransaction(ArrayList<Transaction> TransactionList){
+        System.out.println("Current Transactions:");
+        // Making Option List
+
+        List<String> AvailableItemOptionList = new ArrayList<>();
+        for (Item item : ItemList) {
+            AvailableItemOptionList.add(ItemOutputName + item.getName() + ItemOutputDescription + item.getDescription());
+        }
+        return(AvailableItemOptionList);
     }
 
 }
