@@ -55,9 +55,6 @@ public class AdminMenuController {
                     // stop the while loop
                     userInteracting = false;
                     break;
-                default:
-                    System.out.println(amp.invalidOption());
-                    break;
             }
         }
     }
