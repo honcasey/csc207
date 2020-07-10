@@ -50,10 +50,11 @@ public class AdminManager {
             allAdmins.add(newAdmin);
             return newAdmin;
         }
-        for (AdminUser admin : allAdmins)
-            if (admin.getUsername().equals(username)) throw new InvalidAdminException();
-        allAdmins.add(newAdmin);
-        return newAdmin;
+        if (checkAvailableUsername(username)) {
+            allAdmins.add(newAdmin);
+            return newAdmin;
+        }
+        else { throw new InvalidAdminException(); }
     }
 
     /**
@@ -81,7 +82,7 @@ public class AdminManager {
      * @param password inputted password
      * @return boolean whether the inputs match an existing AdminUser account or not.
      */
-    public boolean validAdmin(String username, String password) { // TO-DO: check if the account also matches a normal User, and if yes, should throw something?
+    public boolean validAdmin(String username, String password) {
         for (AdminUser admin : allAdmins)
             if (admin.getUsername().equals(username) && admin.getPassword().equals(password)) return true;
         return false;
@@ -92,7 +93,7 @@ public class AdminManager {
      * @param username inputted username
      * @return boolean whether the input matches an existing AdminUser account or not.
      */
-    public boolean checkAvailableUsername(String username) { // TO-DO: check if the username also matches any usernames of a normal User and not just AdminUsers?
+    public boolean checkAvailableUsername(String username) {
         for (AdminUser admin : allAdmins) if (admin.getUsername().equals(username)) return false;
         return true;
     }
