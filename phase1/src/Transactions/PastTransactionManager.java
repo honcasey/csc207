@@ -3,14 +3,13 @@ package Transactions;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.UUID;
-import java.util.Map;
+import java.util.HashMap;
 
 import Exceptions.InvalidTransactionException;
 import Users.User;
 import Users.TransactionHistory;
 
 public class PastTransactionManager extends TransactionManager{
-    private Map<UUID, Transaction> allTransactions;
     public PastTransactionManager(HashMap<UUID, Transaction> transactions){
         super(transactions);
 
