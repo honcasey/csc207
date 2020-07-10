@@ -276,7 +276,7 @@ public class UserManager {
         if (status.equals("incomplete") || status.equals("complete") || status.equals("neverReturned")) {
             UUID id = transaction.getId();
             user.getCurrentTransactions().remove(id);
-            user.addTransactionToHistory(transaction);
+            addToTransactionHistory(user, transaction);
         }
     }
 }
