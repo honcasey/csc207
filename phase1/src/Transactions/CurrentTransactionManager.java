@@ -14,10 +14,10 @@ import java.util.ArrayList;
 /**
  * This class manages a transaction between two users. A transaction begins once a user expresses interest in an item.
  */
-public class TransactionManager {
+public class CurrentTransactionManager {
     private Map<UUID, Transaction> allTransactions;
 
-    public TransactionManager(Map<UUID, Transaction> transactions) {
+    public CurrentTransactionManager(Map<UUID, Transaction> transactions) {
         allTransactions = transactions;
     }
 
