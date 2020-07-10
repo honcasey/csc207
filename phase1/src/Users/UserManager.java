@@ -2,6 +2,7 @@ package Users;
 
 import Exceptions.InvalidUserException;
 import Items.Item;
+import Transactions.PastTransactionManager;
 import Transactions.Transaction;
 import Users.User;
 
@@ -158,7 +159,7 @@ public class UserManager {
      * @param user A user in a trading system
      * @param transaction a transaction between two Users
      */
-
+    // this method has to be changed
     // consider splitting into two methods. Reasoning for having one method, user1 == user is needed for both updating the UserNumTradeTimes and NumItemsBorrowed, NumItemsLended
      private void updateTransactionHistoryValues(User user, Transaction transaction){
             TransactionHistory tH = user.getTransactionHistory();
@@ -244,12 +245,11 @@ public class UserManager {
     public List<User> getFrozenAccounts(){return frozenAccounts;}
 
     /**
-     * Returns if the user has exceeded the weekly limit of transactions
-     * @param user
-     * @return
+     * Returns of the number of current transactions of User exceed the incomplete transaction threshold
+     * @param user User of interest
+     * @return boolean
      */
-    public boolean weeklyThresholdReached(User user){
-        //TODO: weeklyThresholdReached
+    public boolean incompleteTransactionExceeded(User user){
+        return user.getCurrentTransactions().size() >= user.getIncompleteThreshold();
     }
-
 }

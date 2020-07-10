@@ -1,21 +1,30 @@
 package Transactions;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 import java.util.UUID;
+import java.util.Map;
+
+import Exceptions.InvalidTransactionException;
 import Users.User;
 import Users.TransactionHistory;
 
 public class PastTransactionManager extends TransactionManager{
-    public PastTransactionManager(){
-        super();
+    private Map<UUID, Transaction> allTransactions;
+    public PastTransactionManager(Map<UUID, Transaction> transactions){
+        super(transactions);
+
     }
 
-    public int numTransactionsInWeek(){
+    public List<Transaction> generateTransactionsList(TransactionHistory transactionHistory) throws InvalidTransactionException {
+        List<UUID>pastTransactionsIDs = transactionHistory.getAllTransactions();
+        return getTransactionsFromIdList(pastTransactionsIDs);
+    }
+
+    public int numTransactionsInWeek(User user) throws InvalidTransactionException {
+        TransactionHistory transactionHistory = user.getTransactionHistory();
         int numTransactions = 0;
-        ArrayList<UUID> allTransactions = getAllTransactions();
+        List<Transaction> allTransactions = generateTransactionsList(transactionHistory);
 //        ZoneId k = ZoneId.of("America/Montreal");
 //        LocalDate today = LocalDate.now(k); alternative way of doing it; saving just in case
         Calendar currentCal = Calendar.getInstance();
@@ -40,4 +49,16 @@ public class PastTransactionManager extends TransactionManager{
         // main idea of this code from: https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
         return numTransactions;
     }
+
+    /**
+     * Returns if the user has exceeded the weekly limit of transactions
+     * @param user User
+     * @return boolean
+     */
+    public boolean weeklyThresholdExceeded(User user) throws InvalidTransactionException {
+        int threshold = user.getWeeklyThreshold();
+        int numberWeeklyTransactions = numTransactionsInWeek(user);
+        return numberWeeklyTransactions >= threshold;
+    }
+
 }
