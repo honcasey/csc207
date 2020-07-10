@@ -181,6 +181,14 @@ public abstract class Transaction implements Serializable {
      */
     public void setStatusUser2(String newStatus){statusUser2 = newStatus;}
 
+    public void setStatusUserNum(String newStatus, int userNum){
+        if (userNum == 1){
+            setStatusUser1(newStatus);}
+        else {
+            setStatusUser2(newStatus);
+        }
+    }
+
 
 }
 

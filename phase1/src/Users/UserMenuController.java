@@ -39,7 +39,7 @@ public class UserMenuController{
         while(userInteracting){
         String input = this.userMenuPresenter.handleOptions(this.userMenuPresenter.constructMainMenu(),
                 false,"User Main Menu");
-            if (input.equals("Request Items.Item for Approval")){
+            if (input.equals("Request Items for Approval")){
                 requestAddItem();
             } else if (input.equals("Browse Available Items for Trade")) {
                 DisplayAvailableItems();
@@ -70,7 +70,7 @@ public class UserMenuController{
         System.out.println("What is the description of this item?");
         String itemDescription = scanner.nextLine();
         requestAddItemInput(itemName,itemDescription);
-        System.out.println("Items.Item has been requested and is now being reviewed by the administrators.");
+        System.out.println("Items has been requested and is now being reviewed by the administrators.");
     }
 
     /**
@@ -78,6 +78,8 @@ public class UserMenuController{
      * 1) Displaying all available items to trade.
      * 2) Allowing the user to click on an item
      * 3) if the account is not frozen then the user can make a transaction for an item.
+     * 4) if the account is not frozen but it breaches threshold criteria of system after the transaction, then
+     * append the user to the admin's list of people that they can freeze.
      */
     private void DisplayAvailableItems(){
         boolean userInteracting = true;
@@ -111,10 +113,12 @@ public class UserMenuController{
                     Item TransactionItem = ItemList.get(OptionChosen);
                     User TransactionItemOwner = AvailableItems.get(TransactionItem);
                     userInteracting = CreateTransactionMenu(TransactionItem,TransactionItemOwner);
+                    if(//TODO put master threshold method here){
+                        this.am.getPendingFrozenUsers().add(this.currentUser);
+                    }
                 }
             }
         }
-    }
 
     /**
      * This method handles the flow for setting up a transaction for an available item assuming that the transaction
@@ -137,9 +141,13 @@ public class UserMenuController{
             if (OptionChosen.equals("back")) {
                 System.out.println("Loading Previous Menu");
                 userInteracting = false;
+
             }
             else{
                 Meeting FirstMeeting = MeetingDetailsMenu("First Meeting Details");
+                if(OptionChosen.equals()){
+
+                }
 
             }
         }
@@ -238,39 +246,36 @@ public class UserMenuController{
 
         while (userInteracting) {
             List<UUID> currentTransactionsIds = user.getCurrentTransactions();
-            ArrayList<Transaction> currTransactionsList = getTransactionList(currentTransactionsIds);
+            ArrayList<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
 
-            List<String> OptionList = this.userMenuPresenter.constructAvailableItemsMenu(ItemList);
-            String AvailableItemsTitle = "List of Current Transaction:";
-            String AvailableItemsPrompt = "Type the number corresponding to the transaction you wish to" +
+            List<String> optionList = this.userMenuPresenter.constructTransactionList(currTransactionsList);
+            String currTransactionsTitle = "List of Current Transaction:";
+            String currTransactionsPrompt = "Type the number corresponding to the transaction you wish to" +
                     " modify. To go back to the previous menu, type the number corresponding to that" +
                     "option.";
 
-            int OptionChosen = this.userMenuPresenter.handleOptionsByIndex(OptionList, true, AvailableItemsPrompt
+            int OptionChosen = this.userMenuPresenter.handleOptionsByIndex(optionList, true, currTransactionsPrompt
             );
-            // Logic handling back to other menu vs. your account is frozen vs proceed to make create transaction menu.
-            if (OptionChosen == OptionList.size()) {
+            // Logic handling back to other menu vs. Editing a meeting vs changing the StatusUser of a Transaction.
+            if (OptionChosen == optionList.size()) {
                 System.out.println("Loading Previous Menu");
                 userInteracting = false;
             } else {
-                if (currentUser.isFrozen()) {
-                    System.out.println("Your account is frozen so you cannot make an offer for this item. Please request" +
-                            "to have your account unfrozen.");
-                    System.out.println("You will now be taken back to the main user menu.");
-                    userInteracting = false;
-                } else {
-                    Item TransactionItem = ItemList.get(OptionChosen);
-                    User TransactionItemOwner = AvailableItems.get(TransactionItem);
-                    userInteracting = CreateTransactionMenu(TransactionItem, TransactionItemOwner);
-                }
-            }
+                    Transaction transaction = currTransactionsList.get(OptionChosen);
+                    ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
+                    String transactionActionPrompt = "This is the list of actions that you can do with your transaction"
+                    int optionChosen2 = this.userMenuPresenter.handleOptionsByIndex(transactionActions, true, transactionActionPrompt);
+                    if (tm.updateStatusUser(currentUser, transaction, transactionActions.get(optionChosen2))){
+                        System.out.println("Loading Previous Menu");
+                        userInteracting = false;
+                        }
+                    else{
+                        this.editMeeting(currentUser,transaction);
+                        System.out.println("Loading Previous Menu");
+                        userInteracting = false;
+                    }
         }
     }
-
-    /**
-     * TODO: this is the method where the user can edit their statusUser for their transactions
-     */
-    private void changeTransactionStatus() {}
 
     /**
      * This helper method constructs a new instance of item from user input then adds the item to the pending items list.
@@ -371,7 +376,7 @@ public class UserMenuController{
     /**
      * Requests the admin user to unfreeze the current user's account, if it's status is already frozen.
      */
-    public void requestUnfreezeAccount() {
+    public void requestUnfreezeAccount(){
         am.getPendingFrozenUsers().add(currentUser);
         am.getFrozenAccounts().remove(currentUser);
     }
@@ -383,10 +388,78 @@ public class UserMenuController{
         // TODO: Method Body once I confirm some things about the details of this method
     }
 
-    public ArrayList<Transaction> getTransactionList(List<UUID> idList) throws InvalidTransactionException {
+    public ArrayList<Transaction> getTransactionList(List<UUID> idList){
         return tm.getTransactionsFromIdList(idList);
     }
 
 
 
 }
+
+    private void editMeeting(User currentUser, Transaction transaction) {
+        boolean userInteracting = true;
+        Scanner scanner = new Scanner(System.in);
+        UUID user = currentUser.getUserId();
+
+        while (userInteracting) {
+            if (!transaction.isPerm()){
+                Meeting meeting1 = transaction.getFirstMeeting();
+                Meeting meeting2 = transaction.getSe
+            }
+
+            ArrayList<String> options = new ArrayList<String>(Arrays.asList("Edit Location", "Edit time", "Edit Date"));
+            String optionsTitle = "You can edit one of the following options:";
+            String optionsPrompt = "Type the number corresponding to the transaction you wish to" +
+                    " modify. To go back to the previous menu, type the number corresponding to that" +
+                    "option.";
+
+            int OptionChosen = this.userMenuPresenter.handleOptionsByIndex(options, true, optionsPrompt);
+            // Logic handling back to other menu vs. Editing a meeting
+            if (OptionChosen == options.size()) {
+                System.out.println("Loading Previous Menu");
+                userInteracting = false;
+            } else {
+                switch (OptionChosen) {
+                    case 0:
+                        System.out.println("Where do you want to have the meeting?");
+                        String MeetingLocation = scanner.nextLine();
+                        tm.editMeeting(currentUser, transaction, MeetingLocation);
+                        break;
+                    case 1:
+                        // do something else
+                        break;
+                    default:
+
+                }
+                if (OptionChosen == 0){
+
+                }
+                if (OptionChosen == 1){
+
+                }
+                else (OptionChosen == 2){
+
+
+                    System.out.println("Where do you want to have the meeting?");
+                    String MeetingLocation = scanner.nextLine();
+                    LocalTime MeetingTime = this.userMenuPresenter.inputTimeGetter("Please Enter the time of your meeting in the" +
+                            " format: HH:mm:ss");
+                    LocalDate MeetingDate = this.userMenuPresenter.inputDateGetter("Please Enter the date of your meeting in the" +
+                            " format: dd-mm-yyyy");
+                }
+                ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
+                String transactionActionPrompt = "This is the list of actions that you can do with your transaction"
+                int optionChosen2 = this.userMenuPresenter.handleOptionsByIndex(transactionActions, true, transactionActionPrompt);
+                if (tm.updateStatusUser(currentUser, transaction, transactionActions.get(optionChosen2))){
+                    System.out.println("Loading Previous Menu");
+                    userInteracting = false;
+                }
+                else{
+                    this.editMeeting(currentUser,transaction);
+                    System.out.println("Loading Previous Menu");
+                    userInteracting = false;
+                }
+            }
+        }
+    }
+    }

@@ -7,7 +7,7 @@ import Presenters.MenuPresenter;
 
 public class AdminMenuPresenter extends MenuPresenter {
 
-    public List<String> mainMenu() {
+    public List<String> constructMainMenu() {
         List<String> AdminMenuOptions = new ArrayList<>(); // are lists ordered?
         AdminMenuOptions.add("Check Pending Items for Approval");
         AdminMenuOptions.add("Check Flagged Users");
@@ -26,5 +26,10 @@ public class AdminMenuPresenter extends MenuPresenter {
     public String currentThreshold(String description, int threshold) {
         return "The current " + description + " is: " + threshold;
     }
+
+    public String addItem(String approved) {
+        return "Item has been " + approved;
+    }
+
 
 }

@@ -14,55 +14,10 @@ import java.util.ArrayList;
 /**
  * This class manages a transaction between two users. A transaction begins once a user expresses interest in an item.
  */
-public class CurrentTransactionManager {
-    private Map<UUID, Transaction> allTransactions;
+public class CurrentTransactionManager extends TransactionManager{
 
-    public CurrentTransactionManager(Map<UUID, Transaction> transactions) {
-        allTransactions = transactions;
-    }
-
-    /**
-     * The getter that returns all of the Transactions across the whole system
-     * @return allTransactions, a HashMap<UUID, Transaction>
-     */
-    public Map<UUID, Transaction> getAllTransactions() {
-        return allTransactions;
-    }
-
-    public void removeTransactionFromAllTransactions(UUID id) throws InvalidTransactionException {
-        if (allTransactions.containsKey(id)){
-        allTransactions.remove(id);}
-        else {
-            throw new InvalidTransactionException();}
-    }
-
-    /**
-     * get the transaction from the list of all of the transactions by calling the id
-     * @param id the UUID of the transaction
-     * @return the transaction
-     */
-    public Transaction getTransactionFromId(UUID id) throws InvalidTransactionException {
-        if (allTransactions.containsKey(id)){
-        return allTransactions.get(id);}
-        else{
-            throw new InvalidTransactionException();
-        }
-    }
-
-
-    /**
-     * Put a list of ids and get an ArrayList of Transactions back
-     * @param transactionList : the list of transactions ids to be converted into Transactions
-     * @return An Array list of Transaction Objects
-     * @throws InvalidTransactionException the id's in the transactionList must match with the id's in AllTransactions
-     */
-    public ArrayList<Transaction> getTransactionsFromIdList(List<UUID> transactionList) throws InvalidTransactionException {
-        ArrayList<Transaction> transactions= new ArrayList<Transaction>();
-        for (UUID id : transactionList){
-            Transaction transaction = getTransactionFromId(id);
-            transactions.add(transaction);
-        }
-        return transactions;
+    public CurrentTransactionManager(HashMap<UUID, Transaction> transactions) {
+        super(transactions);
     }
 
     /**
@@ -78,7 +33,7 @@ public class CurrentTransactionManager {
                                          Meeting meeting2) {
         Transaction transaction = new TransactionOneWayTemp(user1, user2, item1, meeting1, meeting2);
         UUID id = transaction.getId();
-        allTransactions.put(id, transaction);
+        super.getAllTransactions().put(id, transaction);
         return transaction;
     }
 
@@ -94,7 +49,7 @@ public class CurrentTransactionManager {
                                                Meeting meeting1){
         Transaction transaction = new TransactionOneWayPerm(user1, user2, item1, meeting1);
         UUID id = transaction.getId();
-        allTransactions.put(id, transaction);
+        super.getAllTransactions().put(id, transaction);
         return transaction;
     }
 
@@ -112,7 +67,7 @@ public class CurrentTransactionManager {
                                          Meeting meeting1, Meeting meeting2) {
         Transaction transaction = new TransactionTwoWayTemp(user1, user2, item1, item2, meeting1, meeting2);
         UUID id = transaction.getId();
-        allTransactions.put(id, transaction);
+        super.getAllTransactions().put(id, transaction);
         return transaction;
     }
 
@@ -129,7 +84,7 @@ public class CurrentTransactionManager {
                                          Meeting meeting1) {
             Transaction transaction = new TransactionTwoWayPerm(user1, user2, item1, item2, meeting1);
             UUID id = transaction.getId();
-            allTransactions.put(id, transaction);
+            super.getAllTransactions().put(id, transaction);
             return transaction;
     }
 
@@ -159,7 +114,7 @@ public class CurrentTransactionManager {
      */
     public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, String newLocation) {
         int userNum = findUserNum(transaction, userId);
-        if (canEdit(meeting, userNum)) {
+        if (canEdit(meeting, userNum) & transaction.getStatus().equals("pending")) {
             meeting.setLocation(newLocation);
             if (userNum == 1){
                 meeting.user1edits();
@@ -185,7 +140,7 @@ public class CurrentTransactionManager {
      */
     public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, LocalTime time) {
         int userNum = findUserNum(transaction, userId);
-        if (canEdit(meeting, userNum)) {
+        if (canEdit(meeting, userNum) & transaction.getStatus().equals("pending")) {
             meeting.setTime(time);
             if (userNum == 1){
                 meeting.user1edits();
@@ -210,16 +165,16 @@ public class CurrentTransactionManager {
      */
     public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, LocalDate date) {
         int userNum = findUserNum(transaction, userId);
-        if (canEdit(meeting, userNum)) {
+        if (canEdit(meeting, userNum) & transaction.getStatus().equals("pending")) {
             meeting.setDate(date);
             if (userNum == 1){
-                meeting.user1edits();
-            }
+                meeting.user1edits();}
             else{
                 meeting.user2edits();
             }
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
@@ -229,15 +184,15 @@ public class CurrentTransactionManager {
         String status = transaction.getStatus();
         ArrayList<String> options = new ArrayList<String>();
         if (status.equals("pending")){
-            String[] list = new String[] {"1. Edit Transactions.Meeting", "2. Confirm Transactions.Meeting","3. Cancel transaction"};
+            String[] list = new String[] {"Edit Transactions Meeting(s)", "Confirm Transactions Meeting(s)","Cancel transaction"};
             options.addAll(Arrays.asList(list));
         }
         if (status.equals("confirmed")){
-            String[] list = new String[] {"1. Confirm the exchange has taken place", "2. Claim that the exchange has not taken place"};
+            String[] list = new String[] {"Confirm the exchange has taken place", "Claim that the exchange has not taken place"};
             options.addAll(Arrays.asList(list));
         }
         if (status.equals("traded")){
-            String[] list = new String[] {"1. Confirm the item has been returned", "Claim that the item has not been returned past due date"};
+            String[] list = new String[] {"Confirm the item has been returned", "Claim that the item has not been returned past due date"};
             options.addAll(Arrays.asList(list));
         }
         else{
@@ -248,6 +203,37 @@ public class CurrentTransactionManager {
         }
 
 
+
+
+
+        public boolean updateStatusUser(User user, Transaction transaction, String optionChosen){
+            int userNum = findUserNum(transaction, user.getUserId());
+            if (optionChosen.equals("Confirm Transactions Meeting(s)")){
+                transaction.setStatusUserNum("confirm", userNum);
+                return true;
+            }
+            if (optionChosen.equals("Cancel transaction")){
+               transaction.setStatusUserNum("cancel", userNum);
+               return true;
+            }
+            if (optionChosen.equals("Confirm the exchange has taken place")) {
+                transaction.setStatusUserNum("traded", userNum);
+                return true;
+            }
+            if (optionChosen.equals("Claim that the exchange has not taken place")) {
+               transaction.setStatusUserNum("incomplete", userNum);
+               return true;
+            }
+            if (optionChosen.equals("Confirm the item has been returned")){
+               transaction.setStatusUserNum("returned", userNum);
+               return true;
+            }
+            if (optionChosen.equals("Claim that the item has not been returned past due date")){
+               transaction.setStatusUserNum("NeverReturned", userNum);
+               return true;
+            }
+            else{
+            return false;}}
     /**
      * @param transaction the transaction who's status is being updated
      * @return true if the status of the transaction has been updated, the transaction status will we updated based on
