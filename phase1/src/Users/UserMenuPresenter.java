@@ -78,7 +78,7 @@ public class UserMenuPresenter extends MenuPresenter {
     }
 
 
-    public List<String> constructCurrentTransaction(ArrayList<Transaction> TransactionList){
+    public List<String> constructTransactionList(ArrayList<Transaction> TransactionList){
         System.out.println("Current Transactions:");
         // Making Option List
 
