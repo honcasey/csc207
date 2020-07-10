@@ -10,7 +10,6 @@ import Transactions.Transaction;
 import Transactions.TransactionManager;
 import Users.User;
 import Users.UserManager;
-import Users.UserMenu;
 import Users.UserMenuController;
 
 import java.io.File;
