@@ -7,9 +7,6 @@ import Presenters.MenuPresenter;
 
 public class AdminMenuPresenter extends MenuPresenter {
 
-    public List<String> allThresholds = Arrays.asList("borrow", "weekly", "incomplete");
-    public List<String> userLists = Arrays.asList("wishlist", "inventory");
-
     public List<String> mainMenu() {
         List<String> AdminMenuOptions = new ArrayList<>(); // are lists ordered?
         AdminMenuOptions.add("Check Pending Items for Approval");
