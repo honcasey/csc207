@@ -74,6 +74,7 @@ public class TransactionTwoWayTemp extends Transaction {
      * @return returns the second meeting of the transaction.
      */
 
+    @Override
     public Meeting getSecondMeeting(){
         return this.secondMeeting;
     }

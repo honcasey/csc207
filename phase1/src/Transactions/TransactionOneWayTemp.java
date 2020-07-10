@@ -55,6 +55,7 @@ public class TransactionOneWayTemp extends Transaction {
      * @return  returns the second meeting class variable.
      */
 
+    @Override
     public Meeting getSecondMeeting() {
         return this.secondMeeting;
     }

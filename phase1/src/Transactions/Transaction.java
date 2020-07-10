@@ -112,6 +112,14 @@ public abstract class Transaction implements Serializable {
     }
 
     /**
+     * Getter for the second meeting in transaction, if a transaction doesn't have a second meeting the first one is returned
+     * @return the object representing the second meeting of the transaction is returned.
+     */
+    public Meeting getSecondMeeting(){
+        return firstMeeting;
+    }
+
+    /**
      * this is a setter for the first meeting of the transaction
      * @param firstMeeting the new first meeting object that we want to set to.
      */
