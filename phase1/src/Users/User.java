@@ -155,16 +155,6 @@ public class User implements Serializable {
     }
 
 
-    /**
-     * boolean function that states if the number of weekly transactions have exceeded threshold
-     * @return bool. True means the threshold has been exceeded
-     */
-    public boolean numWeeklyTransactionsExceeded() {
-        int threshold = weeklyThreshold;
-        int numWeeklyTransactions = transactionHistory.numTransactionsInWeek();
-        return numWeeklyTransactions > threshold;
-    }
-
 }
 
 

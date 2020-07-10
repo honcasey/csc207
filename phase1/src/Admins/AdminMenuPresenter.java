@@ -27,4 +27,9 @@ public class AdminMenuPresenter extends MenuPresenter {
         return "The current " + description + " is: " + threshold;
     }
 
+    public String addItem(String approved) {
+        return "Item has been " + approved;
+    }
+
+
 }
