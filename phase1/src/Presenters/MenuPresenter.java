@@ -128,7 +128,7 @@ public class MenuPresenter {
         return(OptionChosen -1);
     }
     /** inputTimeGetter
-     * Checks the date string that the user has inputted to see if it is in the accepted format.
+     * Checks the date string that the user has inputted to see if it is in the accepted format Then returns the time
      * @return this returns tru iff Returns true iff it is
      *      in the accepted format dd/mm/yyyy.
      */
