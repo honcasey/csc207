@@ -197,7 +197,7 @@ public class MenuPresenter {
 
     public String usernameTaken() { return "Username already taken. Please enter a different one."; }
 
-    public String accountFrozen(String who, String frozen) {
+    public String accountFrozen(String who, String frozen) { // possibly move back to adminmenupresenter
         return who + "'s account has been set to " + frozen;
     }
 

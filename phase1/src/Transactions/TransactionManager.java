@@ -15,9 +15,9 @@ import java.util.ArrayList;
  * This class manages a transaction between two users. A transaction begins once a user expresses interest in an item.
  */
 public class TransactionManager {
-    private HashMap<UUID, Transaction> allTransactions;
+    private Map<UUID, Transaction> allTransactions;
 
-    public TransactionManager(HashMap<UUID, Transaction> transactions) {
+    public TransactionManager(Map<UUID, Transaction> transactions) {
         allTransactions = transactions;
     }
 
@@ -25,8 +25,15 @@ public class TransactionManager {
      * The getter that returns all of the Transactions across the whole system
      * @return allTransactions, a HashMap<UUID, Transaction>
      */
-    public HashMap<UUID, Transaction> getAllTransactions() {
+    public Map<UUID, Transaction> getAllTransactions() {
         return allTransactions;
+    }
+
+    public void removeTransactionFromAllTransactions(UUID id) throws InvalidTransactionException {
+        if (allTransactions.containsKey(id)){
+        allTransactions.remove(id);}
+        else {
+            throw new InvalidTransactionException();}
     }
 
     /**
@@ -40,6 +47,22 @@ public class TransactionManager {
         else{
             throw new InvalidTransactionException();
         }
+    }
+
+
+    /**
+     * Put a list of ids and get an ArrayList of Transactions back
+     * @param transactionList : the list of transactions ids to be converted into Transactions
+     * @return An Array list of Transaction Objects
+     * @throws InvalidTransactionException the id's in the transactionList must match with the id's in AllTransactions
+     */
+    public ArrayList<Transaction> getTransactionsFromIdList(List<UUID> transactionList) throws InvalidTransactionException {
+        ArrayList<Transaction> transactions= new ArrayList<Transaction>();
+        for (UUID id : transactionList){
+            Transaction transaction = getTransactionFromId(id);
+            transactions.add(transaction);
+        }
+        return transactions;
     }
 
     /**
@@ -69,10 +92,10 @@ public class TransactionManager {
      */
     public Transaction createTransaction(UUID user1, UUID user2, UUID item1,
                                                Meeting meeting1){
-            Transaction transaction = new TransactionOneWayPerm(user1, user2, item1, meeting1);
-            UUID id = transaction.getId();
-            allTransactions.put(id, transaction);
-            return transaction;
+        Transaction transaction = new TransactionOneWayPerm(user1, user2, item1, meeting1);
+        UUID id = transaction.getId();
+        allTransactions.put(id, transaction);
+        return transaction;
     }
 
     /**
@@ -157,14 +180,12 @@ public class TransactionManager {
      * @param meeting the meeting that the user wants to edit
      * @param transaction the transaction to which the meeting belongs to
      * @param userId the UUID of the Users.User who want to edit the transaction
-     * @param newHour the new hour the user want to have the meeting take place
-     * @param newMinute the newMinute the user wants to have the meeting take place
+     * @param time the new hour, minute the user want to have the meeting take place, must be in LocalTime format
      * @return True if the meeting was successfully edited
      */
-    public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, int newHour, int newMinute) {
+    public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, LocalTime time) {
         int userNum = findUserNum(transaction, userId);
         if (canEdit(meeting, userNum)) {
-            LocalTime time = LocalTime.of(newHour, newMinute);
             meeting.setTime(time);
             if (userNum == 1){
                 meeting.user1edits();
@@ -184,16 +205,12 @@ public class TransactionManager {
      * @param meeting the meeting that the user wants to edit
      * @param transaction the transaction to which the meeting belongs to
      * @param userId the UUID of the Users.User who want to edit the transaction
-     * @param newYear the new Year the user want to have the meeting take place
-     * @param newMonth the new month the user wants to have the meeting take place
-     * @param newDay the new day that the user wants to have the meeting take placec
+     * @param date the new Year, month, day the user want to have the meeting take place, must be in LocalDate format
      * @return True if the meeting was successfully edited
      */
-    public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, int newYear, int newMonth,
-                               int newDay) {
+    public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, LocalDate date) {
         int userNum = findUserNum(transaction, userId);
         if (canEdit(meeting, userNum)) {
-            LocalDate date = LocalDate.of(newYear, newMonth, newDay);
             meeting.setDate(date);
             if (userNum == 1){
                 meeting.user1edits();

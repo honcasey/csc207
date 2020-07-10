@@ -4,6 +4,7 @@ import Admins.AdminUser;
 import Exceptions.InvalidAdminException;
 import Exceptions.InvalidUserException;
 import Items.Item;
+import Items.ItemManager;
 import Presenters.BootupMenuPresenter;
 import Transactions.Transaction;
 import Transactions.TransactionManager;
@@ -28,14 +29,16 @@ public class TradingSystem {
     private String username, password;
     private final String adminsFilePath = "admins.ser";
     private final String usersFilePath = "users.ser";
-    private final String itemsFilePath = "items.ser";
+    private final String requestedItemsFilePath = "requestedItems.ser";
     private final String flaggedAccountsFilePath = "flaggedAccounts.ser";
     private final String frozenAccountsFilePath = "frozenAccounts.ser";
     private final String transactionsFilePath = "transactions.ser";
+    private final String itemMapFilePath = "items.ser";
     private AdminManager adminManager;
     private UserManager userManager;
     private TransactionManager transactionManager;
-    private HashMap<Item, User> pendingItems;
+    private ItemManager itemManager;
+    private Map<Item, User> pendingItems;
     private final BootupMenuPresenter bmp = new BootupMenuPresenter();
 
 
@@ -64,24 +67,27 @@ public class TradingSystem {
         // make sure files exists so they can be read
         checkFileExists(adminsFilePath);
         checkFileExists(usersFilePath);
-        checkFileExists(itemsFilePath);
+        checkFileExists(requestedItemsFilePath);
         checkFileExists(flaggedAccountsFilePath);
         checkFileExists(frozenAccountsFilePath);
         checkFileExists(transactionsFilePath);
+        checkFileExists(itemMapFilePath);
 
         // files exists so we can deserialize them
         Serializer serializer = new Serializer();
         List<AdminUser> admins = serializer.readAdminsFromFile(adminsFilePath);
         List<User> users = serializer.readUsersFromFile(usersFilePath);
-        pendingItems = serializer.readItemsFromFile(itemsFilePath);
+        pendingItems = serializer.readItemsFromFile(requestedItemsFilePath);
         List<User> flaggedAccounts = serializer.readAccountsFromFile(flaggedAccountsFilePath);
         List<User> frozenAccounts = serializer.readAccountsFromFile(frozenAccountsFilePath);
-        HashMap<UUID, Transaction> transactions = serializer.readTransactionMapFromFile(transactionsFilePath);
+        Map<UUID, Transaction> transactions = serializer.readTransactionMapFromFile(transactionsFilePath);
+        Map<UUID, Item> items = serializer.readItemMapFromFile(itemMapFilePath);
 
         // create new Managers
         adminManager = new AdminManager(admins, flaggedAccounts, frozenAccounts);
         userManager = new UserManager(users, flaggedAccounts, frozenAccounts);
         transactionManager = new TransactionManager(transactions);
+        itemManager = new ItemManager(items);
     }
 
     /**
@@ -101,7 +107,7 @@ public class TradingSystem {
             } else if (filePath.equals(usersFilePath)) {
                 List<User> list = new ArrayList<>();
                 serializer.writeUsersToFile(filePath ,list);
-            } else if (filePath.equals(itemsFilePath)) {
+            } else if (filePath.equals(requestedItemsFilePath)) {
                 HashMap<Item, User> map = new HashMap<>();
                 serializer.writeItemsToFile(filePath, map);
             } else if (filePath.equals(flaggedAccountsFilePath)) {
@@ -111,8 +117,11 @@ public class TradingSystem {
                 List<User> users = new ArrayList<>();
                 serializer.writeAccountsToFile(filePath, users);
             } else if (filePath.equals(transactionsFilePath)) {
-                HashMap<UUID, Transaction> transactions = new HashMap<>();
+                Map<UUID, Transaction> transactions = new HashMap<>();
                 serializer.writeTransactionsToFile(filePath, transactions);
+            } else if (filePath.equals(itemMapFilePath)) {
+                Map<UUID, Item> itemMap = new HashMap<>();
+                serializer.writeItemsMapToFile(filePath, itemMap);
             }
         }
     }
@@ -124,7 +133,7 @@ public class TradingSystem {
         Serializer serializer = new Serializer();
         serializer.writeUsersToFile(usersFilePath, userManager.getAllUsers());
         serializer.writeAdminsToFile(adminsFilePath, adminManager.getAllAdmins());
-        serializer.writeItemsToFile(itemsFilePath, pendingItems);
+        serializer.writeItemsToFile(requestedItemsFilePath, pendingItems);
     }
 
     /**
@@ -160,7 +169,7 @@ public class TradingSystem {
                 notLoggedIn = false;
                 try {
                     UserMenu userMenu = new UserMenu(userManager, adminManager, transactionManager,
-                            pendingItems, userManager.getUser(username));
+                            itemManager, pendingItems, userManager.getUser(username).getUserId());
                     UserMenuController userMenuController = new UserMenuController(userMenu);
                     userMenuController.run();
                 } catch(InvalidUserException e) {
@@ -185,7 +194,8 @@ public class TradingSystem {
 
         try {
             User user = userManager.addUser(username, password);
-            UserMenu userMenu = new UserMenu(userManager, adminManager, transactionManager, pendingItems, user);
+            UserMenu userMenu = new UserMenu(userManager, adminManager, transactionManager,
+                    itemManager, pendingItems, user.getUserId());
             UserMenuController userMenuController = new UserMenuController(userMenu);
             userMenuController.run();
         } catch(InvalidUserException e) {

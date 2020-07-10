@@ -3,6 +3,7 @@ package Users;
 import Items.Item;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ public class User implements Serializable {
     private String password;
     private final UUID userId = UUID.randomUUID();
     private TransactionHistory transactionHistory;
-    private CurrentTransactions currentTransactions;
+    private List<UUID> currentTransactions;
     private List<Item> inventory;
     private int borrowThreshold = 1;
     private int weeklyThreshold = 3;
@@ -31,6 +32,7 @@ public class User implements Serializable {
      public User(String username, String password) {
          this.username = username;
          this.password = password;
+         currentTransactions = new ArrayList<>();
      }
 
     /**
@@ -67,13 +69,7 @@ public class User implements Serializable {
      * Getter for this Users.User's TransactionDetails.
      * @return list of Transactions.Transaction objects
      */
-    public CurrentTransactions getCurrentTransactions() { return currentTransactions; }
-
-    /**
-     * Setter for this Users.User's TransactionDetails.
-     * @param currentTransactions list of Transactions
-     */
-    public void setCurrentTransactions(CurrentTransactions currentTransactions) {this.currentTransactions = currentTransactions; }
+    public List<UUID> getCurrentTransactions() { return currentTransactions; }
 
     /**
      * Getter for this Users.User's inventory as a list of (approved) Items.
