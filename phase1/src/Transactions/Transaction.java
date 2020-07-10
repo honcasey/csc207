@@ -111,6 +111,7 @@ public abstract class Transaction implements Serializable {
         return firstMeeting;
     }
 
+
     /**
      * this is a setter for the first meeting of the transaction
      * @param firstMeeting the new first meeting object that we want to set to.

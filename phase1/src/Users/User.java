@@ -1,6 +1,7 @@
 package Users;
 
 import Items.Item;
+import Transactions.Transaction;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -153,7 +154,6 @@ public class User implements Serializable {
     public boolean isFrozen(){
         return status.equals("frozen");
     }
-
 
 }
 
