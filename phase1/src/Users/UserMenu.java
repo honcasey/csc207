@@ -39,26 +39,6 @@ public class UserMenu {
      *
      */
 
-    private UUID currentUserId; // user that's logged in
-    private AdminManager am;
-    private UserManager um;
-    private TransactionManager tm;
-    private ItemManager im;
-    private Map<Item, User> allPendingItems;
-
-    public UserMenu(UserManager userManager, AdminManager adminManager, TransactionManager transactionManager,
-                    ItemManager itemManager, Map<Item, User> pendingItems, UUID currentUserId) {
-        this.currentUserId = currentUserId;
-        allPendingItems = pendingItems;
-        am = adminManager;
-        um = userManager;
-        tm = transactionManager;
-        im = itemManager;
-    }
-    public User getCurrentUser(){
-        return um.getUserById(currentUserId);
-    }
-
     /**
      * This helper method constructs a new instance of item from user input then adds the item to the pending items list.
      * @param itemName the name of the item to be requested.

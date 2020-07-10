@@ -168,9 +168,8 @@ public class TradingSystem {
             } else if (userManager.validUser(username, password)) {
                 notLoggedIn = false;
                 try {
-                    UserMenu userMenu = new UserMenu(userManager, adminManager, transactionManager,
-                            itemManager, pendingItems, userManager.getUser(username).getUserId());
-                    UserMenuController userMenuController = new UserMenuController(userMenu);
+                    UserMenuController userMenuController = new UserMenuController(userManager, adminManager,
+                            transactionManager, itemManager, pendingItems, userManager.getUser(username));
                     userMenuController.run();
                 } catch(InvalidUserException e) {
                     // we already checked this username corresponds to a valid user on line 120
@@ -194,9 +193,8 @@ public class TradingSystem {
         if (!adminManager.checkAvailableUsername(username)) {
             try {
                 User user = userManager.addUser(username, password);
-                UserMenu userMenu = new UserMenu(userManager, adminManager, transactionManager,
-                        itemManager, pendingItems, user.getUserId());
-                UserMenuController userMenuController = new UserMenuController(userMenu);
+                UserMenuController userMenuController = new UserMenuController(userManager, adminManager,
+                        transactionManager, itemManager, pendingItems, user);
                 userMenuController.run();
             } catch(InvalidUserException e) {
                 // we just created this new user so we know it's a valid user so userManager.getUser()
