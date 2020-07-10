@@ -1,10 +1,18 @@
 package Users;
 
+<<<<<<< HEAD
 import Exceptions.InvalidTransactionException;
+=======
+import Admins.AdminManager;
+>>>>>>> a57ed4211f6fcb218e7b9036d22e683e4d68651c
 import Items.Item;
+import Items.ItemManager;
 import Presenters.MenuPresenter;
 import Transactions.Meeting;
+<<<<<<< HEAD
 import Transactions.Transaction;
+=======
+>>>>>>> a57ed4211f6fcb218e7b9036d22e683e4d68651c
 import Transactions.TransactionManager;
 
 import java.time.LocalDate;
@@ -17,12 +25,23 @@ public class UserMenuController{
     /**
      *
      */
-    private final UserMenu userMenu;
-    private final UserMenuPresenter userMenuPresenter = new UserMenuPresenter();
+    private User currentUser; // user that's logged in
+    private AdminManager am;
+    private UserManager um;
+    private TransactionManager tm;
+    private ItemManager im;
+    private Map<Item, User> allPendingItems;
+    private UserMenu userMenu = new UserMenu();
+    private UserMenuPresenter userMenuPresenter = new UserMenuPresenter();
 
-
-    public UserMenuController(UserMenu userMenu) {
-        this.userMenu = userMenu;
+    public UserMenuController(UserManager userManager, AdminManager adminManager, TransactionManager transactionManager,
+                    ItemManager itemManager, Map<Item, User> pendingItems, User user) {
+        currentUser = user;
+        allPendingItems = pendingItems;
+        am = adminManager;
+        um = userManager;
+        tm = transactionManager;
+        im = itemManager;
     }
 
     public void run() {

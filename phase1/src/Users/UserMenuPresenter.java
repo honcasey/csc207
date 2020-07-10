@@ -25,7 +25,6 @@ import java.util.List;
 
 public class UserMenuPresenter extends MenuPresenter {
 
-
     /**
      * Construct methods like this return a list of options/prompts that the menu will have.
      *
