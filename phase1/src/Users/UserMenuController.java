@@ -238,8 +238,8 @@ public class UserMenuController{
         Scanner scanner = new Scanner(System.in);
         User user = currentUser;
 
-        while(userInteracting){
-            List <UUID> currentTransactionsIds  = user.getCurrentTransactions();
+        while (userInteracting) {
+            List<UUID> currentTransactionsIds = user.getCurrentTransactions();
             ArrayList<Transaction> currTransactionsList = userMenu.getTransactionList(currentTransactionsIds);
 
             List<String> OptionList = this.userMenuPresenter.constructAvailableItemsMenu(ItemList);
@@ -248,32 +248,147 @@ public class UserMenuController{
                     " modify. To go back to the previous menu, type the number corresponding to that" +
                     "option.";
 
-            int OptionChosen = this.userMenuPresenter.handleOptionsByIndex(OptionList,true,AvailableItemsPrompt
+            int OptionChosen = this.userMenuPresenter.handleOptionsByIndex(OptionList, true, AvailableItemsPrompt
             );
             // Logic handling back to other menu vs. your account is frozen vs proceed to make create transaction menu.
-            if(OptionChosen == OptionList.size()){
+            if (OptionChosen == OptionList.size()) {
                 System.out.println("Loading Previous Menu");
                 userInteracting = false;
-            }
-            else{
-                if(currentUser.isFrozen()){
+            } else {
+                if (currentUser.isFrozen()) {
                     System.out.println("Your account is frozen so you cannot make an offer for this item. Please request" +
                             "to have your account unfrozen.");
                     System.out.println("You will now be taken back to the main user menu.");
                     userInteracting = false;
-                }
-                else {
+                } else {
                     Item TransactionItem = ItemList.get(OptionChosen);
                     User TransactionItemOwner = AvailableItems.get(TransactionItem);
-                    userInteracting = CreateTransactionMenu(TransactionItem,TransactionItemOwner);
+                    userInteracting = CreateTransactionMenu(TransactionItem, TransactionItemOwner);
                 }
+            }
+        }
     }
 
     /**
      * TODO: this is the method where the user can edit their statusUser for their transactions
      */
-    private void changeTransactionStatus(){
+    private void changeTransactionStatus() {}
 
+    /**
+     * This helper method constructs a new instance of item from user input then adds the item to the pending items list.
+     * @param itemName the name of the item to be requested.
+     * @param itemDescription this is the description of the item.
+     */
+    public void requestAddItemInput(String itemName, String itemDescription){
+        Item RequestedItem = new Item(itemName);
+        RequestedItem.setDescription(itemDescription);
+        allPendingItems.put(RequestedItem,getCurrentUser());
     }
-}
 
+    /**
+     * To withdraw item from user's specified list, which is either the Users.User's wishlist or inventory.
+     * @param item An item in the trading system.
+     * @param listType either "wishlist" or "inventory" as a String
+     */
+    public void withdrawItem(Item item, String listType){
+        if(listType.equals("wishlist")){
+            um.removeItem(getCurrentUser(), item, "wishlist");
+        }else if (listType.equals("inventory")){
+            um.removeItem(getCurrentUser(),item,"inventory");
+        }
+    }
+
+    /**
+     * To add an given item to user's wishlist
+     * @param item An item in the trading system
+     */
+    public void addToWishlist(Item item){
+        um.addItem(getCurrentUser(), item, "wishlist");
+    }
+
+    /**
+     * Returns a HashMap of all the available items in other user's inventory.
+     * @return HashMap of items that are available in other user's inventory.
+     */
+    public HashMap<Item,User> getAvailableItems(){
+        List<User> allUsers = um.getAllUsers();
+        HashMap<Item,User> availableItems = new HashMap<>();
+        for (User user:allUsers) {
+            if(!user.equals(getCurrentUser())) {
+                for (Item item : user.getInventory()) {
+                    availableItems.put(item, user);
+                }
+            }
+        }
+        return availableItems;
+    }
+
+    /**
+     * Changes a Transactions.Transaction status to cancelled
+     * @param transaction A transaction to be cancelled and to remove transaction from tra
+     */
+    public void cancelTransaction(Transaction transaction)  {
+        getCurrentUser().getCurrentTransactions().getUsersTransactions().remove(transaction);
+        User u =  um.getUserById(transaction.getUser1());
+        if (u == getCurrentUser()){
+            transaction.setStatusUser1("cancel");
+        }
+        else{
+            transaction.setStatusUser2("cancel");
+        }
+        tm.updateStatus(transaction);
+    }
+
+    /**
+     * Creates a Transactions.Transaction and adds it to users
+     * adds the Transactions.Transaction to transaction details of both users
+     * @param targetUser The Users.User to whom currUser sends a Transactions.Transaction
+     */
+    public void createTransaction(User targetUser){
+        //TODO: method body
+    }
+
+    /**
+     * Changes status of a Transactions.Transaction to confirmed, when details of all meetings have been confirmed by both users.
+     * @param transaction the transaction to be confirmed
+     */
+    public void acceptTransaction(Transaction transaction) {
+        transaction.setStatus("confirmed");
+    }
+
+    /**
+     * Changes status of a Transactions.Transaction to completed, when the last meeting of the transaction has occurred and been completed by both users.
+     * @param transaction the transaction to be completed
+     */
+    public void confirmTransaction(Transaction transaction) {
+        transaction.setStatus("completed");
+        User user1 = um.getUserById(transaction.getUser1());
+        User user2 = um.getUserById(transaction.getUser2());
+        um.addToTransactionHistory(user1, transaction);
+        um.addToTransactionHistory(user2, transaction);
+        user1.getCurrentTransactions().getUsersTransactions().remove(transaction); // Is the transaction in both user's "sent offers"?
+        user2.getCurrentTransactions().getUsersTransactions().remove(transaction);
+    }
+
+    /**
+     * Requests the admin user to unfreeze the current user's account, if it's status is already frozen.
+     */
+    public void requestUnfreezeAccount() {
+        am.getPendingFrozenUsers().add(getCurrentUser());
+        am.getFrozenAccounts().remove(getCurrentUser());
+    }
+
+    /**
+     * Deletes a transaction that is in progress
+     */
+    public void deleteTransaction(Transaction transaction){
+        // TODO: Method Body once I confirm some things about the details of this method
+    }
+
+    public ArrayList<Transaction> getTransactionList(List<UUID> idList) throws InvalidTransactionException {
+        return tm.getTransactionsFromIdList(idList);
+    }
+
+
+
+}
