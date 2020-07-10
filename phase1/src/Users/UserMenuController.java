@@ -36,10 +36,6 @@ public class UserMenuController{
         im = itemManager;
     }
 
-    public UserMenuController(UserMenu userMenu) {
-        this.userMenu = userMenu;
-    }
-
     public void run() {
         boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
