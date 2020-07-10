@@ -154,7 +154,7 @@ public class User implements Serializable {
     public boolean isFrozen(){
         return status.equals("frozen");
     }
-    
+
 }
 
 

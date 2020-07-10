@@ -262,21 +262,21 @@ public class UserMenuController{
                 System.out.println("Loading Previous Menu");
                 userInteracting = false;
             } else {
-                    Transaction transaction = currTransactionsList.get(OptionChosen);
-                    ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
-                    String transactionActionPrompt = "This is the list of actions that you can do with your transaction"
-                    int optionChosen2 = this.userMenuPresenter.handleOptionsByIndex(transactionActions, true, transactionActionPrompt);
-                    if (tm.updateStatusUser(currentUser, transaction, transactionActions.get(optionChosen2))){
-                        tm.updateStatus(transaction);
-                        um.addToTransactionHistory(currentUser, transaction);
-                        System.out.println("Loading Previous Menu");
-                        userInteracting = false;
-                        }
-                    else{
-                        this.editMeeting(currentUser,transaction);
-                        System.out.println("Loading Previous Menu");
-                        userInteracting = false;
-                    }
+                Transaction transaction = currTransactionsList.get(OptionChosen);
+                ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
+                String transactionActionPrompt = "This is the list of actions that you can do with your transaction"
+                int optionChosen2 = this.userMenuPresenter.handleOptionsByIndex(transactionActions, true, transactionActionPrompt);
+                if (tm.updateStatusUser(currentUser, transaction, transactionActions.get(optionChosen2))) {
+                    tm.updateStatus(transaction);
+                    um.addToTransactionHistory(currentUser, transaction);
+                    System.out.println("Loading Previous Menu");
+                    userInteracting = false;
+                } else {
+                    this.editMeeting(currentUser, transaction);
+                    System.out.println("Loading Previous Menu");
+                    userInteracting = false;
+                }
+            }
         }
     }
 
