@@ -15,9 +15,9 @@ import java.util.ArrayList;
  * This class manages a transaction between two users. A transaction begins once a user expresses interest in an item.
  */
 public class TransactionManager {
-    private HashMap<UUID, Transaction> allTransactions;
+    private Map<UUID, Transaction> allTransactions;
 
-    public TransactionManager(HashMap<UUID, Transaction> transactions) {
+    public TransactionManager(Map<UUID, Transaction> transactions) {
         allTransactions = transactions;
     }
 
@@ -25,7 +25,7 @@ public class TransactionManager {
      * The getter that returns all of the Transactions across the whole system
      * @return allTransactions, a HashMap<UUID, Transaction>
      */
-    public HashMap<UUID, Transaction> getAllTransactions() {
+    public Map<UUID, Transaction> getAllTransactions() {
         return allTransactions;
     }
 

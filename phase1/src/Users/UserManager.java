@@ -234,7 +234,18 @@ public class UserManager {
         flaggedAccounts.add(user);
     }
 
+    /**
+     * Retrieves a list of Users that have had their account flagged to be frozen automatically by the system
+     * @return list of flagged to be frozen users
+     */
+
     public List<User> getFlaggedAccounts() {
         return flaggedAccounts;
     }
+
+    /**
+     * Retrieves a list of Users that have had their account frozen after approval by Admin.
+     * @return list of frozen users
+     */
+    public List<User> getFrozenAccounts(){return frozenAccounts;}
 }

@@ -1,5 +1,9 @@
 package Presenters;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -9,13 +13,16 @@ public class MenuPresenter {
      * Formats and displays a list of options to the user.
      * @param OptionList the list of options that you want to be displayed.
      */
-    protected void displayOptions(List<String> OptionList, String OptionPrompt){
+
+    private String optionPrompt = "Please type a number corresponding to one of the above options.";
+
+    protected void displayOptions(List<String> OptionList){
         for(int i = 0; i < OptionList.size(); i++){
             String index = Integer.toString(i+1);
             String OutputLine =  index + ". " + OptionList.get(i);
             System.out.println(OutputLine);
         }
-        System.out.println(OptionPrompt);
+        System.out.println(optionPrompt);
     }
 
     /**
@@ -35,7 +42,7 @@ public class MenuPresenter {
      * the program.
      * @return this returns a list of options that the user can choose from.
      */
-    public List<String> constructMainMenu(){
+    public List<String> constructMainMenu(){ // TO-DO: remove body
         List<String> MenuOptionList = new ArrayList<>();
         MenuOptionList.add("Request Item for Approval");
         MenuOptionList.add("Browse Available Items for Trade");
@@ -53,15 +60,14 @@ public class MenuPresenter {
      * @param OptionList the list of options you want displayed.
      * @param BackOption boolean representing if you want a back option appended to the option list and displayed.
      * @param OptionTitle the title of the menu.
-     * @param OptionPrompt what to be displayed after the options on the screen.
      * @return this returns the option that was selected by the user as a string.
      */
-    protected String HandleOptions(List<String> OptionList, boolean BackOption, String OptionTitle, String OptionPrompt) {
+    public String handleOptions(List<String> OptionList, boolean BackOption, String OptionTitle) {
         if (BackOption) {
             this.addBackOption(OptionList);
         }
         System.out.println(OptionTitle);
-        this.displayOptions(OptionList,OptionPrompt);
+        this.displayOptions(OptionList);
         return(this.selectOption(OptionList));
     }
 
@@ -96,17 +102,16 @@ public class MenuPresenter {
      * @param OptionList the list of options you want displayed.
      * @param BackOption boolean representing if you want a back option appended to the option list and displayed.
      * @param OptionTitle the title of the option's page.
-     * @param OptionPrompt what to be displayed after the options on the screen.
      * @return returns the index of the option chosen by the user corresponding the option list that was passed in.
      *          So that optionlist.get(return value) gives the option that the user has chosen.
      */
-    protected int HandleOptionsByIndex(List<String> OptionList, boolean BackOption, String
-            OptionTitle, String OptionPrompt) {
+    public int handleOptionsByIndex(List<String> OptionList, boolean BackOption, String
+            OptionTitle) {
         if (BackOption) {
             this.addBackOption(OptionList);
         }
         System.out.println(OptionTitle);
-        this.displayOptions(OptionList,OptionPrompt);
+        this.displayOptions(OptionList);
         return(this.selectOptionByIndex(OptionList));
     }
 
@@ -122,4 +127,81 @@ public class MenuPresenter {
         } while (OptionChosen > OptionList.size() || OptionChosen <= 0);
         return(OptionChosen -1);
     }
+    /** inputTimeGetter
+     * Checks the date string that the user has inputted to see if it is in the accepted format.
+     * @return this returns tru iff Returns true iff it is
+     *      in the accepted format dd/mm/yyyy.
+     */
+
+    public LocalTime inputTimeGetter(String optionTimePrompt){
+        Scanner scanner = new Scanner(System.in);
+        LocalTime returnTime;
+        while (true) {
+            try {
+                System.out.println(optionTimePrompt);
+                String DateString = scanner.nextLine();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                returnTime = LocalTime.parse(DateString, formatter);
+                break;
+            }
+            catch(DateTimeParseException e){
+                System.out.println("Invalid time please,try again.");
+
+            }
+        }
+        return(returnTime);
+    }
+
+
+    /** inputDateGetter
+     * This method prompts the user for information to construct a date object, then
+     * @param optionDatePrompt
+     * @return
+     */
+    public LocalDate inputDateGetter(String optionDatePrompt){
+        Scanner scanner = new Scanner(System.in);
+        LocalDate returnDate;
+        while (true) {
+            try {
+                System.out.println(optionDatePrompt);
+                String DateString = scanner.nextLine();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-uuuu");
+                returnDate = LocalDate.parse(DateString, formatter);
+                break;
+            }
+            catch(DateTimeParseException e){
+                System.out.println("Invalid Date please,try again.");
+
+            }
+        }
+        return(returnDate);
+    }
+
+    public String empty(String which) { return which + " list is empty. Nothing to be checked."; }
+
+    public String enterName(String name) {
+        return "Please enter name for this " + name;
+    }
+
+    public String successfullyAdded(String what, String who, String where) {
+        return what + "has been successfully added to " + who + "'s " + where;
+    }
+
+    public String successfullyChanged(String what, String who) {
+        return who + "'s " + what + "has been successfully changed.";
+    }
+
+    public String validOptions(List<String> optionList) {
+        return "Valid options include: " + optionList.toString();
+    }
+
+    public String usernameTaken() { return "Username already taken. Please enter a different one."; }
+
+    public String accountFrozen(String who, String frozen) { // possibly move back to adminmenupresenter
+        return who + "'s account has been set to " + frozen;
+    }
+
+    public String logout() { return "You have successfully logged out."; }
+
+    public String invalidOption() { return "Not a valid option. Please enter a valid option."; }
 }
