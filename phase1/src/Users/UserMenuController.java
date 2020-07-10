@@ -400,18 +400,11 @@ public class UserMenuController{
         boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
         UUID user = currentUser.getUserId();
-        int meetingNum;
+        int meetingNum = 1;
 
         while (userInteracting) {
             if (!tm.transactionHasMultipleMeetings(transaction)){
-                ArrayList<String> meetNum = new ArrayList<String>(Arrays.asList("Edit first meeting", "Edit second meeting"));
-                String meetNumTitle = "This transaction has two meetings";
-                String meetNumPrompt = "Type the number corresponding to the meeting you wish to" +
-                        " modify. To go back to the previous menu, type the number corresponding to that" +
-                        "option.";
-                int num = this.userMenuPresenter.handleOptionsByIndex(meetNum, true, meetNumPrompt);
-                meetingNum = num + 1; //this is because we can either have meeting one or meeting two but index of list starts from 0
-
+                meetingNum = pickMeetingToEdit();}
 
             Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
             System.out.println("This is the meeting you wish to edit " + meeting.toString());
@@ -450,4 +443,17 @@ public class UserMenuController{
             }
         }
 
+
     }
+
+    private int pickMeetingToEdit(){
+
+        ArrayList<String> meetNum = new ArrayList<String>(Arrays.asList("Edit first meeting", "Edit second meeting"));
+        String meetNumTitle = "This transaction has two meetings";
+        String meetNumPrompt = "Type the number corresponding to the meeting you wish to" +
+                " modify. To go back to the previous menu, type the number corresponding to that" +
+                "option.";
+        int num = this.userMenuPresenter.handleOptionsByIndex(meetNum, true, meetNumPrompt);
+        return num + 1; //this is because we can either have meeting one or meeting two but index of list starts from 0
+    }
+}
