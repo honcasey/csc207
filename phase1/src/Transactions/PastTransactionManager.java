@@ -11,7 +11,7 @@ import Users.TransactionHistory;
 
 public class PastTransactionManager extends TransactionManager{
     private Map<UUID, Transaction> allTransactions;
-    public PastTransactionManager(Map<UUID, Transaction> transactions){
+    public PastTransactionManager(HashMap<UUID, Transaction> transactions){
         super(transactions);
 
     }
