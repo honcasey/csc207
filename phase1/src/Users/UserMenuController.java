@@ -400,13 +400,26 @@ public class UserMenuController{
         boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
         UUID user = currentUser.getUserId();
+        Meeting meeting;
 
         while (userInteracting) {
             if (!transaction.isPerm()){
-                Meeting meeting1 = transaction.getFirstMeeting();
-                Meeting meeting2 = transaction.getSe
+                ArrayList<String> meetNum = new ArrayList<String>(Arrays.asList("Edit first meeting", "Edit second meeting"));
+                String meetNumTitle = "This transaction has two meetings";
+                String meetNumPrompt = "Type the number corresponding to the meeting you wish to" +
+                        " modify. To go back to the previous menu, type the number corresponding to that" +
+                        "option.";
+                int num = this.userMenuPresenter.handleOptionsByIndex(meetNum, true, meetNumPrompt);
+                if (num==0) {
+                    meeting = transaction.getFirstMeeting();
+                }
+                else{
+                    meeting = transaction.getSecondMeeting();
+                }
             }
+            else{meeting = transaction.getFirstMeeting();}
 
+            System.out.println("This is the meeting you wish to edit " + meeting.toString());
             ArrayList<String> options = new ArrayList<String>(Arrays.asList("Edit Location", "Edit time", "Edit Date"));
             String optionsTitle = "You can edit one of the following options:";
             String optionsPrompt = "Type the number corresponding to the transaction you wish to" +
@@ -423,43 +436,23 @@ public class UserMenuController{
                     case 0:
                         System.out.println("Where do you want to have the meeting?");
                         String MeetingLocation = scanner.nextLine();
-                        tm.editMeeting(currentUser, transaction, MeetingLocation);
+                        tm.editMeeting(meeting, transaction, user, MeetingLocation);
+                        System.out.println("You have successfully edited your meeting to be at " + MeetingLocation);
                         break;
                     case 1:
-                        // do something else
+                        LocalTime MeetingTime = this.userMenuPresenter.inputTimeGetter("Please Enter the time of your meeting in the" +
+                                " format: HH:mm:ss");
+                        tm.editMeeting(meeting, transaction, user, MeetingTime);
+                        System.out.println("You have successfully edited your meeting to be at " + MeetingTime);
                         break;
                     default:
-
+                        LocalDate MeetingDate = this.userMenuPresenter.inputDateGetter("Please Enter the date of your meeting in the" +
+                                " format: dd-mm-yyyy");
+                        tm.editMeeting(meeting, transaction, user, MeetingDate);
+                        System.out.println("You have successfully edited your meeting to be at " + MeetingDate);
                 }
-                if (OptionChosen == 0){
-
-                }
-                if (OptionChosen == 1){
-
-                }
-                else (OptionChosen == 2){
-
-
-                    System.out.println("Where do you want to have the meeting?");
-                    String MeetingLocation = scanner.nextLine();
-                    LocalTime MeetingTime = this.userMenuPresenter.inputTimeGetter("Please Enter the time of your meeting in the" +
-                            " format: HH:mm:ss");
-                    LocalDate MeetingDate = this.userMenuPresenter.inputDateGetter("Please Enter the date of your meeting in the" +
-                            " format: dd-mm-yyyy");
-                }
-                ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
-                String transactionActionPrompt = "This is the list of actions that you can do with your transaction"
-                int optionChosen2 = this.userMenuPresenter.handleOptionsByIndex(transactionActions, true, transactionActionPrompt);
-                if (tm.updateStatusUser(currentUser, transaction, transactionActions.get(optionChosen2))){
-                    System.out.println("Loading Previous Menu");
-                    userInteracting = false;
-                }
-                else{
-                    this.editMeeting(currentUser,transaction);
-                    System.out.println("Loading Previous Menu");
-                    userInteracting = false;
                 }
             }
         }
-    }
+
     }
