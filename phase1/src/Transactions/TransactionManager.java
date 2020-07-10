@@ -157,14 +157,12 @@ public class TransactionManager {
      * @param meeting the meeting that the user wants to edit
      * @param transaction the transaction to which the meeting belongs to
      * @param userId the UUID of the Users.User who want to edit the transaction
-     * @param newHour the new hour the user want to have the meeting take place
-     * @param newMinute the newMinute the user wants to have the meeting take place
+     * @param time the new hour, minute the user want to have the meeting take place, must be in LocalTime format
      * @return True if the meeting was successfully edited
      */
-    public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, int newHour, int newMinute) {
+    public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, LocalTime time) {
         int userNum = findUserNum(transaction, userId);
         if (canEdit(meeting, userNum)) {
-            LocalTime time = LocalTime.of(newHour, newMinute);
             meeting.setTime(time);
             if (userNum == 1){
                 meeting.user1edits();
@@ -184,16 +182,12 @@ public class TransactionManager {
      * @param meeting the meeting that the user wants to edit
      * @param transaction the transaction to which the meeting belongs to
      * @param userId the UUID of the Users.User who want to edit the transaction
-     * @param newYear the new Year the user want to have the meeting take place
-     * @param newMonth the new month the user wants to have the meeting take place
-     * @param newDay the new day that the user wants to have the meeting take placec
+     * @param date the new Year, month, day the user want to have the meeting take place, must be in LocalDate format
      * @return True if the meeting was successfully edited
      */
-    public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, int newYear, int newMonth,
-                               int newDay) {
+    public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, LocalDate date) {
         int userNum = findUserNum(transaction, userId);
         if (canEdit(meeting, userNum)) {
-            LocalDate date = LocalDate.of(newYear, newMonth, newDay);
             meeting.setDate(date);
             if (userNum == 1){
                 meeting.user1edits();

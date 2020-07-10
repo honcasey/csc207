@@ -221,6 +221,7 @@ public class UserMenuController{
      * TODO: This method should display all the transaction that are in progress for the user
      */
     private void viewCurrentTransactions(){
+        Scanner scanner = new Scanner(System.in);
     }
 
     /**
