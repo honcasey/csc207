@@ -164,7 +164,7 @@ public class UserManager {
             TransactionHistory tH = user.getTransactionHistory();
          if (transaction.getUser1() == user.getUserId()) {
              user.getTransactionHistory().setNumItemsLended();
-             User u2 = idToUser.get(transaction.getUser2());
+             String u2 = idToUser.get(transaction.getUser2()).getUsername();
              if (tH.getUsersNumTradeTimes().containsKey(u2)) {
                  tH.getUsersNumTradeTimes().put(u2, tH.getUsersNumTradeTimes().get(u2) + 1);
              } else {
@@ -175,7 +175,7 @@ public class UserManager {
              }
          } else {
              user.getTransactionHistory().setNumItemsBorrowed();
-             User u1 = idToUser.get(transaction.getUser1());
+             String u1 = idToUser.get(transaction.getUser1()).getUsername();
              if (tH.getUsersNumTradeTimes().containsKey(u1)) {
                  tH.getUsersNumTradeTimes().put(u1, tH.getUsersNumTradeTimes().get(u1) + 1);
              } else {
@@ -242,4 +242,14 @@ public class UserManager {
      * @return list of frozen users
      */
     public List<User> getFrozenAccounts(){return frozenAccounts;}
+
+    /**
+     * Returns if the user has exceeded the weekly limit of transactions
+     * @param user
+     * @return
+     */
+    public boolean weeklyThresholdReached(User user){
+        //TODO: weeklyThresholdReached
+    }
+
 }
