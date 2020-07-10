@@ -191,17 +191,18 @@ public class TradingSystem {
     private void createAccount() {
         // get username and password
         parseCredentials(getUserAndPass());
-
-        try {
-            User user = userManager.addUser(username, password);
-            UserMenu userMenu = new UserMenu(userManager, adminManager, transactionManager,
-                    itemManager, pendingItems, user.getUserId());
-            UserMenuController userMenuController = new UserMenuController(userMenu);
-            userMenuController.run();
-        } catch(InvalidUserException e) {
-            // we just created this new user so we know it's a valid user so userManager.getUser()
-            // should not throw an Exceptions.InvalidUserException
-            System.out.println("Username already taken.");
+        if (!adminManager.checkAvailableUsername(username)) {
+            try {
+                User user = userManager.addUser(username, password);
+                UserMenu userMenu = new UserMenu(userManager, adminManager, transactionManager,
+                        itemManager, pendingItems, user.getUserId());
+                UserMenuController userMenuController = new UserMenuController(userMenu);
+                userMenuController.run();
+            } catch(InvalidUserException e) {
+                // we just created this new user so we know it's a valid user so userManager.getUser()
+                // should not throw an Exceptions.InvalidUserException
+                System.out.println("Username already taken.");
+            }
         }
     }
 
