@@ -15,6 +15,7 @@ public class MenuPresenter {
      */
 
     private String optionPrompt = "Please type a number corresponding to one of the above options.";
+    private String invalidOption = "Not a valid option. Please enter a valid option.";
 
     protected void displayOptions(List<String> OptionList){
         for(int i = 0; i < OptionList.size(); i++){
@@ -37,23 +38,13 @@ public class MenuPresenter {
 
     /**
      * Construct methods like this return a list of options/prompts that the menu will have.
-     *
+     * <p>
      * This particular method constructs the option list that the user will be greeted with upon first logging into
      * the program.
+     *
      * @return this returns a list of options that the user can choose from.
      */
-    public List<String> constructMainMenu(){ // TO-DO: remove body
-        List<String> MenuOptionList = new ArrayList<>();
-        MenuOptionList.add("Request Item for Approval");
-        MenuOptionList.add("Browse Available Items for Trade");
-        MenuOptionList.add("View Active Transactions");
-        MenuOptionList.add("View Past Transaction Details");
-        MenuOptionList.add("View Wishlist");
-        MenuOptionList.add("View Inventory");
-        MenuOptionList.add("Request Admin to Unfreeze Account");
-        MenuOptionList.add("Log Out");
-        return(MenuOptionList);
-    }
+    public List<String> constructMainMenu() { return null; }
 
     /**
      * This method takes in a list of options and handles option display and selection.(generic)
@@ -76,7 +67,7 @@ public class MenuPresenter {
         int OptionChosen;
         do {
             while (!scanner.hasNextInt()) {
-                System.out.println("That is not a valid option. Please enter a number corresponding to one of the options.");
+                System.out.println(invalidOption);
                 scanner.next();
             }
             OptionChosen = scanner.nextInt();
@@ -89,7 +80,7 @@ public class MenuPresenter {
         int UserInt;
         do {
             while (!scanner.hasNextInt()) {
-                System.out.println("That is not a valid number.");
+                System.out.println(invalidOption);
                 scanner.next();
             }
             UserInt = scanner.nextInt();
@@ -120,7 +111,7 @@ public class MenuPresenter {
         int OptionChosen;
         do {
             while (!scanner.hasNextInt()) {
-                System.out.println("That is not a valid option. Please enter a number corresponding to one of the options.");
+                System.out.println(invalidOption);
                 scanner.next();
             }
             OptionChosen = scanner.nextInt();
@@ -203,5 +194,4 @@ public class MenuPresenter {
 
     public String logout() { return "You have successfully logged out."; }
 
-    public String invalidOption() { return "Not a valid option. Please enter a valid option."; }
 }

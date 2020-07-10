@@ -42,16 +42,10 @@ public class UserManager {
             idToUser.put(newUser.getUserId(),newUser);
             return newUser;
         }
-        else {
-            for (User user : allUsers) {
-                if (user.getUsername().equals(username) | user.getUserId().equals(newUser.getUserId())) {
-                    throw new InvalidUserException();
-                }
-            }
-        }
-        allUsers.add(newUser);
-        idToUser.put(newUser.getUserId(), newUser);
-        return newUser;
+        if (checkAvailableUsername(username)) {
+            allUsers.add(newUser);
+            return newUser;}
+        else { throw new InvalidUserException(); }
     }
 
     /**

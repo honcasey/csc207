@@ -1,8 +1,11 @@
 package Users;
 
+import Admins.AdminManager;
 import Items.Item;
+import Items.ItemManager;
 import Presenters.MenuPresenter;
 import Transactions.Meeting;
+import Transactions.TransactionManager;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -14,12 +17,23 @@ public class UserMenuController{
     /**
      *
      */
-    private final UserMenu userMenu;
-    private final UserMenuPresenter userMenuPresenter = new UserMenuPresenter();
+    private User currentUser; // user that's logged in
+    private AdminManager am;
+    private UserManager um;
+    private TransactionManager tm;
+    private ItemManager im;
+    private Map<Item, User> allPendingItems;
+    private UserMenu userMenu = new UserMenu();
+    private UserMenuPresenter userMenuPresenter = new UserMenuPresenter();
 
-
-    public UserMenuController(UserMenu userMenu) {
-        this.userMenu = userMenu;
+    public UserMenuController(UserManager userManager, AdminManager adminManager, TransactionManager transactionManager,
+                    ItemManager itemManager, Map<Item, User> pendingItems, User user) {
+        currentUser = user;
+        allPendingItems = pendingItems;
+        am = adminManager;
+        um = userManager;
+        tm = transactionManager;
+        im = itemManager;
     }
 
     public void run() {
