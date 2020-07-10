@@ -248,24 +248,26 @@ public class UserMenuController{
 
             int OptionChosen = this.userMenuPresenter.handleOptionsByIndex(optionList, true, currTransactionsPrompt
             );
-            // Logic handling back to other menu vs. your account is frozen vs proceed to make create transaction menu.
+            // Logic handling back to other menu vs. Editing a meeting vs changing the StatusUser of a Transaction.
             if (OptionChosen == optionList.size()) {
                 System.out.println("Loading Previous Menu");
                 userInteracting = false;
             } else {
                     Transaction transaction = currTransactionsList.get(OptionChosen);
-                    ArrayList<String> transactionactions = tm.userTransactionActions(transaction);
-
-
-                }
-            }
+                    ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
+                    String transactionActionPrompt = "This is the list of actions that you can do with your transaction"
+                    int optionChosen2 = this.userMenuPresenter.handleOptionsByIndex(transactionActions, true, transactionActionPrompt);
+                    if (tm.updateStatusUser(currentUser, transaction, transactionActions.get(optionChosen2))){
+                        System.out.println("Loading Previous Menu");
+                        userInteracting = false;
+                        }
+                    else{
+                        this.editMeeting(currentUser,transaction);
+                        System.out.println("Loading Previous Menu");
+                        userInteracting = false;
+                    }
         }
     }
-
-    /**
-     * TODO: this is the method where the user can edit their statusUser for their transactions
-     */
-    private void changeTransactionStatus() {}
 
     /**
      * This helper method constructs a new instance of item from user input then adds the item to the pending items list.
@@ -366,7 +368,7 @@ public class UserMenuController{
     /**
      * Requests the admin user to unfreeze the current user's account, if it's status is already frozen.
      */
-    public void requestUnfreezeAccount() {
+    public void requestUnfreezeAccount(){
         am.getPendingFrozenUsers().add(currentUser);
         am.getFrozenAccounts().remove(currentUser);
     }
@@ -385,3 +387,8 @@ public class UserMenuController{
 
 
 }
+
+    private void editMeeting(User currentUser, Transaction transaction) {
+        
+    }
+    }
