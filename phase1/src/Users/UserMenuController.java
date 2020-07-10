@@ -220,8 +220,40 @@ public class UserMenuController{
     /**
      * TODO: This method should display all the transaction that are in progress for the user
      */
-    private void viewCurrentTransactions(){
+    private void getActiveTransactions(){
+        boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
+        User user = this.userMenu.getCurrentUser();
+
+        while(userInteracting){
+            List <UUID> currentTransactions  = user.getCurrentTransactions();
+            List<Item> ItemList = new ArrayList<>(AvailableItems.keySet());
+
+            List<String> OptionList = this.userMenuPresenter.constructAvailableItemsMenu(ItemList);
+            String AvailableItemsTitle = "Available Items For Transaction:";
+            String AvailableItemsPrompt = "Type the number corresponding to the item you wish to" +
+                    " create a transaction for. To go back to the previous menu, type the number corresponding to that" +
+                    "option.";
+
+            int OptionChosen = this.userMenuPresenter.handleOptionsByIndex(OptionList,true,AvailableItemsPrompt
+            );
+            // Logic handling back to other menu vs. your account is frozen vs proceed to make create transaction menu.
+            if(OptionChosen == OptionList.size()){
+                System.out.println("Loading Previous Menu");
+                userInteracting = false;
+            }
+            else{
+                if(this.userMenu.getCurrentUser().isFrozen()){
+                    System.out.println("Your account is frozen so you cannot make an offer for this item. Please request" +
+                            "to have your account unfrozen.");
+                    System.out.println("You will now be taken back to the main user menu.");
+                    userInteracting = false;
+                }
+                else {
+                    Item TransactionItem = ItemList.get(OptionChosen);
+                    User TransactionItemOwner = AvailableItems.get(TransactionItem);
+                    userInteracting = CreateTransactionMenu(TransactionItem,TransactionItemOwner);
+                }
     }
 
     /**
