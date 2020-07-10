@@ -9,10 +9,10 @@ import Users.UserManager;
 import java.util.*;
 
 public class AdminMenuController {
-    public AdminUser currentAdmin; // admin that's logged in
+    private final AdminUser currentAdmin; // admin that's logged in
     private final AdminManager am;
     private final UserManager um;
-    private Map<Item, User> allPendingItems;
+    private final Map<Item, User> allPendingItems;
     private final AdminMenuPresenter amp = new AdminMenuPresenter();
     private int input; // do we need this?
 
@@ -29,32 +29,24 @@ public class AdminMenuController {
         boolean userInteracting = true;
 
         while (userInteracting) {
-            String input = amp.handleOptions(amp.constructMainMenu(), false,"Admin Main Menu");
+            List<String> menu = amp.constructMainMenu();
+            int input = amp.handleOptionsByIndex(menu, false,"Admin Main Menu");
 
-            switch (input) { //TO-DO: handleoptionsbyindex ?
-                case "Check Pending Items for Approval":
-                    checkPendingItems();
-                    break;
-                case "Check Flagged Users":
-                    checkUsers("flaggedUsers");
-                    break;
-                case "Create New Admin User":
-                    createAdmin();
-                    break;
-                case "Add New Item to a User's Wishlist/Inventory":
-                    addItemToUser();
-                    break;
-                case "Change User Threshold":
-                    changeUserThreshold();
-                    break;
-                case "Check Unfreeze Account Requests":
-                    checkUsers("pendingFrozenUsers");
-                    break;
-                case "Log Out":
-                    System.out.println(amp.logout());
-                    // stop the while loop
-                    userInteracting = false;
-                    break;
+            if (amp.indexToOption(input, menu, "Check Pending Items for Approval"))
+                checkPendingItems();
+            if (amp.indexToOption(input, menu, "Check Flagged Users"))
+                checkUsers("flaggedUsers");
+            if (amp.indexToOption(input, menu, "Create New Admin User"))
+                createAdmin();
+            if (amp.indexToOption(input, menu, "Add New Item to a User's Wishlist/Inventory"))
+                addItemToUser();
+            if (amp.indexToOption(input, menu, "Change User Threshold")) {
+                changeUserThreshold();}
+            if (amp.indexToOption(input, menu, "Check Unfreeze Account Requests")) {
+                checkUsers("pendingFrozenUsers"); }
+            if (amp.indexToOption(input, menu, "Log Out")) {
+                System.out.println(amp.logout());
+                userInteracting = false; // stop the while loop
             }
         }
     }
@@ -84,10 +76,10 @@ public class AdminMenuController {
                 while (itemIterator.hasNext()) {
                     System.out.println(itemIterator.next().toString()); //prints the current item + the options
                     int optionChosen = amp.handleOptionsByIndex(optionList, true, "Actions");
-                    if (optionList.get(optionChosen).equals("Approve item for User's inventory.")) { // TO-DO: try catch block here?
+                    if (amp.indexToOption(optionChosen, optionList, "Approve item for User's inventory.")) { // TO-DO: try catch block here?
                         approveInventory(allPendingItems.get(itemIterator.next()), itemIterator.next(), true);
                     }
-                    else if (optionList.get(optionChosen).equals("Decline item.")) {
+                    else if (amp.indexToOption(optionChosen, optionList, "Decline item.")) {
                         approveInventory(allPendingItems.get(itemIterator.next()), itemIterator.next(), false);
                     }
                 }
@@ -195,7 +187,7 @@ public class AdminMenuController {
                         int optionChosen = amp.handleOptionsByIndex(optionList, true, "Check Frozen Users");
                         if (optionChosen == optionList.size()) {
                             userInteracting = false;
-                        } else if (optionList.get(optionChosen).equals("Unfreeze Account.")) {
+                        } else if (amp.indexToOption(optionChosen, optionList, "Unfreeze Account.")) {
                             um.unfreezeAccount(user);
                             am.getPendingFrozenUsers().remove(user);
                             System.out.println(amp.accountFrozen(user.toString(), user.getStatus()));
@@ -216,11 +208,11 @@ public class AdminMenuController {
                         int optionChosen2 = amp.handleOptionsByIndex(optionList2, true, "Check Flagged Users");
                         if (optionChosen2 == optionList2.size()) {
                             userInteracting = false;
-                        } else if (optionList2.get(optionChosen2).equals("Freeze Account.")) {
+                        } else if (amp.indexToOption(optionChosen2, optionList2, "Freeze Account.")) {
                             um.freezeAccount(user);
                             am.getFrozenAccounts().add(user);
                             System.out.println(amp.accountFrozen(user.toString(), user.getStatus()));
-                        } else if (optionList2.get(optionChosen2).equals("Unfreeze Account.")) {
+                        } else if (amp.indexToOption(optionChosen2, optionList2, "Unfreeze Account.")) {
                             um.unfreezeAccount(user);
                             am.getFlaggedAccounts().remove(user);
                             System.out.println(amp.accountFrozen(user.toString(), user.getStatus()));
