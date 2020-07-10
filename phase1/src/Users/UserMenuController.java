@@ -268,6 +268,7 @@ public class UserMenuController{
                     int optionChosen2 = this.userMenuPresenter.handleOptionsByIndex(transactionActions, true, transactionActionPrompt);
                     if (tm.updateStatusUser(currentUser, transaction, transactionActions.get(optionChosen2))){
                         tm.updateStatus(transaction);
+                        um.addToTransactionHistory(currentUser, transaction);
                         System.out.println("Loading Previous Menu");
                         userInteracting = false;
                         }
