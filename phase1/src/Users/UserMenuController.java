@@ -380,7 +380,7 @@ public class UserMenuController{
         // TODO: Method Body once I confirm some things about the details of this method
     }
 
-    public ArrayList<Transaction> getTransactionList(List<UUID> idList) throws InvalidTransactionException {
+    public ArrayList<Transaction> getTransactionList(List<UUID> idList){
         return tm.getTransactionsFromIdList(idList);
     }
 
@@ -389,6 +389,69 @@ public class UserMenuController{
 }
 
     private void editMeeting(User currentUser, Transaction transaction) {
-        
+        boolean userInteracting = true;
+        Scanner scanner = new Scanner(System.in);
+        UUID user = currentUser.getUserId();
+
+        while (userInteracting) {
+            if (!transaction.isPerm()){
+                Meeting meeting1 = transaction.getFirstMeeting();
+                Meeting meeting2 = transaction.getSe
+            }
+
+            ArrayList<String> options = new ArrayList<String>(Arrays.asList("Edit Location", "Edit time", "Edit Date"));
+            String optionsTitle = "You can edit one of the following options:";
+            String optionsPrompt = "Type the number corresponding to the transaction you wish to" +
+                    " modify. To go back to the previous menu, type the number corresponding to that" +
+                    "option.";
+
+            int OptionChosen = this.userMenuPresenter.handleOptionsByIndex(options, true, optionsPrompt);
+            // Logic handling back to other menu vs. Editing a meeting
+            if (OptionChosen == options.size()) {
+                System.out.println("Loading Previous Menu");
+                userInteracting = false;
+            } else {
+                switch (OptionChosen) {
+                    case 0:
+                        System.out.println("Where do you want to have the meeting?");
+                        String MeetingLocation = scanner.nextLine();
+                        tm.editMeeting(currentUser, transaction, MeetingLocation);
+                        break;
+                    case 1:
+                        // do something else
+                        break;
+                    default:
+
+                }
+                if (OptionChosen == 0){
+
+                }
+                if (OptionChosen == 1){
+
+                }
+                else (OptionChosen == 2){
+
+
+                    System.out.println("Where do you want to have the meeting?");
+                    String MeetingLocation = scanner.nextLine();
+                    LocalTime MeetingTime = this.userMenuPresenter.inputTimeGetter("Please Enter the time of your meeting in the" +
+                            " format: HH:mm:ss");
+                    LocalDate MeetingDate = this.userMenuPresenter.inputDateGetter("Please Enter the date of your meeting in the" +
+                            " format: dd-mm-yyyy");
+                }
+                ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
+                String transactionActionPrompt = "This is the list of actions that you can do with your transaction"
+                int optionChosen2 = this.userMenuPresenter.handleOptionsByIndex(transactionActions, true, transactionActionPrompt);
+                if (tm.updateStatusUser(currentUser, transaction, transactionActions.get(optionChosen2))){
+                    System.out.println("Loading Previous Menu");
+                    userInteracting = false;
+                }
+                else{
+                    this.editMeeting(currentUser,transaction);
+                    System.out.println("Loading Previous Menu");
+                    userInteracting = false;
+                }
+            }
+        }
     }
     }
