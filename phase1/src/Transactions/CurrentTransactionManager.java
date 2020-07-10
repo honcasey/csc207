@@ -14,55 +14,10 @@ import java.util.ArrayList;
 /**
  * This class manages a transaction between two users. A transaction begins once a user expresses interest in an item.
  */
-public class CurrentTransactionManager {
-    private Map<UUID, Transaction> allTransactions;
+public class CurrentTransactionManager extends TransactionManager{
 
-    public CurrentTransactionManager(Map<UUID, Transaction> transactions) {
-        allTransactions = transactions;
-    }
-
-    /**
-     * The getter that returns all of the Transactions across the whole system
-     * @return allTransactions, a HashMap<UUID, Transaction>
-     */
-    public Map<UUID, Transaction> getAllTransactions() {
-        return allTransactions;
-    }
-
-    public void removeTransactionFromAllTransactions(UUID id) throws InvalidTransactionException {
-        if (allTransactions.containsKey(id)){
-        allTransactions.remove(id);}
-        else {
-            throw new InvalidTransactionException();}
-    }
-
-    /**
-     * get the transaction from the list of all of the transactions by calling the id
-     * @param id the UUID of the transaction
-     * @return the transaction
-     */
-    public Transaction getTransactionFromId(UUID id) throws InvalidTransactionException {
-        if (allTransactions.containsKey(id)){
-        return allTransactions.get(id);}
-        else{
-            throw new InvalidTransactionException();
-        }
-    }
-
-
-    /**
-     * Put a list of ids and get an ArrayList of Transactions back
-     * @param transactionList : the list of transactions ids to be converted into Transactions
-     * @return An Array list of Transaction Objects
-     * @throws InvalidTransactionException the id's in the transactionList must match with the id's in AllTransactions
-     */
-    public ArrayList<Transaction> getTransactionsFromIdList(List<UUID> transactionList) throws InvalidTransactionException {
-        ArrayList<Transaction> transactions= new ArrayList<Transaction>();
-        for (UUID id : transactionList){
-            Transaction transaction = getTransactionFromId(id);
-            transactions.add(transaction);
-        }
-        return transactions;
+    public CurrentTransactionManager(HashMap<UUID, Transaction> transactions) {
+        super(transactions);
     }
 
     /**
@@ -78,7 +33,7 @@ public class CurrentTransactionManager {
                                          Meeting meeting2) {
         Transaction transaction = new TransactionOneWayTemp(user1, user2, item1, meeting1, meeting2);
         UUID id = transaction.getId();
-        allTransactions.put(id, transaction);
+        super.getAllTransactions().put(id, transaction);
         return transaction;
     }
 
@@ -94,7 +49,7 @@ public class CurrentTransactionManager {
                                                Meeting meeting1){
         Transaction transaction = new TransactionOneWayPerm(user1, user2, item1, meeting1);
         UUID id = transaction.getId();
-        allTransactions.put(id, transaction);
+        super.getAllTransactions().put(id, transaction);
         return transaction;
     }
 
@@ -112,7 +67,7 @@ public class CurrentTransactionManager {
                                          Meeting meeting1, Meeting meeting2) {
         Transaction transaction = new TransactionTwoWayTemp(user1, user2, item1, item2, meeting1, meeting2);
         UUID id = transaction.getId();
-        allTransactions.put(id, transaction);
+        super.getAllTransactions().put(id, transaction);
         return transaction;
     }
 
@@ -129,7 +84,7 @@ public class CurrentTransactionManager {
                                          Meeting meeting1) {
             Transaction transaction = new TransactionTwoWayPerm(user1, user2, item1, item2, meeting1);
             UUID id = transaction.getId();
-            allTransactions.put(id, transaction);
+            super.getAllTransactions().put(id, transaction);
             return transaction;
     }
 

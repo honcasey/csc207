@@ -2,17 +2,15 @@ package Transactions;
 
 import Exceptions.InvalidTransactionException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class TransactionManager {
-    private Map<UUID, Transaction> allTransactions;
+    private HashMap<UUID, Transaction> allTransactions;
 
-    public TransactionManager(Map<UUID, Transaction> transactions) {
+    public TransactionManager(HashMap<UUID, Transaction> transactions) {
         allTransactions = transactions;
     }
+
 
     /**
      * The getter that returns all of the Transactions across the whole system
