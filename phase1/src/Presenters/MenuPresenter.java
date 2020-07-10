@@ -180,6 +180,8 @@ public class MenuPresenter {
         return "Please enter name for this " + name;
     }
 
+    public String enterPassword(String name) { return "Please enter password for this " + name; }
+
     public String successfullyAdded(String what, String who, String where) {
         return what + "has been successfully added to " + who + "'s " + where;
     }
@@ -193,6 +195,8 @@ public class MenuPresenter {
     }
 
     public String usernameTaken() { return "Username already taken. Please enter a different one."; }
+
+    public String usernameInvalid() { return "Username does not exist."; }
 
     public String accountFrozen(String who, String frozen) { // possibly move back to adminmenupresenter
         return who + "'s account has been set to " + frozen;

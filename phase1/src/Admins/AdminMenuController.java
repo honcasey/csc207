@@ -53,9 +53,9 @@ public class AdminMenuController {
 
     private void approveInventory(User user, Item item, boolean approved) { // helper method for checkPendingItems
         if (approved) { um.addItem(user, item, "inventory");
-        System.out.println("Item has been approved.");}
+        System.out.println(amp.addItem("approved"));}
         else { allPendingItems.remove(item);
-        System.out.println("Item has been declined.");}
+        System.out.println(amp.addItem("declined"));}
     }
 
     private void checkPendingItems() {
@@ -93,7 +93,7 @@ public class AdminMenuController {
             System.out.println(amp.enterName("new Admin"));
             String username = scanner.nextLine();
             try {
-                System.out.println("Please enter new Administrative User's password: ");
+                System.out.println(amp.enterPassword("new Admin"));
                 String password = scanner.nextLine();
                 am.addAdmin(username, password);
                 System.out.println("New Admin User " + username + " successfully created.");
@@ -125,7 +125,7 @@ public class AdminMenuController {
             }
             else { System.out.println(amp.validOptions(amp.userLists));}
         } catch(InvalidUserException e) {
-            System.out.println("Username does not exist. Please enter an existing User's username.");
+            System.err.println(amp.usernameInvalid());
         }
     }
 
@@ -167,7 +167,7 @@ public class AdminMenuController {
                     break;
             }
         } catch(InvalidUserException e) {
-            System.err.print("Username does not exist. Please enter an existing User's username."); // TO-DO: get exception to print this message
+            System.err.print(amp.usernameInvalid());
         }
     }
 
@@ -201,7 +201,7 @@ public class AdminMenuController {
                 } else {
                     for (User user: am.getFlaggedAccounts()) {
                         System.out.println(user.toString());
-                        List<String> optionList2 = new ArrayList<>();
+                        List<String> optionList2 = new ArrayList<>(); // these 4 lines could be moved to before the while loop to shorten
                         optionList2.add("Freeze Account.");
                         optionList2.add("Unfreeze Account.");
                         optionList2.add("Go to next user.");
