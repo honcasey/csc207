@@ -237,7 +237,8 @@ public class UserMenuController{
     }
 
     /**
-     * TODO: This method should display all the transaction that are in progress for the user
+     * This method displays all of the active transactions for User and then redirects the user to either edit the Meetings
+     * for that transaction or to change the statusUser of the Transaction
      */
     private void getActiveTransactions() throws InvalidTransactionException {
         boolean userInteracting = true;
@@ -266,6 +267,7 @@ public class UserMenuController{
                     String transactionActionPrompt = "This is the list of actions that you can do with your transaction"
                     int optionChosen2 = this.userMenuPresenter.handleOptionsByIndex(transactionActions, true, transactionActionPrompt);
                     if (tm.updateStatusUser(currentUser, transaction, transactionActions.get(optionChosen2))){
+                        tm.updateStatus(transaction);
                         System.out.println("Loading Previous Menu");
                         userInteracting = false;
                         }
@@ -442,9 +444,6 @@ public class UserMenuController{
                 }
             }
         }
-
-
-    }
 
     private int pickMeetingToEdit(){
 
