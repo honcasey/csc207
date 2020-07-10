@@ -74,15 +74,14 @@ public class UserMenuPresenter extends MenuPresenter {
 
     /**
      * Construct methods like this will return a list of options/prompts that the menu will have.
-     * @return This returns a list of all the possible transaction type options.
+     * @return This returns a list of all the possible ways to edit meeting options options.
      */
 
-    public List<String> constructTransactionTypeMenu(){
+    public List<String> constructEditMeetingOptions(){
         List<String> OptionList = new ArrayList<>();
-        OptionList.add("One Way Temporary Trade");
-        OptionList.add("One Way Permanent Trade");
-        OptionList.add("Two Way Temporary Trade");
-        OptionList.add("Two Way Permanent Trade");
+        OptionList.add("Edit Location");
+        OptionList.add("Edit Time");
+        OptionList.add("Edit Date");
         return(OptionList);
     }
 

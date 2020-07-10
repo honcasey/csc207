@@ -399,10 +399,6 @@ public class UserMenuController{
         return tm.getTransactionsFromIdList(idList);
     }
 
-
-
-}
-
     private void editMeeting(User currentUser, Transaction transaction) {
         boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
@@ -415,11 +411,10 @@ public class UserMenuController{
 
             Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
             System.out.println("This is the meeting you wish to edit " + meeting.toString());
-            ArrayList<String> options = new ArrayList<String>(Arrays.asList("Edit Location", "Edit time", "Edit Date"));
+            List<String> options = this.userMenuPresenter.constructEditMeetingOptions();
             String optionsTitle = "You can edit one of the following options:";
-            String optionsPrompt = "Type the number corresponding to the transaction you wish to" +
-                    " modify. To go back to the previous menu, type the number corresponding to that" +
-                    "option.";
+            String optionsPrompt ="Type the number corresponding to the transaction you wish to" +
+                    " modify." + this.userMenuPresenter.getToGoBackPrompt();
 
             int OptionChosen = this.userMenuPresenter.handleOptionsByIndex(options, true, optionsPrompt);
             // Logic handling back to other menu vs. Editing a meeting
@@ -429,26 +424,39 @@ public class UserMenuController{
             } else {
                 switch (OptionChosen) {
                     case 0:
-                        System.out.println("Where do you want to have the meeting?");
-                        String MeetingLocation = scanner.nextLine();
-                        tm.editMeeting(meetingNum, transaction, user, MeetingLocation);
-                        System.out.println("You have successfully edited your meeting to be at " + MeetingLocation);
+                      editMeetingLocationFlow(user,transaction,meetingNum);
                         break;
                     case 1:
-                        LocalTime MeetingTime = this.userMenuPresenter.inputTimeGetter("Please Enter the time of your meeting in the" +
-                                " format: HH:mm:ss");
-                        tm.editMeeting(meetingNum, transaction, user, MeetingTime);
-                        System.out.println("You have successfully edited your meeting to be at " + MeetingTime);
+                       editMeetingTimeFlow(user,transaction,meetingNum);
                         break;
                     default:
-                        LocalDate MeetingDate = this.userMenuPresenter.inputDateGetter("Please Enter the date of your meeting in the" +
-                                " format: dd-mm-yyyy");
-                        tm.editMeeting(meetingNum, transaction, user, MeetingDate);
-                        System.out.println("You have successfully edited your meeting to be at " + MeetingDate);
-                }
+                        editMeetingDateFlow(user,transaction,meetingNum);
                 }
             }
         }
+    }
+    private void editMeetingLocationFlow(UUID user, Transaction transaction,int meetingNum){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Where do you want to have the meeting?");
+        String MeetingLocation = scanner.nextLine();
+        tm.editMeeting(meetingNum, transaction, user, MeetingLocation);
+        System.out.println("You have successfully edited your meeting to be at " + MeetingLocation);
+    }
+
+    private void editMeetingTimeFlow(UUID user, Transaction transaction,int meetingNum){
+        Scanner scanner = new Scanner(System.in);
+        LocalTime MeetingTime = this.userMenuPresenter.inputTimeGetter("Please Enter the time of your meeting in the" +
+                " format: HH:mm:ss");
+        tm.editMeeting(meetingNum, transaction, user, MeetingTime);
+        System.out.println("You have successfully edited your meeting to be at " + MeetingTime);
+    }
+    private void editMeetingDateFlow(UUID user, Transaction transaction,int meetingNum){
+        Scanner scanner = new Scanner(System.in);
+        LocalDate MeetingDate = this.userMenuPresenter.inputDateGetter("Please Enter the date of your meeting in the" +
+                " format: dd-mm-yyyy");
+        tm.editMeeting(meetingNum, transaction, user, MeetingDate);
+        System.out.println("You have successfully edited your meeting to be at " + MeetingDate);
+    }
 
     private int pickMeetingToEdit(){
 
