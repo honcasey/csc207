@@ -69,10 +69,10 @@ public class TransactionManager {
      */
     public Transaction createTransaction(UUID user1, UUID user2, UUID item1,
                                                Meeting meeting1){
-            Transaction transaction = new TransactionOneWayPerm(user1, user2, item1, meeting1);
-            UUID id = transaction.getId();
-            allTransactions.put(id, transaction);
-            return transaction;
+        Transaction transaction = new TransactionOneWayPerm(user1, user2, item1, meeting1);
+        UUID id = transaction.getId();
+        allTransactions.put(id, transaction);
+        return transaction;
     }
 
     /**
