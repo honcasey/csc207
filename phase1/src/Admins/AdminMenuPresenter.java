@@ -1,14 +1,13 @@
 package Admins;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import Presenters.MenuPresenter;
 
 public class AdminMenuPresenter extends MenuPresenter {
 
-    public List<String> mainMenu() {
-        List<String> AdminMenuOptions = new ArrayList<>(); // are lists ordered?
+    public List<String> constructMainMenu() {
+        List<String> AdminMenuOptions = new ArrayList<>();
         AdminMenuOptions.add("Check Pending Items for Approval");
         AdminMenuOptions.add("Check Flagged Users");
         AdminMenuOptions.add("Create New Admin User");
