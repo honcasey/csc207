@@ -114,7 +114,7 @@ public class CurrentTransactionManager extends TransactionManager{
      */
     public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, String newLocation) {
         int userNum = findUserNum(transaction, userId);
-        if (canEdit(meeting, userNum)) {
+        if (canEdit(meeting, userNum) & transaction.getStatus().equals("pending")) {
             meeting.setLocation(newLocation);
             if (userNum == 1){
                 meeting.user1edits();
@@ -140,7 +140,7 @@ public class CurrentTransactionManager extends TransactionManager{
      */
     public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, LocalTime time) {
         int userNum = findUserNum(transaction, userId);
-        if (canEdit(meeting, userNum)) {
+        if (canEdit(meeting, userNum) & transaction.getStatus().equals("pending")) {
             meeting.setTime(time);
             if (userNum == 1){
                 meeting.user1edits();
@@ -165,16 +165,16 @@ public class CurrentTransactionManager extends TransactionManager{
      */
     public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, LocalDate date) {
         int userNum = findUserNum(transaction, userId);
-        if (canEdit(meeting, userNum)) {
+        if (canEdit(meeting, userNum) & transaction.getStatus().equals("pending")) {
             meeting.setDate(date);
             if (userNum == 1){
-                meeting.user1edits();
-            }
+                meeting.user1edits();}
             else{
                 meeting.user2edits();
             }
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }

@@ -92,8 +92,8 @@ public class UserMenuPresenter extends MenuPresenter {
         // Making Option List
 
         List<String> AvailableItemOptionList = new ArrayList<>();
-        for (Item item : ItemList) {
-            AvailableItemOptionList.add(ItemOutputName + item.getName() + ItemOutputDescription + item.getDescription());
+        for (Transaction transaction : TransactionList) {
+            AvailableItemOptionList.add(transaction.toString() + "\\n");
         }
         return(AvailableItemOptionList);
     }
