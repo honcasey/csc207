@@ -1,18 +1,11 @@
 package Users;
 
-<<<<<<< HEAD
-import Exceptions.InvalidTransactionException;
-=======
 import Admins.AdminManager;
->>>>>>> a57ed4211f6fcb218e7b9036d22e683e4d68651c
+import Exceptions.InvalidTransactionException;
 import Items.Item;
 import Items.ItemManager;
-import Presenters.MenuPresenter;
 import Transactions.Meeting;
-<<<<<<< HEAD
 import Transactions.Transaction;
-=======
->>>>>>> a57ed4211f6fcb218e7b9036d22e683e4d68651c
 import Transactions.TransactionManager;
 
 import java.time.LocalDate;
@@ -112,7 +105,7 @@ public class UserMenuController{
                 userInteracting = false;
             }
             else{
-                if(this.userMenu.getCurrentUser().isFrozen()){
+                if(currentUser.isFrozen()){
                     System.out.println("Your account is frozen so you cannot make an offer for this item. Please request" +
                         "to have your account unfrozen.");
                     System.out.println("You will now be taken back to the main user menu.");
@@ -174,11 +167,11 @@ public class UserMenuController{
 
     private void viewWishlist() {
         Scanner scanner = new Scanner(System.in);
-        if (userMenu.getCurrentUser().getWishlist() == null) {
+        if (currentUser.getWishlist() == null) {
             System.out.println("Your wishlist is empty.");
         }
         else {
-            Iterator<Item> itemIterator = userMenu.getCurrentUser().getWishlist().iterator();
+            Iterator<Item> itemIterator = currentUser.getWishlist().iterator();
             List<String> optionList = new ArrayList<>();
             while (itemIterator.hasNext()) {
                 optionList.add(itemIterator.next().toString());
@@ -190,7 +183,7 @@ public class UserMenuController{
                 System.out.println("Loading Previous Menu");
             }
             else {
-                userMenu.withdrawItem(userMenu.getCurrentUser().getWishlist().get(optionChosen), "wishlist");
+                userMenu.withdrawItem(currentUser.getWishlist().get(optionChosen), "wishlist");
                 System.out.println("The item has been removed from your wishlist.");
             }
         }
@@ -198,11 +191,11 @@ public class UserMenuController{
 
     private void viewInventory() {
         Scanner scanner = new Scanner(System.in);
-        if (userMenu.getCurrentUser().getInventory() == null) {
+        if (currentUser.getInventory() == null) {
             System.out.println("Your inventory is empty.");
         }
         else {
-            Iterator<Item> itemIterator = userMenu.getCurrentUser().getInventory().iterator();
+            Iterator<Item> itemIterator = currentUser.getInventory().iterator();
             List<String> optionList = new ArrayList<>();
             while (itemIterator.hasNext()) {
                 optionList.add(itemIterator.next().toString());
@@ -213,14 +206,14 @@ public class UserMenuController{
                 System.out.println("Loading Previous Menu");
             }
             else {
-                userMenu.withdrawItem(userMenu.getCurrentUser().getInventory().get(optionChosen), "inventory");
+                userMenu.withdrawItem(currentUser.getInventory().get(optionChosen), "inventory");
                 System.out.println("The item has been removed from your inventory.");
             }
         }
     }
 
     private void requestUnfreezeAccount() {
-        if (userMenu.getCurrentUser().isFrozen()) {
+        if (currentUser.isFrozen()) {
             userMenu.requestUnfreezeAccount();
             System.out.println("You have successfully requested for your account to be unfrozen.");
         }
@@ -230,7 +223,7 @@ public class UserMenuController{
     }
 
     private void viewPastTransaction(){
-        TransactionHistory transactionHistory= userMenu.getCurrentUser().getTransactionHistory();
+        TransactionHistory transactionHistory= currentUser.getTransactionHistory();
         if (transactionHistory == null){
             System.out.println("Your transaction history is empty.");
         }
@@ -245,7 +238,7 @@ public class UserMenuController{
     private void getActiveTransactions() throws InvalidTransactionException {
         boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
-        User user = this.userMenu.getCurrentUser();
+        User user = currentUser;
 
         while(userInteracting){
             List <UUID> currentTransactionsIds  = user.getCurrentTransactions();
@@ -265,7 +258,7 @@ public class UserMenuController{
                 userInteracting = false;
             }
             else{
-                if(this.userMenu.getCurrentUser().isFrozen()){
+                if(currentUser.isFrozen()){
                     System.out.println("Your account is frozen so you cannot make an offer for this item. Please request" +
                             "to have your account unfrozen.");
                     System.out.println("You will now be taken back to the main user menu.");
