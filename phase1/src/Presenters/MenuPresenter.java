@@ -5,18 +5,20 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class MenuPresenter {
+    public List<String> allThresholds = Arrays.asList("borrow", "weekly", "incomplete");
+    public List<String> userLists = Arrays.asList("wishlist", "inventory");
+    private String optionPrompt = "Please type a number corresponding to one of the above options.";
+    private String invalidOption = "Not a valid option. Please enter a valid option.";
+
     /**
      * Formats and displays a list of options to the user.
      * @param OptionList the list of options that you want to be displayed.
      */
-
-    private String optionPrompt = "Please type a number corresponding to one of the above options.";
-    private String invalidOption = "Not a valid option. Please enter a valid option.";
-
     protected void displayOptions(List<String> OptionList){
         for(int i = 0; i < OptionList.size(); i++){
             String index = Integer.toString(i+1);
@@ -106,6 +108,10 @@ public class MenuPresenter {
         return(this.selectOptionByIndex(OptionList));
     }
 
+    public boolean indexToOption(int input, List<String> strings, String s) {
+        return strings.get(input).equals(s);
+    }
+
     private int selectOptionByIndex(List<String> OptionList){
         Scanner scanner = new Scanner(System.in);
         int OptionChosen;
@@ -193,5 +199,6 @@ public class MenuPresenter {
     }
 
     public String logout() { return "You have successfully logged out."; }
+
 
 }

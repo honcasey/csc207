@@ -2,6 +2,7 @@ package Transactions;
 
 import Items.Item;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ import java.util.UUID;
  * -- "No-Show" -- there was a no show at meeting 1.
  * -- "Never Returned" -- there was a no show at meeting 2 and items were not returned.(only used for two-way)
  */
-public abstract class Transaction {
+public abstract class Transaction implements Serializable {
     private UUID id = UUID.randomUUID();
     private UUID user1;
     private UUID user2;

@@ -3,6 +3,7 @@ package Users;
 import Items.Item;
 import Presenters.MenuPresenter;
 import Transactions.Transaction;
+import com.sun.xml.internal.bind.v2.TODO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,7 +78,7 @@ public class UserMenuPresenter extends MenuPresenter {
         return(OptionList);
     }
 
-
+    //TODO: Finish
     public List<String> constructTransactionList(ArrayList<Transaction> TransactionList){
         System.out.println("Current Transactions:");
         // Making Option List
