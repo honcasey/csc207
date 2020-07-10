@@ -238,30 +238,25 @@ public class UserMenuController{
 
         while (userInteracting) {
             List<UUID> currentTransactionsIds = user.getCurrentTransactions();
-            ArrayList<Transaction> currTransactionsList = getTransactionList(currentTransactionsIds);
+            ArrayList<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
 
-            List<String> OptionList = this.userMenuPresenter.constructAvailableItemsMenu(ItemList);
-            String AvailableItemsTitle = "List of Current Transaction:";
-            String AvailableItemsPrompt = "Type the number corresponding to the transaction you wish to" +
+            List<String> optionList = this.userMenuPresenter.constructTransactionList(currTransactionsList);
+            String currTransactionsTitle = "List of Current Transaction:";
+            String currTransactionsPrompt = "Type the number corresponding to the transaction you wish to" +
                     " modify. To go back to the previous menu, type the number corresponding to that" +
                     "option.";
 
-            int OptionChosen = this.userMenuPresenter.handleOptionsByIndex(OptionList, true, AvailableItemsPrompt
+            int OptionChosen = this.userMenuPresenter.handleOptionsByIndex(optionList, true, currTransactionsPrompt
             );
             // Logic handling back to other menu vs. your account is frozen vs proceed to make create transaction menu.
-            if (OptionChosen == OptionList.size()) {
+            if (OptionChosen == optionList.size()) {
                 System.out.println("Loading Previous Menu");
                 userInteracting = false;
             } else {
-                if (currentUser.isFrozen()) {
-                    System.out.println("Your account is frozen so you cannot make an offer for this item. Please request" +
-                            "to have your account unfrozen.");
-                    System.out.println("You will now be taken back to the main user menu.");
-                    userInteracting = false;
-                } else {
-                    Item TransactionItem = ItemList.get(OptionChosen);
-                    User TransactionItemOwner = AvailableItems.get(TransactionItem);
-                    userInteracting = CreateTransactionMenu(TransactionItem, TransactionItemOwner);
+                    Transaction transaction = currTransactionsList.get(OptionChosen);
+                    ArrayList<String> transactionactions = tm.userTransactionActions(transaction);
+
+
                 }
             }
         }

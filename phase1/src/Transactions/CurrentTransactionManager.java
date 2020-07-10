@@ -184,15 +184,15 @@ public class CurrentTransactionManager extends TransactionManager{
         String status = transaction.getStatus();
         ArrayList<String> options = new ArrayList<String>();
         if (status.equals("pending")){
-            String[] list = new String[] {"1. Edit Transactions.Meeting", "2. Confirm Transactions.Meeting","3. Cancel transaction"};
+            String[] list = new String[] {"Edit Transactions Meeting(s)", "Confirm Transactions Meeting(s)","Cancel transaction"};
             options.addAll(Arrays.asList(list));
         }
         if (status.equals("confirmed")){
-            String[] list = new String[] {"1. Confirm the exchange has taken place", "2. Claim that the exchange has not taken place"};
+            String[] list = new String[] {"Confirm the exchange has taken place", "Claim that the exchange has not taken place"};
             options.addAll(Arrays.asList(list));
         }
         if (status.equals("traded")){
-            String[] list = new String[] {"1. Confirm the item has been returned", "Claim that the item has not been returned past due date"};
+            String[] list = new String[] {"Confirm the item has been returned", "Claim that the item has not been returned past due date"};
             options.addAll(Arrays.asList(list));
         }
         else{
@@ -203,6 +203,37 @@ public class CurrentTransactionManager extends TransactionManager{
         }
 
 
+
+
+
+        public boolean updateStatusUser(User user, Transaction transaction, String optionChosen){
+            int userNum = findUserNum(transaction, user.getUserId());
+            if (optionChosen.equals("Confirm Transactions Meeting(s)")){
+                transaction.setStatusUserNum("confirm", userNum);
+                return true;
+            }
+            if (optionChosen.equals("Cancel transaction")){
+               transaction.setStatusUserNum("cancel", userNum);
+               return true;
+            }
+            if (optionChosen.equals("Confirm the exchange has taken place")) {
+                transaction.setStatusUserNum("traded", userNum);
+                return true;
+            }
+            if (optionChosen.equals("Claim that the exchange has not taken place")) {
+               transaction.setStatusUserNum("incomplete", userNum);
+               return true;
+            }
+            if (optionChosen.equals("Confirm the item has been returned")){
+               transaction.setStatusUserNum("returned", userNum);
+               return true;
+            }
+            if (optionChosen.equals("Claim that the item has not been returned past due date")){
+               transaction.setStatusUserNum("NeverReturned", userNum);
+               return true;
+            }
+            else{
+            return false;}}
     /**
      * @param transaction the transaction who's status is being updated
      * @return true if the status of the transaction has been updated, the transaction status will we updated based on
