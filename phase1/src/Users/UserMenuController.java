@@ -1,10 +1,18 @@
 package Users;
 
+<<<<<<< HEAD
+import Exceptions.InvalidTransactionException;
+=======
 import Admins.AdminManager;
+>>>>>>> a57ed4211f6fcb218e7b9036d22e683e4d68651c
 import Items.Item;
 import Items.ItemManager;
 import Presenters.MenuPresenter;
 import Transactions.Meeting;
+<<<<<<< HEAD
+import Transactions.Transaction;
+=======
+>>>>>>> a57ed4211f6fcb218e7b9036d22e683e4d68651c
 import Transactions.TransactionManager;
 
 import java.time.LocalDate;
@@ -234,19 +242,19 @@ public class UserMenuController{
     /**
      * TODO: This method should display all the transaction that are in progress for the user
      */
-    private void getActiveTransactions(){
+    private void getActiveTransactions() throws InvalidTransactionException {
         boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
         User user = this.userMenu.getCurrentUser();
 
         while(userInteracting){
-            List <UUID> currentTransactions  = user.getCurrentTransactions();
-            List<Item> ItemList = new ArrayList<>(AvailableItems.keySet());
+            List <UUID> currentTransactionsIds  = user.getCurrentTransactions();
+            ArrayList<Transaction> currTransactionsList = userMenu.getTransactionList(currentTransactionsIds);
 
             List<String> OptionList = this.userMenuPresenter.constructAvailableItemsMenu(ItemList);
-            String AvailableItemsTitle = "Available Items For Transaction:";
-            String AvailableItemsPrompt = "Type the number corresponding to the item you wish to" +
-                    " create a transaction for. To go back to the previous menu, type the number corresponding to that" +
+            String AvailableItemsTitle = "List of Current Transaction:";
+            String AvailableItemsPrompt = "Type the number corresponding to the transaction you wish to" +
+                    " modify. To go back to the previous menu, type the number corresponding to that" +
                     "option.";
 
             int OptionChosen = this.userMenuPresenter.handleOptionsByIndex(OptionList,true,AvailableItemsPrompt
