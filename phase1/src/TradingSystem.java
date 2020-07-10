@@ -7,10 +7,9 @@ import Items.Item;
 import Items.ItemManager;
 import Presenters.BootupMenuPresenter;
 import Transactions.Transaction;
-import Transactions.TransactionManager;
+import Transactions.CurrentTransactionManager;
 import Users.User;
 import Users.UserManager;
-import Users.UserMenu;
 import Users.UserMenuController;
 
 import java.io.File;
@@ -36,7 +35,7 @@ public class TradingSystem {
     private final String itemMapFilePath = "items.ser";
     private AdminManager adminManager;
     private UserManager userManager;
-    private TransactionManager transactionManager;
+    private CurrentTransactionManager currentTransactionManager;
     private ItemManager itemManager;
     private Map<Item, User> pendingItems;
     private final BootupMenuPresenter bmp = new BootupMenuPresenter();
@@ -86,7 +85,7 @@ public class TradingSystem {
         // create new Managers
         adminManager = new AdminManager(admins, flaggedAccounts, frozenAccounts);
         userManager = new UserManager(users, flaggedAccounts, frozenAccounts);
-        transactionManager = new TransactionManager(transactions);
+        currentTransactionManager = new CurrentTransactionManager(transactions);
         itemManager = new ItemManager(items);
     }
 
@@ -169,7 +168,7 @@ public class TradingSystem {
                 notLoggedIn = false;
                 try {
                     UserMenuController userMenuController = new UserMenuController(userManager, adminManager,
-                            transactionManager, itemManager, pendingItems, userManager.getUser(username));
+                            currentTransactionManager, itemManager, pendingItems, userManager.getUser(username));
                     userMenuController.run();
                 } catch(InvalidUserException e) {
                     // we already checked this username corresponds to a valid user on line 120
@@ -194,7 +193,7 @@ public class TradingSystem {
             try {
                 User user = userManager.addUser(username, password);
                 UserMenuController userMenuController = new UserMenuController(userManager, adminManager,
-                        transactionManager, itemManager, pendingItems, user);
+                        currentTransactionManager, itemManager, pendingItems, user);
                 userMenuController.run();
             } catch(InvalidUserException e) {
                 // we just created this new user so we know it's a valid user so userManager.getUser()

@@ -6,12 +6,10 @@ import Items.Item;
 import Items.ItemManager;
 import Transactions.Meeting;
 import Transactions.Transaction;
-import Transactions.TransactionManager;
+import Transactions.CurrentTransactionManager;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class UserMenuController{
@@ -21,19 +19,19 @@ public class UserMenuController{
     private User currentUser; // user that's logged in
     private AdminManager am;
     private UserManager um;
-    private TransactionManager tm;
+    private CurrentTransactionManager tm;
     private ItemManager im;
     private Map<Item, User> allPendingItems;
     private UserMenu userMenu = new UserMenu();
     private UserMenuPresenter userMenuPresenter = new UserMenuPresenter();
 
-    public UserMenuController(UserManager userManager, AdminManager adminManager, TransactionManager transactionManager,
+    public UserMenuController(UserManager userManager, AdminManager adminManager, CurrentTransactionManager currentTransactionManager,
                     ItemManager itemManager, Map<Item, User> pendingItems, User user) {
         currentUser = user;
         allPendingItems = pendingItems;
         am = adminManager;
         um = userManager;
-        tm = transactionManager;
+        tm = currentTransactionManager;
         im = itemManager;
     }
 
