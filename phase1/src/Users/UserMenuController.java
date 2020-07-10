@@ -7,7 +7,6 @@ import Items.ItemManager;
 import Transactions.Meeting;
 import Transactions.Transaction;
 import Transactions.CurrentTransactionManager;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -22,7 +21,6 @@ public class UserMenuController{
     private CurrentTransactionManager tm;
     private ItemManager im;
     private Map<Item, User> allPendingItems;
-    private UserMenu userMenu = new UserMenu();
     private UserMenuPresenter userMenuPresenter = new UserMenuPresenter();
 
     public UserMenuController(UserManager userManager, AdminManager adminManager, CurrentTransactionManager currentTransactionManager,
@@ -71,7 +69,7 @@ public class UserMenuController{
         String itemName = scanner.nextLine();
         System.out.println("What is the description of this item?");
         String itemDescription = scanner.nextLine();
-        this.userMenu.requestAddItemInput(itemName,itemDescription);
+        requestAddItemInput(itemName,itemDescription);
         System.out.println("Items.Item has been requested and is now being reviewed by the administrators.");
     }
 
@@ -86,7 +84,7 @@ public class UserMenuController{
         Scanner scanner = new Scanner(System.in);
 
         while(userInteracting){
-            HashMap<Item, User> AvailableItems  = this.userMenu.getAvailableItems();
+            HashMap<Item, User> AvailableItems  = getAvailableItems();
             List<Item> ItemList = new ArrayList<>(AvailableItems.keySet());
 
             List<String> OptionList = this.userMenuPresenter.constructAvailableItemsMenu(ItemList);
@@ -181,7 +179,7 @@ public class UserMenuController{
                 System.out.println("Loading Previous Menu");
             }
             else {
-                userMenu.withdrawItem(currentUser.getWishlist().get(optionChosen), "wishlist");
+                withdrawItem(currentUser.getWishlist().get(optionChosen), "wishlist");
                 System.out.println("The item has been removed from your wishlist.");
             }
         }
@@ -204,7 +202,7 @@ public class UserMenuController{
                 System.out.println("Loading Previous Menu");
             }
             else {
-                userMenu.withdrawItem(currentUser.getInventory().get(optionChosen), "inventory");
+                withdrawItem(currentUser.getInventory().get(optionChosen), "inventory");
                 System.out.println("The item has been removed from your inventory.");
             }
         }
@@ -212,7 +210,7 @@ public class UserMenuController{
 
     private void requestUnfreezeAccount() {
         if (currentUser.isFrozen()) {
-            userMenu.requestUnfreezeAccount();
+            requestUnfreezeAccount();
             System.out.println("You have successfully requested for your account to be unfrozen.");
         }
         else {
@@ -240,7 +238,7 @@ public class UserMenuController{
 
         while (userInteracting) {
             List<UUID> currentTransactionsIds = user.getCurrentTransactions();
-            ArrayList<Transaction> currTransactionsList = userMenu.getTransactionList(currentTransactionsIds);
+            ArrayList<Transaction> currTransactionsList = getTransactionList(currentTransactionsIds);
 
             List<String> OptionList = this.userMenuPresenter.constructAvailableItemsMenu(ItemList);
             String AvailableItemsTitle = "List of Current Transaction:";
@@ -282,7 +280,7 @@ public class UserMenuController{
     public void requestAddItemInput(String itemName, String itemDescription){
         Item RequestedItem = new Item(itemName);
         RequestedItem.setDescription(itemDescription);
-        allPendingItems.put(RequestedItem,getCurrentUser());
+        allPendingItems.put(RequestedItem,currentUser);
     }
 
     /**
@@ -292,9 +290,9 @@ public class UserMenuController{
      */
     public void withdrawItem(Item item, String listType){
         if(listType.equals("wishlist")){
-            um.removeItem(getCurrentUser(), item, "wishlist");
+            um.removeItem(currentUser, item, "wishlist");
         }else if (listType.equals("inventory")){
-            um.removeItem(getCurrentUser(),item,"inventory");
+            um.removeItem(currentUser,item,"inventory");
         }
     }
 
@@ -303,7 +301,7 @@ public class UserMenuController{
      * @param item An item in the trading system
      */
     public void addToWishlist(Item item){
-        um.addItem(getCurrentUser(), item, "wishlist");
+        um.addItem(currentUser, item, "wishlist");
     }
 
     /**
@@ -314,7 +312,7 @@ public class UserMenuController{
         List<User> allUsers = um.getAllUsers();
         HashMap<Item,User> availableItems = new HashMap<>();
         for (User user:allUsers) {
-            if(!user.equals(getCurrentUser())) {
+            if(!user.equals(currentUser)) {
                 for (Item item : user.getInventory()) {
                     availableItems.put(item, user);
                 }
@@ -328,9 +326,9 @@ public class UserMenuController{
      * @param transaction A transaction to be cancelled and to remove transaction from tra
      */
     public void cancelTransaction(Transaction transaction)  {
-        getCurrentUser().getCurrentTransactions().getUsersTransactions().remove(transaction);
+        currentUser.getCurrentTransactions().getUsersTransactions().remove(transaction);
         User u =  um.getUserById(transaction.getUser1());
-        if (u == getCurrentUser()){
+        if (u == currentUser){
             transaction.setStatusUser1("cancel");
         }
         else{
@@ -374,8 +372,8 @@ public class UserMenuController{
      * Requests the admin user to unfreeze the current user's account, if it's status is already frozen.
      */
     public void requestUnfreezeAccount() {
-        am.getPendingFrozenUsers().add(getCurrentUser());
-        am.getFrozenAccounts().remove(getCurrentUser());
+        am.getPendingFrozenUsers().add(currentUser);
+        am.getFrozenAccounts().remove(currentUser);
     }
 
     /**
