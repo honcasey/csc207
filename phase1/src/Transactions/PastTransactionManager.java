@@ -1,4 +1,4 @@
-package Users;
+package Transactions;
 
 public class PastTransactionManager {
 }
