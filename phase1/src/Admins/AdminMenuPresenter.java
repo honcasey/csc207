@@ -7,7 +7,7 @@ import Presenters.MenuPresenter;
 
 public class AdminMenuPresenter extends MenuPresenter {
 
-    public List<String> mainMenu() {
+    public List<String> constructMainMenu() {
         List<String> AdminMenuOptions = new ArrayList<>(); // are lists ordered?
         AdminMenuOptions.add("Check Pending Items for Approval");
         AdminMenuOptions.add("Check Flagged Users");

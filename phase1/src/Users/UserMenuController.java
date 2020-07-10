@@ -39,7 +39,7 @@ public class UserMenuController{
         while(userInteracting){
         String input = this.userMenuPresenter.handleOptions(this.userMenuPresenter.constructMainMenu(),
                 false,"User Main Menu");
-            if (input.equals("Request Items.Item for Approval")){
+            if (input.equals("Request Items for Approval")){
                 requestAddItem();
             } else if (input.equals("Browse Available Items for Trade")) {
                 DisplayAvailableItems();
@@ -70,7 +70,7 @@ public class UserMenuController{
         System.out.println("What is the description of this item?");
         String itemDescription = scanner.nextLine();
         requestAddItemInput(itemName,itemDescription);
-        System.out.println("Items.Item has been requested and is now being reviewed by the administrators.");
+        System.out.println("Items has been requested and is now being reviewed by the administrators.");
     }
 
     /**
@@ -78,6 +78,8 @@ public class UserMenuController{
      * 1) Displaying all available items to trade.
      * 2) Allowing the user to click on an item
      * 3) if the account is not frozen then the user can make a transaction for an item.
+     * 4) if the account is not frozen but it breaches threshold criteria of system after the transaction, then
+     * append the user to the admin's list of people that they can freeze.
      */
     private void DisplayAvailableItems(){
         boolean userInteracting = true;
@@ -111,10 +113,12 @@ public class UserMenuController{
                     Item TransactionItem = ItemList.get(OptionChosen);
                     User TransactionItemOwner = AvailableItems.get(TransactionItem);
                     userInteracting = CreateTransactionMenu(TransactionItem,TransactionItemOwner);
+                    if(//TODO put master threshold method here){
+                        this.am.getPendingFrozenUsers().add(this.currentUser);
+                    }
                 }
             }
         }
-    }
 
     /**
      * This method handles the flow for setting up a transaction for an available item assuming that the transaction
@@ -137,9 +141,13 @@ public class UserMenuController{
             if (OptionChosen.equals("back")) {
                 System.out.println("Loading Previous Menu");
                 userInteracting = false;
+
             }
             else{
                 Meeting FirstMeeting = MeetingDetailsMenu("First Meeting Details");
+                if(OptionChosen.equals()){
+
+                }
 
             }
         }

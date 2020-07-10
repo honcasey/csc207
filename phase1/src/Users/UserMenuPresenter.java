@@ -33,13 +33,21 @@ public class UserMenuPresenter extends MenuPresenter {
      * the program.
      * @return this returns a list of options that the user can choose from.
      */
+    // THIS METHOD NEEDS TO CONTINUE TO BE FINISHED.
+
+    //NEED TO DEAL WITH HAVING VARIABLES FOR ALL THE STRING CONSTANTS SOME WAY
     public List<String> constructMainMenu(){
         List<String> MenuOptionList = new ArrayList<>();
-        MenuOptionList.add("Request Items.Item for Approval");
-        MenuOptionList.add("Browse Available Items for Trade");
-        MenuOptionList.add("View Active Transactions");
-        MenuOptionList.add("View Past Transaction Details");
-        MenuOptionList.add("View Wishlist");
+        String RequestItemForApproval = new String("Request Item for Approval");
+        String BrowseAvailableItems = new String("Browse Available Items for Trade");
+        String ViewActiveTransactions = new String("View Active Transactions");
+        String ViewPastTransactionDetails = new String("View Past Transaction Details");
+        String ViewWishList = new String("View Wishlist");
+        MenuOptionList.add(RequestItemForApproval);
+        MenuOptionList.add(BrowseAvailableItems);
+        MenuOptionList.add(ViewActiveTransactions);
+        MenuOptionList.add(ViewPastTransactionDetails);
+        MenuOptionList.add(ViewWishList);
         MenuOptionList.add("View Inventory");
         MenuOptionList.add("Request Admin to Unfreeze Account");
         MenuOptionList.add("Log Out");
@@ -53,8 +61,8 @@ public class UserMenuPresenter extends MenuPresenter {
      */
     public List<String> constructAvailableItemsMenu(List<Item> ItemList){
         System.out.println("Available Items for Trade:");
-        String ItemOutputName = " Items.Item Name: ";
-        String ItemOutputDescription = " |  Items.Item Description: ";
+        String ItemOutputName = " Item Name: ";
+        String ItemOutputDescription = " |  Item Description: ";
         // Making Option List
 
         List<String> AvailableItemOptionList = new ArrayList<>();

@@ -1,5 +1,8 @@
 package Presenters;
 
+import Users.User;
+import sun.font.TrueTypeFont;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -9,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class MenuPresenter {
+public abstract class MenuPresenter {
     public List<String> allThresholds = Arrays.asList("borrow", "weekly", "incomplete");
     public List<String> userLists = Arrays.asList("wishlist", "inventory");
     private String optionPrompt = "Please type a number corresponding to one of the above options.";
@@ -32,21 +35,21 @@ public class MenuPresenter {
      * Adds Back option at the end of options being displayed to the user.
      * @param OptionList The list of options being displayed prior to calling this method.
      */
-    protected void addBackOption(List<String> OptionList){
-        String LastIndex = Integer.toString(OptionList.size() + 1);
+    protected void addBackOption(List<String> OptionList){ ;
         String LastOption = ". Go back";
-        OptionList.add(LastIndex + LastOption);
+        OptionList.add(LastOption);
     }
 
     /**
-     * Construct methods like this return a list of options/prompts that the menu will have.
+     * Construct methods like this return a list of options/prompts that the menu will have. ConstructMainMenu
+     * in Menu Presenter is an abstract method that will be called only
      * <p>
      * This particular method constructs the option list that the user will be greeted with upon first logging into
      * the program.
      *
      * @return this returns a list of options that the user can choose from.
      */
-    public List<String> constructMainMenu() { return null; }
+    public abstract List<String> constructMainMenu();
 
     /**
      * This method takes in a list of options and handles option display and selection.(generic)
@@ -108,7 +111,7 @@ public class MenuPresenter {
         return(this.selectOptionByIndex(OptionList));
     }
 
-    public boolean indexToOption(int input, List<String> strings, String s) {
+    public boolean indexToOption(int input, List<String> strings, String s){
         return strings.get(input).equals(s);
     }
 
@@ -124,7 +127,33 @@ public class MenuPresenter {
         } while (OptionChosen > OptionList.size() || OptionChosen <= 0);
         return(OptionChosen -1);
     }
+
+    /**
+     * This method handles asking a yes/no question to the user and taking their answer as "Y" or "N"
+     * @param Question The yes or no question you would like to ask the user (as a string.)
+     * @return return a boolean: true iff the user has entered "Yes" to your question and returns boolean: false iff
+     * the user has entered "No" to your question.
+     */
+    public boolean handleYesNo(String Question){
+        Scanner scanner = new Scanner(System.in);
+        String UserInput;
+        System.out.println(Question);
+        System.out.println("Please Enter 'Yes' or 'No'.");
+        do {
+            while (!scanner.hasNext()) {
+                System.out.println(invalidOption);
+                scanner.next();
+            }
+            UserInput = scanner.next();
+        } while (!(UserInput.equals("Yes") || UserInput.equals("No")));
+        if(UserInput.equals("Yes")){
+            return(true);
+        }
+        else{return(false);}
+    }
+
     /** inputTimeGetter
+     * Prompts the user for the time.
      * Checks the date string that the user has inputted to see if it is in the accepted format Then returns the time
      * @return this returns tru iff Returns true iff it is
      *      in the accepted format dd/mm/yyyy.
