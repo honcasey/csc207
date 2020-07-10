@@ -73,7 +73,7 @@ public class TransactionTwoWayTemp extends Transaction {
      * Getter for the second meeting.
      * @return returns the second meeting of the transaction.
      */
-    
+
     public Meeting getSecondMeeting(){
         return this.secondMeeting;
     }

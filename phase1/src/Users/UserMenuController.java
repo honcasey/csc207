@@ -400,25 +400,20 @@ public class UserMenuController{
         boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
         UUID user = currentUser.getUserId();
-        Meeting meeting;
+        int meetingNum;
 
         while (userInteracting) {
-            if (!transaction.isPerm()){
+            if (!tm.transactionHasMultipleMeetings(transaction)){
                 ArrayList<String> meetNum = new ArrayList<String>(Arrays.asList("Edit first meeting", "Edit second meeting"));
                 String meetNumTitle = "This transaction has two meetings";
                 String meetNumPrompt = "Type the number corresponding to the meeting you wish to" +
                         " modify. To go back to the previous menu, type the number corresponding to that" +
                         "option.";
                 int num = this.userMenuPresenter.handleOptionsByIndex(meetNum, true, meetNumPrompt);
-                if (num==0) {
-                    meeting = transaction.getFirstMeeting();
-                }
-                else{
-                    meeting = transaction.getSecondMeeting();
-                }
-            }
-            else{meeting = transaction.getFirstMeeting();}
+                meetingNum = num + 1; //this is because we can either have meeting one or meeting two but index of list starts from 0
 
+
+            Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
             System.out.println("This is the meeting you wish to edit " + meeting.toString());
             ArrayList<String> options = new ArrayList<String>(Arrays.asList("Edit Location", "Edit time", "Edit Date"));
             String optionsTitle = "You can edit one of the following options:";
@@ -436,19 +431,19 @@ public class UserMenuController{
                     case 0:
                         System.out.println("Where do you want to have the meeting?");
                         String MeetingLocation = scanner.nextLine();
-                        tm.editMeeting(meeting, transaction, user, MeetingLocation);
+                        tm.editMeeting(meetingNum, transaction, user, MeetingLocation);
                         System.out.println("You have successfully edited your meeting to be at " + MeetingLocation);
                         break;
                     case 1:
                         LocalTime MeetingTime = this.userMenuPresenter.inputTimeGetter("Please Enter the time of your meeting in the" +
                                 " format: HH:mm:ss");
-                        tm.editMeeting(meeting, transaction, user, MeetingTime);
+                        tm.editMeeting(meetingNum, transaction, user, MeetingTime);
                         System.out.println("You have successfully edited your meeting to be at " + MeetingTime);
                         break;
                     default:
                         LocalDate MeetingDate = this.userMenuPresenter.inputDateGetter("Please Enter the date of your meeting in the" +
                                 " format: dd-mm-yyyy");
-                        tm.editMeeting(meeting, transaction, user, MeetingDate);
+                        tm.editMeeting(meetingNum, transaction, user, MeetingDate);
                         System.out.println("You have successfully edited your meeting to be at " + MeetingDate);
                 }
                 }

@@ -112,8 +112,9 @@ public class CurrentTransactionManager extends TransactionManager{
      * @param newLocation the new location that the user want to the meeting to take place
      * @return True if the meeting was successfully edited
      */
-    public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, String newLocation) {
+    public boolean editMeeting(int meetingNum, Transaction transaction, UUID userId, String newLocation) {
         int userNum = findUserNum(transaction, userId);
+        Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
         if (canEdit(meeting, userNum) & transaction.getStatus().equals("pending")) {
             meeting.setLocation(newLocation);
             if (userNum == 1){
@@ -138,8 +139,9 @@ public class CurrentTransactionManager extends TransactionManager{
      * @param time the new hour, minute the user want to have the meeting take place, must be in LocalTime format
      * @return True if the meeting was successfully edited
      */
-    public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, LocalTime time) {
+    public boolean editMeeting(int meetingNum, Transaction transaction, UUID userId, LocalTime time) {
         int userNum = findUserNum(transaction, userId);
+        Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
         if (canEdit(meeting, userNum) & transaction.getStatus().equals("pending")) {
             meeting.setTime(time);
             if (userNum == 1){
@@ -163,8 +165,9 @@ public class CurrentTransactionManager extends TransactionManager{
      * @param date the new Year, month, day the user want to have the meeting take place, must be in LocalDate format
      * @return True if the meeting was successfully edited
      */
-    public boolean editMeeting(Meeting meeting, Transaction transaction, UUID userId, LocalDate date) {
+    public boolean editMeeting(int meetingNum, Transaction transaction, UUID userId, LocalDate date) {
         int userNum = findUserNum(transaction, userId);
+        Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
         if (canEdit(meeting, userNum) & transaction.getStatus().equals("pending")) {
             meeting.setDate(date);
             if (userNum == 1){
@@ -200,6 +203,15 @@ public class CurrentTransactionManager extends TransactionManager{
             options.addAll(Arrays.asList(list));
             }
         return options;
+        }
+
+    /**
+     * thie meeting checks for the number of meetings a transaction has
+     * @param transaction the transaction to be checked
+     * @return True if a transaction has more than one meeting
+     */
+    public boolean transactionHasMultipleMeetings(Transaction transaction){
+        return transaction.getTransactionMeetings().size() > 1;
         }
 
 
