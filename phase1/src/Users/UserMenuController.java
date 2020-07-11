@@ -184,49 +184,61 @@ public class UserMenuController{
         return new Meeting(MeetingLocation,MeetingTime,MeetingDate);
     }
 
-    private void viewWishlist() {
+    private void viewWishlist(){
+        boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
-        if (currentTradingUser.getWishlist() == null) {
-            System.out.println("Your wishlist is empty.");
-        }
-        else {
-            Iterator<Item> itemIterator = currentTradingUser.getWishlist().iterator();
-            List<String> optionList = new ArrayList<>();
-            while (itemIterator.hasNext()) {
-                optionList.add(itemIterator.next().toString());
-                System.out.println(itemIterator.next().toString());
-            }
-            int optionChosen =this.userMenuPresenter.handleOptionsByIndex(optionList, true, "Wishlist Menu"
-            );
-            if (optionChosen == optionList.size()) {
-                System.out.println("Loading Previous Menu");
-            }
-            else {
-                withdrawItem(currentTradingUser.getWishlist().get(optionChosen), "wishlist");
-                System.out.println("The item has been removed from your wishlist.");
+        while (userInteracting) {
+            if (currentTradingUser.getWishlist().isEmpty()) {
+                userMenuPresenter.empty("Wishlist");
+                userInteracting = false;
+            } else {
+                Iterator<Item> itemIterator = currentTradingUser.getWishlist().iterator();
+                List<String> optionList = new ArrayList<>();
+                optionList.add("Remove item from wishlist.");
+                optionList.add("Go to next item.");
+
+                while(itemIterator.hasNext()){
+                    System.out.println(itemIterator.next().toString());
+                    int optionChosen =this.userMenuPresenter.handleOptionsByIndex(optionList, true, "Wishlist Menu");
+                    if(optionChosen == optionList.size()){
+                        System.out.println("Loading Previous Menu");
+                        userInteracting = false;
+                    }
+                    else if(this.userMenuPresenter.indexToOption(optionChosen, optionList, "Remove item from wishlist.")){
+                        withdrawItem(itemIterator.next(), "wishlist");
+                        System.out.println(userMenuPresenter.successfullyRemoved(itemIterator.next().toString(),"wishlist"));
+                    }
+                }
             }
         }
     }
 
-    private void viewInventory() {
+
+    private void viewInventory(){
+        boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
-        if (currentTradingUser.getInventory() == null) {
-            System.out.println("Your inventory is empty.");
-        }
-        else {
-            Iterator<Item> itemIterator = currentTradingUser.getInventory().iterator();
-            List<String> optionList = new ArrayList<>();
-            while (itemIterator.hasNext()) {
-                optionList.add(itemIterator.next().toString());
-            } // TO-DO: can this be shortened to add all the items at once in one line?
-            int optionChosen =this.userMenuPresenter.handleOptionsByIndex(optionList, true,
-                    "Inventory Menu");
-            if (optionChosen == optionList.size()) {
-                System.out.println("Loading Previous Menu");
-            }
-            else {
-                withdrawItem(currentTradingUser.getInventory().get(optionChosen), "inventory");
-                System.out.println("The item has been removed from your inventory.");
+        while (userInteracting) {
+            if (currentTradingUser.getInventory().isEmpty()) {
+                userMenuPresenter.empty("Inventory");
+                userInteracting = false;
+            } else {
+                Iterator<Item> itemIterator = currentTradingUser.getInventory().iterator();
+                List<String> optionList = new ArrayList<>();
+                optionList.add("Remove item from inventory.");
+                optionList.add("Go to next item.");
+
+                while(itemIterator.hasNext()){
+                    System.out.println(itemIterator.next().toString());
+                    int optionChosen =this.userMenuPresenter.handleOptionsByIndex(optionList, true, "Inventory Menu");
+                    if(optionChosen == optionList.size()){
+                        System.out.println("Loading Previous Menu");
+                        userInteracting = false;
+                    }
+                    else if(this.userMenuPresenter.indexToOption(optionChosen, optionList, "Remove item from inventory.")){
+                        withdrawItem(itemIterator.next(), "inventory");
+                        System.out.println(userMenuPresenter.successfullyRemoved(itemIterator.next().toString(),"inventory"));
+                    }
+                }
             }
         }
     }
@@ -376,8 +388,8 @@ public class UserMenuController{
         TradingUser tradingUser2 = um.getUserById(transaction.getUser2());
         um.addToTransactionHistory(tradingUser1, transaction);
         um.addToTransactionHistory(tradingUser2, transaction);
-        tradingUser1.getCurrentTransactions().getUsersTransactions().remove(transaction); // Is the transaction in both user's "sent offers"?
-        tradingUser2.getCurrentTransactions().getUsersTransactions().remove(transaction);
+        tradingUser1.getCurrentTransactions().remove(transaction); // Is the transaction in both user's "sent offers"?
+        tradingUser2.getCurrentTransactions().remove(transaction);
     }
 
     /**

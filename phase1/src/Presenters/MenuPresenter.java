@@ -216,6 +216,9 @@ public abstract class MenuPresenter {
     public String successfullyAdded(String what, String who, String where) {
         return what + "has been successfully added to " + who + "'s " + where;
     }
+    public String successfullyRemoved(String what, String where){
+        return what + "has been successfully removed from" + where;
+    }
 
     public String successfullyChanged(String what, String who) {
         return who + "'s " + what + "has been successfully changed.";
