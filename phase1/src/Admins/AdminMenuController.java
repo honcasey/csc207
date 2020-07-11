@@ -68,18 +68,14 @@ public class AdminMenuController {
             }
             else {
                 Iterator<Item> itemIterator = allPendingItems.keySet().iterator();
-                List<String> optionList = new ArrayList<>();
-                optionList.add("Approve item for TradingUser's inventory.");
-                optionList.add("Decline item.");
-                optionList.add("Go to next item.");
 
                 while (itemIterator.hasNext()) {
                     System.out.println(itemIterator.next().toString()); //prints the current item + the options
-                    int optionChosen = amp.handleOptionsByIndex(optionList, true, "Actions");
-                    if (amp.indexToOption(optionChosen, optionList, "Approve item for TradingUser's inventory.")) { // TO-DO: try catch block here?
+                    int optionChosen = amp.handleOptionsByIndex(amp.constructPendingItemsMenu(), true, "Actions");
+                    if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.approveItem)) { // TO-DO: try catch block here?
                         approveInventory(allPendingItems.get(itemIterator.next()), itemIterator.next(), true);
                     }
-                    else if (amp.indexToOption(optionChosen, optionList, "Decline item.")) {
+                    else if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.declineItem)) {
                         approveInventory(allPendingItems.get(itemIterator.next()), itemIterator.next(), false);
                     }
                 }
@@ -220,6 +216,4 @@ public class AdminMenuController {
                         }
                     }
                 }
-        }
-    }
-}}
+        } } }}

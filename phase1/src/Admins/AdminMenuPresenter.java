@@ -21,10 +21,14 @@ public class AdminMenuPresenter extends MenuPresenter {
     public String unfreezeAccount = "Unfreeze Account.";
     public String nextUser = "Go to next TradingUser.";
 
+    public String approveItem = "Approve item for TradingUser's inventory.";
+    public String declineItem = "Decline item.";
+    public String nextItem = "Go to next item.";
+
     public String permissionDenied = "Permission denied, only the first admin can create new administrative user accounts.";
 
     public List<String> constructMainMenu() {
-        List<String> AdminMenuOptions = new ArrayList<>(); // are lists ordered?
+        List<String> AdminMenuOptions = new ArrayList<>();
         AdminMenuOptions.add(checkPendingItems);
         AdminMenuOptions.add(checkFlaggedUsers);
         AdminMenuOptions.add(createNewAdmin);
@@ -66,6 +70,14 @@ public class AdminMenuPresenter extends MenuPresenter {
         optionList.add(freezeAccount);
         optionList.add(unfreezeAccount);
         optionList.add(nextUser);
+        return optionList;
+    }
+
+    public List<String> constructPendingItemsMenu() {
+        List<String> optionList = new ArrayList<>();
+        optionList.add(approveItem);
+        optionList.add(declineItem);
+        optionList.add(nextItem);
         return optionList;
     }
 }
