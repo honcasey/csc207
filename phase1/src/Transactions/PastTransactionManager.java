@@ -13,7 +13,7 @@ import Users.TransactionHistory;
  * This class manages methods regarding TransactionHistory of a User
  */
 public class PastTransactionManager extends TransactionManager{
-    public PastTransactionManager(HashMap<UUID, Transaction> transactions){
+    public PastTransactionManager(Map<UUID, Transaction> transactions){
         super(transactions);
 
     }

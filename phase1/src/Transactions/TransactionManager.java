@@ -5,9 +5,9 @@ import Exceptions.InvalidTransactionException;
 import java.util.*;
 
 public class TransactionManager {
-    private HashMap<UUID, Transaction> allTransactions;
+    private Map<UUID, Transaction> allTransactions;
 
-    public TransactionManager(HashMap<UUID, Transaction> transactions) {
+    public TransactionManager(Map<UUID, Transaction> transactions) {
         allTransactions = transactions;
     }
 

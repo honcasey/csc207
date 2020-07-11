@@ -12,7 +12,7 @@ import java.util.List;
 public class AdminManager {
     private List<AdminUser> allAdmins;
     /**
-     * A list of  Users that have had their account flagged to be frozen automatically by the system.
+     * A list of Users that have had their account flagged to be frozen automatically by the system.
      */
     private List<TradingUser> flaggedAccounts;
 

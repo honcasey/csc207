@@ -5,6 +5,7 @@ import Exceptions.InvalidTransactionException;
 import Items.Item;
 import Items.ItemManager;
 import Transactions.Meeting;
+import Transactions.PastTransactionManager;
 import Transactions.Transaction;
 import Transactions.CurrentTransactionManager;
 
@@ -20,6 +21,7 @@ public class UserMenuController{
     private AdminManager am;
     private UserManager um;
     private CurrentTransactionManager tm;
+    private PastTransactionManager ptm = new PastTransactionManager(tm.getAllTransactions());
     private ItemManager im;
     private Map<Item, TradingUser> allPendingItems;
     private UserMenuPresenter ump = new UserMenuPresenter();
