@@ -26,6 +26,18 @@ import java.util.List;
 
 public class UserMenuPresenter extends MenuPresenter {
 
+    //option strings
+    public String removeItem = "Remove item.";
+    public String nextItem = "Go to next item.";
+    public String previousMenu = "Loading Previous Menu";
+    public String requestItem = "Request Items for Approval";
+    public String browseAvailableItems = "Browse Available Items for Trade";
+    public String viewActiveTransactions = "View Active Transactions";
+    public String viewPastTransactionDetails = "View Past Transaction Details";
+    public String viewWishlist = "View Wishlist";
+    public String viewInventory = "View Inventory";
+    public String requestUnfreeze = "Request Admin to Unfreeze Account";
+
     /**
      * Construct methods like this return a list of options/prompts that the menu will have.
      *
@@ -38,19 +50,14 @@ public class UserMenuPresenter extends MenuPresenter {
     //NEED TO DEAL WITH HAVING VARIABLES FOR ALL THE STRING CONSTANTS SOME WAY
     public List<String> constructMainMenu(){
         List<String> MenuOptionList = new ArrayList<>();
-        String RequestItemForApproval = new String("Request Item for Approval");
-        String BrowseAvailableItems = new String("Browse Available Items for Trade");
-        String ViewActiveTransactions = new String("View Active Transactions");
-        String ViewPastTransactionDetails = new String("View Past Transaction Details");
-        String ViewWishList = new String("View Wishlist");
-        MenuOptionList.add(RequestItemForApproval);
-        MenuOptionList.add(BrowseAvailableItems);
-        MenuOptionList.add(ViewActiveTransactions);
-        MenuOptionList.add(ViewPastTransactionDetails);
-        MenuOptionList.add(ViewWishList);
-        MenuOptionList.add("View Inventory");
-        MenuOptionList.add("Request Admin to Unfreeze Account");
-        MenuOptionList.add("Log Out");
+        MenuOptionList.add(requestItem);
+        MenuOptionList.add(browseAvailableItems);
+        MenuOptionList.add(viewActiveTransactions);
+        MenuOptionList.add(viewPastTransactionDetails);
+        MenuOptionList.add(viewWishlist);
+        MenuOptionList.add(viewInventory);
+        MenuOptionList.add(requestUnfreeze);
+        MenuOptionList.add(logout);
         return(MenuOptionList);
     }
 
@@ -95,6 +102,14 @@ public class UserMenuPresenter extends MenuPresenter {
             AvailableItemOptionList.add(transaction.toString() + "\\n");
         }
         return(AvailableItemOptionList);
+    }
+
+    public String enterWhatInFormat(String what, String format) {
+        return "Please enter the " + what + " of your meeting in the format: " + format;
+    }
+
+    public String successfullyEditedMeeting(String what) {
+        return "You have successfully edited your meeting to be at " + what;
     }
 
 }

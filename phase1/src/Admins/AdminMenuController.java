@@ -32,20 +32,20 @@ public class AdminMenuController {
             List<String> menu = amp.constructMainMenu();
             int input = amp.handleOptionsByIndex(menu, false,"Admin Main Menu");
 
-            if (amp.indexToOption(input, menu, "Check Pending Items for Approval"))
+            if (amp.indexToOption(input, menu, amp.checkPendingItems))
                 checkPendingItems();
-            if (amp.indexToOption(input, menu, "Check Flagged Users"))
+            if (amp.indexToOption(input, menu, amp.checkFlaggedUsers))
                 checkUsers("flaggedUsers");
-            if (amp.indexToOption(input, menu, "Create New Admin TradingUser"))
+            if (amp.indexToOption(input, menu, amp.createNewAdmin))
                 createAdmin();
-            if (amp.indexToOption(input, menu, "Add New Item to a TradingUser's Wishlist/Inventory"))
+            if (amp.indexToOption(input, menu, amp.addItem))
                 addItemToUser();
-            if (amp.indexToOption(input, menu, "Change TradingUser Threshold")) {
+            if (amp.indexToOption(input, menu, amp.changeThreshold)) {
                 changeUserThreshold();}
-            if (amp.indexToOption(input, menu, "Check Unfreeze Account Requests")) {
+            if (amp.indexToOption(input, menu, amp.checkUnfreezeAccounts)) {
                 checkUsers("pendingFrozenUsers"); }
-            if (amp.indexToOption(input, menu, "Log Out")) {
-                System.out.println(amp.logout());
+            if (amp.indexToOption(input, menu, amp.logout)) {
+                System.out.println(amp.successfulLogout());
                 userInteracting = false; // stop the while loop
             }
         }

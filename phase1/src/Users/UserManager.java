@@ -97,7 +97,7 @@ public class UserManager {
     /**
      * To remove a item from tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
      *
-     * @param tradingUser     An tradingUser in the trading system.
+     * @param tradingUser    A tradingUser in the trading system.
      * @param item     An item in the trading system.
      * @param listType either "wishlist" or "inventory" as a String
      */
@@ -112,7 +112,7 @@ public class UserManager {
     /**
      * To change the tradingUser's specified threshold.
      *
-     * @param tradingUser           A tradingUser in the trading system.
+     * @param tradingUser  A tradingUser in the trading system.
      * @param thresholdValue new value of threshold as an int
      * @param thresholdType  either "borrow", "weekly", or "incomplete" as a String
      */

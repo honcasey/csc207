@@ -13,19 +13,14 @@ public abstract class MenuPresenter {
     public List<String> userLists = Arrays.asList("wishlist", "inventory");
     private String optionPrompt = "Please type a number corresponding to one of the above options.";
     private String invalidOption = "Not a valid option. Please enter a valid option.";
-    private String togoBack = "To go back to the previous menu, type the number corresponding to that" +
-            "option.";
-
-    public String getToGoBackPrompt(){
-        return(this.togoBack);
-    }
+    public String logout = "Log out";
 
     /**
      * Formats and displays a list of options to the user.
      * @param OptionList the list of options that you want to be displayed.
      */
     protected void displayOptions(List<String> OptionList){
-        for(int i = 0; i < OptionList.size(); i++){
+        for(int i = 1; i < OptionList.size(); i++){
             String index = Integer.toString(i+1);
             String OutputLine =  index + ". " + OptionList.get(i);
             System.out.println(OutputLine);
@@ -103,8 +98,7 @@ public abstract class MenuPresenter {
      * @return returns the index of the option chosen by the user corresponding the option list that was passed in.
      *          So that optionlist.get(return value) gives the option that the user has chosen.
      */
-    public int handleOptionsByIndex(List<String> OptionList, boolean BackOption, String
-            OptionTitle) {
+    public int handleOptionsByIndex(List<String> OptionList, boolean BackOption, String OptionTitle) {
         if (BackOption) {
             this.addBackOption(OptionList);
         }
@@ -113,8 +107,8 @@ public abstract class MenuPresenter {
         return(this.selectOptionByIndex(OptionList));
     }
 
-    public boolean indexToOption(int input, List<String> strings, String s){
-        return strings.get(input).equals(s);
+    public boolean indexToOption(int input, List<String> optionList, String option){
+        return optionList.get(input).equals(option);
     }
 
     private int selectOptionByIndex(List<String> OptionList){
@@ -207,9 +201,7 @@ public abstract class MenuPresenter {
 
     public String empty(String which) { return which + " list is empty. Nothing to be checked."; }
 
-    public String enterName(String name) {
-        return "Please enter name for this " + name;
-    }
+    public String enterName(String name) { return "Please enter name for this " + name; }
 
     public String enterPassword(String name) { return "Please enter password for this " + name; }
 
@@ -236,7 +228,7 @@ public abstract class MenuPresenter {
         return who + "'s account has been set to " + frozen;
     }
 
-    public String logout() { return "You have successfully logged out."; }
+    public String successfulLogout() { return "You have successfully logged out."; }
 
 
 }

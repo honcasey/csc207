@@ -7,15 +7,23 @@ import Presenters.MenuPresenter;
 
 public class AdminMenuPresenter extends MenuPresenter {
 
+    // option strings
+    public String checkPendingItems = "Check Pending Items for Approval";
+    public String checkFlaggedUsers = "Check Flagged Users";
+    public String createNewAdmin = "Create New Admin User";
+    public String addItem = "Add New Item to a TradingUser's Wishlist/Inventory";
+    public String changeThreshold = "Change TradingUser Threshold";
+    public String checkUnfreezeAccounts = "Check Unfreeze TradingUser Account Requests";
+
     public List<String> constructMainMenu() {
         List<String> AdminMenuOptions = new ArrayList<>(); // are lists ordered?
-        AdminMenuOptions.add("Check Pending Items for Approval");
-        AdminMenuOptions.add("Check Flagged Users");
-        AdminMenuOptions.add("Create New Admin TradingUser");
-        AdminMenuOptions.add("Add New Item to a TradingUser's Wishlist/Inventory");
-        AdminMenuOptions.add("Change TradingUser Threshold");
-        AdminMenuOptions.add("Check Unfreeze Account Requests");
-        AdminMenuOptions.add("Log Out");
+        AdminMenuOptions.add(checkPendingItems);
+        AdminMenuOptions.add(checkFlaggedUsers);
+        AdminMenuOptions.add(createNewAdmin);
+        AdminMenuOptions.add(addItem);
+        AdminMenuOptions.add(changeThreshold);
+        AdminMenuOptions.add(checkUnfreezeAccounts);
+        AdminMenuOptions.add(logout);
         return AdminMenuOptions;
     }
 
