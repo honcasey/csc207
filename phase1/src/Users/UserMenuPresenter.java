@@ -7,6 +7,7 @@ import com.sun.xml.internal.bind.v2.TODO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -102,6 +103,29 @@ public class UserMenuPresenter extends MenuPresenter {
             AvailableItemOptionList.add(transaction.toString() + "\\n");
         }
         return(AvailableItemOptionList);
+    }
+
+    public List<String> constructWishlistItemsList(TradingUser user) {
+        List<String> wishlistItems = new ArrayList<>();
+        for (Item item : user.getWishlist()) {
+            wishlistItems.add(item.toString());
+        }
+        return wishlistItems;
+    }
+
+    public List<String> constructInventoryItemsList(TradingUser user) {
+        List<String> inventoryItems = new ArrayList<>();
+        for (Item item : user.getInventory()) {
+            inventoryItems.add(item.toString());
+        }
+        return inventoryItems;
+    }
+
+    public List<String> itemOptionList() {
+        List<String> optionList = new ArrayList<>();
+        optionList.add(removeItem);
+        optionList.add(nextItem);
+        return optionList;
     }
 
     public String enterWhatInFormat(String what, String format) {
