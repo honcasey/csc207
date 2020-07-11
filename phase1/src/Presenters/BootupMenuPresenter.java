@@ -21,11 +21,15 @@ public class BootupMenuPresenter extends MenuPresenter {
         List<String> bootupOptions = new ArrayList<>();
         bootupOptions.add("Login to existing account");
         bootupOptions.add("Create a new account");
-        return HandleOptions(bootupOptions, false, "Bootup Menu");
+        return handleOptions(bootupOptions, false, "Bootup Menu");
     }
 
     public String invalidCredentials() {
         return "Incorrect username or password.";
     }
 
+    @Override
+    public List<String> constructMainMenu() {
+        return null;
+    }
 }
