@@ -92,6 +92,10 @@ public class UserMenuController{
         while(userInteracting){
             HashMap<Item, TradingUser> availableItems  = getAvailableItems();
             List<Item> itemList = new ArrayList<>(availableItems.keySet());
+            if (itemList.isEmpty()) {
+                ump.empty("The Available Items");
+                break;
+            }
 
             List<String> optionList = ump.constructAvailableItemsMenu(itemList);
             int OptionChosen = ump.handleOptionsByIndex(optionList,true, "Available Items");
@@ -253,7 +257,7 @@ public class UserMenuController{
 
     private void viewPastTransaction(){
         TransactionHistory transactionHistory= currentTradingUser.getTransactionHistory();
-        if (transactionHistory == null){
+        if (transactionHistory.isPastEmpty()){
             System.out.println(ump.empty("Transaction History"));
         } else {
             System.out.println(transactionHistory.toString());
@@ -323,7 +327,7 @@ public class UserMenuController{
      * @param transaction A transaction to be cancelled and to remove transaction from tra
      */
     public void cancelTransaction(Transaction transaction)  {
-        currentTradingUser.getCurrentTransactions().getUsersTransactions().remove(transaction);
+        currentTradingUser.getCurrentTransactions().remove(transaction.getId());
         TradingUser u =  um.getTradingUserById(transaction.getUser1());
         if (u == currentTradingUser){
             transaction.setStatusUser1("cancel");
@@ -332,15 +336,6 @@ public class UserMenuController{
             transaction.setStatusUser2("cancel");
         }
         tm.updateStatus(transaction);
-    }
-
-    /**
-     * Creates a Transactions.Transaction and adds it to users
-     * adds the Transactions.Transaction to transaction details of both users
-     * @param targetTradingUser The Users.TradingUser to whom currUser sends a Transactions.Transaction
-     */
-    public void createTransaction(TradingUser targetTradingUser){
-        //TODO: method body
     }
 
     /**
@@ -361,8 +356,8 @@ public class UserMenuController{
         TradingUser tradingUser2 = um.getTradingUserById(transaction.getUser2());
         um.addToTransactionHistory(tradingUser1, transaction);
         um.addToTransactionHistory(tradingUser2, transaction);
-        tradingUser1.getCurrentTransactions().remove(transaction); // Is the transaction in both user's "sent offers"?
-        tradingUser2.getCurrentTransactions().remove(transaction);
+        tradingUser1.getCurrentTransactions().remove(transaction.getId()); // Is the transaction in both user's "sent offers"?
+        tradingUser2.getCurrentTransactions().remove(transaction.getId());
     }
 
     /**

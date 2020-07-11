@@ -102,7 +102,7 @@ public class CurrentTransactionManager extends TransactionManager{
     /**
      * This a method for editing a meeting, this method uses overloading to selectively edit either the location, time
      * or date
-     * @param meeting the meeting that the user wants to edit
+     * @param meetingNum the meeting number that the user wants to edit
      * @param transaction the transaction to which the meeting belongs to
      * @param userId the UUID of the Users.TradingUser who want to edit the transaction
      * @param newLocation the new location that the user want to the meeting to take place
@@ -129,7 +129,7 @@ public class CurrentTransactionManager extends TransactionManager{
     /**
      * This a method for editing a meeting, this method uses overloading to selectively edit either the location, time
      * or date
-     * @param meeting the meeting that the user wants to edit
+     * @param meetingNum the meeting number that the user wants to edit
      * @param transaction the transaction to which the meeting belongs to
      * @param userId the UUID of the Users.TradingUser who want to edit the transaction
      * @param time the new hour, minute the user want to have the meeting take place, must be in LocalTime format

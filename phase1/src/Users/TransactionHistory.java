@@ -33,7 +33,7 @@ public class TransactionHistory {
     public List<UUID> mostRecentOneWayTransactions(){ //TH manager
         if (oneWayTransactions.size() <= 3) {
            return oneWayTransactions;
-        } return (List<UUID>) oneWayTransactions.subList(oneWayTransactions.size() - 3, twoWayTransactions.size());
+        } return oneWayTransactions.subList(oneWayTransactions.size() - 3, twoWayTransactions.size());
     }
 
     /**
@@ -43,7 +43,7 @@ public class TransactionHistory {
         if(twoWayTransactions.size() <= 3){
             return twoWayTransactions;
         }
-        return (List<UUID>) twoWayTransactions.subList(twoWayTransactions.size() - 3, twoWayTransactions.size());
+        return twoWayTransactions.subList(twoWayTransactions.size() - 3, twoWayTransactions.size());
     }
 
     /**
@@ -95,11 +95,19 @@ public class TransactionHistory {
     /**
      * @return an ArrayList of all Transactions
      */
-    public List<UUID>getAllTransactions(){
+    public List<UUID> getAllPastTransactions(){
         List<UUID> allTransactions = new ArrayList<>();
         allTransactions.addAll(oneWayTransactions);
         allTransactions.addAll(twoWayTransactions);
         return allTransactions;
+    }
+
+    /**
+     * This returns whether the transaction history object doesn't have any past transactions in it.
+     * @return returns true iff past transactions is empty.
+     */
+    public boolean isPastEmpty(){
+        return(this.getAllPastTransactions().isEmpty());
     }
     /**
      * @return all of users and the times they have been traded with
