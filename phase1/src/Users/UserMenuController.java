@@ -25,6 +25,11 @@ public class UserMenuController{
     private Map<Item, TradingUser> allPendingItems;
     private UserMenuPresenter userMenuPresenter = new UserMenuPresenter();
 
+    // option strings
+    private String removeItem = "Remove item.";
+    private String nextItem = "Go to next item.";
+    private String previousMenu = "Loading Previous Menu";
+
     public UserMenuController(UserManager userManager, AdminManager adminManager, CurrentTransactionManager currentTransactionManager,
                               ItemManager itemManager, Map<Item, TradingUser> pendingItems, TradingUser tradingUser) {
         currentTradingUser = tradingUser;
@@ -120,14 +125,14 @@ public class UserMenuController{
             );
             // Logic handling back to other menu vs. your account is frozen vs proceed to make create transaction menu.
             if(OptionChosen == OptionList.size()){
-                System.out.println("Loading Previous Menu");
+                System.out.println(this.previousMenu);
                 userInteracting = false;
             }
             else{
                 if(currentTradingUser.isFrozen()){
                     System.out.println("Your account is frozen so you cannot make an offer for this item. Please request" +
                         "to have your account unfrozen.");
-                    System.out.println("You will now be taken back to the main user menu.");
+                    System.out.println(this.previousMenu);
                     userInteracting = false;
                 }
                 else {
@@ -194,17 +199,17 @@ public class UserMenuController{
             } else {
                 Iterator<Item> itemIterator = currentTradingUser.getWishlist().iterator();
                 List<String> optionList = new ArrayList<>();
-                optionList.add("Remove item from wishlist.");
-                optionList.add("Go to next item.");
+                optionList.add(this.removeItem);
+                optionList.add(this.nextItem);
 
                 while(itemIterator.hasNext()){
                     System.out.println(itemIterator.next().toString());
                     int optionChosen =this.userMenuPresenter.handleOptionsByIndex(optionList, true, "Wishlist Menu");
                     if(optionChosen == optionList.size()){
-                        System.out.println("Loading Previous Menu");
+                        System.out.println(this.previousMenu);
                         userInteracting = false;
                     }
-                    else if(this.userMenuPresenter.indexToOption(optionChosen, optionList, "Remove item from wishlist.")){
+                    else if(this.userMenuPresenter.indexToOption(optionChosen, optionList, this.removeItem)){
                         withdrawItem(itemIterator.next(), "wishlist");
                         System.out.println(userMenuPresenter.successfullyRemoved(itemIterator.next().toString(),"wishlist"));
                     }
@@ -212,7 +217,6 @@ public class UserMenuController{
             }
         }
     }
-
 
     private void viewInventory(){
         boolean userInteracting = true;
@@ -224,17 +228,17 @@ public class UserMenuController{
             } else {
                 Iterator<Item> itemIterator = currentTradingUser.getInventory().iterator();
                 List<String> optionList = new ArrayList<>();
-                optionList.add("Remove item from inventory.");
-                optionList.add("Go to next item.");
+                optionList.add(this.removeItem);
+                optionList.add(this.nextItem);
 
                 while(itemIterator.hasNext()){
                     System.out.println(itemIterator.next().toString());
                     int optionChosen =this.userMenuPresenter.handleOptionsByIndex(optionList, true, "Inventory Menu");
                     if(optionChosen == optionList.size()){
-                        System.out.println("Loading Previous Menu");
+                        System.out.println(this.previousMenu);
                         userInteracting = false;
                     }
-                    else if(this.userMenuPresenter.indexToOption(optionChosen, optionList, "Remove item from inventory.")){
+                    else if(this.userMenuPresenter.indexToOption(optionChosen, optionList, this.removeItem)){
                         withdrawItem(itemIterator.next(), "inventory");
                         System.out.println(userMenuPresenter.successfullyRemoved(itemIterator.next().toString(),"inventory"));
                     }
@@ -286,7 +290,7 @@ public class UserMenuController{
             );
             // Logic handling back to other menu vs. Editing a meeting vs changing the StatusUser of a Transaction.
             if (OptionChosen == optionList.size()) {
-                System.out.println("Loading Previous Menu");
+                System.out.println(this.previousMenu);
                 userInteracting = false;
             } else {
                 Transaction transaction = currTransactionsList.get(OptionChosen);
@@ -296,11 +300,11 @@ public class UserMenuController{
                 if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) {
                     tm.updateStatus(transaction);
                     um.addToTransactionHistory(currentTradingUser, transaction);
-                    System.out.println("Loading Previous Menu");
+                    System.out.println(this.previousMenu);
                     userInteracting = false;
                 } else {
                     this.editMeeting(currentTradingUser, transaction);
-                    System.out.println("Loading Previous Menu");
+                    System.out.println(this.previousMenu);
                     userInteracting = false;
                 }
             }
