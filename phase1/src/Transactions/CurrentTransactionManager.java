@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class CurrentTransactionManager extends TransactionManager{
 
-    public CurrentTransactionManager(HashMap<UUID, Transaction> transactions) {
+    public CurrentTransactionManager(Map<UUID, Transaction> transactions) {
         super(transactions);
     }
 
