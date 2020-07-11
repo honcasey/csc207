@@ -112,7 +112,7 @@ public class UserMenuController{
                     TradingUser transactionItemOwner = availableItems.get(transactionItem);
                     userInteracting = CreateTransactionMenu(transactionItem,transactionItemOwner);
                     if(//TODO put master threshold method here){
-                        am.getPendingFrozenTradingUsers().add(currentTradingUser);
+                        am.getPendingFrozenTradingUsers().add(currentTradingUser));
                     }
                 }
             }
@@ -167,22 +167,20 @@ public class UserMenuController{
                 ump.empty("Wishlist");
                 userInteracting = false;
             } else {
-                Iterator<Item> itemIterator = currentTradingUser.getWishlist().iterator();
-                List<String> optionList = new ArrayList<>();
-                optionList.add(ump.removeItem);
-                optionList.add(ump.nextItem);
-
-                while(itemIterator.hasNext()){
-                    System.out.println(itemIterator.next().toString());
-                    int optionChosen = ump.handleOptionsByIndex(optionList, true, "Wishlist Menu");
-                    if(optionChosen == optionList.size()){
-                        System.out.println(ump.previousMenu);
-                        userInteracting = false;
-                    }
-                    else if(ump.indexToOption(optionChosen, optionList, ump.removeItem)){
-                        um.removeItem(currentTradingUser, itemIterator.next(), "wishlist");
-                        System.out.println(ump.successfullyRemoved(itemIterator.next().toString(),"wishlist"));
-                    } } } } }
+                int itemChosen = ump.handleOptionsByIndex(ump.constructWishlistItemsList(currentTradingUser), true, "Wishlist Items");
+                if (itemChosen == ump.constructWishlistItemsList(currentTradingUser).size()) {
+                    System.out.println(ump.previousMenu);
+                    userInteracting = false;
+                }
+                else {
+                    String item = ump.constructWishlistItemsList(currentTradingUser).get(itemChosen);
+                    System.out.println(ump.itemOptionList());
+                    int optionChosen = ump.handleOptionsByIndex(ump.itemOptionList(), true, "Wishlist Menu");
+                    if(ump.indexToOption(optionChosen, ump.itemOptionList(), ump.removeItem)){
+                        Item whichItem = currentTradingUser.getWishlist().get(itemChosen);
+                        um.removeItem(currentTradingUser, whichItem, "wishlist");
+                        System.out.println(ump.successfullyRemoved(item,"wishlist"));
+                }}}}}
 
     private void viewInventory(){
         boolean userInteracting = true;
@@ -192,21 +190,19 @@ public class UserMenuController{
                 ump.empty("Inventory");
                 userInteracting = false;
             } else {
-                Iterator<Item> itemIterator = currentTradingUser.getInventory().iterator();
-                List<String> optionList = new ArrayList<>();
-                optionList.add(ump.removeItem);
-                optionList.add(ump.nextItem);
-
-                while(itemIterator.hasNext()){
-                    System.out.println(itemIterator.next().toString());
-                    int optionChosen = ump.handleOptionsByIndex(optionList, true, "Inventory Menu");
-                    if(optionChosen == optionList.size()){
-                        System.out.println(ump.previousMenu);
-                        userInteracting = false;
-                    }
-                    else if(ump.indexToOption(optionChosen, optionList, ump.removeItem)){
-                        um.removeItem(currentTradingUser, itemIterator.next(), "inventory");
-                        System.out.println(ump.successfullyRemoved(itemIterator.next().toString(),"inventory"));
+                int itemChosen = ump.handleOptionsByIndex(ump.constructInventoryItemsList(currentTradingUser), true, "Inventory Items");
+                if (itemChosen == ump.constructInventoryItemsList(currentTradingUser).size()) {
+                    System.out.println(ump.previousMenu);
+                    userInteracting = false;
+                }
+                else {
+                    String item = ump.constructInventoryItemsList(currentTradingUser).get(itemChosen);
+                    System.out.println(ump.itemOptionList());
+                    int optionChosen = ump.handleOptionsByIndex(ump.itemOptionList(), true, "Inventory Menu");
+                    if(ump.indexToOption(optionChosen, ump.itemOptionList(), ump.removeItem)){
+                        Item whichItem = currentTradingUser.getInventory().get(itemChosen);
+                        um.removeItem(currentTradingUser, whichItem, "inventory");
+                        System.out.println(ump.successfullyRemoved(item,"inventory"));
                     } } } } }
 
     private void requestUnfreezeAccount() {
@@ -404,6 +400,6 @@ public class UserMenuController{
         List<String> meetNum = new ArrayList<String>(Arrays.asList("Edit first meeting", "Edit second meeting"));
         String meetNumTitle = "This transaction has two meetings";
         int num = ump.handleOptionsByIndex(meetNum, true, meetNumTitle);
-        return num; //this is because we can either have meeting one or meeting two but index of list starts from 0
+        return num + 1; //this is because we can either have meeting one or meeting two but index of list starts from 0
     }
 }
