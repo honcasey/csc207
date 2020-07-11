@@ -113,9 +113,10 @@ public class UserMenuPresenter extends MenuPresenter {
         return wishlistItems;
     }
 
-    public List<String> constructInventoryItemsList(TradingUser user) {
+
+    public List<String> constructInventoryItemsList(List<Item> UserInventory) {
         List<String> inventoryItems = new ArrayList<>();
-        for (Item item : user.getInventory()) {
+        for (Item item : UserInventory) {
             inventoryItems.add(item.toString());
         }
         return inventoryItems;

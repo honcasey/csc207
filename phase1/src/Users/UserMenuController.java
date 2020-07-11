@@ -111,12 +111,13 @@ public class UserMenuController{
                     Item transactionItem = itemList.get(OptionChosen);
                     TradingUser transactionItemOwner = availableItems.get(transactionItem);
                     userInteracting = CreateTransactionMenu(transactionItem,transactionItemOwner);
-                    if(//TODO put master threshold method here){
-                        am.getPendingFrozenTradingUsers().add(currentTradingUser));
+                    if(this.thresholdsExceeded()){
+                        am.getPendingFrozenTradingUsers().add(currentTradingUser);
                     }
                 }
             }
         }
+    }
 
     /**
      * This method handles the flow for setting up a transaction for an available item assuming that the transaction
@@ -127,7 +128,7 @@ public class UserMenuController{
      * @return this method returns a true if the user wants to make another offer for an item and returns
      * false if the user wants to head back to the main menu.
      */
-    private boolean CreateTransactionMenu(Item item, TradingUser Owner) {
+    protected boolean CreateTransactionMenu(Item item, TradingUser Owner) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Transactions Menu");
         System.out.println("----------------");
@@ -137,13 +138,47 @@ public class UserMenuController{
             System.out.println("You need to schedule a second meeting to reverse the transaction.");
             Meeting SecondMeeting = MeetingDetailsMenu("Second Meeting Details");
             if(ump.handleYesNo("Would you like to offer one of your items?")){
+                List<Item> currentUserInventory = currentTradingUser.getInventory();
+                List<String> ItemOptions = ump.constructInventoryItemsList(currentUserInventory);
+                int OptionChosen = ump.handleOptionsByIndex(ItemOptions,false,
+                        "Available Inventory");
+                Item ChosenItem = currentUserInventory.get(OptionChosen);
 
-
+                Transaction newTransaction = this.tm.createTransaction(currentTradingUser.getUserId(),
+                        Owner.getUserId(),ChosenItem.getId(),
+                        item.getId(),FirstMeeting,SecondMeeting);
+                updateUsersCurrentTransactions(currentTradingUser,Owner,newTransaction);
             }
-
+            else{
+                Transaction newTransaction = this.tm.createTransaction(currentTradingUser.getUserId(),
+                        Owner.getUserId(),
+                        item.getId(),FirstMeeting,SecondMeeting);
+                updateUsersCurrentTransactions(currentTradingUser,Owner,newTransaction);
+            }
         }
-
+        else{
+            Transaction newTransaction = this.tm.createTransaction(currentTradingUser.getUserId(),
+                    Owner.getUserId(),
+                    item.getId(),FirstMeeting);
+            updateUsersCurrentTransactions(currentTradingUser,Owner,newTransaction);
+        }
+        return(!ump.handleYesNo("Would you like to make another transaction?"));
     }
+
+    /**
+     * This method is ONLY allowed to be used in the createTransactionMenu
+     *
+     * DO NOT USE THIS METHOD. THERE ARE NO EXCEPTIONS WRITTEN AND THIS METHOD IS OUT OF PLACE
+     * THIS WILL HAVE TO BE MOVED SOMEWHERE ELSE
+     * @param user1 one of the users in transaction.
+     * @param user2 one of the users in transaction.
+     * @param newTransaction the actual transaction object. (for which method will get ids for)
+     */
+    private void updateUsersCurrentTransactions(TradingUser user1,TradingUser user2,Transaction newTransaction){
+        user1.getCurrentTransactions().add(newTransaction.getId());
+        user2.getCurrentTransactions().add(newTransaction.getId());
+    }
+
 
     /**
      * This method walks the user through the details required for a meeting, then constructs a meeting.
@@ -190,13 +225,15 @@ public class UserMenuController{
                 ump.empty("Inventory");
                 userInteracting = false;
             } else {
-                int itemChosen = ump.handleOptionsByIndex(ump.constructInventoryItemsList(currentTradingUser), true, "Inventory Items");
-                if (itemChosen == ump.constructInventoryItemsList(currentTradingUser).size()) {
+                List<Item> currentUserInventory = currentTradingUser.getInventory();
+                List<String> ItemOptions = ump.constructInventoryItemsList(currentUserInventory);
+                int itemChosen = ump.handleOptionsByIndex(ItemOptions, true, "Inventory Items");
+                if (itemChosen == ItemOptions.size()) {
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
                 }
                 else {
-                    String item = ump.constructInventoryItemsList(currentTradingUser).get(itemChosen);
+                    String item = ItemOptions.get(itemChosen);
                     System.out.println(ump.itemOptionList());
                     int optionChosen = ump.handleOptionsByIndex(ump.itemOptionList(), true, "Inventory Menu");
                     if(ump.indexToOption(optionChosen, ump.itemOptionList(), ump.removeItem)){
@@ -401,5 +438,11 @@ public class UserMenuController{
         String meetNumTitle = "This transaction has two meetings";
         int num = ump.handleOptionsByIndex(meetNum, true, meetNumTitle);
         return num + 1; //this is because we can either have meeting one or meeting two but index of list starts from 0
+    }
+
+    private boolean thresholdsExceeded(){
+        boolean weeklyThreshold = ptm.weeklyThresholdExceeded(currentTradingUser);
+        boolean TransactionsExceeded = um.incompleteTransactionExceeded(currentTradingUser);
+        return(weeklyThreshold||TransactionsExceeded);
     }
 }

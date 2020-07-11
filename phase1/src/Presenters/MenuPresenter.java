@@ -20,7 +20,7 @@ public abstract class MenuPresenter {
      * @param OptionList the list of options that you want to be displayed.
      */
     protected void displayOptions(List<String> OptionList){
-        for(int i = 1; i < OptionList.size(); i++){
+        for(int i = 0; i < OptionList.size(); i++){
             String index = Integer.toString(i+1);
             String OutputLine =  index + ". " + OptionList.get(i);
             System.out.println(OutputLine);
@@ -32,7 +32,7 @@ public abstract class MenuPresenter {
      * Adds Back option at the end of options being displayed to the user.
      * @param OptionList The list of options being displayed prior to calling this method.
      */
-    protected void addBackOption(List<String> OptionList){ ;
+    protected void addBackOption(List<String> OptionList){
         String LastOption = ". Go back";
         OptionList.add(LastOption);
     }
@@ -142,10 +142,7 @@ public abstract class MenuPresenter {
             }
             UserInput = scanner.next();
         } while (!(UserInput.equals("Yes") || UserInput.equals("No")));
-        if(UserInput.equals("Yes")){
-            return(true);
-        }
-        else{return(false);}
+        return UserInput.equals("Yes");
     }
 
     /** inputTimeGetter
@@ -177,8 +174,8 @@ public abstract class MenuPresenter {
 
     /** inputDateGetter
      * This method prompts the user for information to construct a date object, then
-     * @param optionDatePrompt
-     * @return
+     * @param optionDatePrompt What you want to ask the user.
+     * @return this returns a date object that was constructed by the user.
      */
     public LocalDate inputDateGetter(String optionDatePrompt){
         Scanner scanner = new Scanner(System.in);
