@@ -18,28 +18,34 @@ public class PastTransactionManager extends TransactionManager{
 
     }
 
-    /**
-     * Generates a list of Transaction objects from the Transaction History list of a User
-     * @param transactionHistory Transaction History of Interst
-     * @return a List<Transaction> containing a user's past transactions
-     * @throws InvalidTransactionException when there is an invalid transaction
-     */
-    public List<Transaction> generateTransactionsList(TransactionHistory transactionHistory) throws InvalidTransactionException {
-        List<UUID>pastTransactionsIDs = transactionHistory.getAllTransactions();
-        return getTransactionsFromIdList(pastTransactionsIDs);
-    }
+//    /**
+//     * Generates a list of Transaction objects from the Transaction History list of a User
+//     * @param transactionHistory Transaction History of Interst
+//     * @return a List<Transaction> containing a user's past transactions
+//     * @throws InvalidTransactionException when there is an invalid transaction
+//     */
+//    public List<Transaction> generateTransactionsList(TransactionHistory transactionHistory){
+//        List<Transaction> r = new ArrayList<>();
+//        try{
+//            List<UUID>pastTransactionsIDs = transactionHistory.getAllTransactions();
+//            r.addAll(getTransactionsFromIdList(pastTransactionsIDs));}
+//        catch(InvalidTransactionException e){
+//            System.out.println("transaction id does not map to a transaction");
+//        }
+//        return r;
+//    }
 
     /**
      * A helper method for weeklyThresholdExceeded
      * @param tradingUser TradingUser of Interest
      * @return int of the number of transactions that have been made by the user per a calendar week
-     * @throws InvalidTransactionException when there is an invalid transaction
      */
 
-    private int numTransactionsInWeek(TradingUser tradingUser) throws InvalidTransactionException {
+    private int numTransactionsInWeek(TradingUser tradingUser){
         TransactionHistory transactionHistory = tradingUser.getTransactionHistory();
+        List<UUID> transactionHistoryId = transactionHistory.getAllTransactions();
         int numTransactions = 0;
-        List<Transaction> allTransactions = generateTransactionsList(transactionHistory);
+        List<Transaction> allTransactions = getTransactionsFromIdList(transactionHistoryId);
 //        ZoneId k = ZoneId.of("America/Montreal");
 //        LocalDate today = LocalDate.now(k); alternative way of doing it; saving just in case
         Calendar currentCal = Calendar.getInstance();
@@ -70,7 +76,7 @@ public class PastTransactionManager extends TransactionManager{
      * @param tradingUser TradingUser of Interest
      * @return boolean
      */
-    public boolean weeklyThresholdExceeded(TradingUser tradingUser) throws InvalidTransactionException {
+    public boolean weeklyThresholdExceeded(TradingUser tradingUser) {
         int threshold = tradingUser.getWeeklyThreshold();
         int numberWeeklyTransactions = numTransactionsInWeek(tradingUser);
         return numberWeeklyTransactions >= threshold;
