@@ -15,12 +15,25 @@ public class PastTransactionManager extends TransactionManager{
 
     }
 
+    /**
+     * Generates a list of Transaction objects from the Transaction History list of a User
+     * @param transactionHistory Transaction History of Interst
+     * @return a List<Transaction> containing a user's past transactions
+     * @throws InvalidTransactionException when there is an invalid transaction
+     */
     public List<Transaction> generateTransactionsList(TransactionHistory transactionHistory) throws InvalidTransactionException {
         List<UUID>pastTransactionsIDs = transactionHistory.getAllTransactions();
         return getTransactionsFromIdList(pastTransactionsIDs);
     }
 
-    public int numTransactionsInWeek(TradingUser tradingUser) throws InvalidTransactionException {
+    /**
+     * A helper method for weeklyThresholdExceeded
+     * @param tradingUser TradingUser of Interest
+     * @return int of the number of transactions that have been made by the user per a calendar week
+     * @throws InvalidTransactionException when there is an invalid transaction
+     */
+
+    private int numTransactionsInWeek(TradingUser tradingUser) throws InvalidTransactionException {
         TransactionHistory transactionHistory = tradingUser.getTransactionHistory();
         int numTransactions = 0;
         List<Transaction> allTransactions = generateTransactionsList(transactionHistory);
@@ -51,7 +64,7 @@ public class PastTransactionManager extends TransactionManager{
 
     /**
      * Returns if the tradingUser has exceeded the weekly limit of transactions
-     * @param tradingUser TradingUser
+     * @param tradingUser TradingUser of Interest
      * @return boolean
      */
     public boolean weeklyThresholdExceeded(TradingUser tradingUser) throws InvalidTransactionException {
