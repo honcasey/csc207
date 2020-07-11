@@ -166,7 +166,6 @@ public class UserManager {
      * @param tradingUser        A tradingUser in a trading system
      * @param transaction a transaction between two Users
      */
-    // this method has to be changed
     // consider splitting into two methods. Reasoning for having one method, user1 == tradingUser is needed for both updating the UserNumTradeTimes and NumItemsBorrowed, NumItemsLended
     private void updateTransactionHistoryValues(TradingUser tradingUser, Transaction transaction) {
         TransactionHistory tH = tradingUser.getTransactionHistory();

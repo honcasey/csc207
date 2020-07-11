@@ -33,8 +33,6 @@ public class TradingUser extends User implements Serializable {
          currentTransactions = new ArrayList<>();
      }
 
-
-
     /**
      * Getter for this Users.TradingUser's transactionHistory as list of Transactions they have previously been involved with.
      * @return list of Transactions.Transaction objects

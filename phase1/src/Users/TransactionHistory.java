@@ -10,8 +10,8 @@ import java.util.*;
  */
 
 public class TransactionHistory {
-    private ArrayList <UUID> oneWayTransactions; // goes in user
-    private ArrayList <UUID> twoWayTransactions; //goes in user
+    private List <UUID> oneWayTransactions; // goes in user
+    private List <UUID> twoWayTransactions; //goes in user
     private HashMap<String, Integer> usersNumTradeTimes; // goes in user. change to <string, integer>
     private int numItemsLended = 0; // goes in user
     private int numItemsBorrowed = 0; // goes in user
@@ -30,49 +30,37 @@ public class TransactionHistory {
     /**
      * @return the three most recent OneWay Transactions
      */
-    public ArrayList<UUID> mostRecentOneWayTransactions(){ //TH manager
+    public List<UUID> mostRecentOneWayTransactions(){ //TH manager
         if (oneWayTransactions.size() <= 3) {
            return oneWayTransactions;
-        } return (ArrayList<UUID>) oneWayTransactions.subList(oneWayTransactions.size() - 3, twoWayTransactions.size());
+        } return (List<UUID>) oneWayTransactions.subList(oneWayTransactions.size() - 3, twoWayTransactions.size());
     }
 
     /**
      * @return the three most recent TwoWay Transactions.Transaction
      */
-    public ArrayList<UUID> mostRecentTwoWayTransactions(){
+    public List<UUID> mostRecentTwoWayTransactions(){
         if(twoWayTransactions.size() <= 3){
             return twoWayTransactions;
         }
-        return (ArrayList<UUID>) twoWayTransactions.subList(twoWayTransactions.size() - 3, twoWayTransactions.size());
+        return (List<UUID>) twoWayTransactions.subList(twoWayTransactions.size() - 3, twoWayTransactions.size());
     }
 
     /**
      * @return the usernames of the Users.TradingUser's top three trading partners
      */
-    public ArrayList<String> mostTradedWithUsers(){
-        HashMap<String, Integer> temp = (HashMap<String, Integer>) usersNumTradeTimes.clone();
-        ArrayList<Map.Entry<String, Integer>> mostTradedWith = new ArrayList<>();
-        ArrayList<String> mostTradedWithUsernames = new ArrayList<>();
-        // fuck it, let's just iterate through multiple times because I don't want to deal with a linked hashmap jfc
-
-        // if the user hasn't traded with anyone yet
-        if(usersNumTradeTimes.size() == 0){
-            String note = "You haven't traded with anyone yet!";
-            mostTradedWithUsernames.add(note);
-            return mostTradedWithUsernames;
-        }
+    public List<String> mostTradedWithUsers(){
+        Map<String, Integer> temp = (HashMap<String, Integer>) usersNumTradeTimes.clone();
+        List<Map.Entry<String, Integer>> mostTradedWith = new ArrayList<>();
+        List<String> mostTradedWithUsernames = new ArrayList<>();
         // if user has less than or equal to 3 trades
         //// this is not necessary actually now that I think about it
         if(usersNumTradeTimes.size() <= 3){
             Set<String> users = usersNumTradeTimes.keySet();
-            for (String userTemp : users) {
-                mostTradedWithUsernames.add(userTemp);
-            }
+            mostTradedWithUsernames.addAll(users);
             return mostTradedWithUsernames;
             }
-
         // if user has greater than 3 trades
-
         // find the three most traded users
         int j = 0;
         while(j < 3){
@@ -86,7 +74,6 @@ public class TransactionHistory {
             temp.remove(maxUser.getKey());
             j ++;
         }
-
         return mostTradedWithUsernames;
 
     }
@@ -94,22 +81,22 @@ public class TransactionHistory {
     /**
      * @return all OneWay Transactions
      */
-    public ArrayList <UUID> getOneWayTransactions(){
+    public List <UUID> getOneWayTransactions(){
         return oneWayTransactions;
     }
 
     /**
      * @return all TwoWay Transactions
      */
-    public ArrayList<UUID> getTwoWayTransactions(){
+    public List<UUID> getTwoWayTransactions(){
         return twoWayTransactions;
     }
 
     /**
      * @return an ArrayList of all Transactions
      */
-    public ArrayList<UUID>getAllTransactions(){
-        ArrayList<UUID> allTransactions = new ArrayList<>();
+    public List<UUID>getAllTransactions(){
+        List<UUID> allTransactions = new ArrayList<>();
         allTransactions.addAll(oneWayTransactions);
         allTransactions.addAll(twoWayTransactions);
         return allTransactions;
