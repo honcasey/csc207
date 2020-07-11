@@ -1,10 +1,6 @@
 package Transactions;
 
-import Exceptions.InvalidItemException;
-import Exceptions.InvalidTransactionException;
-import Items.Item;
-import Transactions.*;
-import Users.User;
+import Users.TradingUser;
 
 import java.time.LocalTime;
 import java.util.*;
@@ -108,7 +104,7 @@ public class CurrentTransactionManager extends TransactionManager{
      * or date
      * @param meeting the meeting that the user wants to edit
      * @param transaction the transaction to which the meeting belongs to
-     * @param userId the UUID of the Users.User who want to edit the transaction
+     * @param userId the UUID of the Users.TradingUser who want to edit the transaction
      * @param newLocation the new location that the user want to the meeting to take place
      * @return True if the meeting was successfully edited
      */
@@ -135,7 +131,7 @@ public class CurrentTransactionManager extends TransactionManager{
      * or date
      * @param meeting the meeting that the user wants to edit
      * @param transaction the transaction to which the meeting belongs to
-     * @param userId the UUID of the Users.User who want to edit the transaction
+     * @param userId the UUID of the Users.TradingUser who want to edit the transaction
      * @param time the new hour, minute the user want to have the meeting take place, must be in LocalTime format
      * @return True if the meeting was successfully edited
      */
@@ -161,7 +157,7 @@ public class CurrentTransactionManager extends TransactionManager{
      * or date
      * @param meeting the meeting that the user wants to edit
      * @param transaction the transaction to which the meeting belongs to
-     * @param userId the UUID of the Users.User who want to edit the transaction
+     * @param userId the UUID of the Users.TradingUser who want to edit the transaction
      * @param date the new Year, month, day the user want to have the meeting take place, must be in LocalDate format
      * @return True if the meeting was successfully edited
      */
@@ -218,8 +214,8 @@ public class CurrentTransactionManager extends TransactionManager{
 
 
 
-        public boolean updateStatusUser(User user, Transaction transaction, String optionChosen){
-            int userNum = findUserNum(transaction, user.getUserId());
+        public boolean updateStatusUser(TradingUser tradingUser, Transaction transaction, String optionChosen){
+            int userNum = findUserNum(transaction, tradingUser.getUserId());
             if (optionChosen.equals("Confirm Transactions Meeting(s)")){
                 transaction.setStatusUserNum("confirm", userNum);
                 return true;

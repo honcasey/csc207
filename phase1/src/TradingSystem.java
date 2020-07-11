@@ -8,7 +8,7 @@ import Items.ItemManager;
 import Presenters.BootupMenuPresenter;
 import Transactions.Transaction;
 import Transactions.CurrentTransactionManager;
-import Users.User;
+import Users.TradingUser;
 import Users.UserManager;
 import Users.UserMenuController;
 
@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * The TradingSystem class handles logging on and the creation of new Users.User accounts.
+ * The TradingSystem class handles logging on and the creation of new Users.TradingUser accounts.
  * <p>
  * If logging on to an existing account, directs the user to either the administrator menu
  * or the user menu.
@@ -37,7 +37,7 @@ public class TradingSystem {
     private UserManager userManager;
     private CurrentTransactionManager currentTransactionManager;
     private ItemManager itemManager;
-    private Map<Item, User> pendingItems;
+    private Map<Item, TradingUser> pendingItems;
     private final BootupMenuPresenter bmp = new BootupMenuPresenter();
 
 
@@ -75,16 +75,16 @@ public class TradingSystem {
         // files exists so we can deserialize them
         Serializer serializer = new Serializer();
         List<AdminUser> admins = serializer.readAdminsFromFile(adminsFilePath);
-        List<User> users = serializer.readUsersFromFile(usersFilePath);
+        List<TradingUser> tradingUsers = serializer.readUsersFromFile(usersFilePath);
         pendingItems = serializer.readItemsFromFile(requestedItemsFilePath);
-        List<User> flaggedAccounts = serializer.readAccountsFromFile(flaggedAccountsFilePath);
-        List<User> frozenAccounts = serializer.readAccountsFromFile(frozenAccountsFilePath);
+        List<TradingUser> flaggedAccounts = serializer.readAccountsFromFile(flaggedAccountsFilePath);
+        List<TradingUser> frozenAccounts = serializer.readAccountsFromFile(frozenAccountsFilePath);
         Map<UUID, Transaction> transactions = serializer.readTransactionMapFromFile(transactionsFilePath);
         Map<UUID, Item> items = serializer.readItemMapFromFile(itemMapFilePath);
 
         // create new Managers
         adminManager = new AdminManager(admins, flaggedAccounts, frozenAccounts);
-        userManager = new UserManager(users, flaggedAccounts, frozenAccounts);
+        userManager = new UserManager(tradingUsers, flaggedAccounts, frozenAccounts);
         currentTransactionManager = new CurrentTransactionManager(transactions);
         itemManager = new ItemManager(items);
     }
@@ -104,17 +104,17 @@ public class TradingSystem {
                 List<AdminUser> list = new ArrayList<>();
                 serializer.writeAdminsToFile(filePath, list);
             } else if (filePath.equals(usersFilePath)) {
-                List<User> list = new ArrayList<>();
+                List<TradingUser> list = new ArrayList<>();
                 serializer.writeUsersToFile(filePath ,list);
             } else if (filePath.equals(requestedItemsFilePath)) {
-                HashMap<Item, User> map = new HashMap<>();
+                HashMap<Item, TradingUser> map = new HashMap<>();
                 serializer.writeItemsToFile(filePath, map);
             } else if (filePath.equals(flaggedAccountsFilePath)) {
-                List<User> users = new ArrayList<>();
-                serializer.writeAccountsToFile(filePath, users);
+                List<TradingUser> tradingUsers = new ArrayList<>();
+                serializer.writeAccountsToFile(filePath, tradingUsers);
             } else if (filePath.equals(frozenAccountsFilePath)) {
-                List<User> users = new ArrayList<>();
-                serializer.writeAccountsToFile(filePath, users);
+                List<TradingUser> tradingUsers = new ArrayList<>();
+                serializer.writeAccountsToFile(filePath, tradingUsers);
             } else if (filePath.equals(transactionsFilePath)) {
                 Map<UUID, Transaction> transactions = new HashMap<>();
                 serializer.writeTransactionsToFile(filePath, transactions);
@@ -130,7 +130,7 @@ public class TradingSystem {
      */
     private void writeData() throws IOException {
         Serializer serializer = new Serializer();
-        serializer.writeUsersToFile(usersFilePath, userManager.getAllUsers());
+        serializer.writeUsersToFile(usersFilePath, userManager.getAllTradingUsers());
         serializer.writeAdminsToFile(adminsFilePath, adminManager.getAllAdmins());
         serializer.writeItemsToFile(requestedItemsFilePath, pendingItems);
     }
@@ -173,7 +173,7 @@ public class TradingSystem {
                 } catch(InvalidUserException e) {
                     // we already checked this username corresponds to a valid user on line 120
                     // so technically userManager.getUser(username) should never throw an exception
-                    System.out.println("Invalid Users.User.");
+                    System.out.println("Invalid Users.TradingUser.");
                 }
             } else {
                 // no user or admin account that corresponds to user and pass
@@ -191,9 +191,9 @@ public class TradingSystem {
         parseCredentials(getUserAndPass());
         if (!adminManager.checkAvailableUsername(username)) {
             try {
-                User user = userManager.addUser(username, password);
+                TradingUser tradingUser = userManager.addUser(username, password);
                 UserMenuController userMenuController = new UserMenuController(userManager, adminManager,
-                        currentTransactionManager, itemManager, pendingItems, user);
+                        currentTransactionManager, itemManager, pendingItems, tradingUser);
                 userMenuController.run();
             } catch(InvalidUserException e) {
                 // we just created this new user so we know it's a valid user so userManager.getUser()

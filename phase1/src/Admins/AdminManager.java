@@ -1,7 +1,7 @@
 package Admins;
 
 import Exceptions.InvalidAdminException;
-import Users.User;
+import Users.TradingUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,17 +14,17 @@ public class AdminManager {
     /**
      * A list of  Users that have had their account flagged to be frozen automatically by the system.
      */
-    private List<User> flaggedAccounts;
+    private List<TradingUser> flaggedAccounts;
 
     /**
      * A list of Users that have had their account frozen after approval by an Admin.
      */
-    private List<User> frozenAccounts;
+    private List<TradingUser> frozenAccounts;
 
     /**
      * A list of Users that have requested their account to be unfrozen.
      */
-    private List<User> pendingFrozenUsers;
+    private List<TradingUser> pendingFrozenTradingUsers;
 
     /**
      * Creates an AdminManager.
@@ -32,11 +32,11 @@ public class AdminManager {
      * @param flaggedAccounts list of all Users that have had their account flagged to be frozen automatically by the system.
      * @param frozenAccounts list of all Users tha have had their account frozen after approval by an Admin
      */
-    public AdminManager(List<AdminUser> admins, List<User> flaggedAccounts, List<User> frozenAccounts) {
+    public AdminManager(List<AdminUser> admins, List<TradingUser> flaggedAccounts, List<TradingUser> frozenAccounts) {
         allAdmins = admins;
         this.flaggedAccounts = flaggedAccounts;
         this.frozenAccounts = frozenAccounts;
-        pendingFrozenUsers = new ArrayList<>();
+        pendingFrozenTradingUsers = new ArrayList<>();
     }
 
     /**
@@ -102,17 +102,17 @@ public class AdminManager {
      * Getter for this AdminMenu's list of all pending frozen Users that have been requested to be unfrozen.
      * @return a list of all users that have requested to be unfrozen.
      */
-    public List<User> getPendingFrozenUsers() { return pendingFrozenUsers; }
+    public List<TradingUser> getPendingFrozenTradingUsers() { return pendingFrozenTradingUsers; }
 
     /**
      * Getter for this AdminMenu's list of all Users who are frozen.
      * @return a list of all users whos accounts are frozen.
      */
-    public List<User> getFrozenAccounts() { return frozenAccounts; }
+    public List<TradingUser> getFrozenAccounts() { return frozenAccounts; }
 
     /**
      * Getter for this AdminMenu's list of all flagged Users that have been flagged to be frozen by the system.
      * @return a list of all users that have been flagged to be frozen.
      */
-    public List<User> getFlaggedAccounts() { return flaggedAccounts; }
+    public List<TradingUser> getFlaggedAccounts() { return flaggedAccounts; }
 }

@@ -1,7 +1,7 @@
 import Admins.AdminManager;
 import Admins.AdminUser;
 import Exceptions.InvalidAdminException;
-import Users.User;
+import Users.TradingUser;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -48,8 +48,8 @@ public class AdminTest {
         AdminUser admin1 = new AdminUser("annie", "pwd123");
         AdminUser admin2 = new AdminUser("casey", "pwd123");
         List<AdminUser> adminUserList = new ArrayList<>();
-        List<User> flaggedAccounts = new ArrayList<>();
-        List<User> frozenAccounts = new ArrayList<>();
+        List<TradingUser> flaggedAccounts = new ArrayList<>();
+        List<TradingUser> frozenAccounts = new ArrayList<>();
         adminUserList.add(admin1);
         adminUserList.add(admin2);
         AdminManager am = new AdminManager(adminUserList, flaggedAccounts, frozenAccounts);
@@ -63,8 +63,8 @@ public class AdminTest {
         AdminUser admin1 = new AdminUser("annie", "pwd123");
         AdminUser admin2 = new AdminUser("casey", "pwd123");
         List<AdminUser> adminUserList = new ArrayList<>();
-        List<User> flaggedAccounts = new ArrayList<>();
-        List<User> frozenAccounts = new ArrayList<>();
+        List<TradingUser> flaggedAccounts = new ArrayList<>();
+        List<TradingUser> frozenAccounts = new ArrayList<>();
         adminUserList.add(admin1);
         adminUserList.add(admin2);
         AdminManager am = new AdminManager(adminUserList, flaggedAccounts, frozenAccounts);
@@ -77,8 +77,8 @@ public class AdminTest {
         AdminUser admin1 = new AdminUser("annie", "pwd123");
         AdminUser admin2 = new AdminUser("casey", "pwd123");
         List<AdminUser> adminUserList = new ArrayList<>();
-        List<User> flaggedAccounts = new ArrayList<>();
-        List<User> frozenAccounts = new ArrayList<>();
+        List<TradingUser> flaggedAccounts = new ArrayList<>();
+        List<TradingUser> frozenAccounts = new ArrayList<>();
         adminUserList.add(admin1);
         adminUserList.add(admin2);
         AdminManager am = new AdminManager(adminUserList, flaggedAccounts, frozenAccounts);
@@ -90,8 +90,8 @@ public class AdminTest {
         AdminUser admin1 = new AdminUser("annie", "pwd123");
         AdminUser admin2 = new AdminUser("casey", "pwd123");
         List<AdminUser> adminUserList = new ArrayList<>();
-        List<User> flaggedAccounts = new ArrayList<>();
-        List<User> frozenAccounts = new ArrayList<>();
+        List<TradingUser> flaggedAccounts = new ArrayList<>();
+        List<TradingUser> frozenAccounts = new ArrayList<>();
         adminUserList.add(admin1);
         adminUserList.add(admin2);
         AdminManager am = new AdminManager(adminUserList, flaggedAccounts, frozenAccounts);

@@ -3,7 +3,7 @@ package Admins;
 import Exceptions.InvalidAdminException;
 import Exceptions.InvalidUserException;
 import Items.Item;
-import Users.User;
+import Users.TradingUser;
 import Users.UserManager;
 
 import java.util.*;
@@ -12,12 +12,12 @@ public class AdminMenuController {
     private final AdminUser currentAdmin; // admin that's logged in
     private final AdminManager am;
     private final UserManager um;
-    private final Map<Item, User> allPendingItems;
+    private final Map<Item, TradingUser> allPendingItems;
     private final AdminMenuPresenter amp = new AdminMenuPresenter();
     private int input; // do we need this?
 
     public AdminMenuController(AdminManager adminManager, UserManager userManager,
-                               Map<Item, User> pendingItems, AdminUser admin) {
+                               Map<Item, TradingUser> pendingItems, AdminUser admin) {
         currentAdmin = admin;
         allPendingItems = pendingItems;
         um = userManager;
@@ -36,11 +36,11 @@ public class AdminMenuController {
                 checkPendingItems();
             if (amp.indexToOption(input, menu, "Check Flagged Users"))
                 checkUsers("flaggedUsers");
-            if (amp.indexToOption(input, menu, "Create New Admin User"))
+            if (amp.indexToOption(input, menu, "Create New Admin TradingUser"))
                 createAdmin();
-            if (amp.indexToOption(input, menu, "Add New Item to a User's Wishlist/Inventory"))
+            if (amp.indexToOption(input, menu, "Add New Item to a TradingUser's Wishlist/Inventory"))
                 addItemToUser();
-            if (amp.indexToOption(input, menu, "Change User Threshold")) {
+            if (amp.indexToOption(input, menu, "Change TradingUser Threshold")) {
                 changeUserThreshold();}
             if (amp.indexToOption(input, menu, "Check Unfreeze Account Requests")) {
                 checkUsers("pendingFrozenUsers"); }
@@ -51,8 +51,8 @@ public class AdminMenuController {
         }
     }
 
-    private void approveInventory(User user, Item item, boolean approved) { // helper method for checkPendingItems
-        if (approved) { um.addItem(user, item, "inventory");
+    private void approveInventory(TradingUser tradingUser, Item item, boolean approved) { // helper method for checkPendingItems
+        if (approved) { um.addItem(tradingUser, item, "inventory");
         System.out.println(amp.addItem("approved"));}
         else { allPendingItems.remove(item);
         System.out.println(amp.addItem("declined"));}
@@ -69,14 +69,14 @@ public class AdminMenuController {
             else {
                 Iterator<Item> itemIterator = allPendingItems.keySet().iterator();
                 List<String> optionList = new ArrayList<>();
-                optionList.add("Approve item for User's inventory.");
+                optionList.add("Approve item for TradingUser's inventory.");
                 optionList.add("Decline item.");
                 optionList.add("Go to next item.");
 
                 while (itemIterator.hasNext()) {
                     System.out.println(itemIterator.next().toString()); //prints the current item + the options
                     int optionChosen = amp.handleOptionsByIndex(optionList, true, "Actions");
-                    if (amp.indexToOption(optionChosen, optionList, "Approve item for User's inventory.")) { // TO-DO: try catch block here?
+                    if (amp.indexToOption(optionChosen, optionList, "Approve item for TradingUser's inventory.")) { // TO-DO: try catch block here?
                         approveInventory(allPendingItems.get(itemIterator.next()), itemIterator.next(), true);
                     }
                     else if (amp.indexToOption(optionChosen, optionList, "Decline item.")) {
@@ -96,7 +96,7 @@ public class AdminMenuController {
                 System.out.println(amp.enterPassword("new Admin"));
                 String password = scanner.nextLine();
                 am.addAdmin(username, password);
-                System.out.println("New Admin User " + username + " successfully created.");
+                System.out.println("New Admin TradingUser " + username + " successfully created.");
             } catch (InvalidAdminException e) {
                 System.out.println(amp.usernameTaken());
             }
@@ -110,7 +110,7 @@ public class AdminMenuController {
         System.out.println(amp.enterName("new Item"));
         String itemName = scanner.nextLine();
         Item newItem = new Item(itemName);
-        System.out.println(amp.enterName("User"));
+        System.out.println(amp.enterName("TradingUser"));
         String username = scanner.nextLine();
         System.out.println("Would you like to add this item to the user's wishlist or inventory?");
         String whichList = scanner.nextLine();
@@ -139,9 +139,9 @@ public class AdminMenuController {
 
     private void changeUserThreshold() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println(amp.enterName("User"));
+        System.out.println(amp.enterName("TradingUser"));
         String username = scanner.nextLine();
-        String whichThreshold = amp.handleOptions(amp.allThresholds, true, "User Thresholds");
+        String whichThreshold = amp.handleOptions(amp.allThresholds, true, "TradingUser Thresholds");
         try {
             switch (whichThreshold) {
                 case "borrow": {
@@ -176,21 +176,21 @@ public class AdminMenuController {
         Scanner scanner = new Scanner(System.in); // do we need this?
         while (userInteracting) {
             if (listType.equals("pendingFrozenUsers")) {
-                if (am.getPendingFrozenUsers().isEmpty()) {
-                    System.out.println(amp.empty("Frozen User Requests"));
+                if (am.getPendingFrozenTradingUsers().isEmpty()) {
+                    System.out.println(amp.empty("Frozen TradingUser Requests"));
                 } else {
-                    for (User user : am.getPendingFrozenUsers()) {
-                        System.out.println(user.toString());
+                    for (TradingUser tradingUser : am.getPendingFrozenTradingUsers()) {
+                        System.out.println(tradingUser.toString());
                         List<String> optionList = new ArrayList<>();
-                        optionList.add("Unfreeze Account."); // should i add a "leave user frozen" option, or just assume the admin knows by skipping the user, they're leaving that user frozen?
-                        optionList.add("Go to next user."); // or change this option to "Leave User Frozen"?
+                        optionList.add("Unfreeze Account."); // should i add a "leave tradingUser frozen" option, or just assume the admin knows by skipping the tradingUser, they're leaving that tradingUser frozen?
+                        optionList.add("Go to next tradingUser."); // or change this option to "Leave TradingUser Frozen"?
                         int optionChosen = amp.handleOptionsByIndex(optionList, true, "Check Frozen Users");
                         if (optionChosen == optionList.size()) {
                             userInteracting = false;
                         } else if (amp.indexToOption(optionChosen, optionList, "Unfreeze Account.")) {
-                            um.unfreezeAccount(user);
-                            am.getPendingFrozenUsers().remove(user);
-                            System.out.println(amp.accountFrozen(user.toString(), user.getStatus()));
+                            um.unfreezeAccount(tradingUser);
+                            am.getPendingFrozenTradingUsers().remove(tradingUser);
+                            System.out.println(amp.accountFrozen(tradingUser.toString(), tradingUser.getStatus()));
                         }
                     }
                 }
@@ -199,23 +199,23 @@ public class AdminMenuController {
                 if (am.getFlaggedAccounts().isEmpty()) {
                     System.out.println(amp.empty("Flagged Users"));
                 } else {
-                    for (User user: am.getFlaggedAccounts()) {
-                        System.out.println(user.toString());
+                    for (TradingUser tradingUser : am.getFlaggedAccounts()) {
+                        System.out.println(tradingUser.toString());
                         List<String> optionList2 = new ArrayList<>(); // these 4 lines could be moved to before the while loop to shorten
                         optionList2.add("Freeze Account.");
                         optionList2.add("Unfreeze Account.");
-                        optionList2.add("Go to next user.");
+                        optionList2.add("Go to next tradingUser.");
                         int optionChosen2 = amp.handleOptionsByIndex(optionList2, true, "Check Flagged Users");
                         if (optionChosen2 == optionList2.size()) {
                             userInteracting = false;
                         } else if (amp.indexToOption(optionChosen2, optionList2, "Freeze Account.")) {
-                            um.freezeAccount(user);
-                            am.getFrozenAccounts().add(user);
-                            System.out.println(amp.accountFrozen(user.toString(), user.getStatus()));
+                            um.freezeAccount(tradingUser);
+                            am.getFrozenAccounts().add(tradingUser);
+                            System.out.println(amp.accountFrozen(tradingUser.toString(), tradingUser.getStatus()));
                         } else if (amp.indexToOption(optionChosen2, optionList2, "Unfreeze Account.")) {
-                            um.unfreezeAccount(user);
-                            am.getFlaggedAccounts().remove(user);
-                            System.out.println(amp.accountFrozen(user.toString(), user.getStatus()));
+                            um.unfreezeAccount(tradingUser);
+                            am.getFlaggedAccounts().remove(tradingUser);
+                            System.out.println(amp.accountFrozen(tradingUser.toString(), tradingUser.getStatus()));
                         }
                     }
                 }

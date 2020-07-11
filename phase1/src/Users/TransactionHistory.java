@@ -1,14 +1,12 @@
 package Users;
 
 import Transactions.Transaction;
-import Users.User;
 
 import java.util.*;
-import java.time.LocalDate;
 
 
 /**
- * Represents the Transactions.Transaction History of Users.User by storing information about completed transactions
+ * Represents the Transactions.Transaction History of Users.TradingUser by storing information about completed transactions
  */
 
 public class TransactionHistory {
@@ -49,7 +47,7 @@ public class TransactionHistory {
     }
 
     /**
-     * @return the usernames of the Users.User's top three trading partners
+     * @return the usernames of the Users.TradingUser's top three trading partners
      */
     public ArrayList<String> mostTradedWithUsers(){
         HashMap<String, Integer> temp = (HashMap<String, Integer>) usersNumTradeTimes.clone();
@@ -124,7 +122,7 @@ public class TransactionHistory {
     }
 
     /**
-     * Getter for this Users.User's number of transactions.
+     * Getter for this Users.TradingUser's number of transactions.
      * @return numTransactions as an integer.
      */
     public int getNumTransactions() {

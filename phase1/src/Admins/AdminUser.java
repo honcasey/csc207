@@ -1,5 +1,7 @@
 package Admins;
 
+import Users.User;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -7,37 +9,17 @@ import java.util.UUID;
  * Represents an administrative user in the trading system.
  */
 
-public class AdminUser implements Serializable {
-    private String username;
-    private String password;
-    private final UUID adminId = UUID.randomUUID();
+public class AdminUser extends User implements Serializable {
+
     private boolean firstAdmin = false;
 
     /**
-     * Constructs an instance of an Admin Users.User based on Strings of username and password.
+     * Constructs an instance of an Admin Users.TradingUser based on Strings of username and password.
      */
     public AdminUser(String username, String password) {
-        this.username = username;
-        this.password = password;
+        super(username, password);
     }
 
-    /**
-     * Getter for username as a String
-     * @return username as a String
-     */
-    public String getUsername() { return username; }
-
-    /**
-     * Getter for password as a String
-     * @return password as a String
-     */
-    public String getPassword() { return password; }
-
-    /**
-     * Getter for admin id as a UUID
-     * @return admin id as a UUID
-     */
-    public UUID getAdminId() { return adminId; }
 
     /**
      * Getter for if this Admins.AdminUser is the initial administrative user
@@ -56,7 +38,7 @@ public class AdminUser implements Serializable {
      * @return the username and adminid separated by a comma
      */
     @Override
-    public String toString() { return username + ", " + adminId; }
+    public String toString() { return getUsername() + ", " + getUserId(); }
 
 
 }

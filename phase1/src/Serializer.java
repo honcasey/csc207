@@ -1,7 +1,7 @@
 import Admins.AdminUser;
 import Items.Item;
 import Transactions.Transaction;
-import Users.User;
+import Users.TradingUser;
 
 import java.io.*;
 import java.util.List;
@@ -11,32 +11,32 @@ import java.util.UUID;
 // general ideas taken from lecture 6 StudentManager.java example
 public class Serializer {
 
-    public void writeUsersToFile(String path, List<User> users) throws IOException {
+    public void writeUsersToFile(String path, List<TradingUser> tradingUsers) throws IOException {
 
         // create a connection to the file specified by path
         OutputStream file = new FileOutputStream(path);
         ObjectOutput output = new ObjectOutputStream(file);
 
         // write user into the file
-        output.writeObject(users);
+        output.writeObject(tradingUsers);
 
         // close the file
         output.close();
     }
 
-    public List<User> readUsersFromFile(String path) throws IOException, ClassNotFoundException {
+    public List<TradingUser> readUsersFromFile(String path) throws IOException, ClassNotFoundException {
         // create a connection to the file specified by path
         InputStream file = new FileInputStream(path);
         ObjectInput input = new ObjectInputStream(file);
 
         // deserialize the list
-        List<User> users = (List<User>) input.readObject();
+        List<TradingUser> tradingUsers = (List<TradingUser>) input.readObject();
 
         // close the file
         input.close();
 
         // return the list
-        return users;
+        return tradingUsers;
     }
 
     public void writeAdminsToFile(String path, List<AdminUser> admins) throws IOException {
@@ -82,32 +82,32 @@ public class Serializer {
         return transactionMap;
     }
 
-    public void writeItemsToFile(String path, Map<Item, User> pendingItems) throws IOException {
+    public void writeItemsToFile(String path, Map<Item, TradingUser> pendingItems) throws IOException {
         OutputStream file = new FileOutputStream(path);
         ObjectOutput output = new ObjectOutputStream(file);
         output.writeObject(pendingItems);
         output.close();
     }
 
-    public Map<Item, User> readItemsFromFile(String path) throws IOException, ClassNotFoundException {
+    public Map<Item, TradingUser> readItemsFromFile(String path) throws IOException, ClassNotFoundException {
         InputStream file = new FileInputStream(path);
         ObjectInput input = new ObjectInputStream(file);
-        Map<Item, User> pendingItems = (Map<Item, User>) input.readObject();
+        Map<Item, TradingUser> pendingItems = (Map<Item, TradingUser>) input.readObject();
         input.close();
         return pendingItems;
     }
 
-    public void writeAccountsToFile(String path, List<User> Accounts) throws IOException {
+    public void writeAccountsToFile(String path, List<TradingUser> Accounts) throws IOException {
         OutputStream file = new FileOutputStream(path);
         ObjectOutput output = new ObjectOutputStream(file);
         output.writeObject(Accounts);
         output.close();
     }
 
-    public List<User> readAccountsFromFile(String path) throws IOException, ClassNotFoundException {
+    public List<TradingUser> readAccountsFromFile(String path) throws IOException, ClassNotFoundException {
         InputStream file = new FileInputStream(path);
         ObjectInput input = new ObjectInputStream(file);
-        List<User> Accounts = (List<User>) input.readObject();
+        List<TradingUser> Accounts = (List<TradingUser>) input.readObject();
         input.close();
         return Accounts;
     }

@@ -6,7 +6,7 @@ import java.util.UUID;
 import java.util.HashMap;
 
 import Exceptions.InvalidTransactionException;
-import Users.User;
+import Users.TradingUser;
 import Users.TransactionHistory;
 
 public class PastTransactionManager extends TransactionManager{
@@ -20,8 +20,8 @@ public class PastTransactionManager extends TransactionManager{
         return getTransactionsFromIdList(pastTransactionsIDs);
     }
 
-    public int numTransactionsInWeek(User user) throws InvalidTransactionException {
-        TransactionHistory transactionHistory = user.getTransactionHistory();
+    public int numTransactionsInWeek(TradingUser tradingUser) throws InvalidTransactionException {
+        TransactionHistory transactionHistory = tradingUser.getTransactionHistory();
         int numTransactions = 0;
         List<Transaction> allTransactions = generateTransactionsList(transactionHistory);
 //        ZoneId k = ZoneId.of("America/Montreal");
@@ -50,13 +50,13 @@ public class PastTransactionManager extends TransactionManager{
     }
 
     /**
-     * Returns if the user has exceeded the weekly limit of transactions
-     * @param user User
+     * Returns if the tradingUser has exceeded the weekly limit of transactions
+     * @param tradingUser TradingUser
      * @return boolean
      */
-    public boolean weeklyThresholdExceeded(User user) throws InvalidTransactionException {
-        int threshold = user.getWeeklyThreshold();
-        int numberWeeklyTransactions = numTransactionsInWeek(user);
+    public boolean weeklyThresholdExceeded(TradingUser tradingUser) throws InvalidTransactionException {
+        int threshold = tradingUser.getWeeklyThreshold();
+        int numberWeeklyTransactions = numTransactionsInWeek(tradingUser);
         return numberWeeklyTransactions >= threshold;
     }
 

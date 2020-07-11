@@ -2,9 +2,7 @@ package Users;
 
 import Exceptions.InvalidUserException;
 import Items.Item;
-import Transactions.PastTransactionManager;
 import Transactions.Transaction;
-import Users.User;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,17 +12,17 @@ import java.util.UUID;
  * This class manages user.
  */
 public class UserManager {
-    private List<User> allUsers;
-    private List<User> flaggedAccounts;
-    private List<User> frozenAccounts;
-    private HashMap<UUID, User> idToUser;
+    private List<TradingUser> allTradingUsers;
+    private List<TradingUser> flaggedAccounts;
+    private List<TradingUser> frozenAccounts;
+    private HashMap<UUID, TradingUser> idToUser;
 
 
     /**
-     * Creates a list of users.
+     * Creates a list of tradingUsers.
      */
-    public UserManager(List<User> users, List<User> flaggedAccounts, List<User> frozenAccounts) {
-        allUsers = users;
+    public UserManager(List<TradingUser> tradingUsers, List<TradingUser> flaggedAccounts, List<TradingUser> frozenAccounts) {
+        allTradingUsers = tradingUsers;
         this.flaggedAccounts = flaggedAccounts;
         this.frozenAccounts = frozenAccounts;
         this.idToUser = new HashMap<>();
@@ -33,20 +31,20 @@ public class UserManager {
     /**
      * Adds a new user with given info.
      *
-     * @param username online identifier of a Users.User
+     * @param username online identifier of a Users.TradingUser
      * @param password account password
      * @return username and userId as string separated by comma.
      */
-    public User addUser(String username, String password) throws InvalidUserException {
-        User newUser = new User(username, password);
-        if (allUsers.size() == 0) {
-            allUsers.add(newUser);
-            idToUser.put(newUser.getUserId(), newUser);
-            return newUser;
+    public TradingUser addUser(String username, String password) throws InvalidUserException {
+        TradingUser newTradingUser = new TradingUser(username, password);
+        if (allTradingUsers.size() == 0) {
+            allTradingUsers.add(newTradingUser);
+            idToUser.put(newTradingUser.getUserId(), newTradingUser);
+            return newTradingUser;
         }
         if (checkAvailableUsername(username)) {
-            allUsers.add(newUser);
-            return newUser;
+            allTradingUsers.add(newTradingUser);
+            return newTradingUser;
         } else {
             throw new InvalidUserException();
         }
@@ -55,38 +53,38 @@ public class UserManager {
     /**
      * To retrieve a specific user by username.
      *
-     * @param username online identifier of a Users.User
+     * @param username online identifier of a Users.TradingUser
      * @return username and userId as string separated by comma
      */
-    public User getUser(String username) throws InvalidUserException {
-        for (User user : allUsers) {
-            if ((user.getUsername().equals(username))) {
-                return user;
+    public TradingUser getUser(String username) throws InvalidUserException {
+        for (TradingUser tradingUser : allTradingUsers) {
+            if ((tradingUser.getUsername().equals(username))) {
+                return tradingUser;
             }
         }
         throw new InvalidUserException();
     }
 
     /**
-     * To retrieve a specific user by userId. Assumes that the Users.User exists in the directory of Users
+     * To retrieve a specific user by userId. Assumes that the Users.TradingUser exists in the directory of Users
      *
-     * @param id UUID identifier of a Users.User
+     * @param id UUID identifier of a Users.TradingUser
      * @return user who has the userId id
      */
-    public User getUserById(UUID id) {
+    public TradingUser getUserById(UUID id) {
         return idToUser.get(id);
     }
 
     /**
-     * To add an item to user's specified list, which is either the Users.User's wishlist or inventory.
+     * To add an item to tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
      *
-     * @param user     the user
+     * @param tradingUser     the tradingUser
      * @param item     An item in the trading system.
      * @param listType either "wishlist" or "inventory" as a String
      */
-    public void addItem(User user, Item item, String listType) {
-        List<Item> userInventory = user.getInventory();
-        List<Item> userWishlist = user.getWishlist();
+    public void addItem(TradingUser tradingUser, Item item, String listType) {
+        List<Item> userInventory = tradingUser.getInventory();
+        List<Item> userWishlist = tradingUser.getWishlist();
 
         if (listType.equals("wishlist")) {
             userWishlist.add(item);
@@ -97,83 +95,83 @@ public class UserManager {
     }
 
     /**
-     * To remove a item from user's specified list, which is either the Users.User's wishlist or inventory.
+     * To remove a item from tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
      *
-     * @param user     An user in the trading system.
+     * @param tradingUser     An tradingUser in the trading system.
      * @param item     An item in the trading system.
      * @param listType either "wishlist" or "inventory" as a String
      */
-    public void removeItem(User user, Item item, String listType) {
+    public void removeItem(TradingUser tradingUser, Item item, String listType) {
         if (listType.equals("wishlist")) {
-            user.getWishlist().remove(item);
+            tradingUser.getWishlist().remove(item);
         } else if (listType.equals("inventory")) {
-            user.getInventory().remove(item);
+            tradingUser.getInventory().remove(item);
         }
     }
 
     /**
-     * To change the user's specified threshold.
+     * To change the tradingUser's specified threshold.
      *
-     * @param user           A user in the trading system.
+     * @param tradingUser           A tradingUser in the trading system.
      * @param thresholdValue new value of threshold as an int
      * @param thresholdType  either "borrow", "weekly", or "incomplete" as a String
      */
-    public void changeThreshold(User user, int thresholdValue, String thresholdType) {
+    public void changeThreshold(TradingUser tradingUser, int thresholdValue, String thresholdType) {
         switch (thresholdType) {
             case "borrowThreshold":
-                user.setBorrowThreshold(thresholdValue);
+                tradingUser.setBorrowThreshold(thresholdValue);
                 break;
             case "weeklyThreshold":
-                user.setWeeklyThreshold(thresholdValue);
+                tradingUser.setWeeklyThreshold(thresholdValue);
                 break;
             case "incompleteThreshold":
-                user.setIncompleteThreshold(thresholdValue);
+                tradingUser.setIncompleteThreshold(thresholdValue);
                 break;
         }
     }
 
     /**
-     * Changes the status of a user's account from active to frozen.
+     * Changes the status of a tradingUser's account from active to frozen.
      *
-     * @param user A user in the trading system.
+     * @param tradingUser A tradingUser in the trading system.
      */
-    public void freezeAccount(User user) {
-        user.setStatus("frozen");
+    public void freezeAccount(TradingUser tradingUser) {
+        tradingUser.setStatus("frozen");
     }
 
     /**
-     * Changes the status of a user's account from frozen to active.
+     * Changes the status of a tradingUser's account from frozen to active.
      *
-     * @param user A user in the trading system.
+     * @param tradingUser A tradingUser in the trading system.
      */
-    public void unfreezeAccount(User user) {
-        user.setStatus("active");
+    public void unfreezeAccount(TradingUser tradingUser) {
+        tradingUser.setStatus("active");
     }
 
     /**
-     * Adds a transaction to Users.User's transaction history.
+     * Adds a transaction to Users.TradingUser's transaction history.
      *
-     * @param user        A user in the trading system.
+     * @param tradingUser        A tradingUser in the trading system.
      * @param transaction a meetup between 2 users.
      */
-    public void addToTransactionHistory(User user, Transaction transaction) {
-        TransactionHistory tH = user.getTransactionHistory();
+    public void addToTransactionHistory(TradingUser tradingUser, Transaction transaction) {
+        TransactionHistory tH = tradingUser.getTransactionHistory();
         tH.setTransactionHistory(transaction);
-        updateTransactionHistoryValues(user, transaction);
+        updateTransactionHistoryValues(tradingUser, transaction);
     }
 
     /**
      * A private helper method for addToTransactionHistory that updates UserNumTradeTimes, NumItemsBorrowed, and NumItemsLended
      *
-     * @param user        A user in a trading system
+     * @param tradingUser        A tradingUser in a trading system
      * @param transaction a transaction between two Users
      */
     // this method has to be changed
-    // consider splitting into two methods. Reasoning for having one method, user1 == user is needed for both updating the UserNumTradeTimes and NumItemsBorrowed, NumItemsLended
-    private void updateTransactionHistoryValues(User user, Transaction transaction) {
-        TransactionHistory tH = user.getTransactionHistory();
-        if (transaction.getUser1() == user.getUserId()) {
-            user.getTransactionHistory().setNumItemsLended();
+    // consider splitting into two methods. Reasoning for having one method, user1 == tradingUser is needed for both updating the UserNumTradeTimes and NumItemsBorrowed, NumItemsLended
+    private void updateTransactionHistoryValues(TradingUser tradingUser, Transaction transaction) {
+        TransactionHistory tH = tradingUser.getTransactionHistory();
+        if (transaction.getUser1() == tradingUser.getUserId()) {
+            tradingUser.getTransactionHistory().setNumItemsLended();
             String u2 = idToUser.get(transaction.getUser2()).getUsername();
             if (tH.getUsersNumTradeTimes().containsKey(u2)) {
                 tH.getUsersNumTradeTimes().put(u2, tH.getUsersNumTradeTimes().get(u2) + 1);
@@ -181,17 +179,17 @@ public class UserManager {
                 tH.getUsersNumTradeTimes().put(u2, 1);
             }
             if (!transaction.isOneWay()) {
-                user.getTransactionHistory().setNumItemsBorrowed();
+                tradingUser.getTransactionHistory().setNumItemsBorrowed();
             }
         } else {
-            user.getTransactionHistory().setNumItemsBorrowed();
+            tradingUser.getTransactionHistory().setNumItemsBorrowed();
             String u1 = idToUser.get(transaction.getUser1()).getUsername();
             if (tH.getUsersNumTradeTimes().containsKey(u1)) {
                 tH.getUsersNumTradeTimes().put(u1, tH.getUsersNumTradeTimes().get(u1) + 1);
             } else {
                 tH.getUsersNumTradeTimes().put(u1, 1);
                 if (!transaction.isOneWay()) {
-                    user.getTransactionHistory().setNumItemsLended();
+                    tradingUser.getTransactionHistory().setNumItemsLended();
                 }
             }
         }
@@ -200,12 +198,12 @@ public class UserManager {
     /**
      * Checks whether the input username is valid.
      *
-     * @param username online identifier of a Users.User
+     * @param username online identifier of a Users.TradingUser
      * @return True or False as boolean
      */
     public boolean checkAvailableUsername(String username) {
-        for (User user : allUsers) {
-            if (user.getUsername().equals(username)) {
+        for (TradingUser tradingUser : allTradingUsers) {
+            if (tradingUser.getUsername().equals(username)) {
                 return false;
             }
         }
@@ -217,8 +215,8 @@ public class UserManager {
      *
      * @return all users in the system.
      */
-    public List<User> getAllUsers() {
-        return allUsers;
+    public List<TradingUser> getAllTradingUsers() {
+        return allTradingUsers;
     }
 
     /**
@@ -229,16 +227,16 @@ public class UserManager {
      * @return boolean if this user account is already in the system or not.
      */
     public boolean validUser(String username, String password) {
-        for (User user : allUsers) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+        for (TradingUser tradingUser : allTradingUsers) {
+            if (tradingUser.getUsername().equals(username) && tradingUser.getPassword().equals(password)) {
                 return true;
             }
         }
         return false;
     }
 
-    public void addToFlaggedAccounts(User user) {
-        flaggedAccounts.add(user);
+    public void addToFlaggedAccounts(TradingUser tradingUser) {
+        flaggedAccounts.add(tradingUser);
     }
 
     /**
@@ -247,7 +245,7 @@ public class UserManager {
      * @return list of flagged to be frozen users
      */
 
-    public List<User> getFlaggedAccounts() {
+    public List<TradingUser> getFlaggedAccounts() {
         return flaggedAccounts;
     }
 
@@ -256,26 +254,26 @@ public class UserManager {
      *
      * @return list of frozen users
      */
-    public List<User> getFrozenAccounts() {
+    public List<TradingUser> getFrozenAccounts() {
         return frozenAccounts;
     }
 
     /**
-     * Returns of the number of current transactions of User exceed the incomplete transaction threshold
+     * Returns of the number of current transactions of TradingUser exceed the incomplete transaction threshold
      *
-     * @param user User of interest
+     * @param tradingUser TradingUser of interest
      * @return boolean
      */
-    public boolean incompleteTransactionExceeded(User user) {
-        return user.getCurrentTransactions().size() >= user.getIncompleteThreshold();
+    public boolean incompleteTransactionExceeded(TradingUser tradingUser) {
+        return tradingUser.getCurrentTransactions().size() >= tradingUser.getIncompleteThreshold();
     }
 
-    public void moveTransactionToTransactionHistory(Transaction transaction, User user) {
+    public void moveTransactionToTransactionHistory(Transaction transaction, TradingUser tradingUser) {
         String status = transaction.getStatus();
         if (status.equals("incomplete") || status.equals("complete") || status.equals("neverReturned")) {
             UUID id = transaction.getId();
-            user.getCurrentTransactions().remove(id);
-            addToTransactionHistory(user, transaction);
+            tradingUser.getCurrentTransactions().remove(id);
+            addToTransactionHistory(tradingUser, transaction);
         }
     }
 }

@@ -17,17 +17,17 @@ public class UserMenuController{
     /**
      *
      */
-    private User currentUser; // user that's logged in
+    private TradingUser currentTradingUser; // user that's logged in
     private AdminManager am;
     private UserManager um;
     private CurrentTransactionManager tm;
     private ItemManager im;
-    private Map<Item, User> allPendingItems;
+    private Map<Item, TradingUser> allPendingItems;
     private UserMenuPresenter userMenuPresenter = new UserMenuPresenter();
 
     public UserMenuController(UserManager userManager, AdminManager adminManager, CurrentTransactionManager currentTransactionManager,
-                    ItemManager itemManager, Map<Item, User> pendingItems, User user) {
-        currentUser = user;
+                              ItemManager itemManager, Map<Item, TradingUser> pendingItems, TradingUser tradingUser) {
+        currentTradingUser = tradingUser;
         allPendingItems = pendingItems;
         am = adminManager;
         um = userManager;
@@ -40,7 +40,7 @@ public class UserMenuController{
         Scanner scanner = new Scanner(System.in);
         while(userInteracting){
         String input = this.userMenuPresenter.handleOptions(this.userMenuPresenter.constructMainMenu(),
-                false,"User Main Menu");
+                false,"TradingUser Main Menu");
             if (input.equals("Request Items for Approval")){
                 requestAddItem();
             } else if (input.equals("Browse Available Items for Trade")) {
@@ -72,7 +72,7 @@ public class UserMenuController{
         System.out.println("What is the description of this item?");
         String itemDescription = scanner.nextLine();
         Item RequestedItem = this.createItemflow();
-        allPendingItems.put(RequestedItem,currentUser);
+        allPendingItems.put(RequestedItem, currentTradingUser);
         System.out.println("Items has been requested and is now being reviewed by the administrators.");
     }
 
@@ -107,7 +107,7 @@ public class UserMenuController{
         Scanner scanner = new Scanner(System.in);
 
         while(userInteracting){
-            HashMap<Item, User> AvailableItems  = getAvailableItems();
+            HashMap<Item, TradingUser> AvailableItems  = getAvailableItems();
             List<Item> ItemList = new ArrayList<>(AvailableItems.keySet());
 
             List<String> OptionList = this.userMenuPresenter.constructAvailableItemsMenu(ItemList);
@@ -124,7 +124,7 @@ public class UserMenuController{
                 userInteracting = false;
             }
             else{
-                if(currentUser.isFrozen()){
+                if(currentTradingUser.isFrozen()){
                     System.out.println("Your account is frozen so you cannot make an offer for this item. Please request" +
                         "to have your account unfrozen.");
                     System.out.println("You will now be taken back to the main user menu.");
@@ -132,10 +132,10 @@ public class UserMenuController{
                 }
                 else {
                     Item TransactionItem = ItemList.get(OptionChosen);
-                    User TransactionItemOwner = AvailableItems.get(TransactionItem);
+                    TradingUser TransactionItemOwner = AvailableItems.get(TransactionItem);
                     userInteracting = CreateTransactionMenu(TransactionItem,TransactionItemOwner);
                     if(//TODO put master threshold method here){
-                        this.am.getPendingFrozenUsers().add(this.currentUser);
+                        this.am.getPendingFrozenTradingUsers().add(this.currentTradingUser);
                     }
                 }
             }
@@ -150,7 +150,7 @@ public class UserMenuController{
      * @return this method returns a true if the user wants to make another offer for an item and returns
      * false if the user wants to head back to the main menu.
      */
-    private boolean CreateTransactionMenu(Item item, User Owner) {
+    private boolean CreateTransactionMenu(Item item, TradingUser Owner) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Transactions Menu");
         System.out.println("----------------");
@@ -186,11 +186,11 @@ public class UserMenuController{
 
     private void viewWishlist() {
         Scanner scanner = new Scanner(System.in);
-        if (currentUser.getWishlist() == null) {
+        if (currentTradingUser.getWishlist() == null) {
             System.out.println("Your wishlist is empty.");
         }
         else {
-            Iterator<Item> itemIterator = currentUser.getWishlist().iterator();
+            Iterator<Item> itemIterator = currentTradingUser.getWishlist().iterator();
             List<String> optionList = new ArrayList<>();
             while (itemIterator.hasNext()) {
                 optionList.add(itemIterator.next().toString());
@@ -202,7 +202,7 @@ public class UserMenuController{
                 System.out.println("Loading Previous Menu");
             }
             else {
-                withdrawItem(currentUser.getWishlist().get(optionChosen), "wishlist");
+                withdrawItem(currentTradingUser.getWishlist().get(optionChosen), "wishlist");
                 System.out.println("The item has been removed from your wishlist.");
             }
         }
@@ -210,11 +210,11 @@ public class UserMenuController{
 
     private void viewInventory() {
         Scanner scanner = new Scanner(System.in);
-        if (currentUser.getInventory() == null) {
+        if (currentTradingUser.getInventory() == null) {
             System.out.println("Your inventory is empty.");
         }
         else {
-            Iterator<Item> itemIterator = currentUser.getInventory().iterator();
+            Iterator<Item> itemIterator = currentTradingUser.getInventory().iterator();
             List<String> optionList = new ArrayList<>();
             while (itemIterator.hasNext()) {
                 optionList.add(itemIterator.next().toString());
@@ -225,14 +225,14 @@ public class UserMenuController{
                 System.out.println("Loading Previous Menu");
             }
             else {
-                withdrawItem(currentUser.getInventory().get(optionChosen), "inventory");
+                withdrawItem(currentTradingUser.getInventory().get(optionChosen), "inventory");
                 System.out.println("The item has been removed from your inventory.");
             }
         }
     }
 
     private void requestUnfreezeAccount() {
-        if (currentUser.isFrozen()) {
+        if (currentTradingUser.isFrozen()) {
             requestUnfreezeAccount();
             System.out.println("You have successfully requested for your account to be unfrozen.");
         }
@@ -242,7 +242,7 @@ public class UserMenuController{
     }
 
     private void viewPastTransaction(){
-        TransactionHistory transactionHistory= currentUser.getTransactionHistory();
+        TransactionHistory transactionHistory= currentTradingUser.getTransactionHistory();
         if (transactionHistory == null){
             System.out.println("Your transaction history is empty.");
         }
@@ -252,16 +252,16 @@ public class UserMenuController{
     }
 
     /**
-     * This method displays all of the active transactions for User and then redirects the user to either edit the Meetings
+     * This method displays all of the active transactions for TradingUser and then redirects the user to either edit the Meetings
      * for that transaction or to change the statusUser of the Transaction
      */
     private void getActiveTransactions() throws InvalidTransactionException {
         boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
-        User user = currentUser;
+        TradingUser tradingUser = currentTradingUser;
 
         while (userInteracting) {
-            List<UUID> currentTransactionsIds = user.getCurrentTransactions();
+            List<UUID> currentTransactionsIds = tradingUser.getCurrentTransactions();
             ArrayList<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
 
             List<String> optionList = this.userMenuPresenter.constructTransactionList(currTransactionsList);
@@ -281,13 +281,13 @@ public class UserMenuController{
                 ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
                 String transactionActionPrompt = "This is the list of actions that you can do with your transaction"
                 int optionChosen2 = this.userMenuPresenter.handleOptionsByIndex(transactionActions, true, transactionActionPrompt);
-                if (tm.updateStatusUser(currentUser, transaction, transactionActions.get(optionChosen2))) {
+                if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) {
                     tm.updateStatus(transaction);
-                    um.addToTransactionHistory(currentUser, transaction);
+                    um.addToTransactionHistory(currentTradingUser, transaction);
                     System.out.println("Loading Previous Menu");
                     userInteracting = false;
                 } else {
-                    this.editMeeting(currentUser, transaction);
+                    this.editMeeting(currentTradingUser, transaction);
                     System.out.println("Loading Previous Menu");
                     userInteracting = false;
                 }
@@ -296,15 +296,15 @@ public class UserMenuController{
     }
 
     /**
-     * To withdraw item from user's specified list, which is either the Users.User's wishlist or inventory.
+     * To withdraw item from user's specified list, which is either the Users.TradingUser's wishlist or inventory.
      * @param item An item in the trading system.
      * @param listType either "wishlist" or "inventory" as a String
      */
     public void withdrawItem(Item item, String listType){
         if(listType.equals("wishlist")){
-            um.removeItem(currentUser, item, "wishlist");
+            um.removeItem(currentTradingUser, item, "wishlist");
         }else if (listType.equals("inventory")){
-            um.removeItem(currentUser,item,"inventory");
+            um.removeItem(currentTradingUser,item,"inventory");
         }
     }
 
@@ -313,20 +313,20 @@ public class UserMenuController{
      * @param item An item in the trading system
      */
     public void addToWishlist(Item item){
-        um.addItem(currentUser, item, "wishlist");
+        um.addItem(currentTradingUser, item, "wishlist");
     }
 
     /**
      * Returns a HashMap of all the available items in other user's inventory.
      * @return HashMap of items that are available in other user's inventory.
      */
-    public HashMap<Item,User> getAvailableItems(){
-        List<User> allUsers = um.getAllUsers();
-        HashMap<Item,User> availableItems = new HashMap<>();
-        for (User user:allUsers) {
-            if(!user.equals(currentUser)) {
-                for (Item item : user.getInventory()) {
-                    availableItems.put(item, user);
+    public HashMap<Item, TradingUser> getAvailableItems(){
+        List<TradingUser> allTradingUsers = um.getAllTradingUsers();
+        HashMap<Item, TradingUser> availableItems = new HashMap<>();
+        for (TradingUser tradingUser : allTradingUsers) {
+            if(!tradingUser.equals(currentTradingUser)) {
+                for (Item item : tradingUser.getInventory()) {
+                    availableItems.put(item, tradingUser);
                 }
             }
         }
@@ -338,9 +338,9 @@ public class UserMenuController{
      * @param transaction A transaction to be cancelled and to remove transaction from tra
      */
     public void cancelTransaction(Transaction transaction)  {
-        currentUser.getCurrentTransactions().getUsersTransactions().remove(transaction);
-        User u =  um.getUserById(transaction.getUser1());
-        if (u == currentUser){
+        currentTradingUser.getCurrentTransactions().getUsersTransactions().remove(transaction);
+        TradingUser u =  um.getUserById(transaction.getUser1());
+        if (u == currentTradingUser){
             transaction.setStatusUser1("cancel");
         }
         else{
@@ -352,9 +352,9 @@ public class UserMenuController{
     /**
      * Creates a Transactions.Transaction and adds it to users
      * adds the Transactions.Transaction to transaction details of both users
-     * @param targetUser The Users.User to whom currUser sends a Transactions.Transaction
+     * @param targetTradingUser The Users.TradingUser to whom currUser sends a Transactions.Transaction
      */
-    public void createTransaction(User targetUser){
+    public void createTransaction(TradingUser targetTradingUser){
         //TODO: method body
     }
 
@@ -372,20 +372,20 @@ public class UserMenuController{
      */
     public void confirmTransaction(Transaction transaction) {
         transaction.setStatus("completed");
-        User user1 = um.getUserById(transaction.getUser1());
-        User user2 = um.getUserById(transaction.getUser2());
-        um.addToTransactionHistory(user1, transaction);
-        um.addToTransactionHistory(user2, transaction);
-        user1.getCurrentTransactions().getUsersTransactions().remove(transaction); // Is the transaction in both user's "sent offers"?
-        user2.getCurrentTransactions().getUsersTransactions().remove(transaction);
+        TradingUser tradingUser1 = um.getUserById(transaction.getUser1());
+        TradingUser tradingUser2 = um.getUserById(transaction.getUser2());
+        um.addToTransactionHistory(tradingUser1, transaction);
+        um.addToTransactionHistory(tradingUser2, transaction);
+        tradingUser1.getCurrentTransactions().getUsersTransactions().remove(transaction); // Is the transaction in both user's "sent offers"?
+        tradingUser2.getCurrentTransactions().getUsersTransactions().remove(transaction);
     }
 
     /**
      * Requests the admin user to unfreeze the current user's account, if it's status is already frozen.
      */
     public void requestUnfreezeAccount(){
-        am.getPendingFrozenUsers().add(currentUser);
-        am.getFrozenAccounts().remove(currentUser);
+        am.getPendingFrozenTradingUsers().add(currentTradingUser);
+        am.getFrozenAccounts().remove(currentTradingUser);
     }
 
     /**
@@ -399,10 +399,10 @@ public class UserMenuController{
         return tm.getTransactionsFromIdList(idList);
     }
 
-    private void editMeeting(User currentUser, Transaction transaction) {
+    private void editMeeting(TradingUser currentTradingUser, Transaction transaction) {
         boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
-        UUID user = currentUser.getUserId();
+        UUID user = currentTradingUser.getUserId();
         int meetingNum = 1;
 
         while (userInteracting) {

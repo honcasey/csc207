@@ -1,6 +1,6 @@
 import Items.Item;
 import Transactions.*;
-import Users.User;
+import Users.TradingUser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,8 +10,8 @@ class TransactionTest {
     // ONE WAY PERM TESTS
     @Test
     void testTransactionOneWayPerm() {
-        User casey = new User("caseyh", "pwd123");
-        User annie = new User("anniel", "pwd456");
+        TradingUser casey = new TradingUser("caseyh", "pwd123");
+        TradingUser annie = new TradingUser("anniel", "pwd456");
         Item book = new Item("book");
         Meeting meeting = new Meeting("uoft", 2020, 6, 30, 10, 30);
         Transaction tran = new TransactionOneWayPerm(casey, annie, book, meeting);
@@ -20,8 +20,8 @@ class TransactionTest {
 
     @Test
     void getStatus() {
-        User casey = new User("caseyh", "pwd123");
-        User annie = new User("anniel", "pwd456");
+        TradingUser casey = new TradingUser("caseyh", "pwd123");
+        TradingUser annie = new TradingUser("anniel", "pwd456");
         Item book = new Item("book");
         Meeting meeting = new Meeting("uoft", 2020, 6, 30, 10, 30);
         Transaction tran = new TransactionOneWayPerm(casey, annie, book, meeting);
@@ -31,8 +31,8 @@ class TransactionTest {
 
     @Test
     void getUser1() {
-        User casey = new User("caseyh", "pwd123");
-        User annie = new User("anniel", "pwd456");
+        TradingUser casey = new TradingUser("caseyh", "pwd123");
+        TradingUser annie = new TradingUser("anniel", "pwd456");
         Item book = new Item("book");
         Meeting meeting = new Meeting("uoft", 2020, 6, 30, 10, 30);
         Transaction tran = new TransactionOneWayPerm(casey, annie, book, meeting);
@@ -41,8 +41,8 @@ class TransactionTest {
 
     @Test
     void getUser2() {
-        User casey = new User("caseyh", "pwd123");
-        User annie = new User("anniel", "pwd456");
+        TradingUser casey = new TradingUser("caseyh", "pwd123");
+        TradingUser annie = new TradingUser("anniel", "pwd456");
         Item book = new Item("book");
         Meeting meeting = new Meeting("uoft", 2020, 6, 30, 10, 30);
         Transaction tran = new TransactionOneWayPerm(casey, annie, book, meeting);
@@ -51,8 +51,8 @@ class TransactionTest {
 
     @Test
     void getFirstMeeting() {
-        User casey = new User("caseyh", "pwd123");
-        User annie = new User("anniel", "pwd456");
+        TradingUser casey = new TradingUser("caseyh", "pwd123");
+        TradingUser annie = new TradingUser("anniel", "pwd456");
         Item book = new Item("book");
         Meeting meeting = new Meeting("uoft", 2020, 6, 30, 10, 30);
         Transaction tran = new TransactionOneWayPerm(casey, annie, book, meeting);
@@ -61,8 +61,8 @@ class TransactionTest {
 
     @Test
     void getItemOneWayPerm() {
-        User casey = new User("caseyh", "pwd123");
-        User annie = new User("anniel", "pwd456");
+        TradingUser casey = new TradingUser("caseyh", "pwd123");
+        TradingUser annie = new TradingUser("anniel", "pwd456");
         Item book = new Item("book");
         Meeting meeting = new Meeting("uoft", 2020, 6, 30, 10, 30);
         TransactionOneWayPerm tran = new TransactionOneWayPerm(casey, annie, book, meeting);
@@ -72,8 +72,8 @@ class TransactionTest {
     // ONE WAY TEMP TESTS
     @Test
     void testTransactionOneWayTemp() {
-        User casey = new User("caseyh", "pwd123");
-        User annie = new User("anniel", "pwd456");
+        TradingUser casey = new TradingUser("caseyh", "pwd123");
+        TradingUser annie = new TradingUser("anniel", "pwd456");
         Item book = new Item("book");
         Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
         Meeting meeting2 = new Meeting("uoft", 2020, 7, 30, 10, 30);
@@ -83,8 +83,8 @@ class TransactionTest {
 
     @Test
     void getItem() {
-        User casey = new User("caseyh", "pwd123");
-        User annie = new User("anniel", "pwd456");
+        TradingUser casey = new TradingUser("caseyh", "pwd123");
+        TradingUser annie = new TradingUser("anniel", "pwd456");
         Item book = new Item("book");
         Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
         Meeting meeting2 = new Meeting("gerstein", 2020, 7, 30, 10, 30);
@@ -97,8 +97,8 @@ class TransactionTest {
 
     @Test
     void getSecondMeeting() {
-        User casey = new User("caseyh", "pwd123");
-        User annie = new User("anniel", "pwd456");
+        TradingUser casey = new TradingUser("caseyh", "pwd123");
+        TradingUser annie = new TradingUser("anniel", "pwd456");
         Item book = new Item("book");
         Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
         Meeting meeting2 = new Meeting("gerstein", 2020, 7, 30, 10, 30);
@@ -112,8 +112,8 @@ class TransactionTest {
     // TWO WAY PERM TESTS
     @Test
     void testTransactionTwoWayPerm() {
-        User casey = new User("caseyh", "pwd123");
-        User annie = new User("anniel", "pwd456");
+        TradingUser casey = new TradingUser("caseyh", "pwd123");
+        TradingUser annie = new TradingUser("anniel", "pwd456");
         Item book = new Item("book");
         Item book2 = new Item("hamlet");
         Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
@@ -122,8 +122,8 @@ class TransactionTest {
 
     @Test
     void getItem1() {
-        User casey = new User("caseyh", "pwd123");
-        User annie = new User("anniel", "pwd456");
+        TradingUser casey = new TradingUser("caseyh", "pwd123");
+        TradingUser annie = new TradingUser("anniel", "pwd456");
         Item book = new Item("book");
         Item book2 = new Item("hamlet");
         Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
@@ -133,8 +133,8 @@ class TransactionTest {
 
     @Test
     void getItem2() {
-        User casey = new User("caseyh", "pwd123");
-        User annie = new User("anniel", "pwd456");
+        TradingUser casey = new TradingUser("caseyh", "pwd123");
+        TradingUser annie = new TradingUser("anniel", "pwd456");
         Item book = new Item("book");
         Item book2 = new Item("hamlet");
         Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
@@ -145,8 +145,8 @@ class TransactionTest {
     // TWO WAY TEMP TESTS
     @Test
     void testTransactionTwoWayTemp() {
-        User casey = new User("caseyh", "pwd123");
-        User annie = new User("anniel", "pwd456");
+        TradingUser casey = new TradingUser("caseyh", "pwd123");
+        TradingUser annie = new TradingUser("anniel", "pwd456");
         Item book = new Item("book");
         Item book2 = new Item("hamlet");
         Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
@@ -157,8 +157,8 @@ class TransactionTest {
 
     @Test
     void testGetItem1() {
-        User casey = new User("caseyh", "pwd123");
-        User annie = new User("anniel", "pwd456");
+        TradingUser casey = new TradingUser("caseyh", "pwd123");
+        TradingUser annie = new TradingUser("anniel", "pwd456");
         Item book = new Item("book");
         Item book2 = new Item("hamlet");
         Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
@@ -170,8 +170,8 @@ class TransactionTest {
 
     @Test
     void testGetItem2() {
-        User casey = new User("caseyh", "pwd123");
-        User annie = new User("anniel", "pwd456");
+        TradingUser casey = new TradingUser("caseyh", "pwd123");
+        TradingUser annie = new TradingUser("anniel", "pwd456");
         Item book = new Item("book");
         Item book2 = new Item("hamlet");
         Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
@@ -182,8 +182,8 @@ class TransactionTest {
 
     @Test
     void testGetSecondMeeting() {
-        User casey = new User("caseyh", "pwd123");
-        User annie = new User("anniel", "pwd456");
+        TradingUser casey = new TradingUser("caseyh", "pwd123");
+        TradingUser annie = new TradingUser("anniel", "pwd456");
         Item book = new Item("book");
         Item book2 = new Item("hamlet");
         Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);

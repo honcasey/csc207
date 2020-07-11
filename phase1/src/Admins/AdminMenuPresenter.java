@@ -11,9 +11,9 @@ public class AdminMenuPresenter extends MenuPresenter {
         List<String> AdminMenuOptions = new ArrayList<>(); // are lists ordered?
         AdminMenuOptions.add("Check Pending Items for Approval");
         AdminMenuOptions.add("Check Flagged Users");
-        AdminMenuOptions.add("Create New Admin User");
-        AdminMenuOptions.add("Add New Item to a User's Wishlist/Inventory");
-        AdminMenuOptions.add("Change User Threshold");
+        AdminMenuOptions.add("Create New Admin TradingUser");
+        AdminMenuOptions.add("Add New Item to a TradingUser's Wishlist/Inventory");
+        AdminMenuOptions.add("Change TradingUser Threshold");
         AdminMenuOptions.add("Check Unfreeze Account Requests");
         AdminMenuOptions.add("Log Out");
         return AdminMenuOptions;
