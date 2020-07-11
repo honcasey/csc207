@@ -45,7 +45,7 @@ public class UserMenuController{
             } if (ump.indexToOption(input, menu, ump.browseAvailableItems)) {
                 DisplayAvailableItems();
             } if (ump.indexToOption(input, menu, ump.viewActiveTransactions)) {
-                //This Still needs to be done. userMenu.getActiveTransactions();
+                getActiveTransactions();
             } if (ump.indexToOption(input, menu, ump.viewPastTransactionDetails)) {
                 viewPastTransaction();
             } if (ump.indexToOption(input, menu, ump.viewWishlist)) {
@@ -233,13 +233,14 @@ public class UserMenuController{
      * This method displays all of the active transactions for TradingUser and then redirects the user to either edit the Meetings
      * for that transaction or to change the statusUser of the Transaction
      */
-    private void getActiveTransactions() throws InvalidTransactionException {
+    private void getActiveTransactions() {
         boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
         TradingUser tradingUser = currentTradingUser;
 
         while (userInteracting) {
             List<UUID> currentTransactionsIds = tradingUser.getCurrentTransactions();
+
             ArrayList<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
 
             List<String> optionList = ump.constructTransactionList(currTransactionsList);
