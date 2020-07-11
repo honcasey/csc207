@@ -14,14 +14,12 @@ import java.time.LocalTime;
 import java.util.*;
 
 public class UserMenuController{
-    /**
-     *
-     */
+
     private TradingUser currentTradingUser; // user that's logged in
     private AdminManager am;
     private UserManager um;
     private CurrentTransactionManager tm;
-    private PastTransactionManager ptm = new PastTransactionManager(tm.getAllTransactions());
+    private PastTransactionManager ptm;
     private ItemManager im;
     private Map<Item, TradingUser> allPendingItems;
     private UserMenuPresenter ump = new UserMenuPresenter();
@@ -34,6 +32,7 @@ public class UserMenuController{
         um = userManager;
         tm = currentTransactionManager;
         im = itemManager;
+        ptm = new PastTransactionManager(tm.getAllTransactions());
     }
 
     public void run() {
@@ -44,19 +43,19 @@ public class UserMenuController{
             int input = ump.handleOptionsByIndex(menu, false,"TradingUser Main Menu");
             if (ump.indexToOption(input, menu, ump.requestItem)){
                 requestAddItem();
-            } if (ump.indexToOption(input, menu, ump.browseAvailableItems)) {
+            } else if (ump.indexToOption(input, menu, ump.browseAvailableItems)) {
                 DisplayAvailableItems();
-            } if (ump.indexToOption(input, menu, ump.viewActiveTransactions)) {
+            } else if (ump.indexToOption(input, menu, ump.viewActiveTransactions)) {
                 getActiveTransactions();
-            } if (ump.indexToOption(input, menu, ump.viewPastTransactionDetails)) {
+            } else if (ump.indexToOption(input, menu, ump.viewPastTransactionDetails)) {
                 viewPastTransaction();
-            } if (ump.indexToOption(input, menu, ump.viewWishlist)) {
+            } else if (ump.indexToOption(input, menu, ump.viewWishlist)) {
                 viewWishlist();
-            } if (ump.indexToOption(input, menu, ump.viewInventory)) {
+            } else if (ump.indexToOption(input, menu, ump.viewInventory)) {
                 viewInventory();
-            } if (ump.indexToOption(input, menu, ump.requestUnfreeze)) {
+            } else if (ump.indexToOption(input, menu, ump.requestUnfreeze)) {
                 requestUnfreezeAccount();
-            } if (ump.indexToOption(input, menu, ump.logout)) {
+            } else if (ump.indexToOption(input, menu, ump.logout)) {
                 System.out.println(ump.successfulLogout());
                 userInteracting = false;
             }
