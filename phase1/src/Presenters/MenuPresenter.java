@@ -10,7 +10,11 @@ import java.util.Scanner;
 
 public abstract class MenuPresenter {
     public List<String> allThresholds = Arrays.asList("borrow", "weekly", "incomplete");
+    public String borrowThresholdDescription = "minimum number of times that this user must lend something before they can borrow/trade";
+    public String weeklyThresholdDescription = "maximum number of transactions that this user can participate in a week";
+    public String incompleteThresholdDescription = "maximum number of incomplete transactions before this user's account is frozen";
     public List<String> userLists = Arrays.asList("wishlist", "inventory");
+    public String previousMenu = "Loading Previous Menu";
     private String optionPrompt = "Please type a number corresponding to one of the above options.";
     private String invalidOption = "Not a valid option. Please enter a valid option.";
     public String logout = "Log out";
@@ -213,7 +217,11 @@ public abstract class MenuPresenter {
     }
 
     public String successfullyChanged(String what, String who) {
-        return who + "'s " + what + "has been successfully changed.";
+        return who + "'s " + what + " has been successfully changed.";
+    }
+
+    public String successfullyCreated(String what) {
+        return what + " has been successfully created.";
     }
 
     public String validOptions(List<String> optionList) {
