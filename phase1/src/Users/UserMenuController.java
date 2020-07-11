@@ -7,6 +7,8 @@ import Items.ItemManager;
 import Transactions.Meeting;
 import Transactions.Transaction;
 import Transactions.CurrentTransactionManager;
+import com.sun.xml.internal.bind.v2.TODO;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -69,8 +71,27 @@ public class UserMenuController{
         String itemName = scanner.nextLine();
         System.out.println("What is the description of this item?");
         String itemDescription = scanner.nextLine();
-        requestAddItemInput(itemName,itemDescription);
+        Item RequestedItem = this.createItemflow();
+        allPendingItems.put(RequestedItem,currentUser);
         System.out.println("Items has been requested and is now being reviewed by the administrators.");
+    }
+
+    /**
+     * This is a helper method to other methods in this class.This method handles the flow of asking:
+     * (1)What is the name of your item.
+     * (2)What is the description of your item.
+     * (2)constructing and returning an item.
+     * @return the item that has been constructed from the user input.
+     */
+    private Item createItemflow(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("What is the name of your item?");
+        String itemName = scanner.nextLine();
+        System.out.println("What is the description of this item?");
+        String itemDescription = scanner.nextLine();
+        Item returnItem = new Item(itemName);
+        returnItem.setDescription(itemDescription);
+        return(returnItem);
     }
 
     /**
@@ -131,26 +152,20 @@ public class UserMenuController{
      */
     private boolean CreateTransactionMenu(Item item, User Owner) {
         Scanner scanner = new Scanner(System.in);
-        boolean userInteracting = true;
-        while (userInteracting) {
-            System.out.println("Transactions.Transaction Menu");
-            System.out.println("----------------");
-            List<String> transOptionList = this.userMenuPresenter.constructTransactionTypeMenu();
-            String OptionChosen = this.userMenuPresenter.handleOptions(transOptionList, true, ""
-            );
-            if (OptionChosen.equals("back")) {
-                System.out.println("Loading Previous Menu");
-                userInteracting = false;
+        System.out.println("Transactions Menu");
+        System.out.println("----------------");
+        System.out.println("You need to schedule a meeting time with the other user.");
+        Meeting FirstMeeting = MeetingDetailsMenu("Meeting Details");
+        if(!this.userMenuPresenter.handleYesNo("Would you like this transaction to be Permanent?")){
+            System.out.println("You need to schedule a second meeting to reverse the transaction.");
+            Meeting SecondMeeting = MeetingDetailsMenu("Second Meeting Details");
+            if(this.userMenuPresenter.handleYesNo("Would you like to offer one of your items?")){
+
 
             }
-            else{
-                Meeting FirstMeeting = MeetingDetailsMenu("First Meeting Details");
-                if(OptionChosen.equals()){
 
-                }
-
-            }
         }
+
     }
 
     /**
@@ -262,33 +277,22 @@ public class UserMenuController{
                 System.out.println("Loading Previous Menu");
                 userInteracting = false;
             } else {
-                    Transaction transaction = currTransactionsList.get(OptionChosen);
-                    ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
-                    String transactionActionPrompt = "This is the list of actions that you can do with your transaction"
-                    int optionChosen2 = this.userMenuPresenter.handleOptionsByIndex(transactionActions, true, transactionActionPrompt);
-                    if (tm.updateStatusUser(currentUser, transaction, transactionActions.get(optionChosen2))){
-                        tm.updateStatus(transaction);
-                        um.addToTransactionHistory(currentUser, transaction);
-                        System.out.println("Loading Previous Menu");
-                        userInteracting = false;
-                        }
-                    else{
-                        this.editMeeting(currentUser,transaction);
-                        System.out.println("Loading Previous Menu");
-                        userInteracting = false;
-                    }
+                Transaction transaction = currTransactionsList.get(OptionChosen);
+                ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
+                String transactionActionPrompt = "This is the list of actions that you can do with your transaction"
+                int optionChosen2 = this.userMenuPresenter.handleOptionsByIndex(transactionActions, true, transactionActionPrompt);
+                if (tm.updateStatusUser(currentUser, transaction, transactionActions.get(optionChosen2))) {
+                    tm.updateStatus(transaction);
+                    um.addToTransactionHistory(currentUser, transaction);
+                    System.out.println("Loading Previous Menu");
+                    userInteracting = false;
+                } else {
+                    this.editMeeting(currentUser, transaction);
+                    System.out.println("Loading Previous Menu");
+                    userInteracting = false;
+                }
+            }
         }
-    }
-
-    /**
-     * This helper method constructs a new instance of item from user input then adds the item to the pending items list.
-     * @param itemName the name of the item to be requested.
-     * @param itemDescription this is the description of the item.
-     */
-    public void requestAddItemInput(String itemName, String itemDescription){
-        Item RequestedItem = new Item(itemName);
-        RequestedItem.setDescription(itemDescription);
-        allPendingItems.put(RequestedItem,currentUser);
     }
 
     /**
@@ -395,10 +399,6 @@ public class UserMenuController{
         return tm.getTransactionsFromIdList(idList);
     }
 
-
-
-}
-
     private void editMeeting(User currentUser, Transaction transaction) {
         boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
@@ -411,11 +411,10 @@ public class UserMenuController{
 
             Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
             System.out.println("This is the meeting you wish to edit " + meeting.toString());
-            ArrayList<String> options = new ArrayList<String>(Arrays.asList("Edit Location", "Edit time", "Edit Date"));
+            List<String> options = this.userMenuPresenter.constructEditMeetingOptions();
             String optionsTitle = "You can edit one of the following options:";
-            String optionsPrompt = "Type the number corresponding to the transaction you wish to" +
-                    " modify. To go back to the previous menu, type the number corresponding to that" +
-                    "option.";
+            String optionsPrompt ="Type the number corresponding to the transaction you wish to" +
+                    " modify." + this.userMenuPresenter.getToGoBackPrompt();
 
             int OptionChosen = this.userMenuPresenter.handleOptionsByIndex(options, true, optionsPrompt);
             // Logic handling back to other menu vs. Editing a meeting
@@ -425,26 +424,39 @@ public class UserMenuController{
             } else {
                 switch (OptionChosen) {
                     case 0:
-                        System.out.println("Where do you want to have the meeting?");
-                        String MeetingLocation = scanner.nextLine();
-                        tm.editMeeting(meetingNum, transaction, user, MeetingLocation);
-                        System.out.println("You have successfully edited your meeting to be at " + MeetingLocation);
+                      editMeetingLocationFlow(user,transaction,meetingNum);
                         break;
                     case 1:
-                        LocalTime MeetingTime = this.userMenuPresenter.inputTimeGetter("Please Enter the time of your meeting in the" +
-                                " format: HH:mm:ss");
-                        tm.editMeeting(meetingNum, transaction, user, MeetingTime);
-                        System.out.println("You have successfully edited your meeting to be at " + MeetingTime);
+                       editMeetingTimeFlow(user,transaction,meetingNum);
                         break;
                     default:
-                        LocalDate MeetingDate = this.userMenuPresenter.inputDateGetter("Please Enter the date of your meeting in the" +
-                                " format: dd-mm-yyyy");
-                        tm.editMeeting(meetingNum, transaction, user, MeetingDate);
-                        System.out.println("You have successfully edited your meeting to be at " + MeetingDate);
-                }
+                        editMeetingDateFlow(user,transaction,meetingNum);
                 }
             }
         }
+    }
+    private void editMeetingLocationFlow(UUID user, Transaction transaction,int meetingNum){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Where do you want to have the meeting?");
+        String MeetingLocation = scanner.nextLine();
+        tm.editMeeting(meetingNum, transaction, user, MeetingLocation);
+        System.out.println("You have successfully edited your meeting to be at " + MeetingLocation);
+    }
+
+    private void editMeetingTimeFlow(UUID user, Transaction transaction,int meetingNum){
+        Scanner scanner = new Scanner(System.in);
+        LocalTime MeetingTime = this.userMenuPresenter.inputTimeGetter("Please Enter the time of your meeting in the" +
+                " format: HH:mm:ss");
+        tm.editMeeting(meetingNum, transaction, user, MeetingTime);
+        System.out.println("You have successfully edited your meeting to be at " + MeetingTime);
+    }
+    private void editMeetingDateFlow(UUID user, Transaction transaction,int meetingNum){
+        Scanner scanner = new Scanner(System.in);
+        LocalDate MeetingDate = this.userMenuPresenter.inputDateGetter("Please Enter the date of your meeting in the" +
+                " format: dd-mm-yyyy");
+        tm.editMeeting(meetingNum, transaction, user, MeetingDate);
+        System.out.println("You have successfully edited your meeting to be at " + MeetingDate);
+    }
 
     private int pickMeetingToEdit(){
 

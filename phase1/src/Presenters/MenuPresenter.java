@@ -17,6 +17,12 @@ public abstract class MenuPresenter {
     public List<String> userLists = Arrays.asList("wishlist", "inventory");
     private String optionPrompt = "Please type a number corresponding to one of the above options.";
     private String invalidOption = "Not a valid option. Please enter a valid option.";
+    private String togoBack = "To go back to the previous menu, type the number corresponding to that" +
+            "option.";
+
+    public String getToGoBackPrompt(){
+        return(this.togoBack);
+    }
 
     /**
      * Formats and displays a list of options to the user.
