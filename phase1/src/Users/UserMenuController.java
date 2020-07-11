@@ -111,7 +111,7 @@ public class UserMenuController{
                     TradingUser transactionItemOwner = availableItems.get(transactionItem);
                     userInteracting = CreateTransactionMenu(transactionItem,transactionItemOwner);
                     if(//TODO put master threshold method here){
-                        this.am.getPendingFrozenTradingUsers().add(this.currentTradingUser);
+                        am.getPendingFrozenTradingUsers().add(currentTradingUser);
                     }
                 }
             }
@@ -132,10 +132,10 @@ public class UserMenuController{
         System.out.println("----------------");
         System.out.println("You need to schedule a meeting time with the other user.");
         Meeting FirstMeeting = MeetingDetailsMenu("Meeting Details");
-        if(!this.ump.handleYesNo("Would you like this transaction to be Permanent?")){
+        if(!ump.handleYesNo("Would you like this transaction to be Permanent?")){
             System.out.println("You need to schedule a second meeting to reverse the transaction.");
             Meeting SecondMeeting = MeetingDetailsMenu("Second Meeting Details");
-            if(this.ump.handleYesNo("Would you like to offer one of your items?")){
+            if(ump.handleYesNo("Would you like to offer one of your items?")){
 
 
             }
@@ -153,8 +153,8 @@ public class UserMenuController{
         System.out.println(MeetingTitle);
         System.out.println("Where do you want to have the meeting?");
         String MeetingLocation = scanner.nextLine();
-        LocalTime MeetingTime = this.ump.inputTimeGetter(ump.enterWhatInFormat("time", "HH:mm:ss"));
-        LocalDate MeetingDate = this.ump.inputDateGetter(ump.enterWhatInFormat("date", "dd-mm-yyyy"));
+        LocalTime MeetingTime = ump.inputTimeGetter(ump.enterWhatInFormat("time", "HH:mm:ss"));
+        LocalDate MeetingDate = ump.inputDateGetter(ump.enterWhatInFormat("date", "dd-mm-yyyy"));
         return new Meeting(MeetingLocation,MeetingTime,MeetingDate);
     }
 
@@ -173,12 +173,12 @@ public class UserMenuController{
 
                 while(itemIterator.hasNext()){
                     System.out.println(itemIterator.next().toString());
-                    int optionChosen =this.ump.handleOptionsByIndex(optionList, true, "Wishlist Menu");
+                    int optionChosen = ump.handleOptionsByIndex(optionList, true, "Wishlist Menu");
                     if(optionChosen == optionList.size()){
                         System.out.println(ump.previousMenu);
                         userInteracting = false;
                     }
-                    else if(this.ump.indexToOption(optionChosen, optionList, ump.removeItem)){
+                    else if(ump.indexToOption(optionChosen, optionList, ump.removeItem)){
                         um.removeItem(currentTradingUser, itemIterator.next(), "wishlist");
                         System.out.println(ump.successfullyRemoved(itemIterator.next().toString(),"wishlist"));
                     } } } } }
@@ -198,12 +198,12 @@ public class UserMenuController{
 
                 while(itemIterator.hasNext()){
                     System.out.println(itemIterator.next().toString());
-                    int optionChosen =this.ump.handleOptionsByIndex(optionList, true, "Inventory Menu");
+                    int optionChosen = ump.handleOptionsByIndex(optionList, true, "Inventory Menu");
                     if(optionChosen == optionList.size()){
                         System.out.println(ump.previousMenu);
                         userInteracting = false;
                     }
-                    else if(this.ump.indexToOption(optionChosen, optionList, ump.removeItem)){
+                    else if(ump.indexToOption(optionChosen, optionList, ump.removeItem)){
                         um.removeItem(currentTradingUser, itemIterator.next(), "inventory");
                         System.out.println(ump.successfullyRemoved(itemIterator.next().toString(),"inventory"));
                     } } } } }
@@ -242,9 +242,9 @@ public class UserMenuController{
             List<UUID> currentTransactionsIds = tradingUser.getCurrentTransactions();
             ArrayList<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
 
-            List<String> optionList = this.ump.constructTransactionList(currTransactionsList);
+            List<String> optionList = ump.constructTransactionList(currTransactionsList);
             String currTransactionsTitle = "List of Current Transaction";
-            int OptionChosen = this.ump.handleOptionsByIndex(optionList, true, currTransactionsTitle
+            int OptionChosen = ump.handleOptionsByIndex(optionList, true, currTransactionsTitle
             );
             // Logic handling back to other menu vs. Editing a meeting vs changing the StatusUser of a Transaction.
             if (OptionChosen == optionList.size()) {
@@ -261,7 +261,7 @@ public class UserMenuController{
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
                 } else {
-                    this.editMeeting(currentTradingUser, transaction);
+                    editMeeting(currentTradingUser, transaction);
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
                 }
@@ -341,7 +341,7 @@ public class UserMenuController{
     }
 
     public ArrayList<Transaction> getTransactionList(List<UUID> idList) throws InvalidTransactionException {
-        return tm.getTransactionsFromIdList(idList);
+        return tm.getTransactionsFromIdList(idList); //(from Casey) if this method is just one line, consider not making it a helper method
     }
 
     private void editMeeting(TradingUser currentTradingUser, Transaction transaction) {
@@ -386,14 +386,14 @@ public class UserMenuController{
 
     private void editMeetingTimeFlow(UUID user, Transaction transaction,int meetingNum){
         Scanner scanner = new Scanner(System.in);
-        LocalTime MeetingTime = this.ump.inputTimeGetter(ump.enterWhatInFormat("time","HH:mm:ss"));
+        LocalTime MeetingTime = ump.inputTimeGetter(ump.enterWhatInFormat("time","HH:mm:ss"));
         tm.editMeeting(meetingNum, transaction, user, MeetingTime);
         System.out.println(ump.successfullyEditedMeeting(MeetingTime.toString()));
     }
 
     private void editMeetingDateFlow(UUID user, Transaction transaction,int meetingNum){
         Scanner scanner = new Scanner(System.in);
-        LocalDate MeetingDate = this.ump.inputDateGetter(ump.enterWhatInFormat("date", "dd-mm-yyyy"));
+        LocalDate MeetingDate = ump.inputDateGetter(ump.enterWhatInFormat("date", "dd-mm-yyyy"));
         tm.editMeeting(meetingNum, transaction, user, MeetingDate);
         System.out.println(ump.successfullyEditedMeeting(MeetingDate.toString()));
     }
@@ -401,7 +401,7 @@ public class UserMenuController{
     private int pickMeetingToEdit(){
         List<String> meetNum = new ArrayList<String>(Arrays.asList("Edit first meeting", "Edit second meeting"));
         String meetNumTitle = "This transaction has two meetings";
-        int num = this.ump.handleOptionsByIndex(meetNum, true, meetNumTitle);
+        int num = ump.handleOptionsByIndex(meetNum, true, meetNumTitle);
         return num; //this is because we can either have meeting one or meeting two but index of list starts from 0
     }
 }
