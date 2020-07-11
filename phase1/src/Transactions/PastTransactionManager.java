@@ -3,9 +3,7 @@ package Transactions;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.UUID;
-import java.util.HashMap;
 
-import Exceptions.InvalidTransactionException;
 import Users.TradingUser;
 import Users.TransactionHistory;
 
@@ -43,10 +41,10 @@ public class PastTransactionManager extends TransactionManager{
 
     private int numTransactionsInWeek(TradingUser tradingUser){
         TransactionHistory transactionHistory = tradingUser.getTransactionHistory();
-        List<UUID> transactionHistoryId = transactionHistory.getAllTransactions();
+        List<UUID> transactionHistoryId = transactionHistory.getAllPastTransactions();
         int numTransactions = 0;
         List<Transaction> allTransactions = getTransactionsFromIdList(transactionHistoryId);
-//        ZoneId k = ZoneId.of("America/Montreal");
+//        ZoneId k =  ZoneId.of("America/Montreal");
 //        LocalDate today = LocalDate.now(k); alternative way of doing it; saving just in case
         Calendar currentCal = Calendar.getInstance();
         int week = currentCal.get(Calendar.WEEK_OF_YEAR);
