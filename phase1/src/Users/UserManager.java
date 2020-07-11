@@ -159,7 +159,6 @@ public class UserManager {
     public void addToTransactionHistory(User user, Transaction transaction) {
         TransactionHistory tH = user.getTransactionHistory();
         tH.setTransactionHistory(transaction);
-        user.setTransactionHistory(tH);
         updateTransactionHistoryValues(user, transaction);
     }
 
