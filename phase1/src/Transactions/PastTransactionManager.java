@@ -10,7 +10,7 @@ import Users.TradingUser;
 import Users.TransactionHistory;
 
 public class PastTransactionManager extends TransactionManager{
-    public PastTransactionManager(HashMap<UUID, Transaction> transactions){
+    public PastTransactionManager(Map<UUID, Transaction> transactions){
         super(transactions);
 
     }
