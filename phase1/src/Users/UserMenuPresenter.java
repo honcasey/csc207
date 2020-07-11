@@ -30,7 +30,6 @@ public class UserMenuPresenter extends MenuPresenter {
     //option strings
     public String removeItem = "Remove item.";
     public String nextItem = "Go to next item.";
-    public String previousMenu = "Loading Previous Menu";
     public String requestItem = "Request Items for Approval";
     public String browseAvailableItems = "Browse Available Items for Trade";
     public String viewActiveTransactions = "View Active Transactions";

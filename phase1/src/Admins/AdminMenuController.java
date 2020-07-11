@@ -4,23 +4,23 @@ import Exceptions.InvalidAdminException;
 import Exceptions.InvalidUserException;
 import Items.Item;
 import Users.TradingUser;
-import Users.UserManager;
+import Users.TradingUserManager;
 
 import java.util.*;
 
 public class AdminMenuController {
     private final AdminUser currentAdmin; // admin that's logged in
     private final AdminManager am;
-    private final UserManager um;
+    private final TradingUserManager um;
     private final Map<Item, TradingUser> allPendingItems;
     private final AdminMenuPresenter amp = new AdminMenuPresenter();
     private int input; // do we need this?
 
-    public AdminMenuController(AdminManager adminManager, UserManager userManager,
+    public AdminMenuController(AdminManager adminManager, TradingUserManager tradingUserManager,
                                Map<Item, TradingUser> pendingItems, AdminUser admin) {
         currentAdmin = admin;
         allPendingItems = pendingItems;
-        um = userManager;
+        um = tradingUserManager;
         am = adminManager;
     }
 
@@ -96,44 +96,52 @@ public class AdminMenuController {
                 System.out.println(amp.enterPassword("new Admin"));
                 String password = scanner.nextLine();
                 am.addAdmin(username, password);
-                System.out.println("New Admin TradingUser " + username + " successfully created.");
+                System.out.println(amp.successfullyCreated("New Admin TradingUser " + username));
             } catch (InvalidAdminException e) {
                 System.out.println(amp.usernameTaken());
             }
         } else {
-            System.out.println("Permission denied, only the first admin can create new administrative user accounts.");
+            System.out.println(amp.permissionDenied);
         }
     }
 
     private void addItemToUser() {
+        boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
         System.out.println(amp.enterName("new Item"));
         String itemName = scanner.nextLine();
         Item newItem = new Item(itemName);
         System.out.println(amp.enterName("TradingUser"));
         String username = scanner.nextLine();
-        System.out.println("Would you like to add this item to the user's wishlist or inventory?");
-        String whichList = scanner.nextLine();
-        try {
-            if (whichList.equals("wishlist")) {
-                um.addItem(um.getUser(username), newItem, "wishlist");
-                System.out.println(amp.successfullyAdded(newItem.toString(), username, "wishlist"));
+        int optionChosen = amp.handleOptionsByIndex(amp.constructAddToListMenu(), true,
+                "Which List do you want to add this Item to?");
+        while (userInteracting) {
+            try {
+                if (optionChosen == amp.constructAddToListMenu().size()) {
+                    System.out.println(amp.previousMenu);
+                    userInteracting = false;
+                }
+                if (amp.indexToOption(optionChosen, amp.constructAddToListMenu(), amp.addToWishlist)) {
+                    um.addItem(um.getTradingUser(username), newItem, "wishlist");
+                    System.out.println(amp.successfullyAdded(newItem.toString(), username, "wishlist"));
+                }
+                else if (amp.indexToOption(optionChosen, amp.constructAddToListMenu(), amp.addToInventory)) {
+                    um.addItem(um.getTradingUser(username), newItem, "wishlist");
+                    System.out.println(amp.successfullyAdded(newItem.toString(), username, "inventory"));
+                }
+                else { System.out.println(amp.validOptions(amp.userLists));}
+            } catch(InvalidUserException e) {
+                System.err.println(amp.usernameInvalid());
             }
-            else if (whichList.equals("inventory")) {
-                um.addItem(um.getUser(username), newItem, "wishlist");
-                System.out.println(amp.successfullyAdded(newItem.toString(), username, "inventory"));
-            }
-            else { System.out.println(amp.validOptions(amp.userLists));}
-        } catch(InvalidUserException e) {
-            System.err.println(amp.usernameInvalid());
         }
+
     }
 
     private void helperChangeThreshold(String username, String whichThreshold) throws InvalidUserException { // helper method for changeUserThreshold
         Scanner scanner = new Scanner(System.in);
         System.out.println(amp.whichThreshold(whichThreshold));
         int newThreshold = scanner.nextInt();
-        um.changeThreshold(um.getUser(username), newThreshold, whichThreshold);
+        um.changeThreshold(um.getTradingUser(username), newThreshold, whichThreshold);
         System.out.println(amp.successfullyChanged(whichThreshold, username));
     }
 
@@ -145,20 +153,20 @@ public class AdminMenuController {
         try {
             switch (whichThreshold) {
                 case "borrow": {
-                    System.out.println(amp.currentThreshold("minimum number of times that this user must lend something before they can borrow/trade",
-                            um.getUser(username).getBorrowThreshold()));
+                    System.out.println(amp.currentThreshold(amp.borrowThresholdDescription,
+                            um.getTradingUser(username).getBorrowThreshold()));
                     helperChangeThreshold(username, whichThreshold);
                     break;
                 }
                 case "weekly": {
-                    System.out.println(amp.currentThreshold("maximum number of transactions that this user can participate in a week",
-                            um.getUser(username).getWeeklyThreshold()));
+                    System.out.println(amp.currentThreshold(amp.weeklyThresholdDescription,
+                            um.getTradingUser(username).getWeeklyThreshold()));
                     helperChangeThreshold(username, whichThreshold);
                     break;
                 }
                 case "incomplete": {
-                    System.out.println(amp.currentThreshold("maximum number of incomplete transactions before this user's account is frozen",
-                            um.getUser(username).getIncompleteThreshold()));
+                    System.out.println(amp.currentThreshold(amp.incompleteThresholdDescription,
+                            um.getTradingUser(username).getIncompleteThreshold()));
                     helperChangeThreshold(username, whichThreshold);
                     break;
                 }
@@ -181,13 +189,10 @@ public class AdminMenuController {
                 } else {
                     for (TradingUser tradingUser : am.getPendingFrozenTradingUsers()) {
                         System.out.println(tradingUser.toString());
-                        List<String> optionList = new ArrayList<>();
-                        optionList.add("Unfreeze Account."); // should i add a "leave tradingUser frozen" option, or just assume the admin knows by skipping the tradingUser, they're leaving that tradingUser frozen?
-                        optionList.add("Go to next tradingUser."); // or change this option to "Leave TradingUser Frozen"?
-                        int optionChosen = amp.handleOptionsByIndex(optionList, true, "Check Frozen Users");
-                        if (optionChosen == optionList.size()) {
+                        int optionChosen = amp.handleOptionsByIndex(amp.constructPendingFrozenUsersMenu(), true, "Check Frozen Users");
+                        if (optionChosen == amp.constructPendingFrozenUsersMenu().size()) {
                             userInteracting = false;
-                        } else if (amp.indexToOption(optionChosen, optionList, "Unfreeze Account.")) {
+                        } else if (amp.indexToOption(optionChosen, amp.constructPendingFrozenUsersMenu(), amp.unfreezeAccount)) {
                             um.unfreezeAccount(tradingUser);
                             am.getPendingFrozenTradingUsers().remove(tradingUser);
                             System.out.println(amp.accountFrozen(tradingUser.toString(), tradingUser.getStatus()));
@@ -201,18 +206,14 @@ public class AdminMenuController {
                 } else {
                     for (TradingUser tradingUser : am.getFlaggedAccounts()) {
                         System.out.println(tradingUser.toString());
-                        List<String> optionList2 = new ArrayList<>(); // these 4 lines could be moved to before the while loop to shorten
-                        optionList2.add("Freeze Account.");
-                        optionList2.add("Unfreeze Account.");
-                        optionList2.add("Go to next tradingUser.");
-                        int optionChosen2 = amp.handleOptionsByIndex(optionList2, true, "Check Flagged Users");
-                        if (optionChosen2 == optionList2.size()) {
+                        int optionChosen2 = amp.handleOptionsByIndex(amp.constructFlaggedUsersMenu(), true, "Check Flagged Users");
+                        if (optionChosen2 == amp.constructFlaggedUsersMenu().size()) {
                             userInteracting = false;
-                        } else if (amp.indexToOption(optionChosen2, optionList2, "Freeze Account.")) {
+                        } else if (amp.indexToOption(optionChosen2, amp.constructFlaggedUsersMenu(), amp.freezeAccount)) {
                             um.freezeAccount(tradingUser);
                             am.getFrozenAccounts().add(tradingUser);
                             System.out.println(amp.accountFrozen(tradingUser.toString(), tradingUser.getStatus()));
-                        } else if (amp.indexToOption(optionChosen2, optionList2, "Unfreeze Account.")) {
+                        } else if (amp.indexToOption(optionChosen2, amp.constructFlaggedUsersMenu(), amp.unfreezeAccount)) {
                             um.unfreezeAccount(tradingUser);
                             am.getFlaggedAccounts().remove(tradingUser);
                             System.out.println(amp.accountFrozen(tradingUser.toString(), tradingUser.getStatus()));

@@ -9,7 +9,7 @@ import Presenters.BootupMenuPresenter;
 import Transactions.Transaction;
 import Transactions.CurrentTransactionManager;
 import Users.TradingUser;
-import Users.UserManager;
+import Users.TradingUserManager;
 import Users.UserMenuController;
 
 import java.io.File;
@@ -34,7 +34,7 @@ public class TradingSystem {
     private final String transactionsFilePath = "transactions.ser";
     private final String itemMapFilePath = "items.ser";
     private AdminManager adminManager;
-    private UserManager userManager;
+    private TradingUserManager tradingUserManager;
     private CurrentTransactionManager currentTransactionManager;
     private ItemManager itemManager;
     private Map<Item, TradingUser> pendingItems;
@@ -84,7 +84,7 @@ public class TradingSystem {
 
         // create new Managers
         adminManager = new AdminManager(admins, flaggedAccounts, frozenAccounts);
-        userManager = new UserManager(tradingUsers, flaggedAccounts, frozenAccounts);
+        tradingUserManager = new TradingUserManager(tradingUsers, flaggedAccounts, frozenAccounts);
         currentTransactionManager = new CurrentTransactionManager(transactions);
         itemManager = new ItemManager(items);
     }
@@ -130,7 +130,7 @@ public class TradingSystem {
      */
     private void writeData() throws IOException {
         Serializer serializer = new Serializer();
-        serializer.writeUsersToFile(usersFilePath, userManager.getAllTradingUsers());
+        serializer.writeUsersToFile(usersFilePath, tradingUserManager.getAllTradingUsers());
         serializer.writeAdminsToFile(adminsFilePath, adminManager.getAllAdmins());
         serializer.writeItemsToFile(requestedItemsFilePath, pendingItems);
     }
@@ -157,18 +157,18 @@ public class TradingSystem {
                 notLoggedIn = false;
                 try {
                     AdminMenuController adminMenuController = new AdminMenuController(adminManager,
-                            userManager, pendingItems, adminManager.getAdmin(username));
+                            tradingUserManager, pendingItems, adminManager.getAdmin(username));
                     adminMenuController.run();
                 } catch(InvalidAdminException e) {
                     // we already checked this username corresponds to a valid admin on line 109
                     // so technically adminManager.getAdmin(username) should never throw an exception
                     System.out.println("Invalid Administrator.");
                 }
-            } else if (userManager.validUser(username, password)) {
+            } else if (tradingUserManager.validUser(username, password)) {
                 notLoggedIn = false;
                 try {
-                    UserMenuController userMenuController = new UserMenuController(userManager, adminManager,
-                            currentTransactionManager, itemManager, pendingItems, userManager.getUser(username));
+                    UserMenuController userMenuController = new UserMenuController(tradingUserManager, adminManager,
+                            currentTransactionManager, itemManager, pendingItems, tradingUserManager.getTradingUser(username));
                     userMenuController.run();
                 } catch(InvalidUserException e) {
                     // we already checked this username corresponds to a valid user on line 120
@@ -191,8 +191,8 @@ public class TradingSystem {
         parseCredentials(getUserAndPass());
         if (!adminManager.checkAvailableUsername(username)) {
             try {
-                TradingUser tradingUser = userManager.addUser(username, password);
-                UserMenuController userMenuController = new UserMenuController(userManager, adminManager,
+                TradingUser tradingUser = tradingUserManager.addTradingUser(username, password);
+                UserMenuController userMenuController = new UserMenuController(tradingUserManager, adminManager,
                         currentTransactionManager, itemManager, pendingItems, tradingUser);
                 userMenuController.run();
             } catch(InvalidUserException e) {

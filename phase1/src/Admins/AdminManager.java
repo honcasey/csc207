@@ -2,6 +2,7 @@ package Admins;
 
 import Exceptions.InvalidAdminException;
 import Users.TradingUser;
+import Users.UserManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  * Creates and manages instances of AdminUsers, as well as all accounts that have been flagged or frozen, and a list
  * of Users who have requested their accounts to be unfrozen.
  */
-public class AdminManager {
+public class AdminManager extends UserManager {
     private List<AdminUser> allAdmins;
 
     /**
@@ -49,10 +50,12 @@ public class AdminManager {
         AdminUser newAdmin = new AdminUser(username, password);
         if (allAdmins.size() == 0) {
             allAdmins.add(newAdmin);
+            allUsers.add(newAdmin);
             return newAdmin;
         }
         if (checkAvailableUsername(username)) {
             allAdmins.add(newAdmin);
+            allUsers.add(newAdmin);
             return newAdmin;
         }
         else { throw new InvalidAdminException(); }
@@ -87,16 +90,6 @@ public class AdminManager {
         for (AdminUser admin : allAdmins)
             if (admin.getUsername().equals(username) && admin.getPassword().equals(password)) return true;
         return false;
-    }
-
-    /**
-     * Returns whether the input username is available, or in other words, does not match any existing account usernames.
-     * @param username inputted username
-     * @return boolean whether the input matches an existing AdminUser account or not.
-     */
-    public boolean checkAvailableUsername(String username) {
-        for (AdminUser admin : allAdmins) if (admin.getUsername().equals(username)) return false;
-        return true;
     }
 
     /**

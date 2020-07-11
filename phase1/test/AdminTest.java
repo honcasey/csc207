@@ -33,7 +33,7 @@ public class AdminTest {
     @Test
     void testToString() {
         AdminUser admin1 = new AdminUser("casey", "pwd123");
-        assertEquals(admin1.toString(), "casey, " + admin1.getAdminId());
+        assertEquals(admin1.toString(), "casey, " + admin1.getUserId());
     }
 
     @Test
