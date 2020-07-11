@@ -43,7 +43,7 @@ public class PastTransactionManager extends TransactionManager{
 
     private int numTransactionsInWeek(TradingUser tradingUser){
         TransactionHistory transactionHistory = tradingUser.getTransactionHistory();
-        List<UUID> transactionHistoryId = transactionHistory.getAllTransactions();
+        List<UUID> transactionHistoryId = transactionHistory.getAllPastTransactions();
         int numTransactions = 0;
         List<Transaction> allTransactions = getTransactionsFromIdList(transactionHistoryId);
 //        ZoneId k = ZoneId.of("America/Montreal");
