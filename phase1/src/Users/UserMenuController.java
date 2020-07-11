@@ -17,19 +17,19 @@ public class UserMenuController{
 
     private TradingUser currentTradingUser; // user that's logged in
     private AdminManager am;
-    private UserManager um;
+    private TradingUserManager um;
     private CurrentTransactionManager tm;
     private PastTransactionManager ptm;
     private ItemManager im;
     private Map<Item, TradingUser> allPendingItems;
     private UserMenuPresenter ump = new UserMenuPresenter();
 
-    public UserMenuController(UserManager userManager, AdminManager adminManager, CurrentTransactionManager currentTransactionManager,
+    public UserMenuController(TradingUserManager tradingUserManager, AdminManager adminManager, CurrentTransactionManager currentTransactionManager,
                               ItemManager itemManager, Map<Item, TradingUser> pendingItems, TradingUser tradingUser) {
         currentTradingUser = tradingUser;
         allPendingItems = pendingItems;
         am = adminManager;
-        um = userManager;
+        um = tradingUserManager;
         tm = currentTransactionManager;
         im = itemManager;
         ptm = new PastTransactionManager(tm.getAllTransactions());
@@ -171,8 +171,7 @@ public class UserMenuController{
                 if (itemChosen == ump.constructWishlistItemsList(currentTradingUser).size()) {
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
-                }
-                else {
+                } else {
                     String item = ump.constructWishlistItemsList(currentTradingUser).get(itemChosen);
                     System.out.println(ump.itemOptionList());
                     int optionChosen = ump.handleOptionsByIndex(ump.itemOptionList(), true, "Wishlist Menu");
@@ -194,8 +193,7 @@ public class UserMenuController{
                 if (itemChosen == ump.constructInventoryItemsList(currentTradingUser).size()) {
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
-                }
-                else {
+                } else {
                     String item = ump.constructInventoryItemsList(currentTradingUser).get(itemChosen);
                     System.out.println(ump.itemOptionList());
                     int optionChosen = ump.handleOptionsByIndex(ump.itemOptionList(), true, "Inventory Menu");
@@ -203,15 +201,14 @@ public class UserMenuController{
                         Item whichItem = currentTradingUser.getInventory().get(itemChosen);
                         um.removeItem(currentTradingUser, whichItem, "inventory");
                         System.out.println(ump.successfullyRemoved(item,"inventory"));
-                    } } } } }
+                    }}}}}
 
     private void requestUnfreezeAccount() {
         if (currentTradingUser.isFrozen()) {
             am.getPendingFrozenTradingUsers().add(currentTradingUser);
             am.getFrozenAccounts().remove(currentTradingUser);
             System.out.println("You have successfully requested for your account to be unfrozen.");
-        }
-        else {
+        } else {
             System.out.println("Your account is not frozen.");
         }
     }
@@ -220,8 +217,7 @@ public class UserMenuController{
         TransactionHistory transactionHistory= currentTradingUser.getTransactionHistory();
         if (transactionHistory == null){
             System.out.println(ump.empty("Transaction History"));
-        }
-        else {
+        } else {
             System.out.println(transactionHistory.toString());
         }
     }
@@ -290,7 +286,7 @@ public class UserMenuController{
      */
     public void cancelTransaction(Transaction transaction)  {
         currentTradingUser.getCurrentTransactions().getUsersTransactions().remove(transaction);
-        TradingUser u =  um.getUserById(transaction.getUser1());
+        TradingUser u =  um.getTradingUserById(transaction.getUser1());
         if (u == currentTradingUser){
             transaction.setStatusUser1("cancel");
         }
@@ -323,8 +319,8 @@ public class UserMenuController{
      */
     public void confirmTransaction(Transaction transaction) {
         transaction.setStatus("completed");
-        TradingUser tradingUser1 = um.getUserById(transaction.getUser1());
-        TradingUser tradingUser2 = um.getUserById(transaction.getUser2());
+        TradingUser tradingUser1 = um.getTradingUserById(transaction.getUser1());
+        TradingUser tradingUser2 = um.getTradingUserById(transaction.getUser2());
         um.addToTransactionHistory(tradingUser1, transaction);
         um.addToTransactionHistory(tradingUser2, transaction);
         tradingUser1.getCurrentTransactions().remove(transaction); // Is the transaction in both user's "sent offers"?
@@ -374,6 +370,7 @@ public class UserMenuController{
             }
         }
     }
+
     private void editMeetingLocationFlow(UUID user, Transaction transaction,int meetingNum){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Where do you want to have the meeting?");

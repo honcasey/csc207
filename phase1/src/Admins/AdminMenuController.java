@@ -4,23 +4,23 @@ import Exceptions.InvalidAdminException;
 import Exceptions.InvalidUserException;
 import Items.Item;
 import Users.TradingUser;
-import Users.UserManager;
+import Users.TradingUserManager;
 
 import java.util.*;
 
 public class AdminMenuController {
     private final AdminUser currentAdmin; // admin that's logged in
     private final AdminManager am;
-    private final UserManager um;
+    private final TradingUserManager um;
     private final Map<Item, TradingUser> allPendingItems;
     private final AdminMenuPresenter amp = new AdminMenuPresenter();
     private int input; // do we need this?
 
-    public AdminMenuController(AdminManager adminManager, UserManager userManager,
+    public AdminMenuController(AdminManager adminManager, TradingUserManager tradingUserManager,
                                Map<Item, TradingUser> pendingItems, AdminUser admin) {
         currentAdmin = admin;
         allPendingItems = pendingItems;
-        um = userManager;
+        um = tradingUserManager;
         am = adminManager;
     }
 
@@ -116,11 +116,11 @@ public class AdminMenuController {
         String whichList = scanner.nextLine();
         try {
             if (whichList.equals("wishlist")) {
-                um.addItem(um.getUser(username), newItem, "wishlist");
+                um.addItem(um.getTradingUser(username), newItem, "wishlist");
                 System.out.println(amp.successfullyAdded(newItem.toString(), username, "wishlist"));
             }
             else if (whichList.equals("inventory")) {
-                um.addItem(um.getUser(username), newItem, "wishlist");
+                um.addItem(um.getTradingUser(username), newItem, "wishlist");
                 System.out.println(amp.successfullyAdded(newItem.toString(), username, "inventory"));
             }
             else { System.out.println(amp.validOptions(amp.userLists));}
@@ -133,7 +133,7 @@ public class AdminMenuController {
         Scanner scanner = new Scanner(System.in);
         System.out.println(amp.whichThreshold(whichThreshold));
         int newThreshold = scanner.nextInt();
-        um.changeThreshold(um.getUser(username), newThreshold, whichThreshold);
+        um.changeThreshold(um.getTradingUser(username), newThreshold, whichThreshold);
         System.out.println(amp.successfullyChanged(whichThreshold, username));
     }
 
@@ -146,19 +146,19 @@ public class AdminMenuController {
             switch (whichThreshold) {
                 case "borrow": {
                     System.out.println(amp.currentThreshold("minimum number of times that this user must lend something before they can borrow/trade",
-                            um.getUser(username).getBorrowThreshold()));
+                            um.getTradingUser(username).getBorrowThreshold()));
                     helperChangeThreshold(username, whichThreshold);
                     break;
                 }
                 case "weekly": {
                     System.out.println(amp.currentThreshold("maximum number of transactions that this user can participate in a week",
-                            um.getUser(username).getWeeklyThreshold()));
+                            um.getTradingUser(username).getWeeklyThreshold()));
                     helperChangeThreshold(username, whichThreshold);
                     break;
                 }
                 case "incomplete": {
                     System.out.println(amp.currentThreshold("maximum number of incomplete transactions before this user's account is frozen",
-                            um.getUser(username).getIncompleteThreshold()));
+                            um.getTradingUser(username).getIncompleteThreshold()));
                     helperChangeThreshold(username, whichThreshold);
                     break;
                 }

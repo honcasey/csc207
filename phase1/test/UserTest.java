@@ -5,7 +5,7 @@ import Transactions.Transaction;
 import Users.TradingUser;
 import Users.TransactionHistory;
 import Transactions.TransactionOneWayPerm;
-import Users.UserManager;
+import Users.TradingUserManager;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,9 +118,9 @@ public class UserTest {
         List<TradingUser> frozenAccounts = new ArrayList<>();
         tradingUserList.add(tradingUser1);
         tradingUserList.add(tradingUser2);
-        UserManager um = new UserManager(tradingUserList, flaggedAccounts, frozenAccounts);
-        assertEquals(um.addUser("anna", "pwd123").getUsername(), "anna");
-        assertNull(um.addUser("casey", "pwd123"));
+        TradingUserManager um = new TradingUserManager(tradingUserList, flaggedAccounts, frozenAccounts);
+        assertEquals(um.addTradingUser("anna", "pwd123").getUsername(), "anna");
+        assertNull(um.addTradingUser("casey", "pwd123"));
     }
 
     @Test
@@ -132,9 +132,9 @@ public class UserTest {
         List<TradingUser> frozenAccounts = new ArrayList<>();
         tradingUserList.add(tradingUser1);
         tradingUserList.add(tradingUser2);
-        UserManager um = new UserManager(tradingUserList, flaggedAccounts, frozenAccounts);
-        assertEquals(um.getUser("casey"), tradingUser1);
-        assertEquals(um.getUser("annie"), tradingUser2);
+        TradingUserManager um = new TradingUserManager(tradingUserList, flaggedAccounts, frozenAccounts);
+        assertEquals(um.getTradingUser("casey"), tradingUser1);
+        assertEquals(um.getTradingUser("annie"), tradingUser2);
 
     }
 
@@ -147,7 +147,7 @@ public class UserTest {
         List<TradingUser> frozenAccounts = new ArrayList<>();
         tradingUserList.add(tradingUser1);
         tradingUserList.add(tradingUser2);
-        UserManager um = new UserManager(tradingUserList, flaggedAccounts, frozenAccounts);
+        TradingUserManager um = new TradingUserManager(tradingUserList, flaggedAccounts, frozenAccounts);
         Item book = new Item("hamlet");
         um.addItem(tradingUser1, book, "wishlist");
         assertTrue(tradingUser1.getWishlist().contains(book));
@@ -162,7 +162,7 @@ public class UserTest {
         List<TradingUser> frozenAccounts = new ArrayList<>();
         tradingUserList.add(tradingUser1);
         tradingUserList.add(tradingUser2);
-        UserManager um = new UserManager(tradingUserList, flaggedAccounts, frozenAccounts);
+        TradingUserManager um = new TradingUserManager(tradingUserList, flaggedAccounts, frozenAccounts);
         Item book = new Item("hamlet");
         um.addItem(tradingUser1, book, "wishlist");
         assertTrue(tradingUser1.getWishlist().contains(book));

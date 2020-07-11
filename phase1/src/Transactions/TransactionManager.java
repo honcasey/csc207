@@ -40,7 +40,6 @@ public class TransactionManager {
         }
     }
 
-
     /**
      * Put a list of ids and get an ArrayList of Transactions back
      * @param transactionList : the list of transactions ids to be converted into Transactions
