@@ -1,16 +1,15 @@
 package Users;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class UserManager {
 
-    protected HashMap<UUID, User> idToUser;
+    protected Map<UUID, User> idToUser;
     protected List<User> allUsers;
 
     public UserManager() {
-        this.idToUser = new HashMap<>();
+        idToUser = new HashMap<>();
+        allUsers = new ArrayList<>();
     }
 
     /**

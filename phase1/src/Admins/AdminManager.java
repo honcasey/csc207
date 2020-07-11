@@ -47,18 +47,15 @@ public class AdminManager extends UserManager {
      * @param password user's account password
      */
     public AdminUser addAdmin(String username, String password) throws InvalidAdminException {
+        // create the new admin
         AdminUser newAdmin = new AdminUser(username, password);
-        if (allAdmins.size() == 0) {
-            allAdmins.add(newAdmin);
-            allUsers.add(newAdmin);
-            return newAdmin;
-        }
+        // if no one else shares the same username, we add to the lists of all users and admins and
+        // we return the admin
         if (checkAvailableUsername(username)) {
             allAdmins.add(newAdmin);
             allUsers.add(newAdmin);
             return newAdmin;
-        }
-        else { throw new InvalidAdminException(); }
+        } else { throw new InvalidAdminException(); }
     }
 
     /**

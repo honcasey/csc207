@@ -6,6 +6,7 @@ import Exceptions.InvalidUserException;
 import Items.Item;
 import Items.ItemManager;
 import Presenters.BootupMenuPresenter;
+import Transactions.PastTransactionManager;
 import Transactions.Transaction;
 import Transactions.CurrentTransactionManager;
 import Users.TradingUser;
@@ -36,6 +37,7 @@ public class TradingSystem {
     private AdminManager adminManager;
     private TradingUserManager tradingUserManager;
     private CurrentTransactionManager currentTransactionManager;
+    private PastTransactionManager pastTransactionManager;
     private ItemManager itemManager;
     private Map<Item, TradingUser> pendingItems;
     private final BootupMenuPresenter bmp = new BootupMenuPresenter();
@@ -86,6 +88,7 @@ public class TradingSystem {
         adminManager = new AdminManager(admins, flaggedAccounts, frozenAccounts);
         tradingUserManager = new TradingUserManager(tradingUsers, flaggedAccounts, frozenAccounts);
         currentTransactionManager = new CurrentTransactionManager(transactions);
+        pastTransactionManager = new PastTransactionManager(transactions);
         itemManager = new ItemManager(items);
     }
 
@@ -133,6 +136,9 @@ public class TradingSystem {
         serializer.writeUsersToFile(usersFilePath, tradingUserManager.getAllTradingUsers());
         serializer.writeAdminsToFile(adminsFilePath, adminManager.getAllAdmins());
         serializer.writeItemsToFile(requestedItemsFilePath, pendingItems);
+        serializer.writeAccountsToFile(flaggedAccountsFilePath, tradingUserManager.getFlaggedAccounts());
+        serializer.writeAccountsToFile(frozenAccountsFilePath, tradingUserManager.getFrozenAccounts());
+        serializer.writeTransactionsToFile(transactionsFilePath, currentTransactionManager.getAllTransactions());
     }
 
     /**
@@ -168,7 +174,8 @@ public class TradingSystem {
                 notLoggedIn = false;
                 try {
                     UserMenuController userMenuController = new UserMenuController(tradingUserManager, adminManager,
-                            currentTransactionManager, itemManager, pendingItems, tradingUserManager.getTradingUser(username));
+                            currentTransactionManager, pastTransactionManager, itemManager,
+                            pendingItems, tradingUserManager.getTradingUser(username));
                     userMenuController.run();
                 } catch(InvalidUserException e) {
                     // we already checked this username corresponds to a valid user on line 120
@@ -193,7 +200,7 @@ public class TradingSystem {
             try {
                 TradingUser tradingUser = tradingUserManager.addTradingUser(username, password);
                 UserMenuController userMenuController = new UserMenuController(tradingUserManager, adminManager,
-                        currentTransactionManager, itemManager, pendingItems, tradingUser);
+                        currentTransactionManager, pastTransactionManager, itemManager, pendingItems, tradingUser);
                 userMenuController.run();
             } catch(InvalidUserException e) {
                 // we just created this new user so we know it's a valid user so userManager.getUser()

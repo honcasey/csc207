@@ -24,20 +24,21 @@ public class UserMenuController{
     private Map<Item, TradingUser> allPendingItems;
     private UserMenuPresenter ump = new UserMenuPresenter();
 
-    public UserMenuController(TradingUserManager tradingUserManager, AdminManager adminManager, CurrentTransactionManager currentTransactionManager,
-                              ItemManager itemManager, Map<Item, TradingUser> pendingItems, TradingUser tradingUser) {
+    public UserMenuController(TradingUserManager tradingUserManager, AdminManager adminManager,
+                              CurrentTransactionManager currentTransactionManager,
+                              PastTransactionManager pastTransactionManager, ItemManager itemManager,
+                              Map<Item, TradingUser> pendingItems, TradingUser tradingUser) {
         currentTradingUser = tradingUser;
         allPendingItems = pendingItems;
         am = adminManager;
         um = tradingUserManager;
         tm = currentTransactionManager;
+        ptm = pastTransactionManager;
         im = itemManager;
-        ptm = new PastTransactionManager(tm.getAllTransactions());
     }
 
     public void run() {
         boolean userInteracting = true;
-        Scanner scanner = new Scanner(System.in);
         while(userInteracting){
             List<String> menu = ump.constructMainMenu();
             int input = ump.handleOptionsByIndex(menu, false,"TradingUser Main Menu");
@@ -87,8 +88,6 @@ public class UserMenuController{
      */
     private void DisplayAvailableItems(){
         boolean userInteracting = true;
-        Scanner scanner = new Scanner(System.in);
-
         while(userInteracting){
             HashMap<Item, TradingUser> availableItems  = getAvailableItems();
             List<Item> itemList = new ArrayList<>(availableItems.keySet());
@@ -133,15 +132,14 @@ public class UserMenuController{
      * false if the user wants to head back to the main menu.
      */
     private boolean CreateTransactionMenu(Item item, TradingUser Owner) {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Transactions Menu");
         System.out.println("----------------");
         System.out.println("You need to schedule a meeting time with the other user.");
         Meeting FirstMeeting = MeetingDetailsMenu("Meeting Details");
-        if(!ump.handleYesNo("Would you like this transaction to be Permanent?")){
+        if (!ump.handleYesNo("Would you like this transaction to be Permanent?")){
             System.out.println("You need to schedule a second meeting to reverse the transaction.");
             Meeting SecondMeeting = MeetingDetailsMenu("Second Meeting Details");
-            if(ump.handleYesNo("Would you like to offer one of your items?")){
+            if (ump.handleYesNo("Would you like to offer one of your items?")){
                 List<Item> currentUserInventory = currentTradingUser.getInventory();
                 List<String> ItemOptions = ump.constructInventoryItemsList(currentUserInventory);
                 int OptionChosen = ump.handleOptionsByIndex(ItemOptions,false,
@@ -152,15 +150,13 @@ public class UserMenuController{
                         Owner.getUserId(),ChosenItem.getId(),
                         item.getId(),FirstMeeting,SecondMeeting);
                 updateUsersCurrentTransactions(currentTradingUser,Owner,newTransaction);
-            }
-            else{
+            } else {
                 Transaction newTransaction = this.tm.createTransaction(currentTradingUser.getUserId(),
                         Owner.getUserId(),
                         item.getId(),FirstMeeting,SecondMeeting);
                 updateUsersCurrentTransactions(currentTradingUser,Owner,newTransaction);
             }
-        }
-        else{
+        } else {
             Transaction newTransaction = this.tm.createTransaction(currentTradingUser.getUserId(),
                     Owner.getUserId(),
                     item.getId(),FirstMeeting);
@@ -200,7 +196,6 @@ public class UserMenuController{
 
     private void viewWishlist(){
         boolean userInteracting = true;
-        Scanner scanner = new Scanner(System.in);
         while (userInteracting) {
             if (currentTradingUser.getWishlist().isEmpty()) {
                 ump.empty("Wishlist");
@@ -218,11 +213,14 @@ public class UserMenuController{
                         Item whichItem = currentTradingUser.getWishlist().get(itemChosen);
                         um.removeItem(currentTradingUser, whichItem, "wishlist");
                         System.out.println(ump.successfullyRemoved(item,"wishlist"));
-                }}}}}
+                    }
+                }
+            }
+        }
+    }
 
-    private void viewInventory(){
+    private void viewInventory() {
         boolean userInteracting = true;
-        Scanner scanner = new Scanner(System.in);
         while (userInteracting) {
             if (currentTradingUser.getInventory().isEmpty()) {
                 ump.empty("Inventory");
@@ -234,8 +232,7 @@ public class UserMenuController{
                 if (itemChosen == ItemOptions.size()) {
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
-                }
-                else {
+                } else {
                     String item = ItemOptions.get(itemChosen);
                     System.out.println(ump.itemOptionList());
                     int optionChosen = ump.handleOptionsByIndex(ump.itemOptionList(), true, "Inventory Menu");
@@ -243,7 +240,11 @@ public class UserMenuController{
                         Item whichItem = currentTradingUser.getInventory().get(itemChosen);
                         um.removeItem(currentTradingUser, whichItem, "inventory");
                         System.out.println(ump.successfullyRemoved(item,"inventory"));
-                    }}}}}
+                    }
+                }
+            }
+        }
+    }
 
     private void requestUnfreezeAccount() {
         if (currentTradingUser.isFrozen()) {
@@ -257,7 +258,7 @@ public class UserMenuController{
 
     private void viewPastTransaction(){
         TransactionHistory transactionHistory= currentTradingUser.getTransactionHistory();
-        if (transactionHistory.isPastEmpty()){
+        if (transactionHistory.isPastEmpty()) {
             System.out.println(ump.empty("Transaction History"));
         } else {
             System.out.println(transactionHistory.toString());
@@ -413,14 +414,12 @@ public class UserMenuController{
     }
 
     private void editMeetingTimeFlow(UUID user, Transaction transaction,int meetingNum){
-        Scanner scanner = new Scanner(System.in);
         LocalTime MeetingTime = ump.inputTimeGetter(ump.enterWhatInFormat("time","HH:mm:ss"));
         tm.editMeeting(meetingNum, transaction, user, MeetingTime);
         System.out.println(ump.successfullyEditedMeeting(MeetingTime.toString()));
     }
 
     private void editMeetingDateFlow(UUID user, Transaction transaction,int meetingNum){
-        Scanner scanner = new Scanner(System.in);
         LocalDate MeetingDate = ump.inputDateGetter(ump.enterWhatInFormat("date", "dd-mm-yyyy"));
         tm.editMeeting(meetingNum, transaction, user, MeetingDate);
         System.out.println(ump.successfullyEditedMeeting(MeetingDate.toString()));
