@@ -115,7 +115,7 @@ public class AdminMenuController {
                     System.out.println(amp.previousMenu);
                     userInteracting = false;
                 }
-                if (amp.indexToOption(optionChosen, amp.constructAddToListMenu(), amp.addToWishlist)) {
+                else if (amp.indexToOption(optionChosen, amp.constructAddToListMenu(), amp.addToWishlist)) {
                     um.addItem(um.getTradingUser(username), newItem, "wishlist");
                     System.out.println(amp.successfullyAdded(newItem.toString(), username, "wishlist"));
                 }
