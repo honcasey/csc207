@@ -7,6 +7,7 @@ public class BootupMenuPresenter extends MenuPresenter {
 
     private String usernamePrompt = "Enter username:";
     private String passwordPrompt = "Enter password:";
+    private String takenUsername = "Username is already taken, please try again.";
 
     public String getUsernamePrompt() {
         return usernamePrompt;
@@ -16,9 +17,10 @@ public class BootupMenuPresenter extends MenuPresenter {
         return passwordPrompt;
     }
 
-    public String notValid() {
-        return "Not a valid option.";
-    } // i dont think you need this anymore now that we use HandleOptions in the selectOption method
+    public String getTakenUsername() {
+        return takenUsername;
+    }
+
 
     public int selectOption() {
         List<String> bootupOptions = new ArrayList<>();
@@ -27,9 +29,6 @@ public class BootupMenuPresenter extends MenuPresenter {
         return handleOptionsByIndex(bootupOptions, false, "Bootup Menu");
     }
 
-    public String invalidCredentials() {
-        return "Incorrect username or password.";
-    }
 
     @Override
     public List<String> constructMainMenu() {

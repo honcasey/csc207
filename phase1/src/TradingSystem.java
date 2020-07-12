@@ -168,7 +168,6 @@ public class TradingSystem {
                 } catch(InvalidAdminException e) {
                     // we already checked this username corresponds to a valid admin on line 109
                     // so technically adminManager.getAdmin(username) should never throw an exception
-                    System.out.println("Invalid Administrator.");
                 }
             } else if (tradingUserManager.validUser(username, password)) {
                 notLoggedIn = false;
@@ -180,7 +179,6 @@ public class TradingSystem {
                 } catch(InvalidUserException e) {
                     // we already checked this username corresponds to a valid user on line 120
                     // so technically userManager.getUser(username) should never throw an exception
-                    System.out.println("Invalid Users.TradingUser.");
                 }
             } else {
                 // no user or admin account that corresponds to user and pass
@@ -196,18 +194,24 @@ public class TradingSystem {
     private void createAccount() {
         // get username and password
         parseCredentials(getUserAndPass());
-        if (!adminManager.checkAvailableUsername(username)) {
-            try {
-                TradingUser tradingUser = tradingUserManager.addTradingUser(username, password);
-                UserMenuController userMenuController = new UserMenuController(tradingUserManager, adminManager,
-                        currentTransactionManager, pastTransactionManager, itemManager, pendingItems, tradingUser);
-                userMenuController.run();
-            } catch(InvalidUserException e) {
-                // we just created this new user so we know it's a valid user so userManager.getUser()
-                // should not throw an Exceptions.InvalidUserException
-                System.out.println("Username already taken.");
+        boolean userInteracting = true;
+        while (userInteracting) {
+            if (!adminManager.checkAvailableUsername(username) && !tradingUserManager.checkAvailableUsername(username)) {
+                try {
+                    userInteracting = false;
+                    TradingUser tradingUser = tradingUserManager.addTradingUser(username, password);
+                    UserMenuController userMenuController = new UserMenuController(tradingUserManager, adminManager,
+                            currentTransactionManager, pastTransactionManager, itemManager, pendingItems, tradingUser);
+                    userMenuController.run();
+                } catch(InvalidUserException e) {
+                    // we just created this new user so we know it's a valid user so userManager.getUser()
+                    // should not throw an Exceptions.InvalidUserException
+                }
             }
+            System.out.println(bmp.getTakenUsername());
+            parseCredentials(getUserAndPass());
         }
+
     }
 
     /**
