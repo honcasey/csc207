@@ -196,7 +196,7 @@ public class TradingSystem {
         parseCredentials(getUserAndPass());
         boolean userInteracting = true;
         while (userInteracting) {
-            if (!adminManager.checkAvailableUsername(username) && !tradingUserManager.checkAvailableUsername(username)) {
+            if (adminManager.checkAvailableUsername(username) && tradingUserManager.checkAvailableUsername(username)) {
                 try {
                     userInteracting = false;
                     TradingUser tradingUser = tradingUserManager.addTradingUser(username, password);

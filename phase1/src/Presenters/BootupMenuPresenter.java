@@ -33,7 +33,6 @@ public class BootupMenuPresenter extends MenuPresenter {
         return handleOptionsByIndex(bootupOptions, false, "Bootup Menu");
     }
 
-
     @Override
     public List<String> constructMainMenu() {
         return null;
