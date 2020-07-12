@@ -127,6 +127,7 @@ public class AdminMenuController {
                 else { System.out.println(amp.validOptions(amp.userLists));}
             } catch(InvalidUserException e) {
                 System.err.println(amp.usernameInvalid());
+                userInteracting = false;
             }
         }
 
