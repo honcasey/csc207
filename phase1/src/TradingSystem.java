@@ -182,7 +182,7 @@ public class TradingSystem {
                 }
             } else {
                 // no user or admin account that corresponds to user and pass
-                System.out.println(bmp.invalidCredentials());
+                System.out.println(bmp.getInvalidCredentials());
                 parseCredentials(getUserAndPass());
             }
         }

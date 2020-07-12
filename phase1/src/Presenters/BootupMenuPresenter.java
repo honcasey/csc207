@@ -8,6 +8,7 @@ public class BootupMenuPresenter extends MenuPresenter {
     private String usernamePrompt = "Enter username:";
     private String passwordPrompt = "Enter password:";
     private String takenUsername = "Username is already taken, please try again.";
+    private String invalidCredentials = "Username or Password is wrong, please try again.";
 
     public String getUsernamePrompt() {
         return usernamePrompt;
@@ -21,6 +22,9 @@ public class BootupMenuPresenter extends MenuPresenter {
         return takenUsername;
     }
 
+    public String getInvalidCredentials() {
+        return getInvalidCredentials();
+    }
 
     public int selectOption() {
         List<String> bootupOptions = new ArrayList<>();
