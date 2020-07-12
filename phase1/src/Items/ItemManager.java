@@ -3,10 +3,7 @@ package Items;
 import Exceptions.InvalidItemException;
 import Transactions.Transaction;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class ItemManager {
     private Map<UUID, Item> allItems;
@@ -21,6 +18,14 @@ public class ItemManager {
         } else {
             throw new InvalidItemException();
         }
+    }
+
+    public List<Item> convertIdsToItems(List<UUID> ids) {
+        List<Item> items = new ArrayList<>();
+        for (UUID id : ids) {
+            items.add(allItems.get(id));
+        }
+        return items;
     }
 
 }

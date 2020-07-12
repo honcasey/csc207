@@ -1,7 +1,7 @@
 package Admins;
 
 import Exceptions.InvalidAdminException;
-import Exceptions.InvalidUserException;
+import Exceptions.InvalidTradingUserException;
 import Items.Item;
 import Users.TradingUser;
 import Users.TradingUserManager;
@@ -24,7 +24,6 @@ public class AdminMenuController {
     }
 
     public void run() {
-        Scanner scanner = new Scanner(System.in);
         boolean userInteracting = true;
 
         while (userInteracting) {
@@ -52,6 +51,7 @@ public class AdminMenuController {
 
     private void approveInventory(TradingUser tradingUser, Item item, boolean approved) { // helper method for checkPendingItems
         if (approved) { um.addItem(tradingUser, item, "inventory");
+        allPendingItems.remove(item);
         System.out.println(amp.addItem("approved"));}
         else { allPendingItems.remove(item);
         System.out.println(amp.addItem("declined"));}
@@ -68,13 +68,19 @@ public class AdminMenuController {
                 Iterator<Item> itemIterator = allPendingItems.keySet().iterator();
 
                 while (itemIterator.hasNext()) {
-                    System.out.println(itemIterator.next().toString()); //prints the current item + the options
+                    Item curr = itemIterator.next();
+                    System.out.println("Current Item Name:" + curr.toString()); //prints the current item + the options
                     int optionChosen = amp.handleOptionsByIndex(amp.constructPendingItemsMenu(), true, "Actions");
-                    if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.approveItem)) { // TO-DO: try catch block here?
-                        approveInventory(allPendingItems.get(itemIterator.next()), itemIterator.next(), true);
-                    }
-                    else if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.declineItem)) {
-                        approveInventory(allPendingItems.get(itemIterator.next()), itemIterator.next(), false);
+                    if (optionChosen == amp.constructPendingItemsMenu().size()) {
+                        System.out.println(amp.previousMenu);
+                        userInteracting = false;
+                    } else {
+                        if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.approveItem)) {
+                            approveInventory(allPendingItems.get(curr), curr, true);
+                        }
+                        else if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.declineItem)) {
+                            approveInventory(allPendingItems.get(curr), curr, false);
+                        }
                     }
                 }
             }
@@ -124,14 +130,14 @@ public class AdminMenuController {
                     System.out.println(amp.successfullyAdded(newItem.toString(), username, "inventory"));
                 }
                 else { System.out.println(amp.validOptions(amp.constructUserLists()));}
-            } catch(InvalidUserException e) {
+            } catch(InvalidTradingUserException e) {
                 System.err.println(amp.usernameInvalid());
                 userInteracting = false;
             }
         }
     }
 
-    private void helperChangeThreshold(String username, String whichThreshold) throws InvalidUserException { // helper method for changeUserThreshold
+    private void helperChangeThreshold(String username, String whichThreshold) throws InvalidTradingUserException { // helper method for changeUserThreshold
         Scanner scanner = new Scanner(System.in);
         System.out.println(amp.whichThreshold(whichThreshold));
         int newThreshold = scanner.nextInt();
@@ -168,7 +174,7 @@ public class AdminMenuController {
                     System.out.println(amp.validOptions(amp.constructAllThresholds()));
                     break;
             }
-        } catch(InvalidUserException e) {
+        } catch(InvalidTradingUserException e) {
             System.err.print(amp.usernameInvalid());
         }
     }

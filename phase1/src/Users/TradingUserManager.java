@@ -1,6 +1,6 @@
 package Users;
 
-import Exceptions.InvalidUserException;
+import Exceptions.InvalidTradingUserException;
 import Items.Item;
 import Transactions.Transaction;
 
@@ -35,7 +35,7 @@ public class TradingUserManager {
      * @param password account password
      * @return username and userId as string separated by comma.
      */
-    public TradingUser addTradingUser(String username, String password) throws InvalidUserException {
+    public TradingUser addTradingUser(String username, String password) throws InvalidTradingUserException {
         TradingUser newTradingUser = new TradingUser(username, password);
         if (allTradingUsers.size() == 0) {
             allTradingUsers.add(newTradingUser);
@@ -45,7 +45,7 @@ public class TradingUserManager {
             allTradingUsers.add(newTradingUser);
             return newTradingUser;
         } else {
-            throw new InvalidUserException();
+            throw new InvalidTradingUserException();
         }
     }
 
@@ -55,13 +55,13 @@ public class TradingUserManager {
      * @param username online identifier of a Users.TradingUser
      * @return username and userId as string separated by comma
      */
-    public TradingUser getTradingUser(String username) throws InvalidUserException {
+    public TradingUser getTradingUser(String username) throws InvalidTradingUserException {
         for (TradingUser tradingUser : allTradingUsers) {
             if ((tradingUser.getUsername().equals(username))) {
                 return tradingUser;
             }
         }
-        throw new InvalidUserException();
+        throw new InvalidTradingUserException();
     }
 
     /**
@@ -72,13 +72,10 @@ public class TradingUserManager {
      * @param listType either "wishlist" or "inventory" as a String
      */
     public void addItem(TradingUser tradingUser, Item item, String listType) {
-        List<Item> userInventory = tradingUser.getInventory();
-        List<Item> userWishlist = tradingUser.getWishlist();
-
         if (listType.equals("wishlist")) {
-            userWishlist.add(item);
+            tradingUser.getWishlist().add(item.getId());
         } else if (listType.equals("inventory")) {
-            userInventory.add(item);
+            tradingUser.getInventory().add(item.getId());
         }
     }
 
@@ -91,9 +88,9 @@ public class TradingUserManager {
      */
     public void removeItem(TradingUser tradingUser, Item item, String listType) {
         if (listType.equals("wishlist")) {
-            tradingUser.getWishlist().remove(item);
+            tradingUser.getWishlist().remove(item.getId());
         } else if (listType.equals("inventory")) {
-            tradingUser.getInventory().remove(item);
+            tradingUser.getInventory().remove(item.getId());
         }
     }
 

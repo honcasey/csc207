@@ -1,7 +1,7 @@
 package Users;
 
 import Admins.AdminManager;
-import Exceptions.InvalidTransactionException;
+import Exceptions.InvalidItemException;
 import Items.Item;
 import Items.ItemManager;
 import Transactions.Meeting;
@@ -49,7 +49,7 @@ public class UserMenuController{
             } else if (ump.indexToOption(input, menu, ump.viewActiveTransactions)) {
                 getActiveTransactions();
             } else if (ump.indexToOption(input, menu, ump.viewPastTransactionDetails)) {
-                viewPastTransaction();
+                PastTransactionFlow();
             } else if (ump.indexToOption(input, menu, ump.viewWishlist)) {
                 viewWishlist();
             } else if (ump.indexToOption(input, menu, ump.viewInventory)) {
@@ -140,7 +140,7 @@ public class UserMenuController{
             System.out.println("You need to schedule a second meeting to reverse the transaction.");
             Meeting SecondMeeting = MeetingDetailsMenu("Second Meeting Details");
             if (ump.handleYesNo("Would you like to offer one of your items?")){
-                List<Item> currentUserInventory = currentTradingUser.getInventory();
+                List<Item> currentUserInventory = im.convertIdsToItems(currentTradingUser.getInventory());
                 List<String> ItemOptions = ump.constructInventoryItemsList(currentUserInventory);
                 int OptionChosen = ump.handleOptionsByIndex(ItemOptions,false,
                         "Available Inventory");
@@ -197,22 +197,28 @@ public class UserMenuController{
     private void viewWishlist(){
         boolean userInteracting = true;
         while (userInteracting) {
-            if (currentTradingUser.getWishlist().isEmpty()) {
-                ump.empty("Wishlist");
+            if (currentTradingUser.getWishlist().size() == 0) {
+                System.out.println(ump.empty("Wishlist"));
                 userInteracting = false;
             } else {
-                int itemChosen = ump.handleOptionsByIndex(ump.constructWishlistItemsList(currentTradingUser), true, "Wishlist Items");
-                if (itemChosen == ump.constructWishlistItemsList(currentTradingUser).size()) {
+                List<Item> items = im.convertIdsToItems(currentTradingUser.getWishlist());
+                int itemChosen = ump.handleOptionsByIndex(ump.constructWishlistItemsList(items), true, "Wishlist Items");
+                if (itemChosen == ump.constructWishlistItemsList(items).size()) {
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
                 } else {
-                    String item = ump.constructWishlistItemsList(currentTradingUser).get(itemChosen);
+                    String item = ump.constructWishlistItemsList(items).get(itemChosen);
                     System.out.println(ump.itemOptionList());
                     int optionChosen = ump.handleOptionsByIndex(ump.itemOptionList(), true, "Wishlist Menu");
                     if(ump.indexToOption(optionChosen, ump.itemOptionList(), ump.removeItem)){
-                        Item whichItem = currentTradingUser.getWishlist().get(itemChosen);
-                        um.removeItem(currentTradingUser, whichItem, "wishlist");
-                        System.out.println(ump.successfullyRemoved(item,"wishlist"));
+                        try {
+                            Item whichItem = im.getItem(currentTradingUser.getWishlist().get(itemChosen));
+                            um.removeItem(currentTradingUser, whichItem, "wishlist");
+                            System.out.println(ump.successfullyRemoved(item,"wishlist"));
+                        } catch (InvalidItemException e) {
+                            // this should never happen
+                        }
+
                     }
                 }
             }
@@ -222,11 +228,12 @@ public class UserMenuController{
     private void viewInventory() {
         boolean userInteracting = true;
         while (userInteracting) {
-            if (currentTradingUser.getInventory().isEmpty()) {
+            if (currentTradingUser.getInventory().size() == 0) {
+                System.out.println(ump.empty("Inventory"));
                 ump.empty("Inventory");
                 userInteracting = false;
             } else {
-                List<Item> currentUserInventory = currentTradingUser.getInventory();
+                List<Item> currentUserInventory = im.convertIdsToItems(currentTradingUser.getInventory());
                 List<String> ItemOptions = ump.constructInventoryItemsList(currentUserInventory);
                 int itemChosen = ump.handleOptionsByIndex(ItemOptions, true, "Inventory Items");
                 if (itemChosen == ItemOptions.size()) {
@@ -237,9 +244,13 @@ public class UserMenuController{
                     System.out.println(ump.itemOptionList());
                     int optionChosen = ump.handleOptionsByIndex(ump.itemOptionList(), true, "Inventory Menu");
                     if(ump.indexToOption(optionChosen, ump.itemOptionList(), ump.removeItem)){
-                        Item whichItem = currentTradingUser.getInventory().get(itemChosen);
-                        um.removeItem(currentTradingUser, whichItem, "inventory");
-                        System.out.println(ump.successfullyRemoved(item,"inventory"));
+                        try {
+                            Item whichItem = im.getItem(currentTradingUser.getWishlist().get(itemChosen));
+                            um.removeItem(currentTradingUser, whichItem, "inventory");
+                            System.out.println(ump.successfullyRemoved(item,"inventory"));
+                        } catch (InvalidItemException e) {
+                            // this should never happen
+                        }
                     }
                 }
             }
@@ -256,13 +267,33 @@ public class UserMenuController{
         }
     }
 
-    private void viewPastTransaction(){
-        TransactionHistory transactionHistory= currentTradingUser.getTransactionHistory();
-        if (transactionHistory.isPastEmpty()) {
-            System.out.println(ump.empty("Transaction History"));
-        } else {
-            System.out.println(transactionHistory.toString());
+    /**
+     * Waiting for userinput(last 3 lines):
+     * https://stackoverflow.com/questions/26184409/java-console-prompt-for-enter-input-before-moving-on/26184565
+     * by M Anouti
+     */
+    private void PastTransactionFlow(){
+        List<String> MenuOptionList = ump.constructPastTransactionMenu();
+        int OptionChosen = ump.handleOptionsByIndex(MenuOptionList,true,"Past Transactions Menu");
+        if (ump.indexToOption(OptionChosen, MenuOptionList, ump.ViewRecentThreeOneWay)){
+            List<UUID> OneWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentOneWayTransactions();
+            List<Transaction> OneWayTransaction = ptm.getTransactionsFromIdList(OneWayTransactionIds);
+            List<String> oneWayTransactionOptions = ump.constructTransactionList(OneWayTransaction);
+            ump.displayOptions(oneWayTransactionOptions);
+
+        } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.ViewRecentThreeTwoWay)) {
+          List<UUID> TwoWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentTwoWayTransactions();
+          List<Transaction> TwoWayTransactions = ptm.getTransactionsFromIdList(TwoWayTransactionIds);
+          List<String> twoWayTransactionOptions = ump.constructTransactionList(TwoWayTransactions);
+          ump.displayOptions(twoWayTransactionOptions);
+
+        } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.ViewThreeMostTraded)) {
+            List<String> TradedWithUsersOptions = currentTradingUser.getTransactionHistory().mostTradedWithUsers();
+            ump.displayOptions(TradedWithUsersOptions);
         }
+        System.out.println("Press \"ENTER\" if you would like to go back...");
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
     }
 
     /**
@@ -271,33 +302,32 @@ public class UserMenuController{
      */
     private void getActiveTransactions() {
         boolean userInteracting = true;
-        TradingUser tradingUser = currentTradingUser;
-
         while (userInteracting) {
-            List<UUID> currentTransactionsIds = tradingUser.getCurrentTransactions();
-
-            ArrayList<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
-
-            List<String> optionList = ump.constructTransactionList(currTransactionsList);
-            String currTransactionsTitle = "List of Current Transaction";
-            int OptionChosen = ump.handleOptionsByIndex(optionList, true, currTransactionsTitle
-            );
-            // Logic handling back to other menu vs. Editing a meeting vs changing the StatusUser of a Transaction.
-            if (OptionChosen == optionList.size()) {
-                System.out.println(ump.previousMenu);
+            List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
+            if (currentTransactionsIds.size() == 0) {
+                System.out.println(ump.empty("Current Transactions"));
                 userInteracting = false;
             } else {
-                Transaction transaction = currTransactionsList.get(OptionChosen);
-                ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
-                String transactionActionPrompt = "This is the list of actions that you can do with your transaction";
-                int optionChosen2 = ump.handleOptionsByIndex(transactionActions, true, transactionActionPrompt);
-                if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) {
-                    tm.updateStatus(transaction);
-                    um.addToTransactionHistory(currentTradingUser, transaction);
+                List<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
+                List<String> optionList = ump.constructTransactionList(currTransactionsList);
+                String currTransactionsTitle = "Current Transactions:";
+                int OptionChosen = ump.handleOptionsByIndex(optionList, true, currTransactionsTitle
+                );
+                // Logic handling back to other menu vs. Editing a meeting vs changing the StatusUser of a Transaction.
+                if (OptionChosen == optionList.size()) {
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
                 } else {
-                    editMeeting(currentTradingUser, transaction);
+                    Transaction transaction = currTransactionsList.get(OptionChosen);
+                    ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
+                    String transactionActionPrompt = "This is the list of actions that you can do with your transaction";
+                    int optionChosen2 = ump.handleOptionsByIndex(transactionActions, true, transactionActionPrompt);
+                    if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) {
+                        tm.updateStatus(transaction);
+                        um.addToTransactionHistory(currentTradingUser, transaction);
+                    } else {
+                        editMeeting(currentTradingUser, transaction);
+                    }
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
                 }
@@ -314,7 +344,7 @@ public class UserMenuController{
         HashMap<Item, TradingUser> availableItems = new HashMap<>();
         for (TradingUser tradingUser : allTradingUsers) {
             if(!tradingUser.equals(currentTradingUser)) {
-                for (Item item : tradingUser.getInventory()) {
+                for (Item item : im.convertIdsToItems(tradingUser.getInventory())) {
                     availableItems.put(item, tradingUser);
                 }
             }
