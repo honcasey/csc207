@@ -16,23 +16,6 @@ public class PastTransactionManager extends TransactionManager{
 
     }
 
-//    /**
-//     * Generates a list of Transaction objects from the Transaction History list of a User
-//     * @param transactionHistory Transaction History of Interst
-//     * @return a List<Transaction> containing a user's past transactions
-//     * @throws InvalidTransactionException when there is an invalid transaction
-//     */
-//    public List<Transaction> generateTransactionsList(TransactionHistory transactionHistory){
-//        List<Transaction> r = new ArrayList<>();
-//        try{
-//            List<UUID>pastTransactionsIDs = transactionHistory.getAllTransactions();
-//            r.addAll(getTransactionsFromIdList(pastTransactionsIDs));}
-//        catch(InvalidTransactionException e){
-//            System.out.println("transaction id does not map to a transaction");
-//        }
-//        return r;
-//    }
-
     /**
      * A helper method for weeklyThresholdExceeded
      * @param tradingUser TradingUser of Interest

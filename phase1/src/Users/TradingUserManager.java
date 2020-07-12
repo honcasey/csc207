@@ -160,7 +160,7 @@ public class TradingUserManager {
         if (transaction.getUser1() == tradingUser.getUserId()) {
             tradingUser.getTransactionHistory().setNumItemsLended();
             String u2 = idToUser.get(transaction.getUser2()).getUsername();
-            if (tH.getUsersNumTradeTimes().containsKey(transaction.getUser2())) {
+            if (tH.getUsersNumTradeTimes().containsKey(u2)) {
                 tH.getUsersNumTradeTimes().put(u2, tH.getUsersNumTradeTimes().get(u2) + 1);
             } else {
                 tH.getUsersNumTradeTimes().put(u2, 1);
