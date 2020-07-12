@@ -267,7 +267,6 @@ public class UserMenuController{
      */
     private void getActiveTransactions() {
         boolean userInteracting = true;
-        Scanner scanner = new Scanner(System.in);
         TradingUser tradingUser = currentTradingUser;
 
         while (userInteracting) {
@@ -319,58 +318,8 @@ public class UserMenuController{
         return availableItems;
     }
 
-    /**
-     * Changes a Transactions.Transaction status to cancelled
-     * @param transaction A transaction to be cancelled and to remove transaction from tra
-     */
-    public void cancelTransaction(Transaction transaction)  {
-        currentTradingUser.getCurrentTransactions().remove(transaction.getId());
-        TradingUser u =  um.getTradingUserById(transaction.getUser1());
-        if (u == currentTradingUser){
-            transaction.setStatusUser1("cancel");
-        }
-        else{
-            transaction.setStatusUser2("cancel");
-        }
-        tm.updateStatus(transaction);
-    }
-
-    /**
-     * Changes status of a Transactions.Transaction to confirmed, when details of all meetings have been confirmed by both users.
-     * @param transaction the transaction to be confirmed
-     */
-    public void acceptTransaction(Transaction transaction) {
-        transaction.setStatus("confirmed");
-    }
-
-    /**
-     * Changes status of a Transactions.Transaction to completed, when the last meeting of the transaction has occurred and been completed by both users.
-     * @param transaction the transaction to be completed
-     */
-    public void confirmTransaction(Transaction transaction) {
-        transaction.setStatus("completed");
-        TradingUser tradingUser1 = um.getTradingUserById(transaction.getUser1());
-        TradingUser tradingUser2 = um.getTradingUserById(transaction.getUser2());
-        um.addToTransactionHistory(tradingUser1, transaction);
-        um.addToTransactionHistory(tradingUser2, transaction);
-        tradingUser1.getCurrentTransactions().remove(transaction.getId()); // Is the transaction in both user's "sent offers"?
-        tradingUser2.getCurrentTransactions().remove(transaction.getId());
-    }
-
-    /**
-     * Deletes a transaction that is in progress
-     */
-    public void deleteTransaction(Transaction transaction){
-        // TODO: Method Body once I confirm some things about the details of this method
-    }
-
-    public ArrayList<Transaction> getTransactionList(List<UUID> idList) throws InvalidTransactionException {
-        return tm.getTransactionsFromIdList(idList); //(from Casey) if this method is just one line, consider not making it a helper method
-    }
-
     private void editMeeting(TradingUser currentTradingUser, Transaction transaction) {
         boolean userInteracting = true;
-        Scanner scanner = new Scanner(System.in);
         UUID user = currentTradingUser.getUserId();
         int meetingNum = 1;
 

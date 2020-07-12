@@ -123,13 +123,12 @@ public class AdminMenuController {
                     um.addItem(um.getTradingUser(username), newItem, "wishlist");
                     System.out.println(amp.successfullyAdded(newItem.toString(), username, "inventory"));
                 }
-                else { System.out.println(amp.validOptions(amp.userLists));}
+                else { System.out.println(amp.validOptions(amp.constructUserLists()));}
             } catch(InvalidUserException e) {
                 System.err.println(amp.usernameInvalid());
                 userInteracting = false;
             }
         }
-
     }
 
     private void helperChangeThreshold(String username, String whichThreshold) throws InvalidUserException { // helper method for changeUserThreshold
@@ -144,7 +143,7 @@ public class AdminMenuController {
         Scanner scanner = new Scanner(System.in);
         System.out.println(amp.enterName("TradingUser"));
         String username = scanner.nextLine();
-        String whichThreshold = amp.handleOptions(amp.allThresholds, true, "TradingUser Thresholds");
+        String whichThreshold = amp.handleOptions(amp.constructAllThresholds(), true, "TradingUser Thresholds");
         try {
             switch (whichThreshold) {
                 case "borrow": {
@@ -166,7 +165,7 @@ public class AdminMenuController {
                     break;
                 }
                 default:
-                    System.out.println(amp.validOptions(amp.allThresholds));
+                    System.out.println(amp.validOptions(amp.constructAllThresholds()));
                     break;
             }
         } catch(InvalidUserException e) {
@@ -176,7 +175,6 @@ public class AdminMenuController {
 
     private void checkUsers(String listType){
         boolean userInteracting = true;
-        Scanner scanner = new Scanner(System.in); // do we need this?
         while (userInteracting) {
             if (listType.equals("pendingFrozenUsers")) {
                 if (am.getPendingFrozenTradingUsers().isEmpty()) {

@@ -9,11 +9,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public abstract class MenuPresenter {
-    public List<String> allThresholds = Arrays.asList("borrow", "weekly", "incomplete");
+
     public String borrowThresholdDescription = "minimum number of times that this user must lend something before they can borrow/trade";
     public String weeklyThresholdDescription = "maximum number of transactions that this user can participate in a week";
     public String incompleteThresholdDescription = "maximum number of incomplete transactions before this user's account is frozen";
-    public List<String> userLists = Arrays.asList("wishlist", "inventory");
     public String previousMenu = "Loading Previous Menu";
     private String optionPrompt = "Please type a number corresponding to one of the above options.";
     private String invalidOption = "Not a valid option. Please enter a valid option.";
@@ -30,15 +29,6 @@ public abstract class MenuPresenter {
             System.out.println(OutputLine);
         }
         System.out.println(optionPrompt);
-    }
-
-    /**
-     * Adds Back option at the end of options being displayed to the user.
-     * @param OptionList The list of options being displayed prior to calling this method.
-     */
-    protected void addBackOption(List<String> OptionList){
-        String LastOption = "Go back";
-        OptionList.add(LastOption);
     }
 
     /**
@@ -61,7 +51,7 @@ public abstract class MenuPresenter {
      */
     public String handleOptions(List<String> OptionList, boolean BackOption, String OptionTitle) {
         if (BackOption) {
-            this.addBackOption(OptionList);
+            OptionList.add("Go back.");
         }
         System.out.println(OptionTitle);
         this.displayOptions(OptionList);
@@ -104,7 +94,7 @@ public abstract class MenuPresenter {
      */
     public int handleOptionsByIndex(List<String> OptionList, boolean BackOption, String OptionTitle) {
         if (BackOption) {
-            this.addBackOption(OptionList);
+            OptionList.add("Go back.");
         }
         System.out.println(OptionTitle);
         this.displayOptions(OptionList);

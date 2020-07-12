@@ -23,7 +23,7 @@ public class BootupMenuPresenter extends MenuPresenter {
     }
 
     public String getInvalidCredentials() {
-        return getInvalidCredentials();
+        return invalidCredentials;
     }
 
     public int selectOption() {

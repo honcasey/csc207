@@ -80,4 +80,19 @@ public class AdminMenuPresenter extends MenuPresenter {
         optionList.add(nextItem);
         return optionList;
     }
+
+    public List<String> constructAllThresholds() {
+        List<String> optionList = new ArrayList<>();
+        optionList.add("borrow");
+        optionList.add("weekly");
+        optionList.add("incomplete");
+        return optionList;
+    }
+
+    public List<String> constructUserLists() {
+        List<String> optionList = new ArrayList<>();
+        optionList.add("wishlist");
+        optionList.add("inventory");
+        return optionList;
+    }
 }
