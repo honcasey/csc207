@@ -106,4 +106,19 @@ public class AdminManager extends UserManager {
      * @return a list of all users that have been flagged to be frozen.
      */
     public List<TradingUser> getFlaggedAccounts() { return flaggedAccounts; }
+
+    /**
+     * Checks whether the input username is valid.
+     *
+     * @param username online identifier of a Users.TradingUser
+     * @return True or False as boolean
+     */
+    public boolean checkAvailableUsername(String username) {
+        for (AdminUser user : allAdmins) {
+            if (user.getUsername().equals(username)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
