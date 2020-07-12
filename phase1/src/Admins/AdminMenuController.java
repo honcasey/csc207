@@ -3,6 +3,7 @@ package Admins;
 import Exceptions.InvalidAdminException;
 import Exceptions.InvalidTradingUserException;
 import Items.Item;
+import Items.ItemManager;
 import Users.TradingUser;
 import Users.TradingUserManager;
 
@@ -14,13 +15,15 @@ public class AdminMenuController {
     private final TradingUserManager um;
     private final Map<Item, TradingUser> allPendingItems;
     private final AdminMenuPresenter amp = new AdminMenuPresenter();
+    private final ItemManager im;
 
     public AdminMenuController(AdminManager adminManager, TradingUserManager tradingUserManager,
-                               Map<Item, TradingUser> pendingItems, AdminUser admin) {
+                               Map<Item, TradingUser> pendingItems, AdminUser admin, ItemManager items) {
         currentAdmin = admin;
         allPendingItems = pendingItems;
         um = tradingUserManager;
         am = adminManager;
+        im = items;
     }
 
     public void run() {
@@ -51,6 +54,7 @@ public class AdminMenuController {
 
     private void approveInventory(TradingUser tradingUser, Item item, boolean approved) { // helper method for checkPendingItems
         if (approved) { um.addItem(tradingUser, item, "inventory");
+        im.addItem(item);
         allPendingItems.remove(item);
         System.out.println(amp.addItem("approved"));}
         else { allPendingItems.remove(item);
@@ -126,7 +130,7 @@ public class AdminMenuController {
                     System.out.println(amp.successfullyAdded(newItem.toString(), username, "wishlist"));
                 }
                 else if (amp.indexToOption(optionChosen, amp.constructAddToListMenu(), amp.addToInventory)) {
-                    um.addItem(um.getTradingUser(username), newItem, "wishlist");
+                    um.addItem(um.getTradingUser(username), newItem, "inventory");
                     System.out.println(amp.successfullyAdded(newItem.toString(), username, "inventory"));
                 }
                 else { System.out.println(amp.validOptions(amp.constructUserLists()));}

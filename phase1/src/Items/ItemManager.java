@@ -12,6 +12,10 @@ public class ItemManager {
         this.allItems = items;
     }
 
+    public void addItem (Item item){
+        allItems.put(item.getId(), item);
+    }
+
     public Item getItem(UUID id) throws InvalidItemException {
         if (allItems.containsKey(id)){
             return allItems.get(id);

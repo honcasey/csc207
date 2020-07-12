@@ -163,7 +163,7 @@ public class TradingSystem {
                 notLoggedIn = false;
                 try {
                     AdminMenuController adminMenuController = new AdminMenuController(adminManager,
-                            tradingUserManager, pendingItems, adminManager.getAdmin(username));
+                            tradingUserManager, pendingItems, adminManager.getAdmin(username), itemManager);
                     adminMenuController.run();
                 } catch(InvalidAdminException e) {
                     // we already checked this username corresponds to a valid admin on line 109
