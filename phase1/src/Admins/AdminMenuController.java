@@ -176,7 +176,6 @@ public class AdminMenuController {
 
     private void checkUsers(String listType){
         boolean userInteracting = true;
-        Scanner scanner = new Scanner(System.in); // do we need this?
         while (userInteracting) {
             if (listType.equals("pendingFrozenUsers")) {
                 if (am.getPendingFrozenTradingUsers().isEmpty()) {
