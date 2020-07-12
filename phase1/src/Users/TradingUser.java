@@ -16,7 +16,7 @@ public class TradingUser extends User implements Serializable {
 
     private TransactionHistory transactionHistory;
     private List<UUID> currentTransactions;
-    private List<UUID> inventory;
+    public List<UUID> inventory = new ArrayList<>();
     private int borrowThreshold = 1;
     private int weeklyThreshold = 3;
     private int incompleteThreshold = 2;
@@ -32,7 +32,6 @@ public class TradingUser extends User implements Serializable {
          super(username,password);
          currentTransactions = new ArrayList<>();
          wishlist = new ArrayList<>();
-         inventory = new ArrayList<>();
          transactionHistory = new TransactionHistory();
      }
 
@@ -52,13 +51,21 @@ public class TradingUser extends User implements Serializable {
      * Getter for this Users.TradingUser's inventory as a list of (approved) Items.
      * @return list of Items
      */
-    public List<UUID> getInventory() { return inventory; }
+    public List<UUID> getInventory() {
+        return this.inventory;
+    }
+
+    public void setInventory(List<UUID> ids) {
+        inventory = ids;
+    }
 
     /**
      * Getter for this Users.TradingUser's wishlist as a list of Items.
      * @return list of Items
      */
-    public List<UUID> getWishlist() { return wishlist; }
+    public List<UUID> getWishlist() {
+        return wishlist;
+    }
 
     /**
      * Getter for the minimum number of Items that this Users.TradingUser has to have lent before they can borrow an Items.Item.

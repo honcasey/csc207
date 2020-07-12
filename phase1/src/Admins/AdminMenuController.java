@@ -80,10 +80,19 @@ public class AdminMenuController {
                         userInteracting = false;
                     } else {
                         if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.approveItem)) {
-                            approveInventory(allPendingItems.get(curr), curr, true);
+                            try {
+                                TradingUser user = um.getTradingUser(allPendingItems.get(curr).getUsername());
+                                um.addItem(user, curr, "Inventory");
+                                itemIterator.remove();
+                                System.out.println(amp.addItem("approved"));
+                            } catch (InvalidTradingUserException e) {
+                                //
+                            }
+
                         }
                         else if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.declineItem)) {
-                            approveInventory(allPendingItems.get(curr), curr, false);
+                            itemIterator.remove();
+                            System.out.println(amp.addItem("declined"));
                         }
                     }
                 }
