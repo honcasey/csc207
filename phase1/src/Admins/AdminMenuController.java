@@ -62,7 +62,7 @@ public class AdminMenuController {
         Scanner scanner = new Scanner(System.in); // do we need this?
         while (userInteracting) {
             if (allPendingItems.isEmpty()) {
-                amp.empty("Pending Items");
+                System.out.println(amp.empty("Pending Items"));
                 userInteracting = false;
             }
             else {
@@ -181,6 +181,7 @@ public class AdminMenuController {
             if (listType.equals("pendingFrozenUsers")) {
                 if (am.getPendingFrozenTradingUsers().isEmpty()) {
                     System.out.println(amp.empty("Frozen TradingUser Requests"));
+                    userInteracting = false;
                 } else {
                     for (TradingUser tradingUser : am.getPendingFrozenTradingUsers()) {
                         System.out.println(tradingUser.toString());
@@ -198,6 +199,7 @@ public class AdminMenuController {
             if (listType.equals("flaggedUsers")) {
                 if (am.getFlaggedAccounts().isEmpty()) {
                     System.out.println(amp.empty("Flagged Users"));
+                    userInteracting = false;
                 } else {
                     for (TradingUser tradingUser : am.getFlaggedAccounts()) {
                         System.out.println(tradingUser.toString());
