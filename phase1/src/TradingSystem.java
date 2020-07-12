@@ -2,7 +2,7 @@ import Admins.AdminManager;
 import Admins.AdminMenuController;
 import Admins.AdminUser;
 import Exceptions.InvalidAdminException;
-import Exceptions.InvalidUserException;
+import Exceptions.InvalidTradingUserException;
 import Items.Item;
 import Items.ItemManager;
 import Presenters.BootupMenuPresenter;
@@ -176,7 +176,7 @@ public class TradingSystem {
                             currentTransactionManager, pastTransactionManager, itemManager,
                             pendingItems, tradingUserManager.getTradingUser(username));
                     userMenuController.run();
-                } catch(InvalidUserException e) {
+                } catch(InvalidTradingUserException e) {
                     // we already checked this username corresponds to a valid user on line 120
                     // so technically userManager.getUser(username) should never throw an exception
                 }
@@ -203,7 +203,7 @@ public class TradingSystem {
                     UserMenuController userMenuController = new UserMenuController(tradingUserManager, adminManager,
                             currentTransactionManager, pastTransactionManager, itemManager, pendingItems, tradingUser);
                     userMenuController.run();
-                } catch(InvalidUserException e) {
+                } catch(InvalidTradingUserException e) {
                     // we just created this new user so we know it's a valid user so userManager.getUser()
                     // should not throw an Exceptions.InvalidUserException
                 }

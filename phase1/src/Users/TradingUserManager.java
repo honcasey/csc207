@@ -1,6 +1,6 @@
 package Users;
 
-import Exceptions.InvalidUserException;
+import Exceptions.InvalidTradingUserException;
 import Items.Item;
 import Transactions.Transaction;
 
@@ -35,7 +35,7 @@ public class TradingUserManager {
      * @param password account password
      * @return username and userId as string separated by comma.
      */
-    public TradingUser addTradingUser(String username, String password) throws InvalidUserException {
+    public TradingUser addTradingUser(String username, String password) throws InvalidTradingUserException {
         TradingUser newTradingUser = new TradingUser(username, password);
         if (allTradingUsers.size() == 0) {
             allTradingUsers.add(newTradingUser);
@@ -45,7 +45,7 @@ public class TradingUserManager {
             allTradingUsers.add(newTradingUser);
             return newTradingUser;
         } else {
-            throw new InvalidUserException();
+            throw new InvalidTradingUserException();
         }
     }
 
@@ -55,13 +55,13 @@ public class TradingUserManager {
      * @param username online identifier of a Users.TradingUser
      * @return username and userId as string separated by comma
      */
-    public TradingUser getTradingUser(String username) throws InvalidUserException {
+    public TradingUser getTradingUser(String username) throws InvalidTradingUserException {
         for (TradingUser tradingUser : allTradingUsers) {
             if ((tradingUser.getUsername().equals(username))) {
                 return tradingUser;
             }
         }
-        throw new InvalidUserException();
+        throw new InvalidTradingUserException();
     }
 
     /**
