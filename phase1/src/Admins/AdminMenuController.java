@@ -68,13 +68,14 @@ public class AdminMenuController {
                 Iterator<Item> itemIterator = allPendingItems.keySet().iterator();
 
                 while (itemIterator.hasNext()) {
-                    System.out.println(itemIterator.next().toString()); //prints the current item + the options
+                    Item curr = itemIterator.next();
+                    System.out.println(curr.toString()); //prints the current item + the options
                     int optionChosen = amp.handleOptionsByIndex(amp.constructPendingItemsMenu(), true, "Actions");
-                    if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.approveItem)) { // TO-DO: try catch block here?
-                        approveInventory(allPendingItems.get(itemIterator.next()), itemIterator.next(), true);
+                    if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.approveItem)) {
+                        approveInventory(allPendingItems.get(curr), curr, true);
                     }
                     else if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.declineItem)) {
-                        approveInventory(allPendingItems.get(itemIterator.next()), itemIterator.next(), false);
+                        approveInventory(allPendingItems.get(curr), curr, false);
                     }
                 }
             }

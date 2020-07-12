@@ -207,9 +207,10 @@ public class TradingSystem {
                     // we just created this new user so we know it's a valid user so userManager.getUser()
                     // should not throw an Exceptions.InvalidUserException
                 }
+            } else {
+                System.out.println(bmp.getTakenUsername());
+                parseCredentials(getUserAndPass());
             }
-            System.out.println(bmp.getTakenUsername());
-            parseCredentials(getUserAndPass());
         }
 
     }
