@@ -70,7 +70,7 @@ public class AdminMenuController {
 
                 while (itemIterator.hasNext()) {
                     Item curr = itemIterator.next();
-                    System.out.println(curr.toString()); //prints the current item + the options
+                    System.out.println("Current Item Name:" + curr.toString()); //prints the current item + the options
                     int optionChosen = amp.handleOptionsByIndex(amp.constructPendingItemsMenu(), true, "Actions");
                     if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.approveItem)) {
                         approveInventory(allPendingItems.get(curr), curr, true);
