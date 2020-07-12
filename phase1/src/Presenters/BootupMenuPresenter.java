@@ -5,23 +5,26 @@ import java.util.List;
 
 public class BootupMenuPresenter extends MenuPresenter {
 
-    public String enterUsername() {
-        return "Enter username:";
+    private String usernamePrompt = "Enter username:";
+    private String passwordPrompt = "Enter password:";
+
+    public String getUsernamePrompt() {
+        return usernamePrompt;
     }
 
-    public String enterPassword() {
-        return "Enter password:";
+    public String getPasswordPrompt() {
+        return passwordPrompt;
     }
 
     public String notValid() {
         return "Not a valid option.";
     } // i dont think you need this anymore now that we use HandleOptions in the selectOption method
 
-    public String selectOption() {
+    public int selectOption() {
         List<String> bootupOptions = new ArrayList<>();
         bootupOptions.add("Login to existing account");
         bootupOptions.add("Create a new account");
-        return handleOptions(bootupOptions, false, "Bootup Menu");
+        return handleOptionsByIndex(bootupOptions, false, "Bootup Menu");
     }
 
     public String invalidCredentials() {

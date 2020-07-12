@@ -1,8 +1,9 @@
 package Users;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class User {
+abstract class User implements Serializable {
     private String username;
     private String password;
     private final UUID userId = UUID.randomUUID();

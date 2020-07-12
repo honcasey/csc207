@@ -9,7 +9,7 @@ import java.util.UUID;
  * Represents an administrative user in the trading system.
  */
 
-public class AdminUser extends User implements Serializable {
+public class AdminUser extends User implements Serializable{
 
     private boolean firstAdmin = false;
 

@@ -52,10 +52,10 @@ public class TradingSystem {
     public void run() throws IOException, ClassNotFoundException {
         readData();
         checkFirstAdmin();
-        int userInput = getUserInput();
-        if (userInput == 1) {
+        int userInput = bmp.selectOption();
+        if (userInput == 0) {
             login();
-        } else if (userInput == 2) {
+        } else if (userInput == 1) {
             createAccount();
         }
         writeData();
@@ -228,34 +228,11 @@ public class TradingSystem {
         }
     }
 
-    private int getUserInput() {
-        boolean picking = true;
-        int input = 0;
-        while (picking) {
-            input = getNumericInput();
-            if (input == 1 | input == 2) {
-                picking = false;
-            }
-        }
-        return input;
-    }
-
-    private int getNumericInput() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(bmp.selectOption());
-        while (!scanner.hasNextInt()) {
-            System.out.println(bmp.notValid());
-            scanner.next();
-            System.out.println(bmp.selectOption());
-        }
-        return scanner.nextInt();
-    }
-
     public String[] getUserAndPass() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println(bmp.enterUsername());
+        System.out.println(bmp.getUsernamePrompt());
         String username = scanner.nextLine();
-        System.out.println(bmp.enterPassword());
+        System.out.println(bmp.getUsernamePrompt());
         String password = scanner.nextLine();
         return new String[]{username, password};
     }

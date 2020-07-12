@@ -2,15 +2,7 @@ package Users;
 
 import java.util.*;
 
-public class UserManager {
-
-    protected Map<UUID, User> idToUser;
-    protected List<User> allUsers;
-
-    public UserManager() {
-        idToUser = new HashMap<>();
-        allUsers = new ArrayList<>();
-    }
+abstract class UserManager {
 
     /**
      * Checks whether the input username is valid.
