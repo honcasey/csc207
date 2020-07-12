@@ -1,7 +1,7 @@
 package Admins;
 
 import Exceptions.InvalidAdminException;
-import Exceptions.InvalidUserException;
+import Exceptions.InvalidTradingUserException;
 import Items.Item;
 import Users.TradingUser;
 import Users.TradingUserManager;
@@ -52,6 +52,7 @@ public class AdminMenuController {
 
     private void approveInventory(TradingUser tradingUser, Item item, boolean approved) { // helper method for checkPendingItems
         if (approved) { um.addItem(tradingUser, item, "inventory");
+        allPendingItems.remove(item);
         System.out.println(amp.addItem("approved"));}
         else { allPendingItems.remove(item);
         System.out.println(amp.addItem("declined"));}
@@ -69,7 +70,7 @@ public class AdminMenuController {
 
                 while (itemIterator.hasNext()) {
                     Item curr = itemIterator.next();
-                    System.out.println(curr.toString()); //prints the current item + the options
+                    System.out.println("Current Item Name:" + curr.toString()); //prints the current item + the options
                     int optionChosen = amp.handleOptionsByIndex(amp.constructPendingItemsMenu(), true, "Actions");
                     if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.approveItem)) {
                         approveInventory(allPendingItems.get(curr), curr, true);
@@ -125,14 +126,14 @@ public class AdminMenuController {
                     System.out.println(amp.successfullyAdded(newItem.toString(), username, "inventory"));
                 }
                 else { System.out.println(amp.validOptions(amp.constructUserLists()));}
-            } catch(InvalidUserException e) {
+            } catch(InvalidTradingUserException e) {
                 System.err.println(amp.usernameInvalid());
                 userInteracting = false;
             }
         }
     }
 
-    private void helperChangeThreshold(String username, String whichThreshold) throws InvalidUserException { // helper method for changeUserThreshold
+    private void helperChangeThreshold(String username, String whichThreshold) throws InvalidTradingUserException { // helper method for changeUserThreshold
         Scanner scanner = new Scanner(System.in);
         System.out.println(amp.whichThreshold(whichThreshold));
         int newThreshold = scanner.nextInt();
@@ -169,7 +170,7 @@ public class AdminMenuController {
                     System.out.println(amp.validOptions(amp.constructAllThresholds()));
                     break;
             }
-        } catch(InvalidUserException e) {
+        } catch(InvalidTradingUserException e) {
             System.err.print(amp.usernameInvalid());
         }
     }
