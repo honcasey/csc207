@@ -22,7 +22,7 @@ public abstract class MenuPresenter {
      * Formats and displays a list of options to the user.
      * @param OptionList the list of options that you want to be displayed.
      */
-    protected void displayOptions(List<String> OptionList){
+    public void displayOptions(List<String> OptionList){
         for(int i = 0; i < OptionList.size(); i++){
             String index = Integer.toString(i+1);
             String OutputLine =  index + ". " + OptionList.get(i);
@@ -58,6 +58,14 @@ public abstract class MenuPresenter {
         return(this.selectOption(OptionList));
     }
 
+
+    /**
+     * Safely getting input from user inspired by:
+     * https://stackoverflow.com/questions/13215639/asking-user-for-another-prompt-after-wrong-input-in-java
+     * Answer by Mordechai
+     * @param OptionList
+     * @return
+     */
     private String selectOption(List<String> OptionList){
         Scanner scanner = new Scanner(System.in);
         int OptionChosen;

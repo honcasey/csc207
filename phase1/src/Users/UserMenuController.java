@@ -258,20 +258,33 @@ public class UserMenuController{
         }
     }
 
+    /**
+     * Waiting for userinput(last 3 lines):
+     * https://stackoverflow.com/questions/26184409/java-console-prompt-for-enter-input-before-moving-on/26184565
+     * by M Anouti
+     */
     private void PastTransactionFlow(){
         List<String> MenuOptionList = ump.constructPastTransactionMenu();
         int OptionChosen = ump.handleOptionsByIndex(MenuOptionList,true,"Past Transactions Menu");
         if (ump.indexToOption(OptionChosen, MenuOptionList, ump.ViewRecentThreeOneWay)){
             List<UUID> OneWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentOneWayTransactions();
             List<Transaction> OneWayTransaction = ptm.getTransactionsFromIdList(OneWayTransactionIds);
-            List<String> optionlist = ump.constructTransactionList(OneWayTransaction);
+            List<String> oneWayTransactionOptions = ump.constructTransactionList(OneWayTransaction);
+            ump.displayOptions(oneWayTransactionOptions);
 
         } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.ViewRecentThreeTwoWay)) {
           List<UUID> TwoWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentTwoWayTransactions();
-          List<Transaction> TwoWayTransaction = ptm.getTransactionsFromIdList(TwoWayTransactionIds);
-        } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.ViewThreeMostTraded)) {
+          List<Transaction> TwoWayTransactions = ptm.getTransactionsFromIdList(TwoWayTransactionIds);
+          List<String> twoWayTransactionOptions = ump.constructTransactionList(TwoWayTransactions);
+          ump.displayOptions(twoWayTransactionOptions);
 
+        } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.ViewThreeMostTraded)) {
+            List<String> TradedWithUsersOptions = currentTradingUser.getTransactionHistory().mostTradedWithUsers();
+            ump.displayOptions(TradedWithUsersOptions);
         }
+        System.out.println("Press \"ENTER\" if you would like to go back...");
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
     }
 
     /**
