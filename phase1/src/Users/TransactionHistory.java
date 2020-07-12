@@ -2,6 +2,7 @@ package Users;
 
 import Transactions.Transaction;
 
+import java.io.Serializable;
 import java.util.*;
 
 
@@ -9,7 +10,7 @@ import java.util.*;
  * Represents the Transactions.Transaction History of Users.TradingUser by storing information about completed transactions
  */
 
-public class TransactionHistory {
+public class TransactionHistory implements Serializable {
     private List <UUID> oneWayTransactions; // goes in user
     private List <UUID> twoWayTransactions; //goes in user
     private HashMap<String, Integer> usersNumTradeTimes; // goes in user. change to <string, integer>
