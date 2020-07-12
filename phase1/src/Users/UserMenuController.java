@@ -8,6 +8,7 @@ import Transactions.Meeting;
 import Transactions.PastTransactionManager;
 import Transactions.Transaction;
 import Transactions.CurrentTransactionManager;
+import org.omg.IOP.TransactionService;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -258,7 +259,18 @@ public class UserMenuController{
 
     private void PastTransactionFlow(){
         List<String> MenuOptionList = ump.constructPastTransactionMenu();
+        int OptionChosen = ump.handleOptionsByIndex(MenuOptionList,true,"Past Transactions Menu");
+        if (ump.indexToOption(OptionChosen, MenuOptionList, ump.ViewRecentThreeOneWay)){
+            List<UUID> OneWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentOneWayTransactions();
+            List<Transaction> OneWayTransaction = ptm.getTransactionsFromIdList(OneWayTransactionIds);
+            List<String> optionlist = ump.constructTransactionList(OneWayTransaction);
 
+        } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.ViewRecentThreeTwoWay)) {
+          List<UUID> TwoWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentTwoWayTransactions();
+          List<Transaction> TwoWayTransaction = ptm.getTransactionsFromIdList(TwoWayTransactionIds);
+        } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.ViewThreeMostTraded)) {
+
+        }
     }
 
     /**

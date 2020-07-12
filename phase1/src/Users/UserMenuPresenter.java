@@ -3,11 +3,7 @@ package Users;
 import Items.Item;
 import Presenters.MenuPresenter;
 import Transactions.Transaction;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * This Presenter class contains helper methods that will be used to format and output the prompts that a user sees.
