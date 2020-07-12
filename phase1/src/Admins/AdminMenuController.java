@@ -123,13 +123,12 @@ public class AdminMenuController {
                     um.addItem(um.getTradingUser(username), newItem, "wishlist");
                     System.out.println(amp.successfullyAdded(newItem.toString(), username, "inventory"));
                 }
-                else { System.out.println(amp.validOptions(amp.userLists));}
+                else { System.out.println(amp.validOptions(amp.constructUserLists()));}
             } catch(InvalidUserException e) {
                 System.err.println(amp.usernameInvalid());
                 userInteracting = false;
             }
         }
-
     }
 
     private void helperChangeThreshold(String username, String whichThreshold) throws InvalidUserException { // helper method for changeUserThreshold

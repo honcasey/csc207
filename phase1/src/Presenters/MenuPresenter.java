@@ -13,7 +13,6 @@ public abstract class MenuPresenter {
     public String borrowThresholdDescription = "minimum number of times that this user must lend something before they can borrow/trade";
     public String weeklyThresholdDescription = "maximum number of transactions that this user can participate in a week";
     public String incompleteThresholdDescription = "maximum number of incomplete transactions before this user's account is frozen";
-    public List<String> userLists = Arrays.asList("wishlist", "inventory");
     public String previousMenu = "Loading Previous Menu";
     private String optionPrompt = "Please type a number corresponding to one of the above options.";
     private String invalidOption = "Not a valid option. Please enter a valid option.";

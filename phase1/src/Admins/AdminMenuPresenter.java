@@ -88,4 +88,11 @@ public class AdminMenuPresenter extends MenuPresenter {
         optionList.add("incomplete");
         return optionList;
     }
+
+    public List<String> constructUserLists() {
+        List<String> optionList = new ArrayList<>();
+        optionList.add("wishlist");
+        optionList.add("inventory");
+        return optionList;
+    }
 }
