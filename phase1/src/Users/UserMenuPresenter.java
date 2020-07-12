@@ -108,9 +108,9 @@ public class UserMenuPresenter extends MenuPresenter {
         return(AvailableItemOptionList);
     }
 
-    public List<String> constructWishlistItemsList(TradingUser user) {
+    public List<String> constructWishlistItemsList(List<Item> items) {
         List<String> wishlistItems = new ArrayList<>();
-        for (Item item : user.getWishlist()) {
+        for (Item item : items) {
             wishlistItems.add(item.toString());
         }
         return wishlistItems;

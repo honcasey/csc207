@@ -2,14 +2,12 @@ package Users;
 
 import Admins.AdminManager;
 import Exceptions.InvalidItemException;
-import Exceptions.InvalidTransactionException;
 import Items.Item;
 import Items.ItemManager;
 import Transactions.Meeting;
 import Transactions.PastTransactionManager;
 import Transactions.Transaction;
 import Transactions.CurrentTransactionManager;
-import org.omg.IOP.TransactionService;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -203,12 +201,13 @@ public class UserMenuController{
                 System.out.println(ump.empty("Wishlist"));
                 userInteracting = false;
             } else {
-                int itemChosen = ump.handleOptionsByIndex(ump.constructWishlistItemsList(currentTradingUser), true, "Wishlist Items");
-                if (itemChosen == ump.constructWishlistItemsList(currentTradingUser).size()) {
+                List<Item> items = im.convertIdsToItems(currentTradingUser.getWishlist());
+                int itemChosen = ump.handleOptionsByIndex(ump.constructWishlistItemsList(items), true, "Wishlist Items");
+                if (itemChosen == ump.constructWishlistItemsList(items).size()) {
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
                 } else {
-                    String item = ump.constructWishlistItemsList(currentTradingUser).get(itemChosen);
+                    String item = ump.constructWishlistItemsList(items).get(itemChosen);
                     System.out.println(ump.itemOptionList());
                     int optionChosen = ump.handleOptionsByIndex(ump.itemOptionList(), true, "Wishlist Menu");
                     if(ump.indexToOption(optionChosen, ump.itemOptionList(), ump.removeItem)){
