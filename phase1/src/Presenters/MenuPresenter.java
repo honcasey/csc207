@@ -33,15 +33,6 @@ public abstract class MenuPresenter {
     }
 
     /**
-     * Adds Back option at the end of options being displayed to the user.
-     * @param OptionList The list of options being displayed prior to calling this method.
-     */
-    protected void addBackOption(List<String> OptionList){
-        String LastOption = "Go back";
-        OptionList.add(LastOption);
-    }
-
-    /**
      * Construct methods like this return a list of options/prompts that the menu will have. ConstructMainMenu
      * in Menu Presenter is an abstract method that will be called only
      * <p>
@@ -61,7 +52,7 @@ public abstract class MenuPresenter {
      */
     public String handleOptions(List<String> OptionList, boolean BackOption, String OptionTitle) {
         if (BackOption) {
-            this.addBackOption(OptionList);
+            OptionList.add("Go back.");
         }
         System.out.println(OptionTitle);
         this.displayOptions(OptionList);
@@ -104,7 +95,7 @@ public abstract class MenuPresenter {
      */
     public int handleOptionsByIndex(List<String> OptionList, boolean BackOption, String OptionTitle) {
         if (BackOption) {
-            this.addBackOption(OptionList);
+            OptionList.add("Go back.");
         }
         System.out.println(OptionTitle);
         this.displayOptions(OptionList);
