@@ -2,7 +2,6 @@ package Admins;
 
 import Exceptions.InvalidAdminException;
 import Users.TradingUser;
-import Users.UserManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.List;
  * Creates and manages instances of AdminUsers, as well as all accounts that have been flagged or frozen, and a list
  * of Users who have requested their accounts to be unfrozen.
  */
-public class AdminManager extends UserManager {
+public class AdminManager {
     private List<AdminUser> allAdmins;
 
     /**
@@ -53,7 +52,6 @@ public class AdminManager extends UserManager {
         // we return the admin
         if (checkAvailableUsername(username)) {
             allAdmins.add(newAdmin);
-            allUsers.add(newAdmin);
             return newAdmin;
         } else { throw new InvalidAdminException(); }
     }

@@ -35,7 +35,6 @@ public class TradingUserManager {
         TradingUser newTradingUser = new TradingUser(username, password);
         if (allTradingUsers.size() == 0) {
             allTradingUsers.add(newTradingUser);
-            idToUser.put(newTradingUser.getUserId(), newTradingUser);
             return newTradingUser;
         }
         if (checkAvailableUsername(username)) {
@@ -59,16 +58,6 @@ public class TradingUserManager {
             }
         }
         throw new InvalidUserException();
-    }
-
-    /**
-     * To retrieve a specific user by userId. Assumes that the Users.TradingUser exists in the directory of Users
-     *
-     * @param id UUID identifier of a Users.TradingUser
-     * @return user who has the userId id
-     */
-    public TradingUser getTradingUserById(UUID id) {
-        return (TradingUser) idToUser.get(id);
     }
 
     /**
