@@ -14,7 +14,6 @@ public class AdminMenuController {
     private final TradingUserManager um;
     private final Map<Item, TradingUser> allPendingItems;
     private final AdminMenuPresenter amp = new AdminMenuPresenter();
-    private int input; // do we need this?
 
     public AdminMenuController(AdminManager adminManager, TradingUserManager tradingUserManager,
                                Map<Item, TradingUser> pendingItems, AdminUser admin) {
@@ -128,6 +127,7 @@ public class AdminMenuController {
                 else { System.out.println(amp.validOptions(amp.userLists));}
             } catch(InvalidUserException e) {
                 System.err.println(amp.usernameInvalid());
+                userInteracting = false;
             }
         }
 
@@ -218,4 +218,7 @@ public class AdminMenuController {
                         }
                     }
                 }
-        } } }}
+            }
+        }
+    }
+}
