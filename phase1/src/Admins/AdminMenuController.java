@@ -24,7 +24,6 @@ public class AdminMenuController {
     }
 
     public void run() {
-        Scanner scanner = new Scanner(System.in);
         boolean userInteracting = true;
 
         while (userInteracting) {

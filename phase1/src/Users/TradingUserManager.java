@@ -72,13 +72,10 @@ public class TradingUserManager {
      * @param listType either "wishlist" or "inventory" as a String
      */
     public void addItem(TradingUser tradingUser, Item item, String listType) {
-        List<Item> userInventory = tradingUser.getInventory();
-        List<Item> userWishlist = tradingUser.getWishlist();
-
         if (listType.equals("wishlist")) {
-            userWishlist.add(item);
+            tradingUser.getWishlist().add(item.getId());
         } else if (listType.equals("inventory")) {
-            userInventory.add(item);
+            tradingUser.getInventory().add(item.getId());
         }
     }
 
@@ -91,9 +88,9 @@ public class TradingUserManager {
      */
     public void removeItem(TradingUser tradingUser, Item item, String listType) {
         if (listType.equals("wishlist")) {
-            tradingUser.getWishlist().remove(item);
+            tradingUser.getWishlist().remove(item.getId());
         } else if (listType.equals("inventory")) {
-            tradingUser.getInventory().remove(item);
+            tradingUser.getInventory().remove(item.getId());
         }
     }
 

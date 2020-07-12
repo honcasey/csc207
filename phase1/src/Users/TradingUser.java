@@ -16,11 +16,11 @@ public class TradingUser extends User implements Serializable {
 
     private TransactionHistory transactionHistory;
     private List<UUID> currentTransactions;
-    private List<Item> inventory;
+    private List<UUID> inventory;
     private int borrowThreshold = 1;
     private int weeklyThreshold = 3;
     private int incompleteThreshold = 2;
-    private List<Item> wishlist;
+    private List<UUID> wishlist;
     private String status = "active";
 
     /**
@@ -42,12 +42,6 @@ public class TradingUser extends User implements Serializable {
     public TransactionHistory getTransactionHistory() { return transactionHistory; }
 
     /**
-     * Setter for this Users.TradingUser's tradeHistory.
-     * @param transactionHistory list of Transactions
-     */
-    public void setTransactionHistory(TransactionHistory transactionHistory) { this.transactionHistory = transactionHistory; }
-
-    /**
      * Getter for this Users.TradingUser's TransactionDetails.
      * @return list of Transactions.Transaction objects
      */
@@ -57,25 +51,13 @@ public class TradingUser extends User implements Serializable {
      * Getter for this Users.TradingUser's inventory as a list of (approved) Items.
      * @return list of Items
      */
-    public List<Item> getInventory() { return inventory; }
-
-    /**
-     * Setter for this Users.TradingUser's inventory.
-     * @param inventory list of Items
-     */
-    public void setInventory(List<Item> inventory) { this.inventory = inventory; }
+    public List<UUID> getInventory() { return inventory; }
 
     /**
      * Getter for this Users.TradingUser's wishlist as a list of Items.
      * @return list of Items
      */
-    public List<Item> getWishlist() { return wishlist; }
-
-    /**
-     * Setter for this Users.TradingUser's wishlist.
-     * @param wishlist list of Items
-     */
-    public void setWishlist(List<Item> wishlist) { this.wishlist = wishlist; }
+    public List<UUID> getWishlist() { return wishlist; }
 
     /**
      * Getter for the minimum number of Items that this Users.TradingUser has to have lent before they can borrow an Items.Item.

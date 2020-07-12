@@ -1,6 +1,7 @@
 package Users;
 
 import Admins.AdminManager;
+import Exceptions.InvalidItemException;
 import Exceptions.InvalidTransactionException;
 import Items.Item;
 import Items.ItemManager;
@@ -140,7 +141,7 @@ public class UserMenuController{
             System.out.println("You need to schedule a second meeting to reverse the transaction.");
             Meeting SecondMeeting = MeetingDetailsMenu("Second Meeting Details");
             if (ump.handleYesNo("Would you like to offer one of your items?")){
-                List<Item> currentUserInventory = currentTradingUser.getInventory();
+                List<Item> currentUserInventory = im.convertIdsToItems(currentTradingUser.getInventory());
                 List<String> ItemOptions = ump.constructInventoryItemsList(currentUserInventory);
                 int OptionChosen = ump.handleOptionsByIndex(ItemOptions,false,
                         "Available Inventory");
@@ -210,9 +211,14 @@ public class UserMenuController{
                     System.out.println(ump.itemOptionList());
                     int optionChosen = ump.handleOptionsByIndex(ump.itemOptionList(), true, "Wishlist Menu");
                     if(ump.indexToOption(optionChosen, ump.itemOptionList(), ump.removeItem)){
-                        Item whichItem = currentTradingUser.getWishlist().get(itemChosen);
-                        um.removeItem(currentTradingUser, whichItem, "wishlist");
-                        System.out.println(ump.successfullyRemoved(item,"wishlist"));
+                        try {
+                            Item whichItem = im.getItem(currentTradingUser.getWishlist().get(itemChosen));
+                            um.removeItem(currentTradingUser, whichItem, "wishlist");
+                            System.out.println(ump.successfullyRemoved(item,"wishlist"));
+                        } catch (InvalidItemException e) {
+                            // this should never happen
+                        }
+
                     }
                 }
             }
@@ -227,7 +233,7 @@ public class UserMenuController{
                 ump.empty("Inventory");
                 userInteracting = false;
             } else {
-                List<Item> currentUserInventory = currentTradingUser.getInventory();
+                List<Item> currentUserInventory = im.convertIdsToItems(currentTradingUser.getInventory());
                 List<String> ItemOptions = ump.constructInventoryItemsList(currentUserInventory);
                 int itemChosen = ump.handleOptionsByIndex(ItemOptions, true, "Inventory Items");
                 if (itemChosen == ItemOptions.size()) {
@@ -238,9 +244,13 @@ public class UserMenuController{
                     System.out.println(ump.itemOptionList());
                     int optionChosen = ump.handleOptionsByIndex(ump.itemOptionList(), true, "Inventory Menu");
                     if(ump.indexToOption(optionChosen, ump.itemOptionList(), ump.removeItem)){
-                        Item whichItem = currentTradingUser.getInventory().get(itemChosen);
-                        um.removeItem(currentTradingUser, whichItem, "inventory");
-                        System.out.println(ump.successfullyRemoved(item,"inventory"));
+                        try {
+                            Item whichItem = im.getItem(currentTradingUser.getWishlist().get(itemChosen));
+                            um.removeItem(currentTradingUser, whichItem, "inventory");
+                            System.out.println(ump.successfullyRemoved(item,"inventory"));
+                        } catch (InvalidItemException e) {
+                            // this should never happen
+                        }
                     }
                 }
             }
@@ -314,7 +324,7 @@ public class UserMenuController{
         HashMap<Item, TradingUser> availableItems = new HashMap<>();
         for (TradingUser tradingUser : allTradingUsers) {
             if(!tradingUser.equals(currentTradingUser)) {
-                for (Item item : tradingUser.getInventory()) {
+                for (Item item : im.convertIdsToItems(tradingUser.getInventory())) {
                     availableItems.put(item, tradingUser);
                 }
             }
