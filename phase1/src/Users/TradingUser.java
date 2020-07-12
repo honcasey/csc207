@@ -33,6 +33,7 @@ public class TradingUser extends User implements Serializable {
          currentTransactions = new ArrayList<>();
          wishlist = new ArrayList<>();
          inventory = new ArrayList<>();
+         transactionHistory = new TransactionHistory();
      }
 
     /**
