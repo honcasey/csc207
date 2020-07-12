@@ -4,7 +4,9 @@ import Exceptions.InvalidUserException;
 import Items.Item;
 import Transactions.Transaction;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -14,6 +16,7 @@ public class TradingUserManager {
     private List<TradingUser> allTradingUsers;
     private List<TradingUser> flaggedAccounts;
     private List<TradingUser> frozenAccounts;
+    private Map<UUID, TradingUser> idToUser;
 
     /**
      * Creates a list of tradingUsers.
@@ -22,6 +25,7 @@ public class TradingUserManager {
         allTradingUsers = tradingUsers;
         this.flaggedAccounts = flaggedAccounts;
         this.frozenAccounts = frozenAccounts;
+        userListToMap();
     }
 
     /**
@@ -259,4 +263,16 @@ public class TradingUserManager {
         }
         return true;
     }
+
+    private void userListToMap() {
+        idToUser = new HashMap<>();
+        for (TradingUser user : allTradingUsers) {
+            idToUser.put(user.getUserId(), user);
+        }
+    }
+
+    public TradingUser getTradingUserById(UUID id) {
+        return idToUser.get(id);
+    }
+
 }
