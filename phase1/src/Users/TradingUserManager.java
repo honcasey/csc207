@@ -4,14 +4,13 @@ import Exceptions.InvalidUserException;
 import Items.Item;
 import Transactions.Transaction;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 /**
  * This class manages all TradingUsers.
  */
-public class TradingUserManager extends UserManager {
+public class TradingUserManager {
     private List<TradingUser> allTradingUsers;
     private List<TradingUser> flaggedAccounts;
     private List<TradingUser> frozenAccounts;
@@ -37,13 +36,11 @@ public class TradingUserManager extends UserManager {
         TradingUser newTradingUser = new TradingUser(username, password);
         if (allTradingUsers.size() == 0) {
             allTradingUsers.add(newTradingUser);
-            allUsers.add(newTradingUser);
             idToUser.put(newTradingUser.getUserId(), newTradingUser);
             return newTradingUser;
         }
         if (checkAvailableUsername(username)) {
             allTradingUsers.add(newTradingUser);
-            allUsers.add(newTradingUser);
             return newTradingUser;
         } else {
             throw new InvalidUserException();
@@ -91,7 +88,6 @@ public class TradingUserManager extends UserManager {
         } else if (listType.equals("inventory")) {
             userInventory.add(item);
         }
-
     }
 
     /**
@@ -172,7 +168,7 @@ public class TradingUserManager extends UserManager {
         if (transaction.getUser1() == tradingUser.getUserId()) {
             tradingUser.getTransactionHistory().setNumItemsLended();
             String u2 = idToUser.get(transaction.getUser2()).getUsername();
-            if (tH.getUsersNumTradeTimes().containsKey(u2)) {
+            if (tH.getUsersNumTradeTimes().containsKey(transaction.getUser2())) {
                 tH.getUsersNumTradeTimes().put(u2, tH.getUsersNumTradeTimes().get(u2) + 1);
             } else {
                 tH.getUsersNumTradeTimes().put(u2, 1);
@@ -259,5 +255,20 @@ public class TradingUserManager extends UserManager {
             tradingUser.getCurrentTransactions().remove(id);
             addToTransactionHistory(tradingUser, transaction);
         }
+    }
+
+    /**
+     * Checks whether the input username is valid.
+     *
+     * @param username online identifier of a Users.TradingUser
+     * @return True or False as boolean
+     */
+    public boolean checkAvailableUsername(String username) {
+        for (TradingUser user : allTradingUsers) {
+            if (user.getUsername().equals(username)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
