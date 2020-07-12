@@ -232,7 +232,7 @@ public class TradingSystem {
         Scanner scanner = new Scanner(System.in);
         System.out.println(bmp.getUsernamePrompt());
         String username = scanner.nextLine();
-        System.out.println(bmp.getUsernamePrompt());
+        System.out.println(bmp.getPasswordPrompt());
         String password = scanner.nextLine();
         return new String[]{username, password};
     }
