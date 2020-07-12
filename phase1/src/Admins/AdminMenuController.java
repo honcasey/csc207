@@ -182,6 +182,7 @@ public class AdminMenuController {
             if (listType.equals("pendingFrozenUsers")) {
                 if (am.getPendingFrozenTradingUsers().isEmpty()) {
                     System.out.println(amp.empty("Frozen TradingUser Requests"));
+                    userInteracting = false;
                 } else {
                     for (TradingUser tradingUser : am.getPendingFrozenTradingUsers()) {
                         System.out.println(tradingUser.toString());
@@ -199,6 +200,7 @@ public class AdminMenuController {
             if (listType.equals("flaggedUsers")) {
                 if (am.getFlaggedAccounts().isEmpty()) {
                     System.out.println(amp.empty("Flagged Users"));
+                    userInteracting = false;
                 } else {
                     for (TradingUser tradingUser : am.getFlaggedAccounts()) {
                         System.out.println(tradingUser.toString());
