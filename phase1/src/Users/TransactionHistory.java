@@ -94,7 +94,7 @@ public class TransactionHistory implements Serializable {
     }
 
     /**
-     * @return an ArrayList of all Transactions
+     * @return an List of all Transactions
      */
     public List<UUID> getAllPastTransactions(){
         List<UUID> allTransactions = new ArrayList<>();
