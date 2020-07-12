@@ -1,7 +1,7 @@
 package Admins;
 
 import Exceptions.InvalidAdminException;
-import Exceptions.InvalidUserException;
+import Exceptions.InvalidTradingUserException;
 import Items.Item;
 import Users.TradingUser;
 import Users.TradingUserManager;
@@ -126,14 +126,14 @@ public class AdminMenuController {
                     System.out.println(amp.successfullyAdded(newItem.toString(), username, "inventory"));
                 }
                 else { System.out.println(amp.validOptions(amp.constructUserLists()));}
-            } catch(InvalidUserException e) {
+            } catch(InvalidTradingUserException e) {
                 System.err.println(amp.usernameInvalid());
                 userInteracting = false;
             }
         }
     }
 
-    private void helperChangeThreshold(String username, String whichThreshold) throws InvalidUserException { // helper method for changeUserThreshold
+    private void helperChangeThreshold(String username, String whichThreshold) throws InvalidTradingUserException { // helper method for changeUserThreshold
         Scanner scanner = new Scanner(System.in);
         System.out.println(amp.whichThreshold(whichThreshold));
         int newThreshold = scanner.nextInt();
@@ -170,7 +170,7 @@ public class AdminMenuController {
                     System.out.println(amp.validOptions(amp.constructAllThresholds()));
                     break;
             }
-        } catch(InvalidUserException e) {
+        } catch(InvalidTradingUserException e) {
             System.err.print(amp.usernameInvalid());
         }
     }
