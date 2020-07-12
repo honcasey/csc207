@@ -71,11 +71,16 @@ public class AdminMenuController {
                     Item curr = itemIterator.next();
                     System.out.println(curr.toString()); //prints the current item + the options
                     int optionChosen = amp.handleOptionsByIndex(amp.constructPendingItemsMenu(), true, "Actions");
-                    if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.approveItem)) {
-                        approveInventory(allPendingItems.get(curr), curr, true);
-                    }
-                    else if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.declineItem)) {
-                        approveInventory(allPendingItems.get(curr), curr, false);
+                    if (optionChosen == amp.constructPendingItemsMenu().size()) {
+                        System.out.println(amp.previousMenu);
+                        userInteracting = false;
+                    } else {
+                        if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.approveItem)) {
+                            approveInventory(allPendingItems.get(curr), curr, true);
+                        }
+                        else if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.declineItem)) {
+                            approveInventory(allPendingItems.get(curr), curr, false);
+                        }
                     }
                 }
             }
