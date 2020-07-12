@@ -144,7 +144,7 @@ public class AdminMenuController {
         Scanner scanner = new Scanner(System.in);
         System.out.println(amp.enterName("TradingUser"));
         String username = scanner.nextLine();
-        String whichThreshold = amp.handleOptions(amp.allThresholds, true, "TradingUser Thresholds");
+        String whichThreshold = amp.handleOptions(amp.constructAllThresholds(), true, "TradingUser Thresholds");
         try {
             switch (whichThreshold) {
                 case "borrow": {
@@ -166,7 +166,7 @@ public class AdminMenuController {
                     break;
                 }
                 default:
-                    System.out.println(amp.validOptions(amp.allThresholds));
+                    System.out.println(amp.validOptions(amp.constructAllThresholds()));
                     break;
             }
         } catch(InvalidUserException e) {

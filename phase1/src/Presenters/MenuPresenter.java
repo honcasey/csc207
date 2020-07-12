@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public abstract class MenuPresenter {
-    public List<String> allThresholds = Arrays.asList("borrow", "weekly", "incomplete");
+
     public String borrowThresholdDescription = "minimum number of times that this user must lend something before they can borrow/trade";
     public String weeklyThresholdDescription = "maximum number of transactions that this user can participate in a week";
     public String incompleteThresholdDescription = "maximum number of incomplete transactions before this user's account is frozen";
