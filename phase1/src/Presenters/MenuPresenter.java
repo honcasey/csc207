@@ -37,7 +37,7 @@ public abstract class MenuPresenter {
      * @param OptionList The list of options being displayed prior to calling this method.
      */
     protected void addBackOption(List<String> OptionList){
-        String LastOption = ". Go back";
+        String LastOption = "Go back";
         OptionList.add(LastOption);
     }
 
