@@ -27,15 +27,19 @@ import java.util.List;
 public class UserMenuPresenter extends MenuPresenter {
 
     //option strings
-    public String removeItem = "Remove item.";
-    public String nextItem = "Go to next item.";
-    public String requestItem = "Request Items for Approval";
-    public String browseAvailableItems = "Browse Available Items for Trade";
-    public String viewActiveTransactions = "View Active Transactions";
-    public String viewPastTransactionDetails = "View Past Transaction Details";
-    public String viewWishlist = "View Wishlist";
-    public String viewInventory = "View Inventory";
-    public String requestUnfreeze = "Request Admin to Unfreeze Account";
+    protected String removeItem = "Remove item.";
+    protected String nextItem = "Go to next item.";
+    protected String requestItem = "Request Items for Approval";
+    protected String browseAvailableItems = "Browse Available Items for Trade";
+    protected String viewActiveTransactions = "View Active Transactions";
+    protected String viewPastTransactionDetails = "Past Transactions";
+    protected String viewWishlist = "View Wishlist";
+    protected String viewInventory = "View Inventory";
+    protected String requestUnfreeze = "Request Admin to Unfreeze Account";
+    protected String logout = "Log out";
+    protected String ViewRecentThreeOneWay = "View 3 most recent one way past transactions.";
+    protected String ViewRecentThreeTwoWay = "View 3 most recent two way past transactions.";
+    protected String ViewThreeMostTraded = "View 3 most frequent trading partners.";
 
     /**
      * Construct methods like this return a list of options/prompts that the menu will have.
@@ -57,6 +61,14 @@ public class UserMenuPresenter extends MenuPresenter {
         MenuOptionList.add(viewInventory);
         MenuOptionList.add(requestUnfreeze);
         MenuOptionList.add(logout);
+        return(MenuOptionList);
+    }
+
+    public List<String> constructPastTransactionMenu(){
+        List<String> MenuOptionList = new ArrayList<>();
+        MenuOptionList.add(ViewRecentThreeOneWay);
+        MenuOptionList.add(ViewRecentThreeTwoWay);
+        MenuOptionList.add(ViewThreeMostTraded);
         return(MenuOptionList);
     }
 

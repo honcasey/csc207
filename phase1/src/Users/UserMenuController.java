@@ -49,7 +49,7 @@ public class UserMenuController{
             } else if (ump.indexToOption(input, menu, ump.viewActiveTransactions)) {
                 getActiveTransactions();
             } else if (ump.indexToOption(input, menu, ump.viewPastTransactionDetails)) {
-                viewPastTransaction();
+                PastTransactionFlow();
             } else if (ump.indexToOption(input, menu, ump.viewWishlist)) {
                 viewWishlist();
             } else if (ump.indexToOption(input, menu, ump.viewInventory)) {
@@ -256,13 +256,9 @@ public class UserMenuController{
         }
     }
 
-    private void viewPastTransaction(){
-        TransactionHistory transactionHistory= currentTradingUser.getTransactionHistory();
-        if (transactionHistory.isPastEmpty()) {
-            System.out.println(ump.empty("Transaction History"));
-        } else {
-            System.out.println(transactionHistory.toString());
-        }
+    private void PastTransactionFlow(){
+        List<String> MenuOptionList = ump.constructPastTransactionMenu();
+
     }
 
     /**
