@@ -3,7 +3,7 @@ package Users;
 import java.io.Serializable;
 import java.util.UUID;
 
-abstract class User implements Serializable {
+public abstract class User implements Serializable {
     private String username;
     private String password;
     private final UUID userId = UUID.randomUUID();

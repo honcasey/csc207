@@ -20,7 +20,6 @@ public class TradingUserManager extends UserManager {
      * Creates a list of tradingUsers.
      */
     public TradingUserManager(List<TradingUser> tradingUsers, List<TradingUser> flaggedAccounts, List<TradingUser> frozenAccounts) {
-        super();
         allTradingUsers = tradingUsers;
         this.flaggedAccounts = flaggedAccounts;
         this.frozenAccounts = frozenAccounts;
