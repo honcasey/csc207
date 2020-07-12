@@ -52,6 +52,7 @@ public class AdminMenuController {
 
     private void approveInventory(TradingUser tradingUser, Item item, boolean approved) { // helper method for checkPendingItems
         if (approved) { um.addItem(tradingUser, item, "inventory");
+        allPendingItems.remove(item);
         System.out.println(amp.addItem("approved"));}
         else { allPendingItems.remove(item);
         System.out.println(amp.addItem("declined"));}
