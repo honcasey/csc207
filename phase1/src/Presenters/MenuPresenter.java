@@ -4,12 +4,13 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public abstract class MenuPresenter {
-    public List<String> allThresholds = Arrays.asList("borrow", "weekly", "incomplete");
+    public List<String> allThresholds = ArrayList<String>("borrow", "weekly", "incomplete");
     public String borrowThresholdDescription = "minimum number of times that this user must lend something before they can borrow/trade";
     public String weeklyThresholdDescription = "maximum number of transactions that this user can participate in a week";
     public String incompleteThresholdDescription = "maximum number of incomplete transactions before this user's account is frozen";
@@ -18,6 +19,8 @@ public abstract class MenuPresenter {
     private String optionPrompt = "Please type a number corresponding to one of the above options.";
     private String invalidOption = "Not a valid option. Please enter a valid option.";
     public String logout = "Log out";
+
+
 
     /**
      * Formats and displays a list of options to the user.
@@ -37,8 +40,7 @@ public abstract class MenuPresenter {
      * @param OptionList The list of options being displayed prior to calling this method.
      */
     protected void addBackOption(List<String> OptionList){
-        String LastOption = "Go back";
-        OptionList.add(LastOption);
+        OptionList.add("Go back");
     }
 
     /**
@@ -61,11 +63,11 @@ public abstract class MenuPresenter {
      */
     public String handleOptions(List<String> OptionList, boolean BackOption, String OptionTitle) {
         if (BackOption) {
-            this.addBackOption(OptionList);
+            addBackOption(OptionList);
         }
         System.out.println(OptionTitle);
-        this.displayOptions(OptionList);
-        return(this.selectOption(OptionList));
+        displayOptions(OptionList);
+        return selectOption(OptionList);
     }
 
     private String selectOption(List<String> OptionList){
