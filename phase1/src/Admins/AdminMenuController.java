@@ -63,7 +63,7 @@ public class AdminMenuController {
         Scanner scanner = new Scanner(System.in); // do we need this?
         while (userInteracting) {
             if (allPendingItems.isEmpty()) {
-                amp.empty("Pending Items");
+                System.out.println(amp.empty("Pending Items"));
                 userInteracting = false;
             }
             else {
