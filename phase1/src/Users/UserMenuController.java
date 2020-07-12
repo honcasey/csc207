@@ -198,8 +198,8 @@ public class UserMenuController{
     private void viewWishlist(){
         boolean userInteracting = true;
         while (userInteracting) {
-            if (currentTradingUser.getWishlist().isEmpty()) {
-                ump.empty("Wishlist");
+            if (currentTradingUser.getWishlist().size() == 0) {
+                System.out.println(ump.empty("Wishlist"));
                 userInteracting = false;
             } else {
                 int itemChosen = ump.handleOptionsByIndex(ump.constructWishlistItemsList(currentTradingUser), true, "Wishlist Items");
@@ -223,7 +223,8 @@ public class UserMenuController{
     private void viewInventory() {
         boolean userInteracting = true;
         while (userInteracting) {
-            if (currentTradingUser.getInventory().isEmpty()) {
+            if (currentTradingUser.getInventory().size() == 0) {
+                System.out.println(ump.empty("Inventory"));
                 ump.empty("Inventory");
                 userInteracting = false;
             } else {
@@ -279,33 +280,32 @@ public class UserMenuController{
      */
     private void getActiveTransactions() {
         boolean userInteracting = true;
-        TradingUser tradingUser = currentTradingUser;
-
         while (userInteracting) {
-            List<UUID> currentTransactionsIds = tradingUser.getCurrentTransactions();
-
-            ArrayList<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
-
-            List<String> optionList = ump.constructTransactionList(currTransactionsList);
-            String currTransactionsTitle = "List of Current Transaction";
-            int OptionChosen = ump.handleOptionsByIndex(optionList, true, currTransactionsTitle
-            );
-            // Logic handling back to other menu vs. Editing a meeting vs changing the StatusUser of a Transaction.
-            if (OptionChosen == optionList.size()) {
-                System.out.println(ump.previousMenu);
+            List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
+            if (currentTransactionsIds.size() == 0) {
+                System.out.println(ump.empty("Current Transactions"));
                 userInteracting = false;
             } else {
-                Transaction transaction = currTransactionsList.get(OptionChosen);
-                ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
-                String transactionActionPrompt = "This is the list of actions that you can do with your transaction";
-                int optionChosen2 = ump.handleOptionsByIndex(transactionActions, true, transactionActionPrompt);
-                if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) {
-                    tm.updateStatus(transaction);
-                    um.addToTransactionHistory(currentTradingUser, transaction);
+                List<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
+                List<String> optionList = ump.constructTransactionList(currTransactionsList);
+                String currTransactionsTitle = "Current Transactions:";
+                int OptionChosen = ump.handleOptionsByIndex(optionList, true, currTransactionsTitle
+                );
+                // Logic handling back to other menu vs. Editing a meeting vs changing the StatusUser of a Transaction.
+                if (OptionChosen == optionList.size()) {
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
                 } else {
-                    editMeeting(currentTradingUser, transaction);
+                    Transaction transaction = currTransactionsList.get(OptionChosen);
+                    ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
+                    String transactionActionPrompt = "This is the list of actions that you can do with your transaction";
+                    int optionChosen2 = ump.handleOptionsByIndex(transactionActions, true, transactionActionPrompt);
+                    if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) {
+                        tm.updateStatus(transaction);
+                        um.addToTransactionHistory(currentTradingUser, transaction);
+                    } else {
+                        editMeeting(currentTradingUser, transaction);
+                    }
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
                 }

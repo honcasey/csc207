@@ -99,11 +99,7 @@ public class UserMenuPresenter extends MenuPresenter {
         return(OptionList);
     }
 
-    //TODO: Finish
-    public List<String> constructTransactionList(ArrayList<Transaction> TransactionList){
-        System.out.println("Current Transactions:");
-        // Making Option List
-
+    public List<String> constructTransactionList(List<Transaction> TransactionList){
         List<String> AvailableItemOptionList = new ArrayList<>();
         for (Transaction transaction : TransactionList) {
             AvailableItemOptionList.add(transaction.toString() + "\\n");

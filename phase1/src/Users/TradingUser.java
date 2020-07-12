@@ -31,6 +31,8 @@ public class TradingUser extends User implements Serializable {
      public TradingUser(String username, String password) {
          super(username,password);
          currentTransactions = new ArrayList<>();
+         wishlist = new ArrayList<>();
+         inventory = new ArrayList<>();
      }
 
     /**
