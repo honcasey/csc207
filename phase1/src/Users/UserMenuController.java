@@ -304,8 +304,7 @@ public class UserMenuController{
                 List<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
                 List<String> optionList = ump.constructTransactionList(currTransactionsList);
                 String currTransactionsTitle = "Current Transactions:";
-                int OptionChosen = ump.handleOptionsByIndex(optionList, true, currTransactionsTitle
-                );
+                int OptionChosen = ump.handleOptionsByIndex(optionList, true, currTransactionsTitle);
                 // Logic handling back to other menu vs. Editing a meeting vs changing the StatusUser of a Transaction.
                 if (OptionChosen != optionList.size()) {
                     Transaction transaction = currTransactionsList.get(OptionChosen);
