@@ -182,6 +182,13 @@ public class CurrentTransactionManager extends TransactionManager{
         }
     }
 
+    public Meeting meetOneMonthLater(Meeting firstMeeting){
+        String location = firstMeeting.getLocation();
+        LocalDate newDate = firstMeeting.getDate().plusMonths(1);
+        LocalTime newTime = firstMeeting.getTime();
+        return new Meeting(location, newTime, newDate);
+    }
+
 
     public ArrayList<String> userTransactionActions(Transaction transaction){
         String status = transaction.getStatus();
