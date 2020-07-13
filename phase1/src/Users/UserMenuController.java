@@ -114,13 +114,12 @@ public class UserMenuController{
                     Item transactionItem = itemList.get(OptionChosen);
                     TradingUser transactionItemOwner = availableItems.get(transactionItem);
                     userInteracting = createTransactionMenu(transactionItem,transactionItemOwner);
-                    if(this.thresholdsExceeded()){
-                        am.getFlaggedAccounts().add(currentTradingUser);
+                    flagAccountIfAboveThreshold(currentTradingUser);
                     }
                 }
             }
         }
-    }
+
 
     /**
      * This method handles the flow for setting up a transaction for an available item assuming that the transaction
@@ -456,9 +455,11 @@ public class UserMenuController{
         }
     }
 
-    private boolean thresholdsExceeded(){
-        boolean weeklyThreshold = ptm.weeklyThresholdExceeded(currentTradingUser);
-        boolean TransactionsExceeded = um.incompleteTransactionExceeded(currentTradingUser);
-        return(weeklyThreshold || TransactionsExceeded);
+    private void flagAccountIfAboveThreshold(TradingUser user) {
+        boolean weeklyThreshold = ptm.weeklyThresholdExceeded(user);
+        boolean TransactionsExceeded = um.incompleteTransactionExceeded(user);
+        if (weeklyThreshold || TransactionsExceeded) {
+            am.addFlaggedAccount(user);
+        }
     }
 }

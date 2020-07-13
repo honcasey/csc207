@@ -2,9 +2,12 @@ package Admins;
 
 import Exceptions.InvalidAdminException;
 import Users.TradingUser;
+import Users.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
 /**
  * Creates and manages instances of AdminUsers, as well as all accounts that have been flagged or frozen, and a list
  * of Users who have requested their accounts to be unfrozen.
@@ -118,5 +121,15 @@ public class AdminManager {
             }
         }
         return true;
+    }
+
+    /**
+     * This method checks if the user is already in flagged accounts and adds it to the list if he is not
+     * @param user that is added to flagged accounts
+     */
+    public void addFlaggedAccount(TradingUser user){
+        if (!flaggedAccounts.contains(user))     {
+            flaggedAccounts.add(user);
+        }
     }
 }
