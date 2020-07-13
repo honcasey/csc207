@@ -145,16 +145,17 @@ public class UserMenuController{
                 Item ChosenItem = currentUserInventory.get(OptionChosen);
 
                 Transaction newTransaction = tm.createTransaction(currentTradingUser.getUserId(),
-                        Owner.getUserId(), ChosenItem.getId(), item.getId(),FirstMeeting,SecondMeeting);
+                        Owner.getUserId(), ChosenItem.getId(), item.getId(),FirstMeeting,SecondMeeting,
+                        ChosenItem.getName(), item.getName());
                 updateUsersCurrentTransactions(currentTradingUser,Owner,newTransaction);
             } else {
                 Transaction newTransaction = tm.createTransaction(currentTradingUser.getUserId(),
-                        Owner.getUserId(), item.getId(),FirstMeeting,SecondMeeting);
+                        Owner.getUserId(), item.getId(),FirstMeeting,SecondMeeting, item.getName());
                 updateUsersCurrentTransactions(currentTradingUser,Owner,newTransaction);
             }
         } else {
             Transaction newTransaction = tm.createTransaction(currentTradingUser.getUserId(),
-                    Owner.getUserId(), item.getId(),FirstMeeting);
+                    Owner.getUserId(), item.getId(),FirstMeeting, item.getName());
             updateUsersCurrentTransactions(currentTradingUser,Owner,newTransaction);
         }
         return(ump.handleYesNo(ump.makeTransaction));

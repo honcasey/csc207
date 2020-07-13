@@ -32,17 +32,19 @@ public abstract class Transaction implements Serializable {
     private String status;
     private String statusUser1; // is this even necessary
     private String statusUser2;
+    private String item1Name;
 
     /**
      * Constructor of abstract class Transactions.Transaction.
      * @param user_1 one of the users involved in the transactions.
      * @param user_2 one of the users involved in the transactions.
      */
-    public Transaction(UUID user_1, UUID user_2, Meeting firstMeeting){
+    public Transaction(UUID user_1, UUID user_2, Meeting firstMeeting, String item1Name){
         status = "pending";
         this.user1 = user_1;
         this.user2 = user_2;
         this.firstMeeting = firstMeeting;
+        this.item1Name = item1Name;
     }
 
 
@@ -191,5 +193,8 @@ public abstract class Transaction implements Serializable {
     }
 
 
+    public String getItem1Name() {
+        return item1Name;
+    }
 }
 

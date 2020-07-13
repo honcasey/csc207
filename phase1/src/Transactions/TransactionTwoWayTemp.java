@@ -14,6 +14,7 @@ public class TransactionTwoWayTemp extends Transaction {
     public UUID item1;
     public UUID item2;
     public Meeting secondMeeting;
+    private String item2Name;
 
     /**
      * Constructor for TransactionTwowayTemp class. This constructor initializes a 2 way borrowing transaction with
@@ -25,11 +26,14 @@ public class TransactionTwoWayTemp extends Transaction {
      * @param secondMeeting the second meeting details.
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionTwoWayTemp(UUID User1, UUID User2, UUID Item1, UUID Item2, Meeting FirstMeeting, Meeting secondMeeting){
-        super(User1,User2,FirstMeeting);
+    public TransactionTwoWayTemp(UUID User1, UUID User2, UUID Item1, UUID Item2, Meeting FirstMeeting,
+                                 Meeting secondMeeting, String item1Name, String item2Name){
+        super(User1,User2,FirstMeeting, item1Name);
         this.item1 = Item1;
         this.item2 = Item2;
         this.secondMeeting = secondMeeting;
+        this.item2Name = item2Name;
+
     }
 
 
@@ -97,10 +101,8 @@ public class TransactionTwoWayTemp extends Transaction {
     public String toString(){
         String FirstMeetingString = this.getFirstMeeting().toString();
         String SecondMeetingString = this.getSecondMeeting().toString();
-        String Item1String = this.getItem1().toString();
-        String Item2String = this.getItem2().toString();
-        return("One way transaction to trade"+Item1String+" for " +Item2String +"Where the first "+ FirstMeetingString
-                +". The second" + SecondMeetingString);
+        return("One way transaction to trade "+ getItem1Name() +" for " + this.item2Name +". Where the first "+ FirstMeetingString
+                +". The second" + SecondMeetingString + ".");
     }
     @Override
     public List<Meeting> getTransactionMeetings(){
