@@ -23,6 +23,7 @@ public class UserMenuController{
     private ItemManager im;
     private Map<Item, TradingUser> allPendingItems;
     private UserMenuPresenter ump = new UserMenuPresenter();
+    private HashMap<Item, TradingUser> availableItems;
 
     public UserMenuController(TradingUserManager tradingUserManager, AdminManager adminManager,
                               CurrentTransactionManager currentTransactionManager,
@@ -35,6 +36,7 @@ public class UserMenuController{
         tm = currentTransactionManager;
         ptm = pastTransactionManager;
         im = itemManager;
+        availableItems = getAvailableItems();
     }
 
     public void run() {
@@ -88,8 +90,7 @@ public class UserMenuController{
      */
     private void displayAvailableItems(){
         boolean userInteracting = true;
-        while(userInteracting){
-            HashMap<Item, TradingUser> availableItems  = getAvailableItems();
+        while(userInteracting) {
             List<Item> itemList = new ArrayList<>(availableItems.keySet());
             if (itemList.isEmpty()) {
                 System.out.println(ump.empty("Available Items"));
@@ -116,6 +117,7 @@ public class UserMenuController{
                     if(this.thresholdsExceeded()){
                         am.getPendingFrozenTradingUsers().add(currentTradingUser);
                     }
+                    availableItems.remove(transactionItem);
                 }
             }
         }
@@ -155,7 +157,7 @@ public class UserMenuController{
                     Owner.getUserId(), item.getId(),FirstMeeting);
             updateUsersCurrentTransactions(currentTradingUser,Owner,newTransaction);
         }
-        return(!ump.handleYesNo(ump.makeTransaction));
+        return(ump.handleYesNo(ump.makeTransaction));
     }
 
     /**
@@ -329,7 +331,7 @@ public class UserMenuController{
      * Returns a HashMap of all the available items in other user's inventory.
      * @return HashMap of items that are available in other user's inventory.
      */
-    public HashMap<Item, TradingUser> getAvailableItems(){
+    private HashMap<Item, TradingUser> getAvailableItems(){
         List<TradingUser> allTradingUsers = um.getAllTradingUsers();
         HashMap<Item, TradingUser> availableItems = new HashMap<>();
         for (TradingUser tradingUser : allTradingUsers) {
