@@ -17,7 +17,7 @@ public class Item implements Serializable {
      */
     public Item(String name) {
         this.name = name;
-        this.id= UUID.randomUUID();
+        this.id = UUID.randomUUID();
     }
 
     /**
