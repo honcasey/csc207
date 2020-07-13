@@ -175,7 +175,7 @@ public class Meeting implements Serializable {
 
     @Override
     public String toString(){
-        return("Transactions.Meeting is at "+this.getLocation()+ " at this time: " +this.getTime().toString()+ " on this day: " +
+        return("Meeting is at "+this.getLocation()+ " at this time: " +this.getTime().toString()+ " on this day: " +
                 this.getDate().toString());
     }
 }
