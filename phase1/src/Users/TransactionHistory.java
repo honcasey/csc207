@@ -54,29 +54,19 @@ public class TransactionHistory implements Serializable {
         Map<String, Integer> temp = (HashMap<String, Integer>) usersNumTradeTimes.clone();
         List<Map.Entry<String, Integer>> mostTradedWith = new ArrayList<>();
         List<String> mostTradedWithUsernames = new ArrayList<>();
-        // if user has less than or equal to 3 trades
-        //// this is not necessary actually now that I think about it
         if(usersNumTradeTimes.size() <= 3){
             Set<String> users = usersNumTradeTimes.keySet();
             mostTradedWithUsernames.addAll(users);
-            return mostTradedWithUsernames;
-            }
-        // if user has greater than 3 trades
-        // find the three most traded users
+            return mostTradedWithUsernames; }
         int j = 0;
         while(j < 3){
             Map.Entry<String, Integer> maxUser = null;
             for(Map.Entry<String, Integer> entry: temp.entrySet()){
                 if(maxUser == null || entry.getValue() >= maxUser.getValue()){
-                    maxUser = entry;
-                }
-            }
+                    maxUser = entry; } }
             mostTradedWith.add(maxUser);
             temp.remove(maxUser.getKey());
-            j ++;
-        }
-        return mostTradedWithUsernames;
-
+            j ++; } return mostTradedWithUsernames;
     }
 
     /**
