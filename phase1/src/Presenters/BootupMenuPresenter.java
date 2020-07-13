@@ -30,6 +30,7 @@ public class BootupMenuPresenter extends MenuPresenter {
         List<String> bootupOptions = new ArrayList<>();
         bootupOptions.add("Login to existing account");
         bootupOptions.add("Create a new account");
+        bootupOptions.add("Exit program");
         return handleOptionsByIndex(bootupOptions, false, "Bootup Menu");
     }
 
