@@ -230,13 +230,13 @@ public class AdminMenuController {
                     userInteracting = false;
                 } else {
                     for (TradingUser tradingUser : am.getFlaggedAccounts()) {
-                        System.out.println(tradingUser.toString());
                         int optionChosen2 = amp.handleOptionsByIndex(amp.constructFlaggedUsersMenu(), true, "Check Flagged Users");
                         if (optionChosen2 == amp.constructFlaggedUsersMenu().size()) {
                             userInteracting = false;
                         } else if (amp.indexToOption(optionChosen2, amp.constructFlaggedUsersMenu(), amp.freezeAccount)) {
                             um.freezeAccount(tradingUser);
                             am.getFrozenAccounts().add(tradingUser);
+                            am.getFlaggedAccounts().remove(tradingUser);
                             System.out.println(amp.accountFrozen(tradingUser.toString(), tradingUser.getStatus()));
                         } else if (amp.indexToOption(optionChosen2, amp.constructFlaggedUsersMenu(), amp.unfreezeAccount)) {
                             um.unfreezeAccount(tradingUser);
