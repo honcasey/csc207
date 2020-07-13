@@ -224,7 +224,7 @@ public class UserMenuController{
                 System.out.println(ump.empty("Inventory"));
                 userInteracting = false;
             } else {
-                List<Item> currentUserInventory = im.convertIdsToItems(currentTradingUser.getInventory());
+                List<Item> currentUserInventory = im.convertIdsToItems(currentTradingUser.getInventory()); // this is making a list of all null items right now (with the right size)
                 List<String> ItemOptions = ump.constructInventoryItemsList(currentUserInventory);
                 int itemChosen = ump.handleOptionsByIndex(ItemOptions, true, "Inventory Items");
                 if (itemChosen == ItemOptions.size()) {
@@ -234,6 +234,10 @@ public class UserMenuController{
                     String item = ItemOptions.get(itemChosen);
                     System.out.println(ump.itemOptionList());
                     int optionChosen = ump.handleOptionsByIndex(ump.itemOptionList(), true, "Inventory Menu");
+                    if (optionChosen == ump.itemOptionList().size()) {
+                        System.out.println(ump.previousMenu);
+                        userInteracting = false;
+                    }
                     if(ump.indexToOption(optionChosen, ump.itemOptionList(), ump.removeItem)){
                         try {
                             Item whichItem = im.getItem(currentTradingUser.getWishlist().get(itemChosen));

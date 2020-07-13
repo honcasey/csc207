@@ -139,6 +139,7 @@ public class TradingSystem {
         serializer.writeAccountsToFile(flaggedAccountsFilePath, tradingUserManager.getFlaggedAccounts());
         serializer.writeAccountsToFile(frozenAccountsFilePath, tradingUserManager.getFrozenAccounts());
         serializer.writeTransactionsToFile(transactionsFilePath, currentTransactionManager.getAllTransactions());
+        serializer.writeItemsMapToFile(itemMapFilePath, itemManager.getAllItems());
     }
 
     /**

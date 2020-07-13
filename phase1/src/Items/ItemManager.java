@@ -12,6 +12,8 @@ public class ItemManager {
         this.allItems = items;
     }
 
+    public Map<UUID, Item> getAllItems() { return allItems; }
+
     public void addItem (Item item){
         allItems.put(item.getId(), item);
     }
