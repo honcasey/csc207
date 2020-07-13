@@ -34,7 +34,8 @@ public class TransactionHistory implements Serializable {
     public List<UUID> mostRecentOneWayTransactions(){ //TH manager
         if (oneWayTransactions.size() <= 3) {
            return oneWayTransactions;
-        } return oneWayTransactions.subList(oneWayTransactions.size() - 3, twoWayTransactions.size());
+        }
+        return oneWayTransactions.subList(oneWayTransactions.size() - 3, oneWayTransactions.size());
     }
 
     /**
@@ -50,9 +51,7 @@ public class TransactionHistory implements Serializable {
     /**
      * @return the usernames of the Users.TradingUser's top three trading partners
      */
-    public List<String> mostTradedWithUsers(){
-        Map<String, Integer> temp = (HashMap<String, Integer>) usersNumTradeTimes.clone();
-        List<Map.Entry<String, Integer>> mostTradedWith = new ArrayList<>();
+    public List<String> mostTradedWithUsers()  {
         List<String> mostTradedWithUsernames = new ArrayList<>();
         if(usersNumTradeTimes.size() <= 3){
             Set<String> users = usersNumTradeTimes.keySet();
@@ -61,12 +60,16 @@ public class TransactionHistory implements Serializable {
         int j = 0;
         while(j < 3){
             Map.Entry<String, Integer> maxUser = null;
-            for(Map.Entry<String, Integer> entry: temp.entrySet()){
-                if(maxUser == null || entry.getValue() >= maxUser.getValue()){
-                    maxUser = entry; } }
-            mostTradedWith.add(maxUser);
-            temp.remove(maxUser.getKey());
-            j ++; } return mostTradedWithUsernames;
+            for (Map.Entry<String, Integer> entry : usersNumTradeTimes.entrySet()) {
+                if (maxUser == null || entry.getValue() >= maxUser.getValue()) {
+                    maxUser = entry;
+                    if(!mostTradedWithUsernames.contains(maxUser.getKey())){
+                        mostTradedWithUsernames.add(maxUser.getKey());
+                    }
+                }
+                j++;
+            }
+            }return mostTradedWithUsernames;
     }
 
     /**
