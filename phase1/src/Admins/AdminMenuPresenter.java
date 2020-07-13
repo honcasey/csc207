@@ -8,24 +8,23 @@ import Presenters.MenuPresenter;
 public class AdminMenuPresenter extends MenuPresenter {
 
     // option strings
-    public String checkPendingItems = "Check Pending Items for Approval";
-    public String checkFlaggedUsers = "Check Flagged Users";
-    public String createNewAdmin = "Create New Admin User";
-    public String addItem = "Add New Item to a TradingUser's Wishlist/Inventory";
-    public String changeThreshold = "Change TradingUser Threshold";
-    public String checkUnfreezeAccounts = "Check Unfreeze TradingUser Account Requests";
+    protected String checkPendingItems = "Check Pending Items for Approval";
+    protected String checkFlaggedUsers = "Check Flagged Users";
+    protected String createNewAdmin = "Create New Admin User";
+    protected String addItem = "Add New Item to a TradingUser's Wishlist/Inventory";
+    protected String changeThreshold = "Change TradingUser Threshold";
+    protected String checkUnfreezeAccounts = "Check Unfreeze TradingUser Account Requests";
 
-    public String addToWishlist = "Add Item to Wishlist";
-    public String addToInventory = "Add Item to Inventory";
-    public String freezeAccount = "Freeze Account.";
-    public String unfreezeAccount = "Unfreeze Account.";
-    public String nextUser = "Go to next TradingUser.";
+    protected String addToWishlist = "Add Item to Wishlist";
+    protected String addToInventory = "Add Item to Inventory";
+    protected String freezeAccount = "Freeze Account.";
+    protected String unfreezeAccount = "Unfreeze Account.";
+    protected String nextUser = "Go to next TradingUser.";
 
-    public String approveItem = "Approve item for TradingUser's inventory.";
-    public String declineItem = "Decline item.";
-    public String nextItem = "Go to next item.";
+    protected String approveItem = "Approve item for TradingUser's inventory.";
+    protected String declineItem = "Decline item.";
 
-    public String permissionDenied = "Permission denied, only the first admin can create new administrative user accounts.";
+    protected String permissionDenied = "Permission denied, only the first admin can create new administrative user accounts.";
 
     public List<String> constructMainMenu() {
         List<String> AdminMenuOptions = new ArrayList<>();

@@ -13,10 +13,17 @@ public abstract class MenuPresenter {
     public String borrowThresholdDescription = "minimum number of times that this user must lend something before they can borrow/trade";
     public String weeklyThresholdDescription = "maximum number of transactions that this user can participate in a week";
     public String incompleteThresholdDescription = "maximum number of incomplete transactions before this user's account is frozen";
+
     public String previousMenu = "Loading Previous Menu";
     private String optionPrompt = "Please type a number corresponding to one of the above options.";
     private String invalidOption = "Not a valid option. Please enter a valid option.";
     public String logout = "Log out";
+    public String itemDescription = "What is the description of this item?";
+    public String successfulLogout = "You have successfully logged out.";
+    public String usernameInvalid = "Username does not exist.";
+    public String usernameTaken = "Username already taken. Please enter a different one.";
+    protected String nextItem = "Go to next item.";
+
 
     /**
      * Formats and displays a list of options to the user.
@@ -58,13 +65,12 @@ public abstract class MenuPresenter {
         return(this.selectOption(OptionList));
     }
 
-
     /**
      * Safely getting input from user inspired by:
      * https://stackoverflow.com/questions/13215639/asking-user-for-another-prompt-after-wrong-input-in-java
      * Answer by Mordechai
-     * @param OptionList
-     * @return
+     * @param OptionList list of options
+     * @return which option is selected
      */
     private String selectOption(List<String> OptionList){
         Scanner scanner = new Scanner(System.in);
@@ -223,15 +229,9 @@ public abstract class MenuPresenter {
         return "Valid options include: " + optionList.toString();
     }
 
-    public String usernameTaken() { return "Username already taken. Please enter a different one."; }
-
-    public String usernameInvalid() { return "Username does not exist."; }
-
     public String accountFrozen(String who, String frozen) { // possibly move back to adminmenupresenter
         return who + "'s account has been set to " + frozen;
     }
-
-    public String successfulLogout() { return "You have successfully logged out."; }
 
 
 }

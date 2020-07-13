@@ -45,7 +45,7 @@ public class UserMenuController{
             if (ump.indexToOption(input, menu, ump.requestItem)){
                 requestAddItem();
             } else if (ump.indexToOption(input, menu, ump.browseAvailableItems)) {
-                DisplayAvailableItems();
+                displayAvailableItems();
             } else if (ump.indexToOption(input, menu, ump.viewActiveTransactions)) {
                 getActiveTransactions();
             } else if (ump.indexToOption(input, menu, ump.viewPastTransactionDetails)) {
@@ -57,7 +57,7 @@ public class UserMenuController{
             } else if (ump.indexToOption(input, menu, ump.requestUnfreeze)) {
                 requestUnfreezeAccount();
             } else if (ump.indexToOption(input, menu, ump.logout)) {
-                System.out.println(ump.successfulLogout());
+                System.out.println(ump.successfulLogout);
                 userInteracting = false;
             }
         }
@@ -70,12 +70,12 @@ public class UserMenuController{
         Scanner scanner = new Scanner(System.in);
         System.out.println(ump.enterName("Item"));
         String itemName = scanner.nextLine();
-        System.out.println("What is the description of this item?");
+        System.out.println(ump.itemDescription);
         String itemDescription = scanner.nextLine();
         Item requestedItem = new Item(itemName);
         requestedItem.setDescription(itemDescription);
         allPendingItems.put(requestedItem, currentTradingUser);
-        System.out.println("Items has been requested and is now being reviewed by the administrators.");
+        System.out.println(ump.itemRequested);
     }
 
     /**
@@ -86,13 +86,13 @@ public class UserMenuController{
      * 4) if the account is not frozen but it breaches threshold criteria of system after the transaction, then
      * append the user to the admin's list of people that they can freeze.
      */
-    private void DisplayAvailableItems(){
+    private void displayAvailableItems(){
         boolean userInteracting = true;
         while(userInteracting){
             HashMap<Item, TradingUser> availableItems  = getAvailableItems();
             List<Item> itemList = new ArrayList<>(availableItems.keySet());
             if (itemList.isEmpty()) {
-                ump.empty("The Available Items");
+                ump.empty("Available Items");
                 break;
             }
 
@@ -105,15 +105,14 @@ public class UserMenuController{
             }
             else{
                 if(currentTradingUser.isFrozen()){
-                    System.out.println("Your account is frozen so you cannot make an offer for this item. Please request" +
-                        "to have your account unfrozen.");
+                    System.out.println(ump.accountFrozen(true) + ump.requestAccountUnfreeze);
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
                 }
                 else {
                     Item transactionItem = itemList.get(OptionChosen);
                     TradingUser transactionItemOwner = availableItems.get(transactionItem);
-                    userInteracting = CreateTransactionMenu(transactionItem,transactionItemOwner);
+                    userInteracting = createTransactionMenu(transactionItem,transactionItemOwner);
                     if(this.thresholdsExceeded()){
                         am.getPendingFrozenTradingUsers().add(currentTradingUser);
                     }
@@ -131,38 +130,32 @@ public class UserMenuController{
      * @return this method returns a true if the user wants to make another offer for an item and returns
      * false if the user wants to head back to the main menu.
      */
-    private boolean CreateTransactionMenu(Item item, TradingUser Owner) {
-        System.out.println("Transactions Menu");
-        System.out.println("----------------");
-        System.out.println("You need to schedule a meeting time with the other user.");
-        Meeting FirstMeeting = MeetingDetailsMenu("Meeting Details");
-        if (!ump.handleYesNo("Would you like this transaction to be Permanent?")){
-            System.out.println("You need to schedule a second meeting to reverse the transaction.");
-            Meeting SecondMeeting = MeetingDetailsMenu("Second Meeting Details");
-            if (ump.handleYesNo("Would you like to offer one of your items?")){
+    private boolean createTransactionMenu(Item item, TradingUser Owner) {
+        System.out.println(ump.scheduleMeeting);
+        Meeting FirstMeeting = meetingDetailsMenu("First");
+        if (!ump.handleYesNo(ump.whatTypeOfTransaction("permanent"))){
+            System.out.println(ump.scheduleSecondMeeting);
+            Meeting SecondMeeting = meetingDetailsMenu("Second");
+            if (ump.handleYesNo(ump.offerItem)){
                 List<Item> currentUserInventory = im.convertIdsToItems(currentTradingUser.getInventory());
                 List<String> ItemOptions = ump.constructInventoryItemsList(currentUserInventory);
-                int OptionChosen = ump.handleOptionsByIndex(ItemOptions,false,
-                        "Available Inventory");
+                int OptionChosen = ump.handleOptionsByIndex(ItemOptions,false, "Available Inventory");
                 Item ChosenItem = currentUserInventory.get(OptionChosen);
 
-                Transaction newTransaction = this.tm.createTransaction(currentTradingUser.getUserId(),
-                        Owner.getUserId(),ChosenItem.getId(),
-                        item.getId(),FirstMeeting,SecondMeeting);
+                Transaction newTransaction = tm.createTransaction(currentTradingUser.getUserId(),
+                        Owner.getUserId(), ChosenItem.getId(), item.getId(),FirstMeeting,SecondMeeting);
                 updateUsersCurrentTransactions(currentTradingUser,Owner,newTransaction);
             } else {
-                Transaction newTransaction = this.tm.createTransaction(currentTradingUser.getUserId(),
-                        Owner.getUserId(),
-                        item.getId(),FirstMeeting,SecondMeeting);
+                Transaction newTransaction = tm.createTransaction(currentTradingUser.getUserId(),
+                        Owner.getUserId(), item.getId(),FirstMeeting,SecondMeeting);
                 updateUsersCurrentTransactions(currentTradingUser,Owner,newTransaction);
             }
         } else {
-            Transaction newTransaction = this.tm.createTransaction(currentTradingUser.getUserId(),
-                    Owner.getUserId(),
-                    item.getId(),FirstMeeting);
+            Transaction newTransaction = tm.createTransaction(currentTradingUser.getUserId(),
+                    Owner.getUserId(), item.getId(),FirstMeeting);
             updateUsersCurrentTransactions(currentTradingUser,Owner,newTransaction);
         }
-        return(!ump.handleYesNo("Would you like to make another transaction?"));
+        return(!ump.handleYesNo(ump.makeTransaction));
     }
 
     /**
@@ -179,15 +172,14 @@ public class UserMenuController{
         user2.getCurrentTransactions().add(newTransaction.getId());
     }
 
-
     /**
      * This method walks the user through the details required for a meeting, then constructs a meeting.
-     * @param MeetingTitle The first thing that will be displayed "Second Transactions.Meeting Details"/"First Transactions.Meeting Details"
+     * @param meetingTitle The first thing that will be displayed "Second Transactions.Meeting Details"/"First Transactions.Meeting Details"
      */
-    private Meeting MeetingDetailsMenu(String MeetingTitle){
+    private Meeting meetingDetailsMenu(String meetingTitle){
         Scanner scanner = new Scanner(System.in);
-        System.out.println(MeetingTitle);
-        System.out.println("Where do you want to have the meeting?");
+        System.out.println(meetingTitle + "Meeting Details");
+        System.out.println(ump.meetingLocation);
         String MeetingLocation = scanner.nextLine();
         LocalTime MeetingTime = ump.inputTimeGetter(ump.enterWhatInFormat("time", "HH:mm:ss"));
         LocalDate MeetingDate = ump.inputDateGetter(ump.enterWhatInFormat("date", "dd-mm-yyyy"));
@@ -230,7 +222,6 @@ public class UserMenuController{
         while (userInteracting) {
             if (currentTradingUser.getInventory().size() == 0) {
                 System.out.println(ump.empty("Inventory"));
-                ump.empty("Inventory");
                 userInteracting = false;
             } else {
                 List<Item> currentUserInventory = im.convertIdsToItems(currentTradingUser.getInventory());
@@ -261,9 +252,9 @@ public class UserMenuController{
         if (currentTradingUser.isFrozen()) {
             am.getPendingFrozenTradingUsers().add(currentTradingUser);
             am.getFrozenAccounts().remove(currentTradingUser);
-            System.out.println("You have successfully requested for your account to be unfrozen.");
+            System.out.println(ump.requestedUnfreeze);
         } else {
-            System.out.println("Your account is not frozen.");
+            System.out.println(ump.accountFrozen(false));
         }
     }
 
@@ -306,7 +297,6 @@ public class UserMenuController{
             List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
             if (currentTransactionsIds.size() == 0) {
                 System.out.println(ump.empty("Current Transactions"));
-                userInteracting = false;
             } else {
                 List<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
                 List<String> optionList = ump.constructTransactionList(currTransactionsList);
@@ -314,24 +304,20 @@ public class UserMenuController{
                 int OptionChosen = ump.handleOptionsByIndex(optionList, true, currTransactionsTitle
                 );
                 // Logic handling back to other menu vs. Editing a meeting vs changing the StatusUser of a Transaction.
-                if (OptionChosen == optionList.size()) {
-                    System.out.println(ump.previousMenu);
-                    userInteracting = false;
-                } else {
+                if (OptionChosen != optionList.size()) {
                     Transaction transaction = currTransactionsList.get(OptionChosen);
                     ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
-                    String transactionActionPrompt = "This is the list of actions that you can do with your transaction";
-                    int optionChosen2 = ump.handleOptionsByIndex(transactionActions, true, transactionActionPrompt);
+                    int optionChosen2 = ump.handleOptionsByIndex(transactionActions, true, ump.transactionActions);
                     if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) {
                         tm.updateStatus(transaction);
                         um.addToTransactionHistory(currentTradingUser, transaction);
                     } else {
                         editMeeting(currentTradingUser, transaction);
                     }
-                    System.out.println(ump.previousMenu);
-                    userInteracting = false;
                 }
+                System.out.println(ump.previousMenu);
             }
+            userInteracting = false;
         }
     }
 
@@ -355,60 +341,56 @@ public class UserMenuController{
     private void editMeeting(TradingUser currentTradingUser, Transaction transaction) {
         boolean userInteracting = true;
         UUID user = currentTradingUser.getUserId();
-        int meetingNum = 1;
 
         while (userInteracting) {
-            if (!tm.transactionHasMultipleMeetings(transaction)){
-                meetingNum = pickMeetingToEdit();}
+            if (!tm.transactionHasMultipleMeetings(transaction)) {
+                int meetingNum = ump.handleOptionsByIndex(ump.constructWhichMeetingList(), true,
+                        "Transaction with two meetings") + 1;
 
-            Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
-            System.out.println("This is the meeting you wish to edit " + meeting.toString());
-            List<String> options = ump.constructEditMeetingOptions();
-            int OptionChosen = ump.handleOptionsByIndex(options, true, "Meeting Options");
-            // Logic handling back to other menu vs. Editing a meeting
-            if (OptionChosen == options.size()) {
-                System.out.println("Loading Previous Menu");
-                userInteracting = false;
-            } else {
-                switch (OptionChosen) {
-                    case 0:
-                      editMeetingLocationFlow(user,transaction,meetingNum);
-                        break;
-                    case 1:
-                       editMeetingTimeFlow(user,transaction,meetingNum);
-                        break;
-                    default:
-                        editMeetingDateFlow(user,transaction,meetingNum);
+                Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
+                System.out.println("This is the meeting you wish to edit " + meeting.toString());
+                List<String> options = ump.constructEditMeetingOptions();
+                int OptionChosen = ump.handleOptionsByIndex(options, true, "Meeting Options");
+                // Logic handling back to other menu vs. Editing a meeting
+                if (OptionChosen == options.size()) {
+                    System.out.println(ump.previousMenu);
+                    userInteracting = false;
+                } else {
+                    switch (OptionChosen) {
+                        case 0:
+                            editMeetingFlow(user, transaction, meetingNum, "location");
+                            break;
+                        case 1:
+                            editMeetingFlow(user, transaction, meetingNum, "time");
+                            break;
+                        default:
+                            editMeetingFlow(user, transaction, meetingNum, "date");
+                    }
                 }
             }
         }
     }
 
-    private void editMeetingLocationFlow(UUID user, Transaction transaction,int meetingNum){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Where do you want to have the meeting?");
-        String MeetingLocation = scanner.nextLine();
-        tm.editMeeting(meetingNum, transaction, user, MeetingLocation);
-        System.out.println(ump.successfullyEditedMeeting(MeetingLocation));
-    }
-
-    private void editMeetingTimeFlow(UUID user, Transaction transaction,int meetingNum){
-        LocalTime MeetingTime = ump.inputTimeGetter(ump.enterWhatInFormat("time","HH:mm:ss"));
-        tm.editMeeting(meetingNum, transaction, user, MeetingTime);
-        System.out.println(ump.successfullyEditedMeeting(MeetingTime.toString()));
-    }
-
-    private void editMeetingDateFlow(UUID user, Transaction transaction,int meetingNum){
-        LocalDate MeetingDate = ump.inputDateGetter(ump.enterWhatInFormat("date", "dd-mm-yyyy"));
-        tm.editMeeting(meetingNum, transaction, user, MeetingDate);
-        System.out.println(ump.successfullyEditedMeeting(MeetingDate.toString()));
-    }
-
-    private int pickMeetingToEdit(){
-        List<String> meetNum = new ArrayList<String>(Arrays.asList("Edit first meeting", "Edit second meeting"));
-        String meetNumTitle = "This transaction has two meetings";
-        int num = ump.handleOptionsByIndex(meetNum, true, meetNumTitle);
-        return num + 1; //this is because we can either have meeting one or meeting two but index of list starts from 0
+    private void editMeetingFlow(UUID user, Transaction transaction, int meetingNum, String which) {
+        switch (which) {
+            case "location":
+                Scanner scanner = new Scanner(System.in);
+                System.out.println(ump.enterLocation);
+                String MeetingLocation = scanner.nextLine();
+                tm.editMeeting(meetingNum, transaction, user, MeetingLocation);
+                System.out.println(ump.successfullyEditedMeeting(MeetingLocation));
+                break;
+            case "time":
+                LocalTime MeetingTime = ump.inputTimeGetter(ump.enterWhatInFormat("time", "hh:mm:ss"));
+                tm.editMeeting(meetingNum, transaction, user, MeetingTime);
+                System.out.println(ump.successfullyEditedMeeting(MeetingTime.toString()));
+                break;
+            case "date":
+                LocalDate MeetingDate = ump.inputDateGetter(ump.enterWhatInFormat("date", "dd-mm-yyyy"));
+                tm.editMeeting(meetingNum, transaction, user, MeetingDate);
+                System.out.println(ump.successfullyEditedMeeting(MeetingDate.toString()));
+                break;
+        }
     }
 
     private boolean thresholdsExceeded(){

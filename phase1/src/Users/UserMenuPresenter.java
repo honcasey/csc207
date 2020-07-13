@@ -25,7 +25,6 @@ public class UserMenuPresenter extends MenuPresenter {
 
     //option strings
     protected String removeItem = "Remove item.";
-    protected String nextItem = "Go to next item.";
     protected String requestItem = "Request Items for Approval";
     protected String browseAvailableItems = "Browse Available Items for Trade";
     protected String viewActiveTransactions = "View Active Transactions";
@@ -33,10 +32,19 @@ public class UserMenuPresenter extends MenuPresenter {
     protected String viewWishlist = "View Wishlist";
     protected String viewInventory = "View Inventory";
     protected String requestUnfreeze = "Request Admin to Unfreeze Account";
-    protected String logout = "Log out";
     protected String ViewRecentThreeOneWay = "View 3 most recent one way past transactions.";
-    protected String ViewRecentThreeTwoWay = "View 3 most recent two way past transactions.";
+    protected String ViewRecentThreeTwoWay = "View 3 most recent two way past transactions."; // TO-DO: these 3 things could be combined into one method
     protected String ViewThreeMostTraded = "View 3 most frequent trading partners.";
+    protected String itemRequested = "Items has been requested and is now being reviewed by the administrators.";
+    protected String requestAccountUnfreeze = "You cannot make an offer for this item. Please request to have your account unfrozen.";
+    protected String scheduleMeeting = "Transactions Menu \nYou need to schedule a meeting time with the other user.";
+    protected String scheduleSecondMeeting = "You need to schedule a second meeting to reverse the transaction."; // what did you mean by "reverse" the transaction?
+    protected String offerItem = "Would you like to offer one of your items?";
+    protected String makeTransaction = "Would you like to make another transaction?";
+    protected String meetingLocation = "Where do you want to have the meeting?";
+    protected String requestedUnfreeze = "You have successfully requested for your account to be unfrozen.";
+    protected String transactionActions = "List of actions that you can do with your transaction:";
+    protected String enterLocation = "Where do you want to have the meeting?";
 
     /**
      * Construct methods like this return a list of options/prompts that the menu will have.
@@ -45,9 +53,6 @@ public class UserMenuPresenter extends MenuPresenter {
      * the program.
      * @return this returns a list of options that the user can choose from.
      */
-    // THIS METHOD NEEDS TO CONTINUE TO BE FINISHED.
-
-    //NEED TO DEAL WITH HAVING VARIABLES FOR ALL THE STRING CONSTANTS SOME WAY
     public List<String> constructMainMenu(){
         List<String> MenuOptionList = new ArrayList<>();
         MenuOptionList.add(requestItem);
@@ -75,14 +80,10 @@ public class UserMenuPresenter extends MenuPresenter {
      * @return this returns the list of options that the user can choose from.
      */
     public List<String> constructAvailableItemsMenu(List<Item> ItemList){
-        System.out.println("Available Items for Trade:");
-        String ItemOutputName = " Item Name: ";
-        String ItemOutputDescription = " |  Item Description: ";
         // Making Option List
-
         List<String> AvailableItemOptionList = new ArrayList<>();
         for (Item item : ItemList) {
-            AvailableItemOptionList.add(ItemOutputName + item.getName() + ItemOutputDescription + item.getDescription());
+            AvailableItemOptionList.add(" Item Name: " + item.getName() + " |  Item Description: " + item.getDescription());
         }
         return(AvailableItemOptionList);
     }
@@ -140,4 +141,19 @@ public class UserMenuPresenter extends MenuPresenter {
         return "You have successfully edited your meeting to be at " + what;
     }
 
+    public String whatTypeOfTransaction(String transactionType) {
+        return "Would you like this transaction to be " + transactionType + " ?";
+    }
+
+    public String accountFrozen(boolean frozen) {
+        if (frozen) { return "Your account is frozen."; }
+        else { return "You account is not frozen"; }
+    }
+
+    public List<String> constructWhichMeetingList() {
+        List<String> optionList = new ArrayList<>();
+        optionList.add("Edit first meeting");
+        optionList.add("Edit second meeting");
+        return optionList;
+    }
 }

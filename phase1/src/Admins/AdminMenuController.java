@@ -46,13 +46,13 @@ public class AdminMenuController {
             if (amp.indexToOption(input, menu, amp.checkUnfreezeAccounts)) {
                 checkUsers("pendingFrozenUsers"); }
             if (amp.indexToOption(input, menu, amp.logout)) {
-                System.out.println(amp.successfulLogout());
+                System.out.println(amp.successfulLogout);
                 userInteracting = false; // stop the while loop
             }
         }
     }
 
-    private void approveInventory(TradingUser tradingUser, Item item, boolean approved) { // helper method for checkPendingItems
+    private void approveInventory(TradingUser tradingUser, Item item, boolean approved) { // can be removed?
         if (approved) { um.addItem(tradingUser, item, "inventory");
         im.addItem(item);
         allPendingItems.remove(item);
@@ -70,7 +70,7 @@ public class AdminMenuController {
             }
             else {
                 Iterator<Item> itemIterator = allPendingItems.keySet().iterator();
-                ArrayList<Item> keysToDelete = new ArrayList<Item>();
+                ArrayList<Item> keysToDelete = new ArrayList<>();
 
                 while (itemIterator.hasNext()) {
                     Item curr = itemIterator.next();
@@ -118,7 +118,7 @@ public class AdminMenuController {
                 am.addAdmin(username, password);
                 System.out.println(amp.successfullyCreated("New Admin TradingUser " + username));
             } catch (InvalidAdminException e) {
-                System.out.println(amp.usernameTaken());
+                System.out.println(amp.usernameTaken);
             }
         } else {
             System.out.println(amp.permissionDenied);
@@ -130,7 +130,7 @@ public class AdminMenuController {
         Scanner scanner = new Scanner(System.in);
         System.out.println(amp.enterName("new Item"));
         String itemName = scanner.nextLine();
-        Item newItem = new Item(itemName);
+        Item newItem = new Item(itemName); // TO-DO: prompt admin to enter a description for this item
         System.out.println(amp.enterName("TradingUser"));
         String username = scanner.nextLine();
         int optionChosen = amp.handleOptionsByIndex(amp.constructAddToListMenu(), true,
@@ -155,7 +155,7 @@ public class AdminMenuController {
                 }
                 else { System.out.println(amp.validOptions(amp.constructUserLists()));}
             } catch(InvalidTradingUserException e) {
-                System.err.println(amp.usernameInvalid());
+                System.err.println(amp.usernameInvalid);
                 userInteracting = false;
             }
         }
@@ -199,7 +199,7 @@ public class AdminMenuController {
                     break;
             }
         } catch(InvalidTradingUserException e) {
-            System.err.print(amp.usernameInvalid());
+            System.err.print(amp.usernameInvalid);
         }
     }
 
