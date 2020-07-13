@@ -140,14 +140,14 @@ public class UserMenuController{
 
         if(permBool & oneWayBool){
             Transaction newTransaction = tm.createTransaction(
-                    Owner.getUserId(),currentTradingUser.getUserId(), item.getId(),FirstMeeting);
+                    Owner.getUserId(),currentTradingUser.getUserId(), item, FirstMeeting);
             updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
         }
         else if(permBool & !oneWayBool){
             System.out.println("Please select one of the items from your inventory that you want to offer:");
             Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
             Transaction newTransaction = tm.createTransaction(
-                    Owner.getUserId(),currentTradingUser.getUserId(), item.getId(),ChosenItem.getId(),FirstMeeting);
+                    Owner.getUserId(),currentTradingUser.getUserId(), item, ChosenItem, FirstMeeting);
             updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
             availableItems.remove(ChosenItem);
         }
@@ -155,7 +155,7 @@ public class UserMenuController{
         else if(!permBool & oneWayBool){
             Meeting SecondMeeting = meetingDetailsMenu("Second");
             Transaction newTransaction = tm.createTransaction(
-                    Owner.getUserId(),currentTradingUser.getUserId(), item.getId(),FirstMeeting,SecondMeeting);
+                    Owner.getUserId(),currentTradingUser.getUserId(), item,FirstMeeting,SecondMeeting);
             updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
         }
         else{
@@ -163,7 +163,7 @@ public class UserMenuController{
             Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
             Meeting SecondMeeting = meetingDetailsMenu("Second");
             Transaction newTransaction = tm.createTransaction(Owner.getUserId(),
-                    currentTradingUser.getUserId(), item.getId(),ChosenItem.getId(),FirstMeeting,SecondMeeting);
+                    currentTradingUser.getUserId(), item, ChosenItem,FirstMeeting,SecondMeeting);
             updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
             availableItems.remove(ChosenItem);
         }

@@ -1,5 +1,6 @@
 package Transactions;
 
+import Items.Item;
 import Users.TradingUser;
 
 import java.time.LocalTime;
@@ -25,9 +26,9 @@ public class CurrentTransactionManager extends TransactionManager{
      * @param meeting1 the first meeting location that the users will meet at to exchange items.
      * @param meeting2 the second meeting location that the users will meet at to exchange items.
      */
-    public Transaction createTransaction(UUID user1, UUID user2, UUID item1, Meeting meeting1,
-                                         Meeting meeting2, String item1Name) {
-        Transaction transaction = new TransactionOneWayTemp(user1, user2, item1, meeting1, meeting2, item1Name);
+    public Transaction createTransaction(UUID user1, UUID user2, Item item1, Meeting meeting1,
+                                         Meeting meeting2) {
+        Transaction transaction = new TransactionOneWayTemp(user1, user2, item1.getId(), meeting1, meeting2, item1.getName());
         UUID id = transaction.getId();
         super.getAllTransactions().put(id, transaction);
         return transaction;
@@ -41,9 +42,9 @@ public class CurrentTransactionManager extends TransactionManager{
      * @param item1 the item that user2 wants to borrow.
      * @param meeting1 the first meeting location that the users will meet at to exchange items.
      */
-    public Transaction createTransaction(UUID user1, UUID user2, UUID item1,
-                                               Meeting meeting1, String item1Name){
-        Transaction transaction = new TransactionOneWayPerm(user1, user2, item1, meeting1, item1Name);
+    public Transaction createTransaction(UUID user1, UUID user2, Item item1,
+                                               Meeting meeting1){
+        Transaction transaction = new TransactionOneWayPerm(user1, user2, item1.getId(), meeting1, item1.getName());
         UUID id = transaction.getId();
         super.getAllTransactions().put(id, transaction);
         return transaction;
@@ -59,10 +60,11 @@ public class CurrentTransactionManager extends TransactionManager{
      * @param meeting2 the second meeting location that the users will meet at to exchange items.
      */
 
-    public Transaction createTransaction(UUID user1, UUID user2, UUID item1, UUID item2,
-                                         Meeting meeting1, Meeting meeting2, String item1Name, String item2Name) {
-        Transaction transaction = new TransactionTwoWayTemp(user1, user2, item1, item2, meeting1, meeting2, item1Name,
-                item2Name);
+    public Transaction createTransaction(UUID user1, UUID user2, Item item1, Item item2,
+                                         Meeting meeting1, Meeting meeting2) {
+        Transaction transaction = new TransactionTwoWayTemp(user1, user2, item1.getId(), item2.getId(), meeting1,
+                meeting2, item1.getName(),
+                item2.getName());
         UUID id = transaction.getId();
         super.getAllTransactions().put(id, transaction);
         return transaction;
@@ -77,10 +79,10 @@ public class CurrentTransactionManager extends TransactionManager{
      * @param meeting1 the first meeting location that the users will meet at to exchange items.
      */
 
-    public Transaction createTransaction(UUID user1, UUID user2, UUID item1, UUID item2,
-                                         Meeting meeting1, String item1Name, String item2Name) {
-            Transaction transaction = new TransactionTwoWayPerm(user1, user2, item1, item2, meeting1, item1Name,
-                    item2Name);
+    public Transaction createTransaction(UUID user1, UUID user2, Item item1, Item item2,
+                                         Meeting meeting1) {
+            Transaction transaction = new TransactionTwoWayPerm(user1, user2, item1.getId(), item2.getId(),
+                    meeting1, item1.getName(), item2.getName());
             UUID id = transaction.getId();
             super.getAllTransactions().put(id, transaction);
             return transaction;
