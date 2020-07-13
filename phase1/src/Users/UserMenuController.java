@@ -23,6 +23,7 @@ public class UserMenuController{
     private ItemManager im;
     private Map<Item, TradingUser> allPendingItems;
     private UserMenuPresenter ump = new UserMenuPresenter();
+    private HashMap<Item, TradingUser> availableItems;
 
     public UserMenuController(TradingUserManager tradingUserManager, AdminManager adminManager,
                               CurrentTransactionManager currentTransactionManager,
@@ -35,6 +36,7 @@ public class UserMenuController{
         tm = currentTransactionManager;
         ptm = pastTransactionManager;
         im = itemManager;
+        availableItems = getAvailableItems();
     }
 
     public void run() {
@@ -88,8 +90,7 @@ public class UserMenuController{
      */
     private void displayAvailableItems(){
         boolean userInteracting = true;
-        while(userInteracting){
-            HashMap<Item, TradingUser> availableItems  = getAvailableItems();
+        while(userInteracting) {
             List<Item> itemList = new ArrayList<>(availableItems.keySet());
             if (itemList.isEmpty()) {
                 System.out.println(ump.empty("Available Items"));
@@ -114,7 +115,7 @@ public class UserMenuController{
                     TradingUser transactionItemOwner = availableItems.get(transactionItem);
                     userInteracting = createTransactionMenu(transactionItem,transactionItemOwner);
                     if(this.thresholdsExceeded()){
-                        am.getPendingFrozenTradingUsers().add(currentTradingUser);
+                        am.getFlaggedAccounts().add(currentTradingUser);
                     }
                 }
             }
@@ -133,30 +134,50 @@ public class UserMenuController{
     private boolean createTransactionMenu(Item item, TradingUser Owner) {
         System.out.println(ump.scheduleMeeting);
         Meeting FirstMeeting = meetingDetailsMenu("First");
-        if (!ump.handleYesNo(ump.whatTypeOfTransaction("permanent"))){
-            System.out.println(ump.scheduleSecondMeeting);
-            Meeting SecondMeeting = meetingDetailsMenu("Second");
-            if (ump.handleYesNo(ump.offerItem)){
-                List<Item> currentUserInventory = im.convertIdsToItems(currentTradingUser.getInventory());
-                List<String> ItemOptions = ump.constructInventoryItemsList(currentUserInventory);
-                int OptionChosen = ump.handleOptionsByIndex(ItemOptions,false, "Available Inventory");
-                Item ChosenItem = currentUserInventory.get(OptionChosen);
 
-                Transaction newTransaction = tm.createTransaction(currentTradingUser.getUserId(),
-                        Owner.getUserId(), ChosenItem.getId(), item.getId(),FirstMeeting,SecondMeeting);
-                updateUsersCurrentTransactions(currentTradingUser,Owner,newTransaction);
-            } else {
-                Transaction newTransaction = tm.createTransaction(currentTradingUser.getUserId(),
-                        Owner.getUserId(), item.getId(),FirstMeeting,SecondMeeting);
-                updateUsersCurrentTransactions(currentTradingUser,Owner,newTransaction);
-            }
-        } else {
-            Transaction newTransaction = tm.createTransaction(currentTradingUser.getUserId(),
-                    Owner.getUserId(), item.getId(),FirstMeeting);
-            updateUsersCurrentTransactions(currentTradingUser,Owner,newTransaction);
+        boolean permBool = ump.handleYesNo(ump.whatTypeOfTransaction("permanent"));
+        boolean oneWayBool = !ump.handleYesNo(ump.offerItem);
+
+        if(permBool & oneWayBool){
+            Transaction newTransaction = tm.createTransaction(
+                    Owner.getUserId(),currentTradingUser.getUserId(), item, FirstMeeting);
+            updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
         }
-        return(!ump.handleYesNo(ump.makeTransaction));
+        else if(permBool & !oneWayBool){
+            System.out.println("Please select one of the items from your inventory that you want to offer:");
+            Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
+            Transaction newTransaction = tm.createTransaction(
+                    Owner.getUserId(),currentTradingUser.getUserId(), item, ChosenItem, FirstMeeting);
+            updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
+            availableItems.remove(ChosenItem);
+        }
+
+        else if(oneWayBool){   // note permBool must be false at this point: aka you're creating a temp Transaction
+            Meeting SecondMeeting = meetingDetailsMenu("Second");
+            Transaction newTransaction = tm.createTransaction(
+                    Owner.getUserId(),currentTradingUser.getUserId(), item,FirstMeeting,SecondMeeting);
+            updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
+        }
+        else{
+            System.out.println("Please select one of the items from your inventory that you want to offer:");
+            Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
+            Meeting SecondMeeting = meetingDetailsMenu("Second");
+            Transaction newTransaction = tm.createTransaction(Owner.getUserId(),
+                    currentTradingUser.getUserId(), item, ChosenItem,FirstMeeting,SecondMeeting);
+            updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
+            availableItems.remove(ChosenItem);
+        }
+        availableItems.remove(item);
+        return(ump.handleYesNo(ump.makeTransaction));
     }
+
+    private Item PickUserItemFlow(TradingUser CurrentUser){
+        List<Item> currentUserInventory = im.convertIdsToItems(CurrentUser.getInventory());
+        List<String> ItemOptions = ump.constructInventoryItemsList(currentUserInventory);
+        int OptionChosen = ump.handleOptionsByIndex(ItemOptions,false, "Available Inventory");
+        return currentUserInventory.get(OptionChosen);
+    }
+
 
     /**
      * This method is ONLY allowed to be used in the createTransactionMenu
@@ -306,20 +327,27 @@ public class UserMenuController{
                 String currTransactionsTitle = "Current Transactions:";
                 int OptionChosen = ump.handleOptionsByIndex(optionList, true, currTransactionsTitle);
                 // Logic handling back to other menu vs. Editing a meeting vs changing the StatusUser of a Transaction.
-                if (OptionChosen != optionList.size()) {
+                if(OptionChosen == optionList.size() - 1){
+                    System.out.println(ump.previousMenu);
+                    userInteracting = false;}
+                else if (OptionChosen != optionList.size()) {
                     Transaction transaction = currTransactionsList.get(OptionChosen);
                     ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
                     int optionChosen2 = ump.handleOptionsByIndex(transactionActions, true, ump.transactionActions);
-                    if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) {
-                        tm.updateStatus(transaction);
-                        um.addToTransactionHistory(currentTradingUser, transaction);
+                    if (optionChosen2 == transactionActions.size() - 1) {
+                        System.out.println(ump.previousMenu);
+                        userInteracting = false;
                     } else {
-                        editMeeting(currentTradingUser, transaction);
+                        if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) {
+                            tm.updateStatus(transaction);
+                            um.addToTransactionHistory(currentTradingUser, transaction);
+                        } else {
+                            editMeeting(currentTradingUser, transaction);
+                        }
                     }
                 }
                 System.out.println(ump.previousMenu);
             }
-            userInteracting = false;
         }
     }
 
@@ -327,7 +355,7 @@ public class UserMenuController{
      * Returns a HashMap of all the available items in other user's inventory.
      * @return HashMap of items that are available in other user's inventory.
      */
-    public HashMap<Item, TradingUser> getAvailableItems(){
+    private HashMap<Item, TradingUser> getAvailableItems(){
         List<TradingUser> allTradingUsers = um.getAllTradingUsers();
         HashMap<Item, TradingUser> availableItems = new HashMap<>();
         for (TradingUser tradingUser : allTradingUsers) {
@@ -431,6 +459,6 @@ public class UserMenuController{
     private boolean thresholdsExceeded(){
         boolean weeklyThreshold = ptm.weeklyThresholdExceeded(currentTradingUser);
         boolean TransactionsExceeded = um.incompleteTransactionExceeded(currentTradingUser);
-        return(weeklyThreshold||TransactionsExceeded);
+        return(weeklyThreshold || TransactionsExceeded);
     }
 }

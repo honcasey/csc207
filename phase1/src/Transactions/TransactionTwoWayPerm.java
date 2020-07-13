@@ -12,6 +12,7 @@ import java.util.UUID;
 public class TransactionTwoWayPerm extends Transaction {
     public UUID item1;
     public UUID item2;
+    private String item2Name;
 
     /**
      * Constructor for Transactions.TransactionTwoWayPerm class. This constructor initializes a 2 way permanent transaction with
@@ -21,10 +22,12 @@ public class TransactionTwoWayPerm extends Transaction {
      * @param Item2 the item possessed originally by User2
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionTwoWayPerm(UUID User1, UUID User2, UUID Item1, UUID Item2, Meeting firstMeeting){
-        super(User1,User2,firstMeeting);
+    public TransactionTwoWayPerm(UUID User1, UUID User2, UUID Item1, UUID Item2, Meeting firstMeeting,
+                                 String item1Name, String item2Name){
+        super(User1,User2,firstMeeting, item1Name);
         this.item1 = Item1;
         this.item2 = Item2;
+        this.item2Name = item2Name;
     }
 
 
@@ -72,9 +75,7 @@ public class TransactionTwoWayPerm extends Transaction {
     @Override
     public String toString(){
         String FirstMeetingString = this.getFirstMeeting().toString();
-        String Item1String = this.getItem1().toString();
-        String Item2String = this.getItem2().toString();
-        return("One way transaction to trade"+Item1String+" for " +Item2String +"Where the"+ FirstMeetingString +".");
+        return("One way transaction to trade "+ getItem1Name() +" for " + this.item2Name +". Where the "+ FirstMeetingString +".");
     }
     @Override
     public List<Meeting> getTransactionMeetings(){

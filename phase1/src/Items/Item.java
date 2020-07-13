@@ -17,7 +17,7 @@ public class Item implements Serializable {
      */
     public Item(String name) {
         this.name = name;
-        this.id= UUID.randomUUID();
+        this.id = UUID.randomUUID();
     }
 
     /**
@@ -26,7 +26,7 @@ public class Item implements Serializable {
      */
     @Override
     public String toString() {
-        return name;
+        return this.name;
     }
 
     /**
