@@ -207,6 +207,7 @@ public class AdminMenuController {
         boolean userInteracting = true;
         while (userInteracting) {
             if (listType.equals("pendingFrozenUsers")) {
+                List<TradingUser> stuffToRemove = new ArrayList<>();
                 if (am.getPendingFrozenTradingUsers().isEmpty()) {
                     System.out.println(amp.empty("Frozen TradingUser Requests"));
                     userInteracting = false;
@@ -218,33 +219,40 @@ public class AdminMenuController {
                             userInteracting = false;
                         } else if (amp.indexToOption(optionChosen, amp.constructPendingFrozenUsersMenu(), amp.unfreezeAccount)) {
                             um.unfreezeAccount(tradingUser);
-                            am.getPendingFrozenTradingUsers().remove(tradingUser);
+                            stuffToRemove.add(tradingUser);
                             System.out.println(amp.accountFrozen(tradingUser.toString(), tradingUser.getStatus()));
+                            userInteracting = false;
                         }
                     }
                 }
+                am.getPendingFrozenTradingUsers().removeAll(stuffToRemove);
             }
             if (listType.equals("flaggedUsers")) {
+                List<TradingUser> stuffToRemove = new ArrayList<>();
                 if (am.getFlaggedAccounts().isEmpty()) {
                     System.out.println(amp.empty("Flagged Users"));
                     userInteracting = false;
                 } else {
                     for (TradingUser tradingUser : am.getFlaggedAccounts()) {
+                        System.out.println(tradingUser.toString());
                         int optionChosen2 = amp.handleOptionsByIndex(amp.constructFlaggedUsersMenu(), true, "Check Flagged Users");
                         if (optionChosen2 == amp.constructFlaggedUsersMenu().size()) {
                             userInteracting = false;
                         } else if (amp.indexToOption(optionChosen2, amp.constructFlaggedUsersMenu(), amp.freezeAccount)) {
                             um.freezeAccount(tradingUser);
                             am.getFrozenAccounts().add(tradingUser);
-                            am.getFlaggedAccounts().remove(tradingUser);
+                            stuffToRemove.add(tradingUser);
                             System.out.println(amp.accountFrozen(tradingUser.toString(), tradingUser.getStatus()));
+                            userInteracting = false;
                         } else if (amp.indexToOption(optionChosen2, amp.constructFlaggedUsersMenu(), amp.unfreezeAccount)) {
                             um.unfreezeAccount(tradingUser);
-                            am.getFlaggedAccounts().remove(tradingUser);
+                            stuffToRemove.add(tradingUser);
                             System.out.println(amp.accountFrozen(tradingUser.toString(), tradingUser.getStatus()));
+                            userInteracting = false;
                         }
                     }
                 }
+                am.getFlaggedAccounts().removeAll(stuffToRemove);
             }
         }
     }
