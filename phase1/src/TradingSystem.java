@@ -103,27 +103,35 @@ public class TradingSystem {
         } else {
             // create a new file
             Serializer serializer = new Serializer();
-            if (filePath.equals(adminsFilePath)) {
-                List<AdminUser> list = new ArrayList<>();
-                serializer.writeAdminsToFile(filePath, list);
-            } else if (filePath.equals(usersFilePath)) {
-                List<TradingUser> list = new ArrayList<>();
-                serializer.writeUsersToFile(filePath ,list);
-            } else if (filePath.equals(requestedItemsFilePath)) {
-                HashMap<Item, TradingUser> map = new HashMap<>();
-                serializer.writeItemsToFile(filePath, map);
-            } else if (filePath.equals(flaggedAccountsFilePath)) {
-                List<TradingUser> tradingUsers = new ArrayList<>();
-                serializer.writeAccountsToFile(filePath, tradingUsers);
-            } else if (filePath.equals(frozenAccountsFilePath)) {
-                List<TradingUser> tradingUsers = new ArrayList<>();
-                serializer.writeAccountsToFile(filePath, tradingUsers);
-            } else if (filePath.equals(transactionsFilePath)) {
-                Map<UUID, Transaction> transactions = new HashMap<>();
-                serializer.writeTransactionsToFile(filePath, transactions);
-            } else if (filePath.equals(itemMapFilePath)) {
-                Map<UUID, Item> itemMap = new HashMap<>();
-                serializer.writeItemsMapToFile(filePath, itemMap);
+            switch (filePath) {
+                case adminsFilePath: {
+                    List<AdminUser> list = new ArrayList<>();
+                    serializer.writeAdminsToFile(filePath, list);
+                    break;
+                }
+                case usersFilePath: {
+                    List<TradingUser> list = new ArrayList<>();
+                    serializer.writeUsersToFile(filePath, list);
+                    break;
+                }
+                case requestedItemsFilePath:
+                    HashMap<Item, TradingUser> map = new HashMap<>();
+                    serializer.writeItemsToFile(filePath, map);
+                    break;
+                case flaggedAccountsFilePath:
+                case frozenAccountsFilePath: {
+                    List<TradingUser> tradingUsers = new ArrayList<>();
+                    serializer.writeAccountsToFile(filePath, tradingUsers);
+                    break;
+                }
+                case transactionsFilePath:
+                    Map<UUID, Transaction> transactions = new HashMap<>();
+                    serializer.writeTransactionsToFile(filePath, transactions);
+                    break;
+                case itemMapFilePath:
+                    Map<UUID, Item> itemMap = new HashMap<>();
+                    serializer.writeItemsMapToFile(filePath, itemMap);
+                    break;
             }
         }
     }
@@ -213,7 +221,6 @@ public class TradingSystem {
                 parseCredentials(getUserAndPass());
             }
         }
-
     }
 
     /**
