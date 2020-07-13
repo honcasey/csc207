@@ -68,7 +68,7 @@ public class TransactionOneWayPerm extends Transaction {
     public String toString(){
         String FirstMeetingString = this.getFirstMeeting().toString();
         String ItemString = this.getItem().toString();
-        return("One way transaction to trade"+ItemString+"Where the "+ FirstMeetingString +".");
+        return("One way transaction to trade "+ ItemString +" Where the "+ FirstMeetingString +".");
     }
     @Override
     public List<Meeting> getTransactionMeetings(){
