@@ -227,20 +227,18 @@ public class UserMenuController{
                 List<Item> currentUserInventory = im.convertIdsToItems(currentTradingUser.getInventory()); // this is making a list of all null items right now (with the right size)
                 List<String> ItemOptions = ump.constructInventoryItemsList(currentUserInventory);
                 int itemChosen = ump.handleOptionsByIndex(ItemOptions, true, "Inventory Items");
-                if (itemChosen == ItemOptions.size()) {
+                if (itemChosen == ItemOptions.size() - 1) { // checks if option chosen is "Go back."
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
                 } else {
                     String item = ItemOptions.get(itemChosen);
-                    System.out.println(ump.itemOptionList());
                     int optionChosen = ump.handleOptionsByIndex(ump.itemOptionList(), true, "Inventory Menu");
-                    if (optionChosen == ump.itemOptionList().size()) {
+                    if (optionChosen == ump.itemOptionList().size()) { // checks if option chosen is "Go back."
                         System.out.println(ump.previousMenu);
-                        userInteracting = false;
                     }
                     else if(ump.indexToOption(optionChosen, ump.itemOptionList(), ump.removeItem)){
                         try {
-                            Item whichItem = im.getItem(currentTradingUser.getWishlist().get(itemChosen));
+                            Item whichItem = im.getItem(currentTradingUser.getInventory().get(itemChosen));
                             um.removeItem(currentTradingUser, whichItem, "inventory");
                             System.out.println(ump.successfullyRemoved(item,"inventory"));
                         } catch (InvalidItemException e) {
