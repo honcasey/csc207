@@ -36,7 +36,7 @@ public class AdminMenuController {
             if (amp.indexToOption(input, menu, amp.checkPendingItems))
                 checkPendingItems();
             if (amp.indexToOption(input, menu, amp.checkFlaggedUsers))
-                checkUsers("flaggedUsers");
+                checkFlaggedUsers();
             if (amp.indexToOption(input, menu, amp.createNewAdmin))
                 createAdmin();
             if (amp.indexToOption(input, menu, amp.addItem))
@@ -44,7 +44,7 @@ public class AdminMenuController {
             if (amp.indexToOption(input, menu, amp.changeThreshold)) {
                 changeUserThreshold();}
             if (amp.indexToOption(input, menu, amp.checkUnfreezeAccounts)) {
-                checkUsers("pendingFrozenUsers"); }
+                checkFrozenUsers(); }
             if (amp.indexToOption(input, menu, amp.logout)) {
                 System.out.println(amp.successfulLogout);
                 userInteracting = false; // stop the while loop
@@ -203,56 +203,76 @@ public class AdminMenuController {
         }
     }
 
-    private void checkUsers(String listType){
+    private void checkFrozenUsers() {
         boolean userInteracting = true;
         while (userInteracting) {
-            if (listType.equals("pendingFrozenUsers")) {
-                List<TradingUser> stuffToRemove = new ArrayList<>();
-                if (am.getPendingFrozenTradingUsers().isEmpty()) {
-                    System.out.println(amp.empty("Frozen TradingUser Requests"));
-                    userInteracting = false;
-                } else {
-                    for (TradingUser tradingUser : am.getPendingFrozenTradingUsers()) {
-                        System.out.println(tradingUser.toString());
-                        int optionChosen = amp.handleOptionsByIndex(amp.constructPendingFrozenUsersMenu(), true, "Check Frozen Users");
-                        if (optionChosen == amp.constructPendingFrozenUsersMenu().size()) {
-                            userInteracting = false;
-                        } else if (amp.indexToOption(optionChosen, amp.constructPendingFrozenUsersMenu(), amp.unfreezeAccount)) {
-                            um.unfreezeAccount(tradingUser);
-                            stuffToRemove.add(tradingUser);
-                            System.out.println(amp.accountFrozen(tradingUser.toString(), tradingUser.getStatus()));
-                            userInteracting = false;
-                        }
-                    }
-                }
-                am.getPendingFrozenTradingUsers().removeAll(stuffToRemove);
+            if (am.getPendingFrozenTradingUsers().isEmpty()) {
+                System.out.println(amp.empty("Frozen TradingUser request."));
+                userInteracting = false;
             }
-            if (listType.equals("flaggedUsers")) {
-                List<TradingUser> stuffToRemove = new ArrayList<>();
-                if (am.getFlaggedAccounts().isEmpty()) {
-                    System.out.println(amp.empty("Flagged Users"));
-                    userInteracting = false;
-                } else {
-                    for (TradingUser tradingUser : am.getFlaggedAccounts()) {
-                        System.out.println(tradingUser.toString());
-                        int optionChosen2 = amp.handleOptionsByIndex(amp.constructFlaggedUsersMenu(), true, "Check Flagged Users");
-                        if (optionChosen2 == amp.constructFlaggedUsersMenu().size()) {
-                            userInteracting = false;
-                        } else if (amp.indexToOption(optionChosen2, amp.constructFlaggedUsersMenu(), amp.freezeAccount)) {
-                            um.freezeAccount(tradingUser);
-                            am.getFrozenAccounts().add(tradingUser);
-                            stuffToRemove.add(tradingUser);
-                            System.out.println(amp.accountFrozen(tradingUser.toString(), tradingUser.getStatus()));
-                            userInteracting = false;
-                        } else if (amp.indexToOption(optionChosen2, amp.constructFlaggedUsersMenu(), amp.unfreezeAccount)) {
-                            um.unfreezeAccount(tradingUser);
-                            stuffToRemove.add(tradingUser);
-                            System.out.println(amp.accountFrozen(tradingUser.toString(), tradingUser.getStatus()));
+            else {
+                Iterator<TradingUser> frozenUserIterator = am.getPendingFrozenTradingUsers().iterator();
+                ArrayList<TradingUser> usersToDelete = new ArrayList<>();
+
+                while (frozenUserIterator.hasNext()) {
+                    TradingUser curr = frozenUserIterator.next();
+                    System.out.println(amp.accountFrozen(curr.toString(), curr.getStatus()));
+                    int optionChosen = amp.handleOptionsByIndex(amp.constructPendingFrozenUsersMenu(), true, "Check Frozen Users");
+                    if (optionChosen == amp.constructPendingFrozenUsersMenu().size()) {
+                        System.out.println(amp.previousMenu);
+                        userInteracting = false;
+                    } else {
+                        // if an admin chooses to unfreeze
+                        if (amp.indexToOption(optionChosen, amp.constructPendingFrozenUsersMenu(), amp.unfreezeAccount)) {
+                            um.unfreezeAccount(curr);
+                            usersToDelete.add(curr);
+                            System.out.println(amp.accountFrozen(curr.toString(), curr.getStatus()));
                             userInteracting = false;
                         }
+                        // else it goes to the next user
                     }
                 }
-                am.getFlaggedAccounts().removeAll(stuffToRemove);
+                am.getPendingFrozenTradingUsers().removeAll(usersToDelete);
+            }
+        }
+    }
+
+    private void checkFlaggedUsers() {
+        boolean userInteracting = true;
+        while (userInteracting) {
+            if (am.getFlaggedAccounts().isEmpty()) {
+                System.out.println(amp.empty("Flagged Users."));
+                userInteracting = false;
+            }
+            else {
+                Iterator<TradingUser> flaggedUserIterator = am.getFlaggedAccounts().iterator();
+                ArrayList<TradingUser> usersToDelete = new ArrayList<>();
+
+                while (flaggedUserIterator.hasNext()) {
+                    TradingUser curr = flaggedUserIterator.next();
+                    System.out.println(amp.accountFrozen(curr.toString(), curr.getStatus()));
+                    int optionChosen = amp.handleOptionsByIndex(amp.constructFlaggedUsersMenu(), true, "Check Flagged Users");
+                    if (optionChosen == amp.constructFlaggedUsersMenu().size()) {
+                        System.out.println(amp.previousMenu);
+                        userInteracting = false;
+                    } else {
+                        // admin wants to freeze this account
+                        if (amp.indexToOption(optionChosen, amp.constructFlaggedUsersMenu(), amp.freezeAccount)) {
+                            um.freezeAccount(curr);
+                            am.getFrozenAccounts().add(curr);
+                            usersToDelete.add(curr);
+                            System.out.println(amp.accountFrozen(curr.toString(), curr.getStatus()));
+                            userInteracting = false;
+                        } else if (amp.indexToOption(optionChosen, amp.constructFlaggedUsersMenu(), amp.unfreezeAccount)) {
+                            // admin decides not to freeze this account
+                            um.unfreezeAccount(curr);
+                            usersToDelete.add(curr);
+                            System.out.println(amp.accountFrozen(curr.toString(), curr.getStatus()));
+                            userInteracting = false;
+                        } // else it goes to the next flagged user
+                    }
+                }
+                am.getFrozenAccounts().removeAll(usersToDelete);
             }
         }
     }

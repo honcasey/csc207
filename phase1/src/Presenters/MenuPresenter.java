@@ -230,7 +230,7 @@ public abstract class MenuPresenter {
     }
 
     public String accountFrozen(String who, String frozen) { // possibly move back to adminmenupresenter
-        return who + "'s account has been set to " + frozen;
+        return who + "'s account is set to " + frozen;
     }
 
 

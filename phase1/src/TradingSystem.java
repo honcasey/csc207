@@ -50,15 +50,20 @@ public class TradingSystem {
      * @throws ClassNotFoundException
      */
     public void run() throws IOException, ClassNotFoundException {
-        readData();
-        checkFirstAdmin();
-        int userInput = bmp.selectOption();
-        if (userInput == 0) {
-            login();
-        } else if (userInput == 1) {
-            createAccount();
+        boolean interacting = true;
+        while (interacting) {
+            readData();
+            checkFirstAdmin();
+            int userInput = bmp.selectOption();
+            if (userInput == 0) {
+                login();
+            } else if (userInput == 1) {
+                createAccount();
+            } else if (userInput == 2) {
+                interacting = false;
+            }
+            writeData();
         }
-        writeData();
     }
 
     /**
