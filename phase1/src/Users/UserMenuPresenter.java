@@ -104,7 +104,7 @@ public class UserMenuPresenter extends MenuPresenter {
     public List<String> constructTransactionList(List<Transaction> TransactionList){
         List<String> AvailableItemOptionList = new ArrayList<>();
         for (Transaction transaction : TransactionList) {
-            AvailableItemOptionList.add(transaction.toString() + "\\n");
+            AvailableItemOptionList.add(transaction.toString());
         }
         return(AvailableItemOptionList);
     }
