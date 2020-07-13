@@ -155,7 +155,7 @@ public class UserMenuController{
                     Owner.getUserId(), item.getId(),FirstMeeting);
             updateUsersCurrentTransactions(currentTradingUser,Owner,newTransaction);
         }
-        return(!ump.handleYesNo(ump.makeTransaction));
+        return(ump.handleYesNo(ump.makeTransaction));
     }
 
     /**

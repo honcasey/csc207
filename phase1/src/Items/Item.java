@@ -26,7 +26,7 @@ public class Item implements Serializable {
      */
     @Override
     public String toString() {
-        return name;
+        return this.name;
     }
 
     /**
