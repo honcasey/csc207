@@ -315,11 +315,16 @@ public class UserMenuController{
                     Transaction transaction = currTransactionsList.get(OptionChosen);
                     ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
                     int optionChosen2 = ump.handleOptionsByIndex(transactionActions, true, ump.transactionActions);
-                    if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) {
-                        tm.updateStatus(transaction);
-                        um.addToTransactionHistory(currentTradingUser, transaction);
+                    if (optionChosen2 == transactionActions.size() - 1) {
+                        System.out.println(ump.previousMenu);
+                        userInteracting = false;
                     } else {
-                        editMeeting(currentTradingUser, transaction);
+                        if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) {
+                            tm.updateStatus(transaction);
+                            um.addToTransactionHistory(currentTradingUser, transaction);
+                        } else {
+                            editMeeting(currentTradingUser, transaction);
+                        }
                     }
                 }
                 System.out.println(ump.previousMenu);
