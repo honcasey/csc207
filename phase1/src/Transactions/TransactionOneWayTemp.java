@@ -23,8 +23,9 @@ public class TransactionOneWayTemp extends Transaction {
      * @param secondMeeting the second meeting details.
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionOneWayTemp(UUID User1, UUID User2, UUID item, Meeting FirstMeeting, Meeting secondMeeting) {
-        super(User1, User2, FirstMeeting);
+    public TransactionOneWayTemp(UUID User1, UUID User2, UUID item, Meeting FirstMeeting, Meeting secondMeeting,
+                                 String item1Name) {
+        super(User1, User2, FirstMeeting, item1Name);
         this.item = item;
         this.secondMeeting = secondMeeting;
     }
@@ -75,9 +76,8 @@ public class TransactionOneWayTemp extends Transaction {
     public String toString(){
         String FirstMeetingString = this.getFirstMeeting().toString();
         String SecondMeetingString = this.getSecondMeeting().toString();
-        String ItemString = this.getItem().toString();
-        return("One way transaction to trade"+ItemString+"Where the first "+ FirstMeetingString +". The Second "
-                +SecondMeetingString );
+        return("One way transaction to trade "+ getItem1Name() +". Where the first "+ FirstMeetingString +". The Second "
+                +SecondMeetingString + ".");
     }
     @Override
     public List<Meeting> getTransactionMeetings(){

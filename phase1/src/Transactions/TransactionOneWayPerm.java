@@ -32,8 +32,8 @@ public class TransactionOneWayPerm extends Transaction {
      * @param firstMeeting the first meeting for the deal.(and the only one because it is permanent.)
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionOneWayPerm(UUID User1, UUID User2, UUID item, Meeting firstMeeting){
-        super(User1,User2, firstMeeting);
+    public TransactionOneWayPerm(UUID User1, UUID User2, UUID item, Meeting firstMeeting, String item1Name){
+        super(User1,User2, firstMeeting, item1Name);
         this.item = item;
     }
 
@@ -67,8 +67,7 @@ public class TransactionOneWayPerm extends Transaction {
     @Override
     public String toString(){
         String FirstMeetingString = this.getFirstMeeting().toString();
-        String ItemString = this.getItem().toString();
-        return("One way transaction to trade "+ ItemString +" Where the "+ FirstMeetingString +".");
+        return("One way transaction to trade "+ getItem1Name() +". Where the "+ FirstMeetingString +".");
     }
     @Override
     public List<Meeting> getTransactionMeetings(){
