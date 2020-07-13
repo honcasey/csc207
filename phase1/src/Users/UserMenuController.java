@@ -238,7 +238,7 @@ public class UserMenuController{
                         System.out.println(ump.previousMenu);
                         userInteracting = false;
                     }
-                    if(ump.indexToOption(optionChosen, ump.itemOptionList(), ump.removeItem)){
+                    else if(ump.indexToOption(optionChosen, ump.itemOptionList(), ump.removeItem)){
                         try {
                             Item whichItem = im.getItem(currentTradingUser.getWishlist().get(itemChosen));
                             um.removeItem(currentTradingUser, whichItem, "inventory");
