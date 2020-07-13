@@ -152,7 +152,7 @@ public class UserMenuController{
             availableItems.remove(ChosenItem);
         }
 
-        else if(!permBool & oneWayBool){
+        else if(oneWayBool){   // note permBool must be false at this point: aka you're creating a temp Transaction
             Meeting SecondMeeting = meetingDetailsMenu("Second");
             Transaction newTransaction = tm.createTransaction(
                     Owner.getUserId(),currentTradingUser.getUserId(), item,FirstMeeting,SecondMeeting);
