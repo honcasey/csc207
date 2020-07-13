@@ -70,6 +70,7 @@ public class AdminMenuController {
             }
             else {
                 Iterator<Item> itemIterator = allPendingItems.keySet().iterator();
+                ArrayList<Item> keysToDelete = new ArrayList<Item>();
 
                 while (itemIterator.hasNext()) {
                     Item curr = itemIterator.next();
@@ -82,8 +83,10 @@ public class AdminMenuController {
                         if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.approveItem)) {
                             try {
                                 TradingUser user = um.getTradingUser(allPendingItems.get(curr).getUsername());
-                                um.addItem(user, curr, "Inventory");
-                                itemIterator.remove();
+                                im.addItem(curr);
+                                um.addItem(user, curr, "inventory");
+                               // itemIterator.remove();
+                                keysToDelete.add(curr);
                                 System.out.println(amp.addItem("approved"));
                             } catch (InvalidTradingUserException e) {
                                 //
@@ -91,11 +94,15 @@ public class AdminMenuController {
 
                         }
                         else if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.declineItem)) {
-                            itemIterator.remove();
+                            //itemIterator.remove();
+                            keysToDelete.add(curr);
                             System.out.println(amp.addItem("declined"));
                         }
                     }
                 }
+                allPendingItems.keySet().removeAll(keysToDelete);  //we deleted all of the items that were approved or rejected
+
+                // delete statements
             }
         }
     }
