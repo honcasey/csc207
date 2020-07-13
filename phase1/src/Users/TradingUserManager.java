@@ -75,9 +75,7 @@ public class TradingUserManager {
         if (listType.equals("wishlist")) {
             tradingUser.getWishlist().add(item.getId());
         } else if (listType.equals("inventory")) {
-            List<UUID> inventory = tradingUser.getInventory();
-            inventory.add(item.getId());
-            tradingUser.setInventory(inventory);
+            tradingUser.getInventory().add(item.getId());
         }
     }
 

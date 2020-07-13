@@ -193,16 +193,18 @@ public class UserMenuController{
                 System.out.println(ump.empty("Wishlist"));
                 userInteracting = false;
             } else {
-                List<Item> items = im.convertIdsToItems(currentTradingUser.getWishlist());
-                int itemChosen = ump.handleOptionsByIndex(ump.constructWishlistItemsList(items), true, "Wishlist Items");
-                if (itemChosen == ump.constructWishlistItemsList(items).size()) {
+                List<Item> currentUserWishlist = im.convertIdsToItems(currentTradingUser.getWishlist());
+                List<String> ItemOptions = ump.constructWishlistItemsList(currentUserWishlist);
+                int itemChosen = ump.handleOptionsByIndex(ItemOptions, true, "Wishlist Items");
+                if (itemChosen == ItemOptions.size() - 1) {
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
                 } else {
-                    String item = ump.constructWishlistItemsList(items).get(itemChosen);
-                    System.out.println(ump.itemOptionList());
+                    String item = ItemOptions.get(itemChosen);
                     int optionChosen = ump.handleOptionsByIndex(ump.itemOptionList(), true, "Wishlist Menu");
-                    if(ump.indexToOption(optionChosen, ump.itemOptionList(), ump.removeItem)){
+                    if (optionChosen == ump.itemOptionList().size()) { // checks if option chosen is "Go back."
+                        System.out.println(ump.previousMenu);
+                    } else if(ump.indexToOption(optionChosen, ump.itemOptionList(), ump.removeItem)){
                         try {
                             Item whichItem = im.getItem(currentTradingUser.getWishlist().get(itemChosen));
                             um.removeItem(currentTradingUser, whichItem, "wishlist");
@@ -210,7 +212,6 @@ public class UserMenuController{
                         } catch (InvalidItemException e) {
                             // this should never happen
                         }
-
                     }
                 }
             }

@@ -1,8 +1,5 @@
 package Users;
 
-import Items.Item;
-import Transactions.Transaction;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +13,7 @@ public class TradingUser extends User implements Serializable {
 
     private TransactionHistory transactionHistory;
     private List<UUID> currentTransactions;
-    public List<UUID> inventory = new ArrayList<>();
+    public List<UUID> inventory;
     private int borrowThreshold = 1;
     private int weeklyThreshold = 3;
     private int incompleteThreshold = 2;
@@ -31,6 +28,7 @@ public class TradingUser extends User implements Serializable {
      public TradingUser(String username, String password) {
          super(username,password);
          currentTransactions = new ArrayList<>();
+         inventory = new ArrayList<>();
          wishlist = new ArrayList<>();
          transactionHistory = new TransactionHistory();
      }
@@ -53,10 +51,6 @@ public class TradingUser extends User implements Serializable {
      */
     public List<UUID> getInventory() {
         return this.inventory;
-    }
-
-    public void setInventory(List<UUID> ids) {
-        inventory = ids;
     }
 
     /**
