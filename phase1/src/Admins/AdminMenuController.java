@@ -143,11 +143,15 @@ public class AdminMenuController {
                 }
                 else if (amp.indexToOption(optionChosen, amp.constructAddToListMenu(), amp.addToWishlist)) {
                     um.addItem(um.getTradingUser(username), newItem, "wishlist");
+                    im.addItem(newItem);
                     System.out.println(amp.successfullyAdded(newItem.toString(), username, "wishlist"));
+                    userInteracting = false;
                 }
                 else if (amp.indexToOption(optionChosen, amp.constructAddToListMenu(), amp.addToInventory)) {
                     um.addItem(um.getTradingUser(username), newItem, "inventory");
+                    im.addItem(newItem);
                     System.out.println(amp.successfullyAdded(newItem.toString(), username, "inventory"));
+                    userInteracting = false;
                 }
                 else { System.out.println(amp.validOptions(amp.constructUserLists()));}
             } catch(InvalidTradingUserException e) {

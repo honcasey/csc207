@@ -6,7 +6,7 @@ import Transactions.Transaction;
 import java.util.*;
 
 public class ItemManager {
-    private Map<UUID, Item> allItems;
+    public Map<UUID, Item> allItems;
 
     public ItemManager(Map<UUID, Item> items) {
         this.allItems = items;

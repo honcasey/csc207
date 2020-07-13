@@ -7,7 +7,7 @@ import java.util.UUID;
  * Represents an item in the trading system.
  */
 public class Item implements Serializable {
-    private UUID id = UUID.randomUUID();
+    private UUID id;
     private String name;
     private String description = "This is an item for trade.";
 
@@ -17,6 +17,7 @@ public class Item implements Serializable {
      */
     public Item(String name) {
         this.name = name;
+        this.id= UUID.randomUUID();
     }
 
     /**
