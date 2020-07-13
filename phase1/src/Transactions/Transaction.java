@@ -30,7 +30,7 @@ public abstract class Transaction implements Serializable {
     private UUID user2;
     private Meeting firstMeeting;
     private String status;
-    private String statusUser1;
+    private String statusUser1; // is this even necessary
     private String statusUser2;
 
     /**

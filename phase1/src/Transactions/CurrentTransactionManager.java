@@ -111,7 +111,7 @@ public class CurrentTransactionManager extends TransactionManager{
     public boolean editMeeting(int meetingNum, Transaction transaction, UUID userId, String newLocation) {
         int userNum = findUserNum(transaction, userId);
         Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
-        if (canEdit(meeting, userNum) & transaction.getStatus().equals("pending")) {
+        if (canEdit(meeting, userNum) && transaction.getStatus().equals("pending")) {
             meeting.setLocation(newLocation);
             if (userNum == 1){
                 meeting.user1edits();
@@ -138,7 +138,7 @@ public class CurrentTransactionManager extends TransactionManager{
     public boolean editMeeting(int meetingNum, Transaction transaction, UUID userId, LocalTime time) {
         int userNum = findUserNum(transaction, userId);
         Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
-        if (canEdit(meeting, userNum) & transaction.getStatus().equals("pending")) {
+        if (canEdit(meeting, userNum) && transaction.getStatus().equals("pending")) {
             meeting.setTime(time);
             if (userNum == 1){
                 meeting.user1edits();
@@ -164,7 +164,7 @@ public class CurrentTransactionManager extends TransactionManager{
     public boolean editMeeting(int meetingNum, Transaction transaction, UUID userId, LocalDate date) {
         int userNum = findUserNum(transaction, userId);
         Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
-        if (canEdit(meeting, userNum) & transaction.getStatus().equals("pending")) {
+        if (canEdit(meeting, userNum) && transaction.getStatus().equals("pending")) {
             meeting.setDate(date);
             if (userNum == 1){
                 meeting.user1edits();}
@@ -182,22 +182,28 @@ public class CurrentTransactionManager extends TransactionManager{
     public ArrayList<String> userTransactionActions(Transaction transaction){
         String status = transaction.getStatus();
         ArrayList<String> options = new ArrayList<String>();
-        if (status.equals("pending")){
-            String[] list = new String[] {"Edit Transactions Meeting(s)", "Confirm Transactions Meeting(s)","Cancel transaction"};
-            options.addAll(Arrays.asList(list));
-        }
-        if (status.equals("confirmed")){
-            String[] list = new String[] {"Confirm the exchange has taken place", "Claim that the exchange has not taken place"};
-            options.addAll(Arrays.asList(list));
-        }
-        if (status.equals("traded")){
-            String[] list = new String[] {"Confirm the item has been returned", "Claim that the item has not been returned past due date"};
-            options.addAll(Arrays.asList(list));
-        }
-        else{
-            String[] list = new String[] {"There are no actions that can be done to this transaction"};
-            options.addAll(Arrays.asList(list));
+        switch (status) {
+            case "pending": {
+                String[] list = new String[]{"Edit Transactions Meeting(s)", "Confirm Transactions Meeting(s)", "Cancel transaction"};
+                options.addAll(Arrays.asList(list));
+                break;
             }
+            case "confirmed": {
+                String[] list = new String[]{"Confirm the exchange has taken place", "Claim that the exchange has not taken place"};
+                options.addAll(Arrays.asList(list));
+                break;
+            }
+            case "traded": {
+                String[] list = new String[]{"Confirm the item has been returned", "Claim that the item has not been returned past due date"};
+                options.addAll(Arrays.asList(list));
+                break;
+            }
+            default: {
+                String[] list = new String[]{"There are no actions that can be done to this transaction"};
+                options.addAll(Arrays.asList(list));
+                break;
+            }
+        }
         return options;
         }
 

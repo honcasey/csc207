@@ -1,11 +1,12 @@
 package Transactions;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
 
 
-public class Meeting {
+public class Meeting implements Serializable {
     /**
      * This class represents a meeting among 2 users.
      * Variables:
@@ -28,8 +29,8 @@ public class Meeting {
      * Time, Date, Location. (will be stored in the hashmap)
      * NOTE: getters and setters for certain information still remain camel-case.
      */
-    private Boolean user1approved = Boolean.FALSE;
-    private Boolean user2approved = Boolean.TRUE;
+    private boolean user1approved = false;
+    private boolean user2approved = true;
     private int numEditsUser1 = 0;
     private int numEditsUser2 = 0;
     private int maxNumEdits = 3;
@@ -54,14 +55,14 @@ public class Meeting {
      * Getter for if user1 has approved meeting details
      * @return returns true iff user has approved meeting details.
      */
-    public Boolean getUser1approved(){return user1approved;}
+    public boolean getUser1approved(){return user1approved;}
 
     /**
      * Getter for if user2 has approved meeting details
      * @return returns true iff user2 has approved meeting details
      */
 
-    public Boolean getUser2approved(){return user2approved;}
+    public boolean getUser2approved(){return user2approved;}
 
     /**
      * Getter for number of edits for this particular meeting by User1.

@@ -92,14 +92,14 @@ public class UserMenuController{
             HashMap<Item, TradingUser> availableItems  = getAvailableItems();
             List<Item> itemList = new ArrayList<>(availableItems.keySet());
             if (itemList.isEmpty()) {
-                ump.empty("Available Items");
+                System.out.println(ump.empty("Available Items"));
                 break;
             }
 
             List<String> optionList = ump.constructAvailableItemsMenu(itemList);
             int OptionChosen = ump.handleOptionsByIndex(optionList,true, "Available Items");
             // Logic handling back to other menu vs. your account is frozen vs proceed to make create transaction menu.
-            if(OptionChosen == optionList.size()){
+            if(OptionChosen == optionList.size() - 1){
                 System.out.println(ump.previousMenu);
                 userInteracting = false;
             }
@@ -262,7 +262,7 @@ public class UserMenuController{
     }
 
     /**
-     * Waiting for userinput(last 3 lines):
+     * Waiting for user input(last 3 lines):
      * https://stackoverflow.com/questions/26184409/java-console-prompt-for-enter-input-before-moving-on/26184565
      * by M Anouti
      */
@@ -346,7 +346,31 @@ public class UserMenuController{
         UUID user = currentTradingUser.getUserId();
 
         while (userInteracting) {
+            // check if both users have reached their edit threshold without confirming
+            if (transaction.getFirstMeeting().getNumEditsUser1() == 3 && transaction.getFirstMeeting().getNumEditsUser2() == 3) {
+                System.out.println("Transaction has been cancelled");
+                transaction.setStatus("cancelled");
+            }
             if (!tm.transactionHasMultipleMeetings(transaction)) {
+                List<String> options = ump.constructEditMeetingOptions();
+                int OptionChosen = ump.handleOptionsByIndex(options, true, "Meeting Options");
+                if (OptionChosen == options.size() - 1) {
+                    System.out.println(ump.previousMenu);
+                    userInteracting = false;
+                } else {
+                    switch (OptionChosen) {
+                        case 0:
+                            editMeetingFlow(user, transaction, 1, "location");
+                            break;
+                        case 1:
+                            editMeetingFlow(user, transaction, 1, "time");
+                            break;
+                        default:
+                            editMeetingFlow(user, transaction, 1, "date");
+                    }
+                }
+            }
+            else if (tm.transactionHasMultipleMeetings(transaction)){
                 int meetingNum = ump.handleOptionsByIndex(ump.constructWhichMeetingList(), true,
                         "Transaction with two meetings") + 1;
 
@@ -355,7 +379,7 @@ public class UserMenuController{
                 List<String> options = ump.constructEditMeetingOptions();
                 int OptionChosen = ump.handleOptionsByIndex(options, true, "Meeting Options");
                 // Logic handling back to other menu vs. Editing a meeting
-                if (OptionChosen == options.size()) {
+                if (OptionChosen == options.size() - 1) {
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
                 } else {
@@ -380,18 +404,27 @@ public class UserMenuController{
                 Scanner scanner = new Scanner(System.in);
                 System.out.println(ump.enterLocation);
                 String MeetingLocation = scanner.nextLine();
-                tm.editMeeting(meetingNum, transaction, user, MeetingLocation);
-                System.out.println(ump.successfullyEditedMeeting(MeetingLocation));
+                if (tm.editMeeting(meetingNum, transaction, user, MeetingLocation)) {
+                    System.out.println(ump.successfullyEditedMeeting(MeetingLocation));
+                } else {
+                    System.out.println("You have reached your edit threshold.");
+                }
                 break;
             case "time":
                 LocalTime MeetingTime = ump.inputTimeGetter(ump.enterWhatInFormat("time", "hh:mm:ss"));
-                tm.editMeeting(meetingNum, transaction, user, MeetingTime);
-                System.out.println(ump.successfullyEditedMeeting(MeetingTime.toString()));
+                if (tm.editMeeting(meetingNum, transaction, user, MeetingTime)) {
+                    System.out.println(ump.successfullyEditedMeeting(MeetingTime.toString()));
+                } else {
+                    System.out.println("You have reached your edit threshold.");
+                }
                 break;
             case "date":
                 LocalDate MeetingDate = ump.inputDateGetter(ump.enterWhatInFormat("date", "dd-mm-yyyy"));
-                tm.editMeeting(meetingNum, transaction, user, MeetingDate);
-                System.out.println(ump.successfullyEditedMeeting(MeetingDate.toString()));
+                if (tm.editMeeting(meetingNum, transaction, user, MeetingDate)) {
+                    System.out.println(ump.successfullyEditedMeeting(MeetingDate.toString()));
+                } else {
+                    System.out.println("You have reached your edit threshold.");
+                }
                 break;
         }
     }
