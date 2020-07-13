@@ -115,7 +115,7 @@ public class UserMenuController{
                     TradingUser transactionItemOwner = availableItems.get(transactionItem);
                     userInteracting = createTransactionMenu(transactionItem,transactionItemOwner);
                     if(this.thresholdsExceeded()){
-                        am.getPendingFrozenTradingUsers().add(currentTradingUser);
+                        am.getFlaggedAccounts().add(currentTradingUser);
                     }
                     availableItems.remove(transactionItem);
                 }
