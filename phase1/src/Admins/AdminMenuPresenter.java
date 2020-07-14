@@ -1,10 +1,13 @@
 package Admins;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import Presenters.MenuPresenter;
 
+/**
+ * Contains all option strings printed/displayed by the AdminMenuController.
+ * Class variables represent commonly used strings.
+ */
 public class AdminMenuPresenter extends MenuPresenter {
 
     // option strings
@@ -26,6 +29,10 @@ public class AdminMenuPresenter extends MenuPresenter {
 
     protected String permissionDenied = "Permission denied, only the first admin can create new administrative user accounts.";
 
+    /**
+     * Creates main menu displayed for all Admin Users.
+     * @return list of strings of all options available for an admin user
+     */
     public List<String> constructMainMenu() {
         List<String> AdminMenuOptions = new ArrayList<>();
         AdminMenuOptions.add(checkPendingItems);
@@ -38,33 +45,33 @@ public class AdminMenuPresenter extends MenuPresenter {
         return AdminMenuOptions;
     }
 
-    public String whichThreshold(String whichThreshold) {
-        return "What would you like to change the " + whichThreshold + " threshold to?";
-    }
-
-    public String currentThreshold(String description, int threshold) {
-        return "The current " + description + " is: " + threshold;
-    }
-
-    public String addItem(String approved) {
-        return "Item has been " + approved;
-    }
-
-    public List<String> constructAddToListMenu() {
+    /**
+     * Constructs a list of doable actions that can be done on an item by an Admin User.
+     * @return list of doable actions
+     */
+    protected List<String> constructAddToListMenu() {
         List<String> optionList = new ArrayList<>();
         optionList.add(addToWishlist);
         optionList.add(addToInventory);
         return optionList;
     }
 
-    public List<String> constructPendingFrozenUsersMenu() {
+    /**
+     * Constructs a list of doable actions that can be done to a Trading User that is frozen and requested to be unfrozen.
+     * @return list of doable actions
+     */
+    protected List<String> constructPendingFrozenUsersMenu() {
         List<String> optionList = new ArrayList<>();
         optionList.add(unfreezeAccount);
         optionList.add(nextUser);
         return optionList;
     }
 
-    public List<String> constructFlaggedUsersMenu() {
+    /**
+     * Constructs a list of doable actions that can be done to a Trading User that has been flagged by the system.
+     * @return list of doable actions
+     */
+    protected List<String> constructFlaggedUsersMenu() {
         List<String> optionList = new ArrayList<>();
         optionList.add(freezeAccount);
         optionList.add(unfreezeAccount);
@@ -72,7 +79,11 @@ public class AdminMenuPresenter extends MenuPresenter {
         return optionList;
     }
 
-    public List<String> constructPendingItemsMenu() {
+    /**
+     *
+     * @return
+     */
+    protected List<String> constructPendingItemsMenu() {
         List<String> optionList = new ArrayList<>();
         optionList.add(approveItem);
         optionList.add(declineItem);
@@ -80,18 +91,30 @@ public class AdminMenuPresenter extends MenuPresenter {
         return optionList;
     }
 
-    public List<String> constructAllThresholds() {
+    protected List<String> constructAllThresholds() {
         List<String> optionList = new ArrayList<>();
-        optionList.add("borrow");
-        optionList.add("weekly");
-        optionList.add("incomplete");
+        optionList.add("Borrow");
+        optionList.add("Weekly");
+        optionList.add("Incomplete");
         return optionList;
     }
 
-    public List<String> constructUserLists() {
+    protected List<String> constructUserLists() {
         List<String> optionList = new ArrayList<>();
-        optionList.add("wishlist");
-        optionList.add("inventory");
+        optionList.add("Wishlist");
+        optionList.add("Inventory");
         return optionList;
+    }
+
+    protected String whichThreshold(String whichThreshold) {
+        return "What would you like to change the " + whichThreshold + " threshold to?";
+    }
+
+    protected String currentThreshold(String description, int threshold) {
+        return "The current " + description + " is: " + threshold;
+    }
+
+    protected String addItem(String approved) {
+        return "Item has been " + approved;
     }
 }
