@@ -1,7 +1,5 @@
 package Transactions;
 
-import Items.Item;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
@@ -59,9 +57,8 @@ public abstract class Transaction implements Serializable {
         statusUser2 = "pending";
     }
 
-
     /**
-     * The getter for a transaction id
+     * Getter for a transaction id
      * @return the id of the transaction, a UUID object
      */
     public UUID getId() {
@@ -86,35 +83,17 @@ public abstract class Transaction implements Serializable {
     }
 
     /**
-     * setter for user1. This will be called by use case classes.
-     * @param user1 The userId of user1.
-     */
-
-    public void setUser1(UUID user1) {
-        this.user1 = user1;
-    }
-    /**
      * getter for user1. This will be called by use case classes.
      * @return returns user1 of the transaction.
      */
-
     public UUID getUser1(){
         return this.user1;
     }
 
     /**
-     * setter for user1. This will be called by use case classes.
-     * @param user2 The userId of user2.
-     */
-
-    public void setUser2(UUID user2) {
-        this.user2 = user2;
-    }
-    /**
      * getter for user2. This will be called by use case classes.
      * @return returns user2 of the transaction.
      */
-
     public UUID getUser2(){
         return this.user2;
     }
@@ -127,7 +106,6 @@ public abstract class Transaction implements Serializable {
         return firstMeeting;
     }
 
-
     /**
      * This is an abstract method that checks if you have a one way transaction.
      * @return returns true iff the transaction you call the method on is a one way transaction.
@@ -139,7 +117,6 @@ public abstract class Transaction implements Serializable {
      * @return returns true iff the transaction you call the method on is a one way transaction.
      */
     public abstract boolean isPerm();
-
 
     /**
      * This is an abstract method that get's all of the meetings involved in the transaction. Size of list returned
@@ -171,7 +148,6 @@ public abstract class Transaction implements Serializable {
      * Getter for status. This will be called by use case classes.
      * @return statusUser1
      */
-
     public String getStatusUser1() {return statusUser1;}
 
     /**
@@ -189,13 +165,13 @@ public abstract class Transaction implements Serializable {
     }
 
     /**
-     * setter for user1. This will be called by use case classes.
+     * Setter for user1. This will be called by use case classes.
      * @param newStatus The new Status of statusUser2
      */
     public void setStatusUser2(String newStatus){statusUser2 = newStatus;}
 
     /**
-     * This method calls either setStatusUser1 or setStatusUser2
+     * Calls either setStatusUser1 or setStatusUser2
      * @param newStatus the new status to be changed
      * @param userNum either 1 or 2, if usernum == 1 then call setStatusUser1 else call setStatusUser2
      */
@@ -207,7 +183,10 @@ public abstract class Transaction implements Serializable {
         }
     }
 
-
+    /**
+     * Getter for item1 name
+     * @return string of name of item1
+     */
     public String getItem1Name() {
         return item1Name;
     }

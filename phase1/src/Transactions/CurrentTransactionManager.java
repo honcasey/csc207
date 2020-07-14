@@ -98,9 +98,7 @@ public class CurrentTransactionManager extends TransactionManager{
         if (transaction.getUser1().equals(userId)){
             return 1;
         }
-        else{
-            return 2;
-        }
+        else{ return 2; }
     }
 
     /**

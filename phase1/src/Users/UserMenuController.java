@@ -67,9 +67,7 @@ public class UserMenuController{
         }
     }
 
-    /**
-     * This takes in input from user and creates
-     */
+    /* This takes in input from user and creates */
     private void requestAddItem(){
         Scanner scanner = new Scanner(System.in);
         System.out.println(ump.enterName("Item"));
@@ -133,9 +131,8 @@ public class UserMenuController{
         }
     }
 
-
     /**
-     * This method handles the flow for setting up a transaction for an available item assuming that the transaction
+     * Handles the flow for setting up a transaction for an available item assuming that the transaction
      * is allowed between the 2 users.
      *
      * @param item The item that is going to be traded.
