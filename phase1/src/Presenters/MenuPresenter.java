@@ -158,8 +158,8 @@ public abstract class MenuPresenter {
                 scanner.next();
             }
             UserInput = scanner.next();
-        } while (!(UserInput.equals(yesString) || UserInput.equals("No")));
-        return UserInput.equals("Yes");
+        } while (!(UserInput.equals(yesString) || UserInput.equals(noString)));
+        return UserInput.equals(yesString);
     }
 
     /**
