@@ -349,7 +349,7 @@ public class UserMenuController{
                     } else {
                         if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) {
                             tm.updateStatus(transaction);
-                            um.addToTransactionHistory(currentTradingUser, transaction);
+                            um.moveTransactionToTransactionHistory(transaction, currentTradingUser);
                         } else {
                             editMeeting(currentTradingUser, transaction);
                         }
