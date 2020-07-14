@@ -12,19 +12,19 @@ import java.util.Scanner;
  */
 public abstract class MenuPresenter {
 
-    protected String borrowThresholdDescription = "minimum number of times that this user must lend something before they can borrow/trade";
-    protected String weeklyThresholdDescription = "maximum number of transactions that this user can participate in a week";
-    protected String incompleteThresholdDescription = "maximum number of incomplete transactions before this user's account is frozen";
+    public String borrowThresholdDescription = "minimum number of times that this user must lend something before they can borrow/trade";
+    public String weeklyThresholdDescription = "maximum number of transactions that this user can participate in a week";
+    public String incompleteThresholdDescription = "maximum number of incomplete transactions before this user's account is frozen";
 
-    protected String previousMenu = "Loading Previous Menu";
-    protected String optionPrompt = "Please type a number corresponding to one of the above options.";
-    protected String invalidOption = "Not a valid option. Please enter a valid option.";
-    protected String logout = "Log out";
-    protected String itemDescription = "What is the description of this item?";
-    protected String successfulLogout = "You have successfully logged out.";
-    protected String usernameInvalid = "Username does not exist.";
-    protected String usernameTaken = "Username already taken. Please enter a different one.";
-    protected String nextItem = "Go to next item.";
+    public String previousMenu = "Loading Previous Menu";
+    public String optionPrompt = "Please type a number corresponding to one of the above options.";
+    public String invalidOption = "Not a valid option. Please enter a valid option.";
+    public String logout = "Log out";
+    public String itemDescription = "What is the description of this item?";
+    public String successfulLogout = "You have successfully logged out.";
+    public String usernameInvalid = "Username does not exist.";
+    public String usernameTaken = "Username already taken. Please enter a different one.";
+    public String nextItem = "Go to next item.";
 
     /**
      * Formats and displays a list of options to the user.
@@ -103,7 +103,7 @@ public abstract class MenuPresenter {
      * @return returns the index of the option chosen by the user corresponding the option list that was passed in.
      *          So that optionlist.get(return value) gives the option that the user has chosen.
      */
-    protected int handleOptionsByIndex(List<String> OptionList, boolean BackOption, String OptionTitle) {
+    public int handleOptionsByIndex(List<String> OptionList, boolean BackOption, String OptionTitle) {
         if (BackOption) {
             OptionList.add("Go back.");
         }
@@ -119,7 +119,7 @@ public abstract class MenuPresenter {
      * @param option the name of option comparing the index of the option list
      * @return boolean that returns if the input option number matches the string option given
      */
-    protected boolean indexToOption(int input, List<String> optionList, String option){
+    public boolean indexToOption(int input, List<String> optionList, String option){
         return optionList.get(input).equals(option);
     }
 
@@ -142,7 +142,7 @@ public abstract class MenuPresenter {
      * @return return true iff the user has entered "Yes" to your question and returns false iff
      * the user has entered "No" to your question.
      */
-    protected boolean handleYesNo(String Question,String yesString,String noString){
+    public boolean handleYesNo(String Question, String yesString, String noString){
         Scanner scanner = new Scanner(System.in);
         String UserInput;
         System.out.println(Question);
@@ -163,7 +163,7 @@ public abstract class MenuPresenter {
      * @param optionTimePrompt the question to be displayed prompting time input by the user
      * @return true iff the prompt is in the accepted format dd/mm/yyyy.
      */
-    protected LocalTime inputTimeGetter(String optionTimePrompt){
+    public LocalTime inputTimeGetter(String optionTimePrompt){
         Scanner scanner = new Scanner(System.in);
         LocalTime returnTime;
         while (true) {
@@ -187,7 +187,7 @@ public abstract class MenuPresenter {
      * @param optionDatePrompt the question to be displayed prompting date input by the user.
      * @return a date object that was constructed by the user.
      */
-    protected LocalDate inputDateGetter(String optionDatePrompt){
+    public LocalDate inputDateGetter(String optionDatePrompt){
         Scanner scanner = new Scanner(System.in);
         LocalDate returnDate;
         while (true) {
@@ -206,16 +206,16 @@ public abstract class MenuPresenter {
         return(returnDate);
     }
 
-    protected String empty(String which) { return which + " list is empty. Nothing to be checked."; }
+    public String empty(String which) { return which + " list is empty. Nothing to be checked."; }
 
-    protected String enterName(String name) { return "Please enter name for this " + name; }
+    public String enterName(String name) { return "Please enter name for this " + name; }
 
     protected String enterPassword(String name) { return "Please enter password for this " + name; }
 
     protected String successfullyAdded(String what, String who, String where) {
         return what + "has been successfully added to " + who + "'s " + where;
     }
-    protected String successfullyRemoved(String what, String where){
+    public String successfullyRemoved(String what, String where){
         return what + "has been successfully removed from" + where;
     }
 
