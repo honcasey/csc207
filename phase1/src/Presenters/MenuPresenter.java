@@ -9,9 +9,10 @@ import java.util.Scanner;
 
 /**
  * Stores all common strings between the menu accessed by an AdminUser, and the menu accessed by a TradingUser.
+ * Class variables represent commonly used strings between the AdminMenuPresenter and UserMenuPresenter.
  */
 public abstract class MenuPresenter {
-
+    // option strings
     public String borrowThresholdDescription = "minimum number of times that this user must lend something before they can borrow/trade";
     public String weeklyThresholdDescription = "maximum number of transactions that this user can participate in a week";
     public String incompleteThresholdDescription = "maximum number of incomplete transactions before this user's account is frozen";
@@ -46,7 +47,8 @@ public abstract class MenuPresenter {
     protected abstract List<String> constructMainMenu();
 
     /**
-     * This method takes in a list of options and handles option display and selection.(generic)
+     * Handles options by displaying the input option list as a list, with the choice of adding a "Go Back"
+     * option at the end of the list, taking in a String as an input.
      * @param OptionList the list of options you want displayed.
      * @param BackOption boolean representing if you want a back option appended to the option list and displayed.
      * @param OptionTitle the title of the menu.

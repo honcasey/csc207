@@ -10,7 +10,11 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * This class manages all TradingUsers.
+ * Manages all TradingUsers in the system.
+ * <p>
+ * Stores a list of all TradingUsers in the system, all flagged TradingUsers, all frozen Users, and a HashMap mapping between
+ *  * TradingUsers and their UUID.
+ * </p>
  */
 public class TradingUserManager {
     private final List<TradingUser> allTradingUsers;
@@ -30,8 +34,7 @@ public class TradingUserManager {
 
     /**
      * Adds a new user with given info.
-     *
-     * @param username online identifier of a Users.TradingUser
+     * @param username online identifier of a TradingUser
      * @param password account password
      * @return username and userId as string separated by comma.
      */
@@ -50,9 +53,8 @@ public class TradingUserManager {
     }
 
     /**
-     * Retrieve a specific user by username.
-     *
-     * @param username online identifier of a Users.TradingUser
+     * Retrieves a specific user by username.
+     * @param username online identifier of a TradingUser
      * @return username and userId as string separated by comma
      */
     public TradingUser getTradingUser(String username) throws InvalidTradingUserException {
@@ -296,11 +298,15 @@ public class TradingUserManager {
         }
     }
 
-    boolean borrowThresholdExceeded(TradingUser tradingUser){
-    int numBorrowed = tradingUser.getTransactionHistory().getNumItemsBorrowed();
-    int numLent = tradingUser.getTransactionHistory().getNumItemsLended();
-    int threshold = tradingUser.getBorrowThreshold();
-
-    return numBorrowed - numLent >= threshold;
+    /**
+     * Returns whether the TradingUser's borrow threshold has been exceeded.
+     * @param tradingUser which TradingUser to check
+     * @return boolean whether the threshold has been exceeded.
+     */
+    public boolean borrowThresholdExceeded(TradingUser tradingUser){
+        int numBorrowed = tradingUser.getTransactionHistory().getNumItemsBorrowed();
+        int numLent = tradingUser.getTransactionHistory().getNumItemsLended();
+        int threshold = tradingUser.getBorrowThreshold();
+        return numBorrowed - numLent >= threshold;
     }
 }

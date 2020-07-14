@@ -216,7 +216,7 @@ public class UserMenuController{
     }
 
     /**
-     * This method walks the user through the details required for a meeting, then constructs a meeting.
+     * Prompts user for details required for a meeting, then constructs a meeting.
      * @param meetingTitle The first thing that will be displayed "Second Transactions.Meeting Details"/"First Transactions.Meeting Details"
      */
     private Meeting meetingDetailsMenu(String meetingTitle){
@@ -229,10 +229,11 @@ public class UserMenuController{
         return new Meeting(MeetingLocation,MeetingTime,MeetingDate);
     }
 
+    /* viewing a User's wishlist */
     private void viewWishlist(){
         boolean userInteracting = true;
         while (userInteracting) {
-            if (currentTradingUser.getWishlist().size() == 0) {
+            if (currentTradingUser.getWishlist().size() == 0) { // if wishlist is empty
                 System.out.println(ump.empty("Wishlist"));
                 userInteracting = false;
             } else {
@@ -261,10 +262,11 @@ public class UserMenuController{
         }
     }
 
+    /* viewing a User's inventory */
     private void viewInventory() {
         boolean userInteracting = true;
         while (userInteracting) {
-            if (currentTradingUser.getInventory().size() == 0) {
+            if (currentTradingUser.getInventory().size() == 0) { // if inventory is empty
                 System.out.println(ump.empty("Inventory"));
                 userInteracting = false;
             } else {
@@ -294,6 +296,7 @@ public class UserMenuController{
         }
     }
 
+    /* for a frozen TradingUser to request their account to be unfrozen */
     private void requestUnfreezeAccount() {
         if (currentTradingUser.isFrozen()) {
             am.getFrozenAccounts().add(currentTradingUser);

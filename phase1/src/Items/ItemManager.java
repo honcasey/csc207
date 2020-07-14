@@ -1,10 +1,11 @@
 package Items;
 
 import Exceptions.InvalidItemException;
-import Transactions.Transaction;
-
 import java.util.*;
 
+/**
+ * Manages all items in the system.
+ */
 public class ItemManager {
     public Map<UUID, Item> allItems;
 
