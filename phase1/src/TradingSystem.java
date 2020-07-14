@@ -14,7 +14,6 @@ import Users.TradingUserManager;
 import Users.UserMenuController;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -41,7 +40,6 @@ public class TradingSystem {
     private ItemManager itemManager;
     private Map<Item, TradingUser> pendingItems;
     private final BootupMenuPresenter bmp = new BootupMenuPresenter();
-
 
     /**
      * Calls to different helper methods to read data from saved files, redirects user to

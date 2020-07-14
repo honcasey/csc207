@@ -58,8 +58,10 @@ public class Serializer {
             return tradingUsers;
         } catch(IOException e) {
             System.out.println("IO Exception was caught.");
+            return null;
         } catch(ClassNotFoundException e) {
             System.out.println("ClassNotFoundException was caught.");
+            return null;
         }
     }
 
@@ -93,8 +95,10 @@ public class Serializer {
             return admins;
         } catch (IOException e) {
             System.out.println("IO Exception was caught.");
+            return null;
         } catch(ClassNotFoundException e) {
             System.out.println("ClassNotFoundException was caught.");
+            return null;
         }
     }
 
@@ -129,8 +133,10 @@ public class Serializer {
             return transactionMap;
         } catch (IOException e) {
             System.out.println("IO Exception was caught.");
+            return null;
         } catch(ClassNotFoundException e) {
             System.out.println("ClassNotFoundException was caught.");
+            return null;
         }
     }
 
@@ -164,8 +170,10 @@ public class Serializer {
             return pendingItems;
         } catch (IOException e) {
             System.out.println("IO Exception was caught.");
+            return null;
         } catch(ClassNotFoundException e) {
             System.out.println("ClassNotFoundException was caught.");
+            return null;
         }
     }
 
@@ -199,8 +207,10 @@ public class Serializer {
             return Accounts;
         } catch (IOException e) {
             System.out.println("IO Exception was caught.");
+            return null;
         } catch(ClassNotFoundException e) {
             System.out.println("ClassNotFoundException was caught.");
+            return null;
         }
     }
 
@@ -234,8 +244,10 @@ public class Serializer {
             return itemMap;
         } catch (IOException e) {
             System.out.println("IO Exception was caught.");
+            return null;
         } catch(ClassNotFoundException e) {
             System.out.println("ClassNotFoundException was caught.");
+            return null;
         }
     }
 }

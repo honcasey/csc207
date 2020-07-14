@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /**
+ * <h1>Item</h1>
  * Represents an item in the trading system.
  */
 public class Item implements Serializable {
@@ -61,6 +62,10 @@ public class Item implements Serializable {
         return description;
     }
 
+    /**
+     * Gets this item's id.
+     * @return this item's id as a UUID.
+     */
     public UUID getId() {
         return id;
     }

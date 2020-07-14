@@ -3,6 +3,10 @@ package Users;
 import java.io.Serializable;
 import java.util.UUID;
 
+/**
+ * Represents the parent class of TradingUser and AdminUser
+ */
+
 public abstract class User implements Serializable {
     private String username;
     private String password;
@@ -26,8 +30,8 @@ public abstract class User implements Serializable {
     public String getPassword() { return password; }
 
     /**
-     * Getter for user id as a UUID
-     * @return userid as a UUID
+     * Getter for userId as a UUID
+     * @return userId as a UUID
      */
     public UUID getUserId() { return userId; }
 }
