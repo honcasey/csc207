@@ -309,27 +309,54 @@ public class UserMenuController{
      * by M Anouti
      */
     private void PastTransactionFlow(){
-        List<String> MenuOptionList = ump.constructPastTransactionMenu();
-        int OptionChosen = ump.handleOptionsByIndex(MenuOptionList,true,"Past Transactions Menu");
-        if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewRecentTransactions("one"))){
-            List<UUID> OneWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentOneWayTransactions();
-            List<Transaction> OneWayTransaction = ptm.getTransactionsFromIdList(OneWayTransactionIds);
-            List<String> oneWayTransactionOptions = ump.constructTransactionList(OneWayTransaction);
-            ump.displayOptions(oneWayTransactionOptions);
-
-        } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewRecentTransactions("two"))) {
-          List<UUID> TwoWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentTwoWayTransactions();
-          List<Transaction> TwoWayTransactions = ptm.getTransactionsFromIdList(TwoWayTransactionIds);
-          List<String> twoWayTransactionOptions = ump.constructTransactionList(TwoWayTransactions);
-          ump.displayOptions(twoWayTransactionOptions);
-
-        } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewThreeMostTraded)) {
-            List<String> TradedWithUsersOptions = currentTradingUser.getTransactionHistory().mostTradedWithUsers();
-            ump.displayOptions(TradedWithUsersOptions);
+        boolean userInteracting = true;
+        while (userInteracting) {
+            List<String> MenuOptionList = ump.constructPastTransactionMenu();
+            int OptionChosen = ump.handleOptionsByIndex(MenuOptionList, true, "Past Transactions Menu");
+            if (OptionChosen == MenuOptionList.size() - 1) {
+                System.out.println(ump.previousMenu);
+                userInteracting = false;
+            } else {
+                if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewRecentTransactions("one"))) {
+                    List<UUID> OneWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentOneWayTransactions();
+                    if (OneWayTransactionIds.isEmpty()) {
+                        System.out.println(ump.empty("One Way Transactions"));
+                        userInteracting = false;
+                    } else {
+                        List<Transaction> OneWayTransaction = ptm.getTransactionsFromIdList(OneWayTransactionIds);
+                        List<String> oneWayTransactionOptions = ump.constructTransactionList(OneWayTransaction);
+                        ump.displayOptions(oneWayTransactionOptions);
+                        System.out.println("Press \"ENTER\" if you would like to go back...");
+                        Scanner scanner = new Scanner(System.in);
+                        scanner.nextLine();
+                    }
+                } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewRecentTransactions("two"))) {
+                    List<UUID> TwoWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentTwoWayTransactions();
+                    if (TwoWayTransactionIds.isEmpty()) {
+                        System.out.println(ump.empty("Two Way Transactions"));
+                        userInteracting = false;
+                    } else {
+                        List<Transaction> TwoWayTransactions = ptm.getTransactionsFromIdList(TwoWayTransactionIds);
+                        List<String> twoWayTransactionOptions = ump.constructTransactionList(TwoWayTransactions);
+                        ump.displayOptions(twoWayTransactionOptions);
+                        System.out.println("Press \"ENTER\" if you would like to go back...");
+                        Scanner scanner = new Scanner(System.in);
+                        scanner.nextLine();
+                    }
+                } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewThreeMostTraded)) {
+                    List<String> TradedWithUsersOptions = currentTradingUser.getTransactionHistory().mostTradedWithUsers();
+                    if (TradedWithUsersOptions.isEmpty()) {
+                        System.out.println(ump.empty("Most Traded-with Users"));
+                        userInteracting = false;
+                    } else {
+                        ump.displayOptions(TradedWithUsersOptions);
+                        System.out.println("Press \"ENTER\" if you would like to go back...");
+                        Scanner scanner = new Scanner(System.in);
+                        scanner.nextLine();
+                    }
+                }
+            }
         }
-        System.out.println("Press \"ENTER\" if you would like to go back...");
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
     }
 
     /**
@@ -342,6 +369,7 @@ public class UserMenuController{
             List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
             if (currentTransactionsIds.size() == 0) {
                 System.out.println(ump.empty("Current Transactions"));
+                userInteracting = false;
             } else {
                 List<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
                 List<String> optionList = ump.constructTransactionList(currTransactionsList);
