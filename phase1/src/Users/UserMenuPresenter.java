@@ -44,8 +44,9 @@ public class UserMenuPresenter extends MenuPresenter {
     protected String requestedUnfreeze = "You have successfully requested for your account to be unfrozen.";
     protected String transactionActions = "List of actions that you can do with your transaction:";
     protected String enterLocation = "Where do you want to have the meeting?";
-    protected String noInventoryItems = "ya got no items ya waste youte.";
-
+    protected String noInventoryItems = "There are no Items in your inventory.";
+    protected String addToWishlist = "Would you like to add this item to your wishlist?";
+    protected String createTransaction = "create transaction.";
     /**
      * Construct methods like this return a list of options/prompts that the menu will have.
      *

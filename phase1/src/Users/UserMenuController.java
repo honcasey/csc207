@@ -105,20 +105,29 @@ public class UserMenuController{
                 userInteracting = false;
             }
             else{
+                Item transactionItem = itemList.get(OptionChosen);
                 if(currentTradingUser.isFrozen()){
                     System.out.println(ump.accountFrozen(true) + ump.requestAccountUnfreeze);
+                    if(ump.handleYesNo(ump.addToWishlist,"Yes","No")){
+                        this.currentTradingUser.getWishlist().add(transactionItem.getId());
+                    }
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
                 }
                 else {
-                    Item transactionItem = itemList.get(OptionChosen);
-                    TradingUser transactionItemOwner = availableItems.get(transactionItem);
-                    userInteracting = createTransactionMenu(transactionItem,transactionItemOwner);
-                    flagAccountIfAboveThreshold(currentTradingUser);
+                    if(ump.handleYesNo(ump.addToWishlist+" or "+ ump.createTransaction,"Wishlist",
+                            "Transaction")) {
+                        this.currentTradingUser.getWishlist().add(transactionItem.getId());
+                    }
+                    else {
+                        TradingUser transactionItemOwner = availableItems.get(transactionItem);
+                        userInteracting = createTransactionMenu(transactionItem, transactionItemOwner);
+                        flagAccountIfAboveThreshold(currentTradingUser);
                     }
                 }
             }
         }
+    }
 
 
     /**
@@ -474,7 +483,7 @@ public class UserMenuController{
     private void flagAccountIfAboveThreshold(TradingUser user) {
         boolean weeklyThreshold = ptm.weeklyThresholdExceeded(user);
         boolean TransactionsExceeded = um.incompleteTransactionExceeded(user);
-        if (weeklyThreshold || TransactionsExceeded) {
+        if (weeklyThreshold || TransactionsExceeded){
             am.addFlaggedAccount(user);
         }
     }
