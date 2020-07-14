@@ -52,11 +52,11 @@ public class TradingSystem {
             readData();
             checkFirstAdmin();
             int userInput = bmp.selectOption();
-            if (userInput == 0) {
+            if (userInput == 0) { // user logs in
                 login();
-            } else if (userInput == 1) {
+            } else if (userInput == 1) { // user creates account
                 createAccount();
-            } else if (userInput == 2) {
+            } else if (userInput == 2) { // user exits program
                 interacting = false;
             }
             writeData();
