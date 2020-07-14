@@ -102,17 +102,19 @@ public class UserMenuController{
             List<String> optionList = ump.constructAvailableItemsMenu(itemList);
             int OptionChosen = ump.handleOptionsByIndex(optionList,true, "Available Items");
             // Logic handling back to other menu vs. your account is frozen vs proceed to make create transaction menu.
-            if(OptionChosen == optionList.size() - 1){
+            if(OptionChosen == optionList.size() - 1) { // go back
                 System.out.println(ump.previousMenu);
                 userInteracting = false;
             }
             else{
-                if(currentTradingUser.isFrozen()){
+                // if account is frozen, print message and send them pack to previous menu
+                if(um.getFrozenAccounts().contains(currentTradingUser)) {
                     System.out.println(ump.accountFrozen(true) + ump.requestAccountUnfreeze);
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
                 }
                 else {
+                    // they are allowed to create another transaction
                     Item transactionItem = itemList.get(OptionChosen);
                     TradingUser transactionItemOwner = availableItems.get(transactionItem);
                     userInteracting = createTransactionMenu(transactionItem,transactionItemOwner);

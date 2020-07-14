@@ -170,6 +170,7 @@ public class TradingSystem {
         boolean notLoggedIn = true;
         // try to log in with current user and pass, if unsuccessful prompt for new user and pass and try again
         while (notLoggedIn) {
+            // if user and pass matches an admin account
             if (adminManager.validAdmin(username, password)) {
                 notLoggedIn = false;
                 try {
@@ -180,6 +181,7 @@ public class TradingSystem {
                     // we already checked this username corresponds to a valid admin on line 109
                     // so technically adminManager.getAdmin(username) should never throw an exception
                 }
+                // if user and pass matches a trading user account
             } else if (tradingUserManager.validUser(username, password)) {
                 notLoggedIn = false;
                 try {
