@@ -7,6 +7,7 @@ import Transactions.Transaction;
 import java.util.*;
 
 /**
+ * <h1>TradingUserManager</h1>
  * Manages all TradingUsers in the system.
  * <p>
  * Stores a list of all TradingUsers in the system, all flagged TradingUsers, all frozen Users, and a HashMap mapping between
