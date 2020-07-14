@@ -23,12 +23,13 @@ public class UserMenuPresenter extends MenuPresenter {
 
     /* item strings */
     protected String offerItem = "Would you like to offer one of your items?";
+    protected String addToWishlist = "Would you like to add this item to your wishlist?";
     protected String itemRequested = "Items has been requested and is now being reviewed by the administrators.";
     protected String requestAccountUnfreeze = "You cannot make an offer for this item. Please request to have your account unfrozen.";
     protected String selectItemToOffer = "Please select one of the items from your inventory that you want to offer:";
 
     /* transaction strings */
-    protected String makeTransaction = "Would you like to make another transaction?";
+    protected String makeTransaction = "Would you like to make a transaction?";
     protected String meetingLocation = "Where do you want to have the meeting?";
     protected String scheduleMeeting = "Please schedule a meeting time with the other user.";
     protected String scheduleSecondMeeting = "Please schedule a second meeting to reverse the transaction."; // what did you mean by "reverse" the transaction?

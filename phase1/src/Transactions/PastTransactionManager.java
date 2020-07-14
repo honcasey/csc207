@@ -8,20 +8,19 @@ import Users.TradingUser;
 import Users.TransactionHistory;
 
 /**
- * This class manages methods regarding TransactionHistory of a User
+ * Manages methods regarding TransactionHistory of a User
  */
 public class PastTransactionManager extends TransactionManager{
-    public PastTransactionManager(Map<UUID, Transaction> transactions){
-        super(transactions);
-
-    }
 
     /**
-     * A helper method for weeklyThresholdExceeded
-     * @param tradingUser TradingUser of Interest
-     * @return int of the number of transactions that have been made by the user per a calendar week
+     * Constructs an instance of a PastTransactionManager.
+     * @param transactions hashmap of all transactions and their UUID
      */
+    public PastTransactionManager(Map<UUID, Transaction> transactions){
+        super(transactions);
+    }
 
+    /* A helper method for weeklyThresholdExceeded */
     private int numTransactionsInWeek(TradingUser tradingUser){
         TransactionHistory transactionHistory = tradingUser.getTransactionHistory();
         List<UUID> transactionHistoryId = transactionHistory.getAllPastTransactions();
@@ -62,5 +61,4 @@ public class PastTransactionManager extends TransactionManager{
         int numberWeeklyTransactions = numTransactionsInWeek(tradingUser);
         return numberWeeklyTransactions >= threshold;
     }
-
 }

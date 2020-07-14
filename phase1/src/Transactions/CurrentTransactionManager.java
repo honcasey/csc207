@@ -1,15 +1,13 @@
 package Transactions;
-
 import Items.Item;
 import Users.TradingUser;
-
 import java.time.LocalTime;
 import java.util.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- * This class manages a transaction between two users. A transaction begins once a user expresses interest in an item.
+ * Manages a transaction between two users. A transaction begins once a user expresses interest in an item.
  */
 public class CurrentTransactionManager extends TransactionManager{
 
@@ -199,7 +197,7 @@ public class CurrentTransactionManager extends TransactionManager{
      */
     public ArrayList<String> userTransactionActions(Transaction transaction){
         String status = transaction.getStatus();
-        ArrayList<String> options = new ArrayList<String>();
+        ArrayList<String> options = new ArrayList<>();
         switch (status) {
             case "pending": {
                 String[] list = new String[]{"Edit Transactions Meeting(s)", "Confirm Transactions Meeting(s)", "Cancel transaction"};
