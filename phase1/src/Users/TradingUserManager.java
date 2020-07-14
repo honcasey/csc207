@@ -105,13 +105,13 @@ public class TradingUserManager {
      */
     public void changeThreshold(TradingUser tradingUser, int thresholdValue, String thresholdType) {
         switch (thresholdType) {
-            case "borrowThreshold":
+            case "Borrow":
                 tradingUser.setBorrowThreshold(thresholdValue);
                 break;
-            case "weeklyThreshold":
+            case "Weekly":
                 tradingUser.setWeeklyThreshold(thresholdValue);
                 break;
-            case "incompleteThreshold":
+            case "Incomplete":
                 tradingUser.setIncompleteThreshold(thresholdValue);
                 break;
         }
