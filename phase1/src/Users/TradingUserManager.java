@@ -132,6 +132,7 @@ public class TradingUserManager {
      */
     public void unfreezeAccount(TradingUser tradingUser) {
         tradingUser.setStatus("active");
+        idToUser.get(tradingUser.getUserId()).setStatus("active");
     }
 
     /**
@@ -296,7 +297,7 @@ public class TradingUserManager {
         }
     }
 
-    boolean borrowThresholdExceeded(TradingUser tradingUser){
+    public boolean borrowThresholdExceeded(TradingUser tradingUser){
     int numBorrowed = tradingUser.getTransactionHistory().getNumItemsBorrowed();
     int numLent = tradingUser.getTransactionHistory().getNumItemsLended();
     int threshold = tradingUser.getBorrowThreshold();

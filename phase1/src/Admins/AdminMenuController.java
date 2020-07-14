@@ -287,8 +287,7 @@ public class AdminMenuController {
                             System.out.println(amp.accountFrozen(curr.toString(), curr.getStatus()));
                             userInteracting = false;
                         } else if (amp.indexToOption(optionChosen, amp.constructFlaggedUsersMenu(), amp.unfreezeAccount)) {
-                            // admin decides not to freeze this account
-                            um.unfreezeAccount(curr);
+                            // admin decides not to freeze this account;
                             usersToDelete.add(curr);
                             System.out.println(amp.accountFrozen(curr.toString(), curr.getStatus()));
                             userInteracting = false;
