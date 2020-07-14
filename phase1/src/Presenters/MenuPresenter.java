@@ -9,9 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * MenuPresenter is an abstract class that stores all common strings between the menu accessed by an AdminUser, and the
- * menu accessed by a TradingUser.
- *
+ * Stores all common strings between the menu accessed by an AdminUser, and the menu accessed by a TradingUser.
  */
 public abstract class MenuPresenter {
 
