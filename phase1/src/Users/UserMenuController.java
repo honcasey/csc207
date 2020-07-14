@@ -152,7 +152,7 @@ public class UserMenuController{
         }
 
         else if(oneWayBool){   // note permBool must be false at this point: aka you're creating a temp Transaction
-            Meeting SecondMeeting = meetingDetailsMenu("Second");
+            Meeting SecondMeeting = tm.meetOneMonthLater(FirstMeeting);
             Transaction newTransaction = tm.createTransaction(
                     Owner.getUserId(),currentTradingUser.getUserId(), item,FirstMeeting,SecondMeeting);
             updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
@@ -160,7 +160,7 @@ public class UserMenuController{
         else{
             System.out.println("Please select one of the items from your inventory that you want to offer:");
             Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
-            Meeting SecondMeeting = meetingDetailsMenu("Second");
+            Meeting SecondMeeting = tm.meetOneMonthLater(FirstMeeting);
             Transaction newTransaction = tm.createTransaction(Owner.getUserId(),
                     currentTradingUser.getUserId(), item, ChosenItem,FirstMeeting,SecondMeeting);
             updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
