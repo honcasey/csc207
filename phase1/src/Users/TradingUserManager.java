@@ -296,4 +296,12 @@ public class TradingUserManager {
             }
         }
     }
+
+    boolean borrowThresholdExceeded(TradingUser tradingUser){
+    int numBorrowed = tradingUser.getTransactionHistory().getNumItemsBorrowed();
+    int numLent = tradingUser.getTransactionHistory().getNumItemsLended();
+    int threshold = tradingUser.getBorrowThreshold();
+
+    return numBorrowed - numLent >= threshold;
+    }
 }
