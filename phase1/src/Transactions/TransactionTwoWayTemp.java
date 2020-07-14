@@ -102,7 +102,7 @@ public class TransactionTwoWayTemp extends Transaction {
         String FirstMeetingString = this.getFirstMeeting().toString();
         String SecondMeetingString = this.getSecondMeeting().toString();
         return("One way transaction to trade "+ getItem1Name() +" for " + this.item2Name +". Where the first "+ FirstMeetingString
-                +". The second" + SecondMeetingString + ".");
+                +". The second" + SecondMeetingString + "."  + "\n Status: " + getStatus());
     }
     @Override
     public List<Meeting> getTransactionMeetings(){
