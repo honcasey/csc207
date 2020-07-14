@@ -345,6 +345,10 @@ public class TradingUserManager {
         return numBorrowed - numLent >= threshold;
     }
 
+    /**
+     * Returns a list of usernames corresponding to the TradingUser's in flaggedAccounts.
+     * @return a list of flagged TradingUser's usernames.
+     */
     public List<String> convertFlaggedUsersToUsernames() {
         List<String> usernames = new ArrayList<>();
         for (TradingUser user : flaggedAccounts) {
