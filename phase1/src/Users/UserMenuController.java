@@ -328,9 +328,6 @@ public class UserMenuController{
                         List<Transaction> OneWayTransaction = ptm.getTransactionsFromIdList(OneWayTransactionIds);
                         List<String> oneWayTransactionOptions = ump.constructTransactionList(OneWayTransaction);
                         ump.displayOptions(oneWayTransactionOptions);
-                        System.out.println("Press \"ENTER\" if you would like to go back...");
-                        Scanner scanner = new Scanner(System.in);
-                        scanner.nextLine();
                     }
                 } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewRecentTransactions("two"))) {
                     List<UUID> TwoWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentTwoWayTransactions();
@@ -341,9 +338,6 @@ public class UserMenuController{
                         List<Transaction> TwoWayTransactions = ptm.getTransactionsFromIdList(TwoWayTransactionIds);
                         List<String> twoWayTransactionOptions = ump.constructTransactionList(TwoWayTransactions);
                         ump.displayOptions(twoWayTransactionOptions);
-                        System.out.println("Press \"ENTER\" if you would like to go back...");
-                        Scanner scanner = new Scanner(System.in);
-                        scanner.nextLine();
                     }
                 } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewThreeMostTraded)) {
                     List<String> TradedWithUsersOptions = currentTradingUser.getTransactionHistory().mostTradedWithUsers();
@@ -352,11 +346,11 @@ public class UserMenuController{
                         userInteracting = false;
                     } else {
                         ump.displayOptions(TradedWithUsersOptions);
-                        System.out.println("Press \"ENTER\" if you would like to go back...");
-                        Scanner scanner = new Scanner(System.in);
-                        scanner.nextLine();
                     }
                 }
+                System.out.println("Press \"ENTER\" if you would like to go back...");
+                Scanner scanner = new Scanner(System.in);
+                scanner.nextLine();
             }
         }
     }
