@@ -12,20 +12,19 @@ import java.util.Scanner;
  */
 public abstract class MenuPresenter {
 
-    public String borrowThresholdDescription = "minimum number of times that this user must lend something before they can borrow/trade";
-    public String weeklyThresholdDescription = "maximum number of transactions that this user can participate in a week";
-    public String incompleteThresholdDescription = "maximum number of incomplete transactions before this user's account is frozen";
+    protected String borrowThresholdDescription = "minimum number of times that this user must lend something before they can borrow/trade";
+    protected String weeklyThresholdDescription = "maximum number of transactions that this user can participate in a week";
+    protected String incompleteThresholdDescription = "maximum number of incomplete transactions before this user's account is frozen";
 
-    public String previousMenu = "Loading Previous Menu";
-    private String optionPrompt = "Please type a number corresponding to one of the above options.";
-    private String invalidOption = "Not a valid option. Please enter a valid option.";
-    public String logout = "Log out";
-    public String itemDescription = "What is the description of this item?";
-    public String successfulLogout = "You have successfully logged out.";
-    public String usernameInvalid = "Username does not exist.";
-    public String usernameTaken = "Username already taken. Please enter a different one.";
+    protected String previousMenu = "Loading Previous Menu";
+    protected String optionPrompt = "Please type a number corresponding to one of the above options.";
+    protected String invalidOption = "Not a valid option. Please enter a valid option.";
+    protected String logout = "Log out";
+    protected String itemDescription = "What is the description of this item?";
+    protected String successfulLogout = "You have successfully logged out.";
+    protected String usernameInvalid = "Username does not exist.";
+    protected String usernameTaken = "Username already taken. Please enter a different one.";
     protected String nextItem = "Go to next item.";
-
 
     /**
      * Formats and displays a list of options to the user.
@@ -41,15 +40,10 @@ public abstract class MenuPresenter {
     }
 
     /**
-     * Construct methods like this return a list of options/prompts that the menu will have. ConstructMainMenu
-     * in Menu Presenter is an abstract method that will be called only
-     * <p>
-     * This particular method constructs the option list that the user will be greeted with upon first logging into
-     * the program.
-     *
-     * @return this returns a list of options that the user can choose from.
+     * Constructs the option list that the user will be greeted with upon first logging into the program.
+     * @return list of options that the user can choose from.
      */
-    public abstract List<String> constructMainMenu();
+    protected abstract List<String> constructMainMenu();
 
     /**
      * This method takes in a list of options and handles option display and selection.(generic)
@@ -58,7 +52,7 @@ public abstract class MenuPresenter {
      * @param OptionTitle the title of the menu.
      * @return this returns the option that was selected by the user as a string.
      */
-    public String handleOptions(List<String> OptionList, boolean BackOption, String OptionTitle) {
+    protected String handleOptions(List<String> OptionList, boolean BackOption, String OptionTitle) {
         if (BackOption) {
             OptionList.add("Go back.");
         }
@@ -72,7 +66,7 @@ public abstract class MenuPresenter {
      * https://stackoverflow.com/questions/13215639/asking-user-for-another-prompt-after-wrong-input-in-java
      * Answer by Mordechai
      * @param OptionList list of options
-     * @return which option is selected
+     * @return String of selected option
      */
     private String selectOption(List<String> OptionList){
         Scanner scanner = new Scanner(System.in);
@@ -87,7 +81,7 @@ public abstract class MenuPresenter {
         return(OptionList.get(OptionChosen-1));
     }
 
-    private int GetUserInt(String ErrorMsg){
+    private int GetUserInt(String ErrorMsg){ // TO-DO: delete?
         Scanner scanner = new Scanner(System.in);
         int UserInt;
         do {
@@ -101,14 +95,15 @@ public abstract class MenuPresenter {
     }
 
     /**
-     * This method takes in a list of options and handles option display and selection. (generic)
+     * Handles options by displaying the input option list as a numbered list, with the choice of adding a "Go Back"
+     * option at the end of the list.
      * @param OptionList the list of options you want displayed.
      * @param BackOption boolean representing if you want a back option appended to the option list and displayed.
      * @param OptionTitle the title of the option's page.
      * @return returns the index of the option chosen by the user corresponding the option list that was passed in.
      *          So that optionlist.get(return value) gives the option that the user has chosen.
      */
-    public int handleOptionsByIndex(List<String> OptionList, boolean BackOption, String OptionTitle) {
+    protected int handleOptionsByIndex(List<String> OptionList, boolean BackOption, String OptionTitle) {
         if (BackOption) {
             OptionList.add("Go back.");
         }
@@ -124,7 +119,7 @@ public abstract class MenuPresenter {
      * @param option the name of option comparing the index of the option list
      * @return boolean that returns if the input option number matches the string option given
      */
-    public boolean indexToOption(int input, List<String> optionList, String option){
+    protected boolean indexToOption(int input, List<String> optionList, String option){
         return optionList.get(input).equals(option);
     }
 
@@ -142,16 +137,16 @@ public abstract class MenuPresenter {
     }
 
     /**
-     * This method handles asking a yes/no question to the user and taking their answer as "Y" or "N"
+     * Handles asking a yes/no question to the user and taking their answer as "Y" or "N"
      * @param Question The yes or no question you would like to ask the user (as a string.)
-     * @return return a boolean: true iff the user has entered "Yes" to your question and returns boolean: false iff
+     * @return return true iff the user has entered "Yes" to your question and returns false iff
      * the user has entered "No" to your question.
      */
-    public boolean handleYesNo(String Question,String yesString,String noString){
+    protected boolean handleYesNo(String Question,String yesString,String noString){
         Scanner scanner = new Scanner(System.in);
         String UserInput;
         System.out.println(Question);
-        System.out.println("Please Enter"+ "'"+yesString+"'" +" or "+"'"+noString+"'.");
+        System.out.println("Please Enter " + "'" + yesString + "'" + " or " + "'"+noString+"'.");
         do {
             while (!scanner.hasNext()) {
                 System.out.println(invalidOption);
@@ -163,12 +158,12 @@ public abstract class MenuPresenter {
     }
 
     /**
-     * Prompts the user for the time.
+     * Prompts the user for the time in specific format.
      * Checks the date string that the user has inputted to see if it is in the accepted format Then returns the time
-     * @return this returns tru iff Returns true iff it is
-     *      in the accepted format dd/mm/yyyy.
+     * @param optionTimePrompt the question to be displayed prompting time input by the user
+     * @return true iff the prompt is in the accepted format dd/mm/yyyy.
      */
-    public LocalTime inputTimeGetter(String optionTimePrompt){
+    protected LocalTime inputTimeGetter(String optionTimePrompt){
         Scanner scanner = new Scanner(System.in);
         LocalTime returnTime;
         while (true) {
@@ -187,13 +182,12 @@ public abstract class MenuPresenter {
         return(returnTime);
     }
 
-
     /**
-     * Prompts the user for information to construct a date object, then
-     * @param optionDatePrompt What you want to ask the user.
-     * @return this returns a date object that was constructed by the user.
+     * Prompts the user for information to construct a date object with specific format.
+     * @param optionDatePrompt the question to be displayed prompting date input by the user.
+     * @return a date object that was constructed by the user.
      */
-    public LocalDate inputDateGetter(String optionDatePrompt){
+    protected LocalDate inputDateGetter(String optionDatePrompt){
         Scanner scanner = new Scanner(System.in);
         LocalDate returnDate;
         while (true) {
@@ -212,34 +206,32 @@ public abstract class MenuPresenter {
         return(returnDate);
     }
 
-    public String empty(String which) { return which + " list is empty. Nothing to be checked."; }
+    protected String empty(String which) { return which + " list is empty. Nothing to be checked."; }
 
-    public String enterName(String name) { return "Please enter name for this " + name; }
+    protected String enterName(String name) { return "Please enter name for this " + name; }
 
-    public String enterPassword(String name) { return "Please enter password for this " + name; }
+    protected String enterPassword(String name) { return "Please enter password for this " + name; }
 
-    public String successfullyAdded(String what, String who, String where) {
+    protected String successfullyAdded(String what, String who, String where) {
         return what + "has been successfully added to " + who + "'s " + where;
     }
-    public String successfullyRemoved(String what, String where){
+    protected String successfullyRemoved(String what, String where){
         return what + "has been successfully removed from" + where;
     }
 
-    public String successfullyChanged(String what, String who) {
+    protected String successfullyChanged(String what, String who) {
         return who + "'s " + what + " has been successfully changed.";
     }
 
-    public String successfullyCreated(String what) {
+    protected String successfullyCreated(String what) {
         return what + " has been successfully created.";
     }
 
-    public String validOptions(List<String> optionList) {
+    protected String validOptions(List<String> optionList) {
         return "Valid options include: " + optionList.toString();
     }
 
-    public String accountFrozen(String who, String frozen) { // possibly move back to adminmenupresenter
+    protected String accountFrozen(String who, String frozen) { // possibly move back to adminmenupresenter
         return who + "'s account is set to " + frozen;
     }
-
-
 }
