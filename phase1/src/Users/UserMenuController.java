@@ -137,8 +137,9 @@ public class UserMenuController{
         System.out.println(ump.scheduleMeeting);
         Meeting FirstMeeting = meetingDetailsMenu("First");
 
-        boolean permBool = ump.handleYesNo(ump.whatTypeOfTransaction("permanent"));
-        boolean oneWayBool = !ump.handleYesNo(ump.offerItem);
+        boolean permBool = ump.handleYesNo(ump.whatTypeOfTransaction(
+                "permanent"),"Permanent","Temporary");
+        boolean oneWayBool = !ump.handleYesNo(ump.offerItem,"Yes","No");
 
         if(permBool & oneWayBool){
             Transaction newTransaction = tm.createTransaction(
@@ -180,7 +181,7 @@ public class UserMenuController{
             }
         }
         availableItems.remove(item);
-        return(ump.handleYesNo(ump.makeTransaction));
+        return(ump.handleYesNo(ump.makeTransaction,"Yes","No"));
     }
 
     private Item PickUserItemFlow(TradingUser CurrentUser){

@@ -147,18 +147,18 @@ public abstract class MenuPresenter {
      * @return return a boolean: true iff the user has entered "Yes" to your question and returns boolean: false iff
      * the user has entered "No" to your question.
      */
-    public boolean handleYesNo(String Question){
+    public boolean handleYesNo(String Question,String yesString,String noString){
         Scanner scanner = new Scanner(System.in);
         String UserInput;
         System.out.println(Question);
-        System.out.println("Please Enter 'Yes' or 'No'.");
+        System.out.println("Please Enter"+ "'"+yesString+"'" +" or "+"'"+noString+".");
         do {
             while (!scanner.hasNext()) {
                 System.out.println(invalidOption);
                 scanner.next();
             }
             UserInput = scanner.next();
-        } while (!(UserInput.equals("Yes") || UserInput.equals("No")));
+        } while (!(UserInput.equals(yesString) || UserInput.equals("No")));
         return UserInput.equals("Yes");
     }
 
