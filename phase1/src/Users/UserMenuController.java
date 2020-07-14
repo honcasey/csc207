@@ -2,6 +2,7 @@ package Users;
 
 import Admins.AdminManager;
 import Exceptions.InvalidItemException;
+import Exceptions.InvalidTransactionException;
 import Items.Item;
 import Items.ItemManager;
 import Transactions.Meeting;
@@ -397,10 +398,20 @@ public class UserMenuController{
                         }
                         /* if transaction is temporary (two meetings) */
                         else { um.handleTempTransactionItems(transaction); } // handles users inventories and wishlists
-                        /* if transaction is over (incomplete, complete, never returned) then move to transaction history and remove from current transactions
-                        * if transaction is cancelled, remove from current transactions */
-                        if (um.moveTransactionToTransactionHistory(transaction, currentTradingUser) || transaction.getStatus().equals("cancelled")) {
+                        /* if transaction is over (incomplete, complete, never returned) then move to transaction history
+                        * and remove from current transactions */
+                        if (um.moveTransactionToTransactionHistory(transaction, currentTradingUser)) {
                             currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
+                        }
+                        /* if transaction is cancelled, remove from current transactions */
+                        else if (transaction.getStatus().equals("cancelled")) {
+                            try {
+                                tm.removeTransactionFromAllTransactions(transaction.getId()); // if cancelled, the transaction is deleted forever
+                                currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
+                            }
+                            catch (InvalidTransactionException e) {
+                                //
+                            }
                         }
                     }
                 }

@@ -7,9 +7,8 @@ import java.util.UUID;
 
 /**
  * <h1>TradingUser</h1>
- * Represents a Users.TradingUser in the trading system
+ * Represents a TradingUser in the trading system
  */
-
 public class TradingUser extends User implements Serializable {
 
     private final TransactionHistory transactionHistory;
@@ -22,8 +21,8 @@ public class TradingUser extends User implements Serializable {
     private String status = "active";
 
     /**
-     * Constructs an instance of Users.TradingUser based on Strings of username, password, and email.
-     * @param username online identifier of a Users.TradingUser(
+     * Constructs an instance of TradingUser based on Strings of username, password, and email.
+     * @param username online identifier of a TradingUser
      * @param password account password
      */
      public TradingUser(String username, String password) {
@@ -35,7 +34,7 @@ public class TradingUser extends User implements Serializable {
      }
 
     /**
-     * Getter for this Users.TradingUser's transactionHistory as list of Transactions they have previously been involved with.
+     * Getter for this TradingUser's transactionHistory as list of Transactions they have previously been involved with.
      * @return list of Transactions.Transaction objects
      */
     public TransactionHistory getTransactionHistory() { return transactionHistory; }
@@ -96,7 +95,6 @@ public class TradingUser extends User implements Serializable {
      * Getter for the minimum number of Items that this Users.TradingUser has to have lent before they can borrow an Items.Item.
      * @return borrowThreshold as an integer
      */
-
     public int getBorrowThreshold() { return borrowThreshold; }
 
     /**

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
+ * <h1>MenuPresenter</h1>
  * Stores all common strings between the menu accessed by an AdminUser, and the menu accessed by a TradingUser.
  * Class variables represent commonly used strings between the AdminMenuPresenter and UserMenuPresenter.
  */
