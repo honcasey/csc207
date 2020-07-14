@@ -263,7 +263,7 @@ public class AdminMenuController {
                         } // else it goes to the next flagged user
                     }
                 }
-                am.getFrozenAccounts().removeAll(usersToDelete);
+                am.getFlaggedAccounts().removeAll(usersToDelete);
             }
         }
     }
