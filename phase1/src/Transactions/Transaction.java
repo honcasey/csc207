@@ -25,7 +25,7 @@ import java.util.UUID;
  * -- "Complete" -- the last meeting of the transaction has happened and confirmed by both users. <br>
  * -- "Cancelled" -- transaction has been cancelled. The transaction can only be in this state after pending
  *                   (too many times edited). <br>
- * -- "No-Show" -- A user did not show at meeting 1. <br>
+ * -- "Incomplete" -- A user did not show at meeting 1. <br>
  * -- "Never Returned" -- A user did not show up at meeting 2 and/or items were not returned.(only used for temporary transactions). <br>
  *
  * statusUser1: the status that user1 can change <br>

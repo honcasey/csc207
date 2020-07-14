@@ -387,7 +387,7 @@ public class UserMenuController{
                             if (um.moveTransactionToTransactionHistory(transaction, currentTradingUser)) {
                                 currentTransactionsIds.remove(transaction.getId());
                             }
-                            um.handleConfirmedTransaction(transaction);
+                            um.handleSecondMeeting(transaction);
                         } else {
                             editMeeting(currentTradingUser, transaction);
                         }

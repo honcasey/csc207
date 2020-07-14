@@ -282,11 +282,11 @@ public class TradingUserManager {
         return idToUser.get(id);
     }
 
-    protected void handleConfirmedTransaction(Transaction newlyConfirmed){
-        if(newlyConfirmed.getStatus().equals("Confirmed")){
-            List<UUID> itemidlist = newlyConfirmed.getTransactionItems();
-            TradingUser user1 = this.getTradingUserById(newlyConfirmed.getUser1());
-            TradingUser user2 = this.getTradingUserById(newlyConfirmed.getUser2());
+    protected void handleFirstMeeting(Transaction transaction){ // if permanent transaction
+        if(transaction.getStatus().equals("Complete")){
+            List<UUID> itemidlist = transaction.getTransactionItems();
+            TradingUser user1 = this.getTradingUserById(transaction.getUser1());
+            TradingUser user2 = this.getTradingUserById(transaction.getUser2());
             if(itemidlist.size()==2){
                 user1.removeFromWishlist(itemidlist.get(1));
                 user2.removeFromWishlist(itemidlist.get(0));
@@ -296,6 +296,37 @@ public class TradingUserManager {
             else if(itemidlist.size() == 1){
                 user2.removeFromWishlist(itemidlist.get(0));
                 user1.getInventory().remove(itemidlist.get(1));
+            }
+        }
+    }
+
+    protected void handleSecondMeeting(Transaction transaction) { // if temporary transaction
+        if (transaction.getStatus().equals("Confirmed") || transaction.getStatus().equals("Traded")) { // after first meeting
+            List<UUID> itemidlist = transaction.getTransactionItems();
+            TradingUser user1 = this.getTradingUserById(transaction.getUser1());
+            TradingUser user2 = this.getTradingUserById(transaction.getUser2());
+            if (itemidlist.size() == 2) {
+                user1.removeFromWishlist(itemidlist.get(1));
+                user2.removeFromWishlist(itemidlist.get(0));
+                user1.getInventory().remove(itemidlist.get(0));
+                user2.getInventory().remove(itemidlist.get(1));
+            } else if (itemidlist.size() == 1) {
+                user2.removeFromWishlist(itemidlist.get(0));
+                user1.getInventory().remove(itemidlist.get(1));
+            }
+        }
+        if (transaction.getStatus().equals("Complete")) { // after second meeting
+            List<UUID> itemidlist = transaction.getTransactionItems();
+            TradingUser user1 = this.getTradingUserById(transaction.getUser1());
+            TradingUser user2 = this.getTradingUserById(transaction.getUser2());
+            if (itemidlist.size() == 2) {
+                user1.addToWishlist(itemidlist.get(1));
+                user2.addToWishlist(itemidlist.get(0));
+                user1.getInventory().add(itemidlist.get(0));
+                user2.getInventory().add(itemidlist.get(1));
+            } else if (itemidlist.size() == 1) {
+                user2.addToWishlist(itemidlist.get(0));
+                user1.getInventory().add(itemidlist.get(1));
             }
         }
     }
