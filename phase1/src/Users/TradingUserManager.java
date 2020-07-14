@@ -155,11 +155,16 @@ public class TradingUserManager {
      * @param tradingUser A tradingUser in a trading system
      * @param transaction a transaction between two Users
      */
-    // TO-DO: consider splitting into two methods. Reasoning for having one method, user1 == tradingUser is needed for both updating the UserNumTradeTimes and NumItemsBorrowed, NumItemsLended
+
     private void updateTransactionHistoryValues(TradingUser tradingUser, Transaction transaction) {
         TransactionHistory tH = tradingUser.getTransactionHistory();
+
+        // if the user is the person giving away the object (user1) in transaction
         if (transaction.getUser1() == tradingUser.getUserId()) {
+            // increment the numLended
             tradingUser.getTransactionHistory().setNumItemsLended();
+
+            // get the username of user2 and see if it's in the idToUser and update it; otherwise, add the username
             String u2 = idToUser.get(transaction.getUser2()).getUsername();
             if (tH.getUsersNumTradeTimes().containsKey(u2)) {
                 tH.getUsersNumTradeTimes().put(u2, tH.getUsersNumTradeTimes().get(u2) + 1);
@@ -167,15 +172,20 @@ public class TradingUserManager {
                 tH.getUsersNumTradeTimes().put(u2, 1);
             }
             if (!transaction.isOneWay()) {
+                // if the transaction is a twoway, increment borrowed
                 tradingUser.getTransactionHistory().setNumItemsBorrowed();
             }
-        } else {
+        } else { // if the user is the person receiving the object (user2) in transaction
+            // increment the numBorrowed
             tradingUser.getTransactionHistory().setNumItemsBorrowed();
+            // check to see if the other user is in the first user's usersNumTradeTimes list, increment or otherwise add the new user
             String u1 = idToUser.get(transaction.getUser1()).getUsername();
             if (tH.getUsersNumTradeTimes().containsKey(u1)) {
                 tH.getUsersNumTradeTimes().put(u1, tH.getUsersNumTradeTimes().get(u1) + 1);
             } else {
                 tH.getUsersNumTradeTimes().put(u1, 1);
+
+                // if the transaction is twoway, increment lent
                 if (!transaction.isOneWay()) {
                     tradingUser.getTransactionHistory().setNumItemsLended();
                 }
