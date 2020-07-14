@@ -143,12 +143,17 @@ public class UserMenuController{
             updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
         }
         else if(permBool & !oneWayBool){
-            System.out.println("Please select one of the items from your inventory that you want to offer:");
-            Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
-            Transaction newTransaction = tm.createTransaction(
+            if(currentTradingUser.getInventory().isEmpty()){
+                System.out.println(ump.noInventoryItems);
+            }
+            else{
+                System.out.println("Please select one of the items from your inventory that you want to offer:");
+                Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
+                Transaction newTransaction = tm.createTransaction(
                     Owner.getUserId(),currentTradingUser.getUserId(), item, ChosenItem, FirstMeeting);
-            updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
-            availableItems.remove(ChosenItem);
+                updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
+                availableItems.remove(ChosenItem);
+            }
         }
 
         else if(oneWayBool){   // note permBool must be false at this point: aka you're creating a temp Transaction
@@ -158,13 +163,18 @@ public class UserMenuController{
             updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
         }
         else{
-            System.out.println("Please select one of the items from your inventory that you want to offer:");
-            Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
-            Meeting SecondMeeting = tm.meetOneMonthLater(FirstMeeting);
-            Transaction newTransaction = tm.createTransaction(Owner.getUserId(),
+            if(currentTradingUser.getInventory().isEmpty()){
+                System.out.println(ump.noInventoryItems);
+            }
+            else{
+                System.out.println("Please select one of the items from your inventory that you want to offer:");
+                Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
+                Meeting SecondMeeting = tm.meetOneMonthLater(FirstMeeting);
+                Transaction newTransaction = tm.createTransaction(Owner.getUserId(),
                     currentTradingUser.getUserId(), item, ChosenItem,FirstMeeting,SecondMeeting);
-            updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
-            availableItems.remove(ChosenItem);
+                updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
+                availableItems.remove(ChosenItem);
+            }
         }
         availableItems.remove(item);
         return(ump.handleYesNo(ump.makeTransaction));
