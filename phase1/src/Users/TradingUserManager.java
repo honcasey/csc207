@@ -240,13 +240,15 @@ public class TradingUserManager {
      * @param transaction The Transaction being moved.
      * @param tradingUser A TradingUser involved in the Transaction.
      */
-    public void moveTransactionToTransactionHistory(Transaction transaction, TradingUser tradingUser) {
+    public boolean moveTransactionToTransactionHistory(Transaction transaction, TradingUser tradingUser) {
         String status = transaction.getStatus();
         if (status.equals("incomplete") || status.equals("complete") || status.equals("neverReturned")) {
             UUID id = transaction.getId();
             tradingUser.getCurrentTransactions().remove(id);
             addToTransactionHistory(tradingUser, transaction);
+            return true;
         }
+        return false;
     }
 
     /**
