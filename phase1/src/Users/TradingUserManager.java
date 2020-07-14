@@ -282,7 +282,7 @@ public class TradingUserManager {
         return idToUser.get(id);
     }
 
-    protected void handleFirstMeeting(Transaction transaction){ // if permanent transaction
+    protected void handlePermTransactionItems(Transaction transaction){ // if permanent transaction
         if(transaction.getStatus().equals("Complete")){
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
@@ -300,8 +300,8 @@ public class TradingUserManager {
         }
     }
 
-    protected void handleSecondMeeting(Transaction transaction) { // if temporary transaction
-        if (transaction.getStatus().equals("Confirmed") || transaction.getStatus().equals("Traded")) { // after first meeting
+    protected void handleTempTransactionItems(Transaction transaction) { // if temporary transaction
+        if (transaction.getStatus().equals("Traded")) { // after first meeting
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
