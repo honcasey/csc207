@@ -52,15 +52,6 @@ public class AdminMenuController {
         }
     }
 
-    private void approveInventory(TradingUser tradingUser, Item item, boolean approved) { // can be removed?
-        if (approved) { um.addItem(tradingUser, item, "inventory");
-        im.addItem(item);
-        allPendingItems.remove(item);
-        System.out.println(amp.addItem("approved"));}
-        else { allPendingItems.remove(item);
-        System.out.println(amp.addItem("declined"));}
-    }
-
     private void checkPendingItems() {
         boolean userInteracting = true;
         while (userInteracting) {
@@ -101,8 +92,6 @@ public class AdminMenuController {
                     }
                 }
                 allPendingItems.keySet().removeAll(keysToDelete);  //we deleted all of the items that were approved or rejected
-
-                // delete statements
             }
         }
     }

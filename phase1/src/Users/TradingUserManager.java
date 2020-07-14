@@ -13,9 +13,9 @@ import java.util.UUID;
  * This class manages all TradingUsers.
  */
 public class TradingUserManager {
-    private List<TradingUser> allTradingUsers;
-    private List<TradingUser> flaggedAccounts;
-    private List<TradingUser> frozenAccounts;
+    private final List<TradingUser> allTradingUsers;
+    private final List<TradingUser> flaggedAccounts;
+    private final List<TradingUser> frozenAccounts;
     private Map<UUID, TradingUser> idToUser;
 
     /**
@@ -50,7 +50,7 @@ public class TradingUserManager {
     }
 
     /**
-     * To retrieve a specific user by username.
+     * Retrieve a specific user by username.
      *
      * @param username online identifier of a Users.TradingUser
      * @return username and userId as string separated by comma
@@ -65,7 +65,7 @@ public class TradingUserManager {
     }
 
     /**
-     * To add an item to tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
+     * Adds an item to tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
      *
      * @param tradingUser     the tradingUser
      * @param item     An item in the trading system.
@@ -80,7 +80,7 @@ public class TradingUserManager {
     }
 
     /**
-     * To remove a item from tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
+     * Removes a item from tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
      *
      * @param tradingUser    A tradingUser in the trading system.
      * @param item     An item in the trading system.
@@ -95,7 +95,7 @@ public class TradingUserManager {
     }
 
     /**
-     * To change the tradingUser's specified threshold.
+     * Changes the tradingUser's specified threshold.
      *
      * @param tradingUser  A tradingUser in the trading system.
      * @param thresholdValue new value of threshold as an int
@@ -205,16 +205,11 @@ public class TradingUserManager {
         return false;
     }
 
-    public void addToFlaggedAccounts(TradingUser tradingUser) {
-        flaggedAccounts.add(tradingUser);
-    }
-
     /**
      * Retrieves a list of Users that have had their account flagged to be frozen automatically by the system
      *
      * @return list of flagged to be frozen users
      */
-
     public List<TradingUser> getFlaggedAccounts() {
         return flaggedAccounts;
     }
@@ -238,6 +233,12 @@ public class TradingUserManager {
         return tradingUser.getCurrentTransactions().size() >= tradingUser.getIncompleteThreshold();
     }
 
+    /**
+     * Takes Transaction and moves it from TradingUser's currentTransactions to their TransactionHistory.
+     *
+     * @param transaction The Transaction being moved.
+     * @param tradingUser A TradingUser involved in the Transaction.
+     */
     public void moveTransactionToTransactionHistory(Transaction transaction, TradingUser tradingUser) {
         String status = transaction.getStatus();
         if (status.equals("incomplete") || status.equals("complete") || status.equals("neverReturned")) {
@@ -269,6 +270,11 @@ public class TradingUserManager {
         }
     }
 
+    /**
+     * Retrieves tradingUser by userId
+     * @param id id of tradingUser
+     * @return a tradingUser
+     */
     public TradingUser getTradingUserById(UUID id) {
         return idToUser.get(id);
     }

@@ -1,14 +1,15 @@
-import java.io.IOException;
 
+/**
+ * <h1>TradingApplication</h1>
+ * <p>Contains the application's main entry point.</p>
+ */
 public class TradingApplication {
 
+    /**
+     * The program's main entry point.
+     */
     public static void main(String[] args) {
         TradingSystem tradingSystem = new TradingSystem();
-        try {
-            tradingSystem.run();
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Caught an Exception");
-            e.printStackTrace();
-        }
+        tradingSystem.run();
     }
 }
