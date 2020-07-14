@@ -306,6 +306,7 @@ public class UserMenuController{
     }
 
     /**
+     * Displays past transactions / history of a TradingUser
      * Waiting for user input(last 3 lines):
      * https://stackoverflow.com/questions/26184409/java-console-prompt-for-enter-input-before-moving-on/26184565
      * by M Anouti
@@ -315,13 +316,14 @@ public class UserMenuController{
         while (userInteracting) {
             List<String> MenuOptionList = ump.constructPastTransactionMenu();
             int OptionChosen = ump.handleOptionsByIndex(MenuOptionList, true, "Past Transactions Menu");
-            if (OptionChosen == MenuOptionList.size() - 1) {
+            if (OptionChosen == MenuOptionList.size() - 1) { // if "Go back" is chosen
                 System.out.println(ump.previousMenu);
                 userInteracting = false;
             } else {
+                /* if viewing most recent one-way transactions */
                 if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewRecentTransactions("one"))) {
                     List<UUID> OneWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentOneWayTransactions();
-                    if (OneWayTransactionIds.isEmpty()) {
+                    if (OneWayTransactionIds.isEmpty()) { // no recent one-way transactions
                         System.out.println(ump.empty("One Way Transactions"));
                         userInteracting = false;
                     } else {
@@ -329,9 +331,10 @@ public class UserMenuController{
                         List<String> oneWayTransactionOptions = ump.constructTransactionList(OneWayTransaction);
                         ump.displayOptions(oneWayTransactionOptions);
                     }
+                    /* if viewing most recent two-way transactions */
                 } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewRecentTransactions("two"))) {
                     List<UUID> TwoWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentTwoWayTransactions();
-                    if (TwoWayTransactionIds.isEmpty()) {
+                    if (TwoWayTransactionIds.isEmpty()) { // no recent two-way transactions
                         System.out.println(ump.empty("Two Way Transactions"));
                         userInteracting = false;
                     } else {
@@ -339,9 +342,10 @@ public class UserMenuController{
                         List<String> twoWayTransactionOptions = ump.constructTransactionList(TwoWayTransactions);
                         ump.displayOptions(twoWayTransactionOptions);
                     }
+                    /* if viewing most traded with users */
                 } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewThreeMostTraded)) {
                     List<String> TradedWithUsersOptions = currentTradingUser.getTransactionHistory().mostTradedWithUsers();
-                    if (TradedWithUsersOptions.isEmpty()) {
+                    if (TradedWithUsersOptions.isEmpty()) { // no most traded with users
                         System.out.println(ump.empty("Most Traded-with Users"));
                         userInteracting = false;
                     } else {
@@ -356,7 +360,7 @@ public class UserMenuController{
     }
 
     /**
-     * This method displays all of the active transactions for TradingUser and then redirects the user to either edit the Meetings
+     * Displays all of the active transactions for TradingUser and then redirects the user to either edit the Meetings
      * for that transaction or to change the statusUser of the Transaction
      */
     private void getActiveTransactions() {
@@ -423,7 +427,7 @@ public class UserMenuController{
                 System.out.println("Transaction has been cancelled");
                 transaction.setStatus("cancelled");
             }
-            if (!tm.transactionHasMultipleMeetings(transaction)) {
+            if (!tm.transactionHasMultipleMeetings(transaction)) { // for transactions with one meeting
                 List<String> options = ump.constructEditMeetingOptions();
                 int OptionChosen = ump.handleOptionsByIndex(options, true, "Meeting Options");
                 if (OptionChosen == options.size() - 1) {
@@ -442,7 +446,7 @@ public class UserMenuController{
                     }
                 }
             }
-            else if (tm.transactionHasMultipleMeetings(transaction)){
+            else if (tm.transactionHasMultipleMeetings(transaction)){ // for transactions with two meetings
                 int meetingNum = ump.handleOptionsByIndex(ump.constructWhichMeetingList(), true,
                         "Transaction with two meetings");
                 if (meetingNum == ump.constructWhichMeetingList().size()) {
@@ -505,6 +509,7 @@ public class UserMenuController{
         }
     }
 
+    /* set a TradingUser to be flagged for admin approval if either the borrow, weekly, or incomplete thresholds have been reached */
     private void flagAccountIfAboveThreshold(TradingUser user) {
         boolean weeklyThreshold = ptm.weeklyThresholdExceeded(user);
         boolean TransactionsExceeded = um.incompleteTransactionExceeded(user);
