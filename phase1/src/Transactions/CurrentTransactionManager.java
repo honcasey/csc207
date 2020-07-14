@@ -13,12 +13,16 @@ import java.util.ArrayList;
  */
 public class CurrentTransactionManager extends TransactionManager{
 
+    /**
+     * Constructs an instance of the CurrentTransactionManager.
+     * @param transactions a map of all transactions to their UUID
+     */
     public CurrentTransactionManager(Map<UUID, Transaction> transactions) {
         super(transactions);
     }
 
     /**
-     * A transaction will be created only if it is valid, otherwise an error will be thrown
+     * Creates a transaction only if it is valid, otherwise an error will be thrown
      * @return a one-way transaction
      * @param user1 the user who has the item.
      * @param user2 the user who want to borrow an item.
@@ -35,7 +39,7 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     /**
-     * A transaction will be created only if it is valid, otherwise an error will be thrown
+     * Creates a transaction only if it is valid, otherwise an error will be thrown
      * @return a one-way transaction
      * @param user1 the user who has the item.
      * @param user2 the user who want to borrow an item.
@@ -51,15 +55,14 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     /**
+     * Creates a transaction only if it is valid, otherwise an error will be thrown
      * @return two-way transaction
-     * A transaction will be created only if it is valid.
      * @param user1 the user who has the item.
      * @param user2 the user who want to borrow an item.
      * @param item1 the item that user2 wants to borrow.
      * @param meeting1 the first meeting location that the users will meet at to exchange items.
      * @param meeting2 the second meeting location that the users will meet at to exchange items.
      */
-
     public Transaction createTransaction(UUID user1, UUID user2, Item item1, Item item2,
                                          Meeting meeting1, Meeting meeting2) {
         Transaction transaction = new TransactionTwoWayTemp(user1, user2, item1.getId(), item2.getId(), meeting1,
@@ -71,14 +74,13 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     /**
-     * A transaction will be created only if it is valid, otherwise an error will be thrown
+     * Creates a transaction only if it is valid, otherwise an error will be thrown
      * @return a two-way transaction
      * @param user1 the user who has the item.
      * @param user2 the user who want to borrow an item.
      * @param item1 the item that user2 wants to borrow.
      * @param meeting1 the first meeting location that the users will meet at to exchange items.
      */
-
     public Transaction createTransaction(UUID user1, UUID user2, Item item1, Item item2,
                                          Meeting meeting1) {
             Transaction transaction = new TransactionTwoWayPerm(user1, user2, item1.getId(), item2.getId(),
@@ -89,7 +91,7 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     /**
-     * This method determines if the user who is editing a transaction or meeting is user1 or user2
+     * Determines if the user who is editing a transaction or meeting is user1 or user2
      * @param transaction the transaction that the user wants to work with
      * @param userId the UUID of the user
      * @return an integer either 1 or 2
@@ -104,8 +106,7 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     /**
-     * This a method for editing a meeting, this method uses overloading to selectively edit either the location, time
-     * or date
+     * Edits a meeting using overloading to selectively edit either the location, time or date
      * @param meetingNum the meeting number that the user wants to edit
      * @param transaction the transaction to which the meeting belongs to
      * @param userId the UUID of the Users.TradingUser who want to edit the transaction
@@ -129,15 +130,13 @@ public class CurrentTransactionManager extends TransactionManager{
         }
     }
 
-
     /**
-     * This a method for editing a meeting, this method uses overloading to selectively edit either the location, time
-     * or date
+     * Edits a meeting using overloading to selectively edit either the location, time or date
      * @param meetingNum the meeting number that the user wants to edit
      * @param transaction the transaction to which the meeting belongs to
      * @param userId the UUID of the Users.TradingUser who want to edit the transaction
      * @param time the new hour, minute the user want to have the meeting take place, must be in LocalTime format
-     * @return True if the meeting was successfully edited
+     * @return boolean whether the meeting was successfully edited or not
      */
     public boolean editMeeting(int meetingNum, Transaction transaction, UUID userId, LocalTime time) {
         int userNum = findUserNum(transaction, userId);
@@ -157,8 +156,7 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     /**
-     * This a method for editing a meeting, this method uses overloading to selectively edit either the location, time
-     * or date
+     * Edits a meeting using overloading to selectively edit either the location, time or date
      * @param meetingNum the meeting that the user wants to edit (first or second in transactions)
      * @param transaction the transaction to which the meeting belongs to
      * @param userId the UUID of the Users.TradingUser who want to edit the transaction
@@ -182,6 +180,11 @@ public class CurrentTransactionManager extends TransactionManager{
         }
     }
 
+    /**
+     * Creates a new meeting with the time set to one month later.
+     * @param firstMeeting an input meeting
+     * @return a new meeting object with date to one month later
+     */
     public Meeting meetOneMonthLater(Meeting firstMeeting){
         String location = firstMeeting.getLocation();
         LocalDate newDate = firstMeeting.getDate().plusMonths(1);
@@ -189,7 +192,11 @@ public class CurrentTransactionManager extends TransactionManager{
         return new Meeting(location, newTime, newDate);
     }
 
-
+    /**
+     * Returns a list of the actions that can be done by a User depending on the status of the Transaction.
+     * @param transaction the input transaction
+     * @return a list of actions as strings
+     */
     public ArrayList<String> userTransactionActions(Transaction transaction){
         String status = transaction.getStatus();
         ArrayList<String> options = new ArrayList<String>();
@@ -219,46 +226,51 @@ public class CurrentTransactionManager extends TransactionManager{
         }
 
     /**
-     * thie meeting checks for the number of meetings a transaction has
+     * Checks if the transaction has multiple meetings
      * @param transaction the transaction to be checked
-     * @return True if a transaction has more than one meeting
+     * @return true if a transaction has more than one meeting
      */
     public boolean transactionHasMultipleMeetings(Transaction transaction){
         return transaction.getTransactionMeetings().size() > 1;
+    }
+
+    /**
+     * Updates the inputted transaction's status depending on what the TradingUser selected. (note for Phase 2- this should be a presenter/controller method)
+     * @param tradingUser currently logged in TradingUser
+     * @param transaction inputted transaction
+     * @param optionChosen which option has been chosen by the currently logged in TradingUser
+     * @return true if the user's status has been updated
+     */
+    public boolean updateStatusUser(TradingUser tradingUser, Transaction transaction, String optionChosen){
+        int userNum = findUserNum(transaction, tradingUser.getUserId());
+        if (optionChosen.equals("Confirm Transactions Meeting(s)")){
+            transaction.setStatusUserNum("confirm", userNum);
+            return true;
         }
+        if (optionChosen.equals("Cancel transaction")){
+           transaction.setStatusUserNum("cancel", userNum);
+           return true;
+        }
+        if (optionChosen.equals("Confirm the exchange has taken place")) {
+            transaction.setStatusUserNum("traded", userNum);
+            return true;
+        }
+        if (optionChosen.equals("Claim that the exchange has not taken place")) {
+           transaction.setStatusUserNum("incomplete", userNum);
+           return true;
+        }
+        if (optionChosen.equals("Confirm the item has been returned")){
+           transaction.setStatusUserNum("returned", userNum);
+           return true;
+        }
+        if (optionChosen.equals("Claim that the item has not been returned past due date")){
+           transaction.setStatusUserNum("NeverReturned", userNum);
+           return true;
+        }
+        else{ return false;
+        }
+    }
 
-
-
-
-
-        public boolean updateStatusUser(TradingUser tradingUser, Transaction transaction, String optionChosen){
-            int userNum = findUserNum(transaction, tradingUser.getUserId());
-            if (optionChosen.equals("Confirm Transactions Meeting(s)")){
-                transaction.setStatusUserNum("confirm", userNum);
-                return true;
-            }
-            if (optionChosen.equals("Cancel transaction")){
-               transaction.setStatusUserNum("cancel", userNum);
-               return true;
-            }
-            if (optionChosen.equals("Confirm the exchange has taken place")) {
-                transaction.setStatusUserNum("traded", userNum);
-                return true;
-            }
-            if (optionChosen.equals("Claim that the exchange has not taken place")) {
-               transaction.setStatusUserNum("incomplete", userNum);
-               return true;
-            }
-            if (optionChosen.equals("Confirm the item has been returned")){
-               transaction.setStatusUserNum("returned", userNum);
-               return true;
-            }
-            if (optionChosen.equals("Claim that the item has not been returned past due date")){
-               transaction.setStatusUserNum("NeverReturned", userNum);
-               return true;
-            }
-            else{
-            return false;}}
     /**
      * @param transaction the transaction who's status is being updated
      * @return true if the status of the transaction has been updated, the transaction status will we updated based on
@@ -270,11 +282,6 @@ public class CurrentTransactionManager extends TransactionManager{
                 tradedToNeverReturned(transaction));
     }
 
-    /**
-     * @return True if the meeting can be edited.
-     * A meeting can be edited if a user hasn't reached his maximum number of edits yet
-     * @param meeting the meeting that a user wants to edit
-     */
     private boolean canEdit(Meeting meeting, int userNum) {
         if (userNum == 1){
             return meeting.getNumEditsUser1() < meeting.getMaxNumEdits();
@@ -284,10 +291,6 @@ public class CurrentTransactionManager extends TransactionManager{
          }
     }
 
-    /**
-     * @return True if the status of the transaction has been changed to confirmed
-     * @param transaction the transaction who's status is being changed
-     */
     private boolean pendingToConfirmed(Transaction transaction){
         if (!transaction.getStatus().equals("pending")){
             return false;
@@ -303,10 +306,6 @@ public class CurrentTransactionManager extends TransactionManager{
         }
     }
 
-    /**
-     * @return True if the status of the transaction has been changed to cancelled
-     * @param transaction the transaction who's status is being changed
-     */
     private boolean pendingToCancelled(Transaction transaction){
         if (transaction.getStatus().equals("pending") & (transaction.getStatusUser1().equals("cancel") || transaction.getStatusUser2().equals("cancel"))){
             transaction.setStatus("cancelled");
@@ -329,10 +328,6 @@ public class CurrentTransactionManager extends TransactionManager{
         }
     }
 
-    /**
-     * @return True if the status of the transaction has been changed to traded
-     * @param transaction the transaction who's status is being changed
-     */
     private boolean confirmedToTraded(Transaction transaction){
         if (!transaction.getStatus().equals("confirmed")){
             return false;
@@ -351,10 +346,6 @@ public class CurrentTransactionManager extends TransactionManager{
         }
     }
 
-    /**
-     * @return True if the status of the transaction has been changed to incomplete
-     * @param transaction the transaction who's status is being changed
-     */
     private boolean confirmedToIncomplete(Transaction transaction){
         if (!transaction.getStatus().equals("confirmed")){
             return false;
@@ -374,10 +365,6 @@ public class CurrentTransactionManager extends TransactionManager{
         }
     }
 
-    /**
-     * @return True if the status of the transaction has been changed to complete
-     * @param transaction the transaction who's status is being changed
-     */
     private boolean confirmedToComplete(Transaction transaction){
         if (!transaction.getStatus().equals("confirmed")){
             return false;
@@ -396,10 +383,6 @@ public class CurrentTransactionManager extends TransactionManager{
         }
     }
 
-    /**
-     * @return True if the status of the transaction has been changed to complete
-     * @param transaction the transaction who's status is being changed
-     */
     private boolean tradedToComplete(Transaction transaction){
         if (!transaction.getStatus().equals("traded")){
             return false;
@@ -418,10 +401,6 @@ public class CurrentTransactionManager extends TransactionManager{
         }
     }
 
-    /**
-     * @return True if the status of the transaction has been changed to neverReturned
-     * @param transaction the transaction who's status is being changed
-     */
     private boolean tradedToNeverReturned(Transaction transaction){
         if (!transaction.getStatus().equals("traded")){
             return false;
