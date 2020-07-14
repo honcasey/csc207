@@ -109,14 +109,4 @@ public class AdminManager {
         }
         return true;
     }
-
-    /**
-     * This method checks if the user is already in flagged accounts and adds it to the list if he is not
-     * @param user that is added to flagged accounts
-     */
-    public void addFlaggedAccount(TradingUser user) {
-        if (!flaggedAccounts.contains(user)) {
-            flaggedAccounts.add(user);
-        }
-    }
 }

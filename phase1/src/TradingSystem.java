@@ -178,8 +178,8 @@ public class TradingSystem {
                             tradingUserManager, pendingItems, adminManager.getAdmin(username), itemManager);
                     adminMenuController.run();
                 } catch(InvalidAdminException e) {
-                    // we already checked this username corresponds to a valid admin on line 109
-                    // so technically adminManager.getAdmin(username) should never throw an exception
+                    // we already checked this username corresponds to a valid admin
+                    // so adminManager.getAdmin(username) should never throw an exception
                 }
                 // if user and pass matches a trading user account
             } else if (tradingUserManager.validUser(username, password)) {
@@ -190,8 +190,8 @@ public class TradingSystem {
                             pendingItems, tradingUserManager.getTradingUser(username));
                     userMenuController.run();
                 } catch(InvalidTradingUserException e) {
-                    // we already checked this username corresponds to a valid user on line 120
-                    // so technically userManager.getUser(username) should never throw an exception
+                    // we already checked this username corresponds to a valid user
+                    // so userManager.getUser(username) should never throw an exception
                 }
             } else {
                 // no user or admin account that corresponds to user and pass
