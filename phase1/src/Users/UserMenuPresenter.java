@@ -32,7 +32,6 @@ public class UserMenuPresenter extends MenuPresenter {
     protected String makeTransaction = "Would you like to make a transaction?";
     protected String meetingLocation = "Where do you want to have the meeting?";
     protected String scheduleMeeting = "Please schedule a meeting time with the other user.";
-    protected String scheduleSecondMeeting = "Please schedule a second meeting to reverse the transaction."; // what did you mean by "reverse" the transaction?
 
     protected String requestedUnfreeze = "You have successfully requested for your account to be unfrozen.";
     protected String editThresholdReached = "You have reached your edit threshold.";
@@ -151,6 +150,40 @@ public class UserMenuPresenter extends MenuPresenter {
         optionList.add("Edit second meeting");
         return optionList;
     }
+
+    /**
+     * Returns a list of the actions that can be done by a User depending on the status of the Transaction.
+     * @param transaction the input transaction
+     * @return a list of actions as strings
+     */
+    protected ArrayList<String> userTransactionActions(Transaction transaction){
+        String status = transaction.getStatus();
+        ArrayList<String> options = new ArrayList<>();
+        switch (status) {
+            case "pending": {
+                String[] list = new String[]{"Edit Transactions Meeting(s)", "Confirm Transactions Meeting(s)", "Cancel transaction"};
+                options.addAll(Arrays.asList(list));
+                break;
+            }
+            case "confirmed": {
+                String[] list = new String[]{"Confirm the exchange has taken place", "Claim that the exchange has not taken place"};
+                options.addAll(Arrays.asList(list));
+                break;
+            }
+            case "traded": {
+                String[] list = new String[]{"Confirm the item has been returned", "Claim that the item has not been returned past due date"};
+                options.addAll(Arrays.asList(list));
+                break;
+            }
+            default: {
+                String[] list = new String[]{"There are no actions that can be done to this transaction"};
+                options.addAll(Arrays.asList(list));
+                break;
+            }
+        }
+        return options;
+    }
+
 
     protected String enterWhatInFormat(String what, String format) {
         return "Please enter the " + what + " of your meeting in the format: " + format;

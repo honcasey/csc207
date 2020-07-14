@@ -191,39 +191,6 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     /**
-     * Returns a list of the actions that can be done by a User depending on the status of the Transaction.
-     * @param transaction the input transaction
-     * @return a list of actions as strings
-     */
-    public ArrayList<String> userTransactionActions(Transaction transaction){
-        String status = transaction.getStatus();
-        ArrayList<String> options = new ArrayList<>();
-        switch (status) {
-            case "pending": {
-                String[] list = new String[]{"Edit Transactions Meeting(s)", "Confirm Transactions Meeting(s)", "Cancel transaction"};
-                options.addAll(Arrays.asList(list));
-                break;
-            }
-            case "confirmed": {
-                String[] list = new String[]{"Confirm the exchange has taken place", "Claim that the exchange has not taken place"};
-                options.addAll(Arrays.asList(list));
-                break;
-            }
-            case "traded": {
-                String[] list = new String[]{"Confirm the item has been returned", "Claim that the item has not been returned past due date"};
-                options.addAll(Arrays.asList(list));
-                break;
-            }
-            default: {
-                String[] list = new String[]{"There are no actions that can be done to this transaction"};
-                options.addAll(Arrays.asList(list));
-                break;
-            }
-        }
-        return options;
-        }
-
-    /**
      * Checks if the transaction has multiple meetings
      * @param transaction the transaction to be checked
      * @return true if a transaction has more than one meeting
