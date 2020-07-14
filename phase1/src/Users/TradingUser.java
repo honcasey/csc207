@@ -67,8 +67,8 @@ public class TradingUser extends User implements Serializable {
      * @return returns true iff it found the item and it removed.
      */
     public boolean removeFromWishlist(UUID itemId){
-        if(this.getWishlist().contains(itemId)){
-            this.getWishlist().remove(itemId);
+        if(wishlist.contains(itemId)){
+            wishlist.remove(itemId);
             return(true);
         }
         else{
@@ -77,13 +77,13 @@ public class TradingUser extends User implements Serializable {
     }
 
     /**
-     * This method checks for an item id in the wishlist and removes it if found.
+     * This method checks for an item id in the wishlist and adds it if not found.
      * @param itemId the item id of the item you wish to remove.
      * @return returns true iff it found the item and it removed.
      */
     public boolean addToWishlist(UUID itemId){
-        if(this.getWishlist().contains(itemId)){
-            this.getWishlist().add(itemId);
+        if(!wishlist.contains(itemId)){
+            wishlist.add(itemId);
             return(true);
         }
         else{
