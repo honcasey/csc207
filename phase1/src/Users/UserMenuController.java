@@ -162,7 +162,7 @@ public class UserMenuController{
             }
             else{
                 System.out.println(ump.selectItemToOffer);
-                Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
+                Item ChosenItem = this.pickUserItemFlow(this.currentTradingUser);
                 Transaction newTransaction = tm.createTransaction(
                     Owner.getUserId(),currentTradingUser.getUserId(), item, ChosenItem, FirstMeeting);
                 updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
@@ -182,7 +182,7 @@ public class UserMenuController{
             }
             else{
                 System.out.println(ump.selectItemToOffer);
-                Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
+                Item ChosenItem = this.pickUserItemFlow(this.currentTradingUser);
                 Meeting SecondMeeting = tm.meetOneMonthLater(FirstMeeting);
                 Transaction newTransaction = tm.createTransaction(Owner.getUserId(),
                     currentTradingUser.getUserId(), item, ChosenItem,FirstMeeting,SecondMeeting);
@@ -194,7 +194,7 @@ public class UserMenuController{
         return(ump.handleYesNo(ump.makeTransaction,"Yes","No"));
     }
 
-    private Item PickUserItemFlow(TradingUser CurrentUser){
+    private Item pickUserItemFlow(TradingUser CurrentUser){
         List<Item> currentUserInventory = im.convertIdsToItems(CurrentUser.getInventory());
         List<String> ItemOptions = ump.constructInventoryItemsList(currentUserInventory);
         int OptionChosen = ump.handleOptionsByIndex(ItemOptions,false, "Available Inventory");
