@@ -1,23 +1,26 @@
 //import Exceptions.InvalidUserException;
-//import Items.Item;
-//import Transactions.Meeting;
-//import Transactions.Transaction;
-//import Users.TradingUser;
-//import Users.TransactionHistory;
-//import Transactions.TransactionOneWayPerm;
-//import Users.TradingUserManager;
-//import org.junit.jupiter.api.Test;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//import static org.junit.Assert.assertEquals;
-//import static org.junit.Assert.assertFalse;
-//import static org.junit.Assert.assertNull;
-//import static org.junit.Assert.assertTrue;
-//
+import Items.Item;
+import Transactions.Meeting;
+import Transactions.Transaction;
+import Transactions.TransactionOneWayTemp;
+import Users.TradingUser;
+import Users.TransactionHistory;
+import Transactions.TransactionOneWayPerm;
+import Users.TradingUserManager;
+import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 //public class TradingUserTest {
-//
-//    // Users.TradingUser entity tests
+
+    // Users.TradingUser entity tests
 //    @Test
 //    public void testUser() {
 //        TradingUser casey = new TradingUser("caseyh", "pwd123");
@@ -33,7 +36,78 @@
 //
 //
 //    @Test
-//    void setTransactionDetails() {
+//    void getTransactionHistory() {
+//        List<TradingUser> users = new ArrayList<>();
+//        List<TradingUser> flagged = new ArrayList<>();
+//        List<TradingUser> frozen = new ArrayList<>();
+//        TradingUser casey = new TradingUser("caseyh", "pwd123");
+//        TradingUser annie = new TradingUser("anniel", "pwd456");
+//        TradingUser brandon = new TradingUser("brandont", "password123");
+//        TradingUser anna = new TradingUser("annas", "password456");
+//        TradingUser tingting = new TradingUser("tingtingz", "pw123");
+//
+//        users.add(casey);
+//        users.add(annie);
+//        users.add(brandon);
+//        users.add(anna);
+//        users.add(tingting);
+//        Item book = new Item("book");
+//        Item book2 = new Item("bookbook");
+//        Item textbook = new Item("textbook");
+//
+//        TradingUserManager tum = new TradingUserManager(users, flagged, frozen);
+//        Meeting meeting11 = new Meeting("uoft", LocalTime.of(10,30,30), LocalDate.of(2020,6,12));
+//        Meeting meeting12 = new Meeting("uoft", LocalTime.of(10,30,30), LocalDate.of(2020,6,13));
+//        Meeting meeting13 = new Meeting("uoft", LocalTime.of(10,30,30), LocalDate.of(2020,6,14));
+//        Meeting meeting21 = new Meeting("gerstein", LocalTime.of(10,30,30), LocalDate.of(2020,7,12));
+//        Meeting meeting22 = new Meeting("gerstein", LocalTime.of(10,30,30), LocalDate.of(2020,7,13));
+//        Meeting meeting23 = new Meeting("gerstein", LocalTime.of(10,30,30), LocalDate.of(2020,7,14));
+//        TransactionOneWayTemp tran1 = new TransactionOneWayTemp(casey.getUserId(), annie.getUserId(), book.getId(), meeting11, meeting21, book.getName());
+//        TransactionOneWayTemp tran2 = new TransactionOneWayTemp(casey.getUserId(), annie.getUserId(), book2.getId(), meeting12, meeting22, book2.getName());
+//        TransactionOneWayTemp tran3 = new TransactionOneWayTemp(casey.getUserId(), annie.getUserId(), textbook.getId(), meeting13, meeting23, textbook.getName());
+//        tum.addToTransactionHistory(annie, tran1);
+//        tum.addToTransactionHistory(annie, tran2);
+//        tum.addToTransactionHistory(annie, tran3);
+//        Map<UUID, Transaction> transactionMap = new HashMap<>();
+//        transactionMap.put(tran1.getId(), tran1);
+//        transactionMap.put(tran2.getId(), tran2);
+//        transactionMap.put(tran3.getId(), tran3);
+//        assertEquals(3, annie.getTransactionHistory().getAllPastTransactions().size());
+//        assertEquals(3, annie.getTransactionHistory().mostRecentOneWayTransactions().size());
+//
+//    }
+//
+//    @Test
+//    void getCurrentTransaction(){
+//        List<TradingUser> users = new ArrayList<>();
+//        List<TradingUser> flagged = new ArrayList<>();
+//        List<TradingUser> frozen = new ArrayList<>();
+//        TradingUser casey = new TradingUser("caseyh", "pwd123");
+//        TradingUser annie = new TradingUser("anniel", "pwd456");
+//        TradingUser brandon = new TradingUser("brandont", "password123");
+//        TradingUser anna = new TradingUser("annas", "password456");
+//        TradingUser tingting = new TradingUser("tingtingz", "pw123");
+//
+//        users.add(casey);
+//        users.add(annie);
+//        users.add(brandon);
+//        users.add(anna);
+//        users.add(tingting);
+//        Item book = new Item("book");
+//        Item book2 = new Item("bookbook");
+//        Item textbook = new Item("textbook");
+//
+//        TradingUserManager tum = new TradingUserManager(users, flagged, frozen);
+//        Meeting meeting11 = new Meeting("uoft", LocalTime.of(10,30,30), LocalDate.of(2020,6,12));
+//        Meeting meeting12 = new Meeting("uoft", LocalTime.of(10,30,30), LocalDate.of(2020,6,13));
+//        Meeting meeting13 = new Meeting("uoft", LocalTime.of(10,30,30), LocalDate.of(2020,6,14));
+//        Meeting meeting21 = new Meeting("gerstein", LocalTime.of(10,30,30), LocalDate.of(2020,7,12));
+//        Meeting meeting22 = new Meeting("gerstein", LocalTime.of(10,30,30), LocalDate.of(2020,7,13));
+//        Meeting meeting23 = new Meeting("gerstein", LocalTime.of(10,30,30), LocalDate.of(2020,7,14));
+//        TransactionOneWayTemp tran1 = new TransactionOneWayTemp(casey.getUserId(), annie.getUserId(), book.getId(), meeting11, meeting21, book.getName());
+//        TransactionOneWayTemp tran2 = new TransactionOneWayTemp(casey.getUserId(), annie.getUserId(), book2.getId(), meeting12, meeting22, book2.getName());
+//        TransactionOneWayTemp tran3 = new TransactionOneWayTemp(casey.getUserId(), annie.getUserId(), textbook.getId(), meeting13, meeting23, textbook.getName());
+//
 //    }
 //
 //    @Test
@@ -184,6 +258,96 @@
 //
 //    @Test
 //    void validUser() {
+//    }
+//    @Test
+//    void addToWishList(){
+//        List<TradingUser> users = new ArrayList<>();
+//        List<TradingUser> flagged = new ArrayList<>();
+//        List<TradingUser> frozen = new ArrayList<>();
+//        TradingUser casey = new TradingUser("caseyh", "pwd123");
+//        TradingUser annie = new TradingUser("anniel", "pwd456");
+//        TradingUser brandon = new TradingUser("brandont", "password123");
+//        TradingUser anna = new TradingUser("annas", "password456");
+//        TradingUser tingting = new TradingUser("tingtingz", "pw123");
+//
+//        users.add(casey);
+//        users.add(annie);
+//        users.add(brandon);
+//        users.add(anna);
+//        users.add(tingting);
+//        Item book = new Item("book");
+//        Item book2 = new Item("bookbook");
+//        Item textbook = new Item("textbook");
+//
+//        TradingUserManager tum = new TradingUserManager(users, flagged, frozen);
+//        Meeting meeting11 = new Meeting("uoft", LocalTime.of(10,30,30), LocalDate.of(2020,6,12));
+//        Meeting meeting12 = new Meeting("uoft", LocalTime.of(10,30,30), LocalDate.of(2020,6,13));
+//        Meeting meeting13 = new Meeting("uoft", LocalTime.of(10,30,30), LocalDate.of(2020,6,14));
+//        Meeting meeting21 = new Meeting("gerstein", LocalTime.of(10,30,30), LocalDate.of(2020,7,12));
+//        Meeting meeting22 = new Meeting("gerstein", LocalTime.of(10,30,30), LocalDate.of(2020,7,13));
+//        Meeting meeting23 = new Meeting("gerstein", LocalTime.of(10,30,30), LocalDate.of(2020,7,14));
+//        TransactionOneWayTemp tran1 = new TransactionOneWayTemp(casey.getUserId(), annie.getUserId(), book.getId(), meeting11, meeting21, book.getName());
+//        TransactionOneWayTemp tran2 = new TransactionOneWayTemp(casey.getUserId(), annie.getUserId(), book2.getId(), meeting12, meeting22, book2.getName());
+//        TransactionOneWayTemp tran3 = new TransactionOneWayTemp(casey.getUserId(), annie.getUserId(), textbook.getId(), meeting13, meeting23, textbook.getName());
+//
+//        List<UUID> itemList = new ArrayList<>();
+//        itemList.add(book.getId());
+//        itemList.add(book2.getId());
+//        itemList.add(textbook.getId());
+//
+//        annie.addToWishlist(book.getId());
+//        annie.addToWishlist(book2.getId());
+//        annie.addToWishlist(textbook.getId());
+//
+//        assertEquals(3, annie.getWishlist().size());
+//        assertEquals(itemList, annie.getWishlist());
+//
+//    }
+//
+//    @Test
+//    void removeFromWishList(){
+//        List<TradingUser> users = new ArrayList<>();
+//        List<TradingUser> flagged = new ArrayList<>();
+//        List<TradingUser> frozen = new ArrayList<>();
+//        TradingUser casey = new TradingUser("caseyh", "pwd123");
+//        TradingUser annie = new TradingUser("anniel", "pwd456");
+//        TradingUser brandon = new TradingUser("brandont", "password123");
+//        TradingUser anna = new TradingUser("annas", "password456");
+//        TradingUser tingting = new TradingUser("tingtingz", "pw123");
+//
+//        users.add(casey);
+//        users.add(annie);
+//        users.add(brandon);
+//        users.add(anna);
+//        users.add(tingting);
+//        Item book = new Item("book");
+//        Item book2 = new Item("bookbook");
+//        Item textbook = new Item("textbook");
+//
+//        TradingUserManager tum = new TradingUserManager(users, flagged, frozen);
+//        Meeting meeting11 = new Meeting("uoft", LocalTime.of(10,30,30), LocalDate.of(2020,6,12));
+//        Meeting meeting12 = new Meeting("uoft", LocalTime.of(10,30,30), LocalDate.of(2020,6,13));
+//        Meeting meeting13 = new Meeting("uoft", LocalTime.of(10,30,30), LocalDate.of(2020,6,14));
+//        Meeting meeting21 = new Meeting("gerstein", LocalTime.of(10,30,30), LocalDate.of(2020,7,12));
+//        Meeting meeting22 = new Meeting("gerstein", LocalTime.of(10,30,30), LocalDate.of(2020,7,13));
+//        Meeting meeting23 = new Meeting("gerstein", LocalTime.of(10,30,30), LocalDate.of(2020,7,14));
+//        TransactionOneWayTemp tran1 = new TransactionOneWayTemp(casey.getUserId(), annie.getUserId(), book.getId(), meeting11, meeting21, book.getName());
+//        TransactionOneWayTemp tran2 = new TransactionOneWayTemp(casey.getUserId(), annie.getUserId(), book2.getId(), meeting12, meeting22, book2.getName());
+//        TransactionOneWayTemp tran3 = new TransactionOneWayTemp(casey.getUserId(), annie.getUserId(), textbook.getId(), meeting13, meeting23, textbook.getName());
+//
+//        List<UUID> itemList = new ArrayList<>();
+//        itemList.add(book2.getId());
+//        itemList.add(textbook.getId());
+//
+//        annie.addToWishlist(book.getId());
+//        annie.addToWishlist(book2.getId());
+//        annie.addToWishlist(textbook.getId());
+//
+//        assertEquals(true, annie.removeFromWishlist(book.getId()));
+//        assertEquals(2, annie.getWishlist().size());
+//        assertEquals(itemList, annie.getWishlist());
+//        assertEquals(false, annie.removeFromWishlist(book.getId()));
+//
 //    }
 //
 //}
