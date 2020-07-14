@@ -15,7 +15,7 @@
 //import static org.junit.Assert.assertNull;
 //import static org.junit.Assert.assertTrue;
 //
-//public class UserTest {
+//public class TradingUserTest {
 //
 //    // Users.TradingUser entity tests
 //    @Test
@@ -31,18 +31,6 @@
 //
 //    }
 //
-//    @Test
-//    void setTransactionHistory() {
-//        TradingUser casey = new TradingUser("caseyh", "pwd123");
-//        TradingUser annie = new TradingUser("anniel", "pwd456");
-//        Item book = new Item("book");
-//        Meeting meetup1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
-//        Transaction tran1 = new TransactionOneWayPerm(casey, annie, book, meetup1);
-//        TransactionHistory his1 = new TransactionHistory();
-//        his1.setTransactionHistory(tran1);
-//        casey.setTransactionHistory(his1);
-//        assertEquals(casey.getTransactionHistory(), his1);
-//    }
 //
 //    @Test
 //    void setTransactionDetails() {

@@ -187,22 +187,22 @@ public class AdminMenuController {
         Scanner scanner = new Scanner(System.in);
         System.out.println(amp.enterName("TradingUser"));
         String username = scanner.nextLine();
-        String whichThreshold = amp.handleOptions(amp.constructAllThresholds(), true, "TradingUser Thresholds");
+        String whichThreshold = amp.handleOptions(amp.constructAllThresholds(), false, "TradingUser Thresholds");
         try {
             switch (whichThreshold) {
-                case "borrow": {
+                case "Borrow": {
                     System.out.println(amp.currentThreshold(amp.borrowThresholdDescription,
                             um.getTradingUser(username).getBorrowThreshold()));
                     helperChangeThreshold(username, whichThreshold);
                     break;
                 }
-                case "weekly": {
+                case "Weekly": {
                     System.out.println(amp.currentThreshold(amp.weeklyThresholdDescription,
                             um.getTradingUser(username).getWeeklyThreshold()));
                     helperChangeThreshold(username, whichThreshold);
                     break;
                 }
-                case "incomplete": {
+                case "Incomplete": {
                     System.out.println(amp.currentThreshold(amp.incompleteThresholdDescription,
                             um.getTradingUser(username).getIncompleteThreshold()));
                     helperChangeThreshold(username, whichThreshold);
@@ -222,7 +222,7 @@ public class AdminMenuController {
         boolean userInteracting = true;
         while (userInteracting) {
             if (am.getFrozenAccounts().isEmpty()) {
-                System.out.println(amp.empty("Frozen TradingUser request."));
+                System.out.println(amp.empty("Frozen TradingUser request"));
                 userInteracting = false;
             }
             else {

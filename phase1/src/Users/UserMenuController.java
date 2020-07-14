@@ -396,6 +396,7 @@ public class UserMenuController{
                             if (um.moveTransactionToTransactionHistory(transaction, currentTradingUser)) { // move to history if transaction is over
                                 currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
                             }
+
                         }
                     }
                 }
