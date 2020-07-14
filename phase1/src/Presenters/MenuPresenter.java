@@ -52,7 +52,7 @@ public abstract class MenuPresenter {
      * @param OptionTitle the title of the menu.
      * @return this returns the option that was selected by the user as a string.
      */
-    protected String handleOptions(List<String> OptionList, boolean BackOption, String OptionTitle) {
+    public String handleOptions(List<String> OptionList, boolean BackOption, String OptionTitle) {
         if (BackOption) {
             OptionList.add("Go back.");
         }
@@ -210,28 +210,28 @@ public abstract class MenuPresenter {
 
     public String enterName(String name) { return "Please enter name for this " + name; }
 
-    protected String enterPassword(String name) { return "Please enter password for this " + name; }
+    public String enterPassword(String name) { return "Please enter password for this " + name; }
 
-    protected String successfullyAdded(String what, String who, String where) {
+    public String successfullyAdded(String what, String who, String where) {
         return what + "has been successfully added to " + who + "'s " + where;
     }
     public String successfullyRemoved(String what, String where){
         return what + "has been successfully removed from" + where;
     }
 
-    protected String successfullyChanged(String what, String who) {
+    public String successfullyChanged(String what, String who) {
         return who + "'s " + what + " has been successfully changed.";
     }
 
-    protected String successfullyCreated(String what) {
+    public String successfullyCreated(String what) {
         return what + " has been successfully created.";
     }
 
-    protected String validOptions(List<String> optionList) {
+    public String validOptions(List<String> optionList) {
         return "Valid options include: " + optionList.toString();
     }
 
-    protected String accountFrozen(String who, String frozen) { // possibly move back to adminmenupresenter
+    public String accountFrozen(String who, String frozen) { // possibly move back to adminmenupresenter
         return who + "'s account is set to " + frozen;
     }
 }
