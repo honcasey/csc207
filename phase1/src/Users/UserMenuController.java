@@ -352,9 +352,6 @@ public class UserMenuController{
                     } else {
                         ump.displayOptions(TradedWithUsersOptions);
                     }
-                    System.out.println("Press \"ENTER\" if you would like to go back...");
-                    Scanner scanner = new Scanner(System.in);
-                    scanner.nextLine();
                 }
             }
         }
