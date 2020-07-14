@@ -221,6 +221,7 @@ public class AdminMenuController {
                     if (optionChosen == amp.constructPendingFrozenUsersMenu().size()) {
                         System.out.println(amp.previousMenu);
                         userInteracting = false;
+                        break;
                     } else {
                         // if an admin chooses to unfreeze
                         if (amp.indexToOption(optionChosen, amp.constructPendingFrozenUsersMenu(), amp.unfreezeAccount)) {
@@ -255,6 +256,7 @@ public class AdminMenuController {
                     if (optionChosen == amp.constructFlaggedUsersMenu().size()) {
                         System.out.println(amp.previousMenu);
                         userInteracting = false;
+                        break;
                     } else {
                         // admin wants to freeze this account
                         if (amp.indexToOption(optionChosen, amp.constructFlaggedUsersMenu(), amp.freezeAccount)) {

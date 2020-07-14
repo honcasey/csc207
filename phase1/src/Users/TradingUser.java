@@ -114,7 +114,7 @@ public class TradingUser extends User implements Serializable {
      * @return the username and userid separated by a comma
      */
     @Override
-    public String toString() { return getUsername() + ", " + getUserId(); }
+    public String toString() { return getUsername() + ", userId: (" + getUserId() + ")"; }
 
     public boolean isFrozen(){
         return status.equals("frozen");
