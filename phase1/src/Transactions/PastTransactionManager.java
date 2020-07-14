@@ -20,7 +20,7 @@ public class PastTransactionManager extends TransactionManager{
     }
 
     /* A helper method for weeklyThresholdExceeded */
-    private int numTransactionsInWeek(TradingUser tradingUser){
+    public int numTransactionsInWeek(TradingUser tradingUser){
         TransactionHistory transactionHistory = tradingUser.getTransactionHistory();
         List<UUID> transactionHistoryId = transactionHistory.getAllPastTransactions();
         int numTransactions = 0;
