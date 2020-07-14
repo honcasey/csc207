@@ -19,14 +19,12 @@ public class PastTransactionManager extends TransactionManager{
         super(transactions);
     }
 
-    /* A helper method for weeklyThresholdExceeded */
-    public int numTransactionsInWeek(TradingUser tradingUser){
+    /** A helper method for weeklyThresholdExceeded */
+    private int numTransactionsInWeek(TradingUser tradingUser){
         TransactionHistory transactionHistory = tradingUser.getTransactionHistory();
         List<UUID> transactionHistoryId = transactionHistory.getAllPastTransactions();
         int numTransactions = 0;
         List<Transaction> allTransactions = getTransactionsFromIdList(transactionHistoryId);
-//        ZoneId k =  ZoneId.of("America/Montreal");
-//        LocalDate today = LocalDate.now(k); alternative way of doing it; saving just in case
         Calendar currentCal = Calendar.getInstance();
         int week = currentCal.get(Calendar.WEEK_OF_YEAR);
         int year = currentCal.get(Calendar.YEAR);
@@ -47,6 +45,7 @@ public class PastTransactionManager extends TransactionManager{
             i++;
         }
         // main idea of this code from: https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
+        // answer by Benjamin Cox
         return numTransactions;
     }
 
