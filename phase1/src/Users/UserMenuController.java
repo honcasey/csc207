@@ -353,7 +353,7 @@ public class UserMenuController{
                     userInteracting = false;}
                 else if (OptionChosen != optionList.size()) {
                     Transaction transaction = currTransactionsList.get(OptionChosen);
-                    ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
+                    ArrayList<String> transactionActions = ump.userTransactionActions(transaction);
                     int optionChosen2 = ump.handleOptionsByIndex(transactionActions, true, "Transaction Actions");
                     if (optionChosen2 == transactionActions.size() - 1) {
                         System.out.println(ump.previousMenu);
