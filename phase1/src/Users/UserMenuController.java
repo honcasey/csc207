@@ -313,7 +313,7 @@ public class UserMenuController{
           List<String> twoWayTransactionOptions = ump.constructTransactionList(TwoWayTransactions);
           ump.displayOptions(twoWayTransactionOptions);
 
-        } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.ViewThreeMostTraded)) {
+        } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewThreeMostTraded)) {
             List<String> TradedWithUsersOptions = currentTradingUser.getTransactionHistory().mostTradedWithUsers();
             ump.displayOptions(TradedWithUsersOptions);
         }
@@ -343,7 +343,7 @@ public class UserMenuController{
                 else if (OptionChosen != optionList.size()) {
                     Transaction transaction = currTransactionsList.get(OptionChosen);
                     ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
-                    int optionChosen2 = ump.handleOptionsByIndex(transactionActions, true, ump.transactionActions);
+                    int optionChosen2 = ump.handleOptionsByIndex(transactionActions, true, "Transaction Actions");
                     if (optionChosen2 == transactionActions.size() - 1) {
                         System.out.println(ump.previousMenu);
                         userInteracting = false;
@@ -443,7 +443,7 @@ public class UserMenuController{
         switch (which) {
             case "location":
                 Scanner scanner = new Scanner(System.in);
-                System.out.println(ump.enterLocation);
+                System.out.println(ump.meetingLocation);
                 String MeetingLocation = scanner.nextLine();
                 if (tm.editMeeting(meetingNum, transaction, user, MeetingLocation)) {
                     System.out.println(ump.successfullyEditedMeeting(MeetingLocation));
