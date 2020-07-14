@@ -5,10 +5,10 @@ import java.util.List;
 
 public class BootupMenuPresenter extends MenuPresenter {
 
-    private String usernamePrompt = "Enter username:";
-    private String passwordPrompt = "Enter password:";
-    private String takenUsername = "Username is already taken, please try again.";
-    private String invalidCredentials = "Username or Password is wrong, please try again.";
+    private final String usernamePrompt = "Enter username:";
+    private final String passwordPrompt = "Enter password:";
+    private final String takenUsername = "Username is already taken, please try again.";
+    private final String invalidCredentials = "Username or Password is wrong, please try again.";
 
     public String getUsernamePrompt() {
         return usernamePrompt;

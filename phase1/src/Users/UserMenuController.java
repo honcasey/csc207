@@ -351,6 +351,7 @@ public class UserMenuController{
                         if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) {
                             tm.updateStatus(transaction);
                             um.moveTransactionToTransactionHistory(transaction, currentTradingUser);
+                            um.handleConfirmedTransaction(transaction);
                         } else {
                             editMeeting(currentTradingUser, transaction);
                         }

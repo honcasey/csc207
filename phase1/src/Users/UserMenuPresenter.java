@@ -1,7 +1,6 @@
 package Users;
 
 import Items.Item;
-import Items.ItemManager;
 import Presenters.MenuPresenter;
 import Transactions.Transaction;
 import java.util.*;
