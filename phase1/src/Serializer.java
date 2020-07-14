@@ -19,155 +19,223 @@ public class Serializer {
     /**
      * Writes a List of TradingUser into a file specified by a filepath.
      * @param path The filepath corresponding to the file it is written to.
-     * @param tradingUsers A list of TradingUser that is being written.
-     * @throws IOException
+     * @param tradingUsers A List of TradingUser that is being written.
      */
-    public void writeUsersToFile(String path, List<TradingUser> tradingUsers) throws IOException {
+    public void writeUsersToFile(String path, List<TradingUser> tradingUsers) {
+        try {
+            // create a connection to the file specified by path
+            OutputStream file = new FileOutputStream(path);
+            ObjectOutput output = new ObjectOutputStream(file);
 
-        // create a connection to the file specified by path
-        OutputStream file = new FileOutputStream(path);
-        ObjectOutput output = new ObjectOutputStream(file);
+            // write user into the file
+            output.writeObject(tradingUsers);
 
-        // write user into the file
-        output.writeObject(tradingUsers);
-
-        // close the file
-        output.close();
+            // close the file
+            output.close();
+        } catch (IOException e) {
+            System.out.println("IOException was caught.");
+        }
     }
 
     /**
      * Reads a List of TradingUser from a file specified by a filepath.
      * @param path The filepath corresponding to the file it is being read from.
-     * @return A list of TradingUser.
-     * @throws IOException
-     * @throws ClassNotFoundException
+     * @return A List of TradingUser.
      */
-    public List<TradingUser> readUsersFromFile(String path) throws IOException, ClassNotFoundException {
-        // create a connection to the file specified by path
-        InputStream file = new FileInputStream(path);
-        ObjectInput input = new ObjectInputStream(file);
+    public List<TradingUser> readUsersFromFile(String path) {
+        try {
+            // create a connection to the file specified by path
+            InputStream file = new FileInputStream(path);
+            ObjectInput input = new ObjectInputStream(file);
 
-        // deserialize the list
-        List<TradingUser> tradingUsers = (List<TradingUser>) input.readObject();
+            // deserialize the list
+            List<TradingUser> tradingUsers = (List<TradingUser>) input.readObject();
 
-        // close the file
-        input.close();
+            // close the file
+            input.close();
 
-        // return the list
-        return tradingUsers;
+            // return the list
+            return tradingUsers;
+        } catch(IOException e) {
+            System.out.println("IO Exception was caught.");
+        } catch(ClassNotFoundException e) {
+            System.out.println("ClassNotFoundException was caught.");
+        }
     }
 
     /**
      * Writes a List of AdminUser into a file specified by a filepath.
      * @param path The filepath corresponding to the file it is written to.
-     * @param admins A list of AdminUser that is being written.
-     * @throws IOException
+     * @param admins A List of AdminUser that is being written.
      */
-    public void writeAdminsToFile(String path, List<AdminUser> admins) throws IOException {
-        OutputStream file = new FileOutputStream(path);
-        ObjectOutput output = new ObjectOutputStream(file);
-        output.writeObject(admins);
-        output.close();
+    public void writeAdminsToFile(String path, List<AdminUser> admins) {
+        try {
+            OutputStream file = new FileOutputStream(path);
+            ObjectOutput output = new ObjectOutputStream(file);
+            output.writeObject(admins);
+            output.close();
+        } catch (IOException e) {
+            System.out.println("IO Exception was caught.");
+        }
     }
 
     /**
      * Reads a List of AdminUser from a file specified by a filepath.
      * @param path The filepath corresponding to the file it is being read from.
-     * @return A list of AdminUser.
-     * @throws IOException
-     * @throws ClassNotFoundException
+     * @return A List of AdminUser.
      */
-    public List<AdminUser> readAdminsFromFile(String path) throws IOException, ClassNotFoundException {
-        InputStream file = new FileInputStream(path);
-        ObjectInput input = new ObjectInputStream(file);
-        List<AdminUser> admins = (List<AdminUser>) input.readObject();
-        input.close();
-        return admins;
+    public List<AdminUser> readAdminsFromFile(String path) {
+        try {
+            InputStream file = new FileInputStream(path);
+            ObjectInput input = new ObjectInputStream(file);
+            List<AdminUser> admins = (List<AdminUser>) input.readObject();
+            input.close();
+            return admins;
+        } catch (IOException e) {
+            System.out.println("IO Exception was caught.");
+        } catch(ClassNotFoundException e) {
+            System.out.println("ClassNotFoundException was caught.");
+        }
     }
 
     /**
-     * Writes a Mapping of UUID to Transaction into a file specified by a filepath.
+     * Writes a Map of UUID to Transaction into a file specified by a filepath.
      * @param path The filepath corresponding to the file it is written to.
-     * @param transactionMap A mapping of UUID to Transaction.
-     * @throws IOException
+     * @param transactionMap A Map of UUID to Transaction.
      */
-    public void writeTransactionsToFile(String path, Map<UUID, Transaction> transactionMap) throws IOException {
-        OutputStream file = new FileOutputStream(path);
-        ObjectOutput output = new ObjectOutputStream(file);
-        output.writeObject(transactionMap);
-        output.close();
+    public void writeTransactionsToFile(String path, Map<UUID, Transaction> transactionMap) {
+        try {
+            OutputStream file = new FileOutputStream(path);
+            ObjectOutput output = new ObjectOutputStream(file);
+            output.writeObject(transactionMap);
+            output.close();
+        } catch (IOException e) {
+            System.out.println("IO Exception was caught.");
+        }
+
     }
 
     /**
-     * Reads a Mapping of UUID to Transaction from a file specified by a filepath.
+     * Reads a Map of UUID to Transaction from a file specified by a filepath.
      * @param path The filepath corresponding to the file it is being read from.
-     * @return A Mapping of UUID to Transaction.
-     * @throws IOException
-     * @throws ClassNotFoundException
+     * @return A Map of UUID to Transaction.
      */
-    public Map<UUID, Transaction> readTransactionMapFromFile(String path) throws IOException, ClassNotFoundException {
-        InputStream file = new FileInputStream(path);
-        ObjectInput input = new ObjectInputStream(file);
-        Map<UUID, Transaction> transactionMap = (Map<UUID, Transaction>) input.readObject();
-        input.close();
-        return transactionMap;
+    public Map<UUID, Transaction> readTransactionMapFromFile(String path) {
+        try {
+            InputStream file = new FileInputStream(path);
+            ObjectInput input = new ObjectInputStream(file);
+            Map<UUID, Transaction> transactionMap = (Map<UUID, Transaction>) input.readObject();
+            input.close();
+            return transactionMap;
+        } catch (IOException e) {
+            System.out.println("IO Exception was caught.");
+        } catch(ClassNotFoundException e) {
+            System.out.println("ClassNotFoundException was caught.");
+        }
     }
 
     /**
-     * Writes a Mapping of Item to TradingUser into a file specified by a filepath.
+     * Writes a Map of Item to TradingUser into a file specified by a filepath.
      * @param path The filepath corresponding to the file it is written to.
-     * @param pendingItems A Mapping of Item to TradingUser.
-     * @throws IOException
+     * @param pendingItems A Map of Item to TradingUser.
      */
-    public void writeItemsToFile(String path, Map<Item, TradingUser> pendingItems) throws IOException {
-        OutputStream file = new FileOutputStream(path);
-        ObjectOutput output = new ObjectOutputStream(file);
-        output.writeObject(pendingItems);
-        output.close();
+    public void writeItemsToFile(String path, Map<Item, TradingUser> pendingItems) {
+        try {
+            OutputStream file = new FileOutputStream(path);
+            ObjectOutput output = new ObjectOutputStream(file);
+            output.writeObject(pendingItems);
+            output.close();
+        } catch (IOException e) {
+            System.out.println("IO Exception was caught.");
+        }
     }
 
     /**
-     * Reads a Mapping of Item to TradingUser from a file specified by a filepath.
+     * Reads a Map of Item to TradingUser from a file specified by a filepath.
      * @param path The filepath corresponding to the file it is being read from.
-     * @return A Mapping of Item to TradingUser.
-     * @throws IOException
-     * @throws ClassNotFoundException
+     * @return A Map of Item to TradingUser.
      */
-    public Map<Item, TradingUser> readItemsFromFile(String path) throws IOException, ClassNotFoundException {
-        InputStream file = new FileInputStream(path);
-        ObjectInput input = new ObjectInputStream(file);
-        Map<Item, TradingUser> pendingItems = (Map<Item, TradingUser>) input.readObject();
-        input.close();
-        return pendingItems;
+    public Map<Item, TradingUser> readItemsFromFile(String path) {
+        try {
+            InputStream file = new FileInputStream(path);
+            ObjectInput input = new ObjectInputStream(file);
+            Map<Item, TradingUser> pendingItems = (Map<Item, TradingUser>) input.readObject();
+            input.close();
+            return pendingItems;
+        } catch (IOException e) {
+            System.out.println("IO Exception was caught.");
+        } catch(ClassNotFoundException e) {
+            System.out.println("ClassNotFoundException was caught.");
+        }
     }
 
-    public void writeAccountsToFile(String path, List<TradingUser> Accounts) throws IOException {
-        OutputStream file = new FileOutputStream(path);
-        ObjectOutput output = new ObjectOutputStream(file);
-        output.writeObject(Accounts);
-        output.close();
+    /**
+     * Writes a List of TradingUser into a file specified by a filepath.
+     * @param path The filepath corresponding to the file it is written to.
+     * @param Accounts A List of TradingUser.
+     */
+    public void writeAccountsToFile(String path, List<TradingUser> Accounts) {
+        try {
+            OutputStream file = new FileOutputStream(path);
+            ObjectOutput output = new ObjectOutputStream(file);
+            output.writeObject(Accounts);
+            output.close();
+        } catch (IOException e) {
+            System.out.println("IO Exception was caught.");
+        }
     }
 
-    public List<TradingUser> readAccountsFromFile(String path) throws IOException, ClassNotFoundException {
-        InputStream file = new FileInputStream(path);
-        ObjectInput input = new ObjectInputStream(file);
-        List<TradingUser> Accounts = (List<TradingUser>) input.readObject();
-        input.close();
-        return Accounts;
+    /**
+     * Reads a List of TradingUser from a file specified by a filepath.
+     * @param path The filepath corresponding to the file it is being read from.
+     * @return A List of TradingUser
+     */
+    public List<TradingUser> readAccountsFromFile(String path) {
+        try {
+            InputStream file = new FileInputStream(path);
+            ObjectInput input = new ObjectInputStream(file);
+            List<TradingUser> Accounts = (List<TradingUser>) input.readObject();
+            input.close();
+            return Accounts;
+        } catch (IOException e) {
+            System.out.println("IO Exception was caught.");
+        } catch(ClassNotFoundException e) {
+            System.out.println("ClassNotFoundException was caught.");
+        }
     }
 
-    public void writeItemsMapToFile(String path, Map<UUID, Item> itemMap) throws IOException {
-        OutputStream file = new FileOutputStream(path);
-        ObjectOutput output = new ObjectOutputStream(file);
-        output.writeObject(itemMap);
-        output.close();
+    /**
+     * Writes a Map of UUID to Item into a file specified by a filepath.
+     * @param path The filepath corresponding to the file it is written to.
+     * @param itemMap A Map of UUID to Item.
+     */
+    public void writeItemsMapToFile(String path, Map<UUID, Item> itemMap) {
+        try {
+            OutputStream file = new FileOutputStream(path);
+            ObjectOutput output = new ObjectOutputStream(file);
+            output.writeObject(itemMap);
+            output.close();
+        } catch (IOException e) {
+            System.out.println("IO Exception was caught.");
+        }
     }
 
-    public Map<UUID, Item> readItemMapFromFile(String path) throws IOException, ClassNotFoundException {
-        InputStream file = new FileInputStream(path);
-        ObjectInput input = new ObjectInputStream(file);
-        Map<UUID, Item> itemMap = (Map<UUID, Item>) input.readObject();
-        input.close();
-        return itemMap;
+    /**
+     * Reads a Map of UUID to Item into a file specified by a filepath.
+     * @param path The filepath corresponding to the file it is being read from.
+     * @return A Map of UUID to Item.
+     */
+    public Map<UUID, Item> readItemMapFromFile(String path) {
+        try {
+            InputStream file = new FileInputStream(path);
+            ObjectInput input = new ObjectInputStream(file);
+            Map<UUID, Item> itemMap = (Map<UUID, Item>) input.readObject();
+            input.close();
+            return itemMap;
+        } catch (IOException e) {
+            System.out.println("IO Exception was caught.");
+        } catch(ClassNotFoundException e) {
+            System.out.println("ClassNotFoundException was caught.");
+        }
     }
 }

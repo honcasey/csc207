@@ -11,18 +11,17 @@ import java.util.*;
  */
 
 public class TransactionHistory implements Serializable {
-    private List <UUID> oneWayTransactions; // goes in user
-    private List <UUID> twoWayTransactions; //goes in user
-    private HashMap<String, Integer> usersNumTradeTimes; // goes in user. change to <string, integer>
-    private int numItemsLended = 0; // goes in user
-    private int numItemsBorrowed = 0; // goes in user
-
+    private final List<UUID> oneWayTransactions;
+    private final List<UUID> twoWayTransactions;
+    private final HashMap<String, Integer> usersNumTradeTimes;
+    private int numItemsLended = 0;
+    private int numItemsBorrowed = 0;
 
     /**
      * Constructs an instance of Users.TransactionHistory with an empty ArrayList transactions and an empty Hashtable usersNumTradeTimes
      * The most recent Transactions.Transaction is added to the end of the list transactions
      */
-    public TransactionHistory(){
+    public TransactionHistory() {
         oneWayTransactions = new ArrayList<>();
         twoWayTransactions = new ArrayList<>();
         usersNumTradeTimes = new HashMap<>();
@@ -69,21 +68,7 @@ public class TransactionHistory implements Serializable {
                 }
                 j++;
             }
-            }return mostTradedWithUsernames;
-    }
-
-    /**
-     * @return all OneWay Transactions
-     */
-    public List <UUID> getOneWayTransactions(){
-        return oneWayTransactions;
-    }
-
-    /**
-     * @return all TwoWay Transactions
-     */
-    public List<UUID> getTwoWayTransactions(){
-        return twoWayTransactions;
+        }return mostTradedWithUsernames;
     }
 
     /**
@@ -97,13 +82,6 @@ public class TransactionHistory implements Serializable {
     }
 
     /**
-     * This returns whether the transaction history object doesn't have any past transactions in it.
-     * @return returns true iff past transactions is empty.
-     */
-    public boolean isPastEmpty(){
-        return(this.getAllPastTransactions().isEmpty());
-    }
-    /**
      * @return all of users and the times they have been traded with
      */
     public HashMap<String, Integer> getUsersNumTradeTimes(){
@@ -111,29 +89,9 @@ public class TransactionHistory implements Serializable {
     }
 
     /**
-     * Getter for this Users.TradingUser's number of transactions.
-     * @return numTransactions as an integer.
-     */
-    public int getNumTransactions() {
-        return oneWayTransactions.size() + twoWayTransactions.size();
-    }
-
-    /**
-     * Getter for numItemsLended as an int
-     * @return numItemsLended as an integer
-     */
-    public int getNumItemsLended() { return numItemsLended; }
-
-    /**
      * Setter for numItemsLended, increases by 1 every time it is called
      */
     public void setNumItemsLended() { this.numItemsLended++; }
-
-    /**
-     * Getter for numItemsBorrowed
-     * @return numItemsBorrowed as an integer
-     */
-    public int getNumItemsBorrowed() { return numItemsBorrowed; }
 
     /**
      * Setter for numItemsBorrowed, increases by 1 every time it is called

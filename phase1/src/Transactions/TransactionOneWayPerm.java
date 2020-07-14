@@ -4,20 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * <h1> TransactionOneWayPerm</h1>
+ * This class represents a meetup between 2 Users where there is a permanent one way transaction happening. <br>
+ *
+ * Class Variables: <br>
+ *
+ * item this is the id of the Item that belongs to user1
+ */
 public class TransactionOneWayPerm extends Transaction {
-    /**
-     * This class represents a meetup between 2 Users where there is a permanent one way transaction happening.
-     * Note: user 1 owns the item and the second user takes the item.
-     *
-     * Class Variables:
-     *
-     * userEditable: This is a mapping of all the information that the user can change. This contains capitalized
-     * strings mapping to the information they change.
-     *
-     * -- userEditable Variables --
-     * Items.Item. (will be stored in the hashmap)
-     * NOTE: getters and setters for certain information still remain camel-case.
-     */
+
+
     private UUID item;
 
     /**
@@ -41,28 +38,37 @@ public class TransactionOneWayPerm extends Transaction {
      * Getter for item in the transaction.
      * @return returns the item that is in the transaction.
      */
-    //Constructor with a return time manually inputted
     public UUID getItem(){
         return(this.item);
     }
 
     /**
      * Setter for item in the transaction.
+     * @param item1
      */
     public void setItem(UUID item1) {
         this.item = item1;
     }
 
+    /**
+     * @return true
+     */
     @Override
     public boolean isOneWay() {
         return true;
     }
 
+    /**
+     * @return true
+     */
     @Override
     public boolean isPerm() {
         return true;
     }
 
+    /**
+     * @return the toString for this type of Transaction
+     */
     @Override
     public String toString(){
         String FirstMeetingString = this.getFirstMeeting().toString();
@@ -70,6 +76,9 @@ public class TransactionOneWayPerm extends Transaction {
                 "\n Status: " + getStatus());
     }
 
+    /**
+     * @return a list of meetings for this Transaction
+     */
     @Override
     public List<Meeting> getTransactionMeetings(){
         List<Meeting> MeetingReturnList = new ArrayList<>();

@@ -13,9 +13,9 @@ import java.util.UUID;
  * This class manages all TradingUsers.
  */
 public class TradingUserManager {
-    private List<TradingUser> allTradingUsers;
-    private List<TradingUser> flaggedAccounts;
-    private List<TradingUser> frozenAccounts;
+    private final List<TradingUser> allTradingUsers;
+    private final List<TradingUser> flaggedAccounts;
+    private final List<TradingUser> frozenAccounts;
     private Map<UUID, TradingUser> idToUser;
 
     /**
@@ -204,16 +204,11 @@ public class TradingUserManager {
         return false;
     }
 
-    public void addToFlaggedAccounts(TradingUser tradingUser) {
-        flaggedAccounts.add(tradingUser);
-    }
-
     /**
      * Retrieves a list of Users that have had their account flagged to be frozen automatically by the system
      *
      * @return list of flagged to be frozen users
      */
-
     public List<TradingUser> getFlaggedAccounts() {
         return flaggedAccounts;
     }
@@ -237,6 +232,12 @@ public class TradingUserManager {
         return tradingUser.getCurrentTransactions().size() >= tradingUser.getIncompleteThreshold();
     }
 
+    /**
+     * Takes Transaction and moves it from TradingUser's currentTransactions to their TransactionHistory.
+     *
+     * @param transaction The Transaction being moved.
+     * @param tradingUser A TradingUser involved in the Transaction.
+     */
     public void moveTransactionToTransactionHistory(Transaction transaction, TradingUser tradingUser) {
         String status = transaction.getStatus();
         if (status.equals("incomplete") || status.equals("complete") || status.equals("neverReturned")) {
