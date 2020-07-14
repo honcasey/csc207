@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * <h1>BootupMenuPresenter</h1>
  * Contains all option strings and prompts printed/displayed by TradingSystem.
  * Class variables represent commonly used strings.
  */
