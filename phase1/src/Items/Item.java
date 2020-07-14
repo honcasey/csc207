@@ -6,6 +6,7 @@ import java.util.UUID;
 /**
  * <h1>Item</h1>
  * Represents an item in the trading system.
+ * Class variables include the item's ID, name, and description (which is optional).
  */
 public class Item implements Serializable {
     private UUID id;
@@ -28,14 +29,6 @@ public class Item implements Serializable {
     @Override
     public String toString() {
         return this.name;
-    }
-
-    /**
-     * Sets this item's name.
-     * @param name This item's name.
-     */
-    public void setName(String name) {
-        this.name = name;
     }
 
     /**

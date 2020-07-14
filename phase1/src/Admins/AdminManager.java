@@ -8,6 +8,7 @@ import java.util.List;
 
 
 /**
+ * <h1>AdminManager</h1>
  * Creates and manages instances of AdminUsers, as well as all accounts that have been flagged or frozen, and a list
  * of Users who have requested their accounts to be unfrozen.
  */

@@ -5,6 +5,7 @@ import java.util.List;
 import Presenters.MenuPresenter;
 
 /**
+ * <h1>AdminMenuPresenter</h1>
  * Contains all option strings printed/displayed by the AdminMenuController.
  * Class variables represent commonly used strings.
  */
