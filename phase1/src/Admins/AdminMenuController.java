@@ -221,12 +221,12 @@ public class AdminMenuController {
     private void checkFrozenUsers() {
         boolean userInteracting = true;
         while (userInteracting) {
-            if (am.getPendingFrozenTradingUsers().isEmpty()) {
+            if (am.getFrozenAccounts().isEmpty()) {
                 System.out.println(amp.empty("Frozen TradingUser request."));
                 userInteracting = false;
             }
             else {
-                Iterator<TradingUser> frozenUserIterator = am.getPendingFrozenTradingUsers().iterator();
+                Iterator<TradingUser> frozenUserIterator = am.getFrozenAccounts().iterator();
 
                 /* makes a list of users to delete from the pendingFrozenTradingUsers list if they're unfrozen */
                 ArrayList<TradingUser> usersToDelete = new ArrayList<>();
@@ -252,7 +252,7 @@ public class AdminMenuController {
                 }
 
                 /* remove all Trading Users that have been unfrozen from the pendingFrozenTradingUsers list */
-                am.getPendingFrozenTradingUsers().removeAll(usersToDelete);
+                am.getFrozenAccounts().removeAll(usersToDelete);
             }
         }
     }
@@ -283,7 +283,6 @@ public class AdminMenuController {
                         // admin wants to freeze this account
                         if (amp.indexToOption(optionChosen, amp.constructFlaggedUsersMenu(), amp.freezeAccount)) {
                             um.freezeAccount(curr);
-                            am.getFrozenAccounts().add(curr);
                             usersToDelete.add(curr);
                             System.out.println(amp.accountFrozen(curr.toString(), curr.getStatus()));
                             userInteracting = false;

@@ -121,6 +121,7 @@ public class TradingUserManager {
      * @param tradingUser A tradingUser in the trading system.
      */
     public void freezeAccount(TradingUser tradingUser) {
+        tradingUser.setStatus("frozen");
         idToUser.get(tradingUser.getUserId()).setStatus("frozen");
     }
 

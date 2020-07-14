@@ -20,14 +20,9 @@ public class AdminManager {
     private List<TradingUser> flaggedAccounts;
 
     /**
-     * A list of Users that have had their account frozen after approval by an Admin.
+     * A list of Users that have requested their account be unfrozen after approval by an Admin.
      */
     private List<TradingUser> frozenAccounts;
-
-    /**
-     * A list of Users that have requested their account to be unfrozen.
-     */
-    private List<TradingUser> pendingFrozenTradingUsers;
 
     /**
      * Creates an AdminManager.
@@ -39,7 +34,6 @@ public class AdminManager {
         allAdmins = admins;
         this.flaggedAccounts = flaggedAccounts;
         this.frozenAccounts = frozenAccounts;
-        pendingFrozenTradingUsers = new ArrayList<>();
     }
 
     /**
@@ -88,12 +82,6 @@ public class AdminManager {
             if (admin.getUsername().equals(username) && admin.getPassword().equals(password)) return true;
         return false;
     }
-
-    /**
-     * Getter for this AdminMenu's list of all pending frozen Users that have been requested to be unfrozen.
-     * @return a list of all users that have requested to be unfrozen.
-     */
-    public List<TradingUser> getPendingFrozenTradingUsers() { return pendingFrozenTradingUsers; }
 
     /**
      * Getter for this AdminMenu's list of all Users who are frozen.
