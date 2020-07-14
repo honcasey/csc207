@@ -9,6 +9,12 @@ import Users.TradingUserManager;
 
 import java.util.*;
 
+/**
+ * The AdminMenuController decides which use case/manager methods to call depending on the user input taken from the presenter.
+ * It stores instances of all use cases/managers (AdminManager, TradingUserManager, ItemManager), the AdminMenuPresenter,
+ * and a list of allPendingItems (which is the list of all items that have been requested by a TradingUser to be added
+ * to their inventory).
+ */
 public class AdminMenuController {
     private final AdminUser currentAdmin; // admin that's logged in
     private final AdminManager am;
@@ -26,6 +32,9 @@ public class AdminMenuController {
         im = items;
     }
 
+    /**
+     * Method that calls to different helper methods depending on admin's input choice in the main menu.
+     */
     public void run() {
         boolean userInteracting = true;
 
@@ -52,16 +61,7 @@ public class AdminMenuController {
         }
     }
 
-    private void approveInventory(TradingUser tradingUser, Item item, boolean approved) { // can be removed?
-        if (approved) { um.addItem(tradingUser, item, "inventory");
-        im.addItem(item);
-        allPendingItems.remove(item);
-        System.out.println(amp.addItem("approved"));}
-        else { allPendingItems.remove(item);
-        System.out.println(amp.addItem("declined"));}
-    }
-
-    private void checkPendingItems() {
+    private void checkPendingItems() { //check all pending items that have been requested by users to be approved for their inventory
         boolean userInteracting = true;
         while (userInteracting) {
             if (allPendingItems.isEmpty()) {
@@ -70,31 +70,30 @@ public class AdminMenuController {
             }
             else {
                 Iterator<Item> itemIterator = allPendingItems.keySet().iterator();
-                ArrayList<Item> keysToDelete = new ArrayList<>();
+                ArrayList<Item> keysToDelete = new ArrayList<>(); // list of items to be removed from the allPendingItems list once they are approved
 
                 while (itemIterator.hasNext()) {
                     Item curr = itemIterator.next();
                     System.out.println("Current Item Name:" + curr.toString()); //prints the current item + the options
+                    // print actions that the admin can do on this pending item (approve, decline, go to next)
                     int optionChosen = amp.handleOptionsByIndex(amp.constructPendingItemsMenu(), true, "Actions");
-                    if (optionChosen == amp.constructPendingItemsMenu().size()) {
+                    if (optionChosen == amp.constructPendingItemsMenu().size()) { // if "go back" is chosen
                         System.out.println(amp.previousMenu);
                         userInteracting = false;
                     } else {
                         if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.approveItem)) {
                             try {
                                 TradingUser user = um.getTradingUser(allPendingItems.get(curr).getUsername());
-                                im.addItem(curr);
-                                um.addItem(user, curr, "inventory");
-                               // itemIterator.remove();
+                                im.addItem(curr); // add to allItems master list of all existing items that have been approved
+                                um.addItem(user, curr, "inventory"); // add item to the TradingUser's inventory
                                 keysToDelete.add(curr);
                                 System.out.println(amp.addItem("approved"));
                             } catch (InvalidTradingUserException e) {
                                 //
                             }
 
-                        }
+                        } // if admin decides to decline this item for this user
                         else if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.declineItem)) {
-                            //itemIterator.remove();
                             keysToDelete.add(curr);
                             System.out.println(amp.addItem("declined"));
                         }
@@ -106,7 +105,7 @@ public class AdminMenuController {
         }
     }
 
-    private void createAdmin() {
+    private void createAdmin() { // create a new admin which can only be done by the first admin
         if (currentAdmin.isFirstAdmin()) {
             Scanner scanner = new Scanner(System.in);
             System.out.println(amp.enterName("new Admin"));
@@ -114,7 +113,7 @@ public class AdminMenuController {
             try {
                 System.out.println(amp.enterPassword("new Admin"));
                 String password = scanner.nextLine();
-                am.addAdmin(username, password);
+                am.addAdmin(username, password); // add the new admin to the list of all AdminUsers
                 System.out.println(amp.successfullyCreated("New Admin TradingUser " + username));
             } catch (InvalidAdminException e) {
                 System.out.println(amp.usernameTaken);
@@ -124,29 +123,29 @@ public class AdminMenuController {
         }
     }
 
-    private void addItemToUser() {
+    private void addItemToUser() { // manually add an item to any TradingUser's inventory or wishlist
         boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
         System.out.println(amp.enterName("new Item"));
         String itemName = scanner.nextLine();
-        Item newItem = new Item(itemName); // TO-DO: prompt admin to enter a description for this item
+        Item newItem = new Item(itemName);
         System.out.println(amp.enterName("TradingUser"));
         String username = scanner.nextLine();
         int optionChosen = amp.handleOptionsByIndex(amp.constructAddToListMenu(), true,
-                "Which List do you want to add this Item to?");
+                "Which list do you want to add this Item to?");
         while (userInteracting) {
             try {
                 if (optionChosen == amp.constructAddToListMenu().size()) {
                     System.out.println(amp.previousMenu);
                     userInteracting = false;
                 }
-                else if (amp.indexToOption(optionChosen, amp.constructAddToListMenu(), amp.addToWishlist)) {
+                else if (amp.indexToOption(optionChosen, amp.constructAddToListMenu(), amp.addToWishlist)) { //if admin chooses to add this item to the wishlist
                     um.addItem(um.getTradingUser(username), newItem, "wishlist");
-                    im.addItem(newItem);
+                    im.addItem(newItem); //add this new item
                     System.out.println(amp.successfullyAdded(newItem.toString(), username, "wishlist"));
                     userInteracting = false;
                 }
-                else if (amp.indexToOption(optionChosen, amp.constructAddToListMenu(), amp.addToInventory)) {
+                else if (amp.indexToOption(optionChosen, amp.constructAddToListMenu(), amp.addToInventory)) { //if admin chooses to add this item to the inventory
                     um.addItem(um.getTradingUser(username), newItem, "inventory");
                     im.addItem(newItem);
                     System.out.println(amp.successfullyAdded(newItem.toString(), username, "inventory"));

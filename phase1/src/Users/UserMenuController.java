@@ -39,6 +39,9 @@ public class UserMenuController{
         availableItems = getAvailableItems();
     }
 
+    /**
+     * Method that calls to different helper methods depending on user's input choice in the main menu.
+     */
     public void run() {
         boolean userInteracting = true;
         while(userInteracting){
@@ -147,7 +150,7 @@ public class UserMenuController{
                 System.out.println(ump.empty("Inventory Items"));
             }
             else{
-                System.out.println("Please select one of the items from your inventory that you want to offer:");
+                System.out.println(ump.selectItemToOffer);
                 Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
                 Transaction newTransaction = tm.createTransaction(
                     Owner.getUserId(),currentTradingUser.getUserId(), item, ChosenItem, FirstMeeting);
@@ -167,7 +170,7 @@ public class UserMenuController{
                 System.out.println(ump.empty("Inventory"));
             }
             else{
-                System.out.println("Please select one of the items from your inventory that you want to offer:");
+                System.out.println(ump.selectItemToOffer);
                 Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
                 Meeting SecondMeeting = tm.meetOneMonthLater(FirstMeeting);
                 Transaction newTransaction = tm.createTransaction(Owner.getUserId(),
@@ -210,7 +213,7 @@ public class UserMenuController{
         System.out.println(meetingTitle + "Meeting Details");
         System.out.println(ump.meetingLocation);
         String MeetingLocation = scanner.nextLine();
-        LocalTime MeetingTime = ump.inputTimeGetter(ump.enterWhatInFormat("time", "HH:mm:ss"));
+        LocalTime MeetingTime = ump.inputTimeGetter(ump.enterWhatInFormat("time", "hh:mm:ss"));
         LocalDate MeetingDate = ump.inputDateGetter(ump.enterWhatInFormat("date", "dd-mm-yyyy"));
         return new Meeting(MeetingLocation,MeetingTime,MeetingDate);
     }
@@ -225,7 +228,7 @@ public class UserMenuController{
                 List<Item> currentUserWishlist = im.convertIdsToItems(currentTradingUser.getWishlist());
                 List<String> ItemOptions = ump.constructWishlistItemsList(currentUserWishlist);
                 int itemChosen = ump.handleOptionsByIndex(ItemOptions, true, "Wishlist Items");
-                if (itemChosen == ItemOptions.size() - 1) {
+                if (itemChosen == ItemOptions.size() - 1) { // checks if option chosen is "Go back."
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
                 } else {
@@ -332,8 +335,7 @@ public class UserMenuController{
             } else {
                 List<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
                 List<String> optionList = ump.constructTransactionList(currTransactionsList);
-                String currTransactionsTitle = "Current Transactions:";
-                int OptionChosen = ump.handleOptionsByIndex(optionList, true, currTransactionsTitle);
+                int OptionChosen = ump.handleOptionsByIndex(optionList, true, "Current Transactions");
                 // Logic handling back to other menu vs. Editing a meeting vs changing the StatusUser of a Transaction.
                 if(OptionChosen == optionList.size() - 1){
                     System.out.println(ump.previousMenu);
@@ -442,7 +444,7 @@ public class UserMenuController{
                 if (tm.editMeeting(meetingNum, transaction, user, MeetingLocation)) {
                     System.out.println(ump.successfullyEditedMeeting(MeetingLocation));
                 } else {
-                    System.out.println("You have reached your edit threshold.");
+                    System.out.println(ump.editThresholdReached);
                 }
                 break;
             case "time":
@@ -450,7 +452,7 @@ public class UserMenuController{
                 if (tm.editMeeting(meetingNum, transaction, user, MeetingTime)) {
                     System.out.println(ump.successfullyEditedMeeting(MeetingTime.toString()));
                 } else {
-                    System.out.println("You have reached your edit threshold.");
+                    System.out.println(ump.editThresholdReached);
                 }
                 break;
             case "date":
@@ -458,7 +460,7 @@ public class UserMenuController{
                 if (tm.editMeeting(meetingNum, transaction, user, MeetingDate)) {
                     System.out.println(ump.successfullyEditedMeeting(MeetingDate.toString()));
                 } else {
-                    System.out.println("You have reached your edit threshold.");
+                    System.out.println(ump.editThresholdReached);
                 }
                 break;
         }
