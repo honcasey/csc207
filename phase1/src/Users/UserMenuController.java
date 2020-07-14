@@ -518,8 +518,11 @@ public class UserMenuController{
         boolean weeklyThreshold = ptm.weeklyThresholdExceeded(user);
         boolean TransactionsExceeded = um.incompleteTransactionExceeded(user);
         boolean borrowThreshold = um.borrowThresholdExceeded(user);
-        if (((weeklyThreshold || TransactionsExceeded)) || borrowThreshold) {
-            am.addFlaggedAccount(user);
+        if (weeklyThreshold || TransactionsExceeded || borrowThreshold) {
+            List<String> flaggedUsernames = um.convertFlaggedUsersToUsernames();
+            if (!flaggedUsernames.contains(user.getUsername())) {
+                um.getFlaggedAccounts().add(user);
+            }
         }
     }
 }

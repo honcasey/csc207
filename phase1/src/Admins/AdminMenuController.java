@@ -57,10 +57,10 @@ public class AdminMenuController {
                 createAdmin();
             if (amp.indexToOption(input, menu, amp.addItem))
                 addItemToUser();
-            if (amp.indexToOption(input, menu, amp.changeThreshold)) {
-                changeUserThreshold();}
-            if (amp.indexToOption(input, menu, amp.checkUnfreezeAccounts)) {
-                checkFrozenUsers(); }
+            if (amp.indexToOption(input, menu, amp.changeThreshold))
+                changeUserThreshold();
+            if (amp.indexToOption(input, menu, amp.checkUnfreezeAccounts))
+                checkFrozenUsers();
             if (amp.indexToOption(input, menu, amp.logout)) {
                 System.out.println(amp.successfulLogout);
                 userInteracting = false; // stop the while loop

@@ -83,19 +83,6 @@ public abstract class MenuPresenter {
         return(OptionList.get(OptionChosen-1));
     }
 
-    private int GetUserInt(String ErrorMsg){ // TO-DO: delete?
-        Scanner scanner = new Scanner(System.in);
-        int UserInt;
-        do {
-            while (!scanner.hasNextInt()) {
-                System.out.println(invalidOption);
-                scanner.next();
-            }
-            UserInt = scanner.nextInt();
-        } while (UserInt < 0);
-        return(UserInt);
-    }
-
     /**
      * Handles options by displaying the input option list as a numbered list, with the choice of adding a "Go Back"
      * option at the end of the list.

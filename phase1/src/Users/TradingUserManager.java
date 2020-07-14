@@ -4,10 +4,7 @@ import Exceptions.InvalidTradingUserException;
 import Items.Item;
 import Transactions.Transaction;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Manages all TradingUsers in the system.
@@ -34,6 +31,7 @@ public class TradingUserManager {
 
     /**
      * Adds a new user with given info.
+     *
      * @param username online identifier of a TradingUser
      * @param password account password
      * @return username and userId as string separated by comma.
@@ -54,6 +52,7 @@ public class TradingUserManager {
 
     /**
      * Retrieves a specific user by username.
+     *
      * @param username online identifier of a TradingUser
      * @return username and userId as string separated by comma
      */
@@ -69,9 +68,9 @@ public class TradingUserManager {
     /**
      * Adds an item to tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
      *
-     * @param tradingUser     the tradingUser
-     * @param item     An item in the trading system.
-     * @param listType either "wishlist" or "inventory" as a String
+     * @param tradingUser the tradingUser
+     * @param item        An item in the trading system.
+     * @param listType    either "wishlist" or "inventory" as a String
      */
     public void addItem(TradingUser tradingUser, Item item, String listType) {
         if (listType.equals("wishlist")) {
@@ -84,9 +83,9 @@ public class TradingUserManager {
     /**
      * Removes a item from tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
      *
-     * @param tradingUser    A tradingUser in the trading system.
-     * @param item     An item in the trading system.
-     * @param listType either "wishlist" or "inventory" as a String
+     * @param tradingUser A tradingUser in the trading system.
+     * @param item        An item in the trading system.
+     * @param listType    either "wishlist" or "inventory" as a String
      */
     public void removeItem(TradingUser tradingUser, Item item, String listType) {
         if (listType.equals("wishlist")) {
@@ -99,7 +98,7 @@ public class TradingUserManager {
     /**
      * Changes the tradingUser's specified threshold.
      *
-     * @param tradingUser  A tradingUser in the trading system.
+     * @param tradingUser    A tradingUser in the trading system.
      * @param thresholdValue new value of threshold as an int
      * @param thresholdType  either "borrow", "weekly", or "incomplete" as a String
      */
@@ -134,6 +133,7 @@ public class TradingUserManager {
      */
     public void unfreezeAccount(TradingUser tradingUser) {
         tradingUser.setStatus("active");
+        idToUser.get(tradingUser.getUserId()).setStatus("active");
     }
 
     /**
@@ -151,7 +151,7 @@ public class TradingUserManager {
     /**
      * A private helper method for addToTransactionHistory that updates UserNumTradeTimes, NumItemsBorrowed, and NumItemsLended
      *
-     * @param tradingUser        A tradingUser in a trading system
+     * @param tradingUser A tradingUser in a trading system
      * @param transaction a transaction between two Users
      */
     // TO-DO: consider splitting into two methods. Reasoning for having one method, user1 == tradingUser is needed for both updating the UserNumTradeTimes and NumItemsBorrowed, NumItemsLended
@@ -184,6 +184,7 @@ public class TradingUserManager {
 
     /**
      * Returns a list of all Users in the Trading System.
+     *
      * @return all users in the system.
      */
     public List<TradingUser> getAllTradingUsers() {
@@ -275,6 +276,7 @@ public class TradingUserManager {
 
     /**
      * Retrieves tradingUser by userId
+     *
      * @param id id of tradingUser
      * @return a tradingUser
      */
@@ -282,18 +284,17 @@ public class TradingUserManager {
         return idToUser.get(id);
     }
 
-    protected void handlePermTransactionItems(Transaction transaction){ // if permanent transaction
-        if(transaction.getStatus().equals("Complete")){
+    protected void handlePermTransactionItems(Transaction transaction) { // if permanent transaction
+        if (transaction.getStatus().equals("Complete")) {
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
-            if(itemidlist.size()==2){
+            if (itemidlist.size() == 2) {
                 user1.removeFromWishlist(itemidlist.get(1));
                 user2.removeFromWishlist(itemidlist.get(0));
                 user1.getInventory().remove(itemidlist.get(0));
                 user2.getInventory().remove(itemidlist.get(1));
-            }
-            else if(itemidlist.size() == 1){
+            } else if (itemidlist.size() == 1) {
                 user2.removeFromWishlist(itemidlist.get(0));
                 user1.getInventory().remove(itemidlist.get(1));
             }
@@ -333,13 +334,22 @@ public class TradingUserManager {
 
     /**
      * Returns whether the TradingUser's borrow threshold has been exceeded.
+     *
      * @param tradingUser which TradingUser to check
      * @return boolean whether the threshold has been exceeded.
      */
-    public boolean borrowThresholdExceeded(TradingUser tradingUser){
+    public boolean borrowThresholdExceeded(TradingUser tradingUser) {
         int numBorrowed = tradingUser.getTransactionHistory().getNumItemsBorrowed();
         int numLent = tradingUser.getTransactionHistory().getNumItemsLended();
         int threshold = tradingUser.getBorrowThreshold();
         return numBorrowed - numLent >= threshold;
+    }
+
+    public List<String> convertFlaggedUsersToUsernames() {
+        List<String> usernames = new ArrayList<>();
+        for (TradingUser user : flaggedAccounts) {
+            usernames.add(user.getUsername());
+        }
+        return usernames;
     }
 }

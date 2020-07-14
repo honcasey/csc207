@@ -3,7 +3,6 @@ package Admins;
 import Users.User;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 /**
  * Represents an administrative user in the trading system.
