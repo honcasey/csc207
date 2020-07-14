@@ -179,6 +179,7 @@ public class TradingUserManager {
         }
     }
 
+
     /**
      * Returns a list of all Users in the Trading System.
      *
@@ -272,4 +273,21 @@ public class TradingUserManager {
         return idToUser.get(id);
     }
 
+    protected void handleConfirmedTransaction(Transaction newlyConfirmed){
+        if(newlyConfirmed.getStatus().equals("Confirmed")){
+            List<UUID> itemidlist = newlyConfirmed.getTransactionItems();
+            TradingUser user1 = this.getTradingUserById(newlyConfirmed.getUser1());
+            TradingUser user2 = this.getTradingUserById(newlyConfirmed.getUser2());
+            if(itemidlist.size()==2){
+                user1.removeFromWishlist(itemidlist.get(1));
+                user2.removeFromWishlist(itemidlist.get(0));
+                user1.getInventory().remove(itemidlist.get(0));
+                user2.getInventory().remove(itemidlist.get(1));
+            }
+            else if(itemidlist.size() == 1){
+                user2.removeFromWishlist(itemidlist.get(0));
+                user1.getInventory().remove(itemidlist.get(1));
+            }
+        }
+    }
 }
