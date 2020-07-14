@@ -10,7 +10,6 @@ import java.util.*;
  * <h1>TradingUserManager</h1>
  *
  * Manages all TradingUsers in the system.
- *
  * <p>
  * Stores a list of all TradingUsers in the system, all flagged TradingUsers, all frozen Users, and a HashMap mapping between
  *  * TradingUsers and their UUID.
@@ -55,6 +54,7 @@ public class TradingUserManager {
 
     /**
      * Retrieves a specific user by username.
+     *
      * @param username online identifier of a TradingUser
      * @return username and userId as string separated by comma
      */
@@ -68,7 +68,8 @@ public class TradingUserManager {
     }
 
     /**
-     * Adds an item to tradingUser's specified list, which is either the TradingUser's wishlist or inventory.
+     * Adds an item to tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
+     *
      * @param tradingUser the tradingUser
      * @param item        An item in the trading system.
      * @param listType    either "wishlist" or "inventory" as a String
@@ -82,7 +83,7 @@ public class TradingUserManager {
     }
 
     /**
-     * Removes a item from tradingUser's specified list, which is either the TradingUser's wishlist or inventory.
+     * Removes a item from tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
      *
      * @param tradingUser A tradingUser in the trading system.
      * @param item        An item in the trading system.
@@ -138,7 +139,7 @@ public class TradingUserManager {
     }
 
     /**
-     * Adds a transaction to TradingUser's transaction history.
+     * Adds a transaction to Users.TradingUser's transaction history.
      *
      * @param tradingUser A tradingUser in the trading system.
      * @param transaction a meetup between 2 users.
@@ -155,6 +156,7 @@ public class TradingUserManager {
      * @param tradingUser A tradingUser in a trading system
      * @param transaction a transaction between two Users
      */
+
     private void updateTransactionHistoryValues(TradingUser tradingUser, Transaction transaction) {
         TransactionHistory tH = tradingUser.getTransactionHistory();
 
@@ -303,35 +305,29 @@ public class TradingUserManager {
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
-            if (itemidlist.size() == 2) { // if two items are involved in the transaction
+            if (itemidlist.size() == 2) {
                 user1.removeFromWishlist(itemidlist.get(1));
                 user2.removeFromWishlist(itemidlist.get(0));
                 user1.getInventory().remove(itemidlist.get(0));
                 user2.getInventory().remove(itemidlist.get(1));
-            } else if (itemidlist.size() == 1) { // if one item is involved in the transaction
+            } else if (itemidlist.size() == 1) {
                 user2.removeFromWishlist(itemidlist.get(0));
                 user1.getInventory().remove(itemidlist.get(1));
             }
         }
     }
 
-    /**
-     * Removes item(s) temporarily from both users wishlists and inventory when the item is involved in a transaction
-     * after the first meeting of a temporary transaction. Adds the item(s) back into users wishlists and inventory
-     * after the item(s) are returned after the second meeting.
-     * @param transaction the transaction involved.
-     */
     protected void handleTempTransactionItems(Transaction transaction) { // if temporary transaction
         if (transaction.getStatus().equals("Traded")) { // after first meeting
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
-            if (itemidlist.size() == 2) { // if two items are involved in the transaction
+            if (itemidlist.size() == 2) {
                 user1.removeFromWishlist(itemidlist.get(1));
                 user2.removeFromWishlist(itemidlist.get(0));
                 user1.getInventory().remove(itemidlist.get(0));
                 user2.getInventory().remove(itemidlist.get(1));
-            } else if (itemidlist.size() == 1) { // if one item is involved in the transaction
+            } else if (itemidlist.size() == 1) {
                 user2.removeFromWishlist(itemidlist.get(0));
                 user1.getInventory().remove(itemidlist.get(1));
             }
@@ -340,12 +336,12 @@ public class TradingUserManager {
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
-            if (itemidlist.size() == 2) { // if two items are involved in the transaction
+            if (itemidlist.size() == 2) {
                 user1.addToWishlist(itemidlist.get(1));
                 user2.addToWishlist(itemidlist.get(0));
                 user1.getInventory().add(itemidlist.get(0));
                 user2.getInventory().add(itemidlist.get(1));
-            } else if (itemidlist.size() == 1) { // if one item is involved in the transaction
+            } else if (itemidlist.size() == 1) {
                 user2.addToWishlist(itemidlist.get(0));
                 user1.getInventory().add(itemidlist.get(1));
             }

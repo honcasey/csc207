@@ -38,6 +38,7 @@ public class UserMenuPresenter extends MenuPresenter {
     protected String viewThreeMostTraded = "View 3 most frequent trading partners.";
 
     /**
+     * <h1>UserMenuPresenter</h1>
      * Constructs a list of options/prompts that the menu will have.
      * @return list of options that the user can choose from.
      */
