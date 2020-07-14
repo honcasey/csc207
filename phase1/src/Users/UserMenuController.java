@@ -324,7 +324,7 @@ public class UserMenuController{
           List<String> twoWayTransactionOptions = ump.constructTransactionList(TwoWayTransactions);
           ump.displayOptions(twoWayTransactionOptions);
 
-        } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.ViewThreeMostTraded)) {
+        } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewThreeMostTraded)) {
             List<String> TradedWithUsersOptions = currentTradingUser.getTransactionHistory().mostTradedWithUsers();
             ump.displayOptions(TradedWithUsersOptions);
         }
