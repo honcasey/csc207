@@ -7,7 +7,8 @@ import java.util.UUID;
 /**
  *<h1>Transaction</h1>
  *
- * <p> This abstract class represents a meetup between two Users. </p>
+ * This abstract class represents a meetup between two Users. <br>
+ * <br><br>
  * Variables: <br>
  *
  * user1, user2: users involved in the transaction. <br>
@@ -69,7 +70,6 @@ public abstract class Transaction implements Serializable {
      * Setter for status. This will be called by use case classes.
      * @param newStatus the new status.
      */
-
     public void setStatus(String newStatus){
         status = newStatus;
     }
@@ -134,7 +134,6 @@ public abstract class Transaction implements Serializable {
      */
     public abstract List<UUID> getTransactionItems();
 
-
     /**
      * This abstract method will return a string representation of the transaction. This will be implemented in the
      * subclasses in order to make output related to type which this method was called for.
@@ -142,7 +141,6 @@ public abstract class Transaction implements Serializable {
      */
     @Override
     public abstract String toString();
-
 
     /**
      * Getter for status. This will be called by use case classes.
@@ -191,4 +189,3 @@ public abstract class Transaction implements Serializable {
         return item1Name;
     }
 }
-

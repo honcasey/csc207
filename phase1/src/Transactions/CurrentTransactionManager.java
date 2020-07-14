@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
+ * <h1>CurrentTransactionManager</h1>
  * Manages a transaction between two users. A transaction begins once a user expresses interest in an item.
  */
 public class CurrentTransactionManager extends TransactionManager{

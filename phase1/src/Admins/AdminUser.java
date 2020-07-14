@@ -7,7 +7,7 @@ import java.io.Serializable;
  * <h1>AdminUser</h1>
  * Represents an administrative user in the trading system.
  */
-public class AdminUser extends User implements Serializable{
+public class AdminUser extends User implements Serializable {
     private boolean firstAdmin = false; // only the FIRST AdminUser will have firstAdmin = true, no one else
 
     /**

@@ -5,6 +5,7 @@ import Exceptions.InvalidTransactionException;
 import java.util.*;
 
 /**
+ * <h1>TransactionManager</h1>
  * Manages all transactions in the system.
  */
 public abstract class TransactionManager {

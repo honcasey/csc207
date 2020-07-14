@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
+ * <h1>TransactionOneWayTemp</h1>
  * This class represents a meetup between 2 Users where there is a one way borrowing transaction happening.
  * Note: user 1 owns the item and the second user borrows the item.
  */

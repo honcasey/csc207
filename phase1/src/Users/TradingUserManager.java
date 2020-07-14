@@ -7,6 +7,7 @@ import Transactions.Transaction;
 import java.util.*;
 
 /**
+ * <h1>TradingUserManager</h1>
  * Manages all TradingUsers in the system.
  * <p>
  * Stores a list of all TradingUsers in the system, all flagged TradingUsers, all frozen Users, and a HashMap mapping between
@@ -62,15 +63,15 @@ public class TradingUserManager {
                 return tradingUser;
             }
         }
-        throw new InvalidTradingUserException();
+        throw new InvalidTradingUserException();// TradingUser does not exist
     }
 
     /**
      * Adds an item to tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
      *
      * @param tradingUser the tradingUser
-     * @param item        An item in the trading system.
-     * @param listType    either "wishlist" or "inventory" as a String
+     * @param item an item in the trading system.
+     * @param listType either "wishlist" or "inventory" as a String
      */
     public void addItem(TradingUser tradingUser, Item item, String listType) {
         if (listType.equals("wishlist")) {
@@ -83,9 +84,9 @@ public class TradingUserManager {
     /**
      * Removes a item from tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
      *
-     * @param tradingUser A tradingUser in the trading system.
-     * @param item        An item in the trading system.
-     * @param listType    either "wishlist" or "inventory" as a String
+     * @param tradingUser a tradingUser in the trading system.
+     * @param item an item in the trading system.
+     * @param listType either "wishlist" or "inventory" as a String
      */
     public void removeItem(TradingUser tradingUser, Item item, String listType) {
         if (listType.equals("wishlist")) {
@@ -98,7 +99,7 @@ public class TradingUserManager {
     /**
      * Changes the tradingUser's specified threshold.
      *
-     * @param tradingUser    A tradingUser in the trading system.
+     * @param tradingUser  a tradingUser in the trading system.
      * @param thresholdValue new value of threshold as an int
      * @param thresholdType  either "borrow", "weekly", or "incomplete" as a String
      */
@@ -119,7 +120,7 @@ public class TradingUserManager {
     /**
      * Changes the status of a tradingUser's account from active to frozen.
      *
-     * @param tradingUser A tradingUser in the trading system.
+     * @param tradingUser a tradingUser in the trading system.
      */
     public void freezeAccount(TradingUser tradingUser) {
         tradingUser.setStatus("frozen");
@@ -129,7 +130,7 @@ public class TradingUserManager {
     /**
      * Changes the status of a tradingUser's account from frozen to active.
      *
-     * @param tradingUser A tradingUser in the trading system.
+     * @param tradingUser a tradingUser in the trading system.
      */
     public void unfreezeAccount(TradingUser tradingUser) {
         tradingUser.setStatus("active");
@@ -139,7 +140,7 @@ public class TradingUserManager {
     /**
      * Adds a transaction to Users.TradingUser's transaction history.
      *
-     * @param tradingUser A tradingUser in the trading system.
+     * @param tradingUser a tradingUser in the trading system.
      * @param transaction a meetup between 2 users.
      */
     public void addToTransactionHistory(TradingUser tradingUser, Transaction transaction) {
@@ -151,14 +152,19 @@ public class TradingUserManager {
     /**
      * A private helper method for addToTransactionHistory that updates UserNumTradeTimes, NumItemsBorrowed, and NumItemsLended
      *
-     * @param tradingUser A tradingUser in a trading system
+     * @param tradingUser a tradingUser in a trading system
      * @param transaction a transaction between two Users
      */
-    // TO-DO: consider splitting into two methods. Reasoning for having one method, user1 == tradingUser is needed for both updating the UserNumTradeTimes and NumItemsBorrowed, NumItemsLended
+
     private void updateTransactionHistoryValues(TradingUser tradingUser, Transaction transaction) {
         TransactionHistory tH = tradingUser.getTransactionHistory();
+
+        // if the user is the person giving away the object (user1) in transaction
         if (transaction.getUser1() == tradingUser.getUserId()) {
+            // increment the numLended
             tradingUser.getTransactionHistory().setNumItemsLended();
+
+            // get the username of user2 and see if it's in the idToUser and update it; otherwise, add the username
             String u2 = idToUser.get(transaction.getUser2()).getUsername();
             if (tH.getUsersNumTradeTimes().containsKey(u2)) {
                 tH.getUsersNumTradeTimes().put(u2, tH.getUsersNumTradeTimes().get(u2) + 1);
@@ -166,15 +172,20 @@ public class TradingUserManager {
                 tH.getUsersNumTradeTimes().put(u2, 1);
             }
             if (!transaction.isOneWay()) {
+                // if the transaction is a twoway, increment borrowed
                 tradingUser.getTransactionHistory().setNumItemsBorrowed();
             }
-        } else {
+        } else { // if the user is the person receiving the object (user2) in transaction
+            // increment the numBorrowed
             tradingUser.getTransactionHistory().setNumItemsBorrowed();
+            // check to see if the other user is in the first user's usersNumTradeTimes list, increment or otherwise add the new user
             String u1 = idToUser.get(transaction.getUser1()).getUsername();
             if (tH.getUsersNumTradeTimes().containsKey(u1)) {
                 tH.getUsersNumTradeTimes().put(u1, tH.getUsersNumTradeTimes().get(u1) + 1);
             } else {
                 tH.getUsersNumTradeTimes().put(u1, 1);
+
+                // if the transaction is twoway, increment lent
                 if (!transaction.isOneWay()) {
                     tradingUser.getTransactionHistory().setNumItemsLended();
                 }
@@ -183,9 +194,9 @@ public class TradingUserManager {
     }
 
     /**
-     * Returns a list of all Users in the Trading System.
+     * Returns a list of all TradingUsers in the Trading System.
      *
-     * @return all users in the system.
+     * @return all tradingUsers in the system.
      */
     public List<TradingUser> getAllTradingUsers() {
         return allTradingUsers;
@@ -208,18 +219,18 @@ public class TradingUserManager {
     }
 
     /**
-     * Retrieves a list of Users that have had their account flagged to be frozen automatically by the system
+     * Retrieves a list of TradingUsers that have had their account flagged to be frozen automatically by the system
      *
-     * @return list of flagged to be frozen users
+     * @return list of flagged to be frozen TradingUsers
      */
     public List<TradingUser> getFlaggedAccounts() {
         return flaggedAccounts;
     }
 
     /**
-     * Retrieves a list of Users that have had their account frozen after approval by Admin.
+     * Retrieves a list of TradingUsers that have had their account frozen after approval by Admin.
      *
-     * @return list of frozen users
+     * @return list of frozen TradingUsers
      */
     public List<TradingUser> getFrozenAccounts() {
         return frozenAccounts;
@@ -229,7 +240,7 @@ public class TradingUserManager {
      * Returns of the number of current transactions of TradingUser exceed the incomplete transaction threshold
      *
      * @param tradingUser TradingUser of interest
-     * @return boolean
+     * @return true iff incompleteTransactionExceeded
      */
     public boolean incompleteTransactionExceeded(TradingUser tradingUser) {
         return tradingUser.getCurrentTransactions().size() >= tradingUser.getIncompleteThreshold();
@@ -238,8 +249,8 @@ public class TradingUserManager {
     /**
      * Takes Transaction and moves it from TradingUser's currentTransactions to their TransactionHistory.
      *
-     * @param transaction The Transaction being moved.
-     * @param tradingUser A TradingUser involved in the Transaction.
+     * @param transaction the Transaction being moved.
+     * @param tradingUser a TradingUser involved in the Transaction.
      */
     public boolean moveTransactionToTransactionHistory(Transaction transaction, TradingUser tradingUser) {
         String status = transaction.getStatus();

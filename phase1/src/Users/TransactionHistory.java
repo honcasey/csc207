@@ -7,6 +7,7 @@ import java.util.*;
 
 
 /**
+ * <h1>TransactionHistory</h1>
  * Represents the Transactions.Transaction History of Users.TradingUser by storing information about completed transactions
  */
 
@@ -31,9 +32,11 @@ public class TransactionHistory implements Serializable {
      * @return the three most recent OneWay Transactions
      */
     public List<UUID> mostRecentOneWayTransactions(){ //TH manager
+
+        // if oneWayTransactions are less than 3, just return oneWayTransactions
         if (oneWayTransactions.size() <= 3) {
            return oneWayTransactions;
-        }
+        } // otherwise, follow this algorithm
         return oneWayTransactions.subList(oneWayTransactions.size() - 3, oneWayTransactions.size());
     }
 
@@ -41,6 +44,7 @@ public class TransactionHistory implements Serializable {
      * @return the three most recent TwoWay Transactions.Transaction
      */
     public List<UUID> mostRecentTwoWayTransactions(){
+        // if twoWayTransactions are less than 3, just return twoWayTransactions
         if(twoWayTransactions.size() <= 3){
             return twoWayTransactions;
         }
@@ -51,12 +55,16 @@ public class TransactionHistory implements Serializable {
      * @return the usernames of the Users.TradingUser's top three trading partners
      */
     public List<String> mostTradedWithUsers()  {
+        // list for the mostTradedWith usernames
         List<String> mostTradedWithUsernames = new ArrayList<>();
+
+        // if usersNumTradTimes size is less than or less than 3
         if(usersNumTradeTimes.size() <= 3){
             Set<String> users = usersNumTradeTimes.keySet();
             mostTradedWithUsernames.addAll(users);
             return mostTradedWithUsernames; }
         int j = 0;
+        // if userNumTradeTimes size is greater than 3
         while(j < 3){
             Map.Entry<String, Integer> maxUser = null;
             for (Map.Entry<String, Integer> entry : usersNumTradeTimes.entrySet()) {
@@ -75,6 +83,7 @@ public class TransactionHistory implements Serializable {
      * @return an List of all Transactions
      */
     public List<UUID> getAllPastTransactions(){
+        // add all the transactions in one list and return it
         List<UUID> allTransactions = new ArrayList<>();
         allTransactions.addAll(oneWayTransactions);
         allTransactions.addAll(twoWayTransactions);
