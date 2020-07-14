@@ -350,7 +350,7 @@ public class UserMenuController{
                     } else {
                         if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) {
                             tm.updateStatus(transaction);
-                            um.addToTransactionHistory(currentTradingUser, transaction);
+                            um.moveTransactionToTransactionHistory(transaction, currentTradingUser);
                         } else {
                             editMeeting(currentTradingUser, transaction);
                         }
@@ -409,26 +409,30 @@ public class UserMenuController{
             }
             else if (tm.transactionHasMultipleMeetings(transaction)){
                 int meetingNum = ump.handleOptionsByIndex(ump.constructWhichMeetingList(), true,
-                        "Transaction with two meetings") + 1;
-
-                Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
-                System.out.println("This is the meeting you wish to edit " + meeting.toString());
-                List<String> options = ump.constructEditMeetingOptions();
-                int OptionChosen = ump.handleOptionsByIndex(options, true, "Meeting Options");
-                // Logic handling back to other menu vs. Editing a meeting
-                if (OptionChosen == options.size() - 1) {
+                        "Transaction with two meetings");
+                if (meetingNum == ump.constructWhichMeetingList().size()) {
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
                 } else {
-                    switch (OptionChosen) {
-                        case 0:
-                            editMeetingFlow(user, transaction, meetingNum, "location");
-                            break;
-                        case 1:
-                            editMeetingFlow(user, transaction, meetingNum, "time");
-                            break;
-                        default:
-                            editMeetingFlow(user, transaction, meetingNum, "date");
+                    Meeting meeting = transaction.getTransactionMeetings().get(meetingNum);
+                    System.out.println("This is the meeting you wish to edit " + meeting.toString());
+                    List<String> options = ump.constructEditMeetingOptions();
+                    int OptionChosen = ump.handleOptionsByIndex(options, true, "Meeting Options");
+                    // Logic handling back to other menu vs. Editing a meeting
+                    if (OptionChosen == options.size() - 1) {
+                        System.out.println(ump.previousMenu);
+                        userInteracting = false;
+                    } else {
+                        switch (OptionChosen) {
+                            case 0:
+                                editMeetingFlow(user, transaction, meetingNum + 1, "location");
+                                break;
+                            case 1:
+                                editMeetingFlow(user, transaction, meetingNum + 1, "time");
+                                break;
+                            default:
+                                editMeetingFlow(user, transaction, meetingNum + 1, "date");
+                        }
                     }
                 }
             }

@@ -30,7 +30,7 @@ public abstract class Transaction implements Serializable {
     private UUID user2;
     private Meeting firstMeeting;
     private String status;
-    private String statusUser1; // is this even necessary
+    private String statusUser1;
     private String statusUser2;
     private String item1Name;
 
@@ -45,6 +45,8 @@ public abstract class Transaction implements Serializable {
         this.user2 = user_2;
         this.firstMeeting = firstMeeting;
         this.item1Name = item1Name;
+        statusUser1 = "pending";
+        statusUser2 = "pending";
     }
 
 
