@@ -8,7 +8,6 @@ import Transactions.Meeting;
 import Transactions.PastTransactionManager;
 import Transactions.Transaction;
 import Transactions.CurrentTransactionManager;
-import jdk.nashorn.internal.runtime.options.Option;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -297,8 +296,7 @@ public class UserMenuController{
 
     private void requestUnfreezeAccount() {
         if (currentTradingUser.isFrozen()) {
-            am.getPendingFrozenTradingUsers().add(currentTradingUser);
-            am.getFrozenAccounts().remove(currentTradingUser);
+            am.getFrozenAccounts().add(currentTradingUser);
             System.out.println(ump.requestedUnfreeze);
         } else {
             System.out.println(ump.accountFrozen(false));
@@ -513,8 +511,8 @@ public class UserMenuController{
     private void flagAccountIfAboveThreshold(TradingUser user) {
         boolean weeklyThreshold = ptm.weeklyThresholdExceeded(user);
         boolean TransactionsExceeded = um.incompleteTransactionExceeded(user);
-
-        if (weeklyThreshold || TransactionsExceeded){
+        boolean borrowThreshold = um.borrowThresholdExceeded(user);
+        if (((weeklyThreshold || TransactionsExceeded)) || borrowThreshold) {
             am.addFlaggedAccount(user);
         }
     }
