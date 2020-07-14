@@ -50,7 +50,7 @@ public class TradingUserManager {
     }
 
     /**
-     * To retrieve a specific user by username.
+     * Retrieve a specific user by username.
      *
      * @param username online identifier of a Users.TradingUser
      * @return username and userId as string separated by comma
@@ -65,7 +65,7 @@ public class TradingUserManager {
     }
 
     /**
-     * To add an item to tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
+     * Adds an item to tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
      *
      * @param tradingUser     the tradingUser
      * @param item     An item in the trading system.
@@ -80,7 +80,7 @@ public class TradingUserManager {
     }
 
     /**
-     * To remove a item from tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
+     * Removes a item from tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
      *
      * @param tradingUser    A tradingUser in the trading system.
      * @param item     An item in the trading system.
@@ -95,7 +95,7 @@ public class TradingUserManager {
     }
 
     /**
-     * To change the tradingUser's specified threshold.
+     * Changes the tradingUser's specified threshold.
      *
      * @param tradingUser  A tradingUser in the trading system.
      * @param thresholdValue new value of threshold as an int
@@ -178,6 +178,7 @@ public class TradingUserManager {
             }
         }
     }
+
 
     /**
      * Returns a list of all Users in the Trading System.
@@ -269,8 +270,30 @@ public class TradingUserManager {
         }
     }
 
+    /**
+     * Retrieves tradingUser by userId
+     * @param id id of tradingUser
+     * @return a tradingUser
+     */
     public TradingUser getTradingUserById(UUID id) {
         return idToUser.get(id);
     }
 
+    protected void handleConfirmedTransaction(Transaction newlyConfirmed){
+        if(newlyConfirmed.getStatus().equals("Confirmed")){
+            List<UUID> itemidlist = newlyConfirmed.getTransactionItems();
+            TradingUser user1 = this.getTradingUserById(newlyConfirmed.getUser1());
+            TradingUser user2 = this.getTradingUserById(newlyConfirmed.getUser2());
+            if(itemidlist.size()==2){
+                user1.removeFromWishlist(itemidlist.get(1));
+                user2.removeFromWishlist(itemidlist.get(0));
+                user1.getInventory().remove(itemidlist.get(0));
+                user2.getInventory().remove(itemidlist.get(1));
+            }
+            else if(itemidlist.size() == 1){
+                user2.removeFromWishlist(itemidlist.get(0));
+                user1.getInventory().remove(itemidlist.get(1));
+            }
+        }
+    }
 }
