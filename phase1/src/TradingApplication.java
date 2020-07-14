@@ -1,3 +1,4 @@
+
 /**
  * <h1>TradingApplication</h1>
  * <p>Contains the application's main entry point.</p>

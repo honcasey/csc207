@@ -11,13 +11,13 @@ import java.util.UUID;
 
 public class TradingUser extends User implements Serializable {
 
-    private TransactionHistory transactionHistory;
-    private List<UUID> currentTransactions;
-    public List<UUID> inventory;
+    private final TransactionHistory transactionHistory;
+    private final List<UUID> currentTransactions;
+    private final List<UUID> inventory;
     private int borrowThreshold = 1;
     private int weeklyThreshold = 3;
     private int incompleteThreshold = 2;
-    private List<UUID> wishlist;
+    private final List<UUID> wishlist;
     private String status = "active";
 
     /**
@@ -116,10 +116,13 @@ public class TradingUser extends User implements Serializable {
     @Override
     public String toString() { return getUsername() + ", userId: (" + getUserId() + ")"; }
 
+    /**
+     * Represents the status of this TradingUser as a boolean.
+     * @return true if this TradingUser's status is frozen, false otherwise.
+     */
     public boolean isFrozen(){
         return status.equals("frozen");
     }
-
 }
 
 

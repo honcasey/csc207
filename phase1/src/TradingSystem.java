@@ -47,8 +47,6 @@ public class TradingSystem {
      * Calls to different helper methods to read data from saved files, redirects user to
      * appropriate class depending on user input, saves changes by writing files and
      * allows user to exit the program.
-     * @throws IOException
-     * @throws ClassNotFoundException
      */
     public void run() {
         boolean interacting = true;
@@ -247,7 +245,10 @@ public class TradingSystem {
         }
     }
 
-    public String[] getUserAndPass() {
+    /**
+     * A helper method to get the username and password.
+     */
+    private String[] getUserAndPass() {
         Scanner scanner = new Scanner(System.in);
         System.out.println(bmp.getUsernamePrompt());
         String username = scanner.nextLine();
