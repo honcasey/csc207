@@ -80,8 +80,8 @@ public class AdminMenuPresenter extends MenuPresenter {
     }
 
     /**
-     *
-     * @return
+     * Constructs a list of doable actions that can be done to a pending Item by an Admin User.
+     * @return list of doable actions
      */
     protected List<String> constructPendingItemsMenu() {
         List<String> optionList = new ArrayList<>();
@@ -91,6 +91,10 @@ public class AdminMenuPresenter extends MenuPresenter {
         return optionList;
     }
 
+    /**
+     * Constructs a list of thresholds that can be adjusted by an Admin User.
+     * @return list of thresholds
+     */
     protected List<String> constructAllThresholds() {
         List<String> optionList = new ArrayList<>();
         optionList.add("Borrow");
@@ -99,6 +103,10 @@ public class AdminMenuPresenter extends MenuPresenter {
         return optionList;
     }
 
+    /**
+     * Constructs the Trading User lists.
+     * @return list of TradingUser lists
+     */
     protected List<String> constructUserLists() {
         List<String> optionList = new ArrayList<>();
         optionList.add("Wishlist");

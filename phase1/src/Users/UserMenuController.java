@@ -53,7 +53,7 @@ public class UserMenuController{
             } else if (ump.indexToOption(input, menu, ump.viewActiveTransactions)) {
                 getActiveTransactions();
             } else if (ump.indexToOption(input, menu, ump.viewPastTransactionDetails)) {
-                PastTransactionFlow();
+                pastTransactionFlow();
             } else if (ump.indexToOption(input, menu, ump.viewWishlist)) {
                 viewWishlist();
             } else if (ump.indexToOption(input, menu, ump.viewInventory)) {
@@ -162,7 +162,7 @@ public class UserMenuController{
             }
             else{
                 System.out.println(ump.selectItemToOffer);
-                Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
+                Item ChosenItem = this.pickUserItemFlow(this.currentTradingUser);
                 Transaction newTransaction = tm.createTransaction(
                     Owner.getUserId(),currentTradingUser.getUserId(), item, ChosenItem, FirstMeeting);
                 updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
@@ -182,7 +182,7 @@ public class UserMenuController{
             }
             else{
                 System.out.println(ump.selectItemToOffer);
-                Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
+                Item ChosenItem = this.pickUserItemFlow(this.currentTradingUser);
                 Meeting SecondMeeting = tm.meetOneMonthLater(FirstMeeting);
                 Transaction newTransaction = tm.createTransaction(Owner.getUserId(),
                     currentTradingUser.getUserId(), item, ChosenItem,FirstMeeting,SecondMeeting);
@@ -194,7 +194,7 @@ public class UserMenuController{
         return(ump.handleYesNo(ump.makeTransaction,"Yes","No"));
     }
 
-    private Item PickUserItemFlow(TradingUser CurrentUser){
+    private Item pickUserItemFlow(TradingUser CurrentUser){
         List<Item> currentUserInventory = im.convertIdsToItems(CurrentUser.getInventory());
         List<String> ItemOptions = ump.constructInventoryItemsList(currentUserInventory);
         int OptionChosen = ump.handleOptionsByIndex(ItemOptions,false, "Available Inventory");
@@ -216,7 +216,7 @@ public class UserMenuController{
     }
 
     /**
-     * This method walks the user through the details required for a meeting, then constructs a meeting.
+     * Prompts user for details required for a meeting, then constructs a meeting.
      * @param meetingTitle The first thing that will be displayed "Second Transactions.Meeting Details"/"First Transactions.Meeting Details"
      */
     private Meeting meetingDetailsMenu(String meetingTitle){
@@ -229,10 +229,11 @@ public class UserMenuController{
         return new Meeting(MeetingLocation,MeetingTime,MeetingDate);
     }
 
+    /* viewing a User's wishlist */
     private void viewWishlist(){
         boolean userInteracting = true;
         while (userInteracting) {
-            if (currentTradingUser.getWishlist().size() == 0) {
+            if (currentTradingUser.getWishlist().size() == 0) { // if wishlist is empty
                 System.out.println(ump.empty("Wishlist"));
                 userInteracting = false;
             } else {
@@ -261,10 +262,11 @@ public class UserMenuController{
         }
     }
 
+    /* viewing a User's inventory */
     private void viewInventory() {
         boolean userInteracting = true;
         while (userInteracting) {
-            if (currentTradingUser.getInventory().size() == 0) {
+            if (currentTradingUser.getInventory().size() == 0) { // if inventory is empty
                 System.out.println(ump.empty("Inventory"));
                 userInteracting = false;
             } else {
@@ -294,10 +296,10 @@ public class UserMenuController{
         }
     }
 
+    /* for a frozen TradingUser to request their account to be unfrozen */
     private void requestUnfreezeAccount() {
         if (currentTradingUser.isFrozen()) {
-            am.getPendingFrozenTradingUsers().add(currentTradingUser);
-            am.getFrozenAccounts().remove(currentTradingUser);
+            am.getFrozenAccounts().add(currentTradingUser);
             System.out.println(ump.requestedUnfreeze);
         } else {
             System.out.println(ump.accountFrozen(false));
@@ -305,60 +307,81 @@ public class UserMenuController{
     }
 
     /**
+     * Displays past transactions / history of a TradingUser
      * Waiting for user input(last 3 lines):
      * https://stackoverflow.com/questions/26184409/java-console-prompt-for-enter-input-before-moving-on/26184565
      * by M Anouti
      */
-    private void PastTransactionFlow(){
-        List<String> MenuOptionList = ump.constructPastTransactionMenu();
-        int OptionChosen = ump.handleOptionsByIndex(MenuOptionList,true,"Past Transactions Menu");
-        if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewRecentTransactions("one"))){
-            List<UUID> OneWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentOneWayTransactions();
-            List<Transaction> OneWayTransaction = ptm.getTransactionsFromIdList(OneWayTransactionIds);
-            List<String> oneWayTransactionOptions = ump.constructTransactionList(OneWayTransaction);
-            ump.displayOptions(oneWayTransactionOptions);
-
-        } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewRecentTransactions("two"))) {
-          List<UUID> TwoWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentTwoWayTransactions();
-          List<Transaction> TwoWayTransactions = ptm.getTransactionsFromIdList(TwoWayTransactionIds);
-          List<String> twoWayTransactionOptions = ump.constructTransactionList(TwoWayTransactions);
-          ump.displayOptions(twoWayTransactionOptions);
-
-        } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewThreeMostTraded)) {
-            List<String> TradedWithUsersOptions = currentTradingUser.getTransactionHistory().mostTradedWithUsers();
-            ump.displayOptions(TradedWithUsersOptions);
+    private void pastTransactionFlow(){
+        boolean userInteracting = true;
+        while (userInteracting) {
+            List<String> MenuOptionList = ump.constructPastTransactionMenu();
+            int OptionChosen = ump.handleOptionsByIndex(MenuOptionList, true, "Past Transactions Menu");
+            if (OptionChosen == MenuOptionList.size() - 1) { // if "Go back" is chosen
+                System.out.println(ump.previousMenu);
+                userInteracting = false;
+            } else {
+                /* if viewing most recent one-way transactions */
+                if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewRecentTransactions("one"))) {
+                    List<UUID> OneWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentOneWayTransactions();
+                    if (OneWayTransactionIds.isEmpty()) { // no recent one-way transactions
+                        System.out.println(ump.empty("One Way Transactions"));
+                    } else {
+                        List<Transaction> OneWayTransaction = ptm.getTransactionsFromIdList(OneWayTransactionIds);
+                        List<String> oneWayTransactionOptions = ump.constructTransactionList(OneWayTransaction);
+                        ump.displayOptions(oneWayTransactionOptions);
+                    }
+                    /* if viewing most recent two-way transactions */
+                } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewRecentTransactions("two"))) {
+                    List<UUID> TwoWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentTwoWayTransactions();
+                    if (TwoWayTransactionIds.isEmpty()) { // no recent two-way transactions
+                        System.out.println(ump.empty("Two Way Transactions"));
+                    } else {
+                        List<Transaction> TwoWayTransactions = ptm.getTransactionsFromIdList(TwoWayTransactionIds);
+                        List<String> twoWayTransactionOptions = ump.constructTransactionList(TwoWayTransactions);
+                        ump.displayOptions(twoWayTransactionOptions);
+                    }
+                    /* if viewing most traded with users */
+                } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewThreeMostTraded)) {
+                    List<String> TradedWithUsersOptions = currentTradingUser.getTransactionHistory().mostTradedWithUsers();
+                    if (TradedWithUsersOptions.isEmpty()) { // no most traded with users
+                        System.out.println(ump.empty("Most Traded-with Users"));
+                        userInteracting = false;
+                    } else {
+                        ump.displayOptions(TradedWithUsersOptions);
+                    }
+                }
+            }
         }
-        System.out.println("Press \"ENTER\" if you would like to go back...");
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
     }
 
     /**
-     * This method displays all of the active transactions for TradingUser and then redirects the user to either edit the Meetings
+     * Displays all of the active transactions for TradingUser and then redirects the user to either edit the Meetings
      * for that transaction or to change the statusUser of the Transaction
      */
     private void getActiveTransactions() {
         boolean userInteracting = true;
         while (userInteracting) {
             List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
-            if (currentTransactionsIds.size() == 0) {
+            if (currentTransactionsIds.size() == 0) { // if no active transactions
                 System.out.println(ump.empty("Current Transactions"));
+                userInteracting = false;
             } else {
                 List<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
-                List<String> optionList = ump.constructTransactionList(currTransactionsList);
+                List<String> optionList = ump.constructTransactionList(currTransactionsList); // display all current transactions
                 int OptionChosen = ump.handleOptionsByIndex(optionList, true, "Current Transactions");
-                // Logic handling back to other menu vs. Editing a meeting vs changing the StatusUser of a Transaction.
-                if(OptionChosen == optionList.size() - 1){
+                /* Logic handling back to other menu vs. Editing a meeting vs changing the StatusUser of a Transaction. */
+                if(OptionChosen == optionList.size() - 1){ // if 'go back' is selected
                     System.out.println(ump.previousMenu);
                     userInteracting = false;}
-                else if (OptionChosen != optionList.size()) {
-                    Transaction transaction = currTransactionsList.get(OptionChosen);
+                else {
+                    Transaction transaction = currTransactionsList.get(OptionChosen); // go into which transaction is chosen
                     ArrayList<String> transactionActions = ump.userTransactionActions(transaction);
                     int optionChosen2 = ump.handleOptionsByIndex(transactionActions, true, "Transaction Actions");
-                    if (optionChosen2 == transactionActions.size() - 1) {
+                    if (optionChosen2 == transactionActions.size() - 1) { // if 'go back' is selected
                         System.out.println(ump.previousMenu);
                         userInteracting = false;
-                    } else {
+                    } else { // update the status
                         if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) {
                             tm.updateStatus(transaction);
                             um.moveTransactionToTransactionHistory(transaction, currentTradingUser);
@@ -400,7 +423,7 @@ public class UserMenuController{
                 System.out.println("Transaction has been cancelled");
                 transaction.setStatus("cancelled");
             }
-            if (!tm.transactionHasMultipleMeetings(transaction)) {
+            if (!tm.transactionHasMultipleMeetings(transaction)) { // for transactions with one meeting
                 List<String> options = ump.constructEditMeetingOptions();
                 int OptionChosen = ump.handleOptionsByIndex(options, true, "Meeting Options");
                 if (OptionChosen == options.size() - 1) {
@@ -419,7 +442,7 @@ public class UserMenuController{
                     }
                 }
             }
-            else if (tm.transactionHasMultipleMeetings(transaction)){
+            else if (tm.transactionHasMultipleMeetings(transaction)){ // for transactions with two meetings
                 int meetingNum = ump.handleOptionsByIndex(ump.constructWhichMeetingList(), true,
                         "Transaction with two meetings");
                 if (meetingNum == ump.constructWhichMeetingList().size()) {
@@ -482,10 +505,12 @@ public class UserMenuController{
         }
     }
 
+    /* set a TradingUser to be flagged for admin approval if either the borrow, weekly, or incomplete thresholds have been reached */
     private void flagAccountIfAboveThreshold(TradingUser user) {
         boolean weeklyThreshold = ptm.weeklyThresholdExceeded(user);
         boolean TransactionsExceeded = um.incompleteTransactionExceeded(user);
-        if (weeklyThreshold || TransactionsExceeded){
+        boolean borrowThreshold = um.borrowThresholdExceeded(user);
+        if (((weeklyThreshold || TransactionsExceeded)) || borrowThreshold) {
             am.addFlaggedAccount(user);
         }
     }

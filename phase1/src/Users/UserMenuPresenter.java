@@ -184,7 +184,6 @@ public class UserMenuPresenter extends MenuPresenter {
         return options;
     }
 
-
     protected String enterWhatInFormat(String what, String format) {
         return "Please enter the " + what + " of your meeting in the format: " + format;
     }

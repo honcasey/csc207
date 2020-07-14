@@ -4,6 +4,9 @@ import Exceptions.InvalidTransactionException;
 
 import java.util.*;
 
+/**
+ * Manages all transactions in the system.
+ */
 public class TransactionManager {
     private Map<UUID, Transaction> allTransactions;
 
