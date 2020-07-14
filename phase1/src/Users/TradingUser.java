@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
+ * <h1>TradingUser</h1>
  * Represents a Users.TradingUser in the trading system
  */
 
