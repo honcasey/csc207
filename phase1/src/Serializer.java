@@ -19,7 +19,7 @@ public class Serializer {
     /**
      * Writes a List of TradingUser into a file specified by a filepath.
      * @param path The filepath corresponding to the file it is written to.
-     * @param tradingUsers A list of TradingUser that is being written.
+     * @param tradingUsers A List of TradingUser that is being written.
      * @throws IOException
      */
     public void writeUsersToFile(String path, List<TradingUser> tradingUsers) throws IOException {
@@ -38,7 +38,7 @@ public class Serializer {
     /**
      * Reads a List of TradingUser from a file specified by a filepath.
      * @param path The filepath corresponding to the file it is being read from.
-     * @return A list of TradingUser.
+     * @return A List of TradingUser.
      * @throws IOException
      * @throws ClassNotFoundException
      */
@@ -60,7 +60,7 @@ public class Serializer {
     /**
      * Writes a List of AdminUser into a file specified by a filepath.
      * @param path The filepath corresponding to the file it is written to.
-     * @param admins A list of AdminUser that is being written.
+     * @param admins A List of AdminUser that is being written.
      * @throws IOException
      */
     public void writeAdminsToFile(String path, List<AdminUser> admins) throws IOException {
@@ -73,7 +73,7 @@ public class Serializer {
     /**
      * Reads a List of AdminUser from a file specified by a filepath.
      * @param path The filepath corresponding to the file it is being read from.
-     * @return A list of AdminUser.
+     * @return A List of AdminUser.
      * @throws IOException
      * @throws ClassNotFoundException
      */
@@ -86,9 +86,9 @@ public class Serializer {
     }
 
     /**
-     * Writes a Mapping of UUID to Transaction into a file specified by a filepath.
+     * Writes a Map of UUID to Transaction into a file specified by a filepath.
      * @param path The filepath corresponding to the file it is written to.
-     * @param transactionMap A mapping of UUID to Transaction.
+     * @param transactionMap A Map of UUID to Transaction.
      * @throws IOException
      */
     public void writeTransactionsToFile(String path, Map<UUID, Transaction> transactionMap) throws IOException {
@@ -99,9 +99,9 @@ public class Serializer {
     }
 
     /**
-     * Reads a Mapping of UUID to Transaction from a file specified by a filepath.
+     * Reads a Map of UUID to Transaction from a file specified by a filepath.
      * @param path The filepath corresponding to the file it is being read from.
-     * @return A Mapping of UUID to Transaction.
+     * @return A Map of UUID to Transaction.
      * @throws IOException
      * @throws ClassNotFoundException
      */
@@ -114,9 +114,9 @@ public class Serializer {
     }
 
     /**
-     * Writes a Mapping of Item to TradingUser into a file specified by a filepath.
+     * Writes a Map of Item to TradingUser into a file specified by a filepath.
      * @param path The filepath corresponding to the file it is written to.
-     * @param pendingItems A Mapping of Item to TradingUser.
+     * @param pendingItems A Map of Item to TradingUser.
      * @throws IOException
      */
     public void writeItemsToFile(String path, Map<Item, TradingUser> pendingItems) throws IOException {
@@ -127,9 +127,9 @@ public class Serializer {
     }
 
     /**
-     * Reads a Mapping of Item to TradingUser from a file specified by a filepath.
+     * Reads a Map of Item to TradingUser from a file specified by a filepath.
      * @param path The filepath corresponding to the file it is being read from.
-     * @return A Mapping of Item to TradingUser.
+     * @return A Map of Item to TradingUser.
      * @throws IOException
      * @throws ClassNotFoundException
      */
@@ -141,6 +141,12 @@ public class Serializer {
         return pendingItems;
     }
 
+    /**
+     * Writes a List of TradingUser into a file specified by a filepath.
+     * @param path The filepath corresponding to the file it is written to.
+     * @param Accounts A List of TradingUser.
+     * @throws IOException
+     */
     public void writeAccountsToFile(String path, List<TradingUser> Accounts) throws IOException {
         OutputStream file = new FileOutputStream(path);
         ObjectOutput output = new ObjectOutputStream(file);
@@ -148,6 +154,13 @@ public class Serializer {
         output.close();
     }
 
+    /**
+     * Reads a List of TradingUser from a file specified by a filepath.
+     * @param path The filepath corresponding to the file it is being read from.
+     * @return A List of TradingUser
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public List<TradingUser> readAccountsFromFile(String path) throws IOException, ClassNotFoundException {
         InputStream file = new FileInputStream(path);
         ObjectInput input = new ObjectInputStream(file);
@@ -156,6 +169,12 @@ public class Serializer {
         return Accounts;
     }
 
+    /**
+     * Writes a Map of UUID to Item into a file specified by a filepath.
+     * @param path The filepath corresponding to the file it is written to.
+     * @param itemMap A Map of UUID to Item.
+     * @throws IOException
+     */
     public void writeItemsMapToFile(String path, Map<UUID, Item> itemMap) throws IOException {
         OutputStream file = new FileOutputStream(path);
         ObjectOutput output = new ObjectOutputStream(file);
@@ -163,6 +182,13 @@ public class Serializer {
         output.close();
     }
 
+    /**
+     * Reads a Map of UUID to Item into a file specified by a filepath.
+     * @param path The filepath corresponding to the file it is being read from.
+     * @return A Map of UUID to Item.
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public Map<UUID, Item> readItemMapFromFile(String path) throws IOException, ClassNotFoundException {
         InputStream file = new FileInputStream(path);
         ObjectInput input = new ObjectInputStream(file);
