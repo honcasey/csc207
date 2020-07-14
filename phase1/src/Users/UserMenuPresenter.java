@@ -32,8 +32,6 @@ public class UserMenuPresenter extends MenuPresenter {
     protected String viewWishlist = "View Wishlist";
     protected String viewInventory = "View Inventory";
     protected String requestUnfreeze = "Request Admin to Unfreeze Account";
-    protected String ViewRecentThreeOneWay = "View 3 most recent one way past transactions.";
-    protected String ViewRecentThreeTwoWay = "View 3 most recent two way past transactions."; // TO-DO: these 3 things could be combined into one method
     protected String ViewThreeMostTraded = "View 3 most frequent trading partners.";
     protected String itemRequested = "Items has been requested and is now being reviewed by the administrators.";
     protected String requestAccountUnfreeze = "You cannot make an offer for this item. Please request to have your account unfrozen.";
@@ -45,7 +43,6 @@ public class UserMenuPresenter extends MenuPresenter {
     protected String requestedUnfreeze = "You have successfully requested for your account to be unfrozen.";
     protected String transactionActions = "List of actions that you can do with your transaction:";
     protected String enterLocation = "Where do you want to have the meeting?";
-    protected String noInventoryItems = "ya got no items ya waste youte.";
 
     /**
      * Construct methods like this return a list of options/prompts that the menu will have.
@@ -69,8 +66,8 @@ public class UserMenuPresenter extends MenuPresenter {
 
     public List<String> constructPastTransactionMenu(){
         List<String> MenuOptionList = new ArrayList<>();
-        MenuOptionList.add(ViewRecentThreeOneWay);
-        MenuOptionList.add(ViewRecentThreeTwoWay);
+        MenuOptionList.add(viewRecentTransactions("one"));
+        MenuOptionList.add(viewRecentTransactions("two"));
         MenuOptionList.add(ViewThreeMostTraded);
         return(MenuOptionList);
     }
@@ -156,5 +153,9 @@ public class UserMenuPresenter extends MenuPresenter {
         optionList.add("Edit first meeting");
         optionList.add("Edit second meeting");
         return optionList;
+    }
+
+    protected String viewRecentTransactions(String transactionType) {
+        return "View 3 most recent " + transactionType + " way past transactions.";
     }
 }

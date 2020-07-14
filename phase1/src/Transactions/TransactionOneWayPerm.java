@@ -18,7 +18,6 @@ public class TransactionOneWayPerm extends Transaction {
      * Items.Item. (will be stored in the hashmap)
      * NOTE: getters and setters for certain information still remain camel-case.
      */
-
     private UUID item;
 
     /**
@@ -69,6 +68,7 @@ public class TransactionOneWayPerm extends Transaction {
         String FirstMeetingString = this.getFirstMeeting().toString();
         return("One way transaction to trade "+ getItem1Name() +". Where the "+ FirstMeetingString +".");
     }
+
     @Override
     public List<Meeting> getTransactionMeetings(){
         List<Meeting> MeetingReturnList = new ArrayList<>();

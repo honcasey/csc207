@@ -144,7 +144,7 @@ public class UserMenuController{
         }
         else if(permBool & !oneWayBool){
             if(currentTradingUser.getInventory().isEmpty()){
-                System.out.println(ump.noInventoryItems);
+                System.out.println(ump.empty("Inventory Items"));
             }
             else{
                 System.out.println("Please select one of the items from your inventory that you want to offer:");
@@ -164,7 +164,7 @@ public class UserMenuController{
         }
         else{
             if(currentTradingUser.getInventory().isEmpty()){
-                System.out.println(ump.noInventoryItems);
+                System.out.println(ump.empty("Inventory"));
             }
             else{
                 System.out.println("Please select one of the items from your inventory that you want to offer:");
@@ -186,7 +186,6 @@ public class UserMenuController{
         int OptionChosen = ump.handleOptionsByIndex(ItemOptions,false, "Available Inventory");
         return currentUserInventory.get(OptionChosen);
     }
-
 
     /**
      * This method is ONLY allowed to be used in the createTransactionMenu
@@ -299,13 +298,13 @@ public class UserMenuController{
     private void PastTransactionFlow(){
         List<String> MenuOptionList = ump.constructPastTransactionMenu();
         int OptionChosen = ump.handleOptionsByIndex(MenuOptionList,true,"Past Transactions Menu");
-        if (ump.indexToOption(OptionChosen, MenuOptionList, ump.ViewRecentThreeOneWay)){
+        if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewRecentTransactions("one"))){
             List<UUID> OneWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentOneWayTransactions();
             List<Transaction> OneWayTransaction = ptm.getTransactionsFromIdList(OneWayTransactionIds);
             List<String> oneWayTransactionOptions = ump.constructTransactionList(OneWayTransaction);
             ump.displayOptions(oneWayTransactionOptions);
 
-        } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.ViewRecentThreeTwoWay)) {
+        } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewRecentTransactions("two"))) {
           List<UUID> TwoWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentTwoWayTransactions();
           List<Transaction> TwoWayTransactions = ptm.getTransactionsFromIdList(TwoWayTransactionIds);
           List<String> twoWayTransactionOptions = ump.constructTransactionList(TwoWayTransactions);

@@ -1,10 +1,15 @@
 package Admins;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import Presenters.MenuPresenter;
 
+/**
+ * The AdminMenuPresenter is a Presenter class that extends MenuPresenter that contains all option strings
+ * printed/displayed by the AdminMenuController.
+ *
+ * Class variables represent commonly used strings.
+ */
 public class AdminMenuPresenter extends MenuPresenter {
 
     // option strings
@@ -82,16 +87,16 @@ public class AdminMenuPresenter extends MenuPresenter {
 
     public List<String> constructAllThresholds() {
         List<String> optionList = new ArrayList<>();
-        optionList.add("borrow");
-        optionList.add("weekly");
-        optionList.add("incomplete");
+        optionList.add("Borrow");
+        optionList.add("Weekly");
+        optionList.add("Incomplete");
         return optionList;
     }
 
     public List<String> constructUserLists() {
         List<String> optionList = new ArrayList<>();
-        optionList.add("wishlist");
-        optionList.add("inventory");
+        optionList.add("Wishlist");
+        optionList.add("Inventory");
         return optionList;
     }
 }

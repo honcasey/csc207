@@ -101,7 +101,6 @@ public class AdminMenuController {
                     }
                 }
                 allPendingItems.keySet().removeAll(keysToDelete);  //we deleted all of the items that were approved or rejected
-
                 // delete statements
             }
         }
