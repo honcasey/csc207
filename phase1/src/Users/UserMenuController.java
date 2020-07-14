@@ -326,7 +326,6 @@ public class UserMenuController{
                     List<UUID> OneWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentOneWayTransactions();
                     if (OneWayTransactionIds.isEmpty()) { // no recent one-way transactions
                         System.out.println(ump.empty("One Way Transactions"));
-                        userInteracting = false;
                     } else {
                         List<Transaction> OneWayTransaction = ptm.getTransactionsFromIdList(OneWayTransactionIds);
                         List<String> oneWayTransactionOptions = ump.constructTransactionList(OneWayTransaction);
@@ -337,7 +336,6 @@ public class UserMenuController{
                     List<UUID> TwoWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentTwoWayTransactions();
                     if (TwoWayTransactionIds.isEmpty()) { // no recent two-way transactions
                         System.out.println(ump.empty("Two Way Transactions"));
-                        userInteracting = false;
                     } else {
                         List<Transaction> TwoWayTransactions = ptm.getTransactionsFromIdList(TwoWayTransactionIds);
                         List<String> twoWayTransactionOptions = ump.constructTransactionList(TwoWayTransactions);
