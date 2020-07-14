@@ -7,7 +7,8 @@ import java.util.UUID;
 /**
  *<h1>Transaction</h1>
  *
- * <p> This abstract class represents a meetup between two Users. </p>
+ * This abstract class represents a meetup between two Users. <br>
+ * <br><br>
  * Variables: <br>
  *
  * user1, user2: users involved in the transaction. <br>
