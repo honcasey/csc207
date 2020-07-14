@@ -97,7 +97,7 @@ public class AdminManager {
 
     /**
      * Getter for this AdminMenu's list of all Users who are frozen.
-     * @return a list of all users whos accounts are frozen.
+     * @return a list of all users who's accounts are frozen.
      */
     public List<TradingUser> getFrozenAccounts() { return frozenAccounts; }
 

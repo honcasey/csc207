@@ -26,8 +26,8 @@ public abstract class User implements Serializable {
     public String getPassword() { return password; }
 
     /**
-     * Getter for user id as a UUID
-     * @return userid as a UUID
+     * Getter for userId as a UUID
+     * @return userId as a UUID
      */
     public UUID getUserId() { return userId; }
 }
