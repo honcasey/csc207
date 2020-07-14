@@ -102,6 +102,7 @@ public class TransactionHistory implements Serializable {
      * adds a Transactions.Transaction to the Transactions.Transaction History
      * @param transaction the transaction being added to the history
      */
+
     public void setTransactionHistory(Transaction transaction) {
         if (transaction.isOneWay()) {
             oneWayTransactions.add(transaction.getId());
@@ -109,4 +110,16 @@ public class TransactionHistory implements Serializable {
             twoWayTransactions.add(transaction.getId());
         }
     }
+    /**
+     * Getter for numItemsLended as an int
+     * @return numItemsLended as an integer
+     */
+    public int getNumItemsLended() { return numItemsLended; }
+
+    /**
+     * Getter for numItemsBorrowed
+     * @return numItemsBorrowed as an integer
+     */
+    public int getNumItemsBorrowed() { return numItemsBorrowed; }
+
 }
