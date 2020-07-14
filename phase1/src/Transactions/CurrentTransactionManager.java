@@ -315,9 +315,9 @@ public class CurrentTransactionManager extends TransactionManager{
         if (!transaction.getStatus().equals("confirmed")){
             return false;
         }
-        else if (transaction.isPerm()){
-            return false;
-        }
+        // else if (transaction.isPerm()){
+            // return false;
+        // }
         else{
             if (transaction.getStatusUser1().equals("incomplete") || transaction.getStatusUser2().equals("incomplete")){
                 transaction.setStatus("incomplete");

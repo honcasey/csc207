@@ -164,7 +164,7 @@ public abstract class MenuPresenter {
                 break;
             }
             catch(DateTimeParseException e){
-                System.out.println("Invalid time please,try again.");
+                System.out.println("Invalid time, please try again.");
 
             }
         }
@@ -188,7 +188,7 @@ public abstract class MenuPresenter {
                 break;
             }
             catch(DateTimeParseException e){
-                System.out.println("Invalid Date please,try again.");
+                System.out.println("Invalid Date, please try again.");
 
             }
         }

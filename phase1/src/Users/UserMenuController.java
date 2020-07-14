@@ -366,17 +366,16 @@ public class UserMenuController{
             if (currentTransactionsIds.size() == 0) { // if no active transactions
                 System.out.println(ump.empty("Current Transactions"));
                 userInteracting = false;
-            } else {
+            } else { // if there are active transactions
                 List<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
                 List<String> optionList = ump.constructTransactionList(currTransactionsList); // display all current transactions
-                int OptionChosen = ump.handleOptionsByIndex(optionList, true, "Current Transactions");
-                /* Logic handling back to other menu vs. Editing a meeting vs changing the StatusUser of a Transaction. */
+                int OptionChosen = ump.handleOptionsByIndex(optionList, true, "Current Transactions"); // pick a transaction to modify
                 if(OptionChosen == optionList.size() - 1){ // if 'go back' is selected
                     System.out.println(ump.previousMenu);
                     userInteracting = false;}
                 else {
                     Transaction transaction = currTransactionsList.get(OptionChosen); // go into which transaction is chosen
-                    ArrayList<String> transactionActions = ump.userTransactionActions(transaction);
+                    ArrayList<String> transactionActions = ump.userTransactionActions(transaction); // list of actions that can be done on the transaction depending on it's status
                     int optionChosen2 = ump.handleOptionsByIndex(transactionActions, true, "Transaction Actions");
                     if (optionChosen2 == transactionActions.size() - 1) { // if 'go back' is selected
                         System.out.println(ump.previousMenu);
@@ -385,22 +384,20 @@ public class UserMenuController{
                     else if (ump.indexToOption(optionChosen2, transactionActions, "Edit Transactions Meeting(s)")) {
                         editMeeting(currentTradingUser, transaction); // prompt user to edit meeting
                     }
-                    else { // update the status
-                        if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) { //update status of user
-                            tm.updateStatus(transaction); //update status of transaction
-                            if (transaction.isPerm()) { // if transaction is permanent (only one meeting)
-                                um.handlePermTransactionItems(transaction); // remove items from both users inventories and wishlists
-                            }
-                            /* if transaction is temporary (two meetings) */
-                            else { um.handleTempTransactionItems(transaction); } // handles users inventories and wishlists
-                            if (um.moveTransactionToTransactionHistory(transaction, currentTradingUser)) { // move to history if transaction is over
-                                currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
-                            }
-
+                    if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) { //update status of user
+                        tm.updateStatus(transaction); //update status of transaction
+                        if (transaction.isPerm()) { // if transaction is permanent (only one meeting)
+                            um.handlePermTransactionItems(transaction); // remove items from both users inventories and wishlists
+                        }
+                        /* if transaction is temporary (two meetings) */
+                        else { um.handleTempTransactionItems(transaction); } // handles users inventories and wishlists
+                        /* if transaction is over (incomplete, complete, never returned) then move to transaction history and remove from current transactions
+                        * if transaction is cancelled, remove from current transactions */
+                        if (um.moveTransactionToTransactionHistory(transaction, currentTradingUser) || transaction.getStatus().equals("cancelled")) {
+                            currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
                         }
                     }
                 }
-                System.out.println(ump.previousMenu);
             }
         }
     }
