@@ -10,6 +10,7 @@ import Users.TradingUserManager;
 import java.util.*;
 
 /**
+ * <h1>AdminMenuController</h1>
  * Decides which use case/manager methods to call depending on the user input taken from the presenter.
  * <p>It stores instances of all use cases/managers (AdminManager, TradingUserManager, ItemManager), the AdminMenuPresenter,
  *  * and a list of allPendingItems (which is the list of all items that have been requested by a TradingUser to be added

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
+ * <h1>TransactionTwoWayTemp</h1>
  * This class represents a meetup between 2 Users where there is a two way borrowing transaction happening.
  * Note: user 1 originally had item 1 and user 2 originally had item 2.
  */

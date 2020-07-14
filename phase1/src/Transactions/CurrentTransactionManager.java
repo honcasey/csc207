@@ -32,7 +32,7 @@ public class CurrentTransactionManager extends TransactionManager{
                                          Meeting meeting2) {
         Transaction transaction = new TransactionOneWayTemp(user1, user2, item1.getId(), meeting1, meeting2, item1.getName());
         UUID id = transaction.getId();
-        super.getAllTransactions().put(id, transaction);
+        getAllTransactions().put(id, transaction);
         return transaction;
     }
 
@@ -48,7 +48,7 @@ public class CurrentTransactionManager extends TransactionManager{
                                                Meeting meeting1){
         Transaction transaction = new TransactionOneWayPerm(user1, user2, item1.getId(), meeting1, item1.getName());
         UUID id = transaction.getId();
-        super.getAllTransactions().put(id, transaction);
+        getAllTransactions().put(id, transaction);
         return transaction;
     }
 
@@ -67,7 +67,7 @@ public class CurrentTransactionManager extends TransactionManager{
                 meeting2, item1.getName(),
                 item2.getName());
         UUID id = transaction.getId();
-        super.getAllTransactions().put(id, transaction);
+        getAllTransactions().put(id, transaction);
         return transaction;
     }
 
@@ -84,7 +84,7 @@ public class CurrentTransactionManager extends TransactionManager{
             Transaction transaction = new TransactionTwoWayPerm(user1, user2, item1.getId(), item2.getId(),
                     meeting1, item1.getName(), item2.getName());
             UUID id = transaction.getId();
-            super.getAllTransactions().put(id, transaction);
+            getAllTransactions().put(id, transaction);
             return transaction;
     }
 
@@ -98,9 +98,7 @@ public class CurrentTransactionManager extends TransactionManager{
         if (transaction.getUser1().equals(userId)){
             return 1;
         }
-        else{
-            return 2;
-        }
+        else{ return 2; }
     }
 
     /**

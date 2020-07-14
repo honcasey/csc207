@@ -8,8 +8,11 @@ import java.util.HashMap;
 
 public class Meeting implements Serializable {
     /**
-     * This class represents a meeting among 2 users.
-     * Variables:
+     * <h1>Meeting</h1>
+     *
+     * This class represents a meeting among 2 users.<br>
+     * <br><br>
+     * Variables: <br>
      *
      * user1approved: Keeps track of whether the user has confirmed the details of the meeting.
      *
@@ -24,8 +27,8 @@ public class Meeting implements Serializable {
      *
      * userEditable: This is a mapping of all the information that the user can change. This contains capitalized
      * strings mapping to the information they change.
-     *
-     * -- userEditable Variables --
+     * <br><br>
+     * -- userEditable Variables -- <br>
      * Time, Date, Location. (will be stored in the hashmap)
      * NOTE: getters and setters for certain information still remain camel-case.
      */
@@ -52,19 +55,6 @@ public class Meeting implements Serializable {
     }
 
     /**
-     * Getter for if user1 has approved meeting details
-     * @return returns true iff user has approved meeting details.
-     */
-    public boolean getUser1approved(){return user1approved;}
-
-    /**
-     * Getter for if user2 has approved meeting details
-     * @return returns true iff user2 has approved meeting details
-     */
-
-    public boolean getUser2approved(){return user2approved;}
-
-    /**
      * Getter for number of edits for this particular meeting by User1.
      * @return returns the number of times when user1 has edited a meeting.
      */
@@ -75,7 +65,6 @@ public class Meeting implements Serializable {
      * @return returns the number of times when user2 has edited a meeting.
      */
     public int getNumEditsUser2(){return numEditsUser2;}
-
 
     /**
      * This is a getter for location.
@@ -92,14 +81,6 @@ public class Meeting implements Serializable {
      */
     public LocalTime getTime(){
         return(this.meetingTime);
-    }
-
-    /**
-     * This method returns a string representation of the meeting time.
-     * @return this returns a string representation of the meeting time.
-     */
-    public String DisplayMeetingTime(){
-        return(this.meetingTime.toString());
     }
 
     /**
@@ -136,18 +117,6 @@ public class Meeting implements Serializable {
     }
 
     /**
-     * This is setter for user1 status on meeting details.
-     * @param bool new confirmation status.
-     */
-    public void setUser1approved(Boolean bool){this.user1approved = bool;}
-
-    /**
-     * this is a setter for user2 status on meeting details.
-     * @param bool new confirmation status.
-     */
-    public void setUser2approved(Boolean bool){this.user2approved = bool;}
-
-    /**
      * this method is called when user1 edits the meeting, his number of edit increase by one
      */
     public void user1edits(){this.numEditsUser1 ++;}
@@ -163,14 +132,6 @@ public class Meeting implements Serializable {
      */
     public int getMaxNumEdits() {
         return maxNumEdits;
-    }
-
-    /**
-     * this is the setter for the maxNumEdits variable defined in the beggining of the documentation for this class.
-     * @param num new value for numedits variable.
-     */
-    public void setMaxNumEdits(int num){
-        maxNumEdits = num;
     }
 
     @Override

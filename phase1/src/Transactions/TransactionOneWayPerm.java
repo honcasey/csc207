@@ -6,8 +6,8 @@ import java.util.UUID;
 
 /**
  * <h1> TransactionOneWayPerm</h1>
- * This class represents a meetup between 2 Users where there is a permanent one way transaction happening. <br>
- *
+ * This class represents a meetup between 2 Users where there is a permanent one way transaction happening.
+ * <br><br>
  * Class Variables: <br>
  *
  * item this is the id of the Item that belongs to user1
