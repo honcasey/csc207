@@ -53,7 +53,7 @@ public class UserMenuController{
             } else if (ump.indexToOption(input, menu, ump.viewActiveTransactions)) {
                 getActiveTransactions();
             } else if (ump.indexToOption(input, menu, ump.viewPastTransactionDetails)) {
-                PastTransactionFlow();
+                pastTransactionFlow();
             } else if (ump.indexToOption(input, menu, ump.viewWishlist)) {
                 viewWishlist();
             } else if (ump.indexToOption(input, menu, ump.viewInventory)) {
@@ -162,7 +162,7 @@ public class UserMenuController{
             }
             else{
                 System.out.println(ump.selectItemToOffer);
-                Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
+                Item ChosenItem = this.pickUserItemFlow(this.currentTradingUser);
                 Transaction newTransaction = tm.createTransaction(
                     Owner.getUserId(),currentTradingUser.getUserId(), item, ChosenItem, FirstMeeting);
                 updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
@@ -182,7 +182,7 @@ public class UserMenuController{
             }
             else{
                 System.out.println(ump.selectItemToOffer);
-                Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
+                Item ChosenItem = this.pickUserItemFlow(this.currentTradingUser);
                 Meeting SecondMeeting = tm.meetOneMonthLater(FirstMeeting);
                 Transaction newTransaction = tm.createTransaction(Owner.getUserId(),
                     currentTradingUser.getUserId(), item, ChosenItem,FirstMeeting,SecondMeeting);
@@ -194,7 +194,7 @@ public class UserMenuController{
         return(ump.handleYesNo(ump.makeTransaction,"Yes","No"));
     }
 
-    private Item PickUserItemFlow(TradingUser CurrentUser){
+    private Item pickUserItemFlow(TradingUser CurrentUser){
         List<Item> currentUserInventory = im.convertIdsToItems(CurrentUser.getInventory());
         List<String> ItemOptions = ump.constructInventoryItemsList(currentUserInventory);
         int OptionChosen = ump.handleOptionsByIndex(ItemOptions,false, "Available Inventory");
@@ -312,7 +312,7 @@ public class UserMenuController{
      * https://stackoverflow.com/questions/26184409/java-console-prompt-for-enter-input-before-moving-on/26184565
      * by M Anouti
      */
-    private void PastTransactionFlow(){
+    private void pastTransactionFlow(){
         boolean userInteracting = true;
         while (userInteracting) {
             List<String> MenuOptionList = ump.constructPastTransactionMenu();
