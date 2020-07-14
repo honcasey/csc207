@@ -45,18 +45,10 @@ public class AdminMenuPresenter extends MenuPresenter {
         return AdminMenuOptions;
     }
 
-    protected String whichThreshold(String whichThreshold) {
-        return "What would you like to change the " + whichThreshold + " threshold to?";
-    }
-
-    protected String currentThreshold(String description, int threshold) {
-        return "The current " + description + " is: " + threshold;
-    }
-
-    protected String addItem(String approved) {
-        return "Item has been " + approved;
-    }
-
+    /**
+     * Constructs a list of doable actions that can be done on an item by an Admin User.
+     * @return list of doable actions
+     */
     protected List<String> constructAddToListMenu() {
         List<String> optionList = new ArrayList<>();
         optionList.add(addToWishlist);
@@ -64,6 +56,10 @@ public class AdminMenuPresenter extends MenuPresenter {
         return optionList;
     }
 
+    /**
+     * Constructs a list of doable actions that can be done to a Trading User that is frozen and requested to be unfrozen.
+     * @return list of doable actions
+     */
     protected List<String> constructPendingFrozenUsersMenu() {
         List<String> optionList = new ArrayList<>();
         optionList.add(unfreezeAccount);
@@ -71,6 +67,10 @@ public class AdminMenuPresenter extends MenuPresenter {
         return optionList;
     }
 
+    /**
+     * Constructs a list of doable actions that can be done to a Trading User that has been flagged by the system.
+     * @return list of doable actions
+     */
     protected List<String> constructFlaggedUsersMenu() {
         List<String> optionList = new ArrayList<>();
         optionList.add(freezeAccount);
@@ -79,6 +79,10 @@ public class AdminMenuPresenter extends MenuPresenter {
         return optionList;
     }
 
+    /**
+     *
+     * @return
+     */
     protected List<String> constructPendingItemsMenu() {
         List<String> optionList = new ArrayList<>();
         optionList.add(approveItem);
@@ -100,5 +104,17 @@ public class AdminMenuPresenter extends MenuPresenter {
         optionList.add("Wishlist");
         optionList.add("Inventory");
         return optionList;
+    }
+
+    protected String whichThreshold(String whichThreshold) {
+        return "What would you like to change the " + whichThreshold + " threshold to?";
+    }
+
+    protected String currentThreshold(String description, int threshold) {
+        return "The current " + description + " is: " + threshold;
+    }
+
+    protected String addItem(String approved) {
+        return "Item has been " + approved;
     }
 }

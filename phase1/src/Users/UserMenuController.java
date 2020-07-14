@@ -14,7 +14,6 @@ import java.time.LocalTime;
 import java.util.*;
 
 public class UserMenuController{
-
     private TradingUser currentTradingUser; // user that's logged in
     private AdminManager am;
     private TradingUserManager um;
