@@ -381,15 +381,21 @@ public class UserMenuController{
                     if (optionChosen2 == transactionActions.size() - 1) { // if 'go back' is selected
                         System.out.println(ump.previousMenu);
                         userInteracting = false;
-                    } else { // update the status
-                        if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) {
-                            tm.updateStatus(transaction);
-                            if (um.moveTransactionToTransactionHistory(transaction, currentTradingUser)) {
-                                currentTransactionsIds.remove(transaction.getId());
+                    }
+                    else if (ump.indexToOption(optionChosen2, transactionActions, "Edit Transactions Meeting(s)")) {
+                        editMeeting(currentTradingUser, transaction); // prompt user to edit meeting
+                    }
+                    else { // update the status
+                        if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) { //update status of user
+                            tm.updateStatus(transaction); //update status of transaction
+                            if (transaction.isPerm()) { // if transaction is permanent (only one meeting)
+                                um.handlePermTransactionItems(transaction); // remove items from both users inventories and wishlists
                             }
-                            um.handleSecondMeeting(transaction);
-                        } else {
-                            editMeeting(currentTradingUser, transaction);
+                            /* if transaction is temporary (two meetings) */
+                            else { um.handleTempTransactionItems(transaction); } // handles users inventories and wishlists
+                            if (um.moveTransactionToTransactionHistory(transaction, currentTradingUser)) { // move to history if transaction is over
+                                currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
+                            }
                         }
                     }
                 }
