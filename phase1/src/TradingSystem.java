@@ -18,11 +18,11 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * The TradingSystem class handles logging on and the creation of new Users.TradingUser accounts.
- * <p>
- * If logging on to an existing account, directs the user to either the administrator menu
- * or the user menu.
- * </p>
+ * <h1>TradingSystem</h1>
+ *
+ * <p>The TradingSystem class handles logging on and the creation of new Users.TradingUser accounts.</p>
+ * <p>If logging on to an existing account, directs the user to either the administrator menu
+ * or the user menu.</p>
  */
 
 public class TradingSystem {
@@ -44,12 +44,13 @@ public class TradingSystem {
 
 
     /**
-     * Reads data from saved files, redirects user to appropriate class depending on
-     * user input, saves changes by updating files before program exits.
+     * Calls to different helper methods to read data from saved files, redirects user to
+     * appropriate class depending on user input, saves changes by writing files and
+     * allows user to exit the program.
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public void run() throws IOException, ClassNotFoundException {
+    public void run() {
         boolean interacting = true;
         while (interacting) {
             readData();
@@ -69,7 +70,7 @@ public class TradingSystem {
     /**
      * Helper method to retrieve data from files.
      */
-    private void readData() throws IOException, ClassNotFoundException {
+    private void readData() {
         // make sure files exists so they can be read
         checkFileExists(adminsFilePath);
         checkFileExists(usersFilePath);
@@ -101,7 +102,7 @@ public class TradingSystem {
      * A helper method to check if the file specified by filePath exists. If this file does
      * not exist, this method generates it.
      */
-    private void checkFileExists(String filePath) throws IOException {
+    private void checkFileExists(String filePath) {
         File file = new File(filePath);
         if (file.exists()) {
             // do nothing
@@ -144,7 +145,7 @@ public class TradingSystem {
     /**
      * A helper method that saves the changes made by the user.
      */
-    private void writeData() throws IOException {
+    private void writeData() {
         Serializer serializer = new Serializer();
         serializer.writeUsersToFile(usersFilePath, tradingUserManager.getAllTradingUsers());
         serializer.writeAdminsToFile(adminsFilePath, adminManager.getAllAdmins());
