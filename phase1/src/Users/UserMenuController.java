@@ -352,10 +352,10 @@ public class UserMenuController{
                     } else {
                         ump.displayOptions(TradedWithUsersOptions);
                     }
+                    System.out.println("Press \"ENTER\" if you would like to go back...");
+                    Scanner scanner = new Scanner(System.in);
+                    scanner.nextLine();
                 }
-                System.out.println("Press \"ENTER\" if you would like to go back...");
-                Scanner scanner = new Scanner(System.in);
-                scanner.nextLine();
             }
         }
     }
@@ -368,25 +368,25 @@ public class UserMenuController{
         boolean userInteracting = true;
         while (userInteracting) {
             List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
-            if (currentTransactionsIds.size() == 0) {
+            if (currentTransactionsIds.size() == 0) { // if no active transactions
                 System.out.println(ump.empty("Current Transactions"));
                 userInteracting = false;
             } else {
                 List<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
-                List<String> optionList = ump.constructTransactionList(currTransactionsList);
+                List<String> optionList = ump.constructTransactionList(currTransactionsList); // display all current transactions
                 int OptionChosen = ump.handleOptionsByIndex(optionList, true, "Current Transactions");
-                // Logic handling back to other menu vs. Editing a meeting vs changing the StatusUser of a Transaction.
-                if(OptionChosen == optionList.size() - 1){
+                /* Logic handling back to other menu vs. Editing a meeting vs changing the StatusUser of a Transaction. */
+                if(OptionChosen == optionList.size() - 1){ // if 'go back' is selected
                     System.out.println(ump.previousMenu);
                     userInteracting = false;}
-                else if (OptionChosen != optionList.size()) {
-                    Transaction transaction = currTransactionsList.get(OptionChosen);
+                else {
+                    Transaction transaction = currTransactionsList.get(OptionChosen); // go into which transaction is chosen
                     ArrayList<String> transactionActions = ump.userTransactionActions(transaction);
                     int optionChosen2 = ump.handleOptionsByIndex(transactionActions, true, "Transaction Actions");
-                    if (optionChosen2 == transactionActions.size() - 1) {
+                    if (optionChosen2 == transactionActions.size() - 1) { // if 'go back' is selected
                         System.out.println(ump.previousMenu);
                         userInteracting = false;
-                    } else {
+                    } else { // update the status
                         if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) {
                             tm.updateStatus(transaction);
                             um.moveTransactionToTransactionHistory(transaction, currentTradingUser);
