@@ -121,7 +121,7 @@ public class TradingUserManager {
      * @param tradingUser A tradingUser in the trading system.
      */
     public void freezeAccount(TradingUser tradingUser) {
-        tradingUser.setStatus("frozen");
+        idToUser.get(tradingUser.getUserId()).setStatus("frozen");
     }
 
     /**
@@ -295,5 +295,13 @@ public class TradingUserManager {
                 user1.getInventory().remove(itemidlist.get(1));
             }
         }
+    }
+
+    boolean borrowThresholdExceeded(TradingUser tradingUser){
+    int numBorrowed = tradingUser.getTransactionHistory().getNumItemsBorrowed();
+    int numLent = tradingUser.getTransactionHistory().getNumItemsLended();
+    int threshold = tradingUser.getBorrowThreshold();
+
+    return numBorrowed - numLent >= threshold;
     }
 }

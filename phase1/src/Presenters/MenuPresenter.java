@@ -4,10 +4,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Stores all common strings between the menu accessed by an AdminUser, and the menu accessed by a TradingUser.
+ */
 public abstract class MenuPresenter {
 
     public String borrowThresholdDescription = "minimum number of times that this user must lend something before they can borrow/trade";
@@ -115,6 +117,13 @@ public abstract class MenuPresenter {
         return(this.selectOptionByIndex(OptionList));
     }
 
+    /**
+     * Checks to see if the option in an optionList matches the inputted menu option chosen by a User.
+     * @param input the number the User inputted
+     * @param optionList the list that the User chose from
+     * @param option the name of option comparing the index of the option list
+     * @return boolean that returns if the input option number matches the string option given
+     */
     public boolean indexToOption(int input, List<String> optionList, String option){
         return optionList.get(input).equals(option);
     }
@@ -153,13 +162,12 @@ public abstract class MenuPresenter {
         return UserInput.equals("Yes");
     }
 
-    /** inputTimeGetter
+    /**
      * Prompts the user for the time.
      * Checks the date string that the user has inputted to see if it is in the accepted format Then returns the time
      * @return this returns tru iff Returns true iff it is
      *      in the accepted format dd/mm/yyyy.
      */
-
     public LocalTime inputTimeGetter(String optionTimePrompt){
         Scanner scanner = new Scanner(System.in);
         LocalTime returnTime;
@@ -180,8 +188,8 @@ public abstract class MenuPresenter {
     }
 
 
-    /** inputDateGetter
-     * This method prompts the user for information to construct a date object, then
+    /**
+     * Prompts the user for information to construct a date object, then
      * @param optionDatePrompt What you want to ask the user.
      * @return this returns a date object that was constructed by the user.
      */

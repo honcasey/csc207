@@ -14,7 +14,6 @@ import java.time.LocalTime;
 import java.util.*;
 
 public class UserMenuController{
-
     private TradingUser currentTradingUser; // user that's logged in
     private AdminManager am;
     private TradingUserManager um;
@@ -39,6 +38,9 @@ public class UserMenuController{
         availableItems = getAvailableItems();
     }
 
+    /**
+     * Method that calls to different helper methods depending on user's input choice in the main menu.
+     */
     public void run() {
         boolean userInteracting = true;
         while(userInteracting){
@@ -100,11 +102,12 @@ public class UserMenuController{
             List<String> optionList = ump.constructAvailableItemsMenu(itemList);
             int OptionChosen = ump.handleOptionsByIndex(optionList,true, "Available Items");
             // Logic handling back to other menu vs. your account is frozen vs proceed to make create transaction menu.
-            if(OptionChosen == optionList.size() - 1){
+            if(OptionChosen == optionList.size() - 1) { // go back
                 System.out.println(ump.previousMenu);
                 userInteracting = false;
             }
             else{
+                // if account is frozen, print message and send them pack to previous menu
                 Item transactionItem = itemList.get(OptionChosen);
                 if(currentTradingUser.isFrozen()){
                     System.out.println(ump.accountFrozen(true) + ump.requestAccountUnfreeze);
@@ -115,6 +118,7 @@ public class UserMenuController{
                     userInteracting = false;
                 }
                 else {
+                    // they are allowed to create another transaction or add to wishlist.
                     if(ump.handleYesNo(ump.addToWishlist+" or "+ ump.createTransaction,"Wishlist",
                             "Transaction")) {
                         this.currentTradingUser.getWishlist().add(transactionItem.getId());
@@ -157,7 +161,7 @@ public class UserMenuController{
                 System.out.println(ump.noInventoryItems);
             }
             else{
-                System.out.println("Please select one of the items from your inventory that you want to offer:");
+                System.out.println(ump.selectItemToOffer);
                 Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
                 Transaction newTransaction = tm.createTransaction(
                     Owner.getUserId(),currentTradingUser.getUserId(), item, ChosenItem, FirstMeeting);
@@ -174,10 +178,10 @@ public class UserMenuController{
         }
         else{
             if(currentTradingUser.getInventory().isEmpty()){
-                System.out.println(ump.noInventoryItems);
+                System.out.println(ump.empty("Inventory"));
             }
             else{
-                System.out.println("Please select one of the items from your inventory that you want to offer:");
+                System.out.println(ump.selectItemToOffer);
                 Item ChosenItem = this.PickUserItemFlow(this.currentTradingUser);
                 Meeting SecondMeeting = tm.meetOneMonthLater(FirstMeeting);
                 Transaction newTransaction = tm.createTransaction(Owner.getUserId(),
@@ -196,7 +200,6 @@ public class UserMenuController{
         int OptionChosen = ump.handleOptionsByIndex(ItemOptions,false, "Available Inventory");
         return currentUserInventory.get(OptionChosen);
     }
-
 
     /**
      * This method is ONLY allowed to be used in the createTransactionMenu
@@ -221,7 +224,7 @@ public class UserMenuController{
         System.out.println(meetingTitle + "Meeting Details");
         System.out.println(ump.meetingLocation);
         String MeetingLocation = scanner.nextLine();
-        LocalTime MeetingTime = ump.inputTimeGetter(ump.enterWhatInFormat("time", "HH:mm:ss"));
+        LocalTime MeetingTime = ump.inputTimeGetter(ump.enterWhatInFormat("time", "hh:mm:ss"));
         LocalDate MeetingDate = ump.inputDateGetter(ump.enterWhatInFormat("date", "dd-mm-yyyy"));
         return new Meeting(MeetingLocation,MeetingTime,MeetingDate);
     }
@@ -236,7 +239,7 @@ public class UserMenuController{
                 List<Item> currentUserWishlist = im.convertIdsToItems(currentTradingUser.getWishlist());
                 List<String> ItemOptions = ump.constructWishlistItemsList(currentUserWishlist);
                 int itemChosen = ump.handleOptionsByIndex(ItemOptions, true, "Wishlist Items");
-                if (itemChosen == ItemOptions.size() - 1) {
+                if (itemChosen == ItemOptions.size() - 1) { // checks if option chosen is "Go back."
                     System.out.println(ump.previousMenu);
                     userInteracting = false;
                 } else {
@@ -309,13 +312,13 @@ public class UserMenuController{
     private void PastTransactionFlow(){
         List<String> MenuOptionList = ump.constructPastTransactionMenu();
         int OptionChosen = ump.handleOptionsByIndex(MenuOptionList,true,"Past Transactions Menu");
-        if (ump.indexToOption(OptionChosen, MenuOptionList, ump.ViewRecentThreeOneWay)){
+        if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewRecentTransactions("one"))){
             List<UUID> OneWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentOneWayTransactions();
             List<Transaction> OneWayTransaction = ptm.getTransactionsFromIdList(OneWayTransactionIds);
             List<String> oneWayTransactionOptions = ump.constructTransactionList(OneWayTransaction);
             ump.displayOptions(oneWayTransactionOptions);
 
-        } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.ViewRecentThreeTwoWay)) {
+        } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewRecentTransactions("two"))) {
           List<UUID> TwoWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentTwoWayTransactions();
           List<Transaction> TwoWayTransactions = ptm.getTransactionsFromIdList(TwoWayTransactionIds);
           List<String> twoWayTransactionOptions = ump.constructTransactionList(TwoWayTransactions);
@@ -343,8 +346,7 @@ public class UserMenuController{
             } else {
                 List<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
                 List<String> optionList = ump.constructTransactionList(currTransactionsList);
-                String currTransactionsTitle = "Current Transactions:";
-                int OptionChosen = ump.handleOptionsByIndex(optionList, true, currTransactionsTitle);
+                int OptionChosen = ump.handleOptionsByIndex(optionList, true, "Current Transactions");
                 // Logic handling back to other menu vs. Editing a meeting vs changing the StatusUser of a Transaction.
                 if(OptionChosen == optionList.size() - 1){
                     System.out.println(ump.previousMenu);
@@ -352,7 +354,7 @@ public class UserMenuController{
                 else if (OptionChosen != optionList.size()) {
                     Transaction transaction = currTransactionsList.get(OptionChosen);
                     ArrayList<String> transactionActions = tm.userTransactionActions(transaction);
-                    int optionChosen2 = ump.handleOptionsByIndex(transactionActions, true, ump.transactionActions);
+                    int optionChosen2 = ump.handleOptionsByIndex(transactionActions, true, "Transaction Actions");
                     if (optionChosen2 == transactionActions.size() - 1) {
                         System.out.println(ump.previousMenu);
                         userInteracting = false;
@@ -453,12 +455,12 @@ public class UserMenuController{
         switch (which) {
             case "location":
                 Scanner scanner = new Scanner(System.in);
-                System.out.println(ump.enterLocation);
+                System.out.println(ump.meetingLocation);
                 String MeetingLocation = scanner.nextLine();
                 if (tm.editMeeting(meetingNum, transaction, user, MeetingLocation)) {
                     System.out.println(ump.successfullyEditedMeeting(MeetingLocation));
                 } else {
-                    System.out.println("You have reached your edit threshold.");
+                    System.out.println(ump.editThresholdReached);
                 }
                 break;
             case "time":
@@ -466,7 +468,7 @@ public class UserMenuController{
                 if (tm.editMeeting(meetingNum, transaction, user, MeetingTime)) {
                     System.out.println(ump.successfullyEditedMeeting(MeetingTime.toString()));
                 } else {
-                    System.out.println("You have reached your edit threshold.");
+                    System.out.println(ump.editThresholdReached);
                 }
                 break;
             case "date":
@@ -474,7 +476,7 @@ public class UserMenuController{
                 if (tm.editMeeting(meetingNum, transaction, user, MeetingDate)) {
                     System.out.println(ump.successfullyEditedMeeting(MeetingDate.toString()));
                 } else {
-                    System.out.println("You have reached your edit threshold.");
+                    System.out.println(ump.editThresholdReached);
                 }
                 break;
         }
