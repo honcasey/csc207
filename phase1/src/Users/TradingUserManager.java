@@ -50,7 +50,7 @@ public class TradingUserManager {
     }
 
     /**
-     * To retrieve a specific user by username.
+     * Retrieve a specific user by username.
      *
      * @param username online identifier of a Users.TradingUser
      * @return username and userId as string separated by comma
@@ -65,7 +65,7 @@ public class TradingUserManager {
     }
 
     /**
-     * To add an item to tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
+     * Adds an item to tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
      *
      * @param tradingUser     the tradingUser
      * @param item     An item in the trading system.
@@ -80,7 +80,7 @@ public class TradingUserManager {
     }
 
     /**
-     * To remove a item from tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
+     * Removes a item from tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
      *
      * @param tradingUser    A tradingUser in the trading system.
      * @param item     An item in the trading system.
@@ -95,7 +95,7 @@ public class TradingUserManager {
     }
 
     /**
-     * To change the tradingUser's specified threshold.
+     * Changes the tradingUser's specified threshold.
      *
      * @param tradingUser  A tradingUser in the trading system.
      * @param thresholdValue new value of threshold as an int
@@ -269,6 +269,11 @@ public class TradingUserManager {
         }
     }
 
+    /**
+     * Retrieves tradingUser by userId
+     * @param id id of tradingUser
+     * @return a tradingUser
+     */
     public TradingUser getTradingUserById(UUID id) {
         return idToUser.get(id);
     }
