@@ -136,7 +136,7 @@ public class TradingUserManager {
     /**
      * Adds a transaction to Users.TradingUser's transaction history.
      *
-     * @param tradingUser        A tradingUser in the trading system.
+     * @param tradingUser A tradingUser in the trading system.
      * @param transaction a meetup between 2 users.
      */
     public void addToTransactionHistory(TradingUser tradingUser, Transaction transaction) {
@@ -151,7 +151,7 @@ public class TradingUserManager {
      * @param tradingUser        A tradingUser in a trading system
      * @param transaction a transaction between two Users
      */
-
+    // TO-DO: consider splitting into two methods. Reasoning for having one method, user1 == tradingUser is needed for both updating the UserNumTradeTimes and NumItemsBorrowed, NumItemsLended
     private void updateTransactionHistoryValues(TradingUser tradingUser, Transaction transaction) {
         TransactionHistory tH = tradingUser.getTransactionHistory();
         if (transaction.getUser1() == tradingUser.getUserId()) {
@@ -179,10 +179,8 @@ public class TradingUserManager {
         }
     }
 
-
     /**
      * Returns a list of all Users in the Trading System.
-     *
      * @return all users in the system.
      */
     public List<TradingUser> getAllTradingUsers() {

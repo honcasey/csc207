@@ -119,11 +119,11 @@ public class UserMenuController{
                 }
                 else {
                     // they are allowed to create another transaction or add to wishlist.
-                    if(ump.handleYesNo(ump.addToWishlist+" or "+ ump.createTransaction,"Wishlist",
-                            "Transaction")) {
+                    if(ump.handleYesNo(ump.addToWishlist + " or " + ump.makeTransaction,"Wishlist",
+                            "Transaction")) { // if they selected to add to wishlist
                         this.currentTradingUser.getWishlist().add(transactionItem.getId());
                     }
-                    else {
+                    else { // if selected to create a transaction
                         TradingUser transactionItemOwner = availableItems.get(transactionItem);
                         userInteracting = createTransactionMenu(transactionItem, transactionItemOwner);
                         flagAccountIfAboveThreshold(currentTradingUser);
@@ -158,7 +158,7 @@ public class UserMenuController{
         }
         else if(permBool & !oneWayBool){
             if(currentTradingUser.getInventory().isEmpty()){
-                System.out.println(ump.noInventoryItems);
+                System.out.println(ump.empty("inventory"));
             }
             else{
                 System.out.println(ump.selectItemToOffer);
