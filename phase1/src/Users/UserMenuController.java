@@ -374,7 +374,7 @@ public class UserMenuController{
     }
 
     /**
-     * Returns a HashMap of all the available items in other user's inventory.
+     * Creates a HashMap of all the available items in other user's inventory.
      * @return HashMap of items that are available in other user's inventory.
      */
     private HashMap<Item, TradingUser> getAvailableItems(){

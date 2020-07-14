@@ -151,7 +151,7 @@ public abstract class MenuPresenter {
         Scanner scanner = new Scanner(System.in);
         String UserInput;
         System.out.println(Question);
-        System.out.println("Please Enter"+ "'"+yesString+"'" +" or "+"'"+noString+".");
+        System.out.println("Please Enter"+ "'"+yesString+"'" +" or "+"'"+noString+"'.");
         do {
             while (!scanner.hasNext()) {
                 System.out.println(invalidOption);
