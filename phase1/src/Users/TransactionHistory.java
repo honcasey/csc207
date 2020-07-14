@@ -7,6 +7,7 @@ import java.util.*;
 
 
 /**
+ * <h1>TransactionHistory</h1>
  * Represents the Transactions.Transaction History of Users.TradingUser by storing information about completed transactions
  */
 

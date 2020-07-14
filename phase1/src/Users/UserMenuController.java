@@ -13,6 +13,15 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
+
+/**
+ * <h1>UserMenuController</h1>
+ * Decides which use case/manager methods to call depending on the user input taken from the presenter.
+ * <p>It stores instances of all use cases/managers (AdminManager, TradingUserManager, ItemManager,
+ * CurrentTransactionManager, PastTransactionManager), the UserMenuPresenter,
+ * and a list of allPendingItems (which is the list of all items that have been requested by a
+ * TradingUser to be added to their inventory). <p/>
+ */
 public class UserMenuController{
     private TradingUser currentTradingUser; // user that's logged in
     private AdminManager am;
