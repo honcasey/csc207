@@ -53,7 +53,7 @@ public class UserMenuController{
             } else if (ump.indexToOption(input, menu, ump.viewActiveTransactions)) {
                 getActiveTransactions();
             } else if (ump.indexToOption(input, menu, ump.viewPastTransactionDetails)) {
-                PastTransactionFlow();
+                pastTransactionFlow();
             } else if (ump.indexToOption(input, menu, ump.viewWishlist)) {
                 viewWishlist();
             } else if (ump.indexToOption(input, menu, ump.viewInventory)) {
@@ -309,7 +309,7 @@ public class UserMenuController{
      * https://stackoverflow.com/questions/26184409/java-console-prompt-for-enter-input-before-moving-on/26184565
      * by M Anouti
      */
-    private void PastTransactionFlow(){
+    private void pastTransactionFlow(){
         boolean userInteracting = true;
         while (userInteracting) {
             List<String> MenuOptionList = ump.constructPastTransactionMenu();
