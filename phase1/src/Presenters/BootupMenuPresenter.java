@@ -3,6 +3,10 @@ package Presenters;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Contains all option strings and prompts printed/displayed by TradingSystem.
+ * Class variables represent commonly used strings.
+ */
 public class BootupMenuPresenter extends MenuPresenter {
 
     private final String usernamePrompt = "Enter username:";
