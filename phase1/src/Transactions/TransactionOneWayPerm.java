@@ -13,8 +13,6 @@ import java.util.UUID;
  * item this is the id of the Item that belongs to user1
  */
 public class TransactionOneWayPerm extends Transaction {
-
-
     private UUID item;
 
     /**

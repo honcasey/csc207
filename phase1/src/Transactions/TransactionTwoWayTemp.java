@@ -9,9 +9,7 @@ import java.util.UUID;
  * This class represents a meetup between 2 Users where there is a two way borrowing transaction happening.
  * Note: user 1 originally had item 1 and user 2 originally had item 2.
  */
-
 public class TransactionTwoWayTemp extends Transaction {
-    public String secondMeetingLocation;
     public UUID item1;
     public UUID item2;
     public Meeting secondMeeting;
@@ -34,9 +32,7 @@ public class TransactionTwoWayTemp extends Transaction {
         this.item2 = Item2;
         this.secondMeeting = secondMeeting;
         this.item2Name = item2Name;
-
     }
-
 
     /**
      * Getter for item that user1 has.
@@ -48,26 +44,11 @@ public class TransactionTwoWayTemp extends Transaction {
     }
 
     /**
-     * Setter for item that user1 has.
-     */
-    public void setItem1(UUID item1) {
-        this.item1 = item1;
-    }
-
-    /**
      * Getter for item that user2 has.
      * @return returns the item that user2 has at the beginniing of the transaction.
      */
     public UUID getItem2(){
         return this.item2;
-    }
-
-    /**
-     * Setter for item that user2 has.
-     */
-
-    public void setItem2(UUID item2){
-        this.item2 = item2;
     }
 
     /**
@@ -79,14 +60,6 @@ public class TransactionTwoWayTemp extends Transaction {
         return this.secondMeeting;
     }
 
-    /**
-     * Setter for the second meeting location.
-     */
-
-    public void setSecondMeeting(Meeting secondMeeting){
-        this.secondMeeting = secondMeeting;
-    }
-
     @Override
     public boolean isOneWay() {
         return false;
@@ -96,7 +69,6 @@ public class TransactionTwoWayTemp extends Transaction {
     public boolean isPerm() {
         return false;
     }
-
 
     @Override
     public String toString(){
@@ -120,5 +92,4 @@ public class TransactionTwoWayTemp extends Transaction {
         ItemReturnList.add(this.getItem2());
         return(ItemReturnList);
     }
-
 }

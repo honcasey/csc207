@@ -31,7 +31,6 @@ public class TransactionTwoWayPerm extends Transaction {
         this.item2Name = item2Name;
     }
 
-
     /**
      * Getter for item that user1 has.
      * @return returns the item that was owned by user1 at the beginning of the transaction.
@@ -39,13 +38,6 @@ public class TransactionTwoWayPerm extends Transaction {
     //Constructor with a return time manually inputted
     public UUID getItem1(){
         return this.item1;
-    }
-
-    /**
-     * Setter for item that user1 has.
-     */
-    public void setItem1(UUID item1) {
-        this.item1 = item1;
     }
 
     /**
@@ -59,13 +51,6 @@ public class TransactionTwoWayPerm extends Transaction {
     @Override
     public boolean isPerm() {
         return true;
-    }
-
-    /**
-     * Setter for item that user2 has.
-     */
-    public void setItem2(UUID item2){
-        this.item2 = item2;
     }
 
     @Override
