@@ -2,6 +2,7 @@ package Users;
 
 import Exceptions.InvalidTradingUserException;
 import Items.Item;
+import Transactions.Statuses;
 import Transactions.Transaction;
 
 import java.util.*;
@@ -124,8 +125,8 @@ public class TradingUserManager {
      * @param tradingUser a tradingUser in the trading system.
      */
     public void freezeAccount(TradingUser tradingUser) {
-        tradingUser.setStatus("frozen");
-        idToUser.get(tradingUser.getUserId()).setStatus("frozen");
+        tradingUser.setStatus(Statuses.FROZEN);
+        idToUser.get(tradingUser.getUserId()).setStatus(Statuses.FROZEN);
     }
 
     /**
@@ -134,8 +135,8 @@ public class TradingUserManager {
      * @param tradingUser a tradingUser in the trading system.
      */
     public void unfreezeAccount(TradingUser tradingUser) {
-        tradingUser.setStatus("active");
-        idToUser.get(tradingUser.getUserId()).setStatus("active");
+        tradingUser.setStatus(Statuses.ACTIVE);
+        idToUser.get(tradingUser.getUserId()).setStatus(Statuses.ACTIVE);
     }
 
     /**

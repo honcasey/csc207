@@ -9,11 +9,11 @@ import Transactions.Meeting;
 import Transactions.PastTransactionManager;
 import Transactions.Transaction;
 import Transactions.CurrentTransactionManager;
+import Transactions.Statuses;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
-
 
 /**
  * <h1>UserMenuController</h1>
@@ -175,7 +175,6 @@ public class UserMenuController{
                 availableItems.remove(ChosenItem);
             }
         }
-
         else if(oneWayBool){   // note permBool must be false at this point: aka you're creating a temp Transaction
             Meeting SecondMeeting = tm.meetOneMonthLater(FirstMeeting);
             Transaction newTransaction = tm.createTransaction(
@@ -390,7 +389,7 @@ public class UserMenuController{
                     else if (ump.indexToOption(optionChosen2, transactionActions, "Edit Transactions Meeting(s)")) {
                         editMeeting(currentTradingUser, transaction); // prompt user to edit meeting
                         // check if status is changed to cancelled after this edit
-                        if (transaction.getStatus().equals("cancelled")) {
+                        if (transaction.getStatus().equals(Statuses.CANCELLED)) {
                             try {
                                 tm.removeTransactionFromAllTransactions(transaction.getId()); // if cancelled, the transaction is deleted forever
                                 currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
@@ -407,7 +406,7 @@ public class UserMenuController{
                         /* if transaction is temporary (two meetings) */
                         else { um.handleTempTransactionItems(transaction); } // handles users inventories and wishlists
                         /* if transaction is cancelled, remove from current transactions */
-                        if (transaction.getStatus().equals("cancelled")) {
+                        if (transaction.getStatus().equals(Statuses.CANCELLED)) {
                             try {
                                 tm.removeTransactionFromAllTransactions(transaction.getId()); // if cancelled, the transaction is deleted forever
                                 currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
@@ -452,7 +451,7 @@ public class UserMenuController{
             // check if both users have reached their edit threshold without confirming
             if (transaction.getFirstMeeting().getNumEditsUser1() == 3 && transaction.getFirstMeeting().getNumEditsUser2() == 3) {
                 System.out.println("Transaction has been cancelled");
-                transaction.setStatus("cancelled");
+                transaction.setStatus(Statuses.CANCELLED);
             }
             if (!tm.transactionHasMultipleMeetings(transaction)) { // for transactions with one meeting
                 List<String> options = ump.constructEditMeetingOptions();

@@ -1,3 +1,5 @@
+package Transactions;
+
 public final class Statuses {
     public static final String PENDING = "pending";
     public static final String CONFIRMED = "confirmed";
@@ -7,4 +9,6 @@ public final class Statuses {
     public static final String INCOMPLETE = "incomplete";
     public static final String NEVERRETURNED = "neverReturned";
 
+    public static final String FROZEN = "frozen";
+    public static final String ACTIVE = "active";
 }

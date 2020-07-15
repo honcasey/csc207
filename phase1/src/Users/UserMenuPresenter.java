@@ -3,6 +3,7 @@ package Users;
 import Items.Item;
 import Presenters.MenuPresenter;
 import Transactions.Transaction;
+import Transactions.Statuses;
 import java.util.*;
 
 /**
@@ -162,17 +163,17 @@ public class UserMenuPresenter extends MenuPresenter {
         String status = transaction.getStatus();
         ArrayList<String> options = new ArrayList<>();
         switch (status) {
-            case "pending": {
+            case Statuses.PENDING: {
                 String[] list = new String[]{"Edit Transactions Meeting(s)", "Confirm Transactions Meeting(s)", "Cancel transaction"};
                 options.addAll(Arrays.asList(list));
                 break;
             }
-            case "confirmed": {
+            case Statuses.CONFIRMED: {
                 String[] list = new String[]{"Confirm the exchange has taken place", "Claim that the exchange has not taken place"};
                 options.addAll(Arrays.asList(list));
                 break;
             }
-            case "traded": {
+            case Statuses.TRADED: {
                 String[] list = new String[]{"Confirm the item has been returned", "Claim that the item has not been returned past due date"};
                 options.addAll(Arrays.asList(list));
                 break;
