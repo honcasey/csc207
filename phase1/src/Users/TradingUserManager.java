@@ -255,7 +255,7 @@ public class TradingUserManager {
      */
     public boolean moveTransactionToTransactionHistory(Transaction transaction, TradingUser tradingUser) {
         String status = transaction.getStatus();
-        if (status.equals("incomplete") || status.equals("complete") || status.equals("neverReturned")) {
+        if (status.equals("incomplete") || status.equals("completed") || status.equals("neverReturned")) {
             UUID id = transaction.getId();
             tradingUser.getCurrentTransactions().remove(id);
             addToTransactionHistory(tradingUser, transaction);

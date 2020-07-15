@@ -338,7 +338,7 @@ public class CurrentTransactionManager extends TransactionManager{
         }
         else{
             if (transaction.getStatusUser1().equals("traded") & transaction.getStatusUser2().equals("traded")){
-                transaction.setStatus("complete");
+                transaction.setStatus("completed");
                 return true;
             }
             else{
@@ -356,7 +356,7 @@ public class CurrentTransactionManager extends TransactionManager{
         }
         else{
             if (transaction.getStatusUser1().equals("returned") & transaction.getStatusUser2().equals("returned")){
-                transaction.setStatus("complete");
+                transaction.setStatus("completed");
                 return true;
             }
             else{
