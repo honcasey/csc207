@@ -2,6 +2,7 @@ package Users;
 
 import Exceptions.InvalidTradingUserException;
 import Items.Item;
+import Transactions.Statuses;
 import Transactions.Transaction;
 
 import java.util.*;
@@ -124,8 +125,8 @@ public class TradingUserManager {
      * @param tradingUser a tradingUser in the trading system.
      */
     public void freezeAccount(TradingUser tradingUser) {
-        tradingUser.setStatus("frozen");
-        idToUser.get(tradingUser.getUserId()).setStatus("frozen");
+        tradingUser.setStatus(Statuses.FROZEN);
+        idToUser.get(tradingUser.getUserId()).setStatus(Statuses.FROZEN);
     }
 
     /**
@@ -134,8 +135,8 @@ public class TradingUserManager {
      * @param tradingUser a tradingUser in the trading system.
      */
     public void unfreezeAccount(TradingUser tradingUser) {
-        tradingUser.setStatus("active");
-        idToUser.get(tradingUser.getUserId()).setStatus("active");
+        tradingUser.setStatus(Statuses.ACTIVE);
+        idToUser.get(tradingUser.getUserId()).setStatus(Statuses.ACTIVE);
     }
 
     /**
@@ -255,7 +256,7 @@ public class TradingUserManager {
      */
     public boolean moveTransactionToTransactionHistory(Transaction transaction, TradingUser tradingUser) {
         String status = transaction.getStatus();
-        if (status.equals("incomplete") || status.equals("complete") || status.equals("neverReturned")) {
+        if (status.equals(Statuses.INCOMPLETE) || status.equals(Statuses.COMPLETED) || status.equals(Statuses.NEVERRETURNED)) {
             UUID id = transaction.getId();
             tradingUser.getCurrentTransactions().remove(id);
             addToTransactionHistory(tradingUser, transaction);
@@ -301,7 +302,7 @@ public class TradingUserManager {
      * @param transaction the transaction involved.
      */
     protected void handlePermTransactionItems(Transaction transaction) { // if permanent transaction
-        if (transaction.getStatus().equals("Complete")) {
+        if (transaction.getStatus().equals(Statuses.COMPLETED)) {
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
@@ -311,14 +312,14 @@ public class TradingUserManager {
                 user1.getInventory().remove(itemidlist.get(0));
                 user2.getInventory().remove(itemidlist.get(1));
             } else if (itemidlist.size() == 1) {
-                user2.removeFromWishlist(itemidlist.get(0));
+                user2.getWishlist().remove(itemidlist.get(0));
                 user1.getInventory().remove(itemidlist.get(1));
             }
         }
     }
 
     protected void handleTempTransactionItems(Transaction transaction) { // if temporary transaction
-        if (transaction.getStatus().equals("Traded")) { // after first meeting
+        if (transaction.getStatus().equals(Statuses.TRADED)) { // after first meeting
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
@@ -332,7 +333,7 @@ public class TradingUserManager {
                 user1.getInventory().remove(itemidlist.get(1));
             }
         }
-        if (transaction.getStatus().equals("Complete")) { // after second meeting
+        if (transaction.getStatus().equals(Statuses.COMPLETED)) { // after second meeting
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());

@@ -154,6 +154,3 @@ public class TradingUser extends User implements Serializable {
         return status.equals("frozen");
     }
 }
-
-
-
