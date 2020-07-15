@@ -417,9 +417,8 @@ public class UserMenuController{
                         }
                         /* if transaction is over (incomplete, complete, never returned) then move to transaction history
                         * and remove from current transactions */
-                        if (um.moveTransactionToTransactionHistory(transaction, currentTradingUser)) {
-                            currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
-                            tm.getOtherUserId(transaction, currentTradingUser).getCurrentTransactions().remove(transaction.getId());
+                        if (um.moveTransactionToTransactionHistory(transaction)) {
+                            currentTransactionsIds.remove(transaction.getId()); // remove from the list of active transaction's the logged in user sees
                         }
                     }
                 }
