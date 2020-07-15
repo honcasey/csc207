@@ -49,13 +49,13 @@ public abstract class Transaction implements Serializable {
      * @param item1Name the name of the item belonging to user1
      */
     public Transaction(UUID user_1, UUID user_2, Meeting firstMeeting, String item1Name){
-        status = "pending";
+        status = Statuses.PENDING;
         this.user1 = user_1;
         this.user2 = user_2;
         this.firstMeeting = firstMeeting;
         this.item1Name = item1Name;
-        statusUser1 = "pending";
-        statusUser2 = "pending";
+        statusUser1 = Statuses.PENDING;
+        statusUser2 = Statuses.PENDING;
     }
 
     /**

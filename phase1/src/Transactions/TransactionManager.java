@@ -51,16 +51,15 @@ public abstract class TransactionManager {
      * @throws InvalidTransactionException the id's in the transactionList must match with the id's in AllTransactions
      */
     public ArrayList<Transaction> getTransactionsFromIdList(List<UUID> transactionList) {
-        ArrayList<Transaction> transactions= new ArrayList<Transaction>();
+        ArrayList<Transaction> transactions= new ArrayList<>();
         for (UUID id : transactionList){
             try{
             Transaction transaction = getTransactionFromId(id);
             transactions.add(transaction);}
             catch(InvalidTransactionException e){
-                System.out.println("transaction id does not map to a transaction");
+                System.out.println("Transaction id does not map to a transaction");
             }
         }
         return transactions;
     }
-
 }
