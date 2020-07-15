@@ -154,8 +154,7 @@ public class UserMenuController{
         System.out.println(ump.scheduleMeeting);
         Meeting FirstMeeting = meetingDetailsMenu("First");
 
-        boolean permBool = ump.handleYesNo(ump.whatTypeOfTransaction(
-                "permanent"),"Permanent","Temporary");
+        boolean permBool = ump.handleYesNo(ump.whatTypeOfTransaction,"Permanent","Temporary");
         boolean oneWayBool = !ump.handleYesNo(ump.offerItem,"Yes","No");
 
         if(permBool & oneWayBool){
@@ -390,6 +389,15 @@ public class UserMenuController{
                     }
                     else if (ump.indexToOption(optionChosen2, transactionActions, "Edit Transactions Meeting(s)")) {
                         editMeeting(currentTradingUser, transaction); // prompt user to edit meeting
+                        // check if status is changed to cancelled after this edit
+                        if (transaction.getStatus().equals("cancelled")) {
+                            try {
+                                tm.removeTransactionFromAllTransactions(transaction.getId()); // if cancelled, the transaction is deleted forever
+                                currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
+                            } catch (InvalidTransactionException e) {
+                                //
+                            }
+                        }
                     }
                     if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) { //update status of user
                         tm.updateStatus(transaction); //update status of transaction
@@ -398,13 +406,8 @@ public class UserMenuController{
                         }
                         /* if transaction is temporary (two meetings) */
                         else { um.handleTempTransactionItems(transaction); } // handles users inventories and wishlists
-                        /* if transaction is over (incomplete, complete, never returned) then move to transaction history
-                        * and remove from current transactions */
-                        if (um.moveTransactionToTransactionHistory(transaction, currentTradingUser)) {
-                            currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
-                        }
                         /* if transaction is cancelled, remove from current transactions */
-                        else if (transaction.getStatus().equals("cancelled")) {
+                        if (transaction.getStatus().equals("cancelled")) {
                             try {
                                 tm.removeTransactionFromAllTransactions(transaction.getId()); // if cancelled, the transaction is deleted forever
                                 currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
@@ -412,6 +415,11 @@ public class UserMenuController{
                             catch (InvalidTransactionException e) {
                                 //
                             }
+                        }
+                        /* if transaction is over (incomplete, complete, never returned) then move to transaction history
+                        * and remove from current transactions */
+                        if (um.moveTransactionToTransactionHistory(transaction, currentTradingUser)) {
+                            currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
                         }
                     }
                 }

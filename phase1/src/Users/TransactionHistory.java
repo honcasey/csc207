@@ -5,12 +5,10 @@ import Transactions.Transaction;
 import java.io.Serializable;
 import java.util.*;
 
-
 /**
  * <h1>TransactionHistory</h1>
  * Represents the Transactions.Transaction History of Users.TradingUser by storing information about completed transactions
  */
-
 public class TransactionHistory implements Serializable {
     private final List<UUID> oneWayTransactions;
     private final List<UUID> twoWayTransactions;
