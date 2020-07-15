@@ -16,13 +16,6 @@ class ItemTest {
     }
 
     @org.junit.jupiter.api.Test
-    void setName() {
-        Item item = new Item("Hamlet");
-        item.setName("Hamlet v2");
-        assertEquals(item.getName(), "Hamlet v2");
-    }
-
-    @org.junit.jupiter.api.Test
     void setDescription() {
         Item item = new Item("Hamlet");
         item.setDescription("A book");
