@@ -32,6 +32,7 @@ public class UserMenuPresenter extends MenuPresenter {
     protected String makeTransaction = "Would you like to make another transaction?";
     protected String meetingLocation = "Where do you want to have the meeting?";
     protected String scheduleMeeting = "Please schedule a meeting time with the other user.";
+    protected String whatTypeOfTransaction = "Would you like this transaction to be permanent or temporary?";
 
     protected String requestedUnfreeze = "You have successfully requested for your account to be unfrozen.";
     protected String editThresholdReached = "You have reached your edit threshold.";
@@ -191,10 +192,6 @@ public class UserMenuPresenter extends MenuPresenter {
 
     protected String successfullyEditedMeeting(String what) {
         return "You have successfully edited your meeting to be at " + what;
-    }
-
-    protected String whatTypeOfTransaction(String transactionType) {
-        return "Would you like this transaction to be " + transactionType + " ?";
     }
 
     protected String accountFrozen(boolean frozen) {

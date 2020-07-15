@@ -154,8 +154,7 @@ public class UserMenuController{
         System.out.println(ump.scheduleMeeting);
         Meeting FirstMeeting = meetingDetailsMenu("First");
 
-        boolean permBool = ump.handleYesNo(ump.whatTypeOfTransaction(
-                "permanent"),"Permanent","Temporary");
+        boolean permBool = ump.handleYesNo(ump.whatTypeOfTransaction,"Permanent","Temporary");
         boolean oneWayBool = !ump.handleYesNo(ump.offerItem,"Yes","No");
 
         if(permBool & oneWayBool){

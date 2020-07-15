@@ -8,6 +8,7 @@ import java.util.*;
 
 /**
  * <h1>TradingUserManager</h1>
+ *
  * Manages all TradingUsers in the system.
  * <p>
  * Stores a list of all TradingUsers in the system, all flagged TradingUsers, all frozen Users, and a HashMap mapping between
@@ -138,7 +139,7 @@ public class TradingUserManager {
     }
 
     /**
-     * Adds a transaction to Users.TradingUser's transaction history.
+     * Adds a transaction to TradingUser's transaction history.
      *
      * @param tradingUser a tradingUser in the trading system.
      * @param transaction a meetup between 2 users.
@@ -203,7 +204,7 @@ public class TradingUserManager {
     }
 
     /**
-     * Returns whether this user with the given username and password is in the system or not.
+     * Returns whether this TradingUser with the given username and password is in the system or not.
      *
      * @param username the username of the specified user
      * @param password the password of the specified user
@@ -295,6 +296,10 @@ public class TradingUserManager {
         return idToUser.get(id);
     }
 
+    /**
+     * Removes item(s) temporarily from both users wishlists and inventory when the item(s) is involved in a transaction.
+     * @param transaction the transaction involved.
+     */
     protected void handlePermTransactionItems(Transaction transaction) { // if permanent transaction
         if (transaction.getStatus().equals("completed")) {
             List<UUID> itemidlist = transaction.getTransactionItems();
