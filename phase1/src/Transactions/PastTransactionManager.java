@@ -8,7 +8,6 @@ import Users.TransactionHistory;
 
 /**
  * <h1>PastTransactionManager</h1>
- * <h1>PastTransactionManager</h1>
  * Manages methods regarding TransactionHistory of a User, extends TransactionManager.
  */
 public class PastTransactionManager extends TransactionManager{
