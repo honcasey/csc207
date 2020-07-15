@@ -249,17 +249,20 @@ public class TradingUserManager {
     }
 
     /**
-     * Takes Transaction and moves it from TradingUser's currentTransactions to their TransactionHistory.
+     * Takes Transaction and moves it from both involved TradingUser's currentTransactions to their TransactionHistory.
      *
      * @param transaction the Transaction being moved.
-     * @param tradingUser a TradingUser involved in the Transaction.
      */
-    public boolean moveTransactionToTransactionHistory(Transaction transaction, TradingUser tradingUser) {
+    public boolean moveTransactionToTransactionHistory(Transaction transaction) {
         String status = transaction.getStatus();
+        TradingUser user1 = getTradingUserById(transaction.getUser1());
+        TradingUser user2 = getTradingUserById(transaction.getUser2());
         if (status.equals(Statuses.INCOMPLETE) || status.equals(Statuses.COMPLETED) || status.equals(Statuses.NEVERRETURNED)) {
             UUID id = transaction.getId();
-            tradingUser.getCurrentTransactions().remove(id);
-            addToTransactionHistory(tradingUser, transaction);
+            user1.getCurrentTransactions().remove(id);
+            user2.getCurrentTransactions().remove(id);
+            addToTransactionHistory(user1, transaction);
+            addToTransactionHistory(user2, transaction);
             return true;
         }
         return false;
@@ -311,9 +314,9 @@ public class TradingUserManager {
                 user2.removeFromWishlist(itemidlist.get(0));
                 user1.getInventory().remove(itemidlist.get(0));
                 user2.getInventory().remove(itemidlist.get(1));
-            } else if (itemidlist.size() == 1) {
+            } else if (itemidlist.size() == 1) { // user 1 giving to user 2
                 user2.getWishlist().remove(itemidlist.get(0));
-                user1.getInventory().remove(itemidlist.get(1));
+                user1.getInventory().remove(itemidlist.get(0));
             }
         }
     }
@@ -328,9 +331,9 @@ public class TradingUserManager {
                 user2.removeFromWishlist(itemidlist.get(0));
                 user1.getInventory().remove(itemidlist.get(0));
                 user2.getInventory().remove(itemidlist.get(1));
-            } else if (itemidlist.size() == 1) {
-                user2.removeFromWishlist(itemidlist.get(0));
-                user1.getInventory().remove(itemidlist.get(1));
+            } else if (itemidlist.size() == 1) { // user 1 giving to user 2
+                user2.getWishlist().remove(itemidlist.get(0));
+                user1.getInventory().remove(itemidlist.get(0));
             }
         }
         if (transaction.getStatus().equals(Statuses.COMPLETED)) { // after second meeting
@@ -338,13 +341,10 @@ public class TradingUserManager {
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
             if (itemidlist.size() == 2) {
-                user1.addToWishlist(itemidlist.get(1));
-                user2.addToWishlist(itemidlist.get(0));
                 user1.getInventory().add(itemidlist.get(0));
                 user2.getInventory().add(itemidlist.get(1));
-            } else if (itemidlist.size() == 1) {
-                user2.addToWishlist(itemidlist.get(0));
-                user1.getInventory().add(itemidlist.get(1));
+            } else if (itemidlist.size() == 1) { // user 1 giving to user 2
+                user1.getInventory().add(itemidlist.get(0));
             }
         }
     }
