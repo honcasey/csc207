@@ -256,7 +256,7 @@ public class TradingUserManager {
      */
     public boolean moveTransactionToTransactionHistory(Transaction transaction, TradingUser tradingUser) {
         String status = transaction.getStatus();
-        if (status.equals("incomplete") || status.equals("completed") || status.equals("neverReturned")) {
+        if (status.equals(Statuses.INCOMPLETE) || status.equals(Statuses.COMPLETED) || status.equals(Statuses.NEVERRETURNED)) {
             UUID id = transaction.getId();
             tradingUser.getCurrentTransactions().remove(id);
             addToTransactionHistory(tradingUser, transaction);
@@ -302,7 +302,7 @@ public class TradingUserManager {
      * @param transaction the transaction involved.
      */
     protected void handlePermTransactionItems(Transaction transaction) { // if permanent transaction
-        if (transaction.getStatus().equals("completed")) {
+        if (transaction.getStatus().equals(Statuses.COMPLETED)) {
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
@@ -319,7 +319,7 @@ public class TradingUserManager {
     }
 
     protected void handleTempTransactionItems(Transaction transaction) { // if temporary transaction
-        if (transaction.getStatus().equals("traded")) { // after first meeting
+        if (transaction.getStatus().equals(Statuses.TRADED)) { // after first meeting
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
@@ -333,7 +333,7 @@ public class TradingUserManager {
                 user1.getInventory().remove(itemidlist.get(1));
             }
         }
-        if (transaction.getStatus().equals("completed")) { // after second meeting
+        if (transaction.getStatus().equals(Statuses.COMPLETED)) { // after second meeting
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());

@@ -3,8 +3,6 @@ package Transactions;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.HashMap;
-
 
 public class Meeting implements Serializable {
     /**
@@ -32,8 +30,6 @@ public class Meeting implements Serializable {
      * Time, Date, Location. (will be stored in the hashmap)
      * NOTE: getters and setters for certain information still remain camel-case.
      */
-    private boolean user1approved = false;
-    private boolean user2approved = true;
     private int numEditsUser1 = 0;
     private int numEditsUser2 = 0;
     private int maxNumEdits = 3;
