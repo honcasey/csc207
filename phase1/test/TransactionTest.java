@@ -1,197 +1,132 @@
 import Items.Item;
-import Transactions.*;
+import Transactions.Meeting;
 import Users.TradingUser;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
+import Transactions.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TransactionTest {
 
-//ONE WAY PERM TESTS
+    public TradingUser casey = new TradingUser("caseyh", "pwd123");
+    public TradingUser annie = new TradingUser("anniel", "pwd456");
+    public Item book = new Item("book");
+    public Item pencil = new Item("pencil");
+    public HashMap<UUID, Transaction> allTransactionList = new HashMap<UUID, Transaction>();
+    public CurrentTransactionManager currManager = new CurrentTransactionManager(allTransactionList);
+    public LocalDate date = LocalDate.of(2020, 05, 02);
+    public LocalTime localtime =  LocalTime.of(11, 00, 00);
+    public Meeting meeting1 = new Meeting("uoft", localtime, date);
+    public Meeting meeting2 = currManager.meetOneMonthLater(meeting1);
 
-//
-//
-//    @Test
-//    void testTransactionOneWayPerm() {
-//        TradingUser casey = new TradingUser("caseyh", "pwd123");
-//        TradingUser annie = new TradingUser("anniel", "pwd456");
-//        Item book = new Item("book");
-//        Meeting meeting = new Meeting("uoft", 2020, 6, 30, 10, 30);
-//        Transaction tran = new TransactionOneWayPerm(casey, annie, book, meeting);
-//
-//    }
-//
-//    @Test
-//    void getStatus() {
-//        TradingUser casey = new TradingUser("caseyh", "pwd123");
-//        TradingUser annie = new TradingUser("anniel", "pwd456");
-//        Item book = new Item("book");
-//        Meeting meeting = new Meeting("uoft", 2020, 6, 30, 10, 30);
-//        Transaction tran = new TransactionOneWayPerm(casey, annie, book, meeting);
-//        tran.setStatus("confirmed");
-//        assertEquals(tran.getStatus(), "confirmed");
-//    }
-//
-//    @Test
-//    void getUser1() {
-//        TradingUser casey = new TradingUser("caseyh", "pwd123");
-//        TradingUser annie = new TradingUser("anniel", "pwd456");
-//        Item book = new Item("book");
-//        Meeting meeting = new Meeting("uoft", 2020, 6, 30, 10, 30);
-//        Transaction tran = new TransactionOneWayPerm(casey, annie, book, meeting);
-//        assertEquals(tran.getUser1(), casey);
-//    }
-//
-//    @Test
-//    void getUser2() {
-//        TradingUser casey = new TradingUser("caseyh", "pwd123");
-//        TradingUser annie = new TradingUser("anniel", "pwd456");
-//        Item book = new Item("book");
-//        Meeting meeting = new Meeting("uoft", 2020, 6, 30, 10, 30);
-//        Transaction tran = new TransactionOneWayPerm(casey, annie, book, meeting);
-//        assertEquals(tran.getUser2(), annie);
-//    }
-//
-//    @Test
-//    void getFirstMeeting() {
-//        TradingUser casey = new TradingUser("caseyh", "pwd123");
-//        TradingUser annie = new TradingUser("anniel", "pwd456");
-//        Item book = new Item("book");
-//        Meeting meeting = new Meeting("uoft", 2020, 6, 30, 10, 30);
-//        Transaction tran = new TransactionOneWayPerm(casey, annie, book, meeting);
-//        assertEquals(tran.getFirstMeeting(), meeting);
-//    }
-//
-//    @Test
-//    void getItemOneWayPerm() {
-//        TradingUser casey = new TradingUser("caseyh", "pwd123");
-//        TradingUser annie = new TradingUser("anniel", "pwd456");
-//        Item book = new Item("book");
-//        Meeting meeting = new Meeting("uoft", 2020, 6, 30, 10, 30);
-//        TransactionOneWayPerm tran = new TransactionOneWayPerm(casey, annie, book, meeting);
-//        assertEquals(tran.getItem(), book);
-//    }
-//
-//    @Test
-//    void testTransactionOneWayTemp() {
-//        TradingUser casey = new TradingUser("caseyh", "pwd123");
-//        TradingUser annie = new TradingUser("anniel", "pwd456");
-//        Item book = new Item("book");
-//        Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
-//        Meeting meeting2 = new Meeting("uoft", 2020, 7, 30, 10, 30);
-//        TransactionOneWayTemp tran = new TransactionOneWayTemp(casey, annie, book, meeting1, meeting2);
-//
-//}
-//
-//    @Test
-//    void getItem() {
-//        TradingUser casey = new TradingUser("caseyh", "pwd123");
-//        TradingUser annie = new TradingUser("anniel", "pwd456");
-//        Item book = new Item("book");
-//        Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
-//        Meeting meeting2 = new Meeting("gerstein", 2020, 7, 30, 10, 30);
-//        TransactionOneWayTemp tran = new TransactionOneWayTemp(casey, annie, book, meeting1, meeting2);
-//        assertEquals(tran.getItem(), book);
-//        Item book2 = new Item("hamlet");
-//        tran.setItem1(book2);
-//        assertEquals(tran.getItem(), book2);
-//    }
-//
-//    @Test
-//    void getSecondMeeting() {
-//        TradingUser casey = new TradingUser("caseyh", "pwd123");
-//        TradingUser annie = new TradingUser("anniel", "pwd456");
-//        Item book = new Item("book");
-//        Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
-//        Meeting meeting2 = new Meeting("gerstein", 2020, 7, 30, 10, 30);
-//        TransactionOneWayTemp tran = new TransactionOneWayTemp(casey, annie, book, meeting1, meeting2);
-//        assertEquals(tran.getSecondMeeting(), meeting2);
-//        Meeting meeting3 = new Meeting("robarts", 2020, 7, 30, 10, 30);
-//        tran.setSecondMeeting(meeting3);
-//        assertEquals(tran.getSecondMeeting(), meeting3);
-//    }
-//
 
-//    @Test
-//    void testTransactionTwoWayPerm() {
-//        TradingUser casey = new TradingUser("caseyh", "pwd123");
-//        TradingUser annie = new TradingUser("anniel", "pwd456");
-//        Item book = new Item("book");
-//        Item book2 = new Item("hamlet");
-//        Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
-//        TransactionTwoWayPerm tran = new TransactionTwoWayPerm(casey, annie, book, book2, meeting1);
-//    }
-//
-//    @Test
-//    void getItem1() {
-//        TradingUser casey = new TradingUser("caseyh", "pwd123");
-//        TradingUser annie = new TradingUser("anniel", "pwd456");
-//        Item book = new Item("book");
-//        Item book2 = new Item("hamlet");
-//        Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
-//        TransactionTwoWayPerm tran = new TransactionTwoWayPerm(casey, annie, book, book2, meeting1);
-//        assertEquals(tran.getItem1(), book);
-//    }
-//
-//    @Test
-//    void getItem2() {
-//        TradingUser casey = new TradingUser("caseyh", "pwd123");
-//        TradingUser annie = new TradingUser("anniel", "pwd456");
-//        Item book = new Item("book");
-//        Item book2 = new Item("hamlet");
-//        Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
-//        TransactionTwoWayPerm tran = new TransactionTwoWayPerm(casey, annie, book, book2, meeting1);
-//        assertEquals(tran.getItem2(), book2);
-//    }
-//
+// ONE WAY PERM TESTS
 
-//    @Test
-//    void testTransactionTwoWayTemp() {
-//        TradingUser casey = new TradingUser("caseyh", "pwd123");
-//        TradingUser annie = new TradingUser("anniel", "pwd456");
-//        Item book = new Item("book");
-//        Item book2 = new Item("hamlet");
-//        Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
-//        Meeting meeting2 = new Meeting("gerstein", 2020, 7, 30, 10, 30);
-//        TransactionTwoWayTemp tran = new TransactionTwoWayTemp(casey, annie, book, book2, meeting1, meeting2);
+    @Test
+    void testCreateTransaction() {
+        Transaction onewayperm =  currManager.createTransaction(casey.getUserId(), annie.getUserId(), book, meeting1);
+        Transaction onewaytemp = currManager.createTransaction(casey.getUserId(), annie.getUserId(), book, meeting1, meeting2);
+        Transaction twowayperm = currManager.createTransaction(casey.getUserId(), annie.getUserId(), book, pencil, meeting1);
+        Transaction twowaytemp = currManager.createTransaction(casey.getUserId(), annie.getUserId(), book, pencil, meeting1, meeting2);
+        assertTrue(onewayperm instanceof TransactionOneWayPerm);
+        assertTrue(onewaytemp instanceof TransactionOneWayTemp);
+        assertTrue(twowayperm instanceof TransactionTwoWayPerm);
+        assertTrue(twowaytemp instanceof TransactionTwoWayTemp);
+        System.out.println(onewayperm.toString());
+        System.out.println(onewaytemp.toString());
+        System.out.println(twowayperm);
+        System.out.println(twowaytemp);
+    }
+
+    @Test
+    void testAutomaticStatusUpdates() {
+        Transaction onewayperm =  currManager.createTransaction(casey.getUserId(), annie.getUserId(), book, meeting1);
+        Transaction onewaytemp = currManager.createTransaction(casey.getUserId(), annie.getUserId(), book, meeting1, meeting2);
+        Transaction twowayperm = currManager.createTransaction(casey.getUserId(), annie.getUserId(), book, pencil, meeting1);
+        Transaction twowaytemp = currManager.createTransaction(casey.getUserId(), annie.getUserId(), book, pencil, meeting1, meeting2);
+        onewayperm.setStatusUser1("confirm");
+        onewaytemp.setStatusUser1("confirm");
+        twowayperm.setStatusUser1("confirm");
+        twowaytemp.setStatusUser1("confirm");
+
+        for (Transaction transaction: allTransactionList.values()){
+            currManager.updateStatus(transaction);
+            assertEquals("pending", transaction.getStatus());
+        }
+        onewayperm.setStatusUser2("confirm");
+        onewaytemp.setStatusUser2("confirm");
+        twowayperm.setStatusUser2("confirm");
+        twowaytemp.setStatusUser2("confirm");
+        for (Transaction transaction: allTransactionList.values()){
+            currManager.updateStatus(transaction);
+            assertEquals("confirmed", transaction.getStatus());
+        }
+        onewayperm.setStatusUser1("incomplete");
+        onewaytemp.setStatusUser1("incomplete");
+        twowayperm.setStatusUser1("incomplete");
+        twowaytemp.setStatusUser1("incomplete");
+        for (Transaction transaction : allTransactionList.values()){
+            currManager.updateStatus(transaction);
+            assertEquals("incomplete", transaction.getStatus());}
+        onewayperm.setStatus("confirmed");
+        onewaytemp.setStatus("confirmed");
+        twowayperm.setStatus("confirmed");
+        twowaytemp.setStatus("confirmed");
+
+        onewayperm.setStatusUser1("traded");
+        onewaytemp.setStatusUser1("traded");
+        twowayperm.setStatusUser1("traded");
+        twowaytemp.setStatusUser1("traded");
+
+        onewayperm.setStatusUser2("traded");
+        onewaytemp.setStatusUser2("traded");
+        twowayperm.setStatusUser2("traded");
+        twowaytemp.setStatusUser2("traded");
+
+
+        for (Transaction transaction: allTransactionList.values()){
+            currManager.updateStatus(transaction);}
+        assertEquals("complete", onewayperm.getStatus());
+        assertEquals("complete", twowayperm.getStatus());
+        assertEquals("traded", twowaytemp.getStatus());
+        assertEquals("traded", onewaytemp.getStatus());
+
+        twowayperm.setStatusUser1("returned");
+        twowaytemp.setStatusUser1("returned");
+
+
+        for (Transaction transaction: allTransactionList.values()){
+            currManager.updateStatus(transaction);}
+
+//        assertEquals("traded", twowayperm.getStatus());
+//        assertEquals("traded", twowaytemp.getStatus());
 //
-//    }
+//        twowayperm.setStatusUser2("neverReturned");
+//        twowaytemp.setStatusUser2("neverReturned");
 //
-//    @Test
-//    void testGetItem1() {
-//        TradingUser casey = new TradingUser("caseyh", "pwd123");
-//        TradingUser annie = new TradingUser("anniel", "pwd456");
-//        Item book = new Item("book");
-//        Item book2 = new Item("hamlet");
-//        Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
-//        Meeting meeting2 = new Meeting("gerstein", 2020, 7, 30, 10, 30);
-//        TransactionTwoWayTemp tran = new TransactionTwoWayTemp(casey, annie, book, book2, meeting1, meeting2);
-//        assertEquals(tran.getItem1(), book);
 //
-//    }
+//        for (Transaction transaction: allTransactionList.values()){
+//            currManager.updateStatus(transaction);}
 //
-//    @Test
-//    void testGetItem2() {
-//        TradingUser casey = new TradingUser("caseyh", "pwd123");
-//        TradingUser annie = new TradingUser("anniel", "pwd456");
-//        Item book = new Item("book");
-//        Item book2 = new Item("hamlet");
-//        Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
-//        Meeting meeting2 = new Meeting("gerstein", 2020, 7, 30, 10, 30);
-//        TransactionTwoWayTemp tran = new TransactionTwoWayTemp(casey, annie, book, book2, meeting1, meeting2);
-//        assertEquals(tran.getItem2(), book2);
-//    }
+//        assertEquals("neverReturned", twowayperm.getStatus());
+//        assertEquals("neverReturned", twowaytemp.getStatus());
 //
-//    @Test
-//    void testGetSecondMeeting() {
-//        TradingUser casey = new TradingUser("caseyh", "pwd123");
-//        TradingUser annie = new TradingUser("anniel", "pwd456");
-//        Item book = new Item("book");
-//        Item book2 = new Item("hamlet");
-//        Meeting meeting1 = new Meeting("uoft", 2020, 6, 30, 10, 30);
-//        Meeting meeting2 = new Meeting("gerstein", 2020, 7, 30, 10, 30);
-//        TransactionTwoWayTemp tran = new TransactionTwoWayTemp(casey, annie, book, book2, meeting1, meeting2);
-//        assertEquals(tran.getSecondMeeting(), meeting2);*/
-//    }
+//        twowayperm.setStatusUser1("returned");
+//        twowaytemp.setStatusUser1("returned");
 //
+//
+//        for (Transaction transaction: allTransactionList.values()){
+//            currManager.updateStatus(transaction);}
+//        assertEquals("returned", twowayperm.getStatus());
+//        assertEquals("returned", twowaytemp.getStatus());
+
+    }
+
+
 }
