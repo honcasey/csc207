@@ -296,7 +296,7 @@ public class TradingUserManager {
     }
 
     protected void handlePermTransactionItems(Transaction transaction) { // if permanent transaction
-        if (transaction.getStatus().equals("Complete")) {
+        if (transaction.getStatus().equals("completed")) {
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
@@ -306,14 +306,14 @@ public class TradingUserManager {
                 user1.getInventory().remove(itemidlist.get(0));
                 user2.getInventory().remove(itemidlist.get(1));
             } else if (itemidlist.size() == 1) {
-                user2.removeFromWishlist(itemidlist.get(0));
+                user2.getWishlist().remove(itemidlist.get(0));
                 user1.getInventory().remove(itemidlist.get(1));
             }
         }
     }
 
     protected void handleTempTransactionItems(Transaction transaction) { // if temporary transaction
-        if (transaction.getStatus().equals("Traded")) { // after first meeting
+        if (transaction.getStatus().equals("traded")) { // after first meeting
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
@@ -327,7 +327,7 @@ public class TradingUserManager {
                 user1.getInventory().remove(itemidlist.get(1));
             }
         }
-        if (transaction.getStatus().equals("Complete")) { // after second meeting
+        if (transaction.getStatus().equals("completed")) { // after second meeting
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());

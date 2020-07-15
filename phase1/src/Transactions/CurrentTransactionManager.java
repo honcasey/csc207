@@ -276,10 +276,10 @@ public class CurrentTransactionManager extends TransactionManager{
             return true;
         }
         if (transaction.getStatus().equals("confirmed") & (transaction.getStatusUser1().equals("cancel") || transaction.getStatusUser2().equals("cancel"))){
-            if (transaction.getStatusUser1().equals("traded") || transaction.getStatusUser1().equals("complete")){
+            if (transaction.getStatusUser1().equals("traded") || transaction.getStatusUser1().equals("completed")){
                 return false;
             }
-            if (transaction.getStatusUser2().equals("traded") || transaction.getStatusUser2().equals("complete")){
+            if (transaction.getStatusUser2().equals("traded") || transaction.getStatusUser2().equals("completed")){
                 return false;
             }
             else{
