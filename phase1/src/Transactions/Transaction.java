@@ -188,4 +188,5 @@ public abstract class Transaction implements Serializable {
     public String getItem1Name() {
         return item1Name;
     }
+
 }

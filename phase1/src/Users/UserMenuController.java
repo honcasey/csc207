@@ -419,6 +419,7 @@ public class UserMenuController{
                         * and remove from current transactions */
                         if (um.moveTransactionToTransactionHistory(transaction, currentTradingUser)) {
                             currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
+                            tm.getOtherUserId(transaction, currentTradingUser).getCurrentTransactions().remove(transaction.getId());
                         }
                     }
                 }
