@@ -45,7 +45,7 @@ Types of Transactions:
 * Temporary (Two meetings involved)
    * One-Way: TradingUser1 lends an Item to TradingUser2 at the first meeting, then TradingUser2 returns the Item at the second meeting
    * Two-Way: Two TradingUsers lend an Item to each other at the first meeting, then both TradingUsers return those Items back to each other at the second meeting
-
+   *** FOR TEMPORARY TRANSACTIONS: after the second meeting occurs, the items automatically returns to the respective user's Inventory. If the user no longer wants to trade this item, it must be removed manually
 
 Transaction Thresholds:
 * editThreshold = 3
