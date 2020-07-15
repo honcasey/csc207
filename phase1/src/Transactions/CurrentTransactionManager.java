@@ -2,7 +2,6 @@ package Transactions;
 import Items.Item;
 import Users.TradingUser;
 
-import java.io.ObjectInputFilter;
 import java.time.LocalTime;
 import java.util.*;
 import java.time.LocalDate;
@@ -246,6 +245,20 @@ public class CurrentTransactionManager extends TransactionManager{
         return (pendingToCancelled(transaction) | pendingToConfirmed(transaction) | confirmedToTraded(transaction) |
                 confirmedToIncomplete(transaction) | confirmedToComplete(transaction) | tradedToComplete(transaction) |
                 tradedToNeverReturned(transaction));
+    }
+
+    /**
+     * returns the other trading user of a transaction (not the trading user that is passed)
+     * @param transaction the transaction in question
+     * @param tradingUser the trading user in question
+     * @return UUID of the other trading user
+     */
+    public UUID getOtherUser(Transaction transaction, TradingUser tradingUser){
+        if(transaction.getUser1() == tradingUser.getUserId()){
+            return transaction.getUser2();
+        } else {
+            return transaction.getUser1();
+        }
     }
 
     private boolean canEdit(Meeting meeting, int userNum) {
