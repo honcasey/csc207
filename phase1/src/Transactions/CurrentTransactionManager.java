@@ -247,20 +247,6 @@ public class CurrentTransactionManager extends TransactionManager{
                 tradedToNeverReturned(transaction));
     }
 
-    /**
-     * returns the other trading user of a transaction (not the trading user that is passed)
-     * @param transaction the transaction in question
-     * @param tradingUser the trading user in question
-     * @return UUID of the other trading user
-     */
-    public UUID getOtherUser(Transaction transaction, TradingUser tradingUser){
-        if(transaction.getUser1() == tradingUser.getUserId()){
-            return transaction.getUser2();
-        } else {
-            return transaction.getUser1();
-        }
-    }
-
     private boolean canEdit(Meeting meeting, int userNum) {
         if (userNum == 1){
             return meeting.getNumEditsUser1() < meeting.getMaxNumEdits();
