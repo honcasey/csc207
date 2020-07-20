@@ -10,7 +10,7 @@ import java.util.UUID;
  * Note: user 1 originally had item 1 and user 2 originally had item 2.
  */
 
-public class TransactionTwoWayPerm extends Transaction {
+public class TransactionPerm extends Transaction {
     public UUID item1;
     public UUID item2;
     private String item2Name;
@@ -23,8 +23,8 @@ public class TransactionTwoWayPerm extends Transaction {
      * @param Item2 the item possessed originally by User2
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionTwoWayPerm(UUID User1, UUID User2, UUID Item1, UUID Item2, Meeting firstMeeting,
-                                 String item1Name, String item2Name){
+    public TransactionPerm(UUID User1, UUID User2, UUID Item1, UUID Item2, Meeting firstMeeting,
+                           String item1Name, String item2Name){
         super(User1,User2,firstMeeting, item1Name);
         this.item1 = Item1;
         this.item2 = Item2;

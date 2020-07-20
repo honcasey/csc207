@@ -9,7 +9,7 @@ import java.util.UUID;
  * This class represents a meetup between 2 Users where there is a two way borrowing transaction happening.
  * Note: user 1 originally had item 1 and user 2 originally had item 2.
  */
-public class TransactionTwoWayTemp extends Transaction {
+public class TransactionTemp extends Transaction {
     public UUID item1;
     public UUID item2;
     public Meeting secondMeeting;
@@ -25,8 +25,8 @@ public class TransactionTwoWayTemp extends Transaction {
      * @param secondMeeting the second meeting details.
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionTwoWayTemp(UUID User1, UUID User2, UUID Item1, UUID Item2, Meeting FirstMeeting,
-                                 Meeting secondMeeting, String item1Name, String item2Name){
+    public TransactionTemp(UUID User1, UUID User2, UUID Item1, UUID Item2, Meeting FirstMeeting,
+                           Meeting secondMeeting, String item1Name, String item2Name){
         super(User1,User2,FirstMeeting, item1Name);
         this.item1 = Item1;
         this.item2 = Item2;

@@ -5,7 +5,6 @@ import Users.TradingUser;
 import java.time.LocalTime;
 import java.util.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 /**
  * <h1>CurrentTransactionManager</h1>
@@ -65,7 +64,7 @@ public class CurrentTransactionManager extends TransactionManager{
      */
     public Transaction createTransaction(UUID user1, UUID user2, Item item1, Item item2,
                                          Meeting meeting1, Meeting meeting2) {
-        Transaction transaction = new TransactionTwoWayTemp(user1, user2, item1.getId(), item2.getId(), meeting1,
+        Transaction transaction = new TransactionTemp(user1, user2, item1.getId(), item2.getId(), meeting1,
                 meeting2, item1.getName(),
                 item2.getName());
         UUID id = transaction.getId();
@@ -83,7 +82,7 @@ public class CurrentTransactionManager extends TransactionManager{
      */
     public Transaction createTransaction(UUID user1, UUID user2, Item item1, Item item2,
                                          Meeting meeting1) {
-            Transaction transaction = new TransactionTwoWayPerm(user1, user2, item1.getId(), item2.getId(),
+            Transaction transaction = new TransactionPerm(user1, user2, item1.getId(), item2.getId(),
                     meeting1, item1.getName(), item2.getName());
             UUID id = transaction.getId();
             getAllTransactions().put(id, transaction);

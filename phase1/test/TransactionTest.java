@@ -3,7 +3,6 @@ import Transactions.Meeting;
 import Users.TradingUser;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -36,8 +35,8 @@ class TransactionTest {
         Transaction twowaytemp = currManager.createTransaction(casey.getUserId(), annie.getUserId(), book, pencil, meeting1, meeting2);
         assertTrue(onewayperm instanceof TransactionOneWayPerm);
         assertTrue(onewaytemp instanceof TransactionOneWayTemp);
-        assertTrue(twowayperm instanceof TransactionTwoWayPerm);
-        assertTrue(twowaytemp instanceof TransactionTwoWayTemp);
+        assertTrue(twowayperm instanceof TransactionPerm);
+        assertTrue(twowaytemp instanceof TransactionTemp);
         System.out.println(onewayperm.toString());
         System.out.println(onewaytemp.toString());
         System.out.println(twowayperm);

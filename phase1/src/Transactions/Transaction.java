@@ -1,6 +1,7 @@
 package Transactions;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,7 +12,7 @@ import java.util.UUID;
  * <br><br>
  * Variables: <br>
  *
- * user1, user2: users involved in the transaction. <br>
+ * users: a list of users involved in the transaction. <br>
  *
  * User2 is the user that initiates the transaction. <br>
  *
@@ -26,36 +27,33 @@ import java.util.UUID;
  *                   (too many times edited). <br>
  * -- "Incomplete" -- A user did not show at meeting 1. <br>
  * -- "Never Returned" -- A user did not show up at meeting 2 and/or items were not returned.(only used for temporary transactions). <br>
- *
- * statusUser1: the status that user1 can change <br>
- * statusUser2: the status that user2 can change  <br>
- * item1Name: the name of item1
+ * userStatuses: a list of all user statuses with the position in the list corresponding to the position in the list of
+ * users.
+ * useritems:
  */
 public abstract class Transaction implements Serializable {
     private UUID id = UUID.randomUUID();
-    private UUID user1;
-    private UUID user2;
     private Meeting firstMeeting;
     private String status;
-    private String statusUser1;
-    private String statusUser2;
-    private String item1Name;
+    private HashMap<UUID,List<UUID>> userToItems;
+    private HashMap<UUID, String> userToStatus;
+
 
     /**
-     * Constructor of abstract class Transactions.Transaction.
-     * @param user_1 one of the users involved in the transactions.
-     * @param user_2 one of the users involved in the transactions.
-     * @param firstMeeting the first meeting in the transaction.
-     * @param item1Name the name of the item belonging to user1
+     * This method takes in the parameters and constructs an instance of the abstract class transaction.
+     * @param userToItems A hashmap which maps userids to a list of
+     *        Item ids(where the list is in the form of [Itemid owned, Itemid wanted])
+     * @param firstMeeting This is just a meeting object representing where the users will meet for the first time.
      */
-    public Transaction(UUID user_1, UUID user_2, Meeting firstMeeting, String item1Name){
+    public Transaction(HashMap<UUID,List<UUID>> userToItems, Meeting firstMeeting){
         status = Statuses.PENDING;
-        this.user1 = user_1;
-        this.user2 = user_2;
+        this.userToItems =userToItems;
         this.firstMeeting = firstMeeting;
-        this.item1Name = item1Name;
-        statusUser1 = Statuses.PENDING;
-        statusUser2 = Statuses.PENDING;
+        HashMap<UUID,String> userToStatus = new HashMap<>();
+        for(UUID id:userToItems.keySet()){
+            userToStatus.put(id,Statuses.PENDING);
+        }
+        this.userToStatus = userToStatus;
     }
 
     /**

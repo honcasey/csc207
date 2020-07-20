@@ -5,7 +5,7 @@ import Items.Item;
 import Transactions.Meeting;
 import Transactions.Transaction;
 
-import Transactions.TransactionTwoWayPerm;
+import Transactions.TransactionPerm;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -56,7 +56,7 @@ public class TestUpdateInventories {
         // create a meeting and transaction
         Meeting meeting = new Meeting("uoft",
                 LocalTime.of(10,30,30), LocalDate.of(2020,6,12));
-        Transaction transaction = new TransactionTwoWayPerm(casey.getUserId(), annie.getUserId(),
+        Transaction transaction = new TransactionPerm(casey.getUserId(), annie.getUserId(),
                 book.getId(), textbook.getId(), meeting, book.getName(), textbook.getName());
 
         // set the transaction's status to complete
