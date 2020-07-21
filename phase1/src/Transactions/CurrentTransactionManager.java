@@ -25,12 +25,10 @@ public class CurrentTransactionManager extends TransactionManager{
      * Creates a transaction
      * @param userToItems A hashmap which maps userId's to a list of Item ids(where the list is in the form of [ItemId owned, ItemId wanted])
      * @param firstMeeting firstMeeting This is just a meeting object representing where the users will meet for the first time.
-     * @param itemToName A  hashmap which maps itemId to the string Name of the item
-     * @param isOneWay
      * @return
      */
-    public Transaction createTransaction(HashMap<UUID, List<UUID>> userToItems, Meeting firstMeeting, HashMap<UUID, List<String>> itemToName, Boolean isOneWay){
-        Transaction transaction = new TransactionPerm(userToItems,firstMeeting, itemToName, isOneWay);
+    public Transaction createTransaction(TreeMap<UUID, List<UUID>> userToItems, Meeting firstMeeting){
+        Transaction transaction = new TransactionPerm(userToItems, firstMeeting);
         UUID id = transaction.getId();
         getAllTransactions().put(id, transaction);
         return transaction;
@@ -42,11 +40,10 @@ public class CurrentTransactionManager extends TransactionManager{
      * @param firstMeeting firstMeeting This is just a meeting object representing where the users will meet for the first time.
      * @param itemToName A  hashmap which maps itemId to the string Name of the item
      * @param secondMeeting
-     * @param isOneWay
      * @return
      */
-    public Transaction createTransaction(HashMap<UUID, List<UUID>> userToItems, Meeting firstMeeting, HashMap<UUID, List<String>> itemToName, Meeting secondMeeting, Boolean isOneWay) {
-        Transaction transaction = new TransactionTemp(userToItems, firstMeeting, itemToName, secondMeeting, isOneWay);
+    public Transaction createTransaction(TreeMap<UUID, List<UUID>> userToItems, Meeting firstMeeting, HashMap<UUID, List<String>> itemToName, Meeting secondMeeting) {
+        Transaction transaction = new TransactionTemp(userToItems, firstMeeting, itemToName, secondMeeting);
         UUID id = transaction.getId();
         getAllTransactions().put(id, transaction);
         return transaction;
@@ -60,10 +57,8 @@ public class CurrentTransactionManager extends TransactionManager{
      * @return an integer either 1 or 2
      */
     public int findUserNum(Transaction transaction, UUID userId){
-        if (transaction.getUser1().equals(userId)){
-            return 1;
-        }
-        else{ return 2; }
+        return transaction.getUsers().indexOf(userId) + 1;
+
     }
 
     /**
@@ -79,12 +74,7 @@ public class CurrentTransactionManager extends TransactionManager{
         Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
         if (canEdit(meeting, userNum) && transaction.getStatus().equals(Statuses.PENDING)) {
             meeting.setLocation(newLocation);
-            if (userNum == 1){
-                meeting.user1edits();
-            }
-            else{
-                meeting.user2edits();
-            }
+            meeting.userEdits(userNum);
             return true;
         } else {
             return false;
@@ -104,12 +94,7 @@ public class CurrentTransactionManager extends TransactionManager{
         Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
         if (canEdit(meeting, userNum) && transaction.getStatus().equals(Statuses.PENDING)) {
             meeting.setTime(time);
-            if (userNum == 1){
-                meeting.user1edits();
-            }
-            else{
-                meeting.user2edits();
-            }
+            meeting.userEdits(userNum);
             return true;
         } else {
             return false;
@@ -129,11 +114,7 @@ public class CurrentTransactionManager extends TransactionManager{
         Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
         if (canEdit(meeting, userNum) && transaction.getStatus().equals(Statuses.PENDING)) {
             meeting.setDate(date);
-            if (userNum == 1){
-                meeting.user1edits();}
-            else{
-                meeting.user2edits();
-            }
+            meeting.userEdits(userNum);
             return true;
         }
         else {
@@ -171,28 +152,29 @@ public class CurrentTransactionManager extends TransactionManager{
      */
     public boolean updateStatusUser(TradingUser tradingUser, Transaction transaction, String optionChosen){
         int userNum = findUserNum(transaction, tradingUser.getUserId());
+        UUID userId = tradingUser.getUserId()
         if (optionChosen.equals("Confirm Transactions Meeting(s)")){
-            transaction.setStatusUserNum(Statuses.CONFIRMED, userNum);
+            transaction.setStatusUserID(Statuses.CONFIRMED, userId);
             return true;
         }
         if (optionChosen.equals("Cancel transaction")){
-           transaction.setStatusUserNum(Statuses.CANCELLED, userNum);
+           transaction.setStatusUserID(Statuses.CANCELLED, userId);
            return true;
         }
         if (optionChosen.equals("Confirm the exchange has taken place")) {
-            transaction.setStatusUserNum(Statuses.TRADED, userNum);
+            transaction.setStatusUserID(Statuses.TRADED, userId);
             return true;
         }
         if (optionChosen.equals("Claim that the exchange has not taken place")) {
-           transaction.setStatusUserNum(Statuses.INCOMPLETE, userNum);
+           transaction.setStatusUserID(Statuses.INCOMPLETE, userId);
            return true;
         }
         if (optionChosen.equals("Confirm the item has been returned")){
-           transaction.setStatusUserNum(Statuses.COMPLETED, userNum);
+           transaction.setStatusUserID(Statuses.COMPLETED, userId);
            return true;
         }
         if (optionChosen.equals("Claim that the item has not been returned past due date")){
-           transaction.setStatusUserNum(Statuses.NEVERRETURNED, userNum);
+           transaction.setStatusUserID(Statuses.NEVERRETURNED, userId);
            return true;
         }
         else{ return false;
@@ -211,12 +193,7 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     private boolean canEdit(Meeting meeting, int userNum) {
-        if (userNum == 1){
-            return meeting.getNumEditsUser1() < meeting.getMaxNumEdits();
-        }
-        else{
-            return meeting.getNumEditsUser2() < meeting.getMaxNumEdits();
-         }
+            return meeting.getNumEditsUser(userNum) < meeting.getMaxNumEdits();
     }
 
     private boolean pendingToConfirmed(Transaction transaction){
@@ -224,13 +201,13 @@ public class CurrentTransactionManager extends TransactionManager{
             return false;
         }
         else{
-            if (transaction.getStatusUser1().equals(Statuses.CONFIRMED) & transaction.getStatusUser2().equals(Statuses.CONFIRMED)){
-                transaction.setStatus(Statuses.CONFIRMED);
-                return true;
+            for (UUID currUser : transaction.getUsers()) {
+                if (!transaction.getUserStatus(currUser).equals(Statuses.CONFIRMED)) {
+                    return false;
+                }
             }
-            else{
-                return false;
-            }
+            transaction.setStatus(Statuses.CONFIRMED);
+            return true;
         }
     }
 

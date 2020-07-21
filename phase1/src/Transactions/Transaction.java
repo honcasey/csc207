@@ -203,6 +203,7 @@ public abstract class Transaction implements Serializable {
         return this.userToStatus.get(user);
     }
 
+
     /**
      * This method updates the User Transaction Status for a user in the userToStatus hashmap.
      * This method assume that the user id is in the status mapping.
@@ -248,14 +249,10 @@ public abstract class Transaction implements Serializable {
      * NEEDS TO BE DELETED/CHANGED
      * Calls either setStatusUser1 or setStatusUser2
      * @param newStatus the new status to be changed
-     * @param userNum either 1 or 2, if usernum == 1 then call setStatusUser1 else call setStatusUser2
+     * @param userId the User's UUID
      */
-    public void setStatusUserNum(String newStatus, int userNum){
-        if (userNum == 1){
-            setStatusUser1(newStatus);}
-        else {
-            setStatusUser2(newStatus);
-        }
+    public void setStatusUserID(String newStatus, UUID userId){
+        userToStatus.replace(userId, newStatus);
     }
 
     /**

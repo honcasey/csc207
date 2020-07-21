@@ -44,7 +44,7 @@ public class TransactionTemp extends Transaction {
     public String toString(){
         String FirstMeetingString = this.getFirstMeeting().toString();
         String SecondMeetingString = this.getSecondMeeting().toString();
-        return("One way transaction to trade "+ getItem1Name() +" for " + this.item2Name +". Where the first "+ FirstMeetingString
+        return("One way transaction to trade "+ getItem1Name() +" for " +". Where the first "+ FirstMeetingString
                 +". The second" + SecondMeetingString + "."  + "\n Status: " + getStatus());
     }
     @Override

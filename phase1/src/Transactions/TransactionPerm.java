@@ -33,7 +33,7 @@ public class TransactionPerm extends Transaction {
     @Override
     public String toString(){
         String FirstMeetingString = this.getFirstMeeting().toString();
-        return("One way transaction to trade "+ getItem1Name() +" for " + this.item2Name +". Where the "+ FirstMeetingString +"."  +
+        return("One way transaction to trade "+ getItem1Name() +" for " +". Where the "+ FirstMeetingString +"."  +
                 "\n Status: " + getStatus());
     }
     @Override

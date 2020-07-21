@@ -3,6 +3,7 @@ package Transactions;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashMap;
 
 public class Meeting implements Serializable {
     /**
@@ -30,8 +31,7 @@ public class Meeting implements Serializable {
      * Time, Date, Location. (will be stored in the hashmap)
      * NOTE: getters and setters for certain information still remain camel-case.
      */
-    private int numEditsUser1 = 0;
-    private int numEditsUser2 = 0;
+    private HashMap<Integer, Integer> numUserEdits;
     private int maxNumEdits = 3;
     private String location;
     private LocalDate meetingDate;
@@ -48,19 +48,19 @@ public class Meeting implements Serializable {
         this.location = location;
         this.meetingDate = meetingDate;
         this.meetingTime = meetingTime;
+        this.numUserEdits = new HashMap<Integer, Integer>();
+        numUserEdits.put(1, 0);
+        numUserEdits.put(1, 0);
     }
 
     /**
      * Getter for number of edits for this particular meeting by User1.
      * @return returns the number of times when user1 has edited a meeting.
      */
-    public int getNumEditsUser1(){return numEditsUser1;}
+    public int getNumEditsUser(Integer num){
+        return numUserEdits.get(num);
+    }
 
-    /**
-     * Getter for number of edits for this particular meeting by User2.
-     * @return returns the number of times when user2 has edited a meeting.
-     */
-    public int getNumEditsUser2(){return numEditsUser2;}
 
     /**
      * This is a getter for location.
@@ -115,12 +115,9 @@ public class Meeting implements Serializable {
     /**
      * this method is called when user1 edits the meeting, his number of edit increase by one
      */
-    public void user1edits(){this.numEditsUser1 ++;}
-
-    /**
-     * this method is called when user2 edits the meeting, his number of edit increase by one
-     */
-    public void user2edits(){this.numEditsUser2 ++;}
+    public void userEdits(int num){
+        int currEdits = numUserEdits.get(num);
+        numUserEdits.replace(num, currEdits + 1);}
 
     /**
      * Getter for number of maxNumeditsUser1 for this particular meeting.
