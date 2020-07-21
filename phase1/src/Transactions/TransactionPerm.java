@@ -1,6 +1,7 @@
 package Transactions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,24 +12,16 @@ import java.util.UUID;
  */
 
 public class TransactionPerm extends Transaction {
-    public UUID item1;
-    public UUID item2;
-    private String item2Name;
+
 
     /**
-     * Constructor for Transactions.TransactionTwoWayPerm class. This constructor initializes a 2 way permanent transaction with
-     * @param User1 the first user.
-     * @param User2 the second user.
-     * @param Item1 the item possessed originally by User1.
-     * @param Item2 the item possessed originally by User2
+     *
+     * @param userToItems
+     * @param FirstMeeting
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionPerm(UUID User1, UUID User2, UUID Item1, UUID Item2, Meeting firstMeeting,
-                           String item1Name, String item2Name){
-        super(User1,User2,firstMeeting, item1Name);
-        this.item1 = Item1;
-        this.item2 = Item2;
-        this.item2Name = item2Name;
+    public TransactionPerm(HashMap<UUID,List<UUID>> userToItems, Meeting FirstMeeting){
+        super(userToItems,FirstMeeting);
     }
 
     /**
@@ -53,11 +46,10 @@ public class TransactionPerm extends Transaction {
         return true;
     }
 
-    @Override
-    public boolean isOneWay() {
-        return false;
-    }
-
+    /**
+     * NEEDS TO BE FIXED
+     * @return returns a string representation
+     */
     @Override
     public String toString(){
         String FirstMeetingString = this.getFirstMeeting().toString();
@@ -70,14 +62,5 @@ public class TransactionPerm extends Transaction {
         MeetingReturnList.add(this.getFirstMeeting());
         return(MeetingReturnList);
     }
-
-    @Override
-    public List<UUID> getTransactionItems(){
-        List<UUID> ItemReturnList = new ArrayList<>();
-        ItemReturnList.add(this.getItem1());
-        ItemReturnList.add(this.getItem2());
-        return(ItemReturnList);
-    }
-
 }
 

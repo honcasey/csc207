@@ -1,6 +1,7 @@
 package Transactions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,22 +17,17 @@ public class TransactionTemp extends Transaction {
     private String item2Name;
 
     /**
-     * Constructor for TransactionTwowayTemp class. This constructor initializes a 2 way borrowing transaction with
-     * the returnTime variable being given a default value of a month from the current date.
-     * @param User1 the first user.
-     * @param User2 the second user.
-     * @param Item1 the item possessed originally by User1.
-     * @param Item2 the item possessed originally by User2
-     * @param secondMeeting the second meeting details.
+     * This method constructs a temporary transaction.
+     * @param userToItems A hashmap which maps userids to a list of
+     *            Item ids(where the list is in the form of [Itemid owned, Itemid wanted])
+     * @param FirstMeeting This is the first meeting of the transaction.
+     * @param secondMeeting This is the second meeting of the transaction.
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionTemp(UUID User1, UUID User2, UUID Item1, UUID Item2, Meeting FirstMeeting,
-                           Meeting secondMeeting, String item1Name, String item2Name){
-        super(User1,User2,FirstMeeting, item1Name);
-        this.item1 = Item1;
-        this.item2 = Item2;
+    public TransactionTemp(HashMap<UUID,List<UUID>> userToItems,Meeting FirstMeeting,
+                           Meeting secondMeeting){
+        super(userToItems,FirstMeeting);
         this.secondMeeting = secondMeeting;
-        this.item2Name = item2Name;
     }
 
     /**
@@ -61,16 +57,15 @@ public class TransactionTemp extends Transaction {
     }
 
     @Override
-    public boolean isOneWay() {
-        return false;
-    }
-
-    @Override
     public boolean isPerm() {
         return false;
     }
 
     @Override
+
+    /**
+     * WE NEED TO CHANGE THIS TOSTRING METHOD.
+     */
     public String toString(){
         String FirstMeetingString = this.getFirstMeeting().toString();
         String SecondMeetingString = this.getSecondMeeting().toString();
@@ -83,13 +78,5 @@ public class TransactionTemp extends Transaction {
         MeetingReturnList.add(this.getFirstMeeting());
         MeetingReturnList.add(this.getSecondMeeting());
         return(MeetingReturnList);
-    }
-
-    @Override
-    public List<UUID> getTransactionItems(){
-        List<UUID> ItemReturnList = new ArrayList<>();
-        ItemReturnList.add(this.getItem1());
-        ItemReturnList.add(this.getItem2());
-        return(ItemReturnList);
     }
 }
