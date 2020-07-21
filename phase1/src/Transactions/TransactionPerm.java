@@ -1,6 +1,7 @@
 package Transactions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,21 +15,19 @@ public class TransactionPerm extends Transaction {
     public UUID item1;
     public UUID item2;
     private String item2Name;
+    private boolean isOneWay;
 
     /**
      * Constructor for Transactions.TransactionTwoWayPerm class. This constructor initializes a 2 way permanent transaction with
-     * @param User1 the first user.
-     * @param User2 the second user.
-     * @param Item1 the item possessed originally by User1.
-     * @param Item2 the item possessed originally by User2
+     * @param userToItems A hashmap which maps userId's to a list of
+     *      Item ids(where the list is in the form of [ItemId owned, ItemId wanted]).
+     * @param firstMeeting This is just a meeting object representing where the users will meet for the first time.
+     * @param itemToName A hashmap which maps itemId to the string Name of the item
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionPerm(UUID User1, UUID User2, UUID Item1, UUID Item2, Meeting firstMeeting,
-                           String item1Name, String item2Name){
-        super(User1,User2,firstMeeting, item1Name);
-        this.item1 = Item1;
-        this.item2 = Item2;
-        this.item2Name = item2Name;
+    public TransactionPerm(HashMap<UUID, List<UUID>> userToItems, Meeting firstMeeting, HashMap<UUID, List<String>> itemToName, Boolean isOneWay){
+        super(userToItems,firstMeeting, itemToName);
+        this.isOneWay = isOneWay;
     }
 
     /**

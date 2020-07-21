@@ -36,16 +36,19 @@ public abstract class Transaction implements Serializable {
     private Meeting firstMeeting;
     private String status;
     private HashMap<UUID,List<UUID>> userToItems;
+    private HashMap<UUID, List<String>> itemToName;
     private HashMap<UUID, String> userToStatus;
 
 
     /**
      * This method takes in the parameters and constructs an instance of the abstract class transaction.
-     * @param userToItems A hashmap which maps userids to a list of
-     *        Item ids(where the list is in the form of [Itemid owned, Itemid wanted])
+     * @param userToItems A hashmap which maps userId's to a list of
+     *        Item ids(where the list is in the form of [ItemId owned, ItemId wanted])
      * @param firstMeeting This is just a meeting object representing where the users will meet for the first time.
+     * @param itemToName A hashmap which maps itemId to the string Name of the item
      */
-    public Transaction(HashMap<UUID,List<UUID>> userToItems, Meeting firstMeeting){
+    public Transaction(HashMap<UUID, List<UUID>> userToItems, Meeting firstMeeting, HashMap<UUID, List<String>> itemToName){
+        this.itemToName = itemToName;
         status = Statuses.PENDING;
         this.userToItems =userToItems;
         this.firstMeeting = firstMeeting;

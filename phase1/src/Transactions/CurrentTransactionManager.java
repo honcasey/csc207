@@ -20,74 +20,38 @@ public class CurrentTransactionManager extends TransactionManager{
         super(transactions);
     }
 
+
     /**
-     * Creates a transaction only if it is valid, otherwise an error will be thrown
-     * @return a one-way transaction
-     * @param user1 the user who has the item.
-     * @param user2 the user who want to borrow an item.
-     * @param item1 the item that user2 wants to borrow.
-     * @param meeting1 the first meeting location that the users will meet at to exchange items.
-     * @param meeting2 the second meeting location that the users will meet at to exchange items.
+     * Creates a transaction
+     * @param userToItems A hashmap which maps userId's to a list of Item ids(where the list is in the form of [ItemId owned, ItemId wanted])
+     * @param firstMeeting firstMeeting This is just a meeting object representing where the users will meet for the first time.
+     * @param itemToName A  hashmap which maps itemId to the string Name of the item
+     * @param isOneWay
+     * @return
      */
-    public Transaction createTransaction(UUID user1, UUID user2, Item item1, Meeting meeting1,
-                                         Meeting meeting2) {
-        Transaction transaction = new TransactionOneWayTemp(user1, user2, item1.getId(), meeting1, meeting2, item1.getName());
+    public Transaction createTransaction(HashMap<UUID, List<UUID>> userToItems, Meeting firstMeeting, HashMap<UUID, List<String>> itemToName, Boolean isOneWay){
+        Transaction transaction = new TransactionPerm(userToItems,firstMeeting, itemToName, isOneWay);
         UUID id = transaction.getId();
         getAllTransactions().put(id, transaction);
         return transaction;
     }
 
     /**
-     * Creates a transaction only if it is valid, otherwise an error will be thrown
-     * @return a one-way transaction
-     * @param user1 the user who has the item.
-     * @param user2 the user who want to borrow an item.
-     * @param item1 the item that user2 wants to borrow.
-     * @param meeting1 the first meeting location that the users will meet at to exchange items.
+     * Creates a transaction
+     * @param userToItems A hashmap which maps userId's to a list of Item ids(where the list is in the form of [ItemId owned, ItemId wanted])
+     * @param firstMeeting firstMeeting This is just a meeting object representing where the users will meet for the first time.
+     * @param itemToName A  hashmap which maps itemId to the string Name of the item
+     * @param secondMeeting
+     * @param isOneWay
+     * @return
      */
-    public Transaction createTransaction(UUID user1, UUID user2, Item item1,
-                                               Meeting meeting1){
-        Transaction transaction = new TransactionOneWayPerm(user1, user2, item1.getId(), meeting1, item1.getName());
+    public Transaction createTransaction(HashMap<UUID, List<UUID>> userToItems, Meeting firstMeeting, HashMap<UUID, List<String>> itemToName, Meeting secondMeeting, Boolean isOneWay) {
+        Transaction transaction = new TransactionTemp(userToItems, firstMeeting, itemToName, secondMeeting, isOneWay);
         UUID id = transaction.getId();
         getAllTransactions().put(id, transaction);
         return transaction;
     }
 
-    /**
-     * Creates a transaction only if it is valid, otherwise an error will be thrown
-     * @return two-way transaction
-     * @param user1 the user who has the item.
-     * @param user2 the user who want to borrow an item.
-     * @param item1 the item that user2 wants to borrow.
-     * @param meeting1 the first meeting location that the users will meet at to exchange items.
-     * @param meeting2 the second meeting location that the users will meet at to exchange items.
-     */
-    public Transaction createTransaction(UUID user1, UUID user2, Item item1, Item item2,
-                                         Meeting meeting1, Meeting meeting2) {
-        Transaction transaction = new TransactionTemp(user1, user2, item1.getId(), item2.getId(), meeting1,
-                meeting2, item1.getName(),
-                item2.getName());
-        UUID id = transaction.getId();
-        getAllTransactions().put(id, transaction);
-        return transaction;
-    }
-
-    /**
-     * Creates a transaction only if it is valid, otherwise an error will be thrown
-     * @return a two-way transaction
-     * @param user1 the user who has the item.
-     * @param user2 the user who want to borrow an item.
-     * @param item1 the item that user2 wants to borrow.
-     * @param meeting1 the first meeting location that the users will meet at to exchange items.
-     */
-    public Transaction createTransaction(UUID user1, UUID user2, Item item1, Item item2,
-                                         Meeting meeting1) {
-            Transaction transaction = new TransactionPerm(user1, user2, item1.getId(), item2.getId(),
-                    meeting1, item1.getName(), item2.getName());
-            UUID id = transaction.getId();
-            getAllTransactions().put(id, transaction);
-            return transaction;
-    }
 
     /**
      * Determines if the user who is editing a transaction or meeting is user1 or user2

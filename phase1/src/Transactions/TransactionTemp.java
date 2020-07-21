@@ -1,6 +1,7 @@
 package Transactions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,24 +15,21 @@ public class TransactionTemp extends Transaction {
     public UUID item2;
     public Meeting secondMeeting;
     private String item2Name;
+    private boolean isOneWay;
 
     /**
-     * Constructor for TransactionTwowayTemp class. This constructor initializes a 2 way borrowing transaction with
-     * the returnTime variable being given a default value of a month from the current date.
-     * @param User1 the first user.
-     * @param User2 the second user.
-     * @param Item1 the item possessed originally by User1.
-     * @param Item2 the item possessed originally by User2
-     * @param secondMeeting the second meeting details.
+     * Constructor for Transactions.TransactionTwoWayPerm class. This constructor initializes a 2 way permanent transaction with
+     * @param userToItems A hashmap which maps userId's to a list of
+     *      Item ids(where the list is in the form of [ItemId owned, ItemId wanted]).
+     * @param firstMeeting This is just a meeting object representing where the users will meet for the first time.
+     * @param itemToName A hashmap which maps itemId to the string Name of the item.
+     * @param secondMeeting The second meeting in the transaction where the users return the items.
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionTemp(UUID User1, UUID User2, UUID Item1, UUID Item2, Meeting FirstMeeting,
-                           Meeting secondMeeting, String item1Name, String item2Name){
-        super(User1,User2,FirstMeeting, item1Name);
-        this.item1 = Item1;
-        this.item2 = Item2;
+    public TransactionTemp(HashMap<UUID, List<UUID>> userToItems, Meeting firstMeeting, HashMap<UUID, List<String>> itemToName, Meeting secondMeeting, Boolean isOneWay){
+        super(userToItems,firstMeeting, itemToName);
         this.secondMeeting = secondMeeting;
-        this.item2Name = item2Name;
+        this.isOneWay = isOneWay;
     }
 
     /**
