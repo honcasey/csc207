@@ -1,7 +1,6 @@
 package Transactions;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -37,17 +36,19 @@ public abstract class Transaction implements Serializable {
     private Meeting firstMeeting;
     private String status;
     private HashMap<UUID,List<UUID>> userToItems;
+    private HashMap<UUID, List<String>> itemToName;
     private HashMap<UUID, String> userToStatus;
 
 
     /**
      * This method takes in the parameters and constructs an instance of the abstract class transaction.
-     * @param userToItems A hashmap which maps userids to a list of
-     *        Item ids(where the list is in the form of [Itemid owned, Itemid wanted]). This list can potentially have
-     *                    null values depending if the user doesn't have these items with the properties stated.
+     * @param userToItems A hashmap which maps userId's to a list of
+     *        Item ids(where the list is in the form of [ItemId owned, ItemId wanted])
      * @param firstMeeting This is just a meeting object representing where the users will meet for the first time.
+     * @param itemToName A hashmap which maps itemId to the string Name of the item
      */
-    public Transaction(HashMap<UUID,List<UUID>> userToItems, Meeting firstMeeting){
+    public Transaction(HashMap<UUID, List<UUID>> userToItems, Meeting firstMeeting, HashMap<UUID, List<String>> itemToName){
+        this.itemToName = itemToName;
         status = Statuses.PENDING;
         this.userToItems =userToItems;
         this.firstMeeting = firstMeeting;
@@ -83,65 +84,20 @@ public abstract class Transaction implements Serializable {
     }
 
     /**
-     * NEEDS TO BE FIXED/CHANGED
      * getter for user1. This will be called by use case classes.
      * @return returns user1 of the transaction.
      */
     public UUID getUser1(){
-        userList = ;
+        return this.user1;
     }
 
     /**
-     * NEEDS TO BE FIXED/CHANGED
      * getter for user2. This will be called by use case classes.
      * @return returns user2 of the transaction.
      */
     public UUID getUser2(){
         return this.user2;
     }
-
-    /**
-     * Getter for all the userids that are involved in a transaction.
-     */
-    public List<UUID> getUsers(){
-        return (List<UUID>) this.userToItems.keySet();
-    }
-
-    public void removeUser(UUID user){
-        this.userToItems.remove(user);
-    }
-
-    /**
-     * This method takes in a user's id and returns a list of id's of items that are relevant to the user in
-     * the transaction.
-     * @param user the user that you want the relevant items for.
-     * @return returns a list of id's of items that are relevant to the user in the form:
-     *       form of [Itemid owned, Itemid wanted]. NOTE: This list can contain null values depending if the user
-     *       doesn't want an item from the transaction or is not giving away an item.
-     */
-    public List<UUID> getRelevantItems(UUID user){
-        return(this.userToItems.get(user));
-    }
-
-    /**
-     * This methods takes in a user's id and retuns the item that they initially owned in a transaction.
-     * @param user the user that you want the relevant item for.
-     * @return returns the item that they initially owned in a transaction.
-     */
-
-    public UUID getItemIdOwned(UUID user){
-        return(this.userToItems.get(user)).get(0);
-    }
-
-    /**
-     * This methods takes in a user's id and retuns the item that they want from the transaction.
-     * @param user the user that you want the relevant item for.
-     * @return returns the item that they initially owned in a transaction.
-     */
-    public UUID getItemIdDesired(UUID user){
-        return(this.userToItems.get(user)).get(1);
-    }
-
 
     /**
      * getter for the first meeting of the transaction.
@@ -153,6 +109,12 @@ public abstract class Transaction implements Serializable {
 
     /**
      * This is an abstract method that checks if you have a one way transaction.
+     * @return returns true iff the transaction you call the method on is a one way transaction.
+     */
+    public abstract boolean isOneWay();
+
+    /**
+     * This is an abstract method that checks if you have a permanent transaction.
      * @return returns true iff the transaction you call the method on is a one way transaction.
      */
     public abstract boolean isPerm();
@@ -169,17 +131,9 @@ public abstract class Transaction implements Serializable {
      * This is an abstract method that gets all the items involved in the transactions. Size of list returned will
      * depend directly on the type of transaction taking place.
      *
-     * @return Returns list of items. There won't be any order to this list and no one should assume their is.
+     * @return Returns list of items. The order of the items in the list are Item1,Item2(if applicable).
      */
-    public List<UUID> getTransactionItems(){
-        List<UUID> TransactionItems = new ArrayList<>();
-        for(UUID userid: this.userToItems.keySet()){
-            if (this.getItemIdOwned(userid) != null){
-                TransactionItems.add(this.getItemIdOwned(userid));
-            }
-        }
-        return TransactionItems;
-    }
+    public abstract List<UUID> getTransactionItems();
 
     /**
      * This abstract method will return a string representation of the transaction. This will be implemented in the
@@ -189,43 +143,19 @@ public abstract class Transaction implements Serializable {
     @Override
     public abstract String toString();
 
-
     /**
-     * This method takes in a user id then get's the status of that user in the context of the instance of transaction.
-     * This method assumes that the user you are looking for is in the status mapping.
-     * @param user the user id whose transaction status you would like to return.
-     * @return returns the transaction status for the user id that was passed in to the method.
-     */
-    public String getUserStatus(UUID user){
-        return this.userToStatus.get(user);
-    }
-
-    /**
-     * This method updates the User Transaction Status for a user in the userToStatus hashmap.
-     * This method assume that the user id is in the status mapping.
-     * @param user the user id whose status you wish to change in the status mapping.
-     * @param newStatus the new status you would like the user id to be mapped to.
-     */
-    public void setUserStatus(UUID user, String newStatus){
-        this.userToStatus.put(user,newStatus);
-    }
-
-    /**
-     * NEEDS TO BE DELETED/CHANGED
      * Getter for status. This will be called by use case classes.
      * @return statusUser1
      */
     public String getStatusUser1() {return statusUser1;}
 
     /**
-     * NEEDS TO BE DELETED/CHANGED
      * setter for user1. This will be called by use case classes.
      *@param newStatus The new Status of statusUser1
      */
     public void setStatusUser1(String newStatus) {statusUser1 = newStatus;}
 
     /**
-     * NEEDS TO BE DELETED/CHANGED
      * Getter for status. This will be called by use case classes.
      * @return statusUser2
      */
@@ -234,14 +164,12 @@ public abstract class Transaction implements Serializable {
     }
 
     /**
-     * NEEDS TO BE DELETED/CHANGED
      * Setter for user1. This will be called by use case classes.
      * @param newStatus The new Status of statusUser2
      */
     public void setStatusUser2(String newStatus){statusUser2 = newStatus;}
 
     /**
-     * NEEDS TO BE DELETED/CHANGED
      * Calls either setStatusUser1 or setStatusUser2
      * @param newStatus the new status to be changed
      * @param userNum either 1 or 2, if usernum == 1 then call setStatusUser1 else call setStatusUser2
@@ -255,7 +183,6 @@ public abstract class Transaction implements Serializable {
     }
 
     /**
-     * NEEDS TO BE DELETED/CHANGED
      * Getter for item1 name
      * @return string of name of item1
      */

@@ -12,16 +12,22 @@ import java.util.UUID;
  */
 
 public class TransactionPerm extends Transaction {
-
+    public UUID item1;
+    public UUID item2;
+    private String item2Name;
+    private boolean isOneWay;
 
     /**
-     *
-     * @param userToItems
-     * @param FirstMeeting
+     * Constructor for Transactions.TransactionTwoWayPerm class. This constructor initializes a 2 way permanent transaction with
+     * @param userToItems A hashmap which maps userId's to a list of
+     *      Item ids(where the list is in the form of [ItemId owned, ItemId wanted]).
+     * @param firstMeeting This is just a meeting object representing where the users will meet for the first time.
+     * @param itemToName A hashmap which maps itemId to the string Name of the item
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionPerm(HashMap<UUID,List<UUID>> userToItems, Meeting FirstMeeting){
-        super(userToItems,FirstMeeting);
+    public TransactionPerm(HashMap<UUID, List<UUID>> userToItems, Meeting firstMeeting, HashMap<UUID, List<String>> itemToName, Boolean isOneWay){
+        super(userToItems,firstMeeting, itemToName);
+        this.isOneWay = isOneWay;
     }
 
     /**
@@ -46,10 +52,11 @@ public class TransactionPerm extends Transaction {
         return true;
     }
 
-    /**
-     * NEEDS TO BE FIXED
-     * @return returns a string representation
-     */
+    @Override
+    public boolean isOneWay() {
+        return false;
+    }
+
     @Override
     public String toString(){
         String FirstMeetingString = this.getFirstMeeting().toString();
@@ -62,5 +69,14 @@ public class TransactionPerm extends Transaction {
         MeetingReturnList.add(this.getFirstMeeting());
         return(MeetingReturnList);
     }
+
+    @Override
+    public List<UUID> getTransactionItems(){
+        List<UUID> ItemReturnList = new ArrayList<>();
+        ItemReturnList.add(this.getItem1());
+        ItemReturnList.add(this.getItem2());
+        return(ItemReturnList);
+    }
+
 }
 
