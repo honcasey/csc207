@@ -288,7 +288,8 @@ public abstract class Transaction implements Serializable {
      * @return string of name of item1
      */
     public String getItem1Name() {
-        return item1Name;
+//        return item1Name;
+        return "Hello World";
     }
 
 }

@@ -39,6 +39,12 @@ public class AdminMenuController {
         um = tradingUserManager;
         am = adminManager;
         im = items;
+
+
+        // user Builder Design Pattern
+
+
+
     }
 
     /**

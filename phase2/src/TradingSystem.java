@@ -13,6 +13,7 @@ import Users.TradingUser;
 import Users.TradingUserManager;
 import Users.UserMenuController;
 
+import javax.swing.*;
 import java.io.File;
 import java.util.*;
 
@@ -46,21 +47,25 @@ public class TradingSystem {
      * appropriate class depending on user input, saves changes by writing files and
      * allows user to exit the program.
      */
+//    public void run() {
+//        boolean interacting = true; // scrap
+//        while (interacting) { // scrap
+//            readData(); // keep
+//            checkFirstAdmin(); // keep
+//            int userInput = bmp.selectOption(); // scrap
+//            if (userInput == 0) { // user logs in // scrap
+//                login(); // modify with JFrame
+//            } else if (userInput == 1) { // user creates account
+//                createAccount(); // modify with Jframe
+//            } else if (userInput == 2) { // user exits program
+//                interacting = false; // scrap
+//            }
+//            writeData(); // keep
+//        }
+//    }
     public void run() {
-        boolean interacting = true;
-        while (interacting) {
-            readData();
-            checkFirstAdmin();
-            int userInput = bmp.selectOption();
-            if (userInput == 0) { // user logs in
-                login();
-            } else if (userInput == 1) { // user creates account
-                createAccount();
-            } else if (userInput == 2) { // user exits program
-                interacting = false;
-            }
-            writeData();
-        }
+        LoginWindow lw = new LoginWindow();
+        lw.displayLoginWindow();
     }
 
     /**
