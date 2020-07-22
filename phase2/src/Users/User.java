@@ -5,7 +5,7 @@ import java.util.UUID;
 
 /**
  * <h1>User</h1>
- * Represents the parent class of TradingUser and AdminUser
+ * Represents the parent class of TradingUser, AdminUser, and DemoUser
  */
 public abstract class User implements Serializable {
     private String username;
