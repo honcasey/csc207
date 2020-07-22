@@ -19,6 +19,7 @@ public class TradingUser extends User implements Serializable {
     private int incompleteThreshold = 2;
     private final List<UUID> wishlist;
     private String status = "active";
+    private String city;
 
     /**
      * Constructs an instance of TradingUser based on Strings of username, password, and email.
@@ -54,12 +55,24 @@ public class TradingUser extends User implements Serializable {
     }
 
     /**
-     * Getter for this Users.TradingUser's wishlist as a list of Items.
+     * Getter for this TradingUser's wishlist as a list of Items.
      * @return list of Items
      */
     public List<UUID> getWishlist() {
         return wishlist;
     }
+
+    /**
+     * Getter for this TradingUser's city.
+     * @return city as String
+     */
+    public String getCity() { return city; }
+
+    /**
+     * Setter for this TradingUser's city.
+     * @param city TradingUser's city
+     */
+    public void setCity(String city) { this.city = city; }
 
     /**
      * This method checks for an item id in the wishlist and removes it if found.

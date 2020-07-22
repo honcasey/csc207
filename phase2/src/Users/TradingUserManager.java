@@ -69,6 +69,21 @@ public class TradingUserManager {
     }
 
     /**
+     * Retrieves a list of TradingUsers by city.
+     * @param city = desired city
+     * @return list of TradingUsers in that city
+     */
+    public List<TradingUser> getTradingUserByCity(String city) {
+        List<TradingUser> userList = new ArrayList<>();
+        for (TradingUser tradingUser : allTradingUsers)
+            if ((tradingUser.getCity().equals(city))) {
+                userList.add(tradingUser);
+            }
+        if (userList.size() == 0) return null; // if there are no TradingUser's in this city
+        else { return userList; }
+    }
+
+    /**
      * Adds an item to tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
      *
      * @param tradingUser the tradingUser
@@ -157,7 +172,6 @@ public class TradingUserManager {
      * @param tradingUser a tradingUser in a trading system
      * @param transaction a transaction between two Users
      */
-
     private void updateTransactionHistoryValues(TradingUser tradingUser, Transaction transaction) {
         TransactionHistory tH = tradingUser.getTransactionHistory();
 

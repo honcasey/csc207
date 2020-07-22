@@ -149,15 +149,15 @@ public class UserMenuController{
 //        }
 //    }
 
-    /**
-     * Handles the flow for setting up a transaction for an available item assuming that the transaction
-     * is allowed between the 2 users.
-     *
-     * @param item The item that is going to be traded.
-     * @param Owner The other user that is currently the owner of the item you want to trade for.
-     * @return this method returns a true if the user wants to make another offer for an item and returns
-     * false if the user wants to head back to the main menu.
-     */
+    ///**
+    //* Handles the flow for setting up a transaction for an available item assuming that the transaction
+    // * is allowed between the 2 users.
+    // *
+    // * @param item The item that is going to be traded.
+    // * @param Owner The other user that is currently the owner of the item you want to trade for.
+    // * @return this method returns a true if the user wants to make another offer for an item and returns
+    // * false if the user wants to head back to the main menu.
+    // */
 //    private boolean createTransactionMenu(Item item, TradingUser Owner) {
 //        System.out.println(ump.scheduleMeeting);
 //        Meeting FirstMeeting = meetingDetailsMenu("First");
@@ -368,10 +368,10 @@ public class UserMenuController{
         }
     }
 
-    /**
-     * Displays all of the active transactions for TradingUser and then redirects the user to either edit the Meetings
-     * for that transaction or to change the statusUser of the Transaction
-     */
+    ///**
+    // * Displays all of the active transactions for TradingUser and then redirects the user to either edit the Meetings
+    // * for that transaction or to change the statusUser of the Transaction
+    // */
 //    private void getActiveTransactions() {
 //        boolean userInteracting = true;
 //        while (userInteracting) {
@@ -439,9 +439,9 @@ public class UserMenuController{
      * @return HashMap of items that are available in other user's inventory.
      */
     private HashMap<Item, TradingUser> getAvailableItems(){
-        List<TradingUser> allTradingUsers = um.getAllTradingUsers();
+        List<TradingUser> allTradingUsersInCity = um.getTradingUserByCity(currentTradingUser.getCity());
         HashMap<Item, TradingUser> availableItems = new HashMap<>();
-        for (TradingUser tradingUser : allTradingUsers) {
+        for (TradingUser tradingUser : allTradingUsersInCity) {
             if(!tradingUser.equals(currentTradingUser)) {
                 for (Item item : im.convertIdsToItems(tradingUser.getInventory())) {
                     availableItems.put(item, tradingUser);
