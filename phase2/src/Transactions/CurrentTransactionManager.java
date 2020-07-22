@@ -152,7 +152,7 @@ public class CurrentTransactionManager extends TransactionManager{
      */
     public boolean updateStatusUser(TradingUser tradingUser, Transaction transaction, String optionChosen){
         int userNum = findUserNum(transaction, tradingUser.getUserId());
-        UUID userId = tradingUser.getUserId()
+        UUID userId = tradingUser.getUserId();
         if (optionChosen.equals("Confirm Transactions Meeting(s)")){
             transaction.setStatusUserID(Statuses.CONFIRMED, userId);
             return true;
