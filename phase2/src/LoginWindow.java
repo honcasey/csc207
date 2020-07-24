@@ -5,12 +5,10 @@ import java.awt.event.ActionListener;
 
 // ideas taken from https://beginnersbook.com/2015/07/java-swing-tutorial/
 public class LoginWindow extends JFrame {
-    private JLabel userLabel = new JLabel("Username");
-    JLabel passwordLabel = new JLabel("Password");
-    JButton loginButton = new JButton("Sign in");
-    JButton createButton = new JButton("Create an account");
-    private String username;
-    private String password;
+    private final JLabel userLabel = new JLabel("Username");
+    private final JLabel passwordLabel = new JLabel("Password");
+    private final JButton loginButton = new JButton("Sign in");
+    private final JButton registerButton = new JButton("Create an account");
 
     public void displayLoginWindow() {
         // create the frame
@@ -30,17 +28,16 @@ public class LoginWindow extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                username = userLabel.getText();
-                password = userLabel.getText();
-                // use old algorithm to check if user/pass correct and open tradinguser/admin/demo menu
+                displaySecondaryMenu(userLabel.getText(), userLabel.getText());
 
             }
         });
 
-        createButton.addActionListener(new ActionListener() {
+        registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // open account creation menu
+                RegistrationWindow rw = new RegistrationWindow();
+                rw.displayRegistrationWindow();
             }
         });
 
@@ -74,8 +71,13 @@ public class LoginWindow extends JFrame {
         panel.add(loginButton);
 
         // add register button to panel
-        createButton.setBounds(10, 110, 160, 25);
-        panel.add(createButton);
+        registerButton.setBounds(10, 110, 160, 25);
+        panel.add(registerButton);
+    }
+
+    // checks if credentials are valid, if so proceed to trading/admin/demo menu
+    private void displaySecondaryMenu(String username, String password) {
+        // use old algorithm in TradingSystem to do it
     }
 
 }

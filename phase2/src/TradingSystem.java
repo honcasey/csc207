@@ -64,8 +64,11 @@ public class TradingSystem {
 //        }
 //    }
     public void run() {
+        readData();
+        checkFirstAdmin();
         LoginWindow lw = new LoginWindow();
         lw.displayLoginWindow();
+        writeData();
     }
 
     /**
