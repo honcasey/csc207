@@ -368,19 +368,19 @@ public class UserMenuController{
         }
     }
 
-    ///**
-    // * Displays all of the active transactions for TradingUser and then redirects the user to either edit the Meetings
-    // * for that transaction or to change the statusUser of the Transaction
-    // */
+//    /**
+//     * Displays all of the active transactions for TradingUser and then redirects the user to either edit the Meetings
+//     * for that transaction or to change the statusUser of the Transaction
+//     */
 //    private void getActiveTransactions() {
 //        boolean userInteracting = true;
 //        while (userInteracting) {
 //            List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
+//            List<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
 //            if (currentTransactionsIds.size() == 0) { // if no active transactions
 //                System.out.println(ump.empty("Current Transactions"));
 //                userInteracting = false;
 //            } else { // if there are active transactions
-//                List<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
 //                List<String> optionList = ump.constructTransactionList(currTransactionsList); // display all current transactions
 //                int OptionChosen = ump.handleOptionsByIndex(optionList, true, "Current Transactions"); // pick a transaction to modify
 //                if(OptionChosen == optionList.size() - 1){ // if 'go back' is selected
@@ -406,33 +406,38 @@ public class UserMenuController{
 //                            }
 //                        }
 //                    }
-//                    if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) { //update status of user
-//                        tm.updateStatus(transaction); //update status of transaction
-//                        if (transaction.isPerm()) { // if transaction is permanent (only one meeting)
-//                            um.handlePermTransactionItems(transaction); // remove items from both users inventories and wishlists
-//                        }
-//                        /* if transaction is temporary (two meetings) */
-//                        else { um.handleTempTransactionItems(transaction); } // handles users inventories and wishlists
-//                        /* if transaction is cancelled, remove from current transactions */
-//                        if (transaction.getStatus().equals(Statuses.CANCELLED)) {
-//                            try {
-//                                tm.removeTransactionFromAllTransactions(transaction.getId()); // if cancelled, the transaction is deleted forever
-//                                currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
-//                            }
-//                            catch (InvalidTransactionException e) {
-//                                //
-//                            }
-//                        }
-//                        /* if transaction is over (incomplete, complete, never returned) then move to transaction history
-//                        * and remove from current transactions */
-//                        if (um.moveTransactionToTransactionHistory(transaction)) {
-//                            currentTransactionsIds.remove(transaction.getId()); // remove from the list of active transaction's the logged in user sees
-//                        }
-//                    }
+//                    // updates the users, transactions, inventories, and wishlists
+//                    updateUsers(transaction, transactionActions, optionChosen2, currentTransactionsIds);
 //                }
 //            }
 //        }
 //    }
+
+    private void updateUsers(Transaction transaction, List<String> transactionActions, int optionChosen2, List<UUID> currentTransactionsIds) {
+        if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) { //update status of user
+            tm.updateStatus(transaction); //update status of transaction
+            if (transaction.isPerm()) { // if transaction is permanent (only one meeting)
+                um.handlePermTransactionItems(transaction); // remove items from both users inventories and wishlists
+            }
+            /* if transaction is temporary (two meetings) */
+            else { um.handleTempTransactionItems(transaction); } // handles users inventories and wishlists
+            /* if transaction is cancelled, remove from current transactions */
+            if (transaction.getStatus().equals(Statuses.CANCELLED)) {
+                try {
+                    tm.removeTransactionFromAllTransactions(transaction.getId()); // if cancelled, the transaction is deleted forever
+                    currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
+                }
+                catch (InvalidTransactionException e) {
+                    //
+                }
+            }
+            /* if transaction is over (incomplete, complete, never returned) then move to transaction history
+             * and remove from current transactions */
+            if (um.moveTransactionToTransactionHistory(transaction)) {
+                currentTransactionsIds.remove(transaction.getId()); // remove from the list of active transaction's the logged in user sees
+            }
+        }
+    }
 
     /**
      * Creates a HashMap of all the available items in other user's inventory.

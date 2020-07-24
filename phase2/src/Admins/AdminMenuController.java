@@ -76,7 +76,7 @@ public class AdminMenuController {
     }
 
     /* check all pending items that have been requested by users to be approved for their inventory */
-    private void checkPendingItems() {
+    private void checkPendingItems() { // use card layout
         boolean userInteracting = true;
         while (userInteracting) {
             if (allPendingItems.isEmpty()) {
@@ -141,7 +141,7 @@ public class AdminMenuController {
     }
 
     /* manually adds an item to any TradingUser's inventory or wishlist */
-    private void addItemToUser() {
+    private void addItemToUser() { // 2 text fields for items and Jlist of all users and 2 buttons inventory/wishlist
         boolean userInteracting = true;
         Scanner scanner = new Scanner(System.in);
         System.out.println(amp.enterName("new Item"));
@@ -190,6 +190,7 @@ public class AdminMenuController {
     }
 
     /* changes one of the TradingUser's thresholds */
+    // list of all users and change thresholds with jspinner
     private void changeUserThreshold() {
         Scanner scanner = new Scanner(System.in);
         System.out.println(amp.enterName("TradingUser"));
@@ -225,6 +226,7 @@ public class AdminMenuController {
     }
 
     /* checks all TradingUsers that are frozen and have requested their account to be unfrozen */
+    // Jcardlayout
     private void checkFrozenUsers() {
         boolean userInteracting = true;
         while (userInteracting) {
@@ -265,6 +267,7 @@ public class AdminMenuController {
     }
 
     /* checks all TradingUsers that have been flagged by the system to have their account frozen */
+    // Jcardlayout
     private void checkFlaggedUsers() {
         boolean userInteracting = true;
         while (userInteracting) {

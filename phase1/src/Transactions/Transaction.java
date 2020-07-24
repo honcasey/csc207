@@ -281,14 +281,14 @@ public abstract class Transaction implements Serializable {
     }
 
 
-    /**
-     * // Meet with anna and ask about where the tostring should go.
-     * NEEDS TO BE DELETED/CHANGED
-     * Getter for item1 name
-     * @return string of name of item1
-     */
-    public String getItem1Name() {
-        return item1Name;
-    }
+//    /**
+//     * // Meet with anna and ask about where the tostring should go.
+//     * NEEDS TO BE DELETED/CHANGED
+//     * Getter for item1 name
+//     * @return string of name of item1
+//     */
+//    public String getItem1Name() {
+//        return item1Name;
+//    }
 
 }
