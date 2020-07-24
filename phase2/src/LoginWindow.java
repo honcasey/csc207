@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 // ideas taken from https://beginnersbook.com/2015/07/java-swing-tutorial/
-public class LoginWindow extends JFrame {
+public class LoginWindow {
     private final JLabel userLabel = new JLabel("Username");
     private final JLabel passwordLabel = new JLabel("Password");
     private final JButton loginButton = new JButton("Sign in");
