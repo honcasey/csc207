@@ -166,4 +166,12 @@ public class TradingUser extends User implements Serializable {
     public boolean isFrozen(){
         return status.equals("frozen");
     }
+
+    /**
+     * Represents the status of this TradingUser as a boolean.
+     * @return true if this TradingUser's status is vacation, false otherwise.
+     */
+    public boolean isOnVacation(){
+        return status.equals(UserStatuses.VACATION);
+    }
 }

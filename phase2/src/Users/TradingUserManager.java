@@ -76,12 +76,27 @@ public class TradingUserManager {
     public List<TradingUser> getTradingUserByCity(String city) {
         List<TradingUser> userList = new ArrayList<>();
         for (TradingUser tradingUser : allTradingUsers)
-            if ((tradingUser.getCity().equals(city))) {
+            //check TradingUser is in the desired city and not on vacation status
+            if ((tradingUser.getCity().equals(city))&&(!tradingUser.isOnVacation())) {
                 userList.add(tradingUser);
             }
         if (userList.size() == 0) return null; // if there are no TradingUser's in this city
         else { return userList; }
     }
+
+    /**
+     * Retrieves a list of TradingUsers not on vacation status.
+     * @return list of TradingUsers not on vacation
+     */
+    public List<TradingUser> getTradingUserNotOnVacation(){
+        List<TradingUser> userList = new ArrayList<>();
+        for (TradingUser tradingUser : allTradingUsers){
+            if (!tradingUser.getStatus().equals(UserStatuses.VACATION)){
+                userList.add(tradingUser);
+            }
+        }return userList;
+    }
+
 
     /**
      * Adds an item to tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
@@ -140,8 +155,8 @@ public class TradingUserManager {
      * @param tradingUser a tradingUser in the trading system.
      */
     public void freezeAccount(TradingUser tradingUser) {
-        tradingUser.setStatus(Statuses.FROZEN);
-        idToUser.get(tradingUser.getUserId()).setStatus(Statuses.FROZEN);
+        tradingUser.setStatus(UserStatuses.FROZEN);
+        idToUser.get(tradingUser.getUserId()).setStatus(UserStatuses.FROZEN);
     }
 
     /**
@@ -150,8 +165,18 @@ public class TradingUserManager {
      * @param tradingUser a tradingUser in the trading system.
      */
     public void unfreezeAccount(TradingUser tradingUser) {
-        tradingUser.setStatus(Statuses.ACTIVE);
-        idToUser.get(tradingUser.getUserId()).setStatus(Statuses.ACTIVE);
+        tradingUser.setStatus(UserStatuses.ACTIVE);
+        idToUser.get(tradingUser.getUserId()).setStatus(UserStatuses.ACTIVE);
+    }
+
+    /**
+     * Changes the status of a tradingUser's account to vacation.
+     *
+     * @param tradingUser a tradingUser in the trading system.
+     */
+    public void onVacation(TradingUser tradingUser){
+        tradingUser.setStatus(UserStatuses.VACATION);
+        idToUser.get(tradingUser.getUserId()).setStatus(UserStatuses.VACATION);
     }
 
     /**
