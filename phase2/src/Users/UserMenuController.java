@@ -1,7 +1,9 @@
 package Users;
 
 import Admins.AdminManager;
+import Exceptions.InvalidAdminException;
 import Exceptions.InvalidItemException;
+import Exceptions.InvalidTradingUserException;
 import Exceptions.InvalidTransactionException;
 import Items.Item;
 import Items.ItemManager;
@@ -24,36 +26,27 @@ import java.util.*;
  * TradingUser to be added to their inventory). <p/>
  */
 public class UserMenuController{
-    private TradingUser currentTradingUser; // user that's logged in
-    private AdminManager am;
-    private TradingUserManager um;
-    private CurrentTransactionManager tm;
-    private PastTransactionManager ptm;
-    private ItemManager im;
-    private Map<Item, TradingUser> allPendingItems;
-    private UserMenuPresenter ump = new UserMenuPresenter();
-    private HashMap<Item, TradingUser> availableItems;
+    private TradingUser currentTradingUser = null; // user that's logged in
+    private final AdminManager am;
+    private final TradingUserManager um;
+    private final CurrentTransactionManager tm;
+    private final PastTransactionManager ptm;
+    private final ItemManager im;
+    private final Map<Item, TradingUser> allPendingItems;
+    private final UserMenuPresenter ump = new UserMenuPresenter();
+//    private HashMap<Item, TradingUser> availableItems;
 
     public UserMenuController(TradingUserManager tradingUserManager, AdminManager adminManager,
                               CurrentTransactionManager currentTransactionManager,
                               PastTransactionManager pastTransactionManager, ItemManager itemManager,
-                              Map<Item, TradingUser> pendingItems, TradingUser tradingUser) {
-        currentTradingUser = tradingUser;
+                              Map<Item, TradingUser> pendingItems) {
         allPendingItems = pendingItems;
         am = adminManager;
         um = tradingUserManager;
         tm = currentTransactionManager;
         ptm = pastTransactionManager;
         im = itemManager;
-        availableItems = getAvailableItems();
-
-
-
-        // User Builder Design Pattern
-
-
-
-
+//        availableItems = getAvailableItems();
     }
 
     /**
@@ -557,6 +550,30 @@ public class UserMenuController{
             if (!flaggedUsernames.contains(user.getUsername())) {
                 um.getFlaggedAccounts().add(user);
             }
+        }
+    }
+
+    public boolean validUser(String username, String password) {
+        return um.validUser(username, password);
+    }
+
+    public void setCurrentTradingUser(String username) {
+        try {
+            currentTradingUser = um.getTradingUser(username);
+        } catch (InvalidTradingUserException e) {
+            // TODO
+        }
+    }
+
+    public boolean availableUsername(String username) {
+        return am.checkAvailableUsername(username) && um.checkAvailableUsername(username);
+    }
+
+    public void addTradingUser(String username, String password) {
+        try {
+            um.addTradingUser(username, password);
+        } catch (InvalidTradingUserException e) {
+            // TODO
         }
     }
 }

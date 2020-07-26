@@ -17,7 +17,7 @@ import java.util.*;
  *  * to their inventory). <p/>
  */
 public class AdminMenuController {
-    private final AdminUser currentAdmin; // admin that's logged in
+    private AdminUser currentAdmin = null; // admin that's logged in
     private final AdminManager am;
     private final TradingUserManager um;
     private final Map<Item, TradingUser> allPendingItems;
@@ -29,22 +29,14 @@ public class AdminMenuController {
      * @param adminManager manager of all AdminUsers
      * @param tradingUserManager manager of all TradingUsers
      * @param pendingItems list of all pending items that have been requested by users to be approved
-     * @param admin currently logged-in AdminUser
      * @param items manager of all Items
      */
     public AdminMenuController(AdminManager adminManager, TradingUserManager tradingUserManager,
-                               Map<Item, TradingUser> pendingItems, AdminUser admin, ItemManager items) {
-        currentAdmin = admin;
+                               Map<Item, TradingUser> pendingItems, ItemManager items) {
         allPendingItems = pendingItems;
         um = tradingUserManager;
         am = adminManager;
         im = items;
-
-
-        // user Builder Design Pattern
-
-
-
     }
 
     /**
@@ -307,6 +299,18 @@ public class AdminMenuController {
                 /* remove all Trading Users that have been frozen/unfrozen from the flaggedAccount list */
                 am.getFlaggedAccounts().removeAll(usersToDelete);
             }
+        }
+    }
+
+    public boolean validAdmin(String username, String password) {
+        return am.validAdmin(username, password);
+    }
+
+    public void setCurrentAdmin(String username) {
+        try {
+            currentAdmin = am.getAdmin(username);
+        } catch (InvalidAdminException e) {
+            // TODO
         }
     }
 }

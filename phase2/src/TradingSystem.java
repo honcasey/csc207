@@ -5,7 +5,6 @@ import Exceptions.InvalidAdminException;
 import Exceptions.InvalidTradingUserException;
 import Items.Item;
 import Items.ItemManager;
-import Presenters.BootupMenuPresenter;
 import Transactions.PastTransactionManager;
 import Transactions.Transaction;
 import Transactions.CurrentTransactionManager;
@@ -13,7 +12,6 @@ import Users.TradingUser;
 import Users.TradingUserManager;
 import Users.UserMenuController;
 
-import javax.swing.*;
 import java.io.File;
 import java.util.*;
 
@@ -26,7 +24,6 @@ import java.util.*;
  */
 
 public class TradingSystem {
-    private String username, password;
     private final String adminsFilePath = "admins.ser";
     private final String usersFilePath = "users.ser";
     private final String requestedItemsFilePath = "requestedItems.ser";
@@ -34,40 +31,24 @@ public class TradingSystem {
     private final String frozenAccountsFilePath = "frozenAccounts.ser";
     private final String transactionsFilePath = "transactions.ser";
     private final String itemMapFilePath = "items.ser";
-    private AdminManager adminManager;
-    private TradingUserManager tradingUserManager;
-    private CurrentTransactionManager currentTransactionManager;
-    private PastTransactionManager pastTransactionManager;
-    private ItemManager itemManager;
+    private AdminManager am;
+    private TradingUserManager tum;
+    private CurrentTransactionManager tm;
+    private PastTransactionManager ptm;
+    private ItemManager im;
     private Map<Item, TradingUser> pendingItems;
-    private final BootupMenuPresenter bmp = new BootupMenuPresenter();
+    private AdminMenuController amc;
+    private UserMenuController umc;
 
     /**
      * Calls to different helper methods to read data from saved files, redirects user to
-     * appropriate class depending on user input, saves changes by writing files and
-     * allows user to exit the program.
+     * appropriate class depending on user input, and saves changes by writing files.
      */
-//    public void run() {
-//        boolean interacting = true; // scrap
-//        while (interacting) { // scrap
-//            readData(); // keep
-//            checkFirstAdmin(); // keep
-//            int userInput = bmp.selectOption(); // scrap
-//            if (userInput == 0) { // user logs in // scrap
-//                login(); // modify with JFrame
-//            } else if (userInput == 1) { // user creates account
-//                createAccount(); // modify with Jframe
-//            } else if (userInput == 2) { // user exits program
-//                interacting = false; // scrap
-//            }
-//            writeData(); // keep
-//        }
-//    }
     public void run() {
         readData();
         checkFirstAdmin();
-        LoginWindow lw = new LoginWindow();
-        lw.displayLoginWindow();
+        LoginWindow lw = new LoginWindow(amc, umc);
+        lw.display();
         writeData();
     }
 
@@ -95,11 +76,15 @@ public class TradingSystem {
         Map<UUID, Item> items = serializer.readItemMapFromFile(itemMapFilePath);
 
         // create new Managers
-        adminManager = new AdminManager(admins, flaggedAccounts, frozenAccounts);
-        tradingUserManager = new TradingUserManager(tradingUsers, flaggedAccounts, frozenAccounts);
-        currentTransactionManager = new CurrentTransactionManager(transactions);
-        pastTransactionManager = new PastTransactionManager(transactions);
-        itemManager = new ItemManager(items);
+        am = new AdminManager(admins, flaggedAccounts, frozenAccounts);
+        tum = new TradingUserManager(tradingUsers, flaggedAccounts, frozenAccounts);
+        tm = new CurrentTransactionManager(transactions);
+        ptm = new PastTransactionManager(transactions);
+        im = new ItemManager(items);
+
+        // create new controllers
+        amc = new AdminMenuController(am, tum, pendingItems, im);
+        umc = new UserMenuController(tum, am, tm, ptm, im, pendingItems);
     }
 
     /**
@@ -151,88 +136,13 @@ public class TradingSystem {
      */
     private void writeData() {
         Serializer serializer = new Serializer();
-        serializer.writeUsersToFile(usersFilePath, tradingUserManager.getAllTradingUsers());
-        serializer.writeAdminsToFile(adminsFilePath, adminManager.getAllAdmins());
+        serializer.writeUsersToFile(usersFilePath, tum.getAllTradingUsers());
+        serializer.writeAdminsToFile(adminsFilePath, am.getAllAdmins());
         serializer.writeItemsToFile(requestedItemsFilePath, pendingItems);
-        serializer.writeAccountsToFile(flaggedAccountsFilePath, tradingUserManager.getFlaggedAccounts());
-        serializer.writeAccountsToFile(frozenAccountsFilePath, tradingUserManager.getFrozenAccounts());
-        serializer.writeTransactionsToFile(transactionsFilePath, currentTransactionManager.getAllTransactions());
-        serializer.writeItemsMapToFile(itemMapFilePath, itemManager.getAllItems());
-    }
-
-    /**
-     * A helper method to get username and password inputted by the user.
-     */
-    private void parseCredentials(String[] credentials) {
-        username = credentials[0];
-        password = credentials[1];
-    }
-
-    /**
-     *  A helper method used to validate the username and password, if correct run the correct menu.
-     */
-    private void login() {
-        // get username and password
-        parseCredentials(getUserAndPass());
-
-        boolean notLoggedIn = true;
-        // try to log in with current user and pass, if unsuccessful prompt for new user and pass and try again
-        while (notLoggedIn) {
-            // if user and pass matches an admin account
-            if (adminManager.validAdmin(username, password)) {
-                notLoggedIn = false;
-                try {
-                    AdminMenuController adminMenuController = new AdminMenuController(adminManager,
-                            tradingUserManager, pendingItems, adminManager.getAdmin(username), itemManager);
-                    adminMenuController.run();
-                } catch(InvalidAdminException e) {
-                    // we already checked this username corresponds to a valid admin
-                    // so adminManager.getAdmin(username) should never throw an exception
-                }
-                // if user and pass matches a trading user account
-            } else if (tradingUserManager.validUser(username, password)) {
-                notLoggedIn = false;
-                try {
-                    UserMenuController userMenuController = new UserMenuController(tradingUserManager, adminManager,
-                            currentTransactionManager, pastTransactionManager, itemManager,
-                            pendingItems, tradingUserManager.getTradingUser(username));
-                    userMenuController.run();
-                } catch(InvalidTradingUserException e) {
-                    // we already checked this username corresponds to a valid user
-                    // so userManager.getUser(username) should never throw an exception
-                }
-            } else {
-                // no user or admin account that corresponds to user and pass
-                System.out.println(bmp.getInvalidCredentials());
-                parseCredentials(getUserAndPass());
-            }
-        }
-    }
-
-    /**
-     * A helper method to create a new user account.
-     */
-    private void createAccount() {
-        // get username and password
-        parseCredentials(getUserAndPass());
-        boolean userInteracting = true;
-        while (userInteracting) {
-            if (adminManager.checkAvailableUsername(username) && tradingUserManager.checkAvailableUsername(username)) {
-                try {
-                    userInteracting = false;
-                    TradingUser tradingUser = tradingUserManager.addTradingUser(username, password);
-                    UserMenuController userMenuController = new UserMenuController(tradingUserManager, adminManager,
-                            currentTransactionManager, pastTransactionManager, itemManager, pendingItems, tradingUser);
-                    userMenuController.run();
-                } catch(InvalidTradingUserException e) {
-                    // we just created this new user so we know it's a valid user so userManager.getUser()
-                    // should not throw an Exceptions.InvalidUserException
-                }
-            } else {
-                System.out.println(bmp.getTakenUsername());
-                parseCredentials(getUserAndPass());
-            }
-        }
+        serializer.writeAccountsToFile(flaggedAccountsFilePath, tum.getFlaggedAccounts());
+        serializer.writeAccountsToFile(frozenAccountsFilePath, tum.getFrozenAccounts());
+        serializer.writeTransactionsToFile(transactionsFilePath, tm.getAllTransactions());
+        serializer.writeItemsMapToFile(itemMapFilePath, im.getAllItems());
     }
 
     /**
@@ -240,29 +150,17 @@ public class TradingSystem {
      * this method creates it.
      */
     private void checkFirstAdmin() {
-        if (adminManager.validAdmin("admin", "password")) {
+        if (am.validAdmin("admin", "password")) {
             // the first admin exists, do nothing
         } else {
             // the first admin does not exist yet, create it
             try {
-                adminManager.addAdmin("admin", "password").setFirstAdmin(true);
+                am.addAdmin("admin", "password").setFirstAdmin(true);
             } catch(InvalidAdminException e) {
                 // If this admin is the first to be added in the list then it will never
                 // conflict with another admin so an exception will never be thrown by addAdmin()
             }
         }
-    }
-
-    /**
-     * A helper method to get the username and password.
-     */
-    private String[] getUserAndPass() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(bmp.getUsernamePrompt());
-        String username = scanner.nextLine();
-        System.out.println(bmp.getPasswordPrompt());
-        String password = scanner.nextLine();
-        return new String[]{username, password};
     }
 }
 
