@@ -1,16 +1,20 @@
 import Admins.AdminMenuController;
+import Admins.CheckPendingItemsWindow;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class AdminUserMenu {
     private final AdminMenuController amc;
-    private final JButton button1 = new JButton("button1");
-    private final JButton button2 = new JButton("button2");
-    private final JButton button3 = new JButton("button3");
-    private final JButton button4 = new JButton("button4");
-    private final JButton button5 = new JButton("button5");
-    private final JButton button6 = new JButton("button6");
+    private final JButton button1 = new JButton("Check Pending Items");
+    private CheckPendingItemsWindow itemsWindow;
+    private final JButton button2 = new JButton("Check Flagged Users");
+    private final JButton button3 = new JButton("Create New Admin User Account");
+    private final JButton button4 = new JButton("Add New Item to a TradingUser's Account");
+    private final JButton button5 = new JButton("Change Threshold");
+    private final JButton button6 = new JButton("Check Frozen Users");
 
 
     public AdminUserMenu(AdminMenuController amc) {
@@ -30,6 +34,13 @@ public class AdminUserMenu {
         JPanel panel = new JPanel();
         frame.add(panel);
         placeComponents(panel);
+
+        // if button1 (check pending items) is clicked
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new itemsWindow;
+            }});
 
         // display the window
         frame.setVisible(true);

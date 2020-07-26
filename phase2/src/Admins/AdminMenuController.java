@@ -122,7 +122,7 @@ public class AdminMenuController {
                 System.out.println(amp.enterPassword("new Admin"));
                 String password = scanner.nextLine();
                 am.addAdmin(username, password); // adds the new admin to the list of all AdminUsers
-                System.out.println(amp.successfullyCreated("New Admin TradingUser " + username));
+                System.out.println(amp.successfullyCreated("New Admin User " + username));
             } catch (InvalidAdminException e) {
                 System.out.println(amp.usernameTaken);
             }
