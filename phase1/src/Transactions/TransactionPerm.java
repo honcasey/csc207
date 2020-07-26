@@ -26,16 +26,6 @@ public class TransactionPerm extends Transaction {
         return true;
     }
 
-    /**
-     * NEEDS TO BE FIXED
-     * @return returns a string representation
-     */
-    @Override
-    public String toString(){
-        String FirstMeetingString = this.getFirstMeeting().toString();
-        return("One way transaction to trade "+ getItem1Name() +" for " +". Where the "+ FirstMeetingString +"."  +
-                "\n Status: " + getStatus());
-    }
     @Override
     public List<Meeting> getTransactionMeetings(){
         List<Meeting> MeetingReturnList = new ArrayList<>();

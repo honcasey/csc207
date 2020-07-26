@@ -184,14 +184,6 @@ public abstract class Transaction implements Serializable {
         return TransactionItems;
     }
 
-    /**
-     * This abstract method will return a string representation of the transaction. This will be implemented in the
-     * subclasses in order to make output related to type which this method was called for.
-     * @return returns a string representation of the transaction based on the transaction type.
-     */
-    @Override
-    public abstract String toString();
-
 
     /**
      * This method takes in a user id then get's the status of that user in the context of the instance of transaction.
