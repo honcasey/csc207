@@ -39,7 +39,9 @@ public class AdminUserMenu {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new itemsWindow;
+                CheckPendingItemsWindow iw = new CheckPendingItemsWindow(amc);
+                iw.display();
+                frame.dispose();
             }});
 
         // display the window

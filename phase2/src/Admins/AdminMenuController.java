@@ -7,6 +7,7 @@ import Items.ItemManager;
 import Users.TradingUser;
 import Users.TradingUserManager;
 
+import javax.swing.*;
 import java.util.*;
 
 /**
@@ -20,7 +21,7 @@ public class AdminMenuController {
     private AdminUser currentAdmin = null; // admin that's logged in
     private final AdminManager am;
     private final TradingUserManager um;
-    private final Map<Item, TradingUser> allPendingItems;
+    protected final Map<Item, TradingUser> allPendingItems;
     private final AdminMenuPresenter amp = new AdminMenuPresenter();
     private final ItemManager im;
 
@@ -67,49 +68,19 @@ public class AdminMenuController {
         }
     }
 
-    /* check all pending items that have been requested by users to be approved for their inventory */
-    private void checkPendingItems() { // use card layout
-        boolean userInteracting = true;
-        while (userInteracting) {
-            if (allPendingItems.isEmpty()) {
-                System.out.println(amp.empty("Pending Items"));
-                userInteracting = false;
-            } else {
-                Iterator<Item> itemIterator = allPendingItems.keySet().iterator();
-
-                // makes list of items to be removed from the allPendingItems list once they are approved
-                ArrayList<Item> keysToDelete = new ArrayList<>();
-
-                while (itemIterator.hasNext()) {
-                    Item curr = itemIterator.next();
-                    System.out.println("Current Item Name:" + curr.toString()); // prints the current item + the options
-
-                    /* prints actions that the admin can do on this pending item (approve, decline, go to next) */
-                    int optionChosen = amp.handleOptionsByIndex(amp.constructPendingItemsMenu(), true, "Actions");
-                    if (optionChosen == amp.constructPendingItemsMenu().size()) { // if "go back" is chosen
-                        System.out.println(amp.previousMenu);
-                        userInteracting = false;
-                    } else {
-                        if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.approveItem)) {
-                            try {
-                                TradingUser user = um.getTradingUser(allPendingItems.get(curr).getUsername());
-                                im.addItem(curr); // add to allItems master list of all existing items
-                                um.addItem(user, curr, "inventory"); // add item to the TradingUser's inventory
-                                keysToDelete.add(curr);
-                                System.out.println(amp.addItem("approved"));
-                            } catch (InvalidTradingUserException e) {
-                                //
-                            }
-                        } // if admin decides to decline this item for this user
-                        else if (amp.indexToOption(optionChosen, amp.constructPendingItemsMenu(), amp.declineItem)) {
-                            keysToDelete.add(curr);
-                            System.out.println(amp.addItem("declined"));
-                        }
-                    }
-                }
-                allPendingItems.keySet().removeAll(keysToDelete);  // deletes all of the items that were approved/rejected
-            }
+    protected void approvePendingItem(Item item) {
+        try {
+            TradingUser user = um.getTradingUser(allPendingItems.get(item).getUsername());
+            im.addItem(item); // add to allItems master list of all existing items
+            um.addItem(user, item, "inventory"); // add item to the TradingUser's inventory
+            allPendingItems.remove(item);
+        } catch (InvalidTradingUserException e) {
+            //
         }
+    }
+
+    protected void rejectPendingItem(Item item) {
+        allPendingItems.remove(item);
     }
 
     /* creates a new admin which can only be done by the first admin */
