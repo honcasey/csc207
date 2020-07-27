@@ -27,7 +27,7 @@ public class AdminUserMenu {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // set the frame's size and centre it
-        frame.setSize(new Dimension(500, 250));
+        frame.setSize(new Dimension(600, 300));
         frame.setLocationRelativeTo(null);
 
         // layout the fields and button on the frame
@@ -41,7 +41,6 @@ public class AdminUserMenu {
             public void actionPerformed(ActionEvent e) {
                 CheckPendingItemsWindow iw = new CheckPendingItemsWindow(amc);
                 iw.display();
-                frame.dispose();
             }});
 
         // display the window
@@ -52,22 +51,24 @@ public class AdminUserMenu {
         panel.setLayout(null);
 
         // add button's to panel
-        button1.setBounds(50, 50, 100, 50);
+        button1.setBounds(50, 50, 150, 75);
+        button1.setBackground(Color.PINK); // DO NOT CHANGE THIS >: ((
+        button1.setForeground(Color.PINK);
         panel.add(button1);
 
-        button2.setBounds(200, 50, 100, 50);
+        button2.setBounds(200, 50, 150, 75);
         panel.add(button2);
 
-        button3.setBounds(350, 50, 100, 50);
+        button3.setBounds(350, 50, 150, 75);
         panel.add(button3);
 
-        button4.setBounds(50, 150, 100, 50);
+        button4.setBounds(50, 150, 150, 75);
         panel.add(button4);
 
-        button5.setBounds(200, 150, 100, 50);
+        button5.setBounds(200, 150, 150, 75);
         panel.add(button5);
 
-        button6.setBounds(350, 150, 100, 50);
+        button6.setBounds(350, 150, 150, 75);
         panel.add(button6);
     }
 
