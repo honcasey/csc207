@@ -34,7 +34,8 @@ public class UserMenuPresenter extends MenuPresenter {
 
     /* transaction strings */
     protected String makeTransaction = "Would you like to make another transaction?";
-    protected String meetingLocation = "Where do you want to have the meeting?";
+    protected String meetingLocation = "Enter Location:";
+    protected String meetingTime = "Pick a Time:";
     protected String scheduleMeeting = "Please schedule a meeting time with the other user.";
     protected String whatTypeOfTransaction = "Would you like this transaction to be permanent or temporary?";
 
