@@ -26,7 +26,7 @@ import java.util.*;
  * TradingUser to be added to their inventory). <p/>
  */
 public class UserMenuController{
-    private TradingUser currentTradingUser = null; // user that's logged in
+    protected TradingUser currentTradingUser = null; // user that's logged in
     private final AdminManager am;
     private final TradingUserManager um;
     private final CurrentTransactionManager tm;
@@ -361,33 +361,21 @@ public class UserMenuController{
         }
     }
 
-//    /**
-//     * Displays all of the active transactions for TradingUser and then redirects the user to either edit the Meetings
-//     * for that transaction or to change the statusUser of the Transaction
-//     */
+    public List<Transaction> currentTransactionList() {
+        List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
+        return tm.getTransactionsFromIdList(currentTransactionsIds);
+    }
+
+    public TradingUser getOtherUser(Transaction transaction) {
+        return um.getTradingUserById(transaction.getUser2());
+    }
+
+    /**
+     * Displays all of the active transactions for TradingUser and then redirects the user to either edit the Meetings
+     * for that transaction or to change the statusUser of the Transaction
+     */
 //    private void getActiveTransactions() {
-//        boolean userInteracting = true;
-//        while (userInteracting) {
-//            List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
-//            List<Transaction> currTransactionsList = tm.getTransactionsFromIdList(currentTransactionsIds);
-//            if (currentTransactionsIds.size() == 0) { // if no active transactions
-//                System.out.println(ump.empty("Current Transactions"));
-//                userInteracting = false;
-//            } else { // if there are active transactions
-//                List<String> optionList = ump.constructTransactionList(currTransactionsList); // display all current transactions
-//                int OptionChosen = ump.handleOptionsByIndex(optionList, true, "Current Transactions"); // pick a transaction to modify
-//                if(OptionChosen == optionList.size() - 1){ // if 'go back' is selected
-//                    System.out.println(ump.previousMenu);
-//                    userInteracting = false;}
-//                else {
-//                    Transaction transaction = currTransactionsList.get(OptionChosen); // go into which transaction is chosen
-//                    ArrayList<String> transactionActions = ump.userTransactionActions(transaction); // list of actions that can be done on the transaction depending on it's status
-//                    int optionChosen2 = ump.handleOptionsByIndex(transactionActions, true, "Transaction Actions");
-//                    if (optionChosen2 == transactionActions.size() - 1) { // if 'go back' is selected
-//                        System.out.println(ump.previousMenu);
-//                        userInteracting = false;
-//                    }
-//                    else if (ump.indexToOption(optionChosen2, transactionActions, "Edit Transactions Meeting(s)")) {
+//        if (ump.indexToOption(optionChosen2, transactionActions, "Edit Transactions Meeting(s)")) {
 //                        editMeeting(currentTradingUser, transaction); // prompt user to edit meeting
 //                        // check if status is changed to cancelled after this edit
 //                        if (transaction.getStatus().equals(Statuses.CANCELLED)) {
@@ -402,9 +390,6 @@ public class UserMenuController{
 //                    // updates the users, transactions, inventories, and wishlists
 //                    updateUsers(transaction, transactionActions, optionChosen2, currentTransactionsIds);
 //                }
-//            }
-//        }
-//    }
 
     private void updateUsers(Transaction transaction, List<String> transactionActions, int optionChosen2, List<UUID> currentTransactionsIds) {
         if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) { //update status of user
