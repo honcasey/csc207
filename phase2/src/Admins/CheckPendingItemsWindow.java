@@ -12,9 +12,7 @@ public class CheckPendingItemsWindow {
     private String itemDesc; // item description
     private String itemUser; // who the item belongs to
 
-    public CheckPendingItemsWindow(AdminMenuController amc) {
-        this.amc = amc;
-    }
+    public CheckPendingItemsWindow(AdminMenuController amc) { this.amc = amc; }
 
     /**
      * Part of code taken from:
@@ -26,7 +24,7 @@ public class CheckPendingItemsWindow {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // closes the current frame but doesn't terminate the app
 
         // set the frame's size and centre it
-        frame.setSize(new Dimension(1000, 1000));
+        frame.setSize(new Dimension(700, 500));
         frame.setLocationRelativeTo(null);
 
         // LEFT SIDE OF SPLITPANE
@@ -67,24 +65,25 @@ public class CheckPendingItemsWindow {
         rightPanel.add(desc);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-        splitPane.setBounds(100, 100, 300, 200);
+        splitPane.setBounds(150, 100, 400, 200);
 
         frame.getContentPane().add(splitPane);
 
         //APPROVE AND REJECT BUTTONS
+        Panel sidePanel = new Panel();
         // if Admin clicked approve item
         JButton approve = new JButton("Approve");
         approve.setBounds(600,100,100,50);
         approve.addActionListener(e -> amc.approvePendingItem(listItems.get(items.getSelectedIndex())));
-
-        frame.add(approve);
 
         // if Admin clicked reject item
         JButton reject = new JButton("Reject");
         reject.setBounds(600, 300, 100, 50);
         reject.addActionListener(e -> amc.rejectPendingItem(listItems.get(items.getSelectedIndex())));
 
-        frame.add(reject);
+        sidePanel.add(approve);
+        sidePanel.add(reject);
+        frame.add(sidePanel);
 
         frame.setVisible(true);
     }

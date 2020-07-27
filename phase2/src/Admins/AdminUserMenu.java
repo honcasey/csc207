@@ -1,3 +1,5 @@
+package Admins;
+
 import Admins.AdminMenuController;
 import Admins.CheckPendingItemsWindow;
 
@@ -5,17 +7,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
+/**
+ * Main Admin Menu
+ */
 public class AdminUserMenu {
     private final AdminMenuController amc;
     private final JButton button1 = new JButton("Check Pending Items");
-    private CheckPendingItemsWindow itemsWindow;
     private final JButton button2 = new JButton("Check Flagged Users");
     private final JButton button3 = new JButton("Create New Admin User Account");
     private final JButton button4 = new JButton("Add New Item to a TradingUser's Account");
     private final JButton button5 = new JButton("Change Threshold");
     private final JButton button6 = new JButton("Check Frozen Users");
-
 
     public AdminUserMenu(AdminMenuController amc) {
         this.amc = amc;
@@ -30,18 +34,46 @@ public class AdminUserMenu {
         frame.setSize(new Dimension(600, 300));
         frame.setLocationRelativeTo(null);
 
+        // create the menu bar
+        JMenuBar menuBar = new JMenuBar();
+
+        // build a menu
+        JMenu menu = new JMenu("Menu");
+        menu.setMnemonic('M'); // press the M key to access the menu
+
+        // change password menu option
+        JMenuItem changePassword = new JMenuItem("Change password", KeyEvent.VK_C); // press the C key to access this menu item
+        //changePassword.addActionListener(new ActionListener() {
+            //@Override
+            //public void actionPerformed(ActionEvent e) {
+                //  TO-DO (optional?) : make a "change password" window
+            //}
+        //});
+
+        // log out menu option
+        JMenuItem logOut = new JMenuItem("Log out", KeyEvent.VK_L); // press the L key to access log out option
+        // logOut.addActionListener(new ActionListener() {
+            // @Override
+            // public void actionPerformed(ActionEvent e) {
+            // TO-DO: make the log out window
+        // }
+        // });
+        menu.add(changePassword);
+        menu.add(logOut);
+
+        menuBar.add(menu);
+        frame.setJMenuBar(menuBar);
+
         // layout the fields and button on the frame
         JPanel panel = new JPanel();
         frame.add(panel);
         placeComponents(panel);
 
         // if button1 (check pending items) is clicked
-        button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CheckPendingItemsWindow iw = new CheckPendingItemsWindow(amc);
-                iw.display();
-            }});
+        button1.addActionListener(e -> {
+            CheckPendingItemsWindow iw = new CheckPendingItemsWindow(amc);
+            iw.display();
+        });
 
         // display the window
         frame.setVisible(true);
