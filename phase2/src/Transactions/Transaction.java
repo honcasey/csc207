@@ -185,15 +185,6 @@ public abstract class Transaction implements Serializable {
     }
 
     /**
-     * This abstract method will return a string representation of the transaction. This will be implemented in the
-     * subclasses in order to make output related to type which this method was called for.
-     * @return returns a string representation of the transaction based on the transaction type.
-     */
-    @Override
-    public abstract String toString();
-
-
-    /**
      * This method takes in a user id then get's the status of that user in the context of the instance of transaction.
      * This method assumes that the user you are looking for is in the status mapping.
      * @param user the user id whose transaction status you would like to return.
@@ -275,21 +266,25 @@ public abstract class Transaction implements Serializable {
      * Setter for item that user1 is giving up in the transaction.
      * @return returns the item that user1 has at the beginning of the transaction.
      */
-    //Constructor with a return time manually inputted
     public UUID setItem1(){
         return this.getItemIdOwned(this.getUser1());
     }
 
-
     /**
-     * // Meet with anna and ask about where the tostring should go.
-     * NEEDS TO BE DELETED/CHANGED
-     * Getter for item1 name
-     * @return string of name of item1
+     * getter for the other user in the transaction.
+     * **Note this method assumes that the UUID is one of the 2 involved in the transaction **
+     * @param user is a user in the transaction
+     * @return returns the other user in the transaction.
      */
-    public String getItem1Name() {
-//        return item1Name;
-        return "Hello World";
+
+    public UUID getOtherUser(UUID user){
+        List<UUID> userslist = getUsers();
+        if(userslist.get(0).equals(user)){
+            return userslist.get(1);
+        }
+        else{
+            return userslist.get(0);
+        }
     }
 
 }

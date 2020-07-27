@@ -1,9 +1,12 @@
 package Users;
 
 import Items.Item;
+import Items.ItemManager;
 import Presenters.MenuPresenter;
 import Transactions.Transaction;
 import Transactions.Statuses;
+import Transactions.TransactionManager;
+
 import java.util.*;
 
 /**
@@ -39,6 +42,10 @@ public class UserMenuPresenter extends MenuPresenter {
     protected String editThresholdReached = "You have reached your edit threshold.";
     protected String viewThreeMostTraded = "View 3 most frequent trading partners.";
 
+
+    public UserMenuPresenter(TransactionManager tm, TradingUserManager um, ItemManager im){
+        super(tm,um,im);
+    }
     /**
      * <h1>UserMenuPresenter</h1>
      * Constructs a list of options/prompts that the menu will have.
