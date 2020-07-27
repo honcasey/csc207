@@ -374,22 +374,22 @@ public class UserMenuController{
      * Displays all of the active transactions for TradingUser and then redirects the user to either edit the Meetings
      * for that transaction or to change the statusUser of the Transaction
      */
-    private void getActiveTransactions() {
-        if (ump.indexToOption(optionChosen2, transactionActions, "Edit Transactions Meeting(s)")) {
-                        editMeeting(currentTradingUser, transaction); // prompt user to edit meeting
-                        // check if status is changed to cancelled after this edit
-                        if (transaction.getStatus().equals(Statuses.CANCELLED)) {
-                            try {
-                                tm.removeTransactionFromAllTransactions(transaction.getId()); // if cancelled, the transaction is deleted forever
-                                currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
-                            } catch (InvalidTransactionException e) {
-                                //
-                            }
-                        }
-                    }
-                    // updates the users, transactions, inventories, and wishlists
-                    updateUsers(transaction, transactionActions, optionChosen2, currentTransactionsIds);
-                }
+//    private void getActiveTransactions() {
+//        if (ump.indexToOption(optionChosen2, transactionActions, "Edit Transactions Meeting(s)")) {
+//                        editMeeting(currentTradingUser, transaction); // prompt user to edit meeting
+//                        // check if status is changed to cancelled after this edit
+//                        if (transaction.getStatus().equals(Statuses.CANCELLED)) {
+//                            try {
+//                                tm.removeTransactionFromAllTransactions(transaction.getId()); // if cancelled, the transaction is deleted forever
+//                                currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
+//                            } catch (InvalidTransactionException e) {
+//                                //
+//                            }
+//                        }
+//                    }
+//                    // updates the users, transactions, inventories, and wishlists
+//                    updateUsers(transaction, transactionActions, optionChosen2, currentTransactionsIds);
+//                }
 
     private void updateUsers(Transaction transaction, List<String> transactionActions, int optionChosen2, List<UUID> currentTransactionsIds) {
         if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) { //update status of user
