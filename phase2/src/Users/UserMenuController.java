@@ -356,30 +356,45 @@ public class UserMenuController{
         return um.getTradingUserById(transaction.getUser2());
     }
 
-    private void updateUsers(Transaction transaction, List<String> transactionActions, int optionChosen2, List<UUID> currentTransactionsIds) {
-        if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) { //update status of user
-            tm.updateStatus(transaction); //update status of transaction
-            if (transaction.isPerm()) { // if transaction is permanent (only one meeting)
-                um.handlePermTransactionItems(transaction); // remove items from both users inventories and wishlists
+    public boolean editMeetingFlow(UUID user, Transaction transaction, int meetingNum, String newLocation,
+                                   Date newTime, Date newDate){
+        updateUsers(transaction);
+        return (tm.editMeeting(meetingNum, transaction, user, newLocation) |
+                tm.editMeeting(meetingNum, transaction, user, newTime, newDate));
+    }
+
+    public void updateUsers(Transaction transaction) {
+        List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
+        tm.updateStatus(transaction); //update status of transaction
+        if (transaction.isPerm()) { // if transaction is permanent (only one meeting)
+            um.handlePermTransactionItems(transaction); // remove items from both users inventories and wishlists
+        }
+        /* if transaction is temporary (two meetings) */
+        else { um.handleTempTransactionItems(transaction); } // handles users inventories and wishlists
+        /* if transaction is cancelled, remove from current transactions */
+        if (transaction.getStatus().equals(Statuses.CANCELLED)) {
+            try {
+                tm.removeTransactionFromAllTransactions(transaction.getId()); // if cancelled, the transaction is deleted forever
+                currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
             }
-            /* if transaction is temporary (two meetings) */
-            else { um.handleTempTransactionItems(transaction); } // handles users inventories and wishlists
-            /* if transaction is cancelled, remove from current transactions */
-            if (transaction.getStatus().equals(Statuses.CANCELLED)) {
-                try {
-                    tm.removeTransactionFromAllTransactions(transaction.getId()); // if cancelled, the transaction is deleted forever
-                    currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
-                }
-                catch (InvalidTransactionException e) {
-                    //
-                }
-            }
-            /* if transaction is over (incomplete, complete, never returned) then move to transaction history
-             * and remove from current transactions */
-            if (um.moveTransactionToTransactionHistory(transaction)) {
-                currentTransactionsIds.remove(transaction.getId()); // remove from the list of active transaction's the logged in user sees
+            catch (InvalidTransactionException e) {
+                //
             }
         }
+        /* if transaction is over (incomplete, complete, never returned) then move to transaction history
+        * and remove from current transactions */
+        if (um.moveTransactionToTransactionHistory(transaction)) {
+            currentTransactionsIds.remove(transaction.getId()); // remove from the list of active transaction's the logged in user sees
+        }
+    }
+
+    /**
+     * returns if one of the users statuses are pending
+     * @param transaction which transaction
+     * @return boolean
+     */
+    public boolean userStatuses(Transaction transaction) {
+        return !(transaction.getStatusUser1().equals(Statuses.PENDING) | transaction.getStatusUser2().equals(Statuses.PENDING));
     }
 
     /**
@@ -397,13 +412,6 @@ public class UserMenuController{
             }
         }
         return availableItems;
-    }
-
-    public boolean editMeetingFlow(UUID user, Transaction transaction, int meetingNum, String newLocation,
-                                   Date newTime, Date newDate){
-        updateUsers(transaction, );
-        return (tm.editMeeting(meetingNum, transaction, user, newLocation) |
-                tm.editMeeting(meetingNum, transaction, user, newTime, newDate));
     }
 
     /* set a TradingUser to be flagged for admin approval if either the borrow, weekly, or incomplete thresholds have been reached */

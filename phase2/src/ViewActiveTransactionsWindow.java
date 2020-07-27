@@ -196,15 +196,34 @@ public class ViewActiveTransactionsWindow {
         // button to confirm finalized meeting details
         JButton finalizeMeeting = new JButton("Finalize Meeting Details");
         finalizeMeeting.setBounds(100, 350, 100, 50);
-        finalizeMeeting.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
+        finalizeMeeting.addActionListener(e -> {
+            umc.updateUsers(selectedTransaction);
+            if (umc.userStatuses(selectedTransaction)) {
+                PopUpWindow waiting = new PopUpWindow("Waiting for other user to confirm meeting.");
+                waiting.display();
+            }
+            else {
+                PopUpWindow confirmed = new PopUpWindow("Meeting has been confirmed.");
+                confirmed.display();
             }
         });
 
-        rightPanel.add(updateMeeting);
+        // button to cancel transaction
+        JButton cancelMeeting = new JButton("Cancel Transaction");
+        cancelMeeting.setBounds(100, 450, 100, 50);
+        cancelMeeting.addActionListener(e -> {
+            // TO-DO: add "are you sure" window
+            umc.updateUsers(selectedTransaction);
+            PopUpWindow cancelled = new PopUpWindow("Transaction has been cancelled.");
+            cancelled.display();
+        });
 
+        rightPanel.add(updateMeeting);
+        rightPanel.add(finalizeMeeting);
+        rightPanel.add(cancelMeeting);
+
+        frame.add(rightPanel);
+        frame.setVisible(true);
     }
 
     public void tradedTransactionWindow() {
