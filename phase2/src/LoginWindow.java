@@ -98,7 +98,7 @@ public class LoginWindow {
             TradingUserMenu tum = new TradingUserMenu(umc);
             tum.display();
         } else { // they entered something wrong or their account does not exist
-            new PopUpWindow("Invalid credentials or account does not exist.");
+            new PopUpWindow("Invalid credentials or account does not exist.").display();
         }
 
     }
