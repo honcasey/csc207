@@ -12,9 +12,11 @@ public class TransactionPerm extends Transaction {
 
 
     /**
-     *
-     * @param userToItems
-     * @param FirstMeeting
+     *This is the constructor which takes in the following parameters and makes an instance of a permanent
+     * transaction.
+     * @param userToItems This is a map where each user id  is a key. The values stored in this map are lists of
+     *                    item ids of the following form: [Item Owned,Item Desired].
+     * @param FirstMeeting This is a meeting object representing the first meeting details of the transaction.
      */
     //Constructor with no return time given (default is a month (31 days))
     public TransactionPerm(TreeMap<UUID,List<UUID>> userToItems, Meeting FirstMeeting){
@@ -24,17 +26,6 @@ public class TransactionPerm extends Transaction {
     @Override
     public boolean isPerm() {
         return true;
-    }
-
-    /**
-     * NEEDS TO BE FIXED
-     * @return returns a string representation
-     */
-    @Override
-    public String toString(){
-        String FirstMeetingString = this.getFirstMeeting().toString();
-        return("One way transaction to trade "+ getItem1Name() +" for " +". Where the "+ FirstMeetingString +"."  +
-                "\n Status: " + getStatus());
     }
 
     @Override

@@ -2,7 +2,6 @@ import Admins.AdminManager;
 import Admins.AdminMenuController;
 import Admins.AdminUser;
 import Exceptions.InvalidAdminException;
-import Exceptions.InvalidTradingUserException;
 import Items.Item;
 import Items.ItemManager;
 import Transactions.PastTransactionManager;
@@ -84,7 +83,7 @@ public class TradingSystem {
 
         // create new controllers
         amc = new AdminMenuController(am, tum, pendingItems, im);
-        umc = new UserMenuController(tum, am, tm, ptm, im, pendingItems);
+        umc = new UserMenuController(tum, am, tm, ptm, im, pendingItems, ump);
     }
 
     /**

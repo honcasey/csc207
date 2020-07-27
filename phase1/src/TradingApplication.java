@@ -1,3 +1,4 @@
+package phase1.src;
 
 /**
  * <h1>TradingApplication</h1>

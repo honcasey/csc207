@@ -2,7 +2,11 @@ package Admins;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import Items.ItemManager;
 import Presenters.MenuPresenter;
+import Transactions.TransactionManager;
+import Users.TradingUserManager;
 
 /**
  * <h1>AdminMenuPresenter</h1>
@@ -30,6 +34,10 @@ public class AdminMenuPresenter extends MenuPresenter {
 
     protected String permissionDenied = "Permission denied, only the first admin can create new administrative user accounts.";
 
+
+    public AdminMenuPresenter(TransactionManager tm, TradingUserManager um, ItemManager im){
+        super(tm,um,im);
+    }
     /**
      * Creates main menu displayed for all Admin Users.
      * @return list of strings of all options available for an admin user

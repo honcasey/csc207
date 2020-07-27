@@ -1,4 +1,5 @@
 import Admins.AdminMenuController;
+import Admins.AdminMenuPresenter;
 import Admins.AdminUserMenu;
 import Users.UserMenuController;
 
@@ -17,10 +18,12 @@ public class LoginWindow {
     private final JButton registerButton = new JButton("Create an account");
     private final AdminMenuController amc;
     private final UserMenuController umc;
+    private final AdminMenuPresenter amp;
 
-    public LoginWindow(AdminMenuController amc, UserMenuController umc) {
+    public LoginWindow(AdminMenuController amc, UserMenuController umc, AdminMenuPresenter amp) {
         this.amc = amc;
         this.umc = umc;
+        this.amp = amp;
     }
 
     public void display() {
@@ -92,7 +95,7 @@ public class LoginWindow {
     private void displaySecondaryMenu(String username, String password) {
         if (amc.validAdmin(username, password)) { // if user and pass matches an admin account
             amc.setCurrentAdmin(username);
-            AdminUserMenu aum = new AdminUserMenu(amc);
+            AdminUserMenu aum = new AdminUserMenu(amc, amp);
             aum.display();
         } else if (umc.validUser(username, password)) { // if user and pass matches a trading user account
             umc.setCurrentTradingUser(username);

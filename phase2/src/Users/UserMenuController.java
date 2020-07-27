@@ -1,7 +1,6 @@
 package Users;
 
 import Admins.AdminManager;
-import Exceptions.InvalidAdminException;
 import Exceptions.InvalidItemException;
 import Exceptions.InvalidTradingUserException;
 import Exceptions.InvalidTransactionException;
@@ -26,20 +25,20 @@ import java.util.*;
  * TradingUser to be added to their inventory). <p/>
  */
 public class UserMenuController{
-    protected TradingUser currentTradingUser = null; // user that's logged in
+    public TradingUser currentTradingUser = null; // user that's logged in
     private final AdminManager am;
     private final TradingUserManager um;
     private final CurrentTransactionManager tm;
     private final PastTransactionManager ptm;
     private final ItemManager im;
     private final Map<Item, TradingUser> allPendingItems;
-    private final UserMenuPresenter ump = new UserMenuPresenter();
+    private final UserMenuPresenter ump;
 //    private HashMap<Item, TradingUser> availableItems;
 
     public UserMenuController(TradingUserManager tradingUserManager, AdminManager adminManager,
                               CurrentTransactionManager currentTransactionManager,
                               PastTransactionManager pastTransactionManager, ItemManager itemManager,
-                              Map<Item, TradingUser> pendingItems) {
+                              Map<Item, TradingUser> pendingItems, UserMenuPresenter ump) {
         allPendingItems = pendingItems;
         am = adminManager;
         um = tradingUserManager;
@@ -47,6 +46,7 @@ public class UserMenuController{
         ptm = pastTransactionManager;
         im = itemManager;
 //        availableItems = getAvailableItems();
+        this.ump = ump;
     }
 
     /**
@@ -221,20 +221,6 @@ public class UserMenuController{
         user2.getCurrentTransactions().add(newTransaction.getId());
     }
 
-    /**
-     * Prompts user for details required for a meeting, then constructs a meeting.
-     * @param meetingTitle The first thing that will be displayed "Second Transactions.Meeting Details"/"First Transactions.Meeting Details"
-     */
-    private Meeting meetingDetailsMenu(String meetingTitle){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(meetingTitle + "Meeting Details");
-        System.out.println(ump.meetingLocation);
-        String MeetingLocation = scanner.nextLine();
-        LocalTime MeetingTime = ump.inputTimeGetter(ump.enterWhatInFormat("time", "hh:mm:ss"));
-        LocalDate MeetingDate = ump.inputDateGetter(ump.enterWhatInFormat("date", "dd-mm-yyyy"));
-        return new Meeting(MeetingLocation,MeetingTime,MeetingDate);
-    }
-
     /* viewing a User's wishlist */
     private void viewWishlist(){
         boolean userInteracting = true;
@@ -370,51 +356,45 @@ public class UserMenuController{
         return um.getTradingUserById(transaction.getUser2());
     }
 
-    /**
-     * Displays all of the active transactions for TradingUser and then redirects the user to either edit the Meetings
-     * for that transaction or to change the statusUser of the Transaction
-     */
-//    private void getActiveTransactions() {
-//        if (ump.indexToOption(optionChosen2, transactionActions, "Edit Transactions Meeting(s)")) {
-//                        editMeeting(currentTradingUser, transaction); // prompt user to edit meeting
-//                        // check if status is changed to cancelled after this edit
-//                        if (transaction.getStatus().equals(Statuses.CANCELLED)) {
-//                            try {
-//                                tm.removeTransactionFromAllTransactions(transaction.getId()); // if cancelled, the transaction is deleted forever
-//                                currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
-//                            } catch (InvalidTransactionException e) {
-//                                //
-//                            }
-//                        }
-//                    }
-//                    // updates the users, transactions, inventories, and wishlists
-//                    updateUsers(transaction, transactionActions, optionChosen2, currentTransactionsIds);
-//                }
+    public boolean editMeetingFlow(UUID user, Transaction transaction, int meetingNum, String newLocation,
+                                   Date newTime, Date newDate){
+        updateUsers(transaction);
+        return (tm.editMeeting(meetingNum, transaction, user, newLocation) |
+                tm.editMeeting(meetingNum, transaction, user, newTime, newDate));
+    }
 
-    private void updateUsers(Transaction transaction, List<String> transactionActions, int optionChosen2, List<UUID> currentTransactionsIds) {
-        if (tm.updateStatusUser(currentTradingUser, transaction, transactionActions.get(optionChosen2))) { //update status of user
-            tm.updateStatus(transaction); //update status of transaction
-            if (transaction.isPerm()) { // if transaction is permanent (only one meeting)
-                um.handlePermTransactionItems(transaction); // remove items from both users inventories and wishlists
+    public void updateUsers(Transaction transaction) {
+        List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
+        tm.updateStatus(transaction); //update status of transaction
+        if (transaction.isPerm()) { // if transaction is permanent (only one meeting)
+            um.handlePermTransactionItems(transaction); // remove items from both users inventories and wishlists
+        }
+        /* if transaction is temporary (two meetings) */
+        else { um.handleTempTransactionItems(transaction); } // handles users inventories and wishlists
+        /* if transaction is cancelled, remove from current transactions */
+        if (transaction.getStatus().equals(Statuses.CANCELLED)) {
+            try {
+                tm.removeTransactionFromAllTransactions(transaction.getId()); // if cancelled, the transaction is deleted forever
+                currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
             }
-            /* if transaction is temporary (two meetings) */
-            else { um.handleTempTransactionItems(transaction); } // handles users inventories and wishlists
-            /* if transaction is cancelled, remove from current transactions */
-            if (transaction.getStatus().equals(Statuses.CANCELLED)) {
-                try {
-                    tm.removeTransactionFromAllTransactions(transaction.getId()); // if cancelled, the transaction is deleted forever
-                    currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions
-                }
-                catch (InvalidTransactionException e) {
-                    //
-                }
-            }
-            /* if transaction is over (incomplete, complete, never returned) then move to transaction history
-             * and remove from current transactions */
-            if (um.moveTransactionToTransactionHistory(transaction)) {
-                currentTransactionsIds.remove(transaction.getId()); // remove from the list of active transaction's the logged in user sees
+            catch (InvalidTransactionException e) {
+                //
             }
         }
+        /* if transaction is over (incomplete, complete, never returned) then move to transaction history
+        * and remove from current transactions */
+        if (um.moveTransactionToTransactionHistory(transaction)) {
+            currentTransactionsIds.remove(transaction.getId()); // remove from the list of active transaction's the logged in user sees
+        }
+    }
+
+    /**
+     * returns if one of the users statuses are pending
+     * @param transaction which transaction
+     * @return boolean
+     */
+    public boolean userStatuses(Transaction transaction) {
+        return !(transaction.getStatusUser1().equals(Statuses.PENDING) | transaction.getStatusUser2().equals(Statuses.PENDING));
     }
 
     /**
@@ -432,97 +412,6 @@ public class UserMenuController{
             }
         }
         return availableItems;
-    }
-
-//    private void editMeeting(TradingUser currentTradingUser, Transaction transaction) {
-//        boolean userInteracting = true;
-//        UUID user = currentTradingUser.getUserId();
-//
-//        while (userInteracting) {
-//            // check if both users have reached their edit threshold without confirming
-//            if (transaction.getFirstMeeting().getNumEditsUser1() == 3 && transaction.getFirstMeeting().getNumEditsUser2() == 3) {
-//                System.out.println("Transaction has been cancelled");
-//                transaction.setStatus(Statuses.CANCELLED);
-//            }
-//            if (!tm.transactionHasMultipleMeetings(transaction)) { // for transactions with one meeting
-//                List<String> options = ump.constructEditMeetingOptions();
-//                int OptionChosen = ump.handleOptionsByIndex(options, true, "Meeting Options");
-//                if (OptionChosen == options.size() - 1) {
-//                    System.out.println(ump.previousMenu);
-//                    userInteracting = false;
-//                } else {
-//                    switch (OptionChosen) {
-//                        case 0:
-//                            editMeetingFlow(user, transaction, 1, "location");
-//                            break;
-//                        case 1:
-//                            editMeetingFlow(user, transaction, 1, "time");
-//                            break;
-//                        default:
-//                            editMeetingFlow(user, transaction, 1, "date");
-//                    }
-//                }
-//            } else if (tm.transactionHasMultipleMeetings(transaction)) { // for transactions with two meetings
-//                int meetingNum = ump.handleOptionsByIndex(ump.constructWhichMeetingList(), true,
-//                        "Transaction with two meetings");
-//                if (meetingNum == ump.constructWhichMeetingList().size()) {
-//                    System.out.println(ump.previousMenu);
-//                    userInteracting = false;
-//                } else {
-//                    Meeting meeting = transaction.getTransactionMeetings().get(meetingNum);
-//                    System.out.println("This is the meeting you wish to edit " + meeting.toString());
-//                    List<String> options = ump.constructEditMeetingOptions();
-//                    int OptionChosen = ump.handleOptionsByIndex(options, true, "Meeting Options");
-//                    // Logic handling back to other menu vs. Editing a meeting
-//                    if (OptionChosen == options.size() - 1) {
-//                        System.out.println(ump.previousMenu);
-//                        userInteracting = false;
-//                    } else {
-//                        switch (OptionChosen) {
-//                            case 0:
-//                                editMeetingFlow(user, transaction, meetingNum + 1, "location");
-//                                break;
-//                            case 1:
-//                                editMeetingFlow(user, transaction, meetingNum + 1, "time");
-//                                break;
-//                            default:
-//                                editMeetingFlow(user, transaction, meetingNum + 1, "date");
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-
-    private void editMeetingFlow(UUID user, Transaction transaction, int meetingNum, String which) {
-        switch (which) {
-            case "location":
-                Scanner scanner = new Scanner(System.in);
-                System.out.println(ump.meetingLocation);
-                String MeetingLocation = scanner.nextLine();
-                if (tm.editMeeting(meetingNum, transaction, user, MeetingLocation)) {
-                    System.out.println(ump.successfullyEditedMeeting(MeetingLocation));
-                } else {
-                    System.out.println(ump.editThresholdReached);
-                }
-                break;
-            case "time":
-                LocalTime MeetingTime = ump.inputTimeGetter(ump.enterWhatInFormat("time", "hh:mm:ss"));
-                if (tm.editMeeting(meetingNum, transaction, user, MeetingTime)) {
-                    System.out.println(ump.successfullyEditedMeeting(MeetingTime.toString()));
-                } else {
-                    System.out.println(ump.editThresholdReached);
-                }
-                break;
-            case "date":
-                LocalDate MeetingDate = ump.inputDateGetter(ump.enterWhatInFormat("date", "dd-mm-yyyy"));
-                if (tm.editMeeting(meetingNum, transaction, user, MeetingDate)) {
-                    System.out.println(ump.successfullyEditedMeeting(MeetingDate.toString()));
-                } else {
-                    System.out.println(ump.editThresholdReached);
-                }
-                break;
-        }
     }
 
     /* set a TradingUser to be flagged for admin approval if either the borrow, weekly, or incomplete thresholds have been reached */

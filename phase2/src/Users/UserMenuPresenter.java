@@ -1,9 +1,12 @@
 package Users;
 
 import Items.Item;
+import Items.ItemManager;
 import Presenters.MenuPresenter;
 import Transactions.Transaction;
 import Transactions.Statuses;
+import Transactions.TransactionManager;
+
 import java.util.*;
 
 /**
@@ -31,7 +34,8 @@ public class UserMenuPresenter extends MenuPresenter {
 
     /* transaction strings */
     protected String makeTransaction = "Would you like to make another transaction?";
-    protected String meetingLocation = "Where do you want to have the meeting?";
+    protected String meetingLocation = "Enter Location:";
+    protected String meetingTime = "Pick a Time:";
     protected String scheduleMeeting = "Please schedule a meeting time with the other user.";
     protected String whatTypeOfTransaction = "Would you like this transaction to be permanent or temporary?";
 
@@ -39,6 +43,10 @@ public class UserMenuPresenter extends MenuPresenter {
     protected String editThresholdReached = "You have reached your edit threshold.";
     protected String viewThreeMostTraded = "View 3 most frequent trading partners.";
 
+
+    public UserMenuPresenter(TransactionManager tm, TradingUserManager um, ItemManager im){
+        super(tm,um,im);
+    }
     /**
      * <h1>UserMenuPresenter</h1>
      * Constructs a list of options/prompts that the menu will have.

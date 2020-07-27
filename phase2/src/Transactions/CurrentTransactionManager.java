@@ -86,52 +86,21 @@ public class CurrentTransactionManager extends TransactionManager{
      * @param meetingNum the meeting number that the user wants to edit
      * @param transaction the transaction to which the meeting belongs to
      * @param userId the UUID of the Users.TradingUser who want to edit the transaction
-     * @param time the new hour, minute the user want to have the meeting take place, must be in LocalTime format
+     * @param time the new hour, minute the user want to have the meeting take place, must be in Date format
+     * @param date the new Year, month, day the user want to have the meeting take place, must be in Date format
      * @return boolean whether the meeting was successfully edited or not
      */
-    public boolean editMeeting(int meetingNum, Transaction transaction, UUID userId, LocalTime time) {
+    public boolean editMeeting(int meetingNum, Transaction transaction, UUID userId, Date time, Date date) {
         int userNum = findUserNum(transaction, userId);
         Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
         if (canEdit(meeting, userNum) && transaction.getStatus().equals(Statuses.PENDING)) {
             meeting.setTime(time);
+            meeting.setDate(date);
             meeting.userEdits(userNum);
             return true;
         } else {
             return false;
         }
-    }
-
-    /**
-     * Edits a meeting using overloading to selectively edit either the location, time or date
-     * @param meetingNum the meeting that the user wants to edit (first or second in transactions)
-     * @param transaction the transaction to which the meeting belongs to
-     * @param userId the UUID of the Users.TradingUser who want to edit the transaction
-     * @param date the new Year, month, day the user want to have the meeting take place, must be in LocalDate format
-     * @return True if the meeting was successfully edited
-     */
-    public boolean editMeeting(int meetingNum, Transaction transaction, UUID userId, LocalDate date) {
-        int userNum = findUserNum(transaction, userId);
-        Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
-        if (canEdit(meeting, userNum) && transaction.getStatus().equals(Statuses.PENDING)) {
-            meeting.setDate(date);
-            meeting.userEdits(userNum);
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    /**
-     * Creates a new meeting with the time set to one month later.
-     * @param firstMeeting an input meeting
-     * @return a new meeting object with date to one month later
-     */
-    public Meeting meetOneMonthLater(Meeting firstMeeting){
-        String location = firstMeeting.getLocation();
-        LocalDate newDate = firstMeeting.getDate().plusMonths(1);
-        LocalTime newTime = firstMeeting.getTime();
-        return new Meeting(location, newTime, newDate);
     }
 
     /**

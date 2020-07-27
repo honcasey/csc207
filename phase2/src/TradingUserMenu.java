@@ -7,5 +7,7 @@ public class TradingUserMenu {
         this.umc = umc;
     }
 
-    public void display() {}
+    public void display() {
+        // if clicked "view active transactions" button go to ViewActiveTransactionsWindow (in Users package)
+    }
 }

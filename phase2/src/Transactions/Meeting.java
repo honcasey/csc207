@@ -3,6 +3,7 @@ package Transactions;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.HashMap;
 
 public class Meeting implements Serializable {
@@ -34,17 +35,17 @@ public class Meeting implements Serializable {
     private HashMap<Integer, Integer> numUserEdits;
     private int maxNumEdits = 3;
     private String location;
-    private LocalDate meetingDate;
-    private LocalTime meetingTime;
+    private Date meetingDate;
+    private Date meetingTime;
 
     /**
      * The constructor for the class Transactions.Meeting.
      * @param location location to be stored in usereditable hashmap.
-     * @param meetingDate the dateof the meetup as a  LocalDate object.
      * @param meetingTime The time of the meetup as a localTime object.
+     * @param meetingDate the dateof the meetup as a  LocalDate object.
      */
 
-    public Meeting(String location, LocalTime meetingTime, LocalDate meetingDate){
+    public Meeting(String location, Date meetingTime, Date meetingDate){
         this.location = location;
         this.meetingDate = meetingDate;
         this.meetingTime = meetingTime;
@@ -75,7 +76,7 @@ public class Meeting implements Serializable {
      * This is a getter for the time of the meeting.
      * @return this returns an instance for the time of the meeting.
      */
-    public LocalTime getTime(){
+    public Date getTime(){
         return(this.meetingTime);
     }
 
@@ -83,7 +84,7 @@ public class Meeting implements Serializable {
      * This is a getter for the date of the meeting.
      * @return this returns the instance of the date for the meeting.
      */
-    public LocalDate getDate(){
+    public Date getDate(){
         return(this.meetingDate);
     }
 
@@ -99,7 +100,7 @@ public class Meeting implements Serializable {
      * This is a setter for the date of the transaction.
      * @param NewDate this is an instance of the new date object.
      */
-    public void setDate(LocalDate NewDate) {
+    public void setDate(Date NewDate) {
         this.meetingDate =  NewDate;
     }
 
@@ -107,8 +108,7 @@ public class Meeting implements Serializable {
      * This is a setter for the time of the transaction.
      * @param NewTime the hour of the time to be set.
      */
-
-    public void setTime(LocalTime NewTime){
+    public void setTime(Date NewTime){
         this.meetingTime = NewTime;
     }
 
