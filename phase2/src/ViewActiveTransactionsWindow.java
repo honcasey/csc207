@@ -3,25 +3,15 @@ import Transactions.Meeting;
 import Transactions.Statuses;
 import Transactions.Transaction;
 import Users.UserMenuController;
-import Users.UserMenuPresenter;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 
 public class ViewActiveTransactionsWindow {
     private final UserMenuController umc;
-    private final UserMenuPresenter ump;
     private Transaction selectedTransaction;
     private Meeting selectedMeeting;
     private int whichMeetingSelected;
@@ -32,10 +22,7 @@ public class ViewActiveTransactionsWindow {
     private Date inputDate;
     private Date inputTime;
 
-    public ViewActiveTransactionsWindow(UserMenuController umc, UserMenuPresenter ump) {
-        this.umc = umc;
-        this.ump = ump;
-    }
+    public ViewActiveTransactionsWindow(UserMenuController umc) { this.umc = umc; }
 
     public void display() {
         List<Transaction> allTransactions = umc.currentTransactionList();
@@ -51,27 +38,26 @@ public class ViewActiveTransactionsWindow {
             transactionList.addElement(transaction.toString());
         }
 
-        JList trans = new JList(transactionList);
+        JList<String> trans = new JList<>(transactionList);
         trans.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         trans.setSelectedIndex(0);
-        trans.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                JList trans1 = (JList)e.getSource();
-                selectedTransaction = allTransactions.get(trans1.getSelectedIndex());
-                transactionDetails = allTransactions.get(trans1.getSelectedIndex()).toString();
-            }
+        trans.addListSelectionListener(e -> {
+            JList<String> trans1 = (JList<String>)e.getSource();
+            selectedTransaction = allTransactions.get(trans1.getSelectedIndex());
+            transactionDetails = allTransactions.get(trans1.getSelectedIndex()).toString();
         });
 
-        JScrollPane scrollPane = new JScrollPane();
+        JScrollPane scrollPane = new JScrollPane(); // makes the list scrollable
         scrollPane.getViewport().add(trans);
 
         Panel leftPanel = new Panel();
+        leftPanel.setLayout(null);
         leftPanel.add(scrollPane);
 
         JTextArea desc = new JTextArea(transactionDetails);
 
         Panel rightPanel = new Panel();
+        rightPanel.setLayout(null);
         rightPanel.add(desc);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
@@ -83,7 +69,7 @@ public class ViewActiveTransactionsWindow {
         options.setBounds(600,100,100,50);
         options.addActionListener(e -> {
             Statuses transactionStatus = allTransactions.get(trans.getSelectedIndex()).getStatus();
-            switch (transactionStatus) {
+            switch (transactionStatus) { // opens a different window depending on the status of the selected transaction
                 case PENDING:
                     pendingTransactionWindow();
                     break;
@@ -97,6 +83,7 @@ public class ViewActiveTransactionsWindow {
         });
 
         Panel bottomPanel = new Panel();
+        bottomPanel.setLayout(null);
         bottomPanel.add(options);
         frame.add(bottomPanel);
     }
@@ -108,10 +95,11 @@ public class ViewActiveTransactionsWindow {
         frame.setLocationRelativeTo(null);
 
         Panel leftPanel = new Panel();
+        leftPanel.setLayout(null);
 
         // edit meeting stuff
         // which meeting
-        JComboBox whichMeeting = new JComboBox();
+        JComboBox<String> whichMeeting = new JComboBox<>();
         List<Meeting> transactionMeetings = selectedTransaction.getTransactionMeetings();
         for (Meeting meeting : transactionMeetings) {
             whichMeeting.addItem(meeting.toString());
@@ -128,9 +116,7 @@ public class ViewActiveTransactionsWindow {
         // location
         JTextField location = new JTextField("Location");
         location.setBounds(100, 100, 50, 20);
-        location.addActionListener(e -> {
-            inputLocation = location.getText();
-        });
+        location.addActionListener(e -> inputLocation = location.getText());
 
         // date
         setDateCalendar();
@@ -158,6 +144,7 @@ public class ViewActiveTransactionsWindow {
         frame.add(leftPanel);
 
         Panel rightPanel = new Panel();
+        rightPanel.setLayout(null);
         // button to submit edit meeting changes
         JButton updateMeeting = new JButton("Update Meeting");
         updateMeeting.setBounds(100, 250, 100, 50);
@@ -184,20 +171,20 @@ public class ViewActiveTransactionsWindow {
         frame.setVisible(true);
     }
 
-    private void setDateCalendar() {
+    private void setDateCalendar() { // helper method for making a date JSpinner
         dateCalendar = Calendar.getInstance();
         dateCalendar.set(Calendar.DAY_OF_MONTH, 1);
         dateCalendar.set(Calendar.MONTH, 1);
         dateCalendar.set(Calendar.YEAR, 2020);
     }
 
-    private void setTimeCalendar() {
+    private void setTimeCalendar() { // helper method for making a time JSpinner
         timeCalendar = Calendar.getInstance();
         timeCalendar.set(Calendar.HOUR_OF_DAY, 24);
         timeCalendar.set(Calendar.MINUTE, 0);
     }
 
-    private void editMeeting() {
+    private void editMeeting() { // helper method to check if edit threshold has been reached or not if user clicked "edit meeting"
         if (!umc.editMeetingFlow(umc.currentTradingUser.getUserId(), selectedTransaction, whichMeetingSelected,
                 inputLocation, inputTime, inputDate)) {
             PopUpWindow edited = new PopUpWindow("Successfully edited meeting");
@@ -209,7 +196,7 @@ public class ViewActiveTransactionsWindow {
         }
     }
 
-    private void confirmedMeeting() {
+    private void confirmedMeeting() { // helper method that pops up window depending on if other user has confirmed meeting details yet
         if (umc.userStatuses(selectedTransaction)) {
             PopUpWindow waiting = new PopUpWindow("Waiting for other user to confirm meeting.");
             waiting.display();
@@ -227,9 +214,13 @@ public class ViewActiveTransactionsWindow {
         int a = JOptionPane.showConfirmDialog(frame, "Are you sure you want to cancel the transaction?");
         if (a == JOptionPane.YES_OPTION) {
             umc.updateUsers(selectedTransaction, Actions.CANCEL);
-            PopUpWindow cancelled = new PopUpWindow("Transaction has been cancelled.");
-            cancelled.display();
+            cancelledWindow();
         }
+    }
+
+    private void cancelledWindow() {
+        PopUpWindow cancelled = new PopUpWindow("Transaction has been cancelled.");
+        cancelled.display();
     }
 
     public void tradedTransactionWindow() {
@@ -238,18 +229,57 @@ public class ViewActiveTransactionsWindow {
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        JPanel panel = new JPanel();
+        panel.setLayout(null);
+
         JButton confirm = new JButton("Confirm item has been returned");
         confirm.setBounds(100, 100, 100, 50);
-        confirm.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                umc.updateUsers(selectedTransaction, Actions.ITEMRETURNED);
-            }
+        confirm.addActionListener(e -> {
+            umc.updateUsers(selectedTransaction, Actions.ITEMRETURNED);
+            PopUpWindow confirmed = new PopUpWindow("Item return has been confirmed");
+            confirmed.display();
         });
 
+        JButton claim = new JButton("Claim item has not been returned");
+        claim.setBounds(250, 100, 100, 50);
+        claim.addActionListener(e -> {
+            umc.updateUsers(selectedTransaction, Actions.ITEMNOTRETURNED);
+            cancelledWindow();
+        });
+
+        panel.add(confirm);
+        panel.add(claim);
+        frame.add(panel);
+        frame.setVisible(true);
     }
 
     public void confirmedTransactionWindow() {
+        JFrame frame = new JFrame();
+        frame.setSize(new Dimension(500, 300));
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        JPanel panel = new JPanel();
+        panel.setLayout(null);
+
+        JButton confirm = new JButton("Confirm exchange has taken place");
+        confirm.setBounds(100, 100, 100, 50);
+        confirm.addActionListener(e -> {
+            umc.updateUsers(selectedTransaction, Actions.CONFIRMMEETUP);
+            PopUpWindow confirmed = new PopUpWindow("Meetup occurrence confirmed");
+            confirmed.display();
+        });
+
+        JButton claim = new JButton("Claim the exchange has not taken place");
+        claim.setBounds(250, 100, 100, 50);
+        claim.addActionListener(e -> {
+            umc.updateUsers(selectedTransaction, Actions.MEETUPINCOMPLETE);
+            cancelledWindow();
+        });
+
+        panel.add(confirm);
+        panel.add(claim);
+        frame.add(panel);
+        frame.setVisible(true);
     }
 }

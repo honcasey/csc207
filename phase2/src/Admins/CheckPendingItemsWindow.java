@@ -43,7 +43,7 @@ public class CheckPendingItemsWindow {
         items.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         items.setSelectedIndex(0);
         items.addListSelectionListener(e -> {
-            JList items1 = (JList)e.getSource(); // updates the corresponding item names/description depending on what's selected
+            JList<String> items1 = (JList<String>)e.getSource(); // updates the corresponding item names/description depending on what's selected
             itemUser = amc.allPendingItems.get(items1.getSelectedValue()).toString();
             itemName = pendingItems.get(items1.getSelectedIndex());
             itemDesc = itemDescs.get(items1.getSelectedIndex());

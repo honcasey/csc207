@@ -163,39 +163,6 @@ public class UserMenuPresenter extends MenuPresenter {
         return optionList;
     }
 
-    /**
-     * Returns a list of the actions that can be done by a User depending on the status of the Transaction.
-     * @param transaction the input transaction
-     * @return a list of actions as strings
-     */
-    protected ArrayList<String> userTransactionActions(Transaction transaction){
-        String status = transaction.getStatus();
-        ArrayList<String> options = new ArrayList<>();
-        switch (status) {
-            case Statuses.PENDING: {
-                String[] list = new String[]{"Edit Transactions Meeting(s)", "Confirm Transactions Meeting(s)", "Cancel transaction"};
-                options.addAll(Arrays.asList(list));
-                break;
-            }
-            case Statuses.CONFIRMED: {
-                String[] list = new String[]{"Confirm the exchange has taken place", "Claim that the exchange has not taken place"};
-                options.addAll(Arrays.asList(list));
-                break;
-            }
-            case Statuses.TRADED: {
-                String[] list = new String[]{"Confirm the item has been returned", "Claim that the item has not been returned past due date"};
-                options.addAll(Arrays.asList(list));
-                break;
-            }
-            default: {
-                String[] list = new String[]{"There are no actions that can be done to this transaction"};
-                options.addAll(Arrays.asList(list));
-                break;
-            }
-        }
-        return options;
-    }
-
     protected String enterWhatInFormat(String what, String format) {
         return "Please enter the " + what + " of your meeting in the format: " + format;
     }
