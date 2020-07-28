@@ -30,7 +30,6 @@ public class PopUpWindow {
         panel.setLayout(null);
 
         // set message on centre of panel
-        label.setBounds();
         panel.add(label);
     }
 }
