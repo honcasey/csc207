@@ -9,7 +9,6 @@ import java.awt.event.KeyEvent;
  */
 public class AdminUserMenu {
     private final AdminMenuController amc;
-    private final AdminMenuPresenter amp;
     private final JButton button1 = new JButton();
     private final JButton button2 = new JButton();
     private final JButton button3 = new JButton();
@@ -17,9 +16,8 @@ public class AdminUserMenu {
     private final JButton button5 = new JButton();
     private final JButton button6 = new JButton();
 
-    public AdminUserMenu(AdminMenuController amc, AdminMenuPresenter amp) {
+    public AdminUserMenu(AdminMenuController amc) {
         this.amc = amc;
-        this.amp = amp;
     }
 
     public void display() {
@@ -83,27 +81,27 @@ public class AdminUserMenu {
         button1.setBounds(50, 50, 150, 75);
         button1.setBackground(Color.PINK); // DO NOT CHANGE THIS >: ((
         button1.setForeground(Color.PINK);
-        button1.setText(amp.checkPendingItems);
+        button1.setText("Check Pending Items for Approval");
         panel.add(button1);
 
         button2.setBounds(200, 50, 150, 75);
-        button2.setText(amp.checkFlaggedUsers);
+        button2.setText("Check Flagged Users");
         panel.add(button2);
 
         button3.setBounds(350, 50, 150, 75);
-        button3.setText(amp.createNewAdmin);
+        button3.setText("Create New Admin User");
         panel.add(button3);
 
         button4.setBounds(50, 150, 150, 75);
-        button4.setText(amp.addItem);
+        button4.setText("Add New Item to a TradingUser's Wishlist/Inventory");
         panel.add(button4);
 
         button5.setBounds(200, 150, 150, 75);
-        button5.setText(amp.changeThreshold);
+        button5.setText("Change TradingUser Threshold");
         panel.add(button5);
 
         button6.setBounds(350, 150, 150, 75);
-        button6.setText(amp.checkUnfreezeAccounts);
+        button6.setText("Check Unfreeze TradingUser Account Requests");
         panel.add(button6);
     }
 

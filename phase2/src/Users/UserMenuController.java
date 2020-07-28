@@ -6,11 +6,7 @@ import Exceptions.InvalidTradingUserException;
 import Exceptions.InvalidTransactionException;
 import Items.Item;
 import Items.ItemManager;
-import Transactions.Meeting;
-import Transactions.PastTransactionManager;
-import Transactions.Transaction;
-import Transactions.CurrentTransactionManager;
-import Transactions.Statuses;
+import Transactions.*;
 
 import java.util.*;
 
@@ -30,13 +26,13 @@ public class UserMenuController{
     private final PastTransactionManager ptm;
     private final ItemManager im;
     private final Map<Item, TradingUser> allPendingItems;
-    private final UserMenuPresenter ump;
+    private final UserMenuPresenter ump = null; // get rid of later
 //    private HashMap<Item, TradingUser> availableItems;
 
     public UserMenuController(TradingUserManager tradingUserManager, AdminManager adminManager,
                               CurrentTransactionManager currentTransactionManager,
                               PastTransactionManager pastTransactionManager, ItemManager itemManager,
-                              Map<Item, TradingUser> pendingItems, UserMenuPresenter ump) {
+                              Map<Item, TradingUser> pendingItems) {
         allPendingItems = pendingItems;
         am = adminManager;
         um = tradingUserManager;
@@ -44,7 +40,6 @@ public class UserMenuController{
         ptm = pastTransactionManager;
         im = itemManager;
 //        availableItems = getAvailableItems();
-        this.ump = ump;
     }
 
     /**

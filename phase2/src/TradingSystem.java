@@ -38,12 +38,9 @@ public class TradingSystem {
     private CurrentTransactionManager tm;
     private PastTransactionManager ptm;
     private ItemManager im;
-    private TransactionManager trm;
     private Map<Item, TradingUser> pendingItems;
     private AdminMenuController amc;
-    private AdminMenuPresenter amp;
     private UserMenuController umc;
-    private UserMenuPresenter ump;
 
     /**
      * Calls to different helper methods to read data from saved files, redirects user to
@@ -52,7 +49,7 @@ public class TradingSystem {
     public void run() {
         readData();
         checkFirstAdmin();
-        LoginWindow lw = new LoginWindow(amc, umc, amp);
+        LoginWindow lw = new LoginWindow(amc, umc);
         lw.display();
         writeData();
     }
@@ -86,12 +83,10 @@ public class TradingSystem {
         tm = new CurrentTransactionManager(transactions);
         ptm = new PastTransactionManager(transactions);
         im = new ItemManager(items);
-        trm = new TransactionManager(transactions);
 
         // create new controllers
-        amc = new AdminMenuController(am, tum, pendingItems, amp, im);
-        ump = new UserMenuPresenter(trm, tum, im);
-        umc = new UserMenuController(tum, am, tm, ptm, im, pendingItems, ump);
+        amc = new AdminMenuController(am, tum, pendingItems, im);
+        umc = new UserMenuController(tum, am, tm, ptm, im, pendingItems);
     }
 
     /**
