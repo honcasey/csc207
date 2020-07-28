@@ -32,9 +32,9 @@ import java.util.*;
 public abstract class Transaction implements Serializable {
     private UUID id = UUID.randomUUID();
     private Meeting firstMeeting;
-    private String status;
+    private Statuses status;
     private TreeMap<UUID,List<UUID>> userToItems;
-    private TreeMap<UUID, String> userToStatus;
+    private TreeMap<UUID, Statuses> userToStatus;
 
 
     /**
@@ -48,7 +48,7 @@ public abstract class Transaction implements Serializable {
         status = Statuses.PENDING;
         this.userToItems =userToItems;
         this.firstMeeting = firstMeeting;
-        TreeMap<UUID,String> userToStatus = new TreeMap<>();
+        TreeMap<UUID,Statuses> userToStatus = new TreeMap<>();
         for(UUID id:userToItems.keySet()){
             userToStatus.put(id,Statuses.PENDING);
         }
@@ -67,7 +67,7 @@ public abstract class Transaction implements Serializable {
      * Setter for status. This will be called by use case classes.
      * @param newStatus the new status.
      */
-    public void setStatus(String newStatus){
+    public void setStatus(Statuses newStatus){
         status = newStatus;
     }
 
@@ -75,7 +75,7 @@ public abstract class Transaction implements Serializable {
      * Getter for status. This will be called by use case classes.
      * @return returns the status of the transaction which can take on values specified in class documentation.
      */
-    public String getStatus(){
+    public Statuses getStatus(){
         return status;
     }
 
@@ -190,7 +190,7 @@ public abstract class Transaction implements Serializable {
      * @param user the user id whose transaction status you would like to return.
      * @return returns the transaction status for the user id that was passed in to the method.
      */
-    public String getUserStatus(UUID user){
+    public Statuses getUserStatus(UUID user){
         return this.userToStatus.get(user);
     }
 
@@ -201,7 +201,7 @@ public abstract class Transaction implements Serializable {
      * @param user the user id whose status you wish to change in the status mapping.
      * @param newStatus the new status you would like the user id to be mapped to.
      */
-    public void setUserStatus(UUID user, String newStatus){
+    public void setUserStatus(UUID user, Statuses newStatus){
         this.userToStatus.put(user,newStatus);
     }
 
@@ -209,13 +209,13 @@ public abstract class Transaction implements Serializable {
      * Getter for status. This will be called by use case classes.
      * @return statusUser1
      */
-    public String getStatusUser1() {return this.getUserStatus(this.getUser1());}
+    public Statuses getStatusUser1() {return this.getUserStatus(this.getUser1());}
 
     /**
      * setter for user1. This will be called by use case classes.
      *@param newStatus The new Status of statusUser1
      */
-    public void setStatusUser1(String newStatus) {
+    public void setStatusUser1(Statuses newStatus) {
         UUID user1 = this.getUser1();
         this.setUserStatus(user1,newStatus);
     }
@@ -224,7 +224,7 @@ public abstract class Transaction implements Serializable {
      * Getter for status. This will be called by use case classes.
      * @return statusUser2
      */
-    public String getStatusUser2() {
+    public Statuses getStatusUser2() {
         return this.getUserStatus(this.getUser1());
     }
 
@@ -232,7 +232,7 @@ public abstract class Transaction implements Serializable {
      * Setter for user1. This will be called by use case classes.
      * @param newStatus The new Status of statusUser2
      */
-    public void setStatusUser2(String newStatus){
+    public void setStatusUser2(Statuses newStatus){
         UUID user2 = this.getUser2();
         this.setUserStatus(user2,newStatus);}
 
@@ -242,7 +242,7 @@ public abstract class Transaction implements Serializable {
      * @param newStatus the new status to be changed
      * @param userId the User's UUID
      */
-    public void setStatusUserID(String newStatus, UUID userId){
+    public void setStatusUserID(Statuses newStatus, UUID userId){
         userToStatus.replace(userId, newStatus);
     }
 

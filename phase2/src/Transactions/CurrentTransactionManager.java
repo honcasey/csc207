@@ -20,12 +20,11 @@ public class CurrentTransactionManager extends TransactionManager{
         super(transactions);
     }
 
-
     /**
      * Creates a transaction
      * @param userToItems A hashmap which maps userId's to a list of Item ids(where the list is in the form of [ItemId owned, ItemId wanted])
      * @param firstMeeting firstMeeting This is just a meeting object representing where the users will meet for the first time.
-     * @return
+     * @return Transaction
      */
     public Transaction createTransaction(TreeMap<UUID, List<UUID>> userToItems, Meeting firstMeeting){
         Transaction transaction = new TransactionPerm(userToItems, firstMeeting);
@@ -58,7 +57,6 @@ public class CurrentTransactionManager extends TransactionManager{
      */
     public int findUserNum(Transaction transaction, UUID userId){
         return transaction.getUsers().indexOf(userId) + 1;
-
     }
 
     /**
@@ -113,44 +111,6 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     /**
-     * Updates the inputted transaction's status depending on what the TradingUser selected. (note for Phase 2- this should be a presenter/controller method)
-     * @param tradingUser currently logged in TradingUser
-     * @param transaction inputted transaction
-     * @param optionChosen which option has been chosen by the currently logged in TradingUser
-     * @return true if the user's status has been updated
-     */
-    public boolean updateStatusUser(TradingUser tradingUser, Transaction transaction, String optionChosen){
-        int userNum = findUserNum(transaction, tradingUser.getUserId());
-        UUID userId = tradingUser.getUserId();
-        if (optionChosen.equals("Confirm Transactions Meeting(s)")){
-            transaction.setStatusUserID(Statuses.CONFIRMED, userId);
-            return true;
-        }
-        if (optionChosen.equals("Cancel transaction")){
-           transaction.setStatusUserID(Statuses.CANCELLED, userId);
-           return true;
-        }
-        if (optionChosen.equals("Confirm the exchange has taken place")) {
-            transaction.setStatusUserID(Statuses.TRADED, userId);
-            return true;
-        }
-        if (optionChosen.equals("Claim that the exchange has not taken place")) {
-           transaction.setStatusUserID(Statuses.INCOMPLETE, userId);
-           return true;
-        }
-        if (optionChosen.equals("Confirm the item has been returned")){
-           transaction.setStatusUserID(Statuses.COMPLETED, userId);
-           return true;
-        }
-        if (optionChosen.equals("Claim that the item has not been returned past due date")){
-           transaction.setStatusUserID(Statuses.NEVERRETURNED, userId);
-           return true;
-        }
-        else{ return false;
-        }
-    }
-
-    /**
      * @param transaction the transaction who's status is being updated
      * @return true if the status of the transaction has been updated, the transaction status will we updated based on
      * user input by changing their status user
@@ -185,7 +145,7 @@ public class CurrentTransactionManager extends TransactionManager{
             transaction.setStatus(Statuses.CANCELLED);
             return true;
         }
-        if (transaction.getStatus().equals(Statuses.CONFIRMED) & (transaction.getStatusUser1().equals(Statuses.CANCELLED) || transaction.getStatusUser2().equals("cancel"))){
+        if (transaction.getStatus().equals(Statuses.CONFIRMED) & (transaction.getStatusUser1().equals(Statuses.CANCELLED) || transaction.getStatusUser2().equals(Statuses.CANCELLED))){
             if (transaction.getStatusUser1().equals(Statuses.TRADED) || transaction.getStatusUser1().equals(Statuses.COMPLETED)){
                 return false;
             }

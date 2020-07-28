@@ -8,6 +8,6 @@ public class TradingUserMenu {
     }
 
     public void display() {
-        // if clicked "view active transactions" button go to ViewActiveTransactionsWindow (in Users package)
+        // if clicked "view active transactions" button go to ViewActiveTransactionsWindow
     }
 }

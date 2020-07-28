@@ -75,7 +75,7 @@ public class AdminUserMenu {
     }
 
     private void placeComponents(JPanel panel) {
-        // panel.setLayout(null);
+        panel.setLayout(null);
 
         // add button's to panel
         button1.setBounds(50, 50, 150, 75);

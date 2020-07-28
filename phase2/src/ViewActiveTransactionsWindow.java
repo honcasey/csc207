@@ -1,3 +1,4 @@
+import Transactions.Actions;
 import Transactions.Meeting;
 import Transactions.Statuses;
 import Transactions.Transaction;
@@ -80,28 +81,24 @@ public class ViewActiveTransactionsWindow {
 
         JButton options = new JButton("Options");
         options.setBounds(600,100,100,50);
-        options.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String transactionStatus = allTransactions.get(trans.getSelectedIndex()).getStatus();
-                switch (transactionStatus) {
-                    case Statuses.PENDING:
-                        pendingTransactionWindow();
-                        break;
-                    case Statuses.TRADED:
-                        tradedTransactionWindow();
-                        break;
-                    case Statuses.CONFIRMED:
-                        confirmedTransactionWindow();
-                        break;
-                }
+        options.addActionListener(e -> {
+            Statuses transactionStatus = allTransactions.get(trans.getSelectedIndex()).getStatus();
+            switch (transactionStatus) {
+                case PENDING:
+                    pendingTransactionWindow();
+                    break;
+                case TRADED:
+                    tradedTransactionWindow();
+                    break;
+                case CONFIRMED:
+                    confirmedTransactionWindow();
+                    break;
             }
         });
 
         Panel bottomPanel = new Panel();
         bottomPanel.add(options);
         frame.add(bottomPanel);
-
     }
 
     public void pendingTransactionWindow() {
@@ -170,7 +167,7 @@ public class ViewActiveTransactionsWindow {
         JButton finalizeMeeting = new JButton("Finalize Meeting Details");
         finalizeMeeting.setBounds(100, 350, 100, 50);
         finalizeMeeting.addActionListener(e -> {
-            umc.updateUsers(selectedTransaction);
+            umc.updateUsers(selectedTransaction, Actions.CONFIRMMEETINGDETAILS);
             confirmedMeeting();
         });
 
@@ -226,17 +223,29 @@ public class ViewActiveTransactionsWindow {
     /* https://www.javatpoint.com/java-joptionpane#:~:text=%E2%86%92%20%E2%86%90%20prev-,Java%20JOptionPane,JOptionPane%20class%20inherits%20JComponent%20class. */
     private void areYouSureWindow() {
         JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         int a = JOptionPane.showConfirmDialog(frame, "Are you sure you want to cancel the transaction?");
         if (a == JOptionPane.YES_OPTION) {
-            umc.updateUsers(selectedTransaction);
+            umc.updateUsers(selectedTransaction, Actions.CANCEL);
             PopUpWindow cancelled = new PopUpWindow("Transaction has been cancelled.");
             cancelled.display();
         }
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
-
     public void tradedTransactionWindow() {
+        JFrame frame = new JFrame();
+        frame.setSize(new Dimension(500, 300));
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        JButton confirm = new JButton("Confirm item has been returned");
+        confirm.setBounds(100, 100, 100, 50);
+        confirm.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                umc.updateUsers(selectedTransaction, Actions.ITEMRETURNED);
+            }
+        });
 
     }
 
