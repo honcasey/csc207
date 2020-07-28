@@ -7,7 +7,6 @@ import Items.ItemManager;
 import Users.TradingUser;
 import Users.TradingUserManager;
 
-import javax.swing.*;
 import java.util.*;
 
 /**
@@ -22,7 +21,7 @@ public class AdminMenuController {
     private final AdminManager am;
     private final TradingUserManager um;
     protected final Map<Item, TradingUser> allPendingItems;
-    private final AdminMenuPresenter amp = new AdminMenuPresenter();
+    private final AdminMenuPresenter amp;
     private final ItemManager im;
 
     /**
@@ -30,13 +29,15 @@ public class AdminMenuController {
      * @param adminManager manager of all AdminUsers
      * @param tradingUserManager manager of all TradingUsers
      * @param pendingItems list of all pending items that have been requested by users to be approved
+     * @param amp
      * @param items manager of all Items
      */
     public AdminMenuController(AdminManager adminManager, TradingUserManager tradingUserManager,
-                               Map<Item, TradingUser> pendingItems, ItemManager items) {
+                               Map<Item, TradingUser> pendingItems, AdminMenuPresenter amp, ItemManager items) {
         allPendingItems = pendingItems;
         um = tradingUserManager;
         am = adminManager;
+        this.amp = amp;
         im = items;
     }
 

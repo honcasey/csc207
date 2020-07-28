@@ -82,7 +82,7 @@ public class TradingSystem {
         im = new ItemManager(items);
 
         // create new controllers
-        amc = new AdminMenuController(am, tum, pendingItems, im);
+        amc = new AdminMenuController(am, tum, pendingItems, amp, im);
         umc = new UserMenuController(tum, am, tm, ptm, im, pendingItems, ump);
     }
 

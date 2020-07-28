@@ -5,6 +5,8 @@ import Users.UserMenuController;
 import Users.UserMenuPresenter;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -157,7 +159,13 @@ public class ViewActiveTransactionsWindow {
         JSpinner meetingDate = new JSpinner(dateModel);
         JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(meetingDate, "dd:mm:yyyy");
         meetingDate.setEditor(dateEditor);
-        meetingDate.addChangeListener(e -> inputDate = dateModel.getDate());
+        meetingDate.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                inputDate = dateModel.getDate();
+            }
+        });
+        // meetingDate.addChangeListener(e -> );
 
         // time
         Calendar timeCalendar = Calendar.getInstance();
