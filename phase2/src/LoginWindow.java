@@ -45,7 +45,7 @@ public class LoginWindow {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                displaySecondaryMenu(userText.getText(), passwordText.getText());
+                displaySecondaryMenu(userText.getText(), String.valueOf(passwordText.getPassword()));
             }
         });
 

@@ -47,6 +47,7 @@ public class UserMenuPresenter extends MenuPresenter {
     public UserMenuPresenter(TransactionManager tm, TradingUserManager um, ItemManager im){
         super(tm,um,im);
     }
+
     /**
      * <h1>UserMenuPresenter</h1>
      * Constructs a list of options/prompts that the menu will have.

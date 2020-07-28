@@ -43,11 +43,10 @@ public class PastTransactionManager extends TransactionManager{
         // for each transaction in the list, look at the date of the transaction (the date of the last meeting) and compare it to the current dates above
 
         for (int i = 0; i < allTransactions.size();){
-            LocalDate date;
+            Date date;
             Transaction currTrans = allTransactions.get(i);
             date = currTrans.getTransactionMeetings().get(currTrans.getTransactionMeetings().size() - 1).getDate();
-            Date setDate = java.sql.Date.valueOf(date);
-            targetCal.setTime(setDate);
+            targetCal.setTime(date);
             targetWeek = targetCal.get(Calendar.WEEK_OF_YEAR);
             targetYear = targetCal.get(Calendar.YEAR);
 
