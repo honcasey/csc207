@@ -8,7 +8,7 @@ import java.util.*;
  * <h1>TransactionManager</h1>
  * Manages all transactions in the system.
  */
-public abstract class TransactionManager {
+public class TransactionManager {
     private Map<UUID, Transaction> allTransactions;
 
     public TransactionManager(Map<UUID, Transaction> transactions) {

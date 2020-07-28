@@ -26,7 +26,8 @@ public class ViewActiveTransactionsWindow {
     private int whichMeetingSelected;
     private String transactionDetails;
     private String inputLocation;
-    private Calendar calendar;
+    private Calendar dateCalendar;
+    private Calendar timeCalendar;
     private Date inputDate;
     private Date inputTime;
 
@@ -103,18 +104,6 @@ public class ViewActiveTransactionsWindow {
 
     }
 
-    /*
-     * http://www.java2s.com/Tutorials/Java/Data_Type_How_to/Date_Convert/Convert_LocalTime_to_java_util_Date.htm
-     */
-    private Date localTimeToDate(LocalTime time) {
-        return Date.from(time.atDate(LocalDate.now()).atZone(ZoneId.systemDefault()).toInstant());
-    }
-
-    /* converts LocalDate to Date */
-    private Date localDateToDate(LocalDate date) {
-        return Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
-    }
-
     public void pendingTransactionWindow() {
         JFrame frame = new JFrame("Edit Meeting");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -147,10 +136,7 @@ public class ViewActiveTransactionsWindow {
         });
 
         // date
-        Calendar dateCalendar = Calendar.getInstance();
-        dateCalendar.set(Calendar.DAY_OF_MONTH, 1);
-        dateCalendar.set(Calendar.MONTH, 1);
-        dateCalendar.set(Calendar.YEAR, 2020);
+        setDateCalendar();
         SpinnerDateModel dateModel = new SpinnerDateModel();
         dateModel.setValue(dateCalendar.getTime());
 
@@ -160,9 +146,7 @@ public class ViewActiveTransactionsWindow {
         meetingDate.addChangeListener(e -> inputDate = dateModel.getDate());
 
         // time
-        Calendar timeCalendar = Calendar.getInstance();
-        timeCalendar.set(Calendar.HOUR_OF_DAY, 24);
-        timeCalendar.set(Calendar.MINUTE, 0);
+        setTimeCalendar();
         SpinnerDateModel timeModel = new SpinnerDateModel();
         timeModel.setValue(timeCalendar.getTime());
 
@@ -174,49 +158,26 @@ public class ViewActiveTransactionsWindow {
         leftPanel.add(location);
         leftPanel.add(meetingDate);
         leftPanel.add(meetingTime);
-
         frame.add(leftPanel);
 
         Panel rightPanel = new Panel();
         // button to submit edit meeting changes
         JButton updateMeeting = new JButton("Update Meeting");
         updateMeeting.setBounds(100, 250, 100, 50);
-        updateMeeting.addActionListener(e -> {
-            if (!umc.editMeetingFlow(umc.currentTradingUser.getUserId(), selectedTransaction, whichMeetingSelected,
-                    inputLocation, inputTime, inputDate)) {
-                PopUpWindow edited = new PopUpWindow("Successfully edited meeting");
-                edited.display();
-            }
-            else {
-                PopUpWindow thresholdReached = new PopUpWindow("Edit Threshold Reached. You cannot make any more edits.");
-                thresholdReached.display();
-            }
-        });
+        updateMeeting.addActionListener(e -> editMeeting());
 
         // button to confirm finalized meeting details
         JButton finalizeMeeting = new JButton("Finalize Meeting Details");
         finalizeMeeting.setBounds(100, 350, 100, 50);
         finalizeMeeting.addActionListener(e -> {
             umc.updateUsers(selectedTransaction);
-            if (umc.userStatuses(selectedTransaction)) {
-                PopUpWindow waiting = new PopUpWindow("Waiting for other user to confirm meeting.");
-                waiting.display();
-            }
-            else {
-                PopUpWindow confirmed = new PopUpWindow("Meeting has been confirmed.");
-                confirmed.display();
-            }
+            confirmedMeeting();
         });
 
         // button to cancel transaction
         JButton cancelMeeting = new JButton("Cancel Transaction");
         cancelMeeting.setBounds(100, 450, 100, 50);
-        cancelMeeting.addActionListener(e -> {
-            // TO-DO: add "are you sure" window
-            umc.updateUsers(selectedTransaction);
-            PopUpWindow cancelled = new PopUpWindow("Transaction has been cancelled.");
-            cancelled.display();
-        });
+        cancelMeeting.addActionListener(e -> areYouSureWindow());
 
         rightPanel.add(updateMeeting);
         rightPanel.add(finalizeMeeting);
@@ -225,6 +186,55 @@ public class ViewActiveTransactionsWindow {
         frame.add(rightPanel);
         frame.setVisible(true);
     }
+
+    private void setDateCalendar() {
+        dateCalendar = Calendar.getInstance();
+        dateCalendar.set(Calendar.DAY_OF_MONTH, 1);
+        dateCalendar.set(Calendar.MONTH, 1);
+        dateCalendar.set(Calendar.YEAR, 2020);
+    }
+
+    private void setTimeCalendar() {
+        timeCalendar = Calendar.getInstance();
+        timeCalendar.set(Calendar.HOUR_OF_DAY, 24);
+        timeCalendar.set(Calendar.MINUTE, 0);
+    }
+
+    private void editMeeting() {
+        if (!umc.editMeetingFlow(umc.currentTradingUser.getUserId(), selectedTransaction, whichMeetingSelected,
+                inputLocation, inputTime, inputDate)) {
+            PopUpWindow edited = new PopUpWindow("Successfully edited meeting");
+            edited.display();
+        }
+        else {
+            PopUpWindow thresholdReached = new PopUpWindow("Edit Threshold Reached. You cannot make any more edits.");
+            thresholdReached.display();
+        }
+    }
+
+    private void confirmedMeeting() {
+        if (umc.userStatuses(selectedTransaction)) {
+            PopUpWindow waiting = new PopUpWindow("Waiting for other user to confirm meeting.");
+            waiting.display();
+        }
+        else {
+            PopUpWindow confirmed = new PopUpWindow("Meeting has been confirmed.");
+            confirmed.display();
+        }
+    }
+
+    /* https://www.javatpoint.com/java-joptionpane#:~:text=%E2%86%92%20%E2%86%90%20prev-,Java%20JOptionPane,JOptionPane%20class%20inherits%20JComponent%20class. */
+    private void areYouSureWindow() {
+        JFrame frame = new JFrame();
+        int a = JOptionPane.showConfirmDialog(frame, "Are you sure you want to cancel the transaction?");
+        if (a == JOptionPane.YES_OPTION) {
+            umc.updateUsers(selectedTransaction);
+            PopUpWindow cancelled = new PopUpWindow("Transaction has been cancelled.");
+            cancelled.display();
+        }
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+
 
     public void tradedTransactionWindow() {
 
