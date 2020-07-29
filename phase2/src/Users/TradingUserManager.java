@@ -199,7 +199,7 @@ public class TradingUserManager {
      */
     private void updateTransactionHistoryValues(TradingUser tradingUser, Transaction transaction) {
         TransactionHistory tH = tradingUser.getTransactionHistory();
-
+        // TODO: Refactor this with a design pattern
         // if the user is the person giving away the object (user1) in transaction
         if (transaction.getUser1() == tradingUser.getUserId()) {
             // increment the numLended
@@ -337,6 +337,20 @@ public class TradingUserManager {
      */
     public TradingUser getTradingUserById(UUID id) {
         return idToUser.get(id);
+    }
+
+    /**
+     * Retrieves a List of TradingUsers usernames by a List of userIDs
+     * @param ids List of userIDs
+     * @return usernames List of TradingUser Usernames
+     */
+
+    public List<String> getUsernameListByID(List<UUID> ids){
+        List<String> usernames = new ArrayList<>();
+        for (UUID id : ids){
+            usernames.add(getTradingUserById(id).getUsername());
+        }
+        return usernames;
     }
 
     /**

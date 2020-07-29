@@ -117,13 +117,13 @@ public class Serializer {
             System.out.println("IO Exception was caught.");
         }
 
-    }
-
     /**
      * Reads a Map of UUID to Transaction from a file specified by a filepath.
      * @param path The filepath corresponding to the file it is being read from.
      * @return A Map of UUID to Transaction.
      */
+}
+
     public Map<UUID, Transaction> readTransactionMapFromFile(String path) {
         try {
             InputStream file = new FileInputStream(path);
