@@ -17,7 +17,7 @@ import java.util.*;
  *  * to their inventory). <p/>
  */
 public class AdminMenuController {
-    private AdminUser currentAdmin = null; // admin that's logged in
+    protected AdminUser currentAdmin = null; // admin that's logged in
     private final AdminManager am;
     private final TradingUserManager um;
     protected final Map<Item, TradingUser> allPendingItems;

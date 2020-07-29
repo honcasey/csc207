@@ -24,6 +24,12 @@ public abstract class User implements Serializable {
     public String getUsername() { return username; }
 
     /**
+     * Setter for password as a String
+     * @param newPass new password as a String
+     */
+    public void setPassword(String newPass) { this.password = newPass; }
+
+    /**
      * Getter for password as a String
      * @return password as a String
      */

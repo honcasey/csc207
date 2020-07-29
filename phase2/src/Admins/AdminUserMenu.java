@@ -38,21 +38,14 @@ public class AdminUserMenu {
 
         // change password menu option
         JMenuItem changePassword = new JMenuItem("Change password", KeyEvent.VK_C); // press the C key to access this menu item
-        //changePassword.addActionListener(new ActionListener() {
-            //@Override
-            //public void actionPerformed(ActionEvent e) {
-                //  TO-DO (optional?) : make a "change password" window
-            //}
-        //});
+        changePassword.addActionListener(e -> {
+            ChangePasswordWindow cpw = new ChangePasswordWindow(amc);
+            cpw.display();
+        });
 
         // log out menu option
         JMenuItem logOut = new JMenuItem("Log out", KeyEvent.VK_L); // press the L key to access log out option
-        // logOut.addActionListener(new ActionListener() {
-            // @Override
-            // public void actionPerformed(ActionEvent e) {
-            // TO-DO: make the log out window
-        // }
-        // });
+        logOut.addActionListener(e -> System.exit(0));
         menu.add(changePassword);
         menu.add(logOut);
 

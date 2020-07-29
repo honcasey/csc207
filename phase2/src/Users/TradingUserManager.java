@@ -293,7 +293,7 @@ public class TradingUserManager {
      * @param transaction the Transaction being moved.
      */
     public boolean moveTransactionToTransactionHistory(Transaction transaction) {
-        String status = transaction.getStatus();
+        Statuses status = transaction.getStatus();
         TradingUser user1 = getTradingUserById(transaction.getUser1());
         TradingUser user2 = getTradingUserById(transaction.getUser2());
         if (status.equals(Statuses.INCOMPLETE) || status.equals(Statuses.COMPLETED) || status.equals(Statuses.NEVERRETURNED)) {
