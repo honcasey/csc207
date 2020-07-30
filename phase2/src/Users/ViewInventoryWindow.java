@@ -38,7 +38,7 @@ public class ViewInventoryWindow {
         }
         JList<String> itemsList = new JList<>(itemNames);
         itemsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        itemsList.setSelectionMode(0);
+        itemsList.setSelectedIndex(0);
         itemsList.addListSelectionListener(e -> {
             JList<String> itemList1 = (JList<String>) e.getSource();
             itemName = itemNames.get(itemList1.getSelectedIndex());
@@ -65,21 +65,28 @@ public class ViewInventoryWindow {
         frame.getContentPane().add(splitPane);
 
         // JDialog Box
-        JOptionPane removeConfirm = new JOptionPane("Are you sure you want to remove this item from your Inventory?",
-                JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
+//        JOptionPane removeConfirm = new JOptionPane("Are you sure you want to remove this item from your Inventory?",
+//                JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
+
 
 
         // Remove Button
         JButton removeB = new JButton("Remove");
         removeB.setBounds(600, 300, 100, 50);
-        removeB.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                removeConfirm.setVisible(true);
+        // make a JOptionPane when JButton is pressed
+        removeB.addActionListener(e -> {
+            int input = JOptionPane.showOptionDialog(null, "Are you sure you want to remove this item from your Inventory?", "Remove Item?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            if(input == JOptionPane.YES_OPTION) {
+                itemNames.remove(itemsList.getSelectedIndex()); // if YES, remove the item
             }
         });
 
+        // subpanel to hold the Remove button
+        Panel subPanel = new Panel();
+        subPanel.add(removeB);
 
+        // Add the Remove Button on to the Frame
+        frame.add(subPanel);
 
 
     }
