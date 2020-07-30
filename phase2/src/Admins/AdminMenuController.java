@@ -83,23 +83,33 @@ public class AdminMenuController {
     }
 
     /* creates a new admin which can only be done by the first admin */
-    private void createAdmin() {
+//    private void createAdmin() {
+//        if (currentAdmin.isFirstAdmin()) {
+//            Scanner scanner = new Scanner(System.in);
+//            System.out.println(amp.enterName("new Admin"));
+//            String username = scanner.nextLine();
+//            try {
+//                System.out.println(amp.enterPassword("new Admin"));
+//                String password = scanner.nextLine();
+//                am.addAdmin(username, password); // adds the new admin to the list of all AdminUsers
+//                System.out.println(amp.successfullyCreated("New Admin User " + username));
+//            } catch (InvalidAdminException e) {
+//                System.out.println(amp.usernameTaken);
+//            }
+//        } else {
+//            /* the logged in Admin is not the first admin and doesn't have the ability to create new Admin Users */
+//            System.out.println(amp.permissionDenied);
+//        }
+//    }
+    protected void createAdmin(String username, String password){
         if (currentAdmin.isFirstAdmin()) {
-            Scanner scanner = new Scanner(System.in);
-            System.out.println(amp.enterName("new Admin"));
-            String username = scanner.nextLine();
-            try {
-                System.out.println(amp.enterPassword("new Admin"));
-                String password = scanner.nextLine();
-                am.addAdmin(username, password); // adds the new admin to the list of all AdminUsers
-                System.out.println(amp.successfullyCreated("New Admin User " + username));
+            try{
+                am.addAdmin(username, password);
             } catch (InvalidAdminException e) {
-                System.out.println(amp.usernameTaken);
+                //TODO
             }
-        } else {
-            /* the logged in Admin is not the first admin and doesn't have the ability to create new Admin Users */
-            System.out.println(amp.permissionDenied);
         }
+
     }
 
     /* manually adds an item to any TradingUser's inventory or wishlist */

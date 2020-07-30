@@ -63,6 +63,17 @@ public class AdminUserMenu {
             iw.display();
         });
 
+        // if button3 (create new admin user) is clicked
+        button3.addActionListener(e -> {
+            if (amc.currentAdmin.isFirstAdmin()){
+                AddAdminUserWindow auw = new AddAdminUserWindow(amc);
+                auw.display();
+            }else {
+                JOptionPane.showMessageDialog(null, "Permission Denied", "Error Message", JOptionPane.WARNING_MESSAGE);
+            }
+
+        });
+
         // display the window
         frame.setVisible(true);
     }
