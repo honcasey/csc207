@@ -1,0 +1,86 @@
+package Users;
+
+import javax.swing.*;
+import java.awt.*;
+import Items.*;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+public class ViewInventoryWindow {
+    private TradingUser currUser;
+    private ItemManager im;
+    private String itemName;
+    private String itemDesc;
+
+    public ViewInventoryWindow(TradingUser currUser, ItemManager im) {
+        this.currUser = currUser;
+        this.im = im;
+    }
+
+    public void display(){
+       // create the frame
+       JFrame frame = new JFrame("Inventory");
+       frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // closes the current frame but doesn't terminate the app
+
+        // set the frame's size and centre it
+       frame.setSize(new Dimension(700, 500));
+       frame.setLocationRelativeTo(null);
+
+       // LEFT SIDE OF SPLIT
+        List<Item> items = im.convertIdsToItems(currUser.getInventory());
+        DefaultListModel<String> itemNames = new DefaultListModel<>();
+        DefaultListModel<String> itemDescs = new DefaultListModel<>();
+        for (Item item: items){
+            itemNames.addElement(item.toString());
+            itemDescs.addElement(item.getDescription());
+        }
+        JList<String> itemsList = new JList<>(itemNames);
+        itemsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        itemsList.setSelectionMode(0);
+        itemsList.addListSelectionListener(e -> {
+            JList<String> itemList1 = (JList<String>) e.getSource();
+            itemName = itemNames.get(itemList1.getSelectedIndex());
+            itemDesc = itemDescs.get(itemList1.getSelectedIndex());
+        });
+
+        // create a JScrollPane
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.getViewport().add(itemsList);
+
+        Panel leftPanel = new Panel();
+        leftPanel.add(scrollPane);
+
+        // RIGHT SIDE OF SPLIT
+        String text = "Item Name: " + itemName + "\n" + "Item Description: " + itemDesc;
+        JTextArea desc = new JTextArea(text);
+
+        Panel rightPanel = new Panel();
+        rightPanel.add(desc);
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+        splitPane.setBounds(150, 100, 400, 200);
+
+        frame.getContentPane().add(splitPane);
+
+        // JDialog Box
+        JOptionPane removeConfirm = new JOptionPane("Are you sure you want to remove this item from your Inventory?",
+                JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
+
+
+        // Remove Button
+        JButton removeB = new JButton("Remove");
+        removeB.setBounds(600, 300, 100, 50);
+        removeB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                removeConfirm.setVisible(true);
+            }
+        });
+
+
+
+
+    }
+}
