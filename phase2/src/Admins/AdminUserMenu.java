@@ -65,7 +65,7 @@ public class AdminUserMenu {
 
         // if button3 (create new admin user) is clicked
         button3.addActionListener(e -> {
-            if (amc.currentAdmin.isFirstAdmin()){
+            if (amc.currentAdmin.isFirstAdmin()){//creates a new admin which can only be done by the first admin
                 AddAdminUserWindow auw = new AddAdminUserWindow(amc);
                 auw.display();
             }else {

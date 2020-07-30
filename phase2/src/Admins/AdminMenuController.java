@@ -101,15 +101,18 @@ public class AdminMenuController {
 //            System.out.println(amp.permissionDenied);
 //        }
 //    }
-    protected void createAdmin(String username, String password){
+    protected boolean createAdmin(String username, String password){
+        boolean isSuccessful = false;
         if (currentAdmin.isFirstAdmin()) {
             try{
-                am.addAdmin(username, password);
-            } catch (InvalidAdminException e) {
-                //TODO
+                am.addAdmin(username, password);// adds the new admin to the list of all AdminUsers
+                isSuccessful = true;
+            } catch (InvalidAdminException e) {//username taken
+
             }
         }
 
+        return isSuccessful;
     }
 
     /* manually adds an item to any TradingUser's inventory or wishlist */

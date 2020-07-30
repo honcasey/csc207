@@ -23,6 +23,7 @@ public class AddAdminUserWindow {
         // set the frame's size and centre it
         frame.setSize(new Dimension(700, 500));
         frame.setLocationRelativeTo(null);
+        // display window
         frame.setVisible(true);
 
         frame.add(mainPanel);
@@ -38,8 +39,11 @@ public class AddAdminUserWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String passText = new String(passwordField.getPassword());
-                amc.createAdmin(usernameTextField.getText(),passText);
-                JOptionPane.showMessageDialog(null,"Admin created.","Message",JOptionPane.PLAIN_MESSAGE);
+                if(amc.createAdmin(usernameTextField.getText(),passText)){//new admin account successfully added
+                    JOptionPane.showMessageDialog(null,"Admin created.","Message",JOptionPane.PLAIN_MESSAGE);
+                }else{//new admin username is taken
+                    JOptionPane.showMessageDialog(null, "Choose different username.", "Username Taken", JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
     }
