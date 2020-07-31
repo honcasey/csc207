@@ -151,7 +151,7 @@ public class TradingUser extends User implements Serializable {
      * Setter for the current Users.TradingUser's account status, which can be active or frozen.
      * @param status as a String
      */
-    public void setStatus(String status) { this.status = status; }
+    public void setStatus(UserStatuses status) { this.status = status; }
 
     /**
      * Represents the current Users.TradingUser by their username and userId
