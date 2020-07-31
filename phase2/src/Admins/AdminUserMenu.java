@@ -26,7 +26,7 @@ public class AdminUserMenu {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // set the frame's size and centre it
-        frame.setSize(new Dimension(600, 300));
+        frame.setSize(new Dimension(550, 300));
         frame.setLocationRelativeTo(null);
 
         // create the menu bar
