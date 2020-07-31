@@ -20,7 +20,7 @@ public class AdminMenuController {
     protected AdminUser currentAdmin = null; // admin that's logged in
     private final AdminManager am;
     private final TradingUserManager um;
-    private final Map<Item, TradingUser> allPendingItems;
+    protected final Map<Item, TradingUser> allPendingItems;
     private final ItemManager im;
 
     /**
@@ -245,6 +245,7 @@ public class AdminMenuController {
         }
     }
 
+
     public boolean validAdmin(String username, String password) {
         return am.validAdmin(username, password);
     }
@@ -255,10 +256,5 @@ public class AdminMenuController {
         } catch (InvalidAdminException e) {
             // TODO
         }
-    }
-
-    public List<TradingUser> getAllTradingUsers() {
-        return um.getAllTradingUsers();
-
     }
 }

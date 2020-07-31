@@ -1,4 +1,3 @@
-import Presenters.MenuPresenter;
 import Transactions.Actions;
 import Transactions.Meeting;
 import Transactions.Statuses;
@@ -12,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 
 public class ViewActiveTransactionsWindow {
-    private final MenuPresenter mp;
     private final UserMenuController umc;
     private Transaction selectedTransaction;
     private Meeting selectedMeeting;
@@ -24,8 +22,7 @@ public class ViewActiveTransactionsWindow {
     private Date inputDate;
     private Date inputTime;
 
-    public ViewActiveTransactionsWindow(MenuPresenter mp, UserMenuController umc) {
-        this.mp = mp;
+    public ViewActiveTransactionsWindow(UserMenuController umc) {
         this.umc = umc; }
 
     public void display() {
@@ -50,7 +47,7 @@ public class ViewActiveTransactionsWindow {
         trans.addListSelectionListener(e -> {
             JList<String> trans1 = (JList<String>)e.getSource();
             selectedTransaction = allTransactions.get(trans1.getSelectedIndex());
-            transactionDetails = mp.getTransactionString(selectedTransaction, umc.currentTradingUser);
+            // TO-DO: transactionDetails = mp.getTransactionString(selectedTransaction, umc.currentTradingUser);
         });
 
         JScrollPane scrollPane = new JScrollPane(); // makes the list scrollable
