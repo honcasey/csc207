@@ -39,7 +39,9 @@ public class ViewActiveTransactionsWindow {
 
         DefaultListModel<String> transactionList = new DefaultListModel<>();
         for (Transaction transaction : allTransactions) {
-            transactionList.addElement(transaction.toString());
+            transactionList.addElement(transaction.toString()); //
+            // THERE IS NO toString Implemented (use the method in menupresenter)
+
         }
 
         JList<String> trans = new JList<>(transactionList);
