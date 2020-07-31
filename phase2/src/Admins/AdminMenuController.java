@@ -161,39 +161,39 @@ public class AdminMenuController {
 
     /* changes one of the TradingUser's thresholds */
     // list of all users and change thresholds with jspinner
-    private void changeUserThreshold() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(amp.enterName("TradingUser"));
-        String username = scanner.nextLine();
-        String whichThreshold = amp.handleOptions(amp.constructAllThresholds(), false, "TradingUser Thresholds");
-        try {
-            switch (whichThreshold) {
-                case "Borrow": {
-                    System.out.println(amp.currentThreshold(amp.borrowThresholdDescription,
-                            um.getTradingUser(username).getBorrowThreshold()));
-                    helperChangeThreshold(username, whichThreshold);
-                    break;
-                }
-                case "Weekly": {
-                    System.out.println(amp.currentThreshold(amp.weeklyThresholdDescription,
-                            um.getTradingUser(username).getWeeklyThreshold()));
-                    helperChangeThreshold(username, whichThreshold);
-                    break;
-                }
-                case "Incomplete": {
-                    System.out.println(amp.currentThreshold(amp.incompleteThresholdDescription,
-                            um.getTradingUser(username).getIncompleteThreshold()));
-                    helperChangeThreshold(username, whichThreshold);
-                    break;
-                }
-                default: // if the input isn't either borrow, weekly, or incomplete
-                    System.out.println(amp.validOptions(amp.constructAllThresholds()));
-                    break;
-            }
-        } catch(InvalidTradingUserException e) {
-            System.err.print(amp.usernameInvalid);
-        }
-    }
+//    private void changeUserThreshold() {
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println(amp.enterName("TradingUser"));
+//        String username = scanner.nextLine();
+//        String whichThreshold = amp.handleOptions(amp.constructAllThresholds(), false, "TradingUser Thresholds");
+//        try {
+//            switch (whichThreshold) {
+//                case "Borrow": {
+//                    System.out.println(amp.currentThreshold(amp.borrowThresholdDescription,
+//                            um.getTradingUser(username).getBorrowThreshold()));
+//                    helperChangeThreshold(username, whichThreshold);
+//                    break;
+//                }
+//                case "Weekly": {
+//                    System.out.println(amp.currentThreshold(amp.weeklyThresholdDescription,
+//                            um.getTradingUser(username).getWeeklyThreshold()));
+//                    helperChangeThreshold(username, whichThreshold);
+//                    break;
+//                }
+//                case "Incomplete": {
+//                    System.out.println(amp.currentThreshold(amp.incompleteThresholdDescription,
+//                            um.getTradingUser(username).getIncompleteThreshold()));
+//                    helperChangeThreshold(username, whichThreshold);
+//                    break;
+//                }
+//                default: // if the input isn't either borrow, weekly, or incomplete
+//                    System.out.println(amp.validOptions(amp.constructAllThresholds()));
+//                    break;
+//            }
+//        } catch(InvalidTradingUserException e) {
+//            System.err.print(amp.usernameInvalid);
+//        }
+//    }
 
     /* checks all TradingUsers that are frozen and have requested their account to be unfrozen */
     // Jcardlayout
