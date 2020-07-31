@@ -71,9 +71,9 @@ public class ChangeThresholdForm {
             @Override
             public void actionPerformed(ActionEvent e) {
                 List<Integer> thresholdList = tum.getCurrThresholds(currUsername);
-                currBorrowThreshold.insert(thresholdList.get(0).toString(), 1);
-                currWeeklyThreshold.insert(thresholdList.get(1).toString(), 1);
-                currIncompleteThreshold.insert(thresholdList.get(2).toString(), 1);
+                currBorrowThreshold.setText(thresholdList.get(0).toString());
+                currWeeklyThreshold.setText(thresholdList.get(1).toString());
+                currIncompleteThreshold.setText(thresholdList.get(2).toString());
 
             }
         });
