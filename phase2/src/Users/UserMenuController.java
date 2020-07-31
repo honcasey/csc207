@@ -470,4 +470,8 @@ public class UserMenuController{
             // TODO
         }
     }
+
+    public ItemManager getIm(){
+        return im;
+    }
 }

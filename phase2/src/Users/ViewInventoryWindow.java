@@ -1,22 +1,20 @@
 package Users;
 
+import Items.Item;
+
 import javax.swing.*;
 import java.awt.*;
-import Items.*;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class ViewInventoryWindow {
     private TradingUser currUser;
-    private ItemManager im;
+    private UserMenuController umc;
     private String itemName;
     private String itemDesc;
 
-    public ViewInventoryWindow(TradingUser currUser, ItemManager im) {
+    public ViewInventoryWindow(TradingUser currUser, UserMenuController umc) {
         this.currUser = currUser;
-        this.im = im;
+        this.umc = umc;
     }
 
     public void display(){
@@ -29,7 +27,7 @@ public class ViewInventoryWindow {
        frame.setLocationRelativeTo(null);
 
        // LEFT SIDE OF SPLIT
-        List<Item> items = im.convertIdsToItems(currUser.getInventory());
+        List<Item> items = umc.getIm().convertIdsToItems(currUser.getInventory());
         DefaultListModel<String> itemNames = new DefaultListModel<>();
         DefaultListModel<String> itemDescs = new DefaultListModel<>();
         for (Item item: items){
@@ -63,11 +61,6 @@ public class ViewInventoryWindow {
         splitPane.setBounds(150, 100, 400, 200);
 
         frame.getContentPane().add(splitPane);
-
-        // JDialog Box
-//        JOptionPane removeConfirm = new JOptionPane("Are you sure you want to remove this item from your Inventory?",
-//                JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
-
 
 
         // Remove Button
