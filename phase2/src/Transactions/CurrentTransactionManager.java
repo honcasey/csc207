@@ -37,12 +37,18 @@ public class CurrentTransactionManager extends TransactionManager{
      * Creates a transaction
      * @param userToItems A hashmap which maps userId's to a list of Item ids(where the list is in the form of [ItemId owned, ItemId wanted])
      * @param firstMeeting firstMeeting This is just a meeting object representing where the users will meet for the first time.
-     * @param itemToName A  hashmap which maps itemId to the string Name of the item
      * @param secondMeeting
      * @return
      */
-    public Transaction createTransaction(TreeMap<UUID, List<UUID>> userToItems, Meeting firstMeeting, HashMap<UUID, List<String>> itemToName, Meeting secondMeeting) {
-        Transaction transaction = new TransactionTemp(userToItems, firstMeeting, itemToName, secondMeeting);
+    public Transaction createTransaction(TreeMap<UUID, List<UUID>> userToItems, Meeting firstMeeting, Meeting secondMeeting) {
+        Transaction transaction = new TransactionTemp(userToItems, firstMeeting, secondMeeting);
+        UUID id = transaction.getId();
+        getAllTransactions().put(id, transaction);
+        return transaction;
+    }
+
+    public Transaction createTransaction(TreeMap<UUID, List<UUID>> userToItems, HashMap<UUID, List<String>> itemToName){
+        Transaction transaction = new TransactionVirtual(userToItems, itemToName);
         UUID id = transaction.getId();
         getAllTransactions().put(id, transaction);
         return transaction;
@@ -116,11 +122,25 @@ public class CurrentTransactionManager extends TransactionManager{
      * user input by changing their status user
      */
     public boolean updateStatus(Transaction transaction){
-        return (pendingToCancelled(transaction) | pendingToConfirmed(transaction) | confirmedToTraded(transaction) |
+        return (noMeetingComplete(transaction) | pendingToCancelled(transaction) | pendingToConfirmed(transaction) | confirmedToTraded(transaction) |
                 confirmedToIncomplete(transaction) | confirmedToComplete(transaction) | tradedToComplete(transaction) |
                 tradedToNeverReturned(transaction));
     }
 
+    private boolean noMeetingComplete(Transaction transaction){
+        if(!transaction.isVirtual()){
+            return false;
+        }
+        else{
+            for(UUID userId: transaction.getUsers()){
+                if (transaction.getUserStatus(userId).equals(Statuses.PENDING)){
+                    return false;
+                }
+            }
+            transaction.setStatus(Statuses.COMPLETED);
+            return true;
+        }
+    }
     private boolean canEdit(Meeting meeting, int userNum) {
             return meeting.getNumEditsUser(userNum) < meeting.getMaxNumEdits();
     }
