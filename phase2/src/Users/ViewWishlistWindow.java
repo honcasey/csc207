@@ -1,7 +1,6 @@
 package Users;
 
 import Items.Item;
-import Items.ItemManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,13 +8,13 @@ import java.util.List;
 
 public class ViewWishlistWindow {
     private TradingUser currUser;
-    private ItemManager im;
+    private UserMenuController umc;
     private String itemName;
     private String itemDesc;
 
-    public void ViewWishListWindow(TradingUser currUser, ItemManager im) {
+    public void ViewWishListWindow(TradingUser currUser, UserMenuController umc) {
         this.currUser = currUser;
-        this.im = im;
+        this.umc = umc;
     }
 
     public void display() {
@@ -28,7 +27,7 @@ public class ViewWishlistWindow {
         frame.setLocationRelativeTo(null);
 
         // LEFT SIDE OF SPLIT
-        List<Item> items = im.convertIdsToItems(currUser.getWishlist());
+        List<Item> items = umc.getIm().convertIdsToItems(currUser.getWishlist());
         DefaultListModel<String> itemNames = new DefaultListModel<>();
         DefaultListModel<String> itemDescs = new DefaultListModel<>();
         for (Item item : items) {
