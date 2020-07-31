@@ -26,7 +26,6 @@ public class UserMenuController{
     private final PastTransactionManager ptm;
     private final ItemManager im;
     private final Map<Item, TradingUser> allPendingItems;
-    private final UserMenuPresenter ump = null; // get rid of later
 //    private HashMap<Item, TradingUser> availableItems;
 
     public UserMenuController(TradingUserManager tradingUserManager, AdminManager adminManager,
@@ -470,5 +469,9 @@ public class UserMenuController{
         } catch (InvalidTradingUserException e) {
             // TODO
         }
+    }
+
+    public ItemManager getIm(){
+        return im;
     }
 }

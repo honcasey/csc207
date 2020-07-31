@@ -1,6 +1,5 @@
 import Admins.AdminManager;
 import Admins.AdminMenuController;
-import Admins.AdminMenuPresenter;
 import Admins.AdminUser;
 import Exceptions.InvalidAdminException;
 import Items.Item;
@@ -8,11 +7,9 @@ import Items.ItemManager;
 import Transactions.PastTransactionManager;
 import Transactions.Transaction;
 import Transactions.CurrentTransactionManager;
-import Transactions.TransactionManager;
 import Users.TradingUser;
 import Users.TradingUserManager;
 import Users.UserMenuController;
-import Users.UserMenuPresenter;
 
 import java.io.File;
 import java.util.*;

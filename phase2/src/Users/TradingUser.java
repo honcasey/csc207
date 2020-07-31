@@ -18,7 +18,7 @@ public class TradingUser extends User implements Serializable {
     private int weeklyThreshold = 3;
     private int incompleteThreshold = 2;
     private final List<UUID> wishlist;
-    private String status = "active";
+    private UserStatuses status = UserStatuses.ACTIVE;
     private String city;
 
     /**
@@ -145,13 +145,13 @@ public class TradingUser extends User implements Serializable {
      * Getter for the current Users.TradingUser's account status, which can be active or frozen.
      * @return status as a String
      */
-    public String getStatus() { return status; }
+    public UserStatuses getStatus() { return status; }
 
     /**
      * Setter for the current Users.TradingUser's account status, which can be active or frozen.
      * @param status as a String
      */
-    public void setStatus(String status) { this.status = status; }
+    public void setStatus(UserStatuses status) { this.status = status; }
 
     /**
      * Represents the current Users.TradingUser by their username and userId
@@ -165,7 +165,7 @@ public class TradingUser extends User implements Serializable {
      * @return true if this TradingUser's status is frozen, false otherwise.
      */
     public boolean isFrozen(){
-        return status.equals("frozen");
+        return status.equals(UserStatuses.FROZEN);
     }
 
     /**

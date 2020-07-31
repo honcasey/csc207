@@ -26,7 +26,7 @@ public class AdminUserMenu {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // set the frame's size and centre it
-        frame.setSize(new Dimension(600, 300));
+        frame.setSize(new Dimension(550, 300));
         frame.setLocationRelativeTo(null);
 
         // create the menu bar
@@ -36,18 +36,7 @@ public class AdminUserMenu {
         JMenu menu = new JMenu("Menu");
         menu.setMnemonic('M'); // press the M key to access the menu
 
-        // change password menu option
-        JMenuItem changePassword = new JMenuItem("Change password", KeyEvent.VK_C); // press the C key to access this menu item
-        changePassword.addActionListener(e -> {
-            ChangePasswordWindow cpw = new ChangePasswordWindow(amc);
-            cpw.display();
-        });
-
-        // log out menu option
-        JMenuItem logOut = new JMenuItem("Log out", KeyEvent.VK_L); // press the L key to access log out option
-        logOut.addActionListener(e -> System.exit(0));
-        menu.add(changePassword);
-        menu.add(logOut);
+        formatMenuOptions(menu);
 
         menuBar.add(menu);
         frame.setJMenuBar(menuBar);
@@ -107,6 +96,21 @@ public class AdminUserMenu {
         button6.setBounds(350, 150, 150, 75);
         button6.setText("Check Unfreeze TradingUser Account Requests");
         panel.add(button6);
+    }
+
+    private void formatMenuOptions(JMenu menu) {
+        // change password menu option
+        JMenuItem changePassword = new JMenuItem("Change password", KeyEvent.VK_C); // press the C key to access this menu item
+        changePassword.addActionListener(e -> {
+            ChangePasswordWindow cpw = new ChangePasswordWindow(amc);
+            cpw.display();
+        });
+
+        // log out menu option
+        JMenuItem logOut = new JMenuItem("Log out", KeyEvent.VK_L); // press the L key to access log out option
+        logOut.addActionListener(e -> System.exit(0));
+        menu.add(changePassword);
+        menu.add(logOut);
     }
 
 }

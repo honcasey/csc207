@@ -20,8 +20,7 @@ public class AdminMenuController {
     protected AdminUser currentAdmin = null; // admin that's logged in
     private final AdminManager am;
     private final TradingUserManager um;
-    protected final Map<Item, TradingUser> allPendingItems;
-    private final AdminMenuPresenter amp = null; // get rid of later
+    private final Map<Item, TradingUser> allPendingItems;
     private final ItemManager im;
 
     /**
