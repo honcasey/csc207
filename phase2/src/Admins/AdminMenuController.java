@@ -200,50 +200,7 @@ public class AdminMenuController {
             }
         }
     }
-
-    /* checks all TradingUsers that have been flagged by the system to have their account frozen */
-    // Jcardlayout
-    private void checkFlaggedUsers() {
-        boolean userInteracting = true;
-        while (userInteracting) {
-            if (am.getFlaggedAccounts().isEmpty()) {
-                System.out.println(amp.empty("Flagged Users."));
-                userInteracting = false;
-            }
-            else {
-                Iterator<TradingUser> flaggedUserIterator = am.getFlaggedAccounts().iterator();
-
-                /* makes a list of users to delete from the flaggedAccounts list once they're frozen/unfrozen */
-                ArrayList<TradingUser> usersToDelete = new ArrayList<>();
-
-                while (flaggedUserIterator.hasNext()) {
-                    TradingUser curr = flaggedUserIterator.next();
-                    System.out.println(amp.accountFrozen(curr.toString(), curr.getStatus()));
-                    int optionChosen = amp.handleOptionsByIndex(amp.constructFlaggedUsersMenu(), true, "Check Flagged Users");
-                    if (optionChosen == amp.constructFlaggedUsersMenu().size()) {
-                        System.out.println(amp.previousMenu);
-                        userInteracting = false;
-                        break;
-                    } else {
-                        // admin wants to freeze this account
-                        if (amp.indexToOption(optionChosen, amp.constructFlaggedUsersMenu(), amp.freezeAccount)) {
-                            um.freezeAccount(curr);
-                            usersToDelete.add(curr);
-                            System.out.println(amp.accountFrozen(curr.toString(), curr.getStatus()));
-                            userInteracting = false;
-                        } else if (amp.indexToOption(optionChosen, amp.constructFlaggedUsersMenu(), amp.unfreezeAccount)) {
-                            // admin decides not to freeze this account;
-                            usersToDelete.add(curr);
-                            System.out.println(amp.accountFrozen(curr.toString(), curr.getStatus()));
-                            userInteracting = false;
-                        } // else it goes to the next flagged user
-                    }
-                }
-                /* remove all Trading Users that have been frozen/unfrozen from the flaggedAccount list */
-                am.getFlaggedAccounts().removeAll(usersToDelete);
-            }
-        }
-    }
+    
 
 
     public boolean validAdmin(String username, String password) {
