@@ -25,6 +25,8 @@ public class UserMenuController{
     private final CurrentTransactionManager tm;
     private final PastTransactionManager ptm;
     private final ItemManager im;
+
+
     private final Map<Item, TradingUser> allPendingItems;
 //    private HashMap<Item, TradingUser> availableItems;
 
@@ -39,6 +41,13 @@ public class UserMenuController{
         ptm = pastTransactionManager;
         im = itemManager;
 //        availableItems = getAvailableItems();
+    }
+
+    /**
+     * Method that adds pending items to the current trading user's pending items
+     */
+    public void addToPendingItems(Item requestedItem) {
+        allPendingItems.put(requestedItem, currentTradingUser);
     }
 
     /**
@@ -381,6 +390,8 @@ public class UserMenuController{
             transaction.setStatusUserID(Statuses.PENDING, userId);
         }
     }
+
+
 
     public void updateUsers(Transaction transaction, Actions optionChosen) {
         updateStatusUser(currentTradingUser, transaction, optionChosen);
