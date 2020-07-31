@@ -11,6 +11,7 @@ import java.util.*;
 public class TransactionPerm extends Transaction {
 
 
+    private Meeting firstMeeting;
     /**
      *This is the constructor which takes in the following parameters and makes an instance of a permanent
      * transaction.
@@ -20,12 +21,26 @@ public class TransactionPerm extends Transaction {
      */
     //Constructor with no return time given (default is a month (31 days))
     public TransactionPerm(TreeMap<UUID,List<UUID>> userToItems, Meeting FirstMeeting){
-        super(userToItems,FirstMeeting);
+        super(userToItems);
+        this.firstMeeting= FirstMeeting;
+    }
+
+    /**
+     * getter for the first (and only) meeting of this transaction.
+     * @return returns the first meeting.
+     */
+    public Meeting getFirstMeeting() {
+        return firstMeeting;
     }
 
     @Override
     public boolean isPerm() {
         return true;
+    }
+
+    @Override
+    public boolean isVirtual() {
+        return false;
     }
 
     @Override

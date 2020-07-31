@@ -8,21 +8,21 @@ import java.util.*;
  * Note: user 1 originally had item 1 and user 2 originally had item 2.
  */
 public class TransactionTemp extends Transaction {
+    private Meeting firstMeeting;
     public Meeting secondMeeting;
-    private String item2Name;
 
     /**
      * Constructor for Transactions.TransactionTwoWayPerm class. This constructor initializes a 2 way permanent transaction with
      * @param userToItems A hashmap which maps userId's to a list of
      *      Item ids(where the list is in the form of [ItemId owned, ItemId wanted]).
      * @param firstMeeting This is just a meeting object representing where the users will meet for the first time.
-     * @param itemToName A hashmap which maps itemId to the string Name of the item.
      * @param secondMeeting The second meeting in the transaction where the users return the items.
      */
     //Constructor with no return time given (default is a month (31 days))
-    public TransactionTemp(TreeMap<UUID, List<UUID>> userToItems, Meeting firstMeeting, HashMap<UUID, List<String>> itemToName, Meeting secondMeeting){
-        super(userToItems,firstMeeting);
+    public TransactionTemp(TreeMap<UUID, List<UUID>> userToItems, Meeting firstMeeting, Meeting secondMeeting){
+        super(userToItems);
         this.secondMeeting = secondMeeting;
+        this.firstMeeting = firstMeeting;
     }
 
     /**
@@ -34,9 +34,22 @@ public class TransactionTemp extends Transaction {
         return this.secondMeeting;
     }
 
+    /**
+     * getter for the first (and only) meeting of this transaction.
+     * @return returns the first meeting of this transaction.
+     */
+    public Meeting getFirstMeeting() {
+        return firstMeeting;
+    }
+
 
     @Override
     public boolean isPerm() {
+        return false;
+    }
+
+    @Override
+    public boolean isVirtual() {
         return false;
     }
 

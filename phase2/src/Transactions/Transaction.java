@@ -31,7 +31,6 @@ import java.util.*;
  */
 public abstract class Transaction implements Serializable {
     private UUID id = UUID.randomUUID();
-    private Meeting firstMeeting;
     private Statuses status;
     private TreeMap<UUID,List<UUID>> userToItems;
     private TreeMap<UUID, Statuses> userToStatus;
@@ -42,12 +41,10 @@ public abstract class Transaction implements Serializable {
      * @param userToItems A hashmap which maps userids to a list of
      *        Item ids(where the list is in the form of [Itemid owned, Itemid wanted]). This list can potentially have
      *                    null values depending if the user doesn't have these items with the properties stated.
-     * @param firstMeeting This is just a meeting object representing where the users will meet for the first time.
      */
-    public Transaction(TreeMap<UUID,List<UUID>> userToItems, Meeting firstMeeting){
+    public Transaction(TreeMap<UUID,List<UUID>> userToItems){
         status = Statuses.PENDING;
         this.userToItems =userToItems;
-        this.firstMeeting = firstMeeting;
         TreeMap<UUID,Statuses> userToStatus = new TreeMap<>();
         for(UUID id:userToItems.keySet()){
             userToStatus.put(id,Statuses.PENDING);
@@ -137,25 +134,24 @@ public abstract class Transaction implements Serializable {
         return(this.userToItems.get(user)).get(1);
     }
 
-
-    /**
-     * getter for the first meeting of the transaction.
-     * @return the object representing the first meeting of the transaction is returned.
-     */
-    public Meeting getFirstMeeting() {
-        return firstMeeting;
-    }
-
     /**
      * This is an abstract method that checks if you have a one way transaction.
      * @return returns true iff the transaction you call the method on is a one way transaction.
      */
     public abstract boolean isPerm();
 
+
+    /**
+     * This method checks if the transaction is virtual.
+     * @return returns true if and only if the transaction is virtual
+     */
+    public abstract boolean isVirtual();
+
     /**
      * This checks if a transaction is one way or two way.
      * @return returns true if and only if the transaction is one way.
      */
+
     public boolean isOneWay(){
         return this.getTransactionItems().size() == 1;
     }
@@ -202,7 +198,7 @@ public abstract class Transaction implements Serializable {
      * @param newStatus the new status you would like the user id to be mapped to.
      */
     public void setUserStatus(UUID user, Statuses newStatus){
-        this.userToStatus.put(user,newStatus);
+        this.userToStatus.replace(user,newStatus);
     }
 
     /**
