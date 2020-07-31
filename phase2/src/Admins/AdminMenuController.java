@@ -156,12 +156,8 @@ public class AdminMenuController {
     }
 
     /* helper method for changeUserThreshold */
-    private void helperChangeThreshold(String username, String whichThreshold) throws InvalidTradingUserException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(amp.whichThreshold(whichThreshold));
-        int newThreshold = scanner.nextInt();
+    public void updateThreshold(String username, int newThreshold, String whichThreshold) throws InvalidTradingUserException {
         um.changeThreshold(um.getTradingUser(username), newThreshold, whichThreshold);
-        System.out.println(amp.successfullyChanged(whichThreshold, username));
     }
 
     /* changes one of the TradingUser's thresholds */
@@ -295,5 +291,10 @@ public class AdminMenuController {
         } catch (InvalidAdminException e) {
             // TODO
         }
+    }
+
+    public List<TradingUser> getAllTradingUsers() {
+        return um.getAllTradingUsers();
+
     }
 }

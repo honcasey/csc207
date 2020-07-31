@@ -69,6 +69,24 @@ public class TradingUserManager {
     }
 
     /**
+     * Returns the user thresholds in a list given a username
+     * @param username: the string username of the user
+     * @return List of ints (borrowThreshold, weeklyThreshold, incompleteThreshold)
+     */
+    public List<Integer> getCurrThresholds(String username) {
+            ArrayList<Integer> thresholdList = new ArrayList<Integer>();
+            try {
+                TradingUser tradingUser = getTradingUser(username);
+                thresholdList.add(tradingUser.getBorrowThreshold());
+                thresholdList.add(tradingUser.getWeeklyThreshold());
+                thresholdList.add(tradingUser.getIncompleteThreshold());
+                return thresholdList;
+            }
+            catch(InvalidTradingUserException e){
+                return thresholdList;
+        }
+    }
+    /**
      * Retrieves a list of TradingUsers by city.
      * @param city = desired city
      * @return list of TradingUsers in that city
@@ -241,6 +259,15 @@ public class TradingUserManager {
      */
     public List<TradingUser> getAllTradingUsers() {
         return allTradingUsers;
+    }
+
+    public List<String> getAllTradingUsersUsernames(){
+        List<String> userList = new ArrayList<String>();
+        for(User user : allTradingUsers){
+            String username = user.getUsername();
+            userList.add(username);
+        }
+        return userList;
     }
 
     /**
