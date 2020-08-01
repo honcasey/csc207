@@ -14,7 +14,7 @@ public class RegistrationWindow {
     private final JTextField userText = new JTextField(20);
     private final JLabel passwordLabel = new JLabel("Password");
     private final JPasswordField passwordText = new JPasswordField(20);
-    private final JTextField confirmText = new JTextField(20);
+    private final JTextField confirmText = new JPasswordField(20);
     private final JLabel confirmLabel = new JLabel("Confirm");
     private final JButton createButton = new JButton("Sign up");
     private final UserMenuController umc;
@@ -77,8 +77,8 @@ public class RegistrationWindow {
         confirmText.setBounds(150,130,165,25);
         panel.add(confirmText);
 
-        // add login button to panel
-        createButton.setBounds(50, 200, 160, 25);
+        // add "sign up" button to panel
+        createButton.setBounds(50, 180, 160, 25);
         panel.add(createButton);
     }
 

@@ -432,7 +432,7 @@ public class UserMenuController{
      * Creates a HashMap of all the available items in other user's inventory.
      * @return HashMap of items that are available in other user's inventory.
      */
-    private HashMap<Item, TradingUser> getAvailableItems(){
+    public Map<Item, TradingUser> getAvailableItems(){
         List<TradingUser> allTradingUsersInCity = um.getTradingUserByCity(currentTradingUser.getCity());
         HashMap<Item, TradingUser> availableItems = new HashMap<>();
         for (TradingUser tradingUser : allTradingUsersInCity) {

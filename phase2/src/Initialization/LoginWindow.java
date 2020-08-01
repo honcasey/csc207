@@ -28,7 +28,7 @@ public class LoginWindow {
 
     public void display() {
         // create the frame
-        JFrame frame = new JFrame("Initialization.TradingApplication");
+        JFrame frame = new JFrame("TradingApplication");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // set the frame's size and centre it
