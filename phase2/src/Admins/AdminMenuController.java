@@ -81,25 +81,13 @@ public class AdminMenuController {
         allPendingItems.remove(item);
     }
 
-    /* creates a new admin which can only be done by the first admin */
-//    private void createAdmin() {
-//        if (currentAdmin.isFirstAdmin()) {
-//            Scanner scanner = new Scanner(System.in);
-//            System.out.println(amp.enterName("new Admin"));
-//            String username = scanner.nextLine();
-//            try {
-//                System.out.println(amp.enterPassword("new Admin"));
-//                String password = scanner.nextLine();
-//                am.addAdmin(username, password); // adds the new admin to the list of all AdminUsers
-//                System.out.println(amp.successfullyCreated("New Admin User " + username));
-//            } catch (InvalidAdminException e) {
-//                System.out.println(amp.usernameTaken);
-//            }
-//        } else {
-//            /* the logged in Admin is not the first admin and doesn't have the ability to create new Admin Users */
-//            System.out.println(amp.permissionDenied);
-//        }
-//    }
+
+    /**
+     * creates a new admin which can only be done by the first admin
+     * @param username user's account name identifier
+     * @param password user's account password
+     * @return true iff admin user is successfully created
+     */
     public boolean createAdmin(String username, String password){
         boolean isSuccessful = false;
         if (currentAdmin.isFirstAdmin()) {
@@ -107,52 +95,10 @@ public class AdminMenuController {
                 am.addAdmin(username, password);// adds the new admin to the list of all AdminUsers
                 isSuccessful = true;
             } catch (InvalidAdminException e) {//username taken
-
-            }
+                }
         }
-
         return isSuccessful;
     }
-
-    /* manually adds an item to any TradingUser's inventory or wishlist */
-//    private void addItemToUser() { // 2 text fields for items and Jlist of all users and 2 buttons inventory/wishlist
-//        boolean userInteracting = true;
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.println(amp.enterName("new Item"));
-//        String itemName = scanner.nextLine();
-//        Item newItem = new Item(itemName);
-//        System.out.println(amp.enterName("TradingUser"));
-//        String username = scanner.nextLine();
-//        int optionChosen = amp.handleOptionsByIndex(amp.constructAddToListMenu(), true,
-//                "Which list do you want to add this Item to?");
-//        while (userInteracting) {
-//            try {
-//                if (optionChosen == amp.constructAddToListMenu().size()) {
-//                    System.out.println(amp.previousMenu);
-//                    userInteracting = false;
-//                }
-//                /* if admin chooses to add this item to the wishlist */
-//                else if (amp.indexToOption(optionChosen, amp.constructAddToListMenu(), amp.addToWishlist)) {
-//                    um.addItem(um.getTradingUser(username), newItem, "wishlist");
-//                    im.addItem(newItem); //add this new item
-//                    System.out.println(amp.successfullyAdded(newItem.toString(), username, "wishlist"));
-//                    userInteracting = false;
-//                }
-//                /* if admin chooses to add this item to the inventory */
-//                else if (amp.indexToOption(optionChosen, amp.constructAddToListMenu(), amp.addToInventory)) {
-//                    um.addItem(um.getTradingUser(username), newItem, "inventory");
-//                    im.addItem(newItem);
-//                    System.out.println(amp.successfullyAdded(newItem.toString(), username, "inventory"));
-//                    userInteracting = false;
-//                }
-//                // if admin chose an invalid option
-//                else { System.out.println(amp.validOptions(amp.constructUserLists()));}
-//            } catch(InvalidTradingUserException e) {
-//                System.err.println(amp.usernameInvalid);
-//                userInteracting = false;
-//            }
-//        }
-//    }
 
     /**
      * Manually adds an item to any TradingUser's inventory or wishlist
