@@ -6,7 +6,7 @@ The system has two types of users, TradingUsers which are users that are able to
 
 
 How to run the system
-1. Run the main method located within TradingApplication.
+1. Run the main method located within Initialization.TradingApplication.
 2. If running the program for the first time, all .ser files are automatically created if they do not already exist. Otherwise all data is saved and .ser files are updated upon log out.
 
 
@@ -71,7 +71,7 @@ What’s Being Saved
 
 Packages
 * Admins package contains the classes that specifically pertain to Admins. This includes: AdminUser, AdminManager, AdminMenuController, AdminMenuPresenter.
-* Exceptions package contains the Exceptions that are unique to the TradingSystem software. This includes: InvalidAdminException, InvalidItemException, InvalidTradingUserException, InvalidTransactionException.
+* Exceptions package contains the Exceptions that are unique to the Initialization.TradingSystem software. This includes: InvalidAdminException, InvalidItemException, InvalidTradingUserException, InvalidTransactionException.
 * Items package contains the classes that specifically pertain to Items. This includes: Item, ItemManager.
 * Presenters package contains classes that are general presenter classes. This includes: BootUpMenuPresenter and MenuPresenter
 * Transactions package contain the classes that specifically pertains to the handling of transactions: This includes: Transaction, TransactionManager, TransactionOneWayPerm, TransactionOneWayTemp, TransactionTwoWayTemp, TransactionTwoWayPerm, CurrentTransactionManager, PastTransactionManager, Meeting 
@@ -79,8 +79,8 @@ Packages
 
 
 Assumptions
-* Different users of the TradingApplication program must either use the program on the same computer or use a repository that stores the system to operate on the same program
-* TradingApplication must log out PROPERLY after each use. Otherwise, information will not be serialized and will be lost 
+* Different users of the Initialization.TradingApplication program must either use the program on the same computer or use a repository that stores the system to operate on the same program
+* Initialization.TradingApplication must log out PROPERLY after each use. Otherwise, information will not be serialized and will be lost
 * There is one master admin user which can create all other admins in the system. The username is: admin, and the password: password to access this account
 * In Transactions, user1 always creates the transaction whereas user2 has the item that user1 desires
 * TradingUser accounts are flagged only when they perform an action past a specific limitation. For example, if a user reaches their weekly transaction limit, they will be flagged when the number of their weekly transactions EXCEEDS the weekly transaction limit

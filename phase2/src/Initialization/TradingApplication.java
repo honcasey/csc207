@@ -1,5 +1,9 @@
+package Initialization;
+
+import Initialization.TradingSystem;
+
 /**
- * <h1>TradingApplication</h1>
+ * <h1>Initialization.TradingApplication</h1>
  * <p>Contains the application's main entry point.</p>
  */
 public class TradingApplication {

@@ -1,4 +1,6 @@
-package Admins;
+package AdminGUI;
+
+import Admins.AdminMenuController;
 
 import javax.swing.*;
 import java.awt.*;

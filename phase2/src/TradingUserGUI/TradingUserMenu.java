@@ -1,3 +1,5 @@
+package TradingUserGUI;
+
 import Users.UserMenuController;
 
 public class TradingUserMenu {
@@ -8,6 +10,6 @@ public class TradingUserMenu {
     }
 
     public void display() {
-        // if clicked "view active transactions" button go to ViewActiveTransactionsWindow
+        // if clicked "view active transactions" button go to TradingUserGUI.ViewActiveTransactionsWindow
     }
 }

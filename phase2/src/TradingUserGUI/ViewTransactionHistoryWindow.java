@@ -1,8 +1,9 @@
-package Users;
+package TradingUserGUI;
 import Items.Item;
 import Items.ItemManager;
 import Transactions.*;
-
+import Users.TradingUser;
+import Users.TradingUserManager;
 
 
 import javax.swing.*;

@@ -1,3 +1,6 @@
+package Initialization;
+
+import TradingUserGUI.TradingUserMenu;
 import Users.UserMenuController;
 
 import javax.swing.*;

@@ -1,36 +1,38 @@
-package Users;
+package TradingUserGUI;
 
 import Items.Item;
+import Users.TradingUser;
+import Users.UserMenuController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class ViewWishlistWindow {
+public class ViewInventoryWindow {
     private TradingUser currUser;
     private UserMenuController umc;
     private String itemName;
     private String itemDesc;
 
-    public void ViewWishListWindow(TradingUser currUser, UserMenuController umc) {
+    public ViewInventoryWindow(TradingUser currUser, UserMenuController umc) {
         this.currUser = currUser;
         this.umc = umc;
     }
 
-    public void display() {
-        // create the frame
-        JFrame frame = new JFrame("Inventory");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // closes the current frame but doesn't terminate the app
+    public void display(){
+       // create the frame
+       JFrame frame = new JFrame("Inventory");
+       frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // closes the current frame but doesn't terminate the app
 
         // set the frame's size and centre it
-        frame.setSize(new Dimension(700, 500));
-        frame.setLocationRelativeTo(null);
+       frame.setSize(new Dimension(700, 500));
+       frame.setLocationRelativeTo(null);
 
-        // LEFT SIDE OF SPLIT
-        List<Item> items = umc.getIm().convertIdsToItems(currUser.getWishlist());
+       // LEFT SIDE OF SPLIT
+        List<Item> items = umc.getIm().convertIdsToItems(currUser.getInventory());
         DefaultListModel<String> itemNames = new DefaultListModel<>();
         DefaultListModel<String> itemDescs = new DefaultListModel<>();
-        for (Item item : items) {
+        for (Item item: items){
             itemNames.addElement(item.toString());
             itemDescs.addElement(item.getDescription());
         }
@@ -62,12 +64,13 @@ public class ViewWishlistWindow {
 
         frame.getContentPane().add(splitPane);
 
+
         // Remove Button
         JButton removeB = new JButton("Remove");
         removeB.setBounds(600, 300, 100, 50);
         // make a JOptionPane when JButton is pressed
         removeB.addActionListener(e -> {
-            int input = JOptionPane.showOptionDialog(null, "Are you sure you want to remove this item from your Wishlist?", "Remove Item?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int input = JOptionPane.showOptionDialog(null, "Are you sure you want to remove this item from your Inventory?", "Remove Item?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
             if(input == JOptionPane.YES_OPTION) {
                 itemNames.remove(itemsList.getSelectedIndex()); // if YES, remove the item
             }
@@ -79,5 +82,7 @@ public class ViewWishlistWindow {
 
         // Add the Remove Button on to the Frame
         frame.add(subPanel);
+
+
     }
 }

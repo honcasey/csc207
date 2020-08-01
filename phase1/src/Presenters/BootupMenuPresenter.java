@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * <h1>BootupMenuPresenter</h1>
- * Contains all option strings and prompts printed/displayed by TradingSystem.
+ * Contains all option strings and prompts printed/displayed by Initialization.TradingSystem.
  * Class variables represent commonly used strings.
  */
 public class BootupMenuPresenter extends MenuPresenter {

@@ -1,4 +1,6 @@
-package Admins;
+package AdminGUI;
+
+import Admins.AdminMenuController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,7 +56,7 @@ public class AdminUserMenu {
 
         // if button3 (create new admin user) is clicked
         button3.addActionListener(e -> {
-            if (amc.currentAdmin.isFirstAdmin()){//creates a new admin which can only be done by the first admin
+            if (amc.getCurrentAdmin().isFirstAdmin()){//creates a new admin which can only be done by the first admin
                 AddAdminUserWindow auw = new AddAdminUserWindow(amc);
                 auw.display();
             }else {

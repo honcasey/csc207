@@ -1,5 +1,6 @@
-package Admins;
+package AdminGUI;
 
+import Admins.AdminMenuController;
 import Items.Item;
 
 import javax.swing.*;
@@ -32,7 +33,7 @@ public class CheckPendingItemsWindow {
         DefaultListModel<String> pendingItems = new DefaultListModel<>();
         DefaultListModel<String> itemDescs = new DefaultListModel<>();
         ArrayList<Item> listItems = new ArrayList<>();
-        for (Item curr : amc.allPendingItems.keySet()) {
+        for (Item curr : amc.getAllPendingItems().keySet()) {
             listItems.add(curr);
             pendingItems.addElement(curr.toString());
             itemDescs.addElement(curr.getDescription());
@@ -44,7 +45,7 @@ public class CheckPendingItemsWindow {
         items.setSelectedIndex(0);
         items.addListSelectionListener(e -> {
             JList<String> items1 = (JList<String>)e.getSource(); // updates the corresponding item names/description depending on what's selected
-            itemUser = amc.allPendingItems.get(items1.getSelectedValue()).toString();
+            itemUser = amc.getAllPendingItems().get(items1.getSelectedValue()).toString();
             itemName = pendingItems.get(items1.getSelectedIndex());
             itemDesc = itemDescs.get(items1.getSelectedIndex());
         });
