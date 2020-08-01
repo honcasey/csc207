@@ -154,6 +154,29 @@ public class AdminMenuController {
 //        }
 //    }
 
+    /**
+     * Manually adds an item to any TradingUser's inventory or wishlist
+     * @param tradingUser trading user in the system
+     * @param item an item in the system
+     * @param listType either "wishlist" or "inventory" as a stirng
+     * @return true iff item has been added successfully
+     * @throws NullPointerException
+     */
+    public boolean addItemToUser(TradingUser tradingUser, Item item, String listType) throws NullPointerException{
+        boolean isSuccessful = false;
+        if(listType.equals("wishlist")) {
+            um.addItem(tradingUser, item, "wishlist");
+            im.addItem(item);
+            isSuccessful = true;
+        }else if (listType.equals("inventory")){
+            um.addItem(tradingUser, item, "inventory");
+            im.addItem(item);
+            isSuccessful = true;
+        }
+        return isSuccessful;
+    }
+
+
     /* helper method for changeUserThreshold */
     public void updateThreshold(String username, int newThreshold, String whichThreshold) throws InvalidTradingUserException {
         um.changeThreshold(um.getTradingUser(username), newThreshold, whichThreshold);

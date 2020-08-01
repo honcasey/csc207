@@ -62,8 +62,13 @@ public class AdminUserMenu {
             }else {
                 JOptionPane.showMessageDialog(null, "Permission Denied", "Error Message", JOptionPane.WARNING_MESSAGE);
             }
-
         });
+        //if button4 is clicked
+        button4.addActionListener(e -> {
+            AddNewItemToTradingUserWindow aiw = new AddNewItemToTradingUserWindow(amc);
+            aiw.display();
+        });
+
 
         // display the window
         frame.setVisible(true);
