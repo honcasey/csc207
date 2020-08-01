@@ -41,10 +41,18 @@ public class AddAdminUserWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String passText = new String(passwordField.getPassword());
-                if(amc.createAdmin(usernameTextField.getText(),passText)){//new admin account successfully added
+                String nameText = usernameTextField.getText();
+                if (nameText.isEmpty()){
+                    JOptionPane.showMessageDialog(null, "PLease enter the username.", "Invalid Username", JOptionPane.WARNING_MESSAGE);
+                }
+                if (passText.isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Please enter the password.", "Invalid Password", JOptionPane.WARNING_MESSAGE);
+                }else{
+                    if(amc.createAdmin(nameText,passText)){//new admin account successfully added
                     JOptionPane.showMessageDialog(null,"Admin created.","Message",JOptionPane.PLAIN_MESSAGE);
-                }else{//new admin username is taken
+                    }else{//new admin username is taken
                     JOptionPane.showMessageDialog(null, "Choose different username.", "Username Taken", JOptionPane.WARNING_MESSAGE);
+                    }
                 }
             }
         });
