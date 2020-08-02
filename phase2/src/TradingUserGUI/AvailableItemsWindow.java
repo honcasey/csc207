@@ -24,7 +24,7 @@ public class AvailableItemsWindow {
     public void display() {
         // create the frame
         JFrame frame = new JFrame("Available Items");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // set the frame's size and centre it
         frame.setSize(new Dimension(550, 300));
@@ -32,6 +32,9 @@ public class AvailableItemsWindow {
 
         // create the panel and the components on it
         JPanel panel = new JPanel();
+        // add ComboBox to panel
+        // add button to pop up window that has add to wishlist/request transaction buttons
+
         frame.add(panel);
         placeComponents(panel);
 
@@ -39,7 +42,7 @@ public class AvailableItemsWindow {
         frame.setVisible(true);
     }
 
-    private void createComboBox() {
+    private void availableItemsBox() {
         availableItemsMap = umc.getAvailableItems();
         JComboBox comboBox = new JComboBox<>((ComboBoxModel<String>) availableItemsMap.keySet());
 
@@ -47,6 +50,31 @@ public class AvailableItemsWindow {
             JComboBox cb = (JComboBox)e.getSource();
             selectedItem = (Item) cb.getSelectedItem();
         });
+    }
+
+    private void itemDetailsWindow() { // the second window
+        JFrame frame = new JFrame("Item Details");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(new Dimension(550, 300));
+        frame.setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        JLabel item = new JLabel(selectedItem.toString());
+        // the user who owns the item
+        TradingUser owner = availableItemsMap.get(selectedItem);
+        JLabel user = new JLabel(owner.toString());
+
+        JTextArea desc = new JTextArea(selectedItem.getDescription());
+
+        panel.add(item);
+        panel.add(user);
+        panel.add(desc);
+
+        JButton wishlist = new JButton("Add to Wishlist");
+        JButton trans = new JButton("Request Transaction");
+
+        frame.add(panel);
+
     }
 
     private void placeComponents(JPanel panel) {
