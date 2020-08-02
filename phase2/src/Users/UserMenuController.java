@@ -569,4 +569,9 @@ public class UserMenuController{
             return returnString + "to get " + TheirItemString+ " for " + YourItemString;
         }
     }
+
+    public CurrentTransactionManager getTm() {return tm;}
+
+    public TradingUserManager getUm() {return um;}
+
 }
