@@ -349,29 +349,29 @@ public class UserMenuController{
 //    }
 
 
-    public TreeMap<Item,User> TransactionSuggestions() {
-        // checking for items that are exactly the same in the same city.
-        List<TradingUser> sameCityUsers = this.um.getTradingUserByCity(currentTradingUser.getCity());
-
-        List<TradingUser> diffCityUsers = this.um.getTradingUsersOutOfCity(currentTradingUser.getCity());
-    }
-
-    public List<TradingUser> PossibleBorrowers(List<TradingUser> usersList){
-        List<TradingUser> common = new ArrayList<Integer>(listA);
-        List<TradingUser> borrowerList = new ArrayList<>();
-        for(TradingUser user: usersList){
-
-
-        }
-    }
-
-    public List<Item> PossibleLentItems(TradingUser otherUser){
-        for(UUID inventoryItemId: currentTradingUser.getInventory()){
-            Item inventoryItem = im.getItem(inventoryItemId);
-
-            if(areSameItems())
-        }
-    }
+//    public TreeMap<Item,User> TransactionSuggestions() {
+//        // checking for items that are exactly the same in the same city.
+//        List<TradingUser> sameCityUsers = this.um.getTradingUserByCity(currentTradingUser.getCity());
+//
+//        List<TradingUser> diffCityUsers = this.um.getTradingUsersOutOfCity(currentTradingUser.getCity());
+//    }
+//
+//    public List<TradingUser> PossibleBorrowers(List<TradingUser> usersList){
+//        List<TradingUser> common = new ArrayList<Integer>(listA);
+//        List<TradingUser> borrowerList = new ArrayList<>();
+//        for(TradingUser user: usersList){
+//
+//
+//        }
+//    }
+//
+//    public List<Item> PossibleLentItems(TradingUser otherUser){
+//        for(UUID inventoryItemId: currentTradingUser.getInventory()){
+//            Item inventoryItem = im.getItem(inventoryItemId);
+//
+//            if(areSameItems())
+//        }
+//    }
 
 
 
@@ -513,5 +513,61 @@ public class UserMenuController{
 
     public ItemManager getIm(){
         return im;
+    }
+
+    /**
+     * This method takes in a transaction and the current user using the system. It then formats a string
+     * representation of the transaction by making calls to the different managers in the program.
+     * This method should output different strings depending on if the transaction is Permanent/Temporary,
+     * One Way/Two Way.
+     * @param transaction The transaction whose string representation you want.
+     * @param Currentuser The user who is currently using the program.
+     * @return returns a string representation for the transaction in the perspective of the user who is using the
+     * program.
+     */
+
+    public String getTransactionString(Transaction transaction, User Currentuser){
+        String returnString;
+        UUID otherUserid = transaction.getOtherUser(Currentuser.getUserId());
+        String otherUser = um.getTradingUserById(otherUserid).toString();
+        if(transaction.isPerm()){
+            returnString = "Permanent Transaction between you and " +otherUser;
+        }
+        else{
+            returnString = "Temporary Transaction between you and "+ otherUser;
+        }
+        if(transaction.getItemIdDesired(Currentuser.getUserId()) == null) {
+            String YourItemString = null;
+            try {
+                Item YourItem = im.getItem(transaction.getItemIdOwned(Currentuser.getUserId()));
+                YourItemString = YourItem.toString();
+            } catch (InvalidItemException e) {
+                System.out.println("Item Manager is not being updated  properly");
+            }
+            return returnString + "to give " + YourItemString;
+        }
+        if(transaction.getItemIdOwned(Currentuser.getUserId()) == null){
+            String TheirItemString = null;
+            try {
+                Item TheirItem = im.getItem(transaction.getItemIdOwned(otherUserid));
+                TheirItemString = TheirItem.toString();
+            } catch (InvalidItemException e) {
+                System.out.println("Item Manager is not being updated  properly");
+            }
+            return returnString + "to get " + TheirItemString;
+        }
+        else{
+            String TheirItemString = null;
+            String YourItemString = null;
+            try {
+                Item TheirItem = im.getItem(transaction.getItemIdOwned(otherUserid));
+                TheirItemString = TheirItem.toString();
+                Item YourItem = im.getItem(transaction.getItemIdOwned(Currentuser.getUserId()));
+                YourItemString = YourItem.toString();
+            } catch (InvalidItemException e) {
+                System.out.println("Item Manager is not being updated  properly");
+            }
+            return returnString + "to get " + TheirItemString+ " for " + YourItemString;
+        }
     }
 }

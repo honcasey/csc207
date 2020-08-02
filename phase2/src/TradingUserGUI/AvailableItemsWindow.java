@@ -6,6 +6,8 @@ import Users.UserMenuController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +15,7 @@ public class AvailableItemsWindow {
     private final UserMenuController umc;
     private Map<Item, TradingUser> availableItemsMap;
     private JComboBox<String> comboBox1;
+    private Item selectedItem;
 
     public AvailableItemsWindow(UserMenuController umc) {
         this.umc = umc;
@@ -38,7 +41,12 @@ public class AvailableItemsWindow {
 
     private void createComboBox() {
         availableItemsMap = umc.getAvailableItems();
-        comboBox1 = new JComboBox<String>((ComboBoxModel<String>) availableItemsMap.keySet());
+        JComboBox comboBox = new JComboBox<>((ComboBoxModel<String>) availableItemsMap.keySet());
+
+        comboBox1.addActionListener(e -> {
+            JComboBox cb = (JComboBox)e.getSource();
+            selectedItem = (Item) cb.getSelectedItem();
+        });
     }
 
     private void placeComponents(JPanel panel) {
