@@ -65,22 +65,18 @@ public class AdminUserMenu {
                 auw.display();
             }else {
                 JOptionPane.showMessageDialog(null, "Permission Denied", "Error Message", JOptionPane.WARNING_MESSAGE);
-<<<<<<< HEAD:phase2/src/Admins/AdminUserMenu.java
             }});
-            // if button5 (Change TradingUser Threshold) is clicked
-            button5.addActionListener(e ->{
-                ChangeThresholdForm tw = new ChangeThresholdForm(amc, tum);
-            });
-=======
-            }
-        });
+
         //if button4 is clicked
         button4.addActionListener(e -> {
             AddNewItemToTradingUserWindow aiw = new AddNewItemToTradingUserWindow(amc);
             aiw.display();
         });
 
->>>>>>> c0249135062141d75df805a6fb18cb1d22b8fadb:phase2/src/AdminGUI/AdminUserMenu.java
+        // if button5 (Change TradingUser Threshold) is clicked
+        button5.addActionListener(e ->{
+            ChangeThresholdForm tw = new ChangeThresholdForm(amc, tum);
+        });
 
         // display the window
         frame.setVisible(true);

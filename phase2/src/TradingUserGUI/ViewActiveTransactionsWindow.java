@@ -50,7 +50,7 @@ public class ViewActiveTransactionsWindow {
         trans.addListSelectionListener(e -> {
             JList<String> trans1 = (JList<String>)e.getSource();
             selectedTransaction = allTransactions.get(trans1.getSelectedIndex());
-            // TO-DO: transactionDetails = mp.getTransactionString(selectedTransaction, umc.currentTradingUser);
+            transactionDetails = umc.getTransactionString(selectedTransaction, umc.currentTradingUser);
         });
 
         JScrollPane scrollPane = new JScrollPane(); // makes the list scrollable
