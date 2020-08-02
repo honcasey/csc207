@@ -514,4 +514,9 @@ public class UserMenuController{
     public ItemManager getIm(){
         return im;
     }
+
+    public CurrentTransactionManager getTm() {return tm;}
+
+    public TradingUserManager getUm() {return um;}
+
 }
