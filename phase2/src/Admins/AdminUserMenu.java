@@ -1,5 +1,7 @@
 package Admins;
 
+import Users.TradingUserManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -9,6 +11,7 @@ import java.awt.event.KeyEvent;
  */
 public class AdminUserMenu {
     private final AdminMenuController amc;
+    private final TradingUserManager tum;
     private final JButton button1 = new JButton();
     private final JButton button2 = new JButton();
     private final JButton button3 = new JButton();
@@ -18,6 +21,7 @@ public class AdminUserMenu {
 
     public AdminUserMenu(AdminMenuController amc) {
         this.amc = amc;
+        this.tum = amc.getTUM();
     }
 
     public void display() {
@@ -59,9 +63,11 @@ public class AdminUserMenu {
                 auw.display();
             }else {
                 JOptionPane.showMessageDialog(null, "Permission Denied", "Error Message", JOptionPane.WARNING_MESSAGE);
-            }
-
-        });
+            }});
+            // if button5 (Change TradingUser Threshold) is clicked
+            button5.addActionListener(e ->{
+                ChangeThresholdForm tw = new ChangeThresholdForm(amc, tum);
+            });
 
         // display the window
         frame.setVisible(true);
