@@ -1,5 +1,6 @@
-package Admins;
+package AdminGUI;
 
+import Admins.AdminMenuController;
 import Exceptions.InvalidTradingUserException;
 import Users.TradingUser;
 import Users.TradingUserManager;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class FlaggedUsersWindow {
 
-    private JComboBox  users;
+    private JComboBox users;
     private JButton freezeButton;
     private JButton unflagButton;
     private String currUser;

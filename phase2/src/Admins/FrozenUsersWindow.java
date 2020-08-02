@@ -48,7 +48,7 @@ public class FrozenUsersWindow {
                 } catch (InvalidTradingUserException invalidTradingUserException) {
                     invalidTradingUserException.printStackTrace();
                 }
-                
+
             }
         });
     }

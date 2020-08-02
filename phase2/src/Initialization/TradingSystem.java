@@ -1,7 +1,10 @@
+package Initialization;
+
 import Admins.AdminManager;
 import Admins.AdminMenuController;
 import Admins.AdminUser;
 import Exceptions.InvalidAdminException;
+import Initialization.LoginWindow;
 import Items.Item;
 import Items.ItemManager;
 import Transactions.PastTransactionManager;
@@ -15,9 +18,9 @@ import java.io.File;
 import java.util.*;
 
 /**
- * <h1>TradingSystem</h1>
+ * <h1>Initialization.TradingSystem</h1>
  *
- * <p>The TradingSystem class handles logging on and the creation of new Users.TradingUser accounts.</p>
+ * <p>The Initialization.TradingSystem class handles logging on and the creation of new Users.TradingUser accounts.</p>
  * <p>If logging on to an existing account, directs the user to either the administrator menu
  * or the user menu.</p>
  */

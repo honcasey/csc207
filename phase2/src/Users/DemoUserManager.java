@@ -93,7 +93,7 @@ public class DemoUserManager {
     }
 
     /**
-     * Gets a list of all DemoUsers in TradingSystem
+     * Gets a list of all DemoUsers in Initialization.TradingSystem
      * @return a list of DemoUsers
      */
 

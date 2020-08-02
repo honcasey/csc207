@@ -1,4 +1,6 @@
-package Admins;
+package AdminGUI;
+
+import Admins.AdminMenuController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -56,10 +58,10 @@ public class ChangePasswordWindow {
 
     private void changePassword(String password, String password2) {
         if (password.equals(password2)) {
-            amc.currentAdmin.setPassword(password);
-            // PopUpWindow puw = new PopUpWindow("Password successfully changed");
+            amc.getCurrentAdmin().setPassword(password);
+            // Initialization.PopUpWindow puw = new Initialization.PopUpWindow("Password successfully changed");
             System.exit(0);
         }
-        // else { PopUpWindow puw = new PopUpWindow("Passwords do not match."); }
+        // else { Initialization.PopUpWindow puw = new Initialization.PopUpWindow("Passwords do not match."); }
     }
 }

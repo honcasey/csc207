@@ -1,3 +1,5 @@
+package Initialization;
+
 import Admins.AdminUser;
 import Items.Item;
 import Transactions.Transaction;
@@ -9,7 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * <h1>Serializer</h1>
+ * <h1>Initialization.Serializer</h1>
  * This class is responsible for the serialization and deserialization of collections of objects.
  *
  * <p>General ideas were taken from week 6 StudentManager.java example in ReadWriteEx</p>

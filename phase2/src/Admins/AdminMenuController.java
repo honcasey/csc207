@@ -69,7 +69,7 @@ public class AdminMenuController {
 //        }
 //    }
 
-    protected void approvePendingItem(Item item) {
+    public void approvePendingItem(Item item) {
         try {
             TradingUser user = um.getTradingUser(allPendingItems.get(item).getUsername());
             im.addItem(item); // add to allItems master list of all existing items
@@ -80,43 +80,29 @@ public class AdminMenuController {
         }
     }
 
-    protected void rejectPendingItem(Item item) {
+    public void rejectPendingItem(Item item) {
         allPendingItems.remove(item);
     }
 
-    /* creates a new admin which can only be done by the first admin */
-//    private void createAdmin() {
-//        if (currentAdmin.isFirstAdmin()) {
-//            Scanner scanner = new Scanner(System.in);
-//            System.out.println(amp.enterName("new Admin"));
-//            String username = scanner.nextLine();
-//            try {
-//                System.out.println(amp.enterPassword("new Admin"));
-//                String password = scanner.nextLine();
-//                am.addAdmin(username, password); // adds the new admin to the list of all AdminUsers
-//                System.out.println(amp.successfullyCreated("New Admin User " + username));
-//            } catch (InvalidAdminException e) {
-//                System.out.println(amp.usernameTaken);
-//            }
-//        } else {
-//            /* the logged in Admin is not the first admin and doesn't have the ability to create new Admin Users */
-//            System.out.println(amp.permissionDenied);
-//        }
-//    }
-    protected boolean createAdmin(String username, String password){
+
+    /**
+     * creates a new admin which can only be done by the first admin
+     * @param username user's account name identifier
+     * @param password user's account password
+     * @return true iff admin user is successfully created
+     */
+    public boolean createAdmin(String username, String password){
         boolean isSuccessful = false;
         if (currentAdmin.isFirstAdmin()) {
             try{
                 am.addAdmin(username, password);// adds the new admin to the list of all AdminUsers
                 isSuccessful = true;
             } catch (InvalidAdminException e) {//username taken
-
-            }
+                }
         }
-
         return isSuccessful;
     }
-
+    
     /* manually adds an item to any TradingUser's inventory or wishlist */
 //    private void addItemToUser() { // 2 text fields for items and Jlist of all users and 2 buttons inventory/wishlist
 //        boolean userInteracting = true;
@@ -156,6 +142,30 @@ public class AdminMenuController {
 //            }
 //        }
 //    }
+
+    /**
+     * Manually adds an item to any TradingUser's inventory or wishlist
+     * @param tradingUser trading user in the system
+     * @param item an item in the system
+     * @param listType either "wishlist" or "inventory" as a stirng
+     * @return true iff item has been added successfully
+     * @throws NullPointerException
+     */
+    public boolean addItemToUser(TradingUser tradingUser, Item item, String listType) throws NullPointerException{
+        boolean isSuccessful = false;
+        if(listType.equals("wishlist")) {
+            um.addItem(tradingUser, item, "wishlist");
+            im.addItem(item);
+            isSuccessful = true;
+        }else if (listType.equals("inventory")){
+            um.addItem(tradingUser, item, "inventory");
+            im.addItem(item);
+            isSuccessful = true;
+        }
+        return isSuccessful;
+    }
+
+
 
     /* helper method for changeUserThreshold */
     public void updateThreshold(String username, int newThreshold, String whichThreshold) throws InvalidTradingUserException {
@@ -205,7 +215,6 @@ public class AdminMenuController {
 //    }
 
 
-
     public boolean validAdmin(String username, String password) {
         return am.validAdmin(username, password);
     }
@@ -220,5 +229,14 @@ public class AdminMenuController {
 
     public List<TradingUser> getAllTradingUsers() {
         return um.getAllTradingUsers();
+    }
+
+
+    public AdminUser getCurrentAdmin() {
+        return currentAdmin;
+    }
+
+    public Map<Item, TradingUser> getAllPendingItems() {
+        return allPendingItems;
     }
 }

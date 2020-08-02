@@ -1,3 +1,6 @@
+package TradingUserGUI;
+
+import Initialization.PopUpWindow;
 import Items.Item;
 import Users.UserMenuController;
 

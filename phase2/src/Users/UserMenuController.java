@@ -348,6 +348,35 @@ public class UserMenuController{
 //        }
 //    }
 
+
+    public TreeMap<Item,User> TransactionSuggestions() {
+        // checking for items that are exactly the same in the same city.
+        List<TradingUser> sameCityUsers = this.um.getTradingUserByCity(currentTradingUser.getCity());
+
+        List<TradingUser> diffCityUsers = this.um.getTradingUsersOutOfCity(currentTradingUser.getCity());
+    }
+
+    public List<TradingUser> PossibleBorrowers(List<TradingUser> usersList){
+        List<TradingUser> common = new ArrayList<Integer>(listA);
+        List<TradingUser> borrowerList = new ArrayList<>();
+        for(TradingUser user: usersList){
+
+
+        }
+    }
+
+    public List<Item> PossibleLentItems(TradingUser otherUser){
+        for(UUID inventoryItemId: currentTradingUser.getInventory()){
+            Item inventoryItem = im.getItem(inventoryItemId);
+
+            if(areSameItems())
+        }
+    }
+
+
+
+
+
     public List<Transaction> currentTransactionList() {
         List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
         return tm.getTransactionsFromIdList(currentTransactionsIds);
@@ -432,7 +461,7 @@ public class UserMenuController{
      * Creates a HashMap of all the available items in other user's inventory.
      * @return HashMap of items that are available in other user's inventory.
      */
-    private HashMap<Item, TradingUser> getAvailableItems(){
+    public Map<Item, TradingUser> getAvailableItems(){
         List<TradingUser> allTradingUsersInCity = um.getTradingUserByCity(currentTradingUser.getCity());
         HashMap<Item, TradingUser> availableItems = new HashMap<>();
         for (TradingUser tradingUser : allTradingUsersInCity) {

@@ -21,7 +21,7 @@ public class AdminUser extends User implements Serializable {
      * Getter for if this Admins.AdminUser is the initial administrative user
      * @return boolean whether Admins.AdminUser is initial user
      */
-    protected boolean isFirstAdmin() { return firstAdmin; }
+    public boolean isFirstAdmin() { return firstAdmin; }
 
     /**
      * Setter for Admins.AdminUser firstAdmin
