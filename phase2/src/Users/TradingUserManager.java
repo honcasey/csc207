@@ -95,11 +95,33 @@ public class TradingUserManager {
         List<TradingUser> userList = new ArrayList<>();
         for (TradingUser tradingUser : allTradingUsers)
             //check TradingUser is in the desired city and not on vacation status
-            if ((tradingUser.getCity().equals(city))&&(!tradingUser.isOnVacation())) {
+            if (sameCity(tradingUser.getCity(),city)&&(!tradingUser.isOnVacation())) {
                 userList.add(tradingUser);
             }
         if (userList.size() == 0) return null; // if there are no TradingUser's in this city
         else { return userList; }
+    }
+
+    /**
+     * Retreives of a list of TradingUsers that are outside of a city but still ready to trade.
+     * @param city This is the disired city
+     * @return list of TradingUsers outside of that city.
+     */
+    public List<TradingUser> getTradingUsersOutOfCity(String city){
+        List<TradingUser> userList = new ArrayList<>();
+        for (TradingUser tradingUser : allTradingUsers)
+            //check TradingUser is in the desired city and not on vacation status
+            if (!sameCity(tradingUser.getCity(),city)&&(!tradingUser.isOnVacation())) {
+                userList.add(tradingUser);
+            }
+        if (userList.size() == 0) return null; // if there are no TradingUser's in this city
+        else { return userList; }
+    }
+
+    private Boolean sameCity(String city1, String city2){
+        String All_upper_city1 = city1.toUpperCase();
+        String All_upper_city2 = city2.toUpperCase();
+        return All_upper_city1.equals(All_upper_city2);
     }
 
     /**
