@@ -475,4 +475,5 @@ public class TradingUserManager {
         }
         return usernames;
     }
+
 }

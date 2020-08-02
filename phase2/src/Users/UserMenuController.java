@@ -352,20 +352,30 @@ public class UserMenuController{
     public TreeMap<Item,User> TransactionSuggestions() {
         // checking for items that are exactly the same in the same city.
         List<TradingUser> sameCityUsers = this.um.getTradingUserByCity(currentTradingUser.getCity());
+
+        List<TradingUser> diffCityUsers = this.um.getTradingUsersOutOfCity(currentTradingUser.getCity());
     }
 
-    public List<TradingUser> PossibleBorrowers(){
-        for (Item item : im.convertIdsToItems(tradingUser.getInventory())) {
-            availableItems.put(item, tradingUser);
+    public List<TradingUser> PossibleBorrowers(List<TradingUser> usersList){
+        List<TradingUser> common = new ArrayList<Integer>(listA);
+        List<TradingUser> borrowerList = new ArrayList<>();
+        for(TradingUser user: usersList){
+
+
+        }
+    }
+
+    public List<Item> PossibleLentItems(TradingUser otherUser){
+        for(UUID inventoryItemId: currentTradingUser.getInventory()){
+            Item inventoryItem = im.getItem(inventoryItemId);
+
+            if(areSameItems())
         }
     }
 
 
-    public Boolean areSimilarItems(String item1Name, String item2Name){
-        String item2 = item2Name.toUpperCase();
-        String item1 = item1Name.toUpperCase();
-        return(item2.contains(item1) | item1.contains(item2));
-    }
+
+
 
     public List<Transaction> currentTransactionList() {
         List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();

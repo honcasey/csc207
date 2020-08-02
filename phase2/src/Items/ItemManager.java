@@ -59,4 +59,38 @@ public class ItemManager {
         }
         return items;
     }
+
+    public Item SameIteminList(List<Item> itemList,Item otherItem){
+        for(Item item: itemList){
+            if(areSameItems(item,otherItem)){
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public Item SimilarIteminList(List<Item> itemList,Item otherItem){
+        for(Item item: itemList){
+            if(areSimilarItems(item,otherItem)){
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public List<Item> getSameItemsFromLists(List<Item> list1, List<Item> list2){
+
+    }
+
+    public Boolean areSimilarItems(Item item1, Item item2){
+        String item2_string = item2.getName().toUpperCase();
+        String item1_string = item1.getName().toUpperCase();
+        return(item2_string.contains(item1_string) | item1_string.contains(item2_string));
+    }
+
+    public Boolean areSameItems(Item item1,Item item2){
+        String item2_string = item2.getName().toUpperCase();
+        String item1_string = item1.getName().toUpperCase();
+        return item1_string.equals(item2_string);
+    }
 }
