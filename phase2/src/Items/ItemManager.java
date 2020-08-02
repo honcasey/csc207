@@ -78,9 +78,6 @@ public class ItemManager {
         return null;
     }
 
-    public List<Item> getSameItemsFromLists(List<Item> list1, List<Item> list2){
-
-    }
 
     public Boolean areSimilarItems(Item item1, Item item2){
         String item2_string = item2.getName().toUpperCase();
