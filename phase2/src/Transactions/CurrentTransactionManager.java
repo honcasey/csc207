@@ -117,6 +117,20 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     /**
+     * This method is ONLY allowed to be used in the createTransactionMenu
+     *
+     * DO NOT USE THIS METHOD. THERE ARE NO EXCEPTIONS WRITTEN AND THIS METHOD IS OUT OF PLACE
+     * THIS WILL HAVE TO BE MOVED SOMEWHERE ELSE
+     * @param user1 one of the users in transaction.
+     * @param user2 one of the users in transaction.
+     * @param newTransaction the actual transaction object. (for which method will get ids for)
+     */
+    public void updateUsersCurrentTransactions(TradingUser user1,TradingUser user2,Transaction newTransaction){
+        user1.getCurrentTransactions().add(newTransaction.getId());
+        user2.getCurrentTransactions().add(newTransaction.getId());
+    }
+
+    /**
      * @param transaction the transaction who's status is being updated
      * @return true if the status of the transaction has been updated, the transaction status will we updated based on
      * user input by changing their status user

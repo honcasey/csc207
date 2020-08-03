@@ -28,19 +28,19 @@ public class UserMenuController{
 
 
     private final Map<Item, TradingUser> allPendingItems;
-//    private HashMap<Item, TradingUser> availableItems;
+    private Map<Item, TradingUser> availableItems;
 
     public UserMenuController(TradingUserManager tradingUserManager, AdminManager adminManager,
                               CurrentTransactionManager currentTransactionManager,
                               PastTransactionManager pastTransactionManager, ItemManager itemManager,
-                              Map<Item, TradingUser> pendingItems) {
+                              Map<Item, TradingUser> pendingItems, Map<Item, TradingUser> availableItems) {
         allPendingItems = pendingItems;
         am = adminManager;
         um = tradingUserManager;
         tm = currentTransactionManager;
         ptm = pastTransactionManager;
         im = itemManager;
-//        availableItems = getAvailableItems();
+        availableItems = getAvailableItems();
     }
 
     /**
@@ -50,34 +50,13 @@ public class UserMenuController{
         allPendingItems.put(requestedItem, currentTradingUser);
     }
 
-//    /**
-//     * Method that calls to different helper methods depending on user's input choice in the main menu.
-//     */
-//    public void run() {
-//        boolean userInteracting = true;
-//        while(userInteracting){
-//            List<String> menu = ump.constructMainMenu();
-//            int input = ump.handleOptionsByIndex(menu, false,"TradingUser Main Menu");
-//            if (ump.indexToOption(input, menu, ump.requestItem)){
-//                requestAddItem();
-//            } else if (ump.indexToOption(input, menu, ump.browseAvailableItems)) {
-////                displayAvailableItems();
-//            } else if (ump.indexToOption(input, menu, ump.viewActiveTransactions)) {
-////                getActiveTransactions();
-//            } else if (ump.indexToOption(input, menu, ump.viewPastTransactionDetails)) {
-//                pastTransactionFlow();
-//            } else if (ump.indexToOption(input, menu, ump.viewWishlist)) {
-//                viewWishlist();
-//            } else if (ump.indexToOption(input, menu, ump.viewInventory)) {
-//                viewInventory();
-//            } else if (ump.indexToOption(input, menu, ump.requestUnfreeze)) {
-//                requestUnfreezeAccount();
-//            } else if (ump.indexToOption(input, menu, ump.logout)) {
-//                System.out.println(ump.successfulLogout);
-//                userInteracting = false;
-//            }
-//        }
-//    }
+    /**
+     * Adds item to a wishlist and returns true if the item was not already in the wishlist. If already in wishlist, returns false.
+     */
+    public boolean addToWishlist(Item item) {
+        return um.addItem(currentTradingUser, item, "wishlist");
+    }
+
 
 //    /* This takes in input from user and creates */
 //    private void requestAddItem(){
@@ -143,83 +122,56 @@ public class UserMenuController{
 //        }
 //    }
 
-    ///**
-    //* Handles the flow for setting up a transaction for an available item assuming that the transaction
-    // * is allowed between the 2 users.
-    // *
-    // * @param item The item that is going to be traded.
-    // * @param Owner The other user that is currently the owner of the item you want to trade for.
-    // * @return this method returns a true if the user wants to make another offer for an item and returns
-    // * false if the user wants to head back to the main menu.
-    // */
-//    private boolean createTransactionMenu(Item item, TradingUser Owner) {
-//        System.out.println(ump.scheduleMeeting);
-//        Meeting FirstMeeting = meetingDetailsMenu("First");
-//
-//        boolean permBool = ump.handleYesNo(ump.whatTypeOfTransaction,"Permanent","Temporary");
-//        boolean oneWayBool = !ump.handleYesNo(ump.offerItem,"Yes","No");
-//
-//        if(permBool & oneWayBool){
-//            Transaction newTransaction = tm.createTransaction(
-//                    Owner.getUserId(),currentTradingUser.getUserId(), item, FirstMeeting);
-//            updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
-//        }
-//        else if(permBool & !oneWayBool){
-//            if(currentTradingUser.getInventory().isEmpty()){
-//                System.out.println(ump.empty("inventory"));
-//            }
-//            else{
-//                System.out.println(ump.selectItemToOffer);
-//                Item ChosenItem = this.pickUserItemFlow(this.currentTradingUser);
-//                Transaction newTransaction = tm.createTransaction(
-//                    Owner.getUserId(), currentTradingUser.getUserId(), item, ChosenItem, FirstMeeting);
-//                updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
-//                availableItems.remove(ChosenItem);
-//            }
-//        }
-//        else if(oneWayBool){   // note permBool must be false at this point: aka you're creating a temp Transaction
-//            Meeting SecondMeeting = tm.meetOneMonthLater(FirstMeeting);
-//            Transaction newTransaction = tm.createTransaction(
-//                    Owner.getUserId(),currentTradingUser.getUserId(), item,FirstMeeting,SecondMeeting);
-//            updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
-//        }
-//        else{
-//            if(currentTradingUser.getInventory().isEmpty()){
-//                System.out.println(ump.empty("Inventory"));
-//            }
-//            else{
-//                System.out.println(ump.selectItemToOffer);
-//                Item ChosenItem = this.pickUserItemFlow(this.currentTradingUser);
-//                Meeting SecondMeeting = tm.meetOneMonthLater(FirstMeeting);
-//                Transaction newTransaction = tm.createTransaction(Owner.getUserId(),
-//                    currentTradingUser.getUserId(), item, ChosenItem,FirstMeeting,SecondMeeting);
-//                updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
-//                availableItems.remove(ChosenItem);
-//            }
-//        }
-//        availableItems.remove(item);
-//        return(ump.handleYesNo(ump.makeTransaction,"Yes","No"));
-//    }
+    /**
+     * Creates a one-way transaction.
+     * @param item The item that is going to be traded.
+     * @param Owner The other user that is currently the owner of the item you want to trade for.
+     * @param transactionType perm or temp (this should probably be an enum class somewhere maybe?)
+     * @return returns true when the transaction has been made
+     */
+    public boolean createTransaction(Item item, TradingUser Owner, String transactionType, Meeting firstMeeting, Meeting secondMeeting) {
+        TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
+        List itemList = new ArrayList<UUID>();
+        itemList.add(item.getId());
+        itemMap.put(Owner.getUserId(), itemList);
+        Transaction newTransaction;
+        if(transactionType.equals("perm")){
+            newTransaction = tm.createTransaction(itemMap, firstMeeting);
+        }
+        else { // transaction is temp:
+            newTransaction = tm.createTransaction(itemMap, firstMeeting, secondMeeting);
+        }
+        tm.updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
+        availableItems.remove(item);
+        return true;
+    }
+
+    /**
+     * Creates a two-way transaction
+     */
+    public boolean createTransaction(Item item, Item item2, TradingUser Owner, String transactionType,
+                                     Meeting firstMeeting) {
+        TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
+        List itemList = new ArrayList<UUID>();
+        itemList.add(item.getId());
+        itemMap.put(Owner.getUserId(), itemList);
+        Transaction newTransaction;
+        if(transactionType.equals("perm")){
+            newTransaction = tm.createTransaction(itemMap, firstMeeting);
+        }
+        else { // transaction is temp:
+            newTransaction = tm.createTransaction(itemMap, firstMeeting);
+        }
+        tm.updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
+        availableItems.remove(item);
+        return true;
+    }
 
 //    private Item pickUserItemFlow(TradingUser CurrentUser){
 //        List<Item> currentUserInventory = im.convertIdsToItems(CurrentUser.getInventory());
 //        List<String> ItemOptions = ump.constructInventoryItemsList(currentUserInventory);
 //        int OptionChosen = ump.handleOptionsByIndex(ItemOptions,false, "Available Inventory");
 //        return currentUserInventory.get(OptionChosen);
-//    }
-
-//    /**
-//     * This method is ONLY allowed to be used in the createTransactionMenu
-//     *
-//     * DO NOT USE THIS METHOD. THERE ARE NO EXCEPTIONS WRITTEN AND THIS METHOD IS OUT OF PLACE
-//     * THIS WILL HAVE TO BE MOVED SOMEWHERE ELSE
-//     * @param user1 one of the users in transaction.
-//     * @param user2 one of the users in transaction.
-//     * @param newTransaction the actual transaction object. (for which method will get ids for)
-//     */
-//    private void updateUsersCurrentTransactions(TradingUser user1,TradingUser user2,Transaction newTransaction){
-//        user1.getCurrentTransactions().add(newTransaction.getId());
-//        user2.getCurrentTransactions().add(newTransaction.getId());
 //    }
 
     /* viewing a User's wishlist */

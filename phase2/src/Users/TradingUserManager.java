@@ -145,12 +145,18 @@ public class TradingUserManager {
      * @param item an item in the trading system.
      * @param listType either "wishlist" or "inventory" as a String
      */
-    public void addItem(TradingUser tradingUser, Item item, String listType) {
+    public boolean addItem(TradingUser tradingUser, Item item, String listType) {
         if (listType.equals("wishlist")) {
-            tradingUser.getWishlist().add(item.getId());
+            if (!tradingUser.getWishlist().contains(item)) {
+                tradingUser.getWishlist().add(item.getId());
+                return true;
+            }
         } else if (listType.equals("inventory")) {
-            tradingUser.getInventory().add(item.getId());
+            if (!tradingUser.getInventory().contains(item)) {
+                tradingUser.getInventory().add(item.getId());
+            }
         }
+        return false;
     }
 
     /**
