@@ -21,10 +21,10 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     /**
-     * Creates a transaction
+     * Creates a permanent transaction
      * @param userToItems A hashmap which maps userId's to a list of Item ids(where the list is in the form of [ItemId owned, ItemId wanted])
      * @param firstMeeting firstMeeting This is just a meeting object representing where the users will meet for the first time.
-     * @return Transaction
+     * @return a permanent Transaction
      */
     public Transaction createTransaction(TreeMap<UUID, List<UUID>> userToItems, Meeting firstMeeting){
         Transaction transaction = new TransactionPerm(userToItems, firstMeeting);
@@ -34,11 +34,11 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     /**
-     * Creates a transaction
+     * Creates a temporary transaction
      * @param userToItems A hashmap which maps userId's to a list of Item ids(where the list is in the form of [ItemId owned, ItemId wanted])
-     * @param firstMeeting firstMeeting This is just a meeting object representing where the users will meet for the first time.
-     * @param secondMeeting
-     * @return
+     * @param firstMeeting a meeting object representing where the users will meet for the first time.
+     * @param secondMeeting a meeting object representing where the users will meet to return the items
+     * @return a temporary Transaction
      */
     public Transaction createTransaction(TreeMap<UUID, List<UUID>> userToItems, Meeting firstMeeting, Meeting secondMeeting) {
         Transaction transaction = new TransactionTemp(userToItems, firstMeeting, secondMeeting);
@@ -50,7 +50,7 @@ public class CurrentTransactionManager extends TransactionManager{
     /**
      * Creates a no-meeting transaction (virtual)
      * @param userToItems map of item to user
-     * @return
+     * @return a no-meeting Transaction
      */
     public Transaction createTransaction(TreeMap<UUID, List<UUID>> userToItems){
         Transaction transaction = new TransactionVirtual(userToItems);

@@ -18,7 +18,7 @@ import java.util.*;
  * and a list of allPendingItems (which is the list of all items that have been requested by a
  * TradingUser to be added to their inventory). <p/>
  */
-public class UserMenuController{
+public class UserMenuController {
     public TradingUser currentTradingUser = null; // user that's logged in
     private final AdminManager am;
     private final TradingUserManager um;
@@ -126,13 +126,14 @@ public class UserMenuController{
      * @param items The item that is going to be traded.
      * @param owner The other user that is currently the owner of the item you want to trade for.
      */
-    public void createTransaction(List<UUID> items, TradingUser owner, Meeting firstMeeting, Meeting secondMeeting) {
+    public void buildTransaction(List<UUID> items, TradingUser owner, Meeting firstMeeting, Meeting secondMeeting) throws InvalidItemException {
         TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
         itemMap.put(owner.getUserId(), items);
         Transaction newTransaction;
         newTransaction = tm.createTransaction(itemMap, firstMeeting, secondMeeting);
         tm.updateUsersCurrentTransactions(owner,currentTradingUser,newTransaction);
-        for (UUID item : items) {
+        for (UUID id : items) {
+            Item item = im.getItem(id);
             availableItems.remove(item);
         }
     }
@@ -140,13 +141,14 @@ public class UserMenuController{
     /**
      * Creates a perm transaction
      */
-    public void createTransaction(List<UUID> items, TradingUser owner, Meeting firstMeeting) {
+    public void buildTransaction(List<UUID> items, TradingUser owner, Meeting firstMeeting) throws InvalidItemException {
         TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
         itemMap.put(owner.getUserId(), items);
         Transaction newTransaction;
         newTransaction = tm.createTransaction(itemMap, firstMeeting);
         tm.updateUsersCurrentTransactions(owner,currentTradingUser,newTransaction);
-        for (UUID item : items) {
+        for (UUID id : items) {
+            Item item = im.getItem(id);
             availableItems.remove(item);
         }
     }
@@ -154,12 +156,13 @@ public class UserMenuController{
     /**
      * Creates a virtual transaction
      */
-    public void createTransaction(List<UUID> items, TradingUser owner) {
+    public void buildTransaction(List<UUID> items, TradingUser owner) throws InvalidItemException {
         TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
         itemMap.put(owner.getUserId(), items);
         Transaction newTransaction = tm.createTransaction(itemMap);
         tm.updateUsersCurrentTransactions(owner, currentTradingUser, newTransaction);
-        for (UUID item : items) {
+        for (UUID id : items) {
+            Item item = im.getItem(id);
             availableItems.remove(item);
         }
     }
