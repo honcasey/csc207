@@ -47,8 +47,13 @@ public class CurrentTransactionManager extends TransactionManager{
         return transaction;
     }
 
-    public Transaction createTransaction(TreeMap<UUID, List<UUID>> userToItems, HashMap<UUID, List<String>> itemToName){
-        Transaction transaction = new TransactionVirtual(userToItems, itemToName);
+    /**
+     * Creates a no-meeting transaction (virtual)
+     * @param userToItems map of item to user
+     * @return
+     */
+    public Transaction createTransaction(TreeMap<UUID, List<UUID>> userToItems){
+        Transaction transaction = new TransactionVirtual(userToItems);
         UUID id = transaction.getId();
         getAllTransactions().put(id, transaction);
         return transaction;

@@ -28,19 +28,18 @@ public class UserMenuController{
 
 
     private final Map<Item, TradingUser> allPendingItems;
-    private Map<Item, TradingUser> availableItems;
+    private Map<Item, TradingUser> availableItems = getAvailableItems();
 
     public UserMenuController(TradingUserManager tradingUserManager, AdminManager adminManager,
                               CurrentTransactionManager currentTransactionManager,
                               PastTransactionManager pastTransactionManager, ItemManager itemManager,
-                              Map<Item, TradingUser> pendingItems, Map<Item, TradingUser> availableItems) {
+                              Map<Item, TradingUser> pendingItems) {
         allPendingItems = pendingItems;
         am = adminManager;
         um = tradingUserManager;
         tm = currentTransactionManager;
         ptm = pastTransactionManager;
         im = itemManager;
-        availableItems = getAvailableItems();
     }
 
     /**
@@ -124,16 +123,13 @@ public class UserMenuController{
 
     /**
      * Creates a one-way transaction.
-     * @param item The item that is going to be traded.
-     * @param Owner The other user that is currently the owner of the item you want to trade for.
+     * @param items The item that is going to be traded.
+     * @param owner The other user that is currently the owner of the item you want to trade for.
      * @param transactionType perm or temp (this should probably be an enum class somewhere maybe?)
-     * @return returns true when the transaction has been made
      */
-    public boolean createTransaction(Item item, TradingUser Owner, String transactionType, Meeting firstMeeting, Meeting secondMeeting) {
+    public void createTransaction(List<UUID> items, TradingUser owner, String transactionType, Meeting firstMeeting, Meeting secondMeeting) {
         TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
-        List itemList = new ArrayList<UUID>();
-        itemList.add(item.getId());
-        itemMap.put(Owner.getUserId(), itemList);
+        itemMap.put(owner.getUserId(), items);
         Transaction newTransaction;
         if(transactionType.equals("perm")){
             newTransaction = tm.createTransaction(itemMap, firstMeeting);
@@ -141,20 +137,18 @@ public class UserMenuController{
         else { // transaction is temp:
             newTransaction = tm.createTransaction(itemMap, firstMeeting, secondMeeting);
         }
-        tm.updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
-        availableItems.remove(item);
-        return true;
+        tm.updateUsersCurrentTransactions(owner,currentTradingUser,newTransaction);
+        for (UUID item : items) {
+            availableItems.remove(item);
+        }
     }
 
     /**
      * Creates a two-way transaction
      */
-    public boolean createTransaction(Item item, Item item2, TradingUser Owner, String transactionType,
-                                     Meeting firstMeeting) {
+    public void createTransaction(List<UUID> items, TradingUser owner, String transactionType, Meeting firstMeeting) {
         TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
-        List itemList = new ArrayList<UUID>();
-        itemList.add(item.getId());
-        itemMap.put(Owner.getUserId(), itemList);
+        itemMap.put(owner.getUserId(), items);
         Transaction newTransaction;
         if(transactionType.equals("perm")){
             newTransaction = tm.createTransaction(itemMap, firstMeeting);
@@ -162,9 +156,23 @@ public class UserMenuController{
         else { // transaction is temp:
             newTransaction = tm.createTransaction(itemMap, firstMeeting);
         }
-        tm.updateUsersCurrentTransactions(Owner,currentTradingUser,newTransaction);
-        availableItems.remove(item);
-        return true;
+        tm.updateUsersCurrentTransactions(owner,currentTradingUser,newTransaction);
+        for (UUID item : items) {
+            availableItems.remove(item);
+        }
+    }
+
+    /**
+     * Creates a virtual transaction
+     */
+    public void createTransaction(List<UUID> items, TradingUser owner) {
+        TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
+        itemMap.put(owner.getUserId(), items);
+        Transaction newTransaction = tm.createTransaction(itemMap);
+        tm.updateUsersCurrentTransactions(owner, currentTradingUser, newTransaction);
+        for (UUID item : items) {
+            availableItems.remove(item);
+        }
     }
 
 //    private Item pickUserItemFlow(TradingUser CurrentUser){
