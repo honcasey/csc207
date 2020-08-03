@@ -122,21 +122,15 @@ public class UserMenuController{
 //    }
 
     /**
-     * Creates a one-way transaction.
+     * Creates a temp transaction.
      * @param items The item that is going to be traded.
      * @param owner The other user that is currently the owner of the item you want to trade for.
-     * @param transactionType perm or temp (this should probably be an enum class somewhere maybe?)
      */
-    public void createTransaction(List<UUID> items, TradingUser owner, String transactionType, Meeting firstMeeting, Meeting secondMeeting) {
+    public void createTransaction(List<UUID> items, TradingUser owner, Meeting firstMeeting, Meeting secondMeeting) {
         TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
         itemMap.put(owner.getUserId(), items);
         Transaction newTransaction;
-        if(transactionType.equals("perm")){
-            newTransaction = tm.createTransaction(itemMap, firstMeeting);
-        }
-        else { // transaction is temp:
-            newTransaction = tm.createTransaction(itemMap, firstMeeting, secondMeeting);
-        }
+        newTransaction = tm.createTransaction(itemMap, firstMeeting, secondMeeting);
         tm.updateUsersCurrentTransactions(owner,currentTradingUser,newTransaction);
         for (UUID item : items) {
             availableItems.remove(item);
@@ -144,18 +138,13 @@ public class UserMenuController{
     }
 
     /**
-     * Creates a two-way transaction
+     * Creates a perm transaction
      */
-    public void createTransaction(List<UUID> items, TradingUser owner, String transactionType, Meeting firstMeeting) {
+    public void createTransaction(List<UUID> items, TradingUser owner, Meeting firstMeeting) {
         TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
         itemMap.put(owner.getUserId(), items);
         Transaction newTransaction;
-        if(transactionType.equals("perm")){
-            newTransaction = tm.createTransaction(itemMap, firstMeeting);
-        }
-        else { // transaction is temp:
-            newTransaction = tm.createTransaction(itemMap, firstMeeting);
-        }
+        newTransaction = tm.createTransaction(itemMap, firstMeeting);
         tm.updateUsersCurrentTransactions(owner,currentTradingUser,newTransaction);
         for (UUID item : items) {
             availableItems.remove(item);
