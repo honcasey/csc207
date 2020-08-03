@@ -31,9 +31,13 @@ public class AvailableItemsWindow {
         frame.setLocationRelativeTo(null);
 
         // create the panel and the components on it
-        JPanel panel = new JPanel();
-        frame.add(panel);
-        placeComponents(panel);
+        JPanel panel1 = new JPanel();
+        JPanel panel2 = new JPanel();
+        frame.add(panel1, BorderLayout.WEST);
+        frame.add(panel2, BorderLayout.EAST);
+        createComboBox();
+        setupLeftPanel(panel1);
+        setupRightPanel(panel2);
 
         // display the window
         frame.setVisible(true);
@@ -41,18 +45,26 @@ public class AvailableItemsWindow {
 
     private void createComboBox() {
         availableItemsMap = umc.getAvailableItems();
-        JComboBox comboBox = new JComboBox<>((ComboBoxModel<String>) availableItemsMap.keySet());
+        JComboBox<String> comboBox1 = new JComboBox<>();
+
+        for (Item item : availableItemsMap.keySet()) {
+            comboBox1.addItem(item.getName());
+        }
 
         comboBox1.addActionListener(e -> {
-            JComboBox cb = (JComboBox)e.getSource();
+            JComboBox<String> cb = (JComboBox)e.getSource();
             selectedItem = (Item) cb.getSelectedItem();
         });
     }
 
-    private void placeComponents(JPanel panel) {
+    private void setupLeftPanel(JPanel panel) {
         panel.setLayout(null);
 
         // add the combo box
         panel.add(comboBox1);
+    }
+
+    private void setupRightPanel(JPanel panel) {
+
     }
 }
