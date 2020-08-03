@@ -38,6 +38,9 @@ public class AdminMenuController {
         im = items;
     }
 
+    public TradingUserManager getTUM(){
+        return this.um;
+    }
 //    /**
 //     * Calls to different helper methods depending on admin's input choice in the main menu.
 //     */
@@ -99,6 +102,46 @@ public class AdminMenuController {
         }
         return isSuccessful;
     }
+    
+    /* manually adds an item to any TradingUser's inventory or wishlist */
+//    private void addItemToUser() { // 2 text fields for items and Jlist of all users and 2 buttons inventory/wishlist
+//        boolean userInteracting = true;
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println(amp.enterName("new Item"));
+//        String itemName = scanner.nextLine();
+//        Item newItem = new Item(itemName);
+//        System.out.println(amp.enterName("TradingUser"));
+//        String username = scanner.nextLine();
+//        int optionChosen = amp.handleOptionsByIndex(amp.constructAddToListMenu(), true,
+//                "Which list do you want to add this Item to?");
+//        while (userInteracting) {
+//            try {
+//                if (optionChosen == amp.constructAddToListMenu().size()) {
+//                    System.out.println(amp.previousMenu);
+//                    userInteracting = false;
+//                }
+//                /* if admin chooses to add this item to the wishlist */
+//                else if (amp.indexToOption(optionChosen, amp.constructAddToListMenu(), amp.addToWishlist)) {
+//                    um.addItem(um.getTradingUser(username), newItem, "wishlist");
+//                    im.addItem(newItem); //add this new item
+//                    System.out.println(amp.successfullyAdded(newItem.toString(), username, "wishlist"));
+//                    userInteracting = false;
+//                }
+//                /* if admin chooses to add this item to the inventory */
+//                else if (amp.indexToOption(optionChosen, amp.constructAddToListMenu(), amp.addToInventory)) {
+//                    um.addItem(um.getTradingUser(username), newItem, "inventory");
+//                    im.addItem(newItem);
+//                    System.out.println(amp.successfullyAdded(newItem.toString(), username, "inventory"));
+//                    userInteracting = false;
+//                }
+//                // if admin chose an invalid option
+//                else { System.out.println(amp.validOptions(amp.constructUserLists()));}
+//            } catch(InvalidTradingUserException e) {
+//                System.err.println(amp.usernameInvalid);
+//                userInteracting = false;
+//            }
+//        }
+//    }
 
     /**
      * Manually adds an item to any TradingUser's inventory or wishlist
@@ -123,6 +166,7 @@ public class AdminMenuController {
     }
 
 
+
     /* helper method for changeUserThreshold */
     public void updateThreshold(String username, int newThreshold, String whichThreshold) throws InvalidTradingUserException {
         um.changeThreshold(um.getTradingUser(username), newThreshold, whichThreshold);
@@ -131,45 +175,44 @@ public class AdminMenuController {
 
     /* checks all TradingUsers that are frozen and have requested their account to be unfrozen */
     // Jcardlayout
-//    private void checkFrozenUsers() {
-//        boolean userInteracting = true;
-//        while (userInteracting) {
-//            if (am.getFrozenAccounts().isEmpty()) {
-//                System.out.println(amp.empty("Frozen TradingUser request"));
-//                userInteracting = false;
-//            }
-//            else {
-//                Iterator<TradingUser> frozenUserIterator = am.getFrozenAccounts().iterator();
-//
-//                /* makes a list of users to delete from the pendingFrozenTradingUsers list if they're unfrozen */
-//                ArrayList<TradingUser> usersToDelete = new ArrayList<>();
-//
-//                while (frozenUserIterator.hasNext()) {
-//                    TradingUser curr = frozenUserIterator.next();
-//                    System.out.println(amp.accountFrozen(curr.toString(), curr.getStatus()));
-//                    int optionChosen = amp.handleOptionsByIndex(amp.constructPendingFrozenUsersMenu(), true, "Check Frozen Users");
-//                    if (optionChosen == amp.constructPendingFrozenUsersMenu().size()) { // if "go back" is chosen
-//                        System.out.println(amp.previousMenu);
-//                        userInteracting = false;
-//                        break;
-//                    } else {
-//                        // if an admin chooses to unfreeze
-//                        if (amp.indexToOption(optionChosen, amp.constructPendingFrozenUsersMenu(), amp.unfreezeAccount)) {
-//                            um.unfreezeAccount(curr); // status of TradingUser now set from frozen back to active
-//                            usersToDelete.add(curr);
-//                            System.out.println(amp.accountFrozen(curr.toString(), curr.getStatus()));
-//                            userInteracting = false;
-//                        }
-//                        // else it goes to the next user
-//                    }
-//                }
-//
-//                /* remove all Trading Users that have been unfrozen from the pendingFrozenTradingUsers list */
-//                am.getFrozenAccounts().removeAll(usersToDelete);
-//            }
+//////    private void checkFrozenUsers() {
+//////        boolean userInteracting = true;
+//////        while (userInteracting) {
+//////            if (am.getFrozenAccounts().isEmpty()) {
+//////                System.out.println(amp.empty("Frozen TradingUser request"));
+//////                userInteracting = false;
+//////            }
+//////            else {
+//////                Iterator<TradingUser> frozenUserIterator = am.getFrozenAccounts().iterator();
+//////
+//////                /* makes a list of users to delete from the pendingFrozenTradingUsers list if they're unfrozen */
+//////                ArrayList<TradingUser> usersToDelete = new ArrayList<>();
+//////
+//////                while (frozenUserIterator.hasNext()) {
+//////                    TradingUser curr = frozenUserIterator.next();
+//////                    System.out.println(amp.accountFrozen(curr.toString(), curr.getStatus()));
+//////                    int optionChosen = amp.handleOptionsByIndex(amp.constructPendingFrozenUsersMenu(), true, "Check Frozen Users");
+//////                    if (optionChosen == amp.constructPendingFrozenUsersMenu().size()) { // if "go back" is chosen
+//////                        System.out.println(amp.previousMenu);
+//////                        userInteracting = false;
+//////                        break;
+//////                    } else {
+//////                        // if an admin chooses to unfreeze
+//////                        if (amp.indexToOption(optionChosen, amp.constructPendingFrozenUsersMenu(), amp.unfreezeAccount)) {
+//////                            um.unfreezeAccount(curr); // status of TradingUser now set from frozen back to active
+//////                            usersToDelete.add(curr);
+//////                            System.out.println(amp.accountFrozen(curr.toString(), curr.getStatus()));
+//////                            userInteracting = false;
+//////                        }
+//////                        // else it goes to the next user
+//////                    }
+//////                }
+////
+////                /* remove all Trading Users that have been unfrozen from the pendingFrozenTradingUsers list */
+////                am.getFrozenAccounts().removeAll(usersToDelete);
+////            }
 //        }
 //    }
-    
 
 
     public boolean validAdmin(String username, String password) {
@@ -187,6 +230,7 @@ public class AdminMenuController {
     public List<TradingUser> getAllTradingUsers() {
         return um.getAllTradingUsers();
     }
+
 
     public AdminUser getCurrentAdmin() {
         return currentAdmin;

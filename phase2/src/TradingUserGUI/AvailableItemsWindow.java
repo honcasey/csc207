@@ -6,13 +6,13 @@ import Users.UserMenuController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 import java.util.Map;
 
 public class AvailableItemsWindow {
     private final UserMenuController umc;
     private Map<Item, TradingUser> availableItemsMap;
     private JComboBox<String> comboBox1;
+    private Item selectedItem;
 
     public AvailableItemsWindow(UserMenuController umc) {
         this.umc = umc;
@@ -21,7 +21,7 @@ public class AvailableItemsWindow {
     public void display() {
         // create the frame
         JFrame frame = new JFrame("Available Items");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // set the frame's size and centre it
         frame.setSize(new Dimension(550, 300));
@@ -29,6 +29,7 @@ public class AvailableItemsWindow {
 
         // create the panel and the components on it
         JPanel panel = new JPanel();
+        createComboBox();
         frame.add(panel);
         placeComponents(panel);
 
@@ -38,7 +39,17 @@ public class AvailableItemsWindow {
 
     private void createComboBox() {
         availableItemsMap = umc.getAvailableItems();
-        comboBox1 = new JComboBox<String>((ComboBoxModel<String>) availableItemsMap.keySet());
+        comboBox1 = new JComboBox<>();
+
+        for (Item item : availableItemsMap.keySet()) {
+            comboBox1.addItem(item.toString());
+        }
+
+        comboBox1.addActionListener(e -> {
+            JComboBox cb = (JComboBox)e.getSource();
+            selectedItem = (Item) cb.getSelectedItem();
+            new ItemDetailsWindow(umc, selectedItem, availableItemsMap).display();
+        });
     }
 
     private void placeComponents(JPanel panel) {
