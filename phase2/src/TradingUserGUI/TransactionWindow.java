@@ -6,6 +6,7 @@ import Users.UserMenuController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class TransactionWindow {
     private UserMenuController umc;
@@ -30,6 +31,8 @@ public class TransactionWindow {
         frame.add(panel1, BorderLayout.WEST);
         frame.add(panel2, BorderLayout.EAST);
 
+        setupLeftPanel();
+
         // display the window
         frame.setVisible(true);
     }
@@ -50,15 +53,15 @@ public class TransactionWindow {
 
         // add event handlers for the buttons
         virtualButton.addActionListener(e -> {
-            setupRightPanel();
+            setupRightPanel("Virtual");
         });
 
         permButton.addActionListener(e -> {
-            setupRightPanel();
+            setupRightPanel("Perm");
         });
 
         tempButton.addActionListener(e -> {
-            setupRightPanel();
+            setupRightPanel("Temp");
         });
 
         // add the buttons to the panel
@@ -67,7 +70,45 @@ public class TransactionWindow {
         panel1.add(tempButton);
     }
 
-    private void setupRightPanel() {
+    private void setupRightPanel(String type) {
+        panel2.add(new JLabel("Would you like to offer one of your items?"));
+
+        List<Item> inventory = umc.getIm().convertIdsToItems(owner.getInventory());
+
+        // create JComboBox of user's inventory
+        JComboBox<Item> comboBox = new JComboBox<>();
+
+        for (Item item : inventory) {
+            comboBox.addItem(item);
+        }
+
+        // add event handler for comboBox
+        comboBox.addActionListener(e -> {
+            Item selectedItem = (Item) comboBox.getSelectedItem();
+        });
+
+        // add comboBox to panel
+        panel2.add(comboBox);
+
+        // add meetings fields
+        setupMeetings(type);
+
+        // create and add submit button to panel
+        JButton submit = new JButton("Submit");
+        panel2.add(submit);
+
+        // add event handler for submit button
+    }
+
+    private void setupMeetings(String type) {
+        switch (type) {
+            case "Perm":
+                panel2.add(new JLabel)
+                addMeeting();
+        }
+    }
+
+    private void addMeeting() {
 
     }
 }
