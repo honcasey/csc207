@@ -29,6 +29,9 @@ public class ItemDetailsWindow {
         JPanel panel = new JPanel();
         formatPanel(panel);
         frame.add(panel);
+
+        // display the window
+        frame.setVisible(true);
     }
 
     private void formatPanel(JPanel panel) {
@@ -56,7 +59,7 @@ public class ItemDetailsWindow {
         });
 
         trans.addActionListener(e -> {
-            new TransactionWindow.display(umc, item, owner);
+            new TransactionWindow(umc, item, owner).display();
         });
     }
 }
