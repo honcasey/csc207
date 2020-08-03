@@ -7,8 +7,6 @@ import Users.UserMenuController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Map;
 
 public class ItemDetailsWindow {
@@ -48,6 +46,7 @@ public class ItemDetailsWindow {
         JButton wishlist = new JButton("Add to Wishlist");
         JButton trans = new JButton("Request Transaction");
 
+        // add action listeners for our two buttons
         wishlist.addActionListener(e -> {
             if (owner.getWishlist().contains(item.getId())) {
                 new PopUpWindow("Already in your wishlist").display();
@@ -57,7 +56,7 @@ public class ItemDetailsWindow {
         });
 
         trans.addActionListener(e -> {
-
+            new TransactionWindow.display(umc, item, owner);
         });
     }
 }
