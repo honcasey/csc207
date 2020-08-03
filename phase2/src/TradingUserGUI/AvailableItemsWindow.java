@@ -6,9 +6,6 @@ import Users.UserMenuController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.Map;
 
 public class AvailableItemsWindow {
@@ -32,9 +29,7 @@ public class AvailableItemsWindow {
 
         // create the panel and the components on it
         JPanel panel = new JPanel();
-        // add ComboBox to panel
-        // add button to pop up window that has add to wishlist/request transaction buttons
-
+        createComboBox();
         frame.add(panel);
         placeComponents(panel);
 
@@ -42,39 +37,19 @@ public class AvailableItemsWindow {
         frame.setVisible(true);
     }
 
-    private void availableItemsBox() {
+    private void createComboBox() {
         availableItemsMap = umc.getAvailableItems();
-        JComboBox comboBox = new JComboBox<>((ComboBoxModel<String>) availableItemsMap.keySet());
+        comboBox1 = new JComboBox<>();
+
+        for (Item item : availableItemsMap.keySet()) {
+            comboBox1.addItem(item.toString());
+        }
 
         comboBox1.addActionListener(e -> {
             JComboBox cb = (JComboBox)e.getSource();
             selectedItem = (Item) cb.getSelectedItem();
+            new ItemDetailsWindow(umc, selectedItem, availableItemsMap).display();
         });
-    }
-
-    private void itemDetailsWindow() { // the second window
-        JFrame frame = new JFrame("Item Details");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setSize(new Dimension(550, 300));
-        frame.setLocationRelativeTo(null);
-
-        JPanel panel = new JPanel();
-        JLabel item = new JLabel(selectedItem.toString());
-        // the user who owns the item
-        TradingUser owner = availableItemsMap.get(selectedItem);
-        JLabel user = new JLabel(owner.toString());
-
-        JTextArea desc = new JTextArea(selectedItem.getDescription());
-
-        panel.add(item);
-        panel.add(user);
-        panel.add(desc);
-
-        JButton wishlist = new JButton("Add to Wishlist");
-        JButton trans = new JButton("Request Transaction");
-
-        frame.add(panel);
-
     }
 
     private void placeComponents(JPanel panel) {

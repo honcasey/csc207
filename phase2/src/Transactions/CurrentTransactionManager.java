@@ -21,10 +21,10 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     /**
-     * Creates a transaction
+     * Creates a permanent transaction
      * @param userToItems A hashmap which maps userId's to a list of Item ids(where the list is in the form of [ItemId owned, ItemId wanted])
      * @param firstMeeting firstMeeting This is just a meeting object representing where the users will meet for the first time.
-     * @return Transaction
+     * @return a permanent Transaction
      */
     public Transaction createTransaction(TreeMap<UUID, List<UUID>> userToItems, Meeting firstMeeting){
         Transaction transaction = new TransactionPerm(userToItems, firstMeeting);
@@ -34,11 +34,11 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     /**
-     * Creates a transaction
+     * Creates a temporary transaction
      * @param userToItems A hashmap which maps userId's to a list of Item ids(where the list is in the form of [ItemId owned, ItemId wanted])
-     * @param firstMeeting firstMeeting This is just a meeting object representing where the users will meet for the first time.
-     * @param secondMeeting
-     * @return
+     * @param firstMeeting a meeting object representing where the users will meet for the first time.
+     * @param secondMeeting a meeting object representing where the users will meet to return the items
+     * @return a temporary Transaction
      */
     public Transaction createTransaction(TreeMap<UUID, List<UUID>> userToItems, Meeting firstMeeting, Meeting secondMeeting) {
         Transaction transaction = new TransactionTemp(userToItems, firstMeeting, secondMeeting);
@@ -47,8 +47,13 @@ public class CurrentTransactionManager extends TransactionManager{
         return transaction;
     }
 
-    public Transaction createTransaction(TreeMap<UUID, List<UUID>> userToItems, HashMap<UUID, List<String>> itemToName){
-        Transaction transaction = new TransactionVirtual(userToItems, itemToName);
+    /**
+     * Creates a no-meeting transaction (virtual)
+     * @param userToItems map of item to user
+     * @return a no-meeting Transaction
+     */
+    public Transaction createTransaction(TreeMap<UUID, List<UUID>> userToItems){
+        Transaction transaction = new TransactionVirtual(userToItems);
         UUID id = transaction.getId();
         getAllTransactions().put(id, transaction);
         return transaction;
@@ -114,6 +119,20 @@ public class CurrentTransactionManager extends TransactionManager{
      */
     public boolean transactionHasMultipleMeetings(Transaction transaction){
         return transaction.getTransactionMeetings().size() > 1;
+    }
+
+    /**
+     * This method is ONLY allowed to be used in the createTransactionMenu
+     *
+     * DO NOT USE THIS METHOD. THERE ARE NO EXCEPTIONS WRITTEN AND THIS METHOD IS OUT OF PLACE
+     * THIS WILL HAVE TO BE MOVED SOMEWHERE ELSE
+     * @param user1 one of the users in transaction.
+     * @param user2 one of the users in transaction.
+     * @param newTransaction the actual transaction object. (for which method will get ids for)
+     */
+    public void updateUsersCurrentTransactions(TradingUser user1,TradingUser user2,Transaction newTransaction){
+        user1.getCurrentTransactions().add(newTransaction.getId());
+        user2.getCurrentTransactions().add(newTransaction.getId());
     }
 
     /**

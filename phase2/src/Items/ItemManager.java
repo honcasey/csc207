@@ -62,7 +62,7 @@ public class ItemManager {
 
     public Item SameIteminList(List<Item> itemList,Item otherItem){
         for(Item item: itemList){
-            if(areSameItems(item,otherItem)){
+            if(item.getId().equals(otherItem.getId())){
                 return item;
             }
         }
