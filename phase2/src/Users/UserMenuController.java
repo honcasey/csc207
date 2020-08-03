@@ -348,34 +348,16 @@ public class UserMenuController{
 //        }
 //    }
 
-
-    public TreeMap<Item,User> TransactionSuggestions() {
-        // checking for items that are exactly the same in the same city.
-        List<TradingUser> sameCityUsers = this.um.getTradingUserByCity(currentTradingUser.getCity());
-
-        List<TradingUser> diffCityUsers = this.um.getTradingUsersOutOfCity(currentTradingUser.getCity());
-    }
-
-    public List<TradingUser> PossibleBorrowers(List<TradingUser> usersList){
-        List<TradingUser> common = new ArrayList<Integer>(listA);
-        List<TradingUser> borrowerList = new ArrayList<>();
-        for(TradingUser user: usersList){
-
-
-        }
-    }
-
-    public List<Item> PossibleLentItems(TradingUser otherUser){
+    public List<Item> PossibleTransactionItemSuggestions(TradingUser otherUser){
+        List<Item> return_list = new ArrayList<>();
         for(UUID inventoryItemId: currentTradingUser.getInventory()){
-            Item inventoryItem = im.getItem(inventoryItemId);
-
-            if(areSameItems())
+            for(UUID wishlistItemId: otherUser.getWishlist())
+            if(wishlistItemId.equals(inventoryItemId)){
+                return_list.add(im.getItem(inventoryItemId));
+            }
         }
+        return return_list;
     }
-
-
-
-
 
     public List<Transaction> currentTransactionList() {
         List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
