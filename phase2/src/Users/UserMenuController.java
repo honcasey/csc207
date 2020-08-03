@@ -50,9 +50,9 @@ public class UserMenuController{
         allPendingItems.put(requestedItem, currentTradingUser);
     }
 
-    /**
-     * Method that calls to different helper methods depending on user's input choice in the main menu.
-     */
+//    /**
+//     * Method that calls to different helper methods depending on user's input choice in the main menu.
+//     */
 //    public void run() {
 //        boolean userInteracting = true;
 //        while(userInteracting){
@@ -525,7 +525,6 @@ public class UserMenuController{
      * @return returns a string representation for the transaction in the perspective of the user who is using the
      * program.
      */
-
     public String getTransactionString(Transaction transaction, User Currentuser){
         String returnString;
         UUID otherUserid = transaction.getOtherUser(Currentuser.getUserId());
