@@ -174,6 +174,20 @@ public class UserMenuController {
 //        return currentUserInventory.get(OptionChosen);
 //    }
 
+//    /**
+//     * This method is ONLY allowed to be used in the createTransactionMenu
+//     *
+//     * DO NOT USE THIS METHOD. THERE ARE NO EXCEPTIONS WRITTEN AND THIS METHOD IS OUT OF PLACE
+//     * THIS WILL HAVE TO BE MOVED SOMEWHERE ELSE
+//     * @param user1 one of the users in transaction.
+//     * @param user2 one of the users in transaction.
+//     * @param newTransaction the actual transaction object. (for which method will get ids for)
+//     */
+//    private void updateUsersCurrentTransactions(TradingUser user1,TradingUser user2,Transaction newTransaction){
+//        user1.getCurrentTransactions().add(newTransaction.getId());
+//        user2.getCurrentTransactions().add(newTransaction.getId());
+//    }
+
     /* viewing a User's wishlist */
 //    private void viewWishlist(){
 //        boolean userInteracting = true;
@@ -300,34 +314,16 @@ public class UserMenuController {
 //        }
 //    }
 
-
-//    public TreeMap<Item,User> TransactionSuggestions() {
-//        // checking for items that are exactly the same in the same city.
-//        List<TradingUser> sameCityUsers = this.um.getTradingUserByCity(currentTradingUser.getCity());
-//
-//        List<TradingUser> diffCityUsers = this.um.getTradingUsersOutOfCity(currentTradingUser.getCity());
-//    }
-//
-//    public List<TradingUser> PossibleBorrowers(List<TradingUser> usersList){
-//        List<TradingUser> common = new ArrayList<Integer>(listA);
-//        List<TradingUser> borrowerList = new ArrayList<>();
-//        for(TradingUser user: usersList){
-//
-//
-//        }
-//    }
-//
-//    public List<Item> PossibleLentItems(TradingUser otherUser){
-//        for(UUID inventoryItemId: currentTradingUser.getInventory()){
-//            Item inventoryItem = im.getItem(inventoryItemId);
-//
-//            if(areSameItems())
-//        }
-//    }
-
-
-
-
+    public List<Item> PossibleTransactionItemSuggestions(TradingUser otherUser){
+        List<Item> return_list = new ArrayList<>();
+        for(UUID inventoryItemId: currentTradingUser.getInventory()){
+            for(UUID wishlistItemId: otherUser.getWishlist())
+            if(wishlistItemId.equals(inventoryItemId)){
+                return_list.add(im.getItem(inventoryItemId));
+            }
+        }
+        return return_list;
+    }
 
     public List<Transaction> currentTransactionList() {
         List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
@@ -521,4 +517,9 @@ public class UserMenuController {
             return returnString + "to get " + TheirItemString+ " for " + YourItemString;
         }
     }
+
+    public CurrentTransactionManager getTm() {return tm;}
+
+    public TradingUserManager getUm() {return um;}
+
 }

@@ -10,9 +10,7 @@ import Items.ItemManager;
 import Transactions.PastTransactionManager;
 import Transactions.Transaction;
 import Transactions.CurrentTransactionManager;
-import Users.TradingUser;
-import Users.TradingUserManager;
-import Users.UserMenuController;
+import Users.*;
 
 import java.io.File;
 import java.util.*;
@@ -33,14 +31,17 @@ public class TradingSystem {
     private final String frozenAccountsFilePath = "frozenAccounts.ser";
     private final String transactionsFilePath = "transactions.ser";
     private final String itemMapFilePath = "items.ser";
+    private final String demoUsersFilePath = "demoUsers.ser";
     private AdminManager am;
     private TradingUserManager tum;
+    private DemoUserManager dum;
     private CurrentTransactionManager tm;
     private PastTransactionManager ptm;
     private ItemManager im;
     private Map<Item, TradingUser> pendingItems;
     private AdminMenuController amc;
     private UserMenuController umc;
+    private DemoMenuController dmc;
 
     /**
      * Calls to different helper methods to read data from saved files, redirects user to
@@ -66,6 +67,7 @@ public class TradingSystem {
         checkFileExists(frozenAccountsFilePath);
         checkFileExists(transactionsFilePath);
         checkFileExists(itemMapFilePath);
+        checkFileExists(demoUsersFilePath);
 
         // files exists so we can deserialize them
         Serializer serializer = new Serializer();
@@ -76,6 +78,7 @@ public class TradingSystem {
         List<TradingUser> frozenAccounts = serializer.readAccountsFromFile(frozenAccountsFilePath);
         Map<UUID, Transaction> transactions = serializer.readTransactionMapFromFile(transactionsFilePath);
         Map<UUID, Item> items = serializer.readItemMapFromFile(itemMapFilePath);
+        List<DemoUser> demoUsers = serializer.readDemoUsersFromFile(demoUsersFilePath);
 
         // create new Managers
         am = new AdminManager(admins, flaggedAccounts, frozenAccounts);
@@ -83,10 +86,12 @@ public class TradingSystem {
         tm = new CurrentTransactionManager(transactions);
         ptm = new PastTransactionManager(transactions);
         im = new ItemManager(items);
+        dum = new DemoUserManager(demoUsers);
 
         // create new controllers
         amc = new AdminMenuController(am, tum, pendingItems, im);
         umc = new UserMenuController(tum, am, tm, ptm, im, pendingItems);
+        dmc = new DemoMenuController(dum, tum, im);
     }
 
     /**
@@ -129,6 +134,11 @@ public class TradingSystem {
                     Map<UUID, Item> itemMap = new HashMap<>();
                     serializer.writeItemsMapToFile(filePath, itemMap);
                     break;
+                case demoUsersFilePath:
+                    List<DemoUser> demoUsers = new ArrayList<>();
+                    serializer.writeDemoUsersToFile(filePath, demoUsers);
+                    break;
+
             }
         }
     }
@@ -145,6 +155,7 @@ public class TradingSystem {
         serializer.writeAccountsToFile(frozenAccountsFilePath, tum.getFrozenAccounts());
         serializer.writeTransactionsToFile(transactionsFilePath, tm.getAllTransactions());
         serializer.writeItemsMapToFile(itemMapFilePath, im.getAllItems());
+        serializer.writeDemoUsersToFile(demoUsersFilePath, dum.getAllDemoUsers());
     }
 
     /**

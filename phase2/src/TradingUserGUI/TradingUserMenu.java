@@ -63,6 +63,8 @@ public class TradingUserMenu {
             atw.display();
         });
 
+        // if clicked "View Transaction History" button
+
         // display the window
         frame.setVisible(true);
     }
