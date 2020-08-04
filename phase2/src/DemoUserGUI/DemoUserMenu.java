@@ -85,10 +85,10 @@ public class DemoUserMenu {
         });
 
         // if clicked "Upgrade to Full Account"
-//        button7.addActionListener(e -> {
-//            new UpgradeAccountWindow().display();
-//        });
-//
+        button7.addActionListener(e -> {
+            new UpgradeAccountWindow(dmc, umc).display();
+        });
+
         // display the window
         frame.setVisible(true);
     }
