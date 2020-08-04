@@ -9,13 +9,12 @@ import java.awt.*;
 import java.util.List;
 
 public class ViewInventoryWindow {
-    private TradingUser currUser;
+
     private UserMenuController umc;
     private String itemName;
     private String itemDesc;
 
-    public ViewInventoryWindow(TradingUser currUser, UserMenuController umc) {
-        this.currUser = currUser;
+    public ViewInventoryWindow(UserMenuController umc) {
         this.umc = umc;
     }
 
@@ -29,7 +28,7 @@ public class ViewInventoryWindow {
        frame.setLocationRelativeTo(null);
 
        // LEFT SIDE OF SPLIT
-        List<Item> items = umc.getIm().convertIdsToItems(currUser.getInventory());
+        List<Item> items = umc.getIm().convertIdsToItems(umc.currentTradingUser.getInventory());
         DefaultListModel<String> itemNames = new DefaultListModel<>();
         DefaultListModel<String> itemDescs = new DefaultListModel<>();
         for (Item item: items){

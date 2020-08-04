@@ -51,6 +51,12 @@ public class TradingUserMenu {
         frame.add(panel);
         placeComponents(panel);
 
+        // if clicked request add items button
+        button1.addActionListener(e -> {
+            RequestAddItemsWindow riw = new RequestAddItemsWindow(umc);
+            riw.display();
+        });
+
         // if clicked "display available items" button
         button2.addActionListener(e -> {
             new AvailableItemsWindow(umc).display();
@@ -64,7 +70,23 @@ public class TradingUserMenu {
         });
 
         // if clicked "View Transaction History" button
+        button4.addActionListener(e -> {
+            ViewTransactionHistoryWindow thw = new ViewTransactionHistoryWindow(umc);
+            thw.display();
+        });
 
+        // if clicked "View Wishlist" button
+        button5.addActionListener(e -> {
+            ViewWishlistWindow vww = new ViewWishlistWindow(umc);
+            vww.display();
+
+        });
+
+        // if clicked "View Inventory" button
+        button6.addActionListener(e -> {
+            ViewInventoryWindow viw = new ViewInventoryWindow(umc);
+            viw.display();
+        });
         // display the window
         frame.setVisible(true);
     }

@@ -22,7 +22,8 @@ public class RequestAddItemsWindow {
     public RequestAddItemsWindow(UserMenuController umc) {
         this.umc = umc;
     }
-    private void Display(){
+
+    public void display(){
         JFrame frame = new JFrame("Request To Add an Item");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(new Dimension(700, 500));

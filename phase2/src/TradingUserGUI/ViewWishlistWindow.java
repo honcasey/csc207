@@ -9,13 +9,11 @@ import java.awt.*;
 import java.util.List;
 
 public class ViewWishlistWindow {
-    private TradingUser currUser;
     private UserMenuController umc;
     private String itemName;
     private String itemDesc;
 
-    public void ViewWishListWindow(TradingUser currUser, UserMenuController umc) {
-        this.currUser = currUser;
+    public ViewWishlistWindow(UserMenuController umc) {
         this.umc = umc;
     }
 
@@ -29,7 +27,7 @@ public class ViewWishlistWindow {
         frame.setLocationRelativeTo(null);
 
         // LEFT SIDE OF SPLIT
-        List<Item> items = umc.getIm().convertIdsToItems(currUser.getWishlist());
+        List<Item> items = umc.getIm().convertIdsToItems(umc.currentTradingUser.getWishlist());
         DefaultListModel<String> itemNames = new DefaultListModel<>();
         DefaultListModel<String> itemDescs = new DefaultListModel<>();
         for (Item item : items) {

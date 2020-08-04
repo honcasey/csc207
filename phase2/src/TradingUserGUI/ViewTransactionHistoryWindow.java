@@ -17,12 +17,10 @@ import java.util.UUID;
 
 public class ViewTransactionHistoryWindow {
     private final UserMenuController umc;
-    private final TradingUser currUser;
 
-
-    public ViewTransactionHistoryWindow(UserMenuController umc, TradingUser user) {
+    public ViewTransactionHistoryWindow(UserMenuController umc) {
         this.umc = umc;
-        this.currUser = user;
+
     }
     public void display(){
 
@@ -64,7 +62,7 @@ public class ViewTransactionHistoryWindow {
 
         frame.setSize(new Dimension(350, 200));
         frame.setLocationRelativeTo(null);
-        List<UUID> mostRecentOneWays = currUser.getTransactionHistory().mostRecentOneWayTransactions();
+        List<UUID> mostRecentOneWays = umc.currentTradingUser.getTransactionHistory().mostRecentOneWayTransactions();
         StringBuilder text = new StringBuilder(" ");
         ArrayList<Transaction> allRecentOneWays = umc.getTm().getTransactionsFromIdList(mostRecentOneWays);
         for (Transaction t: allRecentOneWays){
@@ -94,7 +92,7 @@ public class ViewTransactionHistoryWindow {
         frame.setSize(new Dimension(350, 200));
         frame.setLocationRelativeTo(null);
 
-        List<UUID> mostRecentTwoWays = currUser.getTransactionHistory().mostRecentTwoWayTransactions();
+        List<UUID> mostRecentTwoWays = umc.currentTradingUser.getTransactionHistory().mostRecentTwoWayTransactions();
 
         StringBuilder text = new StringBuilder(" ");
         ArrayList<Transaction> allRecentOneWays = umc.getTm().getTransactionsFromIdList(mostRecentTwoWays);
@@ -127,7 +125,7 @@ public class ViewTransactionHistoryWindow {
         frame.setLocationRelativeTo(null);
 
         StringBuilder text = new StringBuilder(" ");
-        List<String> usernames = currUser.getTransactionHistory().mostTradedWithUsers();
+        List<String> usernames = umc.currentTradingUser.getTransactionHistory().mostTradedWithUsers();
         for (String u: usernames){
             text.append(u).append("/n");
         }
