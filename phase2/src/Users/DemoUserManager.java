@@ -106,4 +106,14 @@ public class DemoUserManager {
         }
         // original code written by Tingting
     }
+
+    /**
+     * Removes a DemoUser from allDemoUsers, thereby removing the DemoUser from the system
+     * @param id UUID of the DemoUser you'd like to remove
+     */
+    public void removeDemoUser(UUID id){
+        DemoUser removed = getDemoUserById(id);
+        idToDemoUser.remove(id);
+        allDemoUsers.remove(removed);
+    }
 }
