@@ -74,7 +74,21 @@ public class DemoUserMenu {
             new PopUpWindow("This feature is available in the full version of the program. Upgrade today!");
         });
 
+        // if clicked "View Wishlist"
+        button5.addActionListener(e -> {
+            new DemoUserViewWishlistWindow(dmc, umc).display();
+        });
 
+        // if clicked "View Inventory"
+        button6.addActionListener(e -> {
+            new DemoUserViewInventoryWindow(dmc, umc).display();
+        });
+
+        // if clicked "Upgrade to Full Account"
+//        button7.addActionListener(e -> {
+//            new UpgradeAccountWindow().display();
+//        });
+//
         // display the window
         frame.setVisible(true);
     }

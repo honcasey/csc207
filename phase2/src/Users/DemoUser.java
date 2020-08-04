@@ -29,4 +29,11 @@ public class DemoUser extends User implements Serializable {
 
     }
 
+    public List<UUID> getInventory(){
+        return inventory;
+    }
+
+    public List<UUID> getWishlist(){
+        return wishList;
+    }
 }
