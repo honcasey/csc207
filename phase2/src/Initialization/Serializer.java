@@ -3,6 +3,7 @@ package Initialization;
 import Admins.AdminUser;
 import Items.Item;
 import Transactions.Transaction;
+import Users.DemoUser;
 import Users.TradingUser;
 
 import java.io.*;
@@ -245,6 +246,55 @@ public class Serializer {
             input.close();
             return itemMap;
         } catch (IOException e) {
+            System.out.println("IO Exception was caught.");
+            return null;
+        } catch(ClassNotFoundException e) {
+            System.out.println("ClassNotFoundException was caught.");
+            return null;
+        }
+    }
+
+    /**
+     * Writes a List of DemoUser into a file specified by a filepath.
+     * @param path The filepath corresponding to the file it is written to.
+     * @param demoUsers A List of DemoUser that is being written.
+     */
+    public void writeDemoUsersToFile(String path, List<DemoUser> demoUsers) {
+        try {
+            // create a connection to the file specified by path
+            OutputStream file = new FileOutputStream(path);
+            ObjectOutput output = new ObjectOutputStream(file);
+
+            // write user into the file
+            output.writeObject(demoUsers);
+
+            // close the file
+            output.close();
+        } catch (IOException e) {
+            System.out.println("IOException was caught.");
+        }
+    }
+
+    /**
+     * Reads a List of DemoUser from a file specified by a filepath.
+     * @param path The filepath corresponding to the file it is being read from.
+     * @return A List of DemoUser.
+     */
+    public List<DemoUser> readDemoUsersFromFile(String path) {
+        try {
+            // create a connection to the file specified by path
+            InputStream file = new FileInputStream(path);
+            ObjectInput input = new ObjectInputStream(file);
+
+            // deserialize the list
+            List<DemoUser> demoUsers = (List<DemoUser>) input.readObject();
+
+            // close the file
+            input.close();
+
+            // return the list
+            return demoUsers;
+        } catch(IOException e) {
             System.out.println("IO Exception was caught.");
             return null;
         } catch(ClassNotFoundException e) {
