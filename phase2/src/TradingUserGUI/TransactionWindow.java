@@ -6,14 +6,19 @@ import Users.UserMenuController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Date;
 import java.util.List;
 
 public class TransactionWindow {
     private UserMenuController umc;
     private Item item;
+    private Item offeredItem;
     private TradingUser owner;
     private JPanel panel1 = new JPanel();
     private JPanel panel2 = new JPanel();
+    private String firstLocation;
+    private Date firstDate;
+    private Date firstTime;
 
     public TransactionWindow(UserMenuController umc, Item item, TradingUser owner) {
         this.umc = umc;
@@ -84,31 +89,22 @@ public class TransactionWindow {
 
         // add event handler for comboBox
         comboBox.addActionListener(e -> {
-            Item selectedItem = (Item) comboBox.getSelectedItem();
+            offeredItem = (Item) comboBox.getSelectedItem();
         });
 
         // add comboBox to panel
         panel2.add(comboBox);
 
         // add meetings fields
-        setupMeetings(type);
+        if (type.equals("Perm")) {
+            panel2.add(new JLabel("First Meeting"));
+
+        }
 
         // create and add submit button to panel
         JButton submit = new JButton("Submit");
         panel2.add(submit);
 
         // add event handler for submit button
-    }
-
-    private void setupMeetings(String type) {
-        switch (type) {
-            case "Perm":
-                panel2.add(new JLabel)
-                addMeeting();
-        }
-    }
-
-    private void addMeeting() {
-
     }
 }
