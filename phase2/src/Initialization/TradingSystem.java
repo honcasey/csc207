@@ -24,14 +24,7 @@ import java.util.*;
  */
 
 public class TradingSystem {
-    private final String adminsFilePath = "admins.ser";
-    private final String usersFilePath = "users.ser";
-    private final String requestedItemsFilePath = "requestedItems.ser";
-    private final String flaggedAccountsFilePath = "flaggedAccounts.ser";
-    private final String frozenAccountsFilePath = "frozenAccounts.ser";
-    private final String transactionsFilePath = "transactions.ser";
-    private final String itemMapFilePath = "items.ser";
-    private final String demoUsersFilePath = "demoUsers.ser";
+    private Filepaths fp = new Filepaths();
     private AdminManager am;
     private TradingUserManager tum;
     private DemoUserManager dum;
@@ -52,7 +45,6 @@ public class TradingSystem {
         checkFirstAdmin();
         LoginWindow lw = new LoginWindow(amc, umc);
         lw.display();
-        writeData();
     }
 
     /**
@@ -60,25 +52,25 @@ public class TradingSystem {
      */
     private void readData() {
         // make sure files exists so they can be read
-        checkFileExists(adminsFilePath);
-        checkFileExists(usersFilePath);
-        checkFileExists(requestedItemsFilePath);
-        checkFileExists(flaggedAccountsFilePath);
-        checkFileExists(frozenAccountsFilePath);
-        checkFileExists(transactionsFilePath);
-        checkFileExists(itemMapFilePath);
-        checkFileExists(demoUsersFilePath);
+        checkFileExists(fp.ADMINS);
+        checkFileExists(fp.USERS);
+        checkFileExists(fp.REQUESTEDITEMS);
+        checkFileExists(fp.FLAGGEDACCOUNTS);
+        checkFileExists(fp.FROZENACCOUNTS);
+        checkFileExists(fp.TRANSACTIONS);
+        checkFileExists(fp.ITEMS);
+        checkFileExists(fp.DEMOUSERS);
 
         // files exists so we can deserialize them
         Serializer serializer = new Serializer();
-        List<AdminUser> admins = serializer.readAdminsFromFile(adminsFilePath);
-        List<TradingUser> tradingUsers = serializer.readUsersFromFile(usersFilePath);
-        pendingItems = serializer.readItemsFromFile(requestedItemsFilePath);
-        List<TradingUser> flaggedAccounts = serializer.readAccountsFromFile(flaggedAccountsFilePath);
-        List<TradingUser> frozenAccounts = serializer.readAccountsFromFile(frozenAccountsFilePath);
-        Map<UUID, Transaction> transactions = serializer.readTransactionMapFromFile(transactionsFilePath);
-        Map<UUID, Item> items = serializer.readItemMapFromFile(itemMapFilePath);
-        List<DemoUser> demoUsers = serializer.readDemoUsersFromFile(demoUsersFilePath);
+        List<AdminUser> admins = serializer.readAdminsFromFile(fp.ADMINS);
+        List<TradingUser> tradingUsers = serializer.readUsersFromFile(fp.USERS);
+        pendingItems = serializer.readItemsFromFile(fp.REQUESTEDITEMS);
+        List<TradingUser> flaggedAccounts = serializer.readAccountsFromFile(fp.FLAGGEDACCOUNTS);
+        List<TradingUser> frozenAccounts = serializer.readAccountsFromFile(fp.FROZENACCOUNTS);
+        Map<UUID, Transaction> transactions = serializer.readTransactionMapFromFile(fp.TRANSACTIONS);
+        Map<UUID, Item> items = serializer.readItemMapFromFile(fp.ITEMS);
+        List<DemoUser> demoUsers = serializer.readDemoUsersFromFile(fp.DEMOUSERS);
 
         // create new Managers
         am = new AdminManager(admins, flaggedAccounts, frozenAccounts);
@@ -105,57 +97,26 @@ public class TradingSystem {
         } else {
             // create a new file
             Serializer serializer = new Serializer();
-            switch (filePath) {
-                case adminsFilePath: {
-                    List<AdminUser> list = new ArrayList<>();
-                    serializer.writeAdminsToFile(filePath, list);
-                    break;
-                }
-                case usersFilePath: {
-                    List<TradingUser> list = new ArrayList<>();
-                    serializer.writeUsersToFile(filePath, list);
-                    break;
-                }
-                case requestedItemsFilePath:
-                    HashMap<Item, TradingUser> map = new HashMap<>();
-                    serializer.writeItemsToFile(filePath, map);
-                    break;
-                case flaggedAccountsFilePath:
-                case frozenAccountsFilePath: {
-                    List<TradingUser> tradingUsers = new ArrayList<>();
-                    serializer.writeAccountsToFile(filePath, tradingUsers);
-                    break;
-                }
-                case transactionsFilePath:
-                    Map<UUID, Transaction> transactions = new HashMap<>();
-                    serializer.writeTransactionsToFile(filePath, transactions);
-                    break;
-                case itemMapFilePath:
-                    Map<UUID, Item> itemMap = new HashMap<>();
-                    serializer.writeItemsMapToFile(filePath, itemMap);
-                    break;
-                case demoUsersFilePath:
-                    List<DemoUser> demoUsers = new ArrayList<>();
-                    serializer.writeDemoUsersToFile(filePath, demoUsers);
-                    break;
-
+            if (filePath.equals(fp.ADMINS)) {
+                List<AdminUser> list = new ArrayList<>();
+                serializer.writeAdminsToFile(filePath, list);
+            } else if (filePath.equals(fp.USERS)) {
+                List<TradingUser> list = new ArrayList<>();
+                serializer.writeUsersToFile(filePath, list);
+            } else if (filePath.equals(fp.REQUESTEDITEMS)) {
+                HashMap<Item, TradingUser> map = new HashMap<>();
+                serializer.writeItemsToFile(filePath, map);
+            } else if (filePath.equals(fp.FLAGGEDACCOUNTS) | filePath.equals(fp.FROZENACCOUNTS)) {
+                List<TradingUser> tradingUsers = new ArrayList<>();
+                serializer.writeAccountsToFile(filePath, tradingUsers);
+            } else if (filePath.equals(fp.TRANSACTIONS)) {
+                Map<UUID, Item> itemMap = new HashMap<>();
+                serializer.writeItemsMapToFile(filePath, itemMap);
+            } else if (filePath.equals(fp.DEMOUSERS)) {
+                List<DemoUser> demoUsers = new ArrayList<>();
+                serializer.writeDemoUsersToFile(filePath, demoUsers);
             }
         }
-    }
-
-    /**
-     * A helper method that saves the changes made by the user.
-     */
-    private void writeData() {
-        Serializer serializer = new Serializer();
-        serializer.writeUsersToFile(usersFilePath, tum.getAllTradingUsers());
-        serializer.writeAdminsToFile(adminsFilePath, am.getAllAdmins());
-        serializer.writeItemsToFile(requestedItemsFilePath, pendingItems);
-        serializer.writeAccountsToFile(flaggedAccountsFilePath, tum.getFlaggedAccounts());
-        serializer.writeAccountsToFile(frozenAccountsFilePath, tum.getFrozenAccounts());
-        serializer.writeTransactionsToFile(transactionsFilePath, tm.getAllTransactions());
-        serializer.writeItemsMapToFile(itemMapFilePath, im.getAllItems());
-        serializer.writeDemoUsersToFile(demoUsersFilePath, dum.getAllDemoUsers());
     }
 
     /**

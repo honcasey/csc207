@@ -443,4 +443,7 @@ public class UserMenuController {
 
     public TradingUserManager getUm() {return um;}
 
+    public Map<Item, TradingUser> getAllPendingItems() {
+        return allPendingItems;
+    }
 }

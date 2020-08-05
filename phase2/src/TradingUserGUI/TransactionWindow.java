@@ -2,17 +2,12 @@ package TradingUserGUI;
 
 import Exceptions.InvalidItemException;
 import Items.Item;
-import Transactions.Actions;
 import Transactions.Meeting;
 import Users.TradingUser;
 import Users.UserMenuController;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
 

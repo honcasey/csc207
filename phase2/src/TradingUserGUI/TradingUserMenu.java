@@ -1,12 +1,11 @@
 package TradingUserGUI;
 
-import AdminGUI.ChangePasswordWindow;
+import Initialization.Filepaths;
+import Initialization.Serializer;
 import Users.UserMenuController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 /**
@@ -14,6 +13,7 @@ import java.awt.event.KeyEvent;
  */
 public class TradingUserMenu {
     private final UserMenuController umc;
+    private final Filepaths fp = new Filepaths();
     private final JButton button1 = new JButton();
     private final JButton button2 = new JButton();
     private final JButton button3 = new JButton();
@@ -28,7 +28,7 @@ public class TradingUserMenu {
     public void display() {
         // create the frame
         JFrame frame = new JFrame("TradingUser Main Menu");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // set the frame's size and centre it
         frame.setSize(new Dimension(550, 300));
@@ -124,7 +124,20 @@ public class TradingUserMenu {
     private void formatMenuOptions(JMenu menu) {
         // log out menu option
         JMenuItem logOut = new JMenuItem("Log out", KeyEvent.VK_L); // press the L key to access log out option
-        logOut.addActionListener(e -> System.exit(0));
+        logOut.addActionListener(e -> {
+            writeData();
+            System.exit(0);
+        });
         menu.add(logOut);
+    }
+
+    private void writeData() {
+        Serializer serializer = new Serializer();
+        serializer.writeUsersToFile(fp.USERS, umc.getUm().getAllTradingUsers());
+        serializer.writeItemsToFile(fp.REQUESTEDITEMS, umc.getAllPendingItems());
+        serializer.writeAccountsToFile(fp.FLAGGEDACCOUNTS, umc.getUm().getFlaggedAccounts());
+        serializer.writeAccountsToFile(fp.FROZENACCOUNTS, umc.getUm().getFrozenAccounts());
+        serializer.writeTransactionsToFile(fp.TRANSACTIONS, umc.getTm().getAllTransactions());
+        serializer.writeItemsMapToFile(fp.ITEMS, umc.getIm().getAllItems());
     }
 }

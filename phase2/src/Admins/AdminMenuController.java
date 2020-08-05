@@ -231,12 +231,19 @@ public class AdminMenuController {
         return um.getAllTradingUsers();
     }
 
-
     public AdminUser getCurrentAdmin() {
         return currentAdmin;
     }
 
     public Map<Item, TradingUser> getAllPendingItems() {
         return allPendingItems;
+    }
+
+    public AdminManager getAm() {
+        return am;
+    }
+
+    public ItemManager getIm() {
+        return im;
     }
 }

@@ -1,6 +1,8 @@
 package DemoUserGUI;
 
+import Initialization.Filepaths;
 import Initialization.PopUpWindow;
+import Initialization.Serializer;
 import TradingUserGUI.AvailableItemsWindow;
 import Users.DemoMenuController;
 import Users.UserMenuController;
@@ -15,6 +17,7 @@ import java.awt.event.KeyEvent;
 public class DemoUserMenu {
     private final DemoMenuController dmc;
     private final UserMenuController umc;
+    private final Filepaths fp = new Filepaths();
     private final JButton button1 = new JButton();
     private final JButton button2 = new JButton();
     private final JButton button3 = new JButton();
@@ -130,7 +133,15 @@ public class DemoUserMenu {
     private void formatMenuOptions(JMenu menu) {
         // log out menu option
         JMenuItem logOut = new JMenuItem("Log out", KeyEvent.VK_L); // press the L key to access log out option
-        logOut.addActionListener(e -> System.exit(0));
+        logOut.addActionListener(e -> {
+            writeData();
+            System.exit(0);
+        });
         menu.add(logOut);
+    }
+
+    private void writeData() {
+        Serializer serializer = new Serializer();
+        serializer.writeDemoUsersToFile(fp.DEMOUSERS, dmc.getDum().getAllDemoUsers());
     }
 }
