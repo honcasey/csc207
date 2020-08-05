@@ -56,71 +56,6 @@ public class UserMenuController {
         return um.addItem(currentTradingUser, item, "wishlist");
     }
 
-
-//    /* This takes in input from user and creates */
-//    private void requestAddItem(){
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.println(ump.enterName("Item"));
-//        String itemName = scanner.nextLine();
-//        System.out.println(ump.itemDescription);
-//        String itemDescription = scanner.nextLine();
-//        Item requestedItem = new Item(itemName);
-//        requestedItem.setDescription(itemDescription);
-//        allPendingItems.put(requestedItem, currentTradingUser);
-//        System.out.println(ump.itemRequested);
-//    }
-
-    /**
-     * This is the method for handling the flow of:
-     * 1) Displaying all available items to trade.
-     * 2) Allowing the user to click on an item
-     * 3) if the account is not frozen then the user can make a transaction for an item.
-     * 4) if the account is not frozen but it breaches threshold criteria of system after the transaction, then
-     * append the user to the admin's list of people that they can freeze.
-     */
-//    private void displayAvailableItems(){
-//        boolean userInteracting = true;
-//        while(userInteracting) {
-//            List<Item> itemList = new ArrayList<>(availableItems.keySet());
-//            if (itemList.isEmpty()) {
-//                System.out.println(ump.empty("Available Items"));
-//                break;
-//            }
-//
-//            List<String> optionList = ump.constructAvailableItemsMenu(itemList);
-//            int OptionChosen = ump.handleOptionsByIndex(optionList,true, "Available Items");
-//            // Logic handling back to other menu vs. your account is frozen vs proceed to make create transaction menu.
-//            if(OptionChosen == optionList.size() - 1) { // go back
-//                System.out.println(ump.previousMenu);
-//                userInteracting = false;
-//            }
-//            else{
-//                // if account is frozen, print message and send them pack to previous menu
-//                Item transactionItem = itemList.get(OptionChosen);
-//                if(currentTradingUser.isFrozen()){
-//                    System.out.println(ump.accountFrozen(true) + ump.requestAccountUnfreeze);
-//                    if(ump.handleYesNo(ump.addToWishlist,"Yes","No")){
-//                        this.currentTradingUser.getWishlist().add(transactionItem.getId());
-//                    }
-//                    System.out.println(ump.previousMenu);
-//                    userInteracting = false;
-//                }
-//                else {
-//                    // they are allowed to create another transaction or add to wishlist.
-//                    if(ump.handleYesNo(ump.addToWishlist + " or " + ump.makeTransaction,"Wishlist",
-//                            "Transaction")) { // if they selected to add to wishlist
-//                        this.currentTradingUser.getWishlist().add(transactionItem.getId());
-//                    }
-//                    else { // if selected to create a transaction
-//                        TradingUser transactionItemOwner = availableItems.get(transactionItem);
-//                        userInteracting = createTransactionMenu(transactionItem, transactionItemOwner);
-//                        flagAccountIfAboveThreshold(currentTradingUser);
-//                    }
-//                }
-//            }
-//        }
-//    }
-
     /**
      * Creates a temp transaction.
      * @param items The item that is going to be traded.
@@ -169,65 +104,6 @@ public class UserMenuController {
             availableItems.remove(item);
         }
     }
-
-//    /* for a frozen TradingUser to request their account to be unfrozen */
-//    private void requestUnfreezeAccount() {
-//        if (currentTradingUser.isFrozen()) {
-//            am.getFrozenAccounts().add(currentTradingUser);
-//            System.out.println(ump.requestedUnfreeze);
-//        } else {
-//            System.out.println(ump.accountFrozen(false));
-//        }
-//    }
-//
-//    /**
-//     * Displays past transactions / history of a TradingUser
-//     * Waiting for user input(last 3 lines):
-//     * https://stackoverflow.com/questions/26184409/java-console-prompt-for-enter-input-before-moving-on/26184565
-//     * by M Anouti
-//     */
-//    private void pastTransactionFlow(){
-//        boolean userInteracting = true;
-//        while (userInteracting) {
-//            List<String> MenuOptionList = ump.constructPastTransactionMenu();
-//            int OptionChosen = ump.handleOptionsByIndex(MenuOptionList, true, "Past Transactions Menu");
-//            if (OptionChosen == MenuOptionList.size() - 1) { // if "Go back" is chosen
-//                System.out.println(ump.previousMenu);
-//                userInteracting = false;
-//            } else {
-//                /* if viewing most recent one-way transactions */
-//                if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewRecentTransactions("one"))) {
-//                    List<UUID> OneWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentOneWayTransactions();
-//                    if (OneWayTransactionIds.isEmpty()) { // no recent one-way transactions
-//                        System.out.println(ump.empty("One Way Transactions"));
-//                    } else {
-//                        List<Transaction> OneWayTransaction = ptm.getTransactionsFromIdList(OneWayTransactionIds);
-//                        List<String> oneWayTransactionOptions = ump.constructTransactionList(OneWayTransaction);
-//                        ump.displayOptions(oneWayTransactionOptions);
-//                    }
-//                    /* if viewing most recent two-way transactions */
-//                } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewRecentTransactions("two"))) {
-//                    List<UUID> TwoWayTransactionIds = currentTradingUser.getTransactionHistory().mostRecentTwoWayTransactions();
-//                    if (TwoWayTransactionIds.isEmpty()) { // no recent two-way transactions
-//                        System.out.println(ump.empty("Two Way Transactions"));
-//                    } else {
-//                        List<Transaction> TwoWayTransactions = ptm.getTransactionsFromIdList(TwoWayTransactionIds);
-//                        List<String> twoWayTransactionOptions = ump.constructTransactionList(TwoWayTransactions);
-//                        ump.displayOptions(twoWayTransactionOptions);
-//                    }
-//                    /* if viewing most traded with users */
-//                } else if (ump.indexToOption(OptionChosen, MenuOptionList, ump.viewThreeMostTraded)) {
-//                    List<String> TradedWithUsersOptions = currentTradingUser.getTransactionHistory().mostTradedWithUsers();
-//                    if (TradedWithUsersOptions.isEmpty()) { // no most traded with users
-//                        System.out.println(ump.empty("Most Traded-with Users"));
-//                        userInteracting = false;
-//                    } else {
-//                        ump.displayOptions(TradedWithUsersOptions);
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     public List<Item> itemSuggestions(TradingUser otherUser) throws InvalidItemException {
         List<Item> return_list = new ArrayList<>();
