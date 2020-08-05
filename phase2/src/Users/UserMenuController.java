@@ -238,8 +238,12 @@ public class UserMenuController {
     }
 
     public List<Transaction> currentTransactionList() {
-        List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
-        return tm.getTransactionsFromIdList(currentTransactionsIds);
+        try {
+            List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
+            return tm.getTransactionsFromIdList(currentTransactionsIds);
+        } catch (NullPointerException e) {
+            return null;
+        }
     }
 
     public boolean editMeetingFlow(UUID user, Transaction transaction, int meetingNum, String newLocation,

@@ -27,7 +27,7 @@ public class TradingUserMenu {
 
     public void display() {
         // create the frame
-        JFrame frame = new JFrame("AdminMenu");
+        JFrame frame = new JFrame("TradingUser Main Menu");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // set the frame's size and centre it
@@ -61,7 +61,6 @@ public class TradingUserMenu {
         button2.addActionListener(e -> {
             new AvailableItemsWindow(umc).display();
         });
-
 
         // if clicked "view active transactions" button
         button3.addActionListener(e -> {

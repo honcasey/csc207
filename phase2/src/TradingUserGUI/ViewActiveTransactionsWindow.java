@@ -29,69 +29,75 @@ public class ViewActiveTransactionsWindow {
         this.umc = umc; }
 
     public void display() {
-        List<Transaction> allTransactions = umc.currentTransactionList();
-
-        JFrame frame = new JFrame("Active Transactions");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        frame.setSize(new Dimension(700, 500));
-        frame.setLocationRelativeTo(null);
-
-        DefaultListModel<String> transactionList = new DefaultListModel<>();
-        for (Transaction transaction : allTransactions) {
-            transactionList.addElement(transaction.toString()); //
-            // THERE IS NO toString Implemented (use the method in menupresenter)
-
+        if (umc.currentTransactionList() == null) {
+            PopUpWindow e = new PopUpWindow("No Current Transactions");
+            e.display();
         }
+        else{
+            List<Transaction> allTransactions = umc.currentTransactionList();
 
-        JList<String> trans = new JList<>(transactionList);
-        trans.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        trans.setSelectedIndex(0);
-        trans.addListSelectionListener(e -> {
-            JList<String> trans1 = (JList<String>)e.getSource();
-            selectedTransaction = allTransactions.get(trans1.getSelectedIndex());
-            transactionDetails = umc.getTransactionString(selectedTransaction, umc.currentTradingUser);
-        });
+            JFrame frame = new JFrame("Active Transactions");
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        JScrollPane scrollPane = new JScrollPane(); // makes the list scrollable
-        scrollPane.getViewport().add(trans);
+            frame.setSize(new Dimension(700, 500));
+            frame.setLocationRelativeTo(null);
 
-        Panel leftPanel = new Panel();
-        leftPanel.setLayout(null);
-        leftPanel.add(scrollPane);
+            DefaultListModel<String> transactionList = new DefaultListModel<>();
+            for (Transaction transaction : allTransactions) {
+                transactionList.addElement(transaction.toString()); //
+                // THERE IS NO toString Implemented (use the method in menupresenter)
 
-        JTextArea desc = new JTextArea(transactionDetails);
-
-        Panel rightPanel = new Panel();
-        rightPanel.setLayout(null);
-        rightPanel.add(desc);
-
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-        splitPane.setBounds(150, 100, 400, 200);
-
-        frame.getContentPane().add(splitPane);
-
-        JButton options = new JButton("Options");
-        options.setBounds(600,100,100,50);
-        options.addActionListener(e -> {
-            Statuses transactionStatus = allTransactions.get(trans.getSelectedIndex()).getStatus();
-            switch (transactionStatus) { // opens a different window depending on the status of the selected transaction
-                case PENDING:
-                    pendingTransactionWindow();
-                    break;
-                case TRADED:
-                    tradedTransactionWindow();
-                    break;
-                case CONFIRMED:
-                    confirmedTransactionWindow();
-                    break;
             }
-        });
 
-        Panel bottomPanel = new Panel();
-        bottomPanel.setLayout(null);
-        bottomPanel.add(options);
-        frame.add(bottomPanel);
+            JList<String> trans = new JList<>(transactionList);
+            trans.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            trans.setSelectedIndex(0);
+            trans.addListSelectionListener(e -> {
+                JList<String> trans1 = (JList<String>)e.getSource();
+                selectedTransaction = allTransactions.get(trans1.getSelectedIndex());
+                transactionDetails = umc.getTransactionString(selectedTransaction, umc.currentTradingUser);
+            });
+
+            JScrollPane scrollPane = new JScrollPane(); // makes the list scrollable
+            scrollPane.getViewport().add(trans);
+
+            Panel leftPanel = new Panel();
+            leftPanel.setLayout(null);
+            leftPanel.add(scrollPane);
+
+            JTextArea desc = new JTextArea(transactionDetails);
+
+            Panel rightPanel = new Panel();
+            rightPanel.setLayout(null);
+            rightPanel.add(desc);
+
+            JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+            splitPane.setBounds(150, 100, 400, 200);
+
+            frame.getContentPane().add(splitPane);
+
+            JButton options = new JButton("Options");
+            options.setBounds(600,100,100,50);
+            options.addActionListener(e -> {
+                Statuses transactionStatus = allTransactions.get(trans.getSelectedIndex()).getStatus();
+                switch (transactionStatus) { // opens a different window depending on the status of the selected transaction
+                    case PENDING:
+                        pendingTransactionWindow();
+                        break;
+                    case TRADED:
+                        tradedTransactionWindow();
+                        break;
+                    case CONFIRMED:
+                        confirmedTransactionWindow();
+                        break;
+                }
+            });
+
+            Panel bottomPanel = new Panel();
+            bottomPanel.setLayout(null);
+            bottomPanel.add(options);
+            frame.add(bottomPanel);
+        }
     }
 
     public void pendingTransactionWindow() {

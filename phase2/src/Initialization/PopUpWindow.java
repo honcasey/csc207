@@ -21,15 +21,15 @@ public class PopUpWindow {
 
         // layout the fields and button on the frame
         JPanel panel = new JPanel();
-        frame.add(panel);
         placeComponents(panel);
+        frame.add(panel);
 
         // display the window
         frame.setVisible(true);
     }
 
     private void placeComponents(JPanel panel) {
-        panel.setLayout(null);
+        // panel.setLayout(null);
 
         // set message on centre of panel
         panel.add(label);

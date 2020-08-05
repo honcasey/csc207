@@ -53,7 +53,8 @@ public class AvailableItemsWindow {
             comboBox1.addActionListener(e -> {
                 JComboBox cb = (JComboBox)e.getSource();
                 selectedItem = (Item) cb.getSelectedItem();
-                new ItemDetailsWindow(umc, selectedItem, availableItemsMap).display();
+                ItemDetailsWindow idw = new ItemDetailsWindow(umc, selectedItem, availableItemsMap);
+                idw.display();
             });
         }
     }
