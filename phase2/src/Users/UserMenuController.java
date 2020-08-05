@@ -167,94 +167,6 @@ public class UserMenuController {
         }
     }
 
-//    private Item pickUserItemFlow(TradingUser CurrentUser){
-//        List<Item> currentUserInventory = im.convertIdsToItems(CurrentUser.getInventory());
-//        List<String> ItemOptions = ump.constructInventoryItemsList(currentUserInventory);
-//        int OptionChosen = ump.handleOptionsByIndex(ItemOptions,false, "Available Inventory");
-//        return currentUserInventory.get(OptionChosen);
-//    }
-
-//    /**
-//     * This method is ONLY allowed to be used in the createTransactionMenu
-//     *
-//     * DO NOT USE THIS METHOD. THERE ARE NO EXCEPTIONS WRITTEN AND THIS METHOD IS OUT OF PLACE
-//     * THIS WILL HAVE TO BE MOVED SOMEWHERE ELSE
-//     * @param user1 one of the users in transaction.
-//     * @param user2 one of the users in transaction.
-//     * @param newTransaction the actual transaction object. (for which method will get ids for)
-//     */
-//    private void updateUsersCurrentTransactions(TradingUser user1,TradingUser user2,Transaction newTransaction){
-//        user1.getCurrentTransactions().add(newTransaction.getId());
-//        user2.getCurrentTransactions().add(newTransaction.getId());
-//    }
-
-    /* viewing a User's wishlist */
-//    private void viewWishlist(){
-//        boolean userInteracting = true;
-//        while (userInteracting) {
-//            if (currentTradingUser.getWishlist().size() == 0) { // if wishlist is empty
-//                System.out.println(ump.empty("Wishlist"));
-//                userInteracting = false;
-//            } else {
-//                List<Item> currentUserWishlist = im.convertIdsToItems(currentTradingUser.getWishlist());
-//                List<String> ItemOptions = ump.constructWishlistItemsList(currentUserWishlist);
-//                int itemChosen = ump.handleOptionsByIndex(ItemOptions, true, "Wishlist Items");
-//                if (itemChosen == ItemOptions.size() - 1) { // checks if option chosen is "Go back."
-//                    System.out.println(ump.previousMenu);
-//                    userInteracting = false;
-//                } else {
-//                    String item = ItemOptions.get(itemChosen);
-//                    int optionChosen = ump.handleOptionsByIndex(ump.itemOptionList(), true, "Wishlist Menu");
-//                    if (optionChosen == ump.itemOptionList().size()) { // checks if option chosen is "Go back."
-//                        System.out.println(ump.previousMenu);
-//                    } else if(ump.indexToOption(optionChosen, ump.itemOptionList(), ump.removeItem)){
-//                        try {
-//                            Item whichItem = im.getItem(currentTradingUser.getWishlist().get(itemChosen));
-//                            um.removeItem(currentTradingUser, whichItem, "wishlist");
-//                            System.out.println(ump.successfullyRemoved(item,"wishlist"));
-//                        } catch (InvalidItemException e) {
-//                            // this should never happen
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//    /* viewing a User's inventory */
-//    private void viewInventory() {
-//        boolean userInteracting = true;
-//        while (userInteracting) {
-//            if (currentTradingUser.getInventory().size() == 0) { // if inventory is empty
-//                System.out.println(ump.empty("Inventory"));
-//                userInteracting = false;
-//            } else {
-//                List<Item> currentUserInventory = im.convertIdsToItems(currentTradingUser.getInventory()); // this is making a list of all null items right now (with the right size)
-//                List<String> ItemOptions = ump.constructInventoryItemsList(currentUserInventory);
-//                int itemChosen = ump.handleOptionsByIndex(ItemOptions, true, "Inventory Items");
-//                if (itemChosen == ItemOptions.size() - 1) { // checks if option chosen is "Go back."
-//                    System.out.println(ump.previousMenu);
-//                    userInteracting = false;
-//                } else {
-//                    String item = ItemOptions.get(itemChosen);
-//                    int optionChosen = ump.handleOptionsByIndex(ump.itemOptionList(), true, "Inventory Menu");
-//                    if (optionChosen == ump.itemOptionList().size()) { // checks if option chosen is "Go back."
-//                        System.out.println(ump.previousMenu);
-//                    }
-//                    else if(ump.indexToOption(optionChosen, ump.itemOptionList(), ump.removeItem)){
-//                        try {
-//                            Item whichItem = im.getItem(currentTradingUser.getInventory().get(itemChosen));
-//                            um.removeItem(currentTradingUser, whichItem, "inventory");
-//                            System.out.println(ump.successfullyRemoved(item,"inventory"));
-//                        } catch (InvalidItemException e) {
-//                            // this should never happen
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
 //    /* for a frozen TradingUser to request their account to be unfrozen */
 //    private void requestUnfreezeAccount() {
 //        if (currentTradingUser.isFrozen()) {
@@ -368,8 +280,6 @@ public class UserMenuController {
         }
     }
 
-
-
     public void updateUsers(Transaction transaction, Actions optionChosen) {
         updateStatusUser(currentTradingUser, transaction, optionChosen);
         List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
@@ -410,16 +320,20 @@ public class UserMenuController {
      * @return HashMap of items that are available in other user's inventory.
      */
     public Map<Item, TradingUser> getAvailableItems(){
-        List<TradingUser> allTradingUsersInCity = um.getTradingUserByCity(currentTradingUser.getCity());
-        HashMap<Item, TradingUser> availableItems = new HashMap<>();
-        for (TradingUser tradingUser : allTradingUsersInCity) {
-            if(!tradingUser.equals(currentTradingUser)) {
-                for (Item item : im.convertIdsToItems(tradingUser.getInventory())) {
-                    availableItems.put(item, tradingUser);
+        try {
+            List<TradingUser> allTradingUsersInCity = um.getTradingUserByCity(currentTradingUser.getCity());
+            HashMap<Item, TradingUser> availableItems = new HashMap<>();
+            for (TradingUser tradingUser : allTradingUsersInCity) {
+                if(!tradingUser.equals(currentTradingUser)) {
+                    for (Item item : im.convertIdsToItems(tradingUser.getInventory())) {
+                        availableItems.put(item, tradingUser);
+                    }
                 }
             }
+            return availableItems;
+        } catch (NullPointerException e) {
+            return null;
         }
-        return availableItems;
     }
 
     /* set a TradingUser to be flagged for admin approval if either the borrow, weekly, or incomplete thresholds have been reached */

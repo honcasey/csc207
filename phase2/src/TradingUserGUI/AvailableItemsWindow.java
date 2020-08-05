@@ -1,5 +1,6 @@
 package TradingUserGUI;
 
+import Initialization.PopUpWindow;
 import Items.Item;
 import Users.TradingUser;
 import Users.UserMenuController;
@@ -39,17 +40,22 @@ public class AvailableItemsWindow {
 
     private void createComboBox() {
         availableItemsMap = umc.getAvailableItems();
-        comboBox1 = new JComboBox<>();
-
-        for (Item item : availableItemsMap.keySet()) {
-            comboBox1.addItem(item.toString());
+        if (availableItemsMap.isEmpty()) {
+            new PopUpWindow("No Items Available");
         }
+        else {
+            comboBox1 = new JComboBox<>();
 
-        comboBox1.addActionListener(e -> {
-            JComboBox cb = (JComboBox)e.getSource();
-            selectedItem = (Item) cb.getSelectedItem();
-            new ItemDetailsWindow(umc, selectedItem, availableItemsMap).display();
-        });
+            for (Item item : availableItemsMap.keySet()) {
+                comboBox1.addItem(item.toString());
+            }
+
+            comboBox1.addActionListener(e -> {
+                JComboBox cb = (JComboBox)e.getSource();
+                selectedItem = (Item) cb.getSelectedItem();
+                new ItemDetailsWindow(umc, selectedItem, availableItemsMap).display();
+            });
+        }
     }
 
     private void placeComponents(JPanel panel) {
