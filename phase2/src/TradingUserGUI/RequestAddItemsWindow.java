@@ -32,18 +32,12 @@ public class RequestAddItemsWindow {
         frame.add(mainPanel);
         placeComponents(mainPanel);
         frame.setVisible(true);
-        requestButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Item requestedItem = new Item(userItemNameText.getText());
-                requestedItem.setDescription(userItemDescription.getText());
-                umc.addToPendingItems(requestedItem);
-                new PopUpWindow("The item:"+ userItemNameText.getText()+
-                        "has been submitted for admin approval.").display();
-            }
-        }
-        );
-
+        requestButton.addActionListener(e -> {
+            Item requestedItem = new Item(userItemNameText.getText());
+            requestedItem.setDescription(userItemDescription.getText());
+            umc.addToPendingItems(requestedItem);
+            new PopUpWindow(userItemNameText.getText() + "has been submitted for admin approval.").display();
+        });
     }
 
     private void placeComponents(JPanel panel) {

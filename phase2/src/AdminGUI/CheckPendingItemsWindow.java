@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class CheckPendingItemsWindow {
     private final AdminMenuController amc;
+    private Item selectedItem;
     private String itemName; // name of item
     private String itemDesc; // item description
     private String itemUser; // who the item belongs to
@@ -44,10 +45,10 @@ public class CheckPendingItemsWindow {
         items.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         items.setSelectedIndex(0);
         items.addListSelectionListener(e -> {
-            JList<String> items1 = (JList<String>)e.getSource(); // updates the corresponding item names/description depending on what's selected
-            itemUser = amc.getAllPendingItems().get(items1.getSelectedValue()).toString();
-            itemName = pendingItems.get(items1.getSelectedIndex());
-            itemDesc = itemDescs.get(items1.getSelectedIndex());
+            // JList<String> items1 = (JList<String>)e.getSource(); // TO-DO: i don't think below is being updated properly
+            itemUser = amc.getAllPendingItems().get(items.getSelectedValue()).toString();
+            itemName = pendingItems.get(items.getSelectedIndex());
+            itemDesc = itemDescs.get(items.getSelectedIndex());
         });
 
         // create JScrollPane (makes list scrollable)
@@ -67,6 +68,8 @@ public class CheckPendingItemsWindow {
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         splitPane.setBounds(150, 100, 400, 200);
+        splitPane.setDividerLocation(150);
+        splitPane.setOneTouchExpandable(true);
 
         frame.getContentPane().add(splitPane);
 

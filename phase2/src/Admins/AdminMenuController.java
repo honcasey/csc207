@@ -71,7 +71,8 @@ public class AdminMenuController {
 
     public void approvePendingItem(Item item) {
         try {
-            TradingUser user = um.getTradingUser(allPendingItems.get(item).getUsername());
+            String username = allPendingItems.get(item).getUsername();
+            TradingUser user = um.getTradingUser(username);
             im.addItem(item); // add to allItems master list of all existing items
             um.addItem(user, item, "inventory"); // add item to the TradingUser's inventory
             allPendingItems.remove(item);

@@ -143,7 +143,7 @@ public class AdminUserMenu {
         JMenuItem logOut = new JMenuItem("Log out", KeyEvent.VK_L); // press the L key to access log out option
         logOut.addActionListener(e -> {
             writeData();
-            System.exit(0);
+            System.exit(0); // TO-DO: instead of exiting the whole system, just go back to the login menu?
         });
         menu.add(changePassword);
         menu.add(logOut);
