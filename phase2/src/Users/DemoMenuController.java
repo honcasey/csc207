@@ -1,5 +1,6 @@
 package Users;
 
+import Exceptions.InvalidDemoUserException;
 import Exceptions.InvalidTradingUserException;
 import Items.ItemManager;
 
@@ -18,5 +19,16 @@ public class DemoMenuController {
 
     public DemoUserManager getDum(){
         return dum;
+    }
+
+    /**
+     * Returns true if the Username is available
+     */
+    public boolean availableUsername(String username) {
+        return dum.checkAvailableUsername(username);
+    }
+
+    public void addDemoUser(String username, String password) throws InvalidDemoUserException {
+        dum.addDemoUser(username, password);
     }
 }
