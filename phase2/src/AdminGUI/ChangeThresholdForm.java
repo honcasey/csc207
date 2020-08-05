@@ -43,41 +43,30 @@ public class ChangeThresholdForm {
 
         users = new JComboBox<>(userNames);
 
+    saveChangesButton.addActionListener(e -> {
+        int borrowThreshold = Integer.parseInt(newBorrowThreshold.getText());
+        int weeklyThreshold = Integer.parseInt(newWeeklyThreshold.getText());
+        int incompleteThreshold = Integer.parseInt(newIncompleteThreshold.getText());
+        try {
+            amc.updateThreshold(currUsername, borrowThreshold,"Borrow");
+            amc.updateThreshold(currUsername, weeklyThreshold, "Weekly");
+            amc.updateThreshold(currUsername, incompleteThreshold, "Incomplete");
+        } catch (InvalidTradingUserException invalidTradingUserException) {
+            JOptionPane.showMessageDialog(null,
+                    "Error: UpdateThreshold method in adminController failed, so the threshold wasn't changed", "Error Message",
+                    JOptionPane.ERROR_MESSAGE);
+        }
 
 
+    });
 
+    refreshThresholdsButton.addActionListener(e -> {
+        List<Integer> thresholdList = tum.getCurrThresholds(currUsername);
+        currBorrowThreshold.setText(thresholdList.get(0).toString());
+        currWeeklyThreshold.setText(thresholdList.get(1).toString());
+        currIncompleteThreshold.setText(thresholdList.get(2).toString());
 
-
-    saveChangesButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int borrowThreshold = Integer.parseInt(newBorrowThreshold.getText());
-                int weeklyThreshold = Integer.parseInt(newWeeklyThreshold.getText());
-                int incompleteThreshold = Integer.parseInt(newIncompleteThreshold.getText());
-                try {
-                    amc.updateThreshold(currUsername, borrowThreshold,"Borrow");
-                    amc.updateThreshold(currUsername, weeklyThreshold, "Weekly");
-                    amc.updateThreshold(currUsername, incompleteThreshold, "Incomplete");
-                } catch (InvalidTradingUserException invalidTradingUserException) {
-                    JOptionPane.showMessageDialog(null,
-                            "Error: UpdateThreshold method in adminController failed, so the threshold wasn't changed", "Error Message",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-
-
-            }
-        });
-
-    refreshThresholdsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                List<Integer> thresholdList = tum.getCurrThresholds(currUsername);
-                currBorrowThreshold.setText(thresholdList.get(0).toString());
-                currWeeklyThreshold.setText(thresholdList.get(1).toString());
-                currIncompleteThreshold.setText(thresholdList.get(2).toString());
-
-            }
-        });
+    });
 
         newBorrowThreshold.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
@@ -105,13 +94,7 @@ public class ChangeThresholdForm {
                 }
             }
         });
-        users.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                 currUsername = (String) users.getSelectedItem();
-
-            }
-        });
+        users.addActionListener(e -> currUsername = (String) users.getSelectedItem());
     }
 
 }

@@ -229,7 +229,7 @@ public class UserMenuController {
 //        }
 //    }
 
-    public List<Item> PossibleTransactionItemSuggestions(TradingUser otherUser) throws InvalidItemException {
+    public List<Item> itemSuggestions(TradingUser otherUser) throws InvalidItemException {
         List<Item> return_list = new ArrayList<>();
         for(UUID inventoryItemId: currentTradingUser.getInventory()){
             for(UUID wishlistItemId: otherUser.getWishlist())

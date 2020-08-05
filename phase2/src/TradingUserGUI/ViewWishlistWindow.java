@@ -28,7 +28,7 @@ public class ViewWishlistWindow {
         frame.setVisible(true);
 
         // LEFT SIDE OF SPLIT
-        List<Item> items = umc.getIm().convertIdsToItems(umc.currentTradingUser.getWishlist());
+        List<Item> items = umc.getIm().convertIdsToItems(umc.currentTradingUser.getWishlist()); // need to handle when null
         DefaultListModel<String> itemNames = new DefaultListModel<>();
         DefaultListModel<String> itemDescs = new DefaultListModel<>();
         for (Item item : items) {

@@ -13,10 +13,10 @@ import java.util.List;
 
 public class TransactionWindow {
     private UserMenuController umc;
-    private Item item;
+    private Item selectedItem;
     private Item offeredItem;
     private boolean twoWay;
-    private TradingUser owner;
+    private TradingUser selectedItemOwner;
     private JPanel panel1 = new JPanel();
     private JPanel panel2 = new JPanel();
     private String firstLocation;
@@ -31,8 +31,8 @@ public class TransactionWindow {
 
     public TransactionWindow(UserMenuController umc, Item item, TradingUser owner) {
         this.umc = umc;
-        this.item = item;
-        this.owner = owner;
+        this.selectedItem = item;
+        this.selectedItemOwner = owner;
     }
 
     public void display() {
@@ -67,15 +67,27 @@ public class TransactionWindow {
 
         // add event handlers for the buttons
         virtualButton.addActionListener(e -> {
-            setupRightPanel("Virtual");
+            try {
+                setupRightPanel("Virtual");
+            } catch (InvalidItemException invalidItemException) {
+                invalidItemException.printStackTrace();
+            }
         });
 
         permButton.addActionListener(e -> {
-            setupRightPanel("Perm");
+            try {
+                setupRightPanel("Perm");
+            } catch (InvalidItemException invalidItemException) {
+                invalidItemException.printStackTrace();
+            }
         });
 
         tempButton.addActionListener(e -> {
-            setupRightPanel("Temp");
+            try {
+                setupRightPanel("Temp");
+            } catch (InvalidItemException invalidItemException) {
+                invalidItemException.printStackTrace();
+            }
         });
 
         // add the buttons to the panel
@@ -84,14 +96,20 @@ public class TransactionWindow {
         panel1.add(tempButton);
     }
 
-    private void setupRightPanel(String type) {
+    private void setupRightPanel(String type) throws InvalidItemException {
         panel2.add(new JLabel("Would you like to offer one of your items?"));
 
-        List<Item> inventory = umc.getIm().convertIdsToItems(owner.getInventory());
+        // create JList of suggested items
+        List<Item> itemSuggestions = umc.itemSuggestions(selectedItemOwner);
+        DefaultListModel<String> itemStrings = new DefaultListModel<>();
+        for (Item item : itemSuggestions) {
+            itemStrings.addElement(item.toString());
+        }
+        JList<String> suggestions = new JList<>(itemStrings);
 
         // create JComboBox of user's inventory
+        List<Item> inventory = umc.getIm().convertIdsToItems(selectedItemOwner.getInventory());
         JComboBox<Item> comboBox = new JComboBox<>();
-
         for (Item item : inventory) {
             comboBox.addItem(item);
         }
@@ -108,8 +126,9 @@ public class TransactionWindow {
             }
         });
 
-        // add comboBox to panel
+        // add comboBoxes to panel
         panel2.add(comboBox);
+        panel2.add(suggestions);
 
         // add meetings fields
         if (type.equals("Perm")) {
@@ -186,7 +205,7 @@ public class TransactionWindow {
 
     private void areYouSureWindow(String type) throws InvalidItemException {
         List<UUID> itemList = new ArrayList<>();
-        itemList.add(item.getId());
+        itemList.add(selectedItem.getId());
         if (twoWay) {
             itemList.add(offeredItem.getId());
         }
@@ -196,12 +215,12 @@ public class TransactionWindow {
             int a = JOptionPane.showConfirmDialog(frame, "Are you sure you want to cancel the transaction?");
             if (a == JOptionPane.YES_OPTION) {
                 if (type.equals("Perm")) {
-                    umc.buildTransaction(itemList, owner, firstMeeting);
+                    umc.buildTransaction(itemList, selectedItemOwner, firstMeeting);
                     // cancelledWindow();
                 }
                 if (type.equals("Temp")) {
                     Meeting secondMeeting = new Meeting(secondLocation, secondTime, secondDate);
-                    umc.buildTransaction(itemList, owner, firstMeeting, secondMeeting);
+                    umc.buildTransaction(itemList, selectedItemOwner, firstMeeting, secondMeeting);
                 }
             }
             if (a == JOptionPane.NO_OPTION) {
