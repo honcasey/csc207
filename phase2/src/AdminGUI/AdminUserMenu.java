@@ -58,6 +58,12 @@ public class AdminUserMenu {
             iw.display();
         });
 
+        // if button2 (Check Flagged Users) is clicked
+        button2.addActionListener(e -> {
+            FlaggedUsersWindow fuw = new FlaggedUsersWindow(amc,tum);
+            fuw.display();
+        });
+
         // if button3 (create new admin user) is clicked
         button3.addActionListener(e -> {
             if (amc.getCurrentAdmin().isFirstAdmin()){//creates a new admin which can only be done by the first admin
