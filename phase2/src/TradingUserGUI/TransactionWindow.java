@@ -20,6 +20,7 @@ public class TransactionWindow {
     private UserMenuController umc;
     private Item item;
     private Item offeredItem;
+    private boolean twoWay;
     private TradingUser owner;
     private JPanel panel1 = new JPanel();
     private JPanel panel2 = new JPanel();
@@ -102,7 +103,14 @@ public class TransactionWindow {
 
         // add event handler for comboBox
         comboBox.addActionListener(e -> {
-            offeredItem = (Item) comboBox.getSelectedItem();
+            if (comboBox.getSelectedItem() == null) {
+                // offeredItem = null;
+                twoWay = false;
+            }
+            else {
+                twoWay = true;
+                offeredItem = (Item) comboBox.getSelectedItem();
+            }
         });
 
         // add comboBox to panel
@@ -184,6 +192,9 @@ public class TransactionWindow {
     private void areYouSureWindow(String type) throws InvalidItemException {
         List<UUID> itemList = new ArrayList<>();
         itemList.add(item.getId());
+        if (twoWay) {
+            itemList.add(offeredItem.getId());
+        }
         JFrame frame = new JFrame();
         Meeting firstMeeting = new Meeting(firstLocation, firstTime, firstDate);
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
