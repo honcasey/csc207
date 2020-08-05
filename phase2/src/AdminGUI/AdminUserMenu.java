@@ -2,6 +2,7 @@ package AdminGUI;
 
 import Admins.AdminMenuController;
 
+import Admins.FrozenUsersWindow;
 import Initialization.Filepaths;
 import Initialization.Serializer;
 import Users.TradingUserManager;
@@ -87,6 +88,13 @@ public class AdminUserMenu {
         button5.addActionListener(e ->{
             ChangeThresholdForm tw = new ChangeThresholdForm(amc, tum);
         });
+
+        // if button6 (Check Unfreeze TradingUser Account Requests) is click
+        button6.addActionListener(e -> {
+            FrozenUsersWindow frw = new FrozenUsersWindow(amc,tum);
+            frw.display();
+        });
+
 
         // display the window
         frame.setVisible(true);
