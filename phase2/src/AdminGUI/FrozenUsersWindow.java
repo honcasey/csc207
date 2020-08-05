@@ -1,5 +1,6 @@
-package Admins;
+package AdminGUI;
 
+import Admins.AdminMenuController;
 import Exceptions.InvalidTradingUserException;
 import Users.TradingUser;
 import Users.TradingUserManager;

@@ -54,6 +54,7 @@ public class ItemDetailsWindow {
             if (owner.getWishlist().contains(item.getId())) {
                 new PopUpWindow("Already in your wishlist").display();
             } else {
+                umc.addToWishlist(item);
                 new PopUpWindow("Added to wishlist").display();
             }
         });

@@ -2,7 +2,6 @@ package AdminGUI;
 
 import Admins.AdminMenuController;
 
-import Admins.FrozenUsersWindow;
 import Initialization.Filepaths;
 import Initialization.Serializer;
 import Users.TradingUserManager;
@@ -10,7 +9,6 @@ import Users.TradingUserManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.File;
 
 /**
  * Main Admin Menu
