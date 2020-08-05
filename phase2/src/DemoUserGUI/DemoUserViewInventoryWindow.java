@@ -83,7 +83,7 @@ public class DemoUserViewInventoryWindow {
 
             // Add the Remove Button on to the Frame
             frame.add(subPanel);
-
+            frame.setVisible(true);
 
         }
 }
