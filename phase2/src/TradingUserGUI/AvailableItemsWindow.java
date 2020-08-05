@@ -40,8 +40,8 @@ public class AvailableItemsWindow {
 
     private void createComboBox() {
         availableItemsMap = umc.getAvailableItems();
-        if (availableItemsMap.isEmpty()) {
-            new PopUpWindow("No Items Available");
+        if (availableItemsMap == null) {
+            // print a statement on the panel that says no available items;
         }
         else {
             comboBox1 = new JComboBox<>();
