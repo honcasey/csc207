@@ -19,12 +19,13 @@ public class ViewWishlistWindow {
 
     public void display() {
         // create the frame
-        JFrame frame = new JFrame("Inventory");
+        JFrame frame = new JFrame("Wishlist");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // closes the current frame but doesn't terminate the app
 
         // set the frame's size and centre it
         frame.setSize(new Dimension(700, 500));
         frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
 
         // LEFT SIDE OF SPLIT
         List<Item> items = umc.getIm().convertIdsToItems(umc.currentTradingUser.getWishlist());
@@ -79,5 +80,6 @@ public class ViewWishlistWindow {
 
         // Add the Remove Button on to the Frame
         frame.add(subPanel);
+
     }
 }

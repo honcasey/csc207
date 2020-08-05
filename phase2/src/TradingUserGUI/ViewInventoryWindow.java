@@ -26,7 +26,7 @@ public class ViewInventoryWindow {
         // set the frame's size and centre it
        frame.setSize(new Dimension(700, 500));
        frame.setLocationRelativeTo(null);
-
+       frame.setVisible(true);
        // LEFT SIDE OF SPLIT
         List<Item> items = umc.getIm().convertIdsToItems(umc.currentTradingUser.getInventory());
         DefaultListModel<String> itemNames = new DefaultListModel<>();
