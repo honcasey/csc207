@@ -30,23 +30,24 @@ public class ViewTransactionHistoryWindow {
 
 
         //centre frame
-        frame.setSize(new Dimension(1000, 1000));
+        frame.setSize(new Dimension(550, 300));
         frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
 
        JButton twoWayButton = new JButton("Most Recent Two Way Transactions");
-       twoWayButton.setBounds(600, 300, 100, 50);
+       twoWayButton.setBounds(50, 50, 150, 75);
        twoWayButton.addActionListener(
                e -> mostRecentTwoWaysWindow()
        );
 
        JButton oneWayButton = new JButton("Most Recent One Way Transactions");
-       oneWayButton.setBounds(600, 400, 100, 50);
+       oneWayButton.setBounds(200, 50, 150, 75);
        oneWayButton.addActionListener(
                e -> mostRecentOneWaysWindow()
        );
 
        JButton tradedUsersButton = new JButton("Most traded with Users");
-       tradedUsersButton.setBounds(600, 500, 100, 50);
+       tradedUsersButton.setBounds(350, 50, 150, 75);
        tradedUsersButton.addActionListener(
                e -> mostTradedWithUsersWindow()
        );
@@ -62,6 +63,7 @@ public class ViewTransactionHistoryWindow {
 
         frame.setSize(new Dimension(350, 200));
         frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
         List<UUID> mostRecentOneWays = umc.currentTradingUser.getTransactionHistory().mostRecentOneWayTransactions();
         StringBuilder text = new StringBuilder(" ");
         ArrayList<Transaction> allRecentOneWays = umc.getTm().getTransactionsFromIdList(mostRecentOneWays);
@@ -81,7 +83,7 @@ public class ViewTransactionHistoryWindow {
         scrollPane.getViewport().add(descr);
 
         frame.add(descr);
-        frame.setVisible(true);
+
 
     }
 
@@ -91,7 +93,7 @@ public class ViewTransactionHistoryWindow {
 
         frame.setSize(new Dimension(350, 200));
         frame.setLocationRelativeTo(null);
-
+        frame.setVisible(true);
         List<UUID> mostRecentTwoWays = umc.currentTradingUser.getTransactionHistory().mostRecentTwoWayTransactions();
 
         StringBuilder text = new StringBuilder(" ");
@@ -123,7 +125,7 @@ public class ViewTransactionHistoryWindow {
 
         frame.setSize(new Dimension(350, 200));
         frame.setLocationRelativeTo(null);
-
+        frame.setVisible(true);
         StringBuilder text = new StringBuilder(" ");
         List<String> usernames = umc.currentTradingUser.getTransactionHistory().mostTradedWithUsers();
         for (String u: usernames){
