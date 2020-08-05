@@ -132,6 +132,7 @@ public class UserMenuController {
         Transaction newTransaction;
         newTransaction = tm.createTransaction(itemMap, firstMeeting, secondMeeting);
         tm.updateUsersCurrentTransactions(owner,currentTradingUser,newTransaction);
+        flagAccountIfAboveThreshold(owner);
         for (UUID id : items) {
             Item item = im.getItem(id);
             availableItems.remove(item);
@@ -147,6 +148,7 @@ public class UserMenuController {
         Transaction newTransaction;
         newTransaction = tm.createTransaction(itemMap, firstMeeting);
         tm.updateUsersCurrentTransactions(owner,currentTradingUser,newTransaction);
+        flagAccountIfAboveThreshold(owner);
         for (UUID id : items) {
             Item item = im.getItem(id);
             availableItems.remove(item);
@@ -161,6 +163,7 @@ public class UserMenuController {
         itemMap.put(owner.getUserId(), items);
         Transaction newTransaction = tm.createTransaction(itemMap);
         tm.updateUsersCurrentTransactions(owner, currentTradingUser, newTransaction);
+        flagAccountIfAboveThreshold(owner);
         for (UUID id : items) {
             Item item = im.getItem(id);
             availableItems.remove(item);

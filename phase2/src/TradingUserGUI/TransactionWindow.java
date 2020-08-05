@@ -1,12 +1,19 @@
 package TradingUserGUI;
 
+import Exceptions.InvalidItemException;
 import Items.Item;
+import Transactions.Actions;
+import Transactions.Meeting;
 import Users.TradingUser;
 import Users.UserMenuController;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.util.Date;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.*;
 import java.util.List;
 
 public class TransactionWindow {
@@ -19,6 +26,12 @@ public class TransactionWindow {
     private String firstLocation;
     private Date firstDate;
     private Date firstTime;
+    private String secondLocation;
+    private Date secondDate;
+    private Date secondTime;
+    private JButton submit = new JButton("Submit");
+    private Calendar dateCalendar;
+    private Calendar timeCalendar;
 
     public TransactionWindow(UserMenuController umc, Item item, TradingUser owner) {
         this.umc = umc;
@@ -97,14 +110,111 @@ public class TransactionWindow {
 
         // add meetings fields
         if (type.equals("Perm")) {
-            panel2.add(new JLabel("First Meeting"));
+            panel2 = setMeetingPanel("First");
+            submit.addActionListener(e -> {
+                try {
+                    areYouSureWindow(type);
+                } catch (InvalidItemException invalidItemException) {
+                    invalidItemException.printStackTrace();
+                }
+            });
+            panel2.add(submit);
+        }
+        else if (type.equals("Temp")) {
+            panel2 = setMeetingPanel("First");
+            submit.addActionListener(e -> secondMeetingWindow());
+            panel2.add(submit);
+        }
+    }
 
+    private void setDateCalendar() { // helper method for making a date JSpinner
+        dateCalendar = Calendar.getInstance();
+        dateCalendar.set(Calendar.DAY_OF_MONTH, 1);
+        dateCalendar.set(Calendar.MONTH, 1);
+        dateCalendar.set(Calendar.YEAR, 2020);
+    }
+
+    private void setTimeCalendar() { // helper method for making a time JSpinner
+        timeCalendar = Calendar.getInstance();
+        timeCalendar.set(Calendar.HOUR_OF_DAY, 24);
+        timeCalendar.set(Calendar.MINUTE, 0);
+    }
+
+    private JPanel setMeetingPanel(String meetingNum) {
+        JPanel panel = new JPanel();
+        panel.add(new JLabel(meetingNum + "Meeting"));
+
+        JTextField location = new JTextField("Location");
+        location.setBounds(100, 100, 50, 20);
+        location.addActionListener(e -> {
+            if (meetingNum.equals("first")) { firstLocation = location.getText(); }
+            if (meetingNum.equals("second")) { secondLocation = location.getText(); }
+        });
+
+        setDateCalendar();
+        SpinnerDateModel dateModel = new SpinnerDateModel();
+        dateModel.setValue(dateCalendar.getTime());
+
+        JSpinner meetingDate = new JSpinner(dateModel);
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(meetingDate, "dd:mm:yyyy");
+        meetingDate.setEditor(dateEditor);
+        meetingDate.addChangeListener(e -> {
+            if (meetingNum.equals("first")) { firstDate = dateModel.getDate(); }
+            if (meetingNum.equals("second")) { secondDate = dateModel.getDate(); }
+        });
+
+        setTimeCalendar();
+        SpinnerDateModel timeModel = new SpinnerDateModel();
+        timeModel.setValue(timeCalendar.getTime());
+
+        JSpinner meetingTime = new JSpinner(timeModel);
+        JSpinner.DateEditor editor = new JSpinner.DateEditor(meetingTime, "hh:mm");
+        meetingTime.setEditor(editor);
+        meetingTime.addChangeListener(e -> {
+            if (meetingNum.equals("first")) { firstTime = timeModel.getDate(); }
+            if (meetingNum.equals("second")) { secondTime = timeModel.getDate(); }
+        });
+
+        panel.add(location);
+        panel.add(meetingDate);
+        panel.add(meetingTime);
+        return panel;
+    }
+
+    private void areYouSureWindow(String type) throws InvalidItemException {
+        List<UUID> itemList = new ArrayList<>();
+        itemList.add(item.getId());
+        JFrame frame = new JFrame();
+        Meeting firstMeeting = new Meeting(firstLocation, firstTime, firstDate);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            int a = JOptionPane.showConfirmDialog(frame, "Are you sure you want to cancel the transaction?");
+            if (a == JOptionPane.YES_OPTION) {
+                if (type.equals("Perm")) {
+                    umc.buildTransaction(itemList, owner, firstMeeting);
+                    // cancelledWindow();
+                }
+                if (type.equals("Temp")) {
+                    Meeting secondMeeting = new Meeting(secondLocation, secondTime, secondDate);
+                    umc.buildTransaction(itemList, owner, firstMeeting, secondMeeting);
+                }
+            }
+            if (a == JOptionPane.NO_OPTION) {
+                System.exit(0);
+            }
         }
 
-        // create and add submit button to panel
-        JButton submit = new JButton("Submit");
-        panel2.add(submit);
-
-        // add event handler for submit button
+    private void secondMeetingWindow() {
+            JFrame tempFrame = new JFrame("Second Meeting");
+            JPanel panel3 = setMeetingPanel("Second");
+            JButton submit2 = new JButton("Submit Second Meeting");
+            submit2.addActionListener(e -> {
+                try {
+                    areYouSureWindow("Temp");
+                } catch (InvalidItemException invalidItemException) {
+                    invalidItemException.printStackTrace();
+                }
+            });
+            panel3.add(submit2);
+            tempFrame.add(panel3);
+        }
     }
-}
