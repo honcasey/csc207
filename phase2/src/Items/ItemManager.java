@@ -1,6 +1,8 @@
 package Items;
 
 import Exceptions.InvalidItemException;
+import Users.TradingUser;
+
 import java.util.*;
 
 /**
@@ -90,4 +92,16 @@ public class ItemManager {
         String item1_string = item1.getName().toUpperCase();
         return item1_string.equals(item2_string);
     }
+
+    public List<Item> itemSuggestions(TradingUser currUser, TradingUser otherUser) throws InvalidItemException {
+        List<Item> return_list = new ArrayList<>();
+        for(UUID inventoryItemId: currUser.getInventory()){
+            for(UUID wishlistItemId: otherUser.getWishlist())
+                if(wishlistItemId.equals(inventoryItemId)){
+                    return_list.add(getItem(inventoryItemId));
+                }
+        }
+        return return_list;
+    }
+
 }

@@ -291,4 +291,45 @@ public class CurrentTransactionManager extends TransactionManager{
             }
         }
     }
+
+    /**
+     * returns if one of the users statuses are pending
+     * @param transaction which transaction
+     * @return boolean
+     */
+    public boolean userStatuses(Transaction transaction) {
+        return !(transaction.getStatusUser1().equals(Statuses.PENDING) | transaction.getStatusUser2().equals(Statuses.PENDING));
+    }
+
+    /**
+     * Updates the inputted transaction's status depending on what the TradingUser selected.
+     * @param tradingUser currently logged in TradingUser
+     * @param transaction inputted transaction
+     * @param optionChosen which option has been chosen by the currently logged in TradingUser
+     */
+    public void updateStatusUser(TradingUser tradingUser, Transaction transaction, Actions optionChosen){
+        UUID userId = tradingUser.getUserId();
+        if (optionChosen.equals(Actions.CONFIRMMEETINGDETAILS)){
+            transaction.setStatusUserID(Statuses.CONFIRMED, userId);
+        }
+        if (optionChosen.equals(Actions.CANCEL)){
+            transaction.setStatusUserID(Statuses.CANCELLED, userId);
+        }
+        if (optionChosen.equals(Actions.CONFIRMMEETUP)) {
+            transaction.setStatusUserID(Statuses.TRADED, userId);
+        }
+        if (optionChosen.equals(Actions.MEETUPINCOMPLETE)) {
+            transaction.setStatusUserID(Statuses.INCOMPLETE, userId);
+        }
+        if (optionChosen.equals(Actions.ITEMRETURNED)){
+            transaction.setStatusUserID(Statuses.COMPLETED, userId);
+        }
+        if (optionChosen.equals(Actions.ITEMNOTRETURNED)){
+            transaction.setStatusUserID(Statuses.NEVERRETURNED, userId);
+        }
+        if (optionChosen.equals(Actions.EDITED)){
+            transaction.setStatusUserID(Statuses.PENDING, userId);
+        }
+    }
+
 }

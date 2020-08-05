@@ -209,7 +209,7 @@ public class ViewActiveTransactionsWindow {
     }
 
     private void confirmedMeeting() { // helper method that pops up window depending on if other user has confirmed meeting details yet
-        if (umc.userStatuses(selectedTransaction)) {
+        if (umc.getTm().userStatuses(selectedTransaction)) {
             PopUpWindow waiting = new PopUpWindow("Waiting for other user to confirm meeting.");
             waiting.display();
         }

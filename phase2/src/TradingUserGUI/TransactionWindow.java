@@ -100,7 +100,7 @@ public class TransactionWindow {
         panel2.add(new JLabel("Would you like to offer one of your items?"));
 
         // create JList of suggested items
-        List<Item> itemSuggestions = umc.itemSuggestions(selectedItemOwner);
+        List<Item> itemSuggestions = umc.getIm().itemSuggestions(umc.currentTradingUser, selectedItemOwner);
         DefaultListModel<String> itemStrings = new DefaultListModel<>();
         for (Item item : itemSuggestions) {
             itemStrings.addElement(item.toString());

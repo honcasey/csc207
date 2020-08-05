@@ -105,17 +105,6 @@ public class UserMenuController {
         }
     }
 
-    public List<Item> itemSuggestions(TradingUser otherUser) throws InvalidItemException {
-        List<Item> return_list = new ArrayList<>();
-        for(UUID inventoryItemId: currentTradingUser.getInventory()){
-            for(UUID wishlistItemId: otherUser.getWishlist())
-            if(wishlistItemId.equals(inventoryItemId)){
-                return_list.add(im.getItem(inventoryItemId));
-            }
-        }
-        return return_list;
-    }
-
     public List<Transaction> currentTransactionList() {
         try {
             List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
@@ -132,39 +121,8 @@ public class UserMenuController {
                 tm.editMeeting(meetingNum, transaction, user, newTime, newDate));
     }
 
-    /**
-     * Updates the inputted transaction's status depending on what the TradingUser selected.
-     * @param tradingUser currently logged in TradingUser
-     * @param transaction inputted transaction
-     * @param optionChosen which option has been chosen by the currently logged in TradingUser
-     */
-    public void updateStatusUser(TradingUser tradingUser, Transaction transaction, Actions optionChosen){
-        UUID userId = tradingUser.getUserId();
-        if (optionChosen.equals(Actions.CONFIRMMEETINGDETAILS)){
-            transaction.setStatusUserID(Statuses.CONFIRMED, userId);
-        }
-        if (optionChosen.equals(Actions.CANCEL)){
-            transaction.setStatusUserID(Statuses.CANCELLED, userId);
-        }
-        if (optionChosen.equals(Actions.CONFIRMMEETUP)) {
-            transaction.setStatusUserID(Statuses.TRADED, userId);
-        }
-        if (optionChosen.equals(Actions.MEETUPINCOMPLETE)) {
-            transaction.setStatusUserID(Statuses.INCOMPLETE, userId);
-        }
-        if (optionChosen.equals(Actions.ITEMRETURNED)){
-            transaction.setStatusUserID(Statuses.COMPLETED, userId);
-        }
-        if (optionChosen.equals(Actions.ITEMNOTRETURNED)){
-            transaction.setStatusUserID(Statuses.NEVERRETURNED, userId);
-        }
-        if (optionChosen.equals(Actions.EDITED)){
-            transaction.setStatusUserID(Statuses.PENDING, userId);
-        }
-    }
-
     public void updateUsers(Transaction transaction, Actions optionChosen) {
-        updateStatusUser(currentTradingUser, transaction, optionChosen);
+        tm.updateStatusUser(currentTradingUser, transaction, optionChosen);
         List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
         tm.updateStatus(transaction); //update status of transaction
         if (transaction.isPerm()) { // if transaction is permanent (only one meeting)
@@ -187,15 +145,6 @@ public class UserMenuController {
         if (um.moveTransactionToTransactionHistory(transaction)) {
             currentTransactionsIds.remove(transaction.getId()); // remove from the list of active transaction's the logged in user sees
         }
-    }
-
-    /**
-     * returns if one of the users statuses are pending
-     * @param transaction which transaction
-     * @return boolean
-     */
-    public boolean userStatuses(Transaction transaction) {
-        return !(transaction.getStatusUser1().equals(Statuses.PENDING) | transaction.getStatusUser2().equals(Statuses.PENDING));
     }
 
     /**
@@ -315,9 +264,9 @@ public class UserMenuController {
         }
     }
 
-    public CurrentTransactionManager getTm() {return tm;}
+    public CurrentTransactionManager getTm() { return tm; }
 
-    public TradingUserManager getUm() {return um;}
+    public TradingUserManager getUm() { return um; }
 
     public Map<Item, TradingUser> getAllPendingItems() {
         return allPendingItems;
