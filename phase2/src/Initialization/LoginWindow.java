@@ -18,6 +18,7 @@ public class LoginWindow {
     private final JPasswordField passwordText = new JPasswordField(20);
     private final JButton loginButton = new JButton("Sign in");
     private final JButton registerButton = new JButton("Create an account");
+    private final JButton demoButton = new JButton("Demo?");
     private final AdminMenuController amc;
     private final UserMenuController umc;
 
@@ -89,6 +90,10 @@ public class LoginWindow {
         // add register button to panel
         registerButton.setBounds(10, 110, 160, 25);
         panel.add(registerButton);
+
+        // add demoButton
+        demoButton.setBounds(180, 80, 160, 25);
+        panel.add(demoButton);
     }
 
     // checks if credentials are valid, if so proceed to trading/admin/demo menu
