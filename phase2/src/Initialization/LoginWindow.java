@@ -3,6 +3,7 @@ package Initialization;
 import Admins.AdminMenuController;
 import AdminGUI.AdminUserMenu;
 import DemoUserGUI.DemoUserMenu;
+import DemoUserGUI.DemoUserRegistrationWindow;
 import Popups.PopUpWindow;
 import TradingUserGUI.TradingUserMenu;
 import Users.DemoMenuController;
@@ -63,6 +64,15 @@ public class LoginWindow {
             public void actionPerformed(ActionEvent e) {
                 RegistrationWindow rw = new RegistrationWindow(lc, umc);
                 rw.display();
+                frame.dispose();
+            }
+        });
+
+        demoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DemoUserRegistrationWindow drw = new DemoUserRegistrationWindow(lc, umc, dmc);
+                drw.display();
                 frame.dispose();
             }
         });
