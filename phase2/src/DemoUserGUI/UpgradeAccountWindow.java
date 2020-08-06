@@ -1,6 +1,6 @@
 package DemoUserGUI;
 
-import Initialization.PopUpWindow;
+import Popups.PopUpWindow;
 import Users.DemoMenuController;
 import Users.UserMenuController;
 

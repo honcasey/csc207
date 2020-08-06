@@ -1,7 +1,7 @@
 package DemoUserGUI;
 
 import Initialization.Filepaths;
-import Initialization.PopUpWindow;
+import Popups.PopUpWindow;
 import Initialization.Serializer;
 import TradingUserGUI.AvailableItemsWindow;
 import Users.DemoMenuController;

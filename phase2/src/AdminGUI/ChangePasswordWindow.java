@@ -59,9 +59,9 @@ public class ChangePasswordWindow {
     private void changePassword(String password, String password2) {
         if (password.equals(password2)) {
             amc.getCurrentAdmin().setPassword(password);
-            // Initialization.PopUpWindow puw = new Initialization.PopUpWindow("Password successfully changed");
+            // Popups.PopUpWindow puw = new Popups.PopUpWindow("Password successfully changed");
             System.exit(0);
         }
-        // else { Initialization.PopUpWindow puw = new Initialization.PopUpWindow("Passwords do not match."); }
+        // else { Popups.PopUpWindow puw = new Popups.PopUpWindow("Passwords do not match."); }
     }
 }

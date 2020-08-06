@@ -1,4 +1,4 @@
-package Initialization;
+package Popups;
 
 import javax.swing.*;
 import java.awt.*;
