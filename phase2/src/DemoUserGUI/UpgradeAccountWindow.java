@@ -1,5 +1,6 @@
 package DemoUserGUI;
 
+import Initialization.LoginController;
 import Popups.PopUpWindow;
 import Users.DemoMenuController;
 import Users.UserMenuController;
@@ -18,12 +19,12 @@ public class UpgradeAccountWindow {
     private final JTextField confirmText = new JPasswordField(20);
     private final JLabel confirmLabel = new JLabel("Confirm");
     private final JButton createButton = new JButton("Sign up");
-    private final UserMenuController umc;
+    private final LoginController lc;
     private final DemoMenuController dmc;
 
-    public UpgradeAccountWindow(DemoMenuController dmc, UserMenuController umc){
+    public UpgradeAccountWindow(DemoMenuController dmc, LoginController lc){
         this.dmc = dmc;
-        this.umc = umc;
+        this.lc = lc;
     }
     public void display(){
         // create the frame
@@ -86,8 +87,8 @@ public class UpgradeAccountWindow {
     }
 
     private void createAccount(String username, String password, String password2) {
-        if (umc.availableUsername(username) && password.equals(password2)) {
-            umc.addTradingUser(username, password);
+        if (lc.availableUsername(username) && password.equals(password2)) {
+            lc.addTradingUser(username, password);
             UUID oldID = dmc.currentDemoUser.getUserId();
             dmc.getDum().removeDemoUser(oldID);
 

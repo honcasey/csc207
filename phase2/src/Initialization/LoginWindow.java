@@ -2,8 +2,10 @@ package Initialization;
 
 import Admins.AdminMenuController;
 import AdminGUI.AdminUserMenu;
+import DemoUserGUI.DemoUserMenu;
 import Popups.PopUpWindow;
 import TradingUserGUI.TradingUserMenu;
+import Users.DemoMenuController;
 import Users.UserMenuController;
 
 import javax.swing.*;
@@ -23,11 +25,13 @@ public class LoginWindow {
     private final LoginController lc;
     private final AdminMenuController amc;
     private final UserMenuController umc;
+    private final DemoMenuController dmc;
 
-    public LoginWindow(LoginController lc, AdminMenuController amc, UserMenuController umc) {
+    public LoginWindow(LoginController lc, AdminMenuController amc, UserMenuController umc, DemoMenuController dmc) {
         this.lc = lc;
         this.amc = amc;
         this.umc = umc;
+        this.dmc = dmc;
     }
 
     public void display() {
@@ -109,6 +113,10 @@ public class LoginWindow {
             umc.setCurrentTradingUser(username);
             TradingUserMenu tum = new TradingUserMenu(umc);
             tum.display();
+        }else if (lc.validDemoUser(username, password)){
+            dmc.setCurrentDemoUser(username);
+            DemoUserMenu dm = new DemoUserMenu(dmc, umc, lc);
+            dm.display();
         } else { // they entered something wrong or their account does not exist
             new PopUpWindow("Invalid credentials or account does not exist.").display();
         }
