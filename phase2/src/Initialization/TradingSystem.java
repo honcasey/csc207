@@ -32,6 +32,7 @@ public class TradingSystem {
     private PastTransactionManager ptm;
     private ItemManager im;
     private Map<Item, TradingUser> pendingItems;
+    private LoginController lc;
     private AdminMenuController amc;
     private UserMenuController umc;
     private DemoMenuController dmc;
@@ -43,7 +44,7 @@ public class TradingSystem {
     public void run() {
         readData();
         checkFirstAdmin();
-        LoginWindow lw = new LoginWindow(amc, umc);
+        LoginWindow lw = new LoginWindow(lc, amc, umc);
         lw.display();
     }
 
@@ -81,6 +82,7 @@ public class TradingSystem {
         dum = new DemoUserManager(demoUsers);
 
         // create new controllers
+        lc = new LoginController(am, tum);
         amc = new AdminMenuController(am, tum, pendingItems, im);
         umc = new UserMenuController(tum, am, tm, ptm, im, pendingItems);
         dmc = new DemoMenuController(dum, tum, im);

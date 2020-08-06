@@ -17,9 +17,11 @@ public class RegistrationWindow {
     private final JTextField confirmText = new JPasswordField(20);
     private final JLabel confirmLabel = new JLabel("Confirm");
     private final JButton createButton = new JButton("Sign up");
+    private final LoginController lc;
     private final UserMenuController umc;
 
-    public RegistrationWindow(UserMenuController umc) {
+    public RegistrationWindow(LoginController lc, UserMenuController umc) {
+        this.lc = lc;
         this.umc = umc;
     }
 
@@ -83,8 +85,8 @@ public class RegistrationWindow {
     }
 
     private void createAccount(String username, String password, String password2) {
-        if (umc.availableUsername(username) && password.equals(password2)) {
-            umc.addTradingUser(username, password);
+        if (lc.availableUsername(username) && password.equals(password2)) {
+            lc.addTradingUser(username, password);
             new TradingUserMenu(umc).display();
         } else {
             new PopUpWindow("Username already taken!").display();

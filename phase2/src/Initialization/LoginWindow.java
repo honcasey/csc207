@@ -19,10 +19,12 @@ public class LoginWindow {
     private final JButton loginButton = new JButton("Sign in");
     private final JButton registerButton = new JButton("Create an account");
     private final JButton demoButton = new JButton("Demo?");
+    private final LoginController lc;
     private final AdminMenuController amc;
     private final UserMenuController umc;
 
-    public LoginWindow(AdminMenuController amc, UserMenuController umc) {
+    public LoginWindow(LoginController lc, AdminMenuController amc, UserMenuController umc) {
+        this.lc = lc;
         this.amc = amc;
         this.umc = umc;
     }
@@ -54,7 +56,7 @@ public class LoginWindow {
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RegistrationWindow rw = new RegistrationWindow(umc);
+                RegistrationWindow rw = new RegistrationWindow(lc, umc);
                 rw.display();
                 frame.dispose();
             }
@@ -102,7 +104,7 @@ public class LoginWindow {
             amc.setCurrentAdmin(username);
             AdminUserMenu aum = new AdminUserMenu(amc);
             aum.display();
-        } else if (umc.validUser(username, password)) { // if user and pass matches a trading user account
+        } else if (lc.validUser(username, password)) { // if user and pass matches a trading user account
             umc.setCurrentTradingUser(username);
             TradingUserMenu tum = new TradingUserMenu(umc);
             tum.display();

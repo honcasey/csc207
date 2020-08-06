@@ -181,25 +181,9 @@ public class UserMenuController {
         }
     }
 
-    public boolean validUser(String username, String password) {
-        return um.validUser(username, password);
-    }
-
     public void setCurrentTradingUser(String username) {
         try {
             currentTradingUser = um.getTradingUser(username);
-        } catch (InvalidTradingUserException e) {
-            // TODO
-        }
-    }
-
-    public boolean availableUsername(String username) {
-        return am.checkAvailableUsername(username) && um.checkAvailableUsername(username);
-    }
-
-    public void addTradingUser(String username, String password) {
-        try {
-            um.addTradingUser(username, password);
         } catch (InvalidTradingUserException e) {
             // TODO
         }
