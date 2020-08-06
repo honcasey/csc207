@@ -1,10 +1,7 @@
 package Transactions;
-import Items.Item;
 import Users.TradingUser;
 
-import java.time.LocalTime;
 import java.util.*;
-import java.time.LocalDate;
 
 /**
  * <h1>CurrentTransactionManager</h1>
@@ -81,7 +78,7 @@ public class CurrentTransactionManager extends TransactionManager{
     public boolean editMeeting(int meetingNum, Transaction transaction, UUID userId, String newLocation) {
         int userNum = findUserNum(transaction, userId);
         Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
-        if (canEdit(meeting, userNum) && transaction.getStatus().equals(Statuses.PENDING)) {
+        if (canEdit(meeting, userNum) && transaction.getStatus().equals(TransactionStatuses.PENDING)) {
             meeting.setLocation(newLocation);
             meeting.userEdits(userNum);
             return true;
@@ -102,7 +99,7 @@ public class CurrentTransactionManager extends TransactionManager{
     public boolean editMeeting(int meetingNum, Transaction transaction, UUID userId, Date time, Date date) {
         int userNum = findUserNum(transaction, userId);
         Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
-        if (canEdit(meeting, userNum) && transaction.getStatus().equals(Statuses.PENDING)) {
+        if (canEdit(meeting, userNum) && transaction.getStatus().equals(TransactionStatuses.PENDING)) {
             meeting.setTime(time);
             meeting.setDate(date);
             meeting.userEdits(userNum);
@@ -152,11 +149,11 @@ public class CurrentTransactionManager extends TransactionManager{
         }
         else{
             for(UUID userId: transaction.getUsers()){
-                if (transaction.getUserStatus(userId).equals(Statuses.PENDING)){
+                if (transaction.getUserStatus(userId).equals(TransactionStatuses.PENDING)){
                     return false;
                 }
             }
-            transaction.setStatus(Statuses.COMPLETED);
+            transaction.setStatus(TransactionStatuses.COMPLETED);
             return true;
         }
     }
@@ -165,34 +162,34 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     private boolean pendingToConfirmed(Transaction transaction){
-        if (!transaction.getStatus().equals(Statuses.PENDING)){
+        if (!transaction.getStatus().equals(TransactionStatuses.PENDING)){
             return false;
         }
         else{
             for (UUID currUser : transaction.getUsers()) {
-                if (!transaction.getUserStatus(currUser).equals(Statuses.CONFIRMED)) {
+                if (!transaction.getUserStatus(currUser).equals(TransactionStatuses.CONFIRMED)) {
                     return false;
                 }
             }
-            transaction.setStatus(Statuses.CONFIRMED);
+            transaction.setStatus(TransactionStatuses.CONFIRMED);
             return true;
         }
     }
 
     private boolean pendingToCancelled(Transaction transaction){
-        if (transaction.getStatus().equals(Statuses.PENDING) & (transaction.getStatusUser1().equals(Statuses.CANCELLED) || transaction.getStatusUser2().equals(Statuses.CANCELLED))){
-            transaction.setStatus(Statuses.CANCELLED);
+        if (transaction.getStatus().equals(TransactionStatuses.PENDING) & (transaction.getStatusUser1().equals(TransactionStatuses.CANCELLED) || transaction.getStatusUser2().equals(TransactionStatuses.CANCELLED))){
+            transaction.setStatus(TransactionStatuses.CANCELLED);
             return true;
         }
-        if (transaction.getStatus().equals(Statuses.CONFIRMED) & (transaction.getStatusUser1().equals(Statuses.CANCELLED) || transaction.getStatusUser2().equals(Statuses.CANCELLED))){
-            if (transaction.getStatusUser1().equals(Statuses.TRADED) || transaction.getStatusUser1().equals(Statuses.COMPLETED)){
+        if (transaction.getStatus().equals(TransactionStatuses.CONFIRMED) & (transaction.getStatusUser1().equals(TransactionStatuses.CANCELLED) || transaction.getStatusUser2().equals(TransactionStatuses.CANCELLED))){
+            if (transaction.getStatusUser1().equals(TransactionStatuses.TRADED) || transaction.getStatusUser1().equals(TransactionStatuses.COMPLETED)){
                 return false;
             }
-            if (transaction.getStatusUser2().equals(Statuses.TRADED) || transaction.getStatusUser2().equals(Statuses.COMPLETED)){
+            if (transaction.getStatusUser2().equals(TransactionStatuses.TRADED) || transaction.getStatusUser2().equals(TransactionStatuses.COMPLETED)){
                 return false;
             }
             else{
-                transaction.setStatus(Statuses.CANCELLED);
+                transaction.setStatus(TransactionStatuses.CANCELLED);
                 return true;
             }
         }
@@ -202,15 +199,15 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     private boolean confirmedToTraded(Transaction transaction){
-        if (!transaction.getStatus().equals(Statuses.CONFIRMED)){
+        if (!transaction.getStatus().equals(TransactionStatuses.CONFIRMED)){
             return false;
         }
         else if (transaction.isPerm()){
             return false;
         }
         else{
-            if (transaction.getStatusUser1().equals(Statuses.TRADED) & transaction.getStatusUser2().equals(Statuses.TRADED)){
-                transaction.setStatus(Statuses.TRADED);
+            if (transaction.getStatusUser1().equals(TransactionStatuses.TRADED) & transaction.getStatusUser2().equals(TransactionStatuses.TRADED)){
+                transaction.setStatus(TransactionStatuses.TRADED);
                 return true;
             }
             else{
@@ -220,15 +217,15 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     private boolean confirmedToIncomplete(Transaction transaction){
-        if (!transaction.getStatus().equals(Statuses.CONFIRMED)){
+        if (!transaction.getStatus().equals(TransactionStatuses.CONFIRMED)){
             return false;
         }
         // else if (transaction.isPerm()){
             // return false;
         // }
         else{
-            if (transaction.getStatusUser1().equals(Statuses.INCOMPLETE) || transaction.getStatusUser2().equals(Statuses.INCOMPLETE)){
-                transaction.setStatus(Statuses.INCOMPLETE);
+            if (transaction.getStatusUser1().equals(TransactionStatuses.INCOMPLETE) || transaction.getStatusUser2().equals(TransactionStatuses.INCOMPLETE)){
+                transaction.setStatus(TransactionStatuses.INCOMPLETE);
                 return true;
             }
             else{
@@ -239,15 +236,15 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     private boolean confirmedToComplete(Transaction transaction){
-        if (!transaction.getStatus().equals(Statuses.CONFIRMED)){
+        if (!transaction.getStatus().equals(TransactionStatuses.CONFIRMED)){
             return false;
         }
         else if (!transaction.isPerm()){
             return false;
         }
         else{
-            if (transaction.getStatusUser1().equals(Statuses.TRADED) & transaction.getStatusUser2().equals(Statuses.TRADED)){
-                transaction.setStatus(Statuses.COMPLETED);
+            if (transaction.getStatusUser1().equals(TransactionStatuses.TRADED) & transaction.getStatusUser2().equals(TransactionStatuses.TRADED)){
+                transaction.setStatus(TransactionStatuses.COMPLETED);
                 return true;
             }
             else{
@@ -257,15 +254,15 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     private boolean tradedToComplete(Transaction transaction){
-        if (!transaction.getStatus().equals(Statuses.TRADED)){
+        if (!transaction.getStatus().equals(TransactionStatuses.TRADED)){
             return false;
         }
         else if (transaction.isPerm()){
             return false;
         }
         else{
-            if (transaction.getStatusUser1().equals(Statuses.COMPLETED) & transaction.getStatusUser2().equals(Statuses.COMPLETED)){
-                transaction.setStatus(Statuses.COMPLETED);
+            if (transaction.getStatusUser1().equals(TransactionStatuses.COMPLETED) & transaction.getStatusUser2().equals(TransactionStatuses.COMPLETED)){
+                transaction.setStatus(TransactionStatuses.COMPLETED);
                 return true;
             }
             else{
@@ -275,15 +272,15 @@ public class CurrentTransactionManager extends TransactionManager{
     }
 
     private boolean tradedToNeverReturned(Transaction transaction){
-        if (!transaction.getStatus().equals(Statuses.TRADED)){
+        if (!transaction.getStatus().equals(TransactionStatuses.TRADED)){
             return false;
         }
         else if (transaction.isPerm()){
             return false;
         }
         else{
-            if (transaction.getStatusUser1().equals(Statuses.NEVERRETURNED) || transaction.getStatusUser2().equals(Statuses.NEVERRETURNED)){
-                transaction.setStatus(Statuses.NEVERRETURNED);
+            if (transaction.getStatusUser1().equals(TransactionStatuses.NEVERRETURNED) || transaction.getStatusUser2().equals(TransactionStatuses.NEVERRETURNED)){
+                transaction.setStatus(TransactionStatuses.NEVERRETURNED);
                 return true;
             }
             else{
@@ -298,7 +295,7 @@ public class CurrentTransactionManager extends TransactionManager{
      * @return boolean
      */
     public boolean userStatuses(Transaction transaction) {
-        return !(transaction.getStatusUser1().equals(Statuses.PENDING) | transaction.getStatusUser2().equals(Statuses.PENDING));
+        return !(transaction.getStatusUser1().equals(TransactionStatuses.PENDING) | transaction.getStatusUser2().equals(TransactionStatuses.PENDING));
     }
 
     /**
@@ -307,28 +304,28 @@ public class CurrentTransactionManager extends TransactionManager{
      * @param transaction inputted transaction
      * @param optionChosen which option has been chosen by the currently logged in TradingUser
      */
-    public void updateStatusUser(TradingUser tradingUser, Transaction transaction, Actions optionChosen){
+    public void updateStatusUser(TradingUser tradingUser, Transaction transaction, TransactionActions optionChosen){
         UUID userId = tradingUser.getUserId();
-        if (optionChosen.equals(Actions.CONFIRMMEETINGDETAILS)){
-            transaction.setStatusUserID(Statuses.CONFIRMED, userId);
+        if (optionChosen.equals(TransactionActions.CONFIRMMEETINGDETAILS)){
+            transaction.setStatusUserID(TransactionStatuses.CONFIRMED, userId);
         }
-        if (optionChosen.equals(Actions.CANCEL)){
-            transaction.setStatusUserID(Statuses.CANCELLED, userId);
+        if (optionChosen.equals(TransactionActions.CANCEL)){
+            transaction.setStatusUserID(TransactionStatuses.CANCELLED, userId);
         }
-        if (optionChosen.equals(Actions.CONFIRMMEETUP)) {
-            transaction.setStatusUserID(Statuses.TRADED, userId);
+        if (optionChosen.equals(TransactionActions.CONFIRMMEETUP)) {
+            transaction.setStatusUserID(TransactionStatuses.TRADED, userId);
         }
-        if (optionChosen.equals(Actions.MEETUPINCOMPLETE)) {
-            transaction.setStatusUserID(Statuses.INCOMPLETE, userId);
+        if (optionChosen.equals(TransactionActions.MEETUPINCOMPLETE)) {
+            transaction.setStatusUserID(TransactionStatuses.INCOMPLETE, userId);
         }
-        if (optionChosen.equals(Actions.ITEMRETURNED)){
-            transaction.setStatusUserID(Statuses.COMPLETED, userId);
+        if (optionChosen.equals(TransactionActions.ITEMRETURNED)){
+            transaction.setStatusUserID(TransactionStatuses.COMPLETED, userId);
         }
-        if (optionChosen.equals(Actions.ITEMNOTRETURNED)){
-            transaction.setStatusUserID(Statuses.NEVERRETURNED, userId);
+        if (optionChosen.equals(TransactionActions.ITEMNOTRETURNED)){
+            transaction.setStatusUserID(TransactionStatuses.NEVERRETURNED, userId);
         }
-        if (optionChosen.equals(Actions.EDITED)){
-            transaction.setStatusUserID(Statuses.PENDING, userId);
+        if (optionChosen.equals(TransactionActions.EDITED)){
+            transaction.setStatusUserID(TransactionStatuses.PENDING, userId);
         }
     }
 

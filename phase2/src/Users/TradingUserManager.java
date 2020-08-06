@@ -2,7 +2,7 @@ package Users;
 
 import Exceptions.InvalidTradingUserException;
 import Items.Item;
-import Transactions.Statuses;
+import Transactions.TransactionStatuses;
 import Transactions.Transaction;
 
 import java.util.*;
@@ -348,10 +348,10 @@ public class TradingUserManager {
      * @param transaction the Transaction being moved.
      */
     public boolean moveTransactionToTransactionHistory(Transaction transaction) {
-        Statuses status = transaction.getStatus();
+        TransactionStatuses status = transaction.getStatus();
         TradingUser user1 = getTradingUserById(transaction.getUser1());
         TradingUser user2 = getTradingUserById(transaction.getUser2());
-        if (status.equals(Statuses.INCOMPLETE) || status.equals(Statuses.COMPLETED) || status.equals(Statuses.NEVERRETURNED)) {
+        if (status.equals(TransactionStatuses.INCOMPLETE) || status.equals(TransactionStatuses.COMPLETED) || status.equals(TransactionStatuses.NEVERRETURNED)) {
             UUID id = transaction.getId();
             user1.getCurrentTransactions().remove(id);
             user2.getCurrentTransactions().remove(id);
@@ -413,7 +413,7 @@ public class TradingUserManager {
      * @param transaction the transaction involved.
      */
     protected void handlePermTransactionItems(Transaction transaction) { // if permanent transaction
-        if (transaction.getStatus().equals(Statuses.COMPLETED)) {
+        if (transaction.getStatus().equals(TransactionStatuses.COMPLETED)) {
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
@@ -430,7 +430,7 @@ public class TradingUserManager {
     }
 
     protected void handleTempTransactionItems(Transaction transaction) { // if temporary transaction
-        if (transaction.getStatus().equals(Statuses.TRADED)) { // after first meeting
+        if (transaction.getStatus().equals(TransactionStatuses.TRADED)) { // after first meeting
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
@@ -444,7 +444,7 @@ public class TradingUserManager {
                 user1.getInventory().remove(itemidlist.get(0));
             }
         }
-        if (transaction.getStatus().equals(Statuses.COMPLETED)) { // after second meeting
+        if (transaction.getStatus().equals(TransactionStatuses.COMPLETED)) { // after second meeting
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());

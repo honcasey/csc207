@@ -10,6 +10,6 @@ package Transactions;
  * ITEM NOT RETURNED: "Claim that the item has not been returned past due date"
  * EDITED: "Meeting details have been edited"
  */
-public enum Actions {
+public enum TransactionActions {
     CONFIRMMEETINGDETAILS, CANCEL, CONFIRMMEETUP, MEETUPINCOMPLETE, ITEMRETURNED, ITEMNOTRETURNED, EDITED;
 }

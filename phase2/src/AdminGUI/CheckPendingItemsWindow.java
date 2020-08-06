@@ -68,8 +68,6 @@ public class CheckPendingItemsWindow {
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         splitPane.setBounds(150, 100, 400, 200);
-        splitPane.setDividerLocation(150);
-        splitPane.setOneTouchExpandable(true);
 
         frame.getContentPane().add(splitPane);
 

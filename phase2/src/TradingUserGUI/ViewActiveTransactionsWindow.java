@@ -1,9 +1,9 @@
 package TradingUserGUI;
 
 import Initialization.PopUpWindow;
-import Transactions.Actions;
+import Transactions.TransactionActions;
 import Transactions.Meeting;
-import Transactions.Statuses;
+import Transactions.TransactionStatuses;
 import Transactions.Transaction;
 import Users.UserMenuController;
 
@@ -79,7 +79,7 @@ public class ViewActiveTransactionsWindow {
             JButton options = new JButton("Options");
             options.setBounds(600,100,100,50);
             options.addActionListener(e -> {
-                Statuses transactionStatus = allTransactions.get(trans.getSelectedIndex()).getStatus();
+                TransactionStatuses transactionStatus = allTransactions.get(trans.getSelectedIndex()).getStatus();
                 switch (transactionStatus) { // opens a different window depending on the status of the selected transaction
                     case PENDING:
                         pendingTransactionWindow();
@@ -166,7 +166,7 @@ public class ViewActiveTransactionsWindow {
         JButton finalizeMeeting = new JButton("Finalize Meeting Details");
         finalizeMeeting.setBounds(100, 350, 100, 50);
         finalizeMeeting.addActionListener(e -> {
-            umc.updateUsers(selectedTransaction, Actions.CONFIRMMEETINGDETAILS);
+            umc.updateUsers(selectedTransaction, TransactionActions.CONFIRMMEETINGDETAILS);
             confirmedMeeting();
         });
 
@@ -225,7 +225,7 @@ public class ViewActiveTransactionsWindow {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         int a = JOptionPane.showConfirmDialog(frame, "Are you sure you want to cancel the transaction?");
         if (a == JOptionPane.YES_OPTION) {
-            umc.updateUsers(selectedTransaction, Actions.CANCEL);
+            umc.updateUsers(selectedTransaction, TransactionActions.CANCEL);
             cancelledWindow();
         }
     }
@@ -247,7 +247,7 @@ public class ViewActiveTransactionsWindow {
         JButton confirm = new JButton("Confirm item has been returned");
         confirm.setBounds(100, 100, 100, 50);
         confirm.addActionListener(e -> {
-            umc.updateUsers(selectedTransaction, Actions.ITEMRETURNED);
+            umc.updateUsers(selectedTransaction, TransactionActions.ITEMRETURNED);
             PopUpWindow confirmed = new PopUpWindow("Item return has been confirmed");
             confirmed.display();
         });
@@ -255,7 +255,7 @@ public class ViewActiveTransactionsWindow {
         JButton claim = new JButton("Claim item has not been returned");
         claim.setBounds(250, 100, 100, 50);
         claim.addActionListener(e -> {
-            umc.updateUsers(selectedTransaction, Actions.ITEMNOTRETURNED);
+            umc.updateUsers(selectedTransaction, TransactionActions.ITEMNOTRETURNED);
             cancelledWindow();
         });
 
@@ -277,7 +277,7 @@ public class ViewActiveTransactionsWindow {
         JButton confirm = new JButton("Confirm exchange has taken place");
         confirm.setBounds(100, 100, 100, 50);
         confirm.addActionListener(e -> {
-            umc.updateUsers(selectedTransaction, Actions.CONFIRMMEETUP);
+            umc.updateUsers(selectedTransaction, TransactionActions.CONFIRMMEETUP);
             PopUpWindow confirmed = new PopUpWindow("Meetup occurrence confirmed");
             confirmed.display();
         });
@@ -285,7 +285,7 @@ public class ViewActiveTransactionsWindow {
         JButton claim = new JButton("Claim the exchange has not taken place");
         claim.setBounds(250, 100, 100, 50);
         claim.addActionListener(e -> {
-            umc.updateUsers(selectedTransaction, Actions.MEETUPINCOMPLETE);
+            umc.updateUsers(selectedTransaction, TransactionActions.MEETUPINCOMPLETE);
             cancelledWindow();
         });
 

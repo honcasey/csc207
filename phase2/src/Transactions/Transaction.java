@@ -31,9 +31,9 @@ import java.util.*;
  */
 public abstract class Transaction implements Serializable {
     private UUID id = UUID.randomUUID();
-    private Statuses status;
+    private TransactionStatuses status;
     private TreeMap<UUID,List<UUID>> userToItems;
-    private TreeMap<UUID, Statuses> userToStatus;
+    private TreeMap<UUID, TransactionStatuses> userToStatus;
 
 
     /**
@@ -43,11 +43,11 @@ public abstract class Transaction implements Serializable {
      *                    null values depending if the user doesn't have these items with the properties stated.
      */
     public Transaction(TreeMap<UUID,List<UUID>> userToItems){
-        status = Statuses.PENDING;
+        status = TransactionStatuses.PENDING;
         this.userToItems =userToItems;
-        TreeMap<UUID,Statuses> userToStatus = new TreeMap<>();
+        TreeMap<UUID, TransactionStatuses> userToStatus = new TreeMap<>();
         for(UUID id:userToItems.keySet()){
-            userToStatus.put(id,Statuses.PENDING);
+            userToStatus.put(id, TransactionStatuses.PENDING);
         }
         this.userToStatus = userToStatus;
     }
@@ -64,7 +64,7 @@ public abstract class Transaction implements Serializable {
      * Setter for status. This will be called by use case classes.
      * @param newStatus the new status.
      */
-    public void setStatus(Statuses newStatus){
+    public void setStatus(TransactionStatuses newStatus){
         status = newStatus;
     }
 
@@ -72,7 +72,7 @@ public abstract class Transaction implements Serializable {
      * Getter for status. This will be called by use case classes.
      * @return returns the status of the transaction which can take on values specified in class documentation.
      */
-    public Statuses getStatus(){
+    public TransactionStatuses getStatus(){
         return status;
     }
 
@@ -186,7 +186,7 @@ public abstract class Transaction implements Serializable {
      * @param user the user id whose transaction status you would like to return.
      * @return returns the transaction status for the user id that was passed in to the method.
      */
-    public Statuses getUserStatus(UUID user){
+    public TransactionStatuses getUserStatus(UUID user){
         return this.userToStatus.get(user);
     }
 
@@ -197,7 +197,7 @@ public abstract class Transaction implements Serializable {
      * @param user the user id whose status you wish to change in the status mapping.
      * @param newStatus the new status you would like the user id to be mapped to.
      */
-    public void setUserStatus(UUID user, Statuses newStatus){
+    public void setUserStatus(UUID user, TransactionStatuses newStatus){
         this.userToStatus.replace(user,newStatus);
     }
 
@@ -205,13 +205,13 @@ public abstract class Transaction implements Serializable {
      * Getter for status. This will be called by use case classes.
      * @return statusUser1
      */
-    public Statuses getStatusUser1() {return this.getUserStatus(this.getUser1());}
+    public TransactionStatuses getStatusUser1() {return this.getUserStatus(this.getUser1());}
 
     /**
      * setter for user1. This will be called by use case classes.
      *@param newStatus The new Status of statusUser1
      */
-    public void setStatusUser1(Statuses newStatus) {
+    public void setStatusUser1(TransactionStatuses newStatus) {
         UUID user1 = this.getUser1();
         this.setUserStatus(user1,newStatus);
     }
@@ -220,7 +220,7 @@ public abstract class Transaction implements Serializable {
      * Getter for status. This will be called by use case classes.
      * @return statusUser2
      */
-    public Statuses getStatusUser2() {
+    public TransactionStatuses getStatusUser2() {
         return this.getUserStatus(this.getUser1());
     }
 
@@ -228,7 +228,7 @@ public abstract class Transaction implements Serializable {
      * Setter for user1. This will be called by use case classes.
      * @param newStatus The new Status of statusUser2
      */
-    public void setStatusUser2(Statuses newStatus){
+    public void setStatusUser2(TransactionStatuses newStatus){
         UUID user2 = this.getUser2();
         this.setUserStatus(user2,newStatus);}
 
@@ -238,7 +238,7 @@ public abstract class Transaction implements Serializable {
      * @param newStatus the new status to be changed
      * @param userId the User's UUID
      */
-    public void setStatusUserID(Statuses newStatus, UUID userId){
+    public void setStatusUserID(TransactionStatuses newStatus, UUID userId){
         userToStatus.replace(userId, newStatus);
     }
 

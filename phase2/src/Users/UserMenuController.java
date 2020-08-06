@@ -116,12 +116,12 @@ public class UserMenuController {
 
     public boolean editMeetingFlow(UUID user, Transaction transaction, int meetingNum, String newLocation,
                                    Date newTime, Date newDate){
-        updateUsers(transaction, Actions.EDITED);
+        updateUsers(transaction, TransactionActions.EDITED);
         return (tm.editMeeting(meetingNum, transaction, user, newLocation) |
                 tm.editMeeting(meetingNum, transaction, user, newTime, newDate));
     }
 
-    public void updateUsers(Transaction transaction, Actions optionChosen) {
+    public void updateUsers(Transaction transaction, TransactionActions optionChosen) {
         tm.updateStatusUser(currentTradingUser, transaction, optionChosen);
         List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
         tm.updateStatus(transaction); //update status of transaction
@@ -131,7 +131,7 @@ public class UserMenuController {
         /* if transaction is temporary (two meetings) */
         else { um.handleTempTransactionItems(transaction); } // handles users inventories and wishlists
         /* if transaction is cancelled, remove from current transactions */
-        if (transaction.getStatus().equals(Statuses.CANCELLED)) {
+        if (transaction.getStatus().equals(TransactionStatuses.CANCELLED)) {
             try {
                 tm.removeTransactionFromAllTransactions(transaction.getId()); // if cancelled, the transaction is deleted forever
                 currentTransactionsIds.remove(transaction.getId()); // remove from current/active transactions

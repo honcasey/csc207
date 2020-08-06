@@ -70,7 +70,7 @@ public class TransactionWindow {
             try {
                 setupRightPanel("Virtual");
             } catch (InvalidItemException invalidItemException) {
-                invalidItemException.printStackTrace();
+                //
             }
         });
 
@@ -78,7 +78,7 @@ public class TransactionWindow {
             try {
                 setupRightPanel("Perm");
             } catch (InvalidItemException invalidItemException) {
-                invalidItemException.printStackTrace();
+                //
             }
         });
 
@@ -86,7 +86,7 @@ public class TransactionWindow {
             try {
                 setupRightPanel("Temp");
             } catch (InvalidItemException invalidItemException) {
-                invalidItemException.printStackTrace();
+                //
             }
         });
 
@@ -137,7 +137,7 @@ public class TransactionWindow {
                 try {
                     areYouSureWindow(type);
                 } catch (InvalidItemException invalidItemException) {
-                    invalidItemException.printStackTrace();
+                    //
                 }
             });
             panel2.add(submit);
@@ -236,7 +236,7 @@ public class TransactionWindow {
                 try {
                     areYouSureWindow("Temp");
                 } catch (InvalidItemException invalidItemException) {
-                    invalidItemException.printStackTrace();
+                    //
                 }
             });
             panel3.add(submit2);

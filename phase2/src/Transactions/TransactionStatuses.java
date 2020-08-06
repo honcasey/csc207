@@ -11,7 +11,7 @@ package Transactions;
  *  * -- "Incomplete" -- A user did not show at meeting 1. <br>
  *  * -- "Never Returned" -- A user did not show up at meeting 2 and/or items were not returned.(only used for temporary transactions). <br>
  */
-public enum Statuses {
+public enum TransactionStatuses {
     PENDING, CONFIRMED, TRADED, COMPLETED, CANCELLED, INCOMPLETE, NEVERRETURNED;
 
     //FROZEN;
