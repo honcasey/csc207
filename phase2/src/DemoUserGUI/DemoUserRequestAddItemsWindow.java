@@ -1,13 +1,10 @@
 package DemoUserGUI;
 
-import Initialization.PopUpWindow;
+import Popups.PopUpWindow;
 import Items.Item;
-import Users.UserMenuController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class DemoUserRequestAddItemsWindow {
 

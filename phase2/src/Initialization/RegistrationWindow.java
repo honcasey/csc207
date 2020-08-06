@@ -1,5 +1,6 @@
 package Initialization;
 
+import Popups.PopUpWindow;
 import TradingUserGUI.TradingUserMenu;
 import Users.UserMenuController;
 

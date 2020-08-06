@@ -122,6 +122,31 @@ public class TradingUserMenu {
     }
 
     private void formatMenuOptions(JMenu menu) {
+        // change email option
+        JMenuItem changeEmail = new JMenuItem("Change Email");
+        changeEmail.addActionListener(e -> {
+            // TODO make change email window
+        });
+
+        // change password option
+        JMenuItem changePassword = new JMenuItem("Change Password");
+        changePassword.addActionListener(e -> {
+            // TODO make change password window
+        });
+        menu.add(changePassword);
+
+        // change home city option
+        JMenuItem changeCity = new JMenuItem("Change City");
+        changeCity.addActionListener(e -> {
+            // TODO make change city window
+        });
+
+        // request to have your account unfrozen option
+        JMenuItem requestUnfrozen = new JMenuItem("Request unfreeze account");
+        requestUnfrozen.addActionListener(e -> {
+            // TODO make request unfrozen window
+        });
+
         // log out menu option
         JMenuItem logOut = new JMenuItem("Log out", KeyEvent.VK_L); // press the L key to access log out option
         logOut.addActionListener(e -> {

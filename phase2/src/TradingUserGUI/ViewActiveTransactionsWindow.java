@@ -1,6 +1,6 @@
 package TradingUserGUI;
 
-import Initialization.PopUpWindow;
+import Popups.PopUpWindow;
 import Transactions.Actions;
 import Transactions.Meeting;
 import Transactions.Statuses;
