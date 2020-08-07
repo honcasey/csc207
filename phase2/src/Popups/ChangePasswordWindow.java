@@ -1,14 +1,28 @@
 package Popups;
 
+import Admins.AdminManager;
+import Users.TradingUser;
+import Users.TradingUserManager;
+import Users.UserMenuController;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class ChangePasswordWindow {
+    private final AdminManager am;
+    private final TradingUserManager um;
+    private final String type;
     private final JLabel newLabel = new JLabel("New password");
     private final JPasswordField newPass = new JPasswordField(20);
     private final JLabel confirmLabel = new JLabel("Confirm your password");
     private final JPasswordField confirmPass = new JPasswordField(20);
     private final JButton confirmButton = new JButton("Change password");
+
+    public ChangePasswordWindow(AdminManager am, TradingUserManager um, String type) {
+        this.am = am;
+        this.um = um;
+        this.type = type;
+    }
 
     public void display() {
         // create the frame
@@ -26,7 +40,7 @@ public class ChangePasswordWindow {
 
         // add event handler for confirm button
         confirmButton.addActionListener(e -> {
-
+            changePassword();
         });
 
         // display the window
@@ -50,5 +64,13 @@ public class ChangePasswordWindow {
 
         confirmButton.setBounds(10, 110, 160, 25);
         panel.add(confirmButton);
+    }
+
+    private void changePassword(String type) {
+        if (type.equals("TradingUser")) {
+
+        } else if (type.equals("Admin")) {
+
+        }
     }
 }
