@@ -9,6 +9,7 @@ public class MenuPresenter {
 
     public String itemName = "Item Name:";
     public String itemDes = "Description:";
+    public String itemOwner = "Item Owner:";
     public String addToWishlist = "Add to Wishlist";
 
 

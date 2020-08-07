@@ -14,6 +14,8 @@ public class AdminMenuPresenter extends MenuPresenter {
     public String username = "New Admin Username:";
     public String password = "New Admin Password:";
     public String addToInventory = "Add to Inventory";
+    public String approve = "Approve";
+    public String reject = "Reject";
 
     //message string
     public String selectUser = "Error: Please select an user.";
