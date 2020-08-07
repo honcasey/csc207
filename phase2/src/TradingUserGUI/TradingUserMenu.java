@@ -2,6 +2,7 @@ package TradingUserGUI;
 
 import Initialization.Filepaths;
 import Initialization.Serializer;
+import Popups.ChangePasswordWindow;
 import Users.UserMenuController;
 
 import javax.swing.*;
@@ -131,7 +132,7 @@ public class TradingUserMenu {
         // change password option
         JMenuItem changePassword = new JMenuItem("Change Password");
         changePassword.addActionListener(e -> {
-            // TODO make change password window
+            new ChangePasswordWindow(umc.getUm(), umc.getCurrentTradingUser()).display();
         });
         menu.add(changePassword);
 

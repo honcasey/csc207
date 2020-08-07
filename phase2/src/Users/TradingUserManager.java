@@ -482,4 +482,7 @@ public class TradingUserManager {
         return usernames;
     }
 
+    public void changePassword(TradingUser user, String password) {
+        user.setPassword(password);
+    }
 }
