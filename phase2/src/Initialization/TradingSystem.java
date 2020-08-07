@@ -4,9 +4,9 @@ import Admins.AdminManager;
 import Admins.AdminMenuController;
 import Admins.AdminUser;
 import Exceptions.InvalidAdminException;
-import Initialization.LoginWindow;
 import Items.Item;
 import Items.ItemManager;
+import Presenters.MenuPresenter;
 import Transactions.PastTransactionManager;
 import Transactions.Transaction;
 import Transactions.CurrentTransactionManager;
@@ -36,6 +36,7 @@ public class TradingSystem {
     private AdminMenuController amc;
     private UserMenuController umc;
     private DemoMenuController dmc;
+    private MenuPresenter mp;
 
     /**
      * Calls to different helper methods to read data from saved files, redirects user to
@@ -44,7 +45,7 @@ public class TradingSystem {
     public void run() {
         readData();
         checkFirstAdmin();
-        LoginWindow lw = new LoginWindow(lc, amc, umc);
+        LoginWindow lw = new LoginWindow(lc, amc, umc, dmc, mp);
         lw.display();
     }
 
@@ -82,10 +83,12 @@ public class TradingSystem {
         dum = new DemoUserManager(demoUsers);
 
         // create new controllers
-        lc = new LoginController(am, tum);
+        lc = new LoginController(am, tum, dum);
         amc = new AdminMenuController(am, tum, pendingItems, im);
         umc = new UserMenuController(tum, am, tm, ptm, im, pendingItems);
         dmc = new DemoMenuController(dum, tum, im);
+
+        mp = new MenuPresenter();
     }
 
     /**

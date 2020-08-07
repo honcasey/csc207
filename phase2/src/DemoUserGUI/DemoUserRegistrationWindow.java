@@ -1,8 +1,10 @@
-package Initialization;
+package DemoUserGUI;
 
+import Initialization.LoginController;
 import Popups.PopUpWindow;
-import Presenters.MenuPresenter;
 import TradingUserGUI.TradingUserMenu;
+import Users.DemoMenuController;
+import Users.DemoUser;
 import Users.UserMenuController;
 
 import javax.swing.*;
@@ -10,32 +12,32 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// ideas taken from https://beginnersbook.com/2015/07/java-swing-tutorial/
-public class RegistrationWindow {
-    private final JLabel userLabel = new JLabel();
+public class DemoUserRegistrationWindow {
+    private final JLabel userLabel = new JLabel("Username");
     private final JTextField userText = new JTextField(20);
-    private final JLabel passwordLabel = new JLabel();
+    private final JLabel passwordLabel = new JLabel("Password");
     private final JPasswordField passwordText = new JPasswordField(20);
     private final JTextField confirmText = new JPasswordField(20);
-    private final JLabel confirmLabel = new JLabel();
-    private final JButton createButton = new JButton();
+    private final JLabel confirmLabel = new JLabel("Confirm");
+    private final JButton createButton = new JButton("Sign up");
+    private final JTextArea desc = new JTextArea("Create a demo account to try the program out!");
     private final LoginController lc;
     private final UserMenuController umc;
-    private MenuPresenter mp;
+    private final DemoMenuController dmc;
 
-    public RegistrationWindow(LoginController lc, UserMenuController umc, MenuPresenter mp) {
+    public DemoUserRegistrationWindow(LoginController lc, UserMenuController umc, DemoMenuController dmc) {
         this.lc = lc;
         this.umc = umc;
-        this.mp = mp;
+        this.dmc = dmc;
     }
 
     public void display() {
         // create the frame
-        JFrame frame = new JFrame(mp.accountCreationTitle);
+        JFrame frame = new JFrame("Demo Account Creation");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // set the frame's size and centre it
-        frame.setSize(new Dimension(400, 250));
+        frame.setSize(new Dimension(400, 400));
         frame.setLocationRelativeTo(null);
 
         // layout the fields and button on the frame
@@ -59,45 +61,45 @@ public class RegistrationWindow {
     private void placeComponents(JPanel panel) {
         panel.setLayout(null);
 
+        // add description
+        desc.setBounds(25, 50, 350, 50);
+        panel.add(desc);
+
         // add username label to panel
-        userLabel.setText(mp.username);
-        userLabel.setBounds(50,30,80,25);
+        userLabel.setBounds(50,140,80,25);
         panel.add(userLabel);
 
         // create field for user to enter their username
-        userText.setBounds(150,30,165,25);
+        userText.setBounds(150,140,165,25);
         panel.add(userText);
 
         // add password label to panel
-        passwordLabel.setText(mp.password);
-        passwordLabel.setBounds(50,80,80,25);
+        passwordLabel.setBounds(50,190,80,25);
         panel.add(passwordLabel);
 
         // add password field to panel
-        passwordText.setBounds(150,80,165,25);
+        passwordText.setBounds(150,190,165,25);
         panel.add(passwordText);
 
         // add confirm label to panel
-        confirmLabel.setText(mp.confirmPsw);
-        confirmLabel.setBounds(50,130,80,25);
+        confirmLabel.setBounds(50,240,80,25);
         panel.add(confirmLabel);
 
         // add confirm field to panel
-        confirmText.setBounds(150,130,165,25);
+        confirmText.setBounds(150,240,165,25);
         panel.add(confirmText);
 
         // add "sign up" button to panel
-        createButton.setText(mp.signUp);
-        createButton.setBounds(50, 180, 160, 25);
+        createButton.setBounds(50, 290, 160, 25);
         panel.add(createButton);
     }
 
     private void createAccount(String username, String password, String password2) {
         if (lc.availableUsername(username) && password.equals(password2)) {
-            lc.addTradingUser(username, password);
-            new TradingUserMenu(umc).display();
+            lc.addDemoUser(username, password);
+            new DemoUserMenu(dmc,umc,lc).display();
         } else {
-            new PopUpWindow(mp.usernameTaken).display();
+            new PopUpWindow("Username already taken!").display();
         }
     }
 }

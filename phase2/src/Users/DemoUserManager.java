@@ -117,4 +117,12 @@ public class DemoUserManager {
         allDemoUsers.remove(removed);
     }
 
+    public boolean validDemoUser(String username, String password){
+        for(DemoUser user: allDemoUsers){
+            if(user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

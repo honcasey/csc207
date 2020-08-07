@@ -30,7 +30,7 @@ public class DemoUserRequestAddItemsWindow {
             requestButton.addActionListener(e -> {
                         Item requestedItem = new Item(userItemNameText.getText());
                         requestedItem.setDescription(userItemDescription.getText());
-                        new PopUpWindow("Try this feature out with the full version of the program. Upgrade today!").display();
+                        new PopUpWindow("Try this feature out with the full version of the program!").display();
                     }
             );
 

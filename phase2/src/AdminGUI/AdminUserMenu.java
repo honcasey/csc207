@@ -4,6 +4,8 @@ import Admins.AdminMenuController;
 
 import Initialization.Filepaths;
 import Initialization.Serializer;
+import Popups.PopUpWindow;
+import Presenters.AdminMenuPresenter;
 import Users.TradingUserManager;
 
 import javax.swing.*;
@@ -23,6 +25,7 @@ public class AdminUserMenu {
     private final JButton button4 = new JButton();
     private final JButton button5 = new JButton();
     private final JButton button6 = new JButton();
+    private final AdminMenuPresenter amp = new AdminMenuPresenter();
 
     public AdminUserMenu(AdminMenuController amc) {
         this.amc = amc;
@@ -31,7 +34,7 @@ public class AdminUserMenu {
 
     public void display() {
         // create the frame
-        JFrame frame = new JFrame("AdminMenu");
+        JFrame frame = new JFrame(amp.adminMenuTitle);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // set the frame's size and centre it
@@ -42,7 +45,7 @@ public class AdminUserMenu {
         JMenuBar menuBar = new JMenuBar();
 
         // build a menu
-        JMenu menu = new JMenu("Menu");
+        JMenu menu = new JMenu(amp.menu);
         menu.setMnemonic('M'); // press the M key to access the menu
 
         formatMenuOptions(menu);
@@ -73,7 +76,8 @@ public class AdminUserMenu {
                 AddAdminUserWindow auw = new AddAdminUserWindow(amc);
                 auw.display();
             }else {
-                JOptionPane.showMessageDialog(null, "Permission Denied", "Error Message", JOptionPane.WARNING_MESSAGE);
+                //JOptionPane.showMessageDialog(null, amp.permissionDenied, "Error Message", JOptionPane.WARNING_MESSAGE);
+                new PopUpWindow(amp.permissionDenied).display();
             }});
 
         //if button4 is clicked
@@ -105,40 +109,40 @@ public class AdminUserMenu {
         button1.setBounds(50, 50, 150, 75);
         button1.setBackground(Color.PINK); // DO NOT CHANGE THIS >: ((
         button1.setForeground(Color.PINK);
-        button1.setText("Check Pending Items for Approval");
+        button1.setText(amp.checkPendingItem);
         panel.add(button1);
 
         button2.setBounds(200, 50, 150, 75);
-        button2.setText("Check Flagged Users");
+        button2.setText(amp.checkFlaggedUser);
         panel.add(button2);
 
         button3.setBounds(350, 50, 150, 75);
-        button3.setText("Create New Admin User");
+        button3.setText(amp.createNewAdmin);
         panel.add(button3);
 
         button4.setBounds(50, 150, 150, 75);
-        button4.setText("Add New Item to a TradingUser's Wishlist/Inventory");
+        button4.setText(amp.addNewItem);
         panel.add(button4);
 
         button5.setBounds(200, 150, 150, 75);
-        button5.setText("Change TradingUser Threshold");
+        button5.setText(amp.changeThreshold);
         panel.add(button5);
 
         button6.setBounds(350, 150, 150, 75);
-        button6.setText("Check Unfreeze TradingUser Account Requests");
+        button6.setText(amp.unfreezeRequest);
         panel.add(button6);
     }
 
     private void formatMenuOptions(JMenu menu) {
         // change password menu option
-        JMenuItem changePassword = new JMenuItem("Change password", KeyEvent.VK_C); // press the C key to access this menu item
+        JMenuItem changePassword = new JMenuItem(amp.changePsw, KeyEvent.VK_C); // press the C key to access this menu item
         changePassword.addActionListener(e -> {
             ChangePasswordWindow cpw = new ChangePasswordWindow(amc);
             cpw.display();
         });
 
         // log out menu option
-        JMenuItem logOut = new JMenuItem("Log out", KeyEvent.VK_L); // press the L key to access log out option
+        JMenuItem logOut = new JMenuItem(amp.logOut, KeyEvent.VK_L); // press the L key to access log out option
         logOut.addActionListener(e -> {
             writeData();
             System.exit(0); // TO-DO: instead of exiting the whole system, just go back to the login menu?

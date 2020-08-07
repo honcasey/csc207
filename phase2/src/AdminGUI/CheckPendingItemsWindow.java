@@ -2,6 +2,7 @@ package AdminGUI;
 
 import Admins.AdminMenuController;
 import Items.Item;
+import Presenters.AdminMenuPresenter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 
 public class CheckPendingItemsWindow {
     private final AdminMenuController amc;
+    private final AdminMenuPresenter amp = new AdminMenuPresenter();
     private Item selectedItem;
     private String itemName; // name of item
     private String itemDesc; // item description
@@ -22,7 +24,7 @@ public class CheckPendingItemsWindow {
      */
     public void display() {
         // create the frame
-        JFrame frame = new JFrame("Pending Items");
+        JFrame frame = new JFrame(amp.checkPendingItem);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // closes the current frame but doesn't terminate the app
 
         // set the frame's size and centre it
@@ -60,7 +62,7 @@ public class CheckPendingItemsWindow {
 
         // RIGHT SIDE OF SPLITPANE
         // create item info into text area
-        String text = "Item Name: " + itemName + "\n" + "Item Description: " + itemDesc + "\n" + "Item Owner: " + itemUser;
+        String text = amp.itemName + itemName + "\n" + amp.itemDes + itemDesc + "\n" + amp.itemOwner + itemUser;
         JTextArea desc = new JTextArea(text);
 
         Panel rightPanel = new Panel();
@@ -76,12 +78,12 @@ public class CheckPendingItemsWindow {
         //APPROVE AND REJECT BUTTONS
         Panel sidePanel = new Panel();
         // if Admin clicked approve item
-        JButton approve = new JButton("Approve");
+        JButton approve = new JButton(amp.approve);
         approve.setBounds(600,100,100,50);
         approve.addActionListener(e -> amc.approvePendingItem(listItems.get(items.getSelectedIndex())));
 
         // if Admin clicked reject item
-        JButton reject = new JButton("Reject");
+        JButton reject = new JButton(amp.reject);
         reject.setBounds(600, 300, 100, 50);
         reject.addActionListener(e -> amc.rejectPendingItem(listItems.get(items.getSelectedIndex())));
 
