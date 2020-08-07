@@ -2,13 +2,19 @@ package Popups;
 
 import javax.swing.*;
 import java.awt.*;
+import Presenters.MenuPresenter;
 
 public class ChangePasswordWindow {
-    private final JLabel newLabel = new JLabel("New password");
+    private final JLabel newLabel = new JLabel();
     private final JPasswordField newPass = new JPasswordField(20);
-    private final JLabel confirmLabel = new JLabel("Confirm your password");
+    private final JLabel confirmLabel = new JLabel();
     private final JPasswordField confirmPass = new JPasswordField(20);
-    private final JButton confirmButton = new JButton("Change password");
+    private final JButton confirmButton = new JButton();
+    private MenuPresenter mp;
+
+    public ChangePasswordWindow(MenuPresenter mp) {
+        this.mp = mp;
+    }
 
     public void display() {
         // create the frame
@@ -36,18 +42,21 @@ public class ChangePasswordWindow {
     private void placeComponents(JPanel panel) {
         panel.setLayout(null);
 
+        newLabel.setText (mp.newPassword);
         newLabel.setBounds(10,20,80,25);
         panel.add(newLabel);
 
         newPass.setBounds(100,20,165,25);
         panel.add(newPass);
 
+        confirmLabel.setText(mp.confirmPsw);
         confirmLabel.setBounds(10,50,80,25);
         panel.add(confirmLabel);
 
         confirmPass.setBounds(100,50,165,25);
         panel.add(confirmPass);
 
+        confirmButton.setText(mp.changePsw);
         confirmButton.setBounds(10, 110, 160, 25);
         panel.add(confirmButton);
     }

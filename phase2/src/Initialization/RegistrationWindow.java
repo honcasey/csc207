@@ -1,6 +1,7 @@
 package Initialization;
 
 import Popups.PopUpWindow;
+import Presenters.MenuPresenter;
 import TradingUserGUI.TradingUserMenu;
 import Users.UserMenuController;
 
@@ -11,24 +12,26 @@ import java.awt.event.ActionListener;
 
 // ideas taken from https://beginnersbook.com/2015/07/java-swing-tutorial/
 public class RegistrationWindow {
-    private final JLabel userLabel = new JLabel("Username");
+    private final JLabel userLabel = new JLabel();
     private final JTextField userText = new JTextField(20);
-    private final JLabel passwordLabel = new JLabel("Password");
+    private final JLabel passwordLabel = new JLabel();
     private final JPasswordField passwordText = new JPasswordField(20);
     private final JTextField confirmText = new JPasswordField(20);
-    private final JLabel confirmLabel = new JLabel("Confirm");
-    private final JButton createButton = new JButton("Sign up");
+    private final JLabel confirmLabel = new JLabel();
+    private final JButton createButton = new JButton();
     private final LoginController lc;
     private final UserMenuController umc;
+    private MenuPresenter mp;
 
-    public RegistrationWindow(LoginController lc, UserMenuController umc) {
+    public RegistrationWindow(LoginController lc, UserMenuController umc, MenuPresenter mp) {
         this.lc = lc;
         this.umc = umc;
+        this.mp = mp;
     }
 
     public void display() {
         // create the frame
-        JFrame frame = new JFrame("Account Creation");
+        JFrame frame = new JFrame(mp.accountCreationTitle);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // set the frame's size and centre it
@@ -57,6 +60,7 @@ public class RegistrationWindow {
         panel.setLayout(null);
 
         // add username label to panel
+        userLabel.setText(mp.username);
         userLabel.setBounds(50,30,80,25);
         panel.add(userLabel);
 
@@ -65,6 +69,7 @@ public class RegistrationWindow {
         panel.add(userText);
 
         // add password label to panel
+        passwordLabel.setText(mp.password);
         passwordLabel.setBounds(50,80,80,25);
         panel.add(passwordLabel);
 
@@ -73,6 +78,7 @@ public class RegistrationWindow {
         panel.add(passwordText);
 
         // add confirm label to panel
+        confirmLabel.setText(mp.confirmPsw);
         confirmLabel.setBounds(50,130,80,25);
         panel.add(confirmLabel);
 
@@ -81,6 +87,7 @@ public class RegistrationWindow {
         panel.add(confirmText);
 
         // add "sign up" button to panel
+        createButton.setText(mp.signUp);
         createButton.setBounds(50, 180, 160, 25);
         panel.add(createButton);
     }
@@ -90,7 +97,7 @@ public class RegistrationWindow {
             lc.addTradingUser(username, password);
             new TradingUserMenu(umc).display();
         } else {
-            new PopUpWindow("Username already taken!").display();
+            new PopUpWindow(mp.usernameTaken).display();
         }
     }
 }

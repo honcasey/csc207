@@ -156,11 +156,11 @@ public class AdminMenuController {
         boolean isSuccessful = false;
         if(listType.equals("wishlist")) {
             um.addItem(tradingUser, item, "wishlist");
-            im.addItem(item);
+            //im.addItem(item);//TODO item isn't actually added, need to handle when allItems in ItemManager is null
             isSuccessful = true;
         }else if (listType.equals("inventory")){
             um.addItem(tradingUser, item, "inventory");
-            im.addItem(item);
+            //im.addItem(item);//TODO item isn't actually added, need to handle when allItems in ItemManager is null
             isSuccessful = true;
         }
         return isSuccessful;
