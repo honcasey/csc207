@@ -2,6 +2,7 @@ package TradingUserGUI;
 
 import Popups.PopUpWindow;
 import Items.Item;
+import Presenters.UserMenuPresenter;
 import Users.TradingUser;
 import Users.UserMenuController;
 
@@ -11,6 +12,7 @@ import java.util.Map;
 
 public class ItemDetailsWindow {
     private UserMenuController umc;
+    private final UserMenuPresenter ump = new UserMenuPresenter();
     private Item item;
     private Map<Item, TradingUser> itemsMap;
 
@@ -21,7 +23,7 @@ public class ItemDetailsWindow {
     }
 
     public void display() {
-        JFrame frame = new JFrame("Item Details");
+        JFrame frame = new JFrame(ump.itemDetails);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(new Dimension(550, 300));
         frame.setLocationRelativeTo(null);
@@ -46,16 +48,16 @@ public class ItemDetailsWindow {
         panel.add(user);
         panel.add(desc);
 
-        JButton wishlist = new JButton("Add to Wishlist");
-        JButton trans = new JButton("Request Transaction");
+        JButton wishlist = new JButton(ump.addToWishlist);
+        JButton trans = new JButton(ump.requestTrans);
 
         // add action listeners for our two buttons
         wishlist.addActionListener(e -> {
             if (owner.getWishlist().contains(item.getId())) {
-                new PopUpWindow("Already in your wishlist").display();
+                new PopUpWindow(ump.inWishlist).display();
             } else {
                 umc.addToWishlist(item);
-                new PopUpWindow("Added to wishlist").display();
+                new PopUpWindow(ump.addedToWishlist).display();
             }
         });
 

@@ -1,6 +1,7 @@
 package TradingUserGUI;
 
 import Items.Item;
+import Presenters.UserMenuPresenter;
 import Users.TradingUser;
 import Users.UserMenuController;
 
@@ -11,6 +12,7 @@ import java.util.List;
 public class ViewInventoryWindow {
 
     private UserMenuController umc;
+    private final UserMenuPresenter ump = new UserMenuPresenter();
     private String itemName;
     private String itemDesc;
 
@@ -20,7 +22,7 @@ public class ViewInventoryWindow {
 
     public void display(){
        // create the frame
-       JFrame frame = new JFrame("Inventory");
+       JFrame frame = new JFrame(ump.viewInventory);
        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // closes the current frame but doesn't terminate the app
 
         // set the frame's size and centre it
@@ -52,7 +54,7 @@ public class ViewInventoryWindow {
         leftPanel.add(scrollPane);
 
         // RIGHT SIDE OF SPLIT
-        String text = "Item Name: " + itemName + "\n" + "Item Description: " + itemDesc;
+        String text = ump.itemName + itemName + "\n" + ump.itemDes + itemDesc;
         JTextArea desc = new JTextArea(text);
 
         Panel rightPanel = new Panel();
@@ -65,13 +67,13 @@ public class ViewInventoryWindow {
 
 
         // Remove Button
-        JButton removeB = new JButton("Remove");
+        JButton removeB = new JButton(ump.remove);
         removeB.setBounds(600, 300, 100, 50);
         // make a JOptionPane when JButton is pressed
 
         // TODO: the item isn't actually being removed here
         removeB.addActionListener(e -> {
-            int input = JOptionPane.showOptionDialog(null, "Are you sure you want to remove this item from your Inventory?", "Remove Item?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int input = JOptionPane.showOptionDialog(null, ump.optionPrompt("remove this item from your Inventory?"), "Remove Item?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
             if(input == JOptionPane.YES_OPTION) {
                 itemNames.remove(itemsList.getSelectedIndex()); // if YES, remove the item
             }
