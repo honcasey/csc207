@@ -25,6 +25,7 @@ public class MenuPresenter {
     //error message strings
     public String invalidMessage = "Invalid credentials or account does not exist.";
     public String usernameTaken = "Username already taken!";
+    public String passwordNotMatch = "Passwords do not match!";
 
 
     //frame name strings

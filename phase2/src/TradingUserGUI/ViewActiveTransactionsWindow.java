@@ -1,10 +1,12 @@
 package TradingUserGUI;
 
 import Popups.PopUpWindow;
+import Presenters.UserMenuPresenter;
 import Transactions.TransactionActions;
 import Transactions.Meeting;
 import Transactions.TransactionStatuses;
 import Transactions.Transaction;
+import Users.User;
 import Users.UserMenuController;
 
 import javax.swing.*;
@@ -15,6 +17,7 @@ import java.util.List;
 
 public class ViewActiveTransactionsWindow {
     private final UserMenuController umc;
+    private final UserMenuPresenter ump = new UserMenuPresenter();
     private Transaction selectedTransaction;
     private Meeting selectedMeeting;
     private int whichMeetingSelected;
@@ -30,13 +33,13 @@ public class ViewActiveTransactionsWindow {
 
     public void display() {
         if (umc.currentTransactionList() == null) {
-            PopUpWindow e = new PopUpWindow("No Current Transactions");
+            PopUpWindow e = new PopUpWindow(ump.noCurrTrans);
             e.display();
         }
         else{
             List<Transaction> allTransactions = umc.currentTransactionList();
 
-            JFrame frame = new JFrame("Active Transactions");
+            JFrame frame = new JFrame(ump.viewActiveTrans);
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
             frame.setSize(new Dimension(700, 500));
@@ -76,7 +79,7 @@ public class ViewActiveTransactionsWindow {
 
             frame.getContentPane().add(splitPane);
 
-            JButton options = new JButton("Options");
+            JButton options = new JButton(ump.options);
             options.setBounds(600,100,100,50);
             options.addActionListener(e -> {
                 TransactionStatuses transactionStatus = allTransactions.get(trans.getSelectedIndex()).getStatus();
@@ -101,7 +104,7 @@ public class ViewActiveTransactionsWindow {
     }
 
     public void pendingTransactionWindow() {
-        JFrame frame = new JFrame("Edit Meeting");
+        JFrame frame = new JFrame(ump.editMeeting);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(new Dimension(700, 500));
         frame.setLocationRelativeTo(null);
@@ -126,7 +129,7 @@ public class ViewActiveTransactionsWindow {
         });
 
         // location
-        JTextField location = new JTextField("Location");
+        JTextField location = new JTextField(ump.location);
         location.setBounds(100, 100, 50, 20);
         location.addActionListener(e -> inputLocation = location.getText());
 
@@ -158,12 +161,12 @@ public class ViewActiveTransactionsWindow {
         Panel rightPanel = new Panel();
         rightPanel.setLayout(null);
         // button to submit edit meeting changes
-        JButton updateMeeting = new JButton("Update Meeting");
+        JButton updateMeeting = new JButton(ump.updateMeeting);
         updateMeeting.setBounds(100, 250, 100, 50);
         updateMeeting.addActionListener(e -> editMeeting());
 
         // button to confirm finalized meeting details
-        JButton finalizeMeeting = new JButton("Finalize Meeting Details");
+        JButton finalizeMeeting = new JButton(ump.finalizeDetail);
         finalizeMeeting.setBounds(100, 350, 100, 50);
         finalizeMeeting.addActionListener(e -> {
             umc.updateUsers(selectedTransaction, TransactionActions.CONFIRMMEETINGDETAILS);
@@ -171,7 +174,7 @@ public class ViewActiveTransactionsWindow {
         });
 
         // button to cancel transaction
-        JButton cancelMeeting = new JButton("Cancel Transaction");
+        JButton cancelMeeting = new JButton(ump.cancelTrans);
         cancelMeeting.setBounds(100, 450, 100, 50);
         cancelMeeting.addActionListener(e -> areYouSureWindow());
 
@@ -199,22 +202,22 @@ public class ViewActiveTransactionsWindow {
     private void editMeeting() { // helper method to check if edit threshold has been reached or not if user clicked "edit meeting"
         if (!umc.editMeetingFlow(umc.currentTradingUser.getUserId(), selectedTransaction, whichMeetingSelected,
                 inputLocation, inputTime, inputDate)) {
-            PopUpWindow edited = new PopUpWindow("Successfully edited meeting");
+            PopUpWindow edited = new PopUpWindow(ump.successfully("Edited meeting"));
             edited.display();
         }
         else {
-            PopUpWindow thresholdReached = new PopUpWindow("Edit Threshold Reached. You cannot make any more edits.");
+            PopUpWindow thresholdReached = new PopUpWindow(ump.reachEditThreshold);
             thresholdReached.display();
         }
     }
 
     private void confirmedMeeting() { // helper method that pops up window depending on if other user has confirmed meeting details yet
         if (umc.getTm().userStatuses(selectedTransaction)) {
-            PopUpWindow waiting = new PopUpWindow("Waiting for other user to confirm meeting.");
+            PopUpWindow waiting = new PopUpWindow(ump.waitForConfirm);
             waiting.display();
         }
         else {
-            PopUpWindow confirmed = new PopUpWindow("Meeting has been confirmed.");
+            PopUpWindow confirmed = new PopUpWindow(ump.meetingConfirmed);
             confirmed.display();
         }
     }
@@ -223,7 +226,7 @@ public class ViewActiveTransactionsWindow {
     private void areYouSureWindow() {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        int a = JOptionPane.showConfirmDialog(frame, "Are you sure you want to cancel the transaction?");
+        int a = JOptionPane.showConfirmDialog(frame, ump.optionPrompt("cancel the transaction?"));
         if (a == JOptionPane.YES_OPTION) {
             umc.updateUsers(selectedTransaction, TransactionActions.CANCEL);
             cancelledWindow();
@@ -231,7 +234,7 @@ public class ViewActiveTransactionsWindow {
     }
 
     private void cancelledWindow() {
-        PopUpWindow cancelled = new PopUpWindow("Transaction has been cancelled.");
+        PopUpWindow cancelled = new PopUpWindow(ump.transCancelled);
         cancelled.display();
     }
 
@@ -244,15 +247,15 @@ public class ViewActiveTransactionsWindow {
         JPanel panel = new JPanel();
         panel.setLayout(null);
 
-        JButton confirm = new JButton("Confirm item has been returned");
+        JButton confirm = new JButton(ump.itemReturned);
         confirm.setBounds(100, 100, 100, 50);
         confirm.addActionListener(e -> {
             umc.updateUsers(selectedTransaction, TransactionActions.ITEMRETURNED);
-            PopUpWindow confirmed = new PopUpWindow("Item return has been confirmed");
+            PopUpWindow confirmed = new PopUpWindow(ump.itemReturnConfirmed);
             confirmed.display();
         });
 
-        JButton claim = new JButton("Claim item has not been returned");
+        JButton claim = new JButton(ump.itemNotReturned);
         claim.setBounds(250, 100, 100, 50);
         claim.addActionListener(e -> {
             umc.updateUsers(selectedTransaction, TransactionActions.ITEMNOTRETURNED);
@@ -274,15 +277,15 @@ public class ViewActiveTransactionsWindow {
         JPanel panel = new JPanel();
         panel.setLayout(null);
 
-        JButton confirm = new JButton("Confirm exchange has taken place");
+        JButton confirm = new JButton(ump.confirmExchange);
         confirm.setBounds(100, 100, 100, 50);
         confirm.addActionListener(e -> {
             umc.updateUsers(selectedTransaction, TransactionActions.CONFIRMMEETUP);
-            PopUpWindow confirmed = new PopUpWindow("Meetup occurrence confirmed");
+            PopUpWindow confirmed = new PopUpWindow(ump.meetupOccurrenceConfirmed);
             confirmed.display();
         });
 
-        JButton claim = new JButton("Claim the exchange has not taken place");
+        JButton claim = new JButton(ump.exchangeNotTakenPlace);
         claim.setBounds(250, 100, 100, 50);
         claim.addActionListener(e -> {
             umc.updateUsers(selectedTransaction, TransactionActions.MEETUPINCOMPLETE);
