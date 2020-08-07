@@ -30,7 +30,7 @@ public class ViewTransactionHistoryWindow {
 
 
         //centre frame
-        frame.setSize(new Dimension(550, 300));
+        frame.setSize(new Dimension(550, 550));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
@@ -47,7 +47,7 @@ public class ViewTransactionHistoryWindow {
        );
 
        JButton tradedUsersButton = new JButton("Most traded with Users");
-       tradedUsersButton.setBounds(350, 50, 150, 75);
+       tradedUsersButton.setBounds(250, 100, 150, 75);
        tradedUsersButton.addActionListener(
                e -> mostTradedWithUsersWindow()
        );

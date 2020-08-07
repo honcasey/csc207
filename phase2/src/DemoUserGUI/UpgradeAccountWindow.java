@@ -45,7 +45,6 @@ public class UpgradeAccountWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 createAccount(userText.getText(), passwordText.getText(), confirmText.getText());
-                frame.dispose();
             }
         });
 

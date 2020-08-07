@@ -71,7 +71,7 @@ public class DemoUserViewWishlistWindow {
         removeB.addActionListener(e -> {
             int input = JOptionPane.showOptionDialog(null, "Are you sure you want to remove this item from your Wishlist?", "Remove Item?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
             if(input == JOptionPane.YES_OPTION) {
-                itemNames.remove(itemsList.getSelectedIndex()); // if YES, remove the item
+                items.remove(itemsList.getSelectedIndex()); // if YES, remove the item
             }
         });
 
