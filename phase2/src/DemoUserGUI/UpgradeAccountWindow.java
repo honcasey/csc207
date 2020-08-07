@@ -2,6 +2,7 @@ package DemoUserGUI;
 
 import Initialization.LoginController;
 import Popups.PopUpWindow;
+import Presenters.UserMenuPresenter;
 import Users.DemoMenuController;
 import Users.UserMenuController;
 
@@ -12,15 +13,17 @@ import java.awt.event.ActionListener;
 import java.util.UUID;
 
 public class UpgradeAccountWindow {
-    private final JLabel userLabel = new JLabel("Username");
+    private final JLabel userLabel = new JLabel();
     private final JTextField userText = new JTextField(20);
-    private final JLabel passwordLabel = new JLabel("Password");
+    private final JLabel passwordLabel = new JLabel();
     private final JPasswordField passwordText = new JPasswordField(20);
     private final JTextField confirmText = new JPasswordField(20);
-    private final JLabel confirmLabel = new JLabel("Confirm");
-    private final JButton createButton = new JButton("Sign up");
+    private final JLabel confirmLabel = new JLabel();
+    private final JButton createButton = new JButton();
     private final LoginController lc;
     private final DemoMenuController dmc;
+    private final UserMenuPresenter ump = new UserMenuPresenter();
+
 
     public UpgradeAccountWindow(DemoMenuController dmc, LoginController lc){
         this.dmc = dmc;
@@ -28,7 +31,7 @@ public class UpgradeAccountWindow {
     }
     public void display(){
         // create the frame
-        JFrame frame = new JFrame("Account Creation");
+        JFrame frame = new JFrame(ump.accountCreationTitle);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // set the frame's size and centre it
@@ -57,6 +60,7 @@ public class UpgradeAccountWindow {
         panel.setLayout(null);
 
         // add username label to panel
+        userLabel.setText(ump.username);
         userLabel.setBounds(50,30,80,25);
         panel.add(userLabel);
 
@@ -65,6 +69,7 @@ public class UpgradeAccountWindow {
         panel.add(userText);
 
         // add password label to panel
+        passwordLabel.setText(ump.password);
         passwordLabel.setBounds(50,80,80,25);
         panel.add(passwordLabel);
 
@@ -73,6 +78,7 @@ public class UpgradeAccountWindow {
         panel.add(passwordText);
 
         // add confirm label to panel
+        confirmLabel.setText(ump.confirmPsw);
         confirmLabel.setBounds(50,130,80,25);
         panel.add(confirmLabel);
 
@@ -81,6 +87,7 @@ public class UpgradeAccountWindow {
         panel.add(confirmText);
 
         // add "sign up" button to panel
+        createButton.setText(ump.signUp);
         createButton.setBounds(50, 180, 160, 25);
         panel.add(createButton);
     }
@@ -92,7 +99,7 @@ public class UpgradeAccountWindow {
             dmc.getDum().removeDemoUser(oldID);
 
         } else {
-            new PopUpWindow("Username already taken! Please enter a new username.").display();
+            new PopUpWindow(ump.usernameTaken).display();
         }
     }
 }
