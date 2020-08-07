@@ -1,14 +1,33 @@
 package Popups;
 
+import Admins.AdminManager;
+import Admins.AdminUser;
+import Users.TradingUser;
+import Users.TradingUserManager;
+import Users.User;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class ChangePasswordWindow {
+    private AdminManager am = null;
+    private TradingUserManager um = null;
+    private final User user;
     private final JLabel newLabel = new JLabel("New password");
     private final JPasswordField newPass = new JPasswordField(20);
     private final JLabel confirmLabel = new JLabel("Confirm your password");
     private final JPasswordField confirmPass = new JPasswordField(20);
     private final JButton confirmButton = new JButton("Change password");
+
+    public ChangePasswordWindow(AdminManager am, TradingUser user) {
+        this.am = am;
+        this.user = user;
+    }
+
+    public ChangePasswordWindow(TradingUserManager um, TradingUser user) {
+        this.um = um;
+        this.user = user;
+    }
 
     public void display() {
         // create the frame
@@ -26,7 +45,7 @@ public class ChangePasswordWindow {
 
         // add event handler for confirm button
         confirmButton.addActionListener(e -> {
-
+            changePassword();
         });
 
         // display the window
@@ -50,5 +69,26 @@ public class ChangePasswordWindow {
 
         confirmButton.setBounds(10, 110, 160, 25);
         panel.add(confirmButton);
+    }
+
+    private void changePassword() {
+        // get the entered passwords as strings
+        String newPassText = String.valueOf(newPass.getPassword());
+        String confirmPassText = String.valueOf(confirmPass.getPassword());
+
+        // check if passwords match, if so then change password
+        if (am == null) { // passed um into constructor therefore it's a TradingUser that wants to change pwd
+            if (newPassText.equals(confirmPassText)) {
+                um.changePassword((TradingUser) user, newPassText);
+            } else { // passwords don't match
+                new PopUpWindow("Passwords do not match").display();
+            }
+        } else if (um == null) { // passed am into constructor therefore it's an Admin that wants to change pwd
+            if (newPassText.equals(confirmPassText)) {
+                am.changePassword((AdminUser) user, confirmPassText);
+            } else { // passwords don't match
+                new PopUpWindow("Passwords do not match").display();
+            }
+        }
     }
 }

@@ -2,6 +2,8 @@ package AdminGUI;
 
 import Admins.AdminMenuController;
 import Items.Item;
+import Popups.PopUpWindow;
+import Presenters.AdminMenuPresenter;
 import Users.TradingUser;
 
 import javax.swing.*;
@@ -14,13 +16,14 @@ import java.awt.*;
 
 public class AddNewItemToTradingUserWindow {
     private final AdminMenuController amc;
-    private final JLabel itemNameLabel = new JLabel("Item Name:");
-    private final JLabel desLabel = new JLabel("Description:");
+    private final AdminMenuPresenter amp = new AdminMenuPresenter();
+    private final JLabel itemNameLabel = new JLabel();
+    private final JLabel desLabel = new JLabel();
     private final JTextField itemNameText = new JTextField(20);
     private final JTextArea desText = new JTextArea(5,20);
     private TradingUser selectedTradingUser;
-    private final JButton addToWishlist = new JButton("Add to Wishlist");
-    private final JButton addToInventory = new JButton("Add to Inventory");
+    private final JButton addToWishlist = new JButton();
+    private final JButton addToInventory = new JButton();
     boolean successfullyAdded=false;
 
 
@@ -29,7 +32,7 @@ public class AddNewItemToTradingUserWindow {
     }
     public void display(){
         //create frame
-        JFrame frame = new JFrame("Add Item to TradingUser");
+        JFrame frame = new JFrame(amp.addNewItem);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // set the frame's size and centre it
@@ -44,12 +47,14 @@ public class AddNewItemToTradingUserWindow {
 
         // add labels, textField and textArea
         mainPanel.setLayout(null);
+        itemNameLabel.setText(amp.itemName);
         itemNameLabel.setBounds(50, 80, 150, 25);
         mainPanel.add(itemNameLabel);
 
         itemNameText.setBounds(180, 80, 165, 25);
         mainPanel.add(itemNameText);
 
+        desLabel.setText(amp.itemDes);
         desLabel.setBounds(50, 130, 150, 25);
         mainPanel.add(desLabel);
 
@@ -80,48 +85,58 @@ public class AddNewItemToTradingUserWindow {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         //Add to Wishlist and Add to Inventory buttons
+        addToInventory.setText(amp.addToInventory);
         addToInventory.setBounds(180,350,150,30);
         addToInventory.addActionListener(e -> {
             Item newItem = new Item(itemNameText.getText());
             newItem.setDescription(desText.getText());
 
             if(itemNameText.getText().isEmpty()) {//item name is empty give error message
-                JOptionPane.showMessageDialog(null, "PLease enter the item name.", "Invalid Item Name", JOptionPane.WARNING_MESSAGE);
+                //JOptionPane.showMessageDialog(null, amp.enter("item name"), "Invalid Item Name", JOptionPane.WARNING_MESSAGE);
+                new PopUpWindow(amp.enter("item name")).display();
             }else {
                 if(!successfullyAdded){//checks if item has been previously added to prevent multiply operation
                     try {//user is selected and item added to inventory successfully
                         if (amc.addItemToUser(selectedTradingUser, newItem, "inventory")) {
                             successfullyAdded = true;
-                            JOptionPane.showMessageDialog(null, "Item added successfully.", "Message", JOptionPane.PLAIN_MESSAGE);
+                            //JOptionPane.showMessageDialog(null, "Item added successfully.", "Message", JOptionPane.PLAIN_MESSAGE);
+                            new PopUpWindow(amp.successfully("Item added")).display();
                         }
                     } catch (NullPointerException nullPointerException) {//user is not selected
-                        JOptionPane.showMessageDialog(null, "Please select an user.", "Invalid User", JOptionPane.WARNING_MESSAGE);
+                        //JOptionPane.showMessageDialog(null, "Please select an user.", "Invalid User", JOptionPane.WARNING_MESSAGE);
+                        new PopUpWindow(amp.selectUser).display();
                     }
                 }else{
-                    JOptionPane.showMessageDialog(null, "Item has been added already.", "Invalid Operation", JOptionPane.WARNING_MESSAGE);
+                    //JOptionPane.showMessageDialog(null, "Item has been added already.", "Invalid Operation", JOptionPane.WARNING_MESSAGE);
+                    new PopUpWindow(amp.itemAddedError).display();
                 }
             }
         });
 
+        addToWishlist.setText(amp.addToWishlist);
         addToWishlist.setBounds(400, 350, 150, 30);
         addToWishlist.addActionListener(e -> {
             Item newItem = new Item(itemNameText.getText());
             newItem.setDescription(desText.getText());
 
             if(itemNameText.getText().isEmpty()){
-                JOptionPane.showMessageDialog(null, "PLease enter the item name.", "Invalid Item Name", JOptionPane.WARNING_MESSAGE);
+                //JOptionPane.showMessageDialog(null, "PLease enter the item name.", "Invalid Item Name", JOptionPane.WARNING_MESSAGE);
+                new PopUpWindow(amp.enter("item name")).display();
             }else {//item name is given
                 if (!successfullyAdded) {//checks if item has been previously added
                     try {//user is selected and item added to wishlist successfully
                         if (amc.addItemToUser(selectedTradingUser, newItem, "wishlist")) {
                             successfullyAdded = true;
-                            JOptionPane.showMessageDialog(null, "Item added successfully.", "Message", JOptionPane.PLAIN_MESSAGE);
+                            //JOptionPane.showMessageDialog(null, "Item added successfully.", "Message", JOptionPane.PLAIN_MESSAGE);
+                            new PopUpWindow(amp.successfully("Item added")).display();
                         }
                     } catch (NullPointerException nullPointerException) {//user is not selected
-                        JOptionPane.showMessageDialog(null, "Please select an user.", "Invalid User", JOptionPane.WARNING_MESSAGE);
+                        //JOptionPane.showMessageDialog(null, "Please select an user.", "Invalid User", JOptionPane.WARNING_MESSAGE);
+                        new PopUpWindow(amp.selectUser).display();
                     }
                 }else{//prevent multiple operation
-                    JOptionPane.showMessageDialog(null, "Item has been added already.", "Invalid Operation", JOptionPane.WARNING_MESSAGE);
+                    //JOptionPane.showMessageDialog(null, "Item has been added already.", "Invalid Operation", JOptionPane.WARNING_MESSAGE);
+                    new PopUpWindow(amp.itemAddedError).display();
                 }
             }
         });

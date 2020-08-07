@@ -2,6 +2,7 @@ package AdminGUI;
 
 import Admins.AdminMenuController;
 import Exceptions.InvalidTradingUserException;
+import Presenters.AdminMenuPresenter;
 import Users.TradingUser;
 import Users.TradingUserManager;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public class FlaggedUsersWindow {
     private final AdminMenuController amc;
     private final TradingUserManager tum;
+    private final AdminMenuPresenter amp = new AdminMenuPresenter();
     private JComboBox users;
     private JButton freezeButton;
     private JButton unflagButton;
@@ -26,7 +28,7 @@ public class FlaggedUsersWindow {
         this.tum = tum;
     }
     public void display(){
-        JFrame frame = new JFrame("Check Flagged Users");
+        JFrame frame = new JFrame(amp.checkFlaggedUser);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         // set the frame's size and centre it
         frame.setSize(new Dimension(700, 500));

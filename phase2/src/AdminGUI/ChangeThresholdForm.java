@@ -2,6 +2,8 @@ package AdminGUI;
 
 import Admins.AdminMenuController;
 import Exceptions.InvalidTradingUserException;
+import Popups.PopUpWindow;
+import Presenters.AdminMenuPresenter;
 import Users.TradingUser;
 import Users.TradingUserManager;
 import Users.User;
@@ -16,6 +18,7 @@ import java.util.List;
 public class ChangeThresholdForm {
     private final AdminMenuController amc;
     private final TradingUserManager tum;
+    private final AdminMenuPresenter amp = new AdminMenuPresenter();
     private JTextField borrowThreshold;
     private JPanel panel1;
     private JButton refreshThresholdsButton;
@@ -52,9 +55,10 @@ public class ChangeThresholdForm {
             amc.updateThreshold(currUsername, weeklyThreshold, "Weekly");
             amc.updateThreshold(currUsername, incompleteThreshold, "Incomplete");
         } catch (InvalidTradingUserException invalidTradingUserException) {
-            JOptionPane.showMessageDialog(null,
-                    "Error: UpdateThreshold method in adminController failed, so the threshold wasn't changed", "Error Message",
-                    JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null,
+                    //"Error: UpdateThreshold method in adminController failed, so the threshold wasn't changed", "Error Message",
+                    //JOptionPane.ERROR_MESSAGE);
+            new PopUpWindow(amp.updateThresholdError).display();
         }
 
 
@@ -83,14 +87,16 @@ public class ChangeThresholdForm {
                 try {
                     int newThreshold = Integer.parseInt(newBorrowThreshold.getText());
                     if (newThreshold <= 0) {
-                        JOptionPane.showMessageDialog(null,
-                                "Error: Please enter number bigger than 0", "Error Message",
-                                JOptionPane.ERROR_MESSAGE);
+//                        JOptionPane.showMessageDialog(null,
+//                                "Error: Please enter number bigger than 0", "Error Message",
+//                                JOptionPane.ERROR_MESSAGE);
+                        new PopUpWindow(amp.enter("number bigger than 0")).display();
                     }
                 } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null,
-                            "Error: Please enter an integer", "Error Message",
-                            JOptionPane.ERROR_MESSAGE);
+//                    JOptionPane.showMessageDialog(null,
+//                            "Error: Please enter an integer", "Error Message",
+//                            JOptionPane.ERROR_MESSAGE);
+                    new PopUpWindow(amp.enter("an integer")).display();
                 }
             }
         });

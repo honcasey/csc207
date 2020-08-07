@@ -1,6 +1,7 @@
 package DemoUserGUI;
 
 import Initialization.Filepaths;
+import Initialization.LoginController;
 import Popups.PopUpWindow;
 import Initialization.Serializer;
 import TradingUserGUI.AvailableItemsWindow;
@@ -17,6 +18,7 @@ import java.awt.event.KeyEvent;
 public class DemoUserMenu {
     private final DemoMenuController dmc;
     private final UserMenuController umc;
+    private final LoginController lc;
     private final Filepaths fp = new Filepaths();
     private final JButton button1 = new JButton();
     private final JButton button2 = new JButton();
@@ -26,9 +28,10 @@ public class DemoUserMenu {
     private final JButton button6 = new JButton();
     private final JButton button7 = new JButton();
 
-    public DemoUserMenu(DemoMenuController dmc, UserMenuController umc){
+    public DemoUserMenu(DemoMenuController dmc, UserMenuController umc, LoginController lc){
         this.dmc = dmc;
         this.umc = umc;
+        this.lc = lc;
     }
 
     public void display(){
@@ -89,7 +92,7 @@ public class DemoUserMenu {
 
         // if clicked "Upgrade to Full Account"
         button7.addActionListener(e -> {
-            new UpgradeAccountWindow(dmc, umc).display();
+            new UpgradeAccountWindow(dmc, lc).display();
         });
 
         // display the window

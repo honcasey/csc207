@@ -2,6 +2,7 @@ package TradingUserGUI;
 
 import Popups.PopUpWindow;
 import Items.Item;
+import Presenters.UserMenuPresenter;
 import Users.UserMenuController;
 
 import javax.swing.*;
@@ -10,11 +11,12 @@ import java.awt.*;
 public class RequestAddItemsWindow {
 
     private UserMenuController umc;
+    private final UserMenuPresenter ump = new UserMenuPresenter();
     private JPanel mainPanel = new JPanel();
-    private final JButton requestButton = new JButton("Request Item");
-    private final JLabel itemNameLabel = new JLabel("Item Name:");
+    private final JButton requestButton = new JButton(ump.requestItem);
+    private final JLabel itemNameLabel = new JLabel(ump.itemName);
     private final JTextField userItemNameText = new JTextField(20);
-    private final JLabel itemDescriptionLabel = new JLabel("Item Description:");
+    private final JLabel itemDescriptionLabel = new JLabel(ump.itemDes);
     private final JTextField userItemDescription = new JTextField(100);
 
     public RequestAddItemsWindow(UserMenuController umc) {
@@ -22,7 +24,7 @@ public class RequestAddItemsWindow {
     }
 
     public void display(){
-        JFrame frame = new JFrame("Request To Add an Item");
+        JFrame frame = new JFrame(ump.requestAddItem);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(new Dimension(700, 500));
         frame.setLocationRelativeTo(null);
@@ -34,7 +36,7 @@ public class RequestAddItemsWindow {
             Item requestedItem = new Item(userItemNameText.getText());
             requestedItem.setDescription(userItemDescription.getText());
             umc.addToPendingItems(requestedItem);
-            new PopUpWindow(userItemNameText.getText() + "has been submitted for admin approval.").display();
+            new PopUpWindow(userItemNameText.getText() + ump.submitForApproval).display();
         });
     }
 

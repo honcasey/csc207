@@ -110,4 +110,8 @@ public class AdminManager {
         }
         return true;
     }
+
+    public void changePassword(AdminUser admin, String password) {
+        admin.setPassword(password);
+    }
 }
