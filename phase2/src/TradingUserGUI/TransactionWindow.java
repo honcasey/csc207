@@ -2,6 +2,7 @@ package TradingUserGUI;
 
 import Exceptions.InvalidItemException;
 import Items.Item;
+import Presenters.UserMenuPresenter;
 import Transactions.Meeting;
 import Users.TradingUser;
 import Users.UserMenuController;
@@ -13,6 +14,7 @@ import java.util.List;
 
 public class TransactionWindow {
     private UserMenuController umc;
+    private final UserMenuPresenter ump = new UserMenuPresenter();
     private Item selectedItem;
     private Item offeredItem;
     private boolean twoWay;
@@ -36,7 +38,7 @@ public class TransactionWindow {
     }
 
     public void display() {
-        JFrame frame = new JFrame("Create Transaction");
+        JFrame frame = new JFrame(ump.createTrans);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(new Dimension(1280, 720));
         frame.setLocationRelativeTo(null);
@@ -52,12 +54,12 @@ public class TransactionWindow {
     }
 
     private void setupLeftPanel() {
-        panel1.add(new JLabel("Transaction Status"));
+        panel1.add(new JLabel(ump.tranStatus));
 
         // create the radio buttons
-        JRadioButton virtualButton = new JRadioButton("Virtual");
-        JRadioButton permButton = new JRadioButton("Permanent");
-        JRadioButton tempButton = new JRadioButton("Temporary");
+        JRadioButton virtualButton = new JRadioButton(ump.virtual);
+        JRadioButton permButton = new JRadioButton(ump.perm);
+        JRadioButton tempButton = new JRadioButton(ump.temp);
 
         // group the buttons
         ButtonGroup group = new ButtonGroup();
@@ -68,7 +70,7 @@ public class TransactionWindow {
         // add event handlers for the buttons
         virtualButton.addActionListener(e -> {
             try {
-                setupRightPanel("Virtual");
+                setupRightPanel(ump.virtual);
             } catch (InvalidItemException invalidItemException) {
                 invalidItemException.printStackTrace();
             }
@@ -76,7 +78,7 @@ public class TransactionWindow {
 
         permButton.addActionListener(e -> {
             try {
-                setupRightPanel("Perm");
+                setupRightPanel(ump.perm);
             } catch (InvalidItemException invalidItemException) {
                 invalidItemException.printStackTrace();
             }
@@ -84,7 +86,7 @@ public class TransactionWindow {
 
         tempButton.addActionListener(e -> {
             try {
-                setupRightPanel("Temp");
+                setupRightPanel(ump.temp);
             } catch (InvalidItemException invalidItemException) {
                 invalidItemException.printStackTrace();
             }
@@ -97,7 +99,7 @@ public class TransactionWindow {
     }
 
     private void setupRightPanel(String type) throws InvalidItemException {
-        panel2.add(new JLabel("Would you like to offer one of your items?"));
+        panel2.add(new JLabel(ump.offerItem));
 
         // create JList of suggested items
         List<Item> itemSuggestions = umc.getIm().itemSuggestions(umc.currentTradingUser, selectedItemOwner);
@@ -131,7 +133,7 @@ public class TransactionWindow {
         panel2.add(suggestions);
 
         // add meetings fields
-        if (type.equals("Perm")) {
+        if (type.equals(ump.perm)) {
             panel2 = setMeetingPanel("First");
             submit.addActionListener(e -> {
                 try {
@@ -142,7 +144,7 @@ public class TransactionWindow {
             });
             panel2.add(submit);
         }
-        else if (type.equals("Temp")) {
+        else if (type.equals(ump.temp)) {
             panel2 = setMeetingPanel("First");
             submit.addActionListener(e -> secondMeetingWindow());
             panel2.add(submit);

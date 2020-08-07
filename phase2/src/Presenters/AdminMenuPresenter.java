@@ -17,7 +17,7 @@ public class AdminMenuPresenter extends MenuPresenter {
     public String approve = "Approve";
     public String reject = "Reject";
 
-    //message string
+    //warning message string
     public String selectUser = "Error: Please select an user.";
     public String itemAddedError = "Error: Item has been added already.";
     public String updateThresholdError = "Error: UpdateThreshold method in adminController failed, so the threshold wasn't changed.";
@@ -25,9 +25,7 @@ public class AdminMenuPresenter extends MenuPresenter {
     public String enter(String what){
         return "Error: Please enter the " + what;
     }
-    public String successfully(String what){
-        return what + " successfully!";
-    }
+
 }
 
 

@@ -2,6 +2,7 @@ package TradingUserGUI;
 
 import Popups.PopUpWindow;
 import Items.Item;
+import Presenters.UserMenuPresenter;
 import Users.TradingUser;
 import Users.UserMenuController;
 
@@ -11,6 +12,7 @@ import java.util.Map;
 
 public class AvailableItemsWindow {
     private final UserMenuController umc;
+    private final UserMenuPresenter ump = new UserMenuPresenter();
     private Map<Item, TradingUser> availableItemsMap;
     private JComboBox<String> comboBox1;
     private Item selectedItem;
@@ -21,7 +23,7 @@ public class AvailableItemsWindow {
 
     public void display() {
         // create the frame
-        JFrame frame = new JFrame("Available Items");
+        JFrame frame = new JFrame(ump.displayAvailableItems);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // set the frame's size and centre it
@@ -41,7 +43,7 @@ public class AvailableItemsWindow {
     private void createComboBox() {
         availableItemsMap = umc.getAvailableItems();
         if (availableItemsMap == null) {
-            new PopUpWindow("No Available Items").display();
+            new PopUpWindow(ump.noItem).display();
         }
         else {
             comboBox1 = new JComboBox<>();

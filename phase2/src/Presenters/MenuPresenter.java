@@ -31,6 +31,10 @@ public class MenuPresenter {
     public String accountCreationTitle = "Account Creation";
     public String applicationTitle = "Trading Application";
 
+    public String successfully(String what){
+        return what + " successfully!";
+    }
+
 
 
 }
