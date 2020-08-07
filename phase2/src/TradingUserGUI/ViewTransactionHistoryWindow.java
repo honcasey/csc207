@@ -19,6 +19,7 @@ import java.util.UUID;
 public class ViewTransactionHistoryWindow {
     private final UserMenuController umc;
     private final UserMenuPresenter ump = new UserMenuPresenter();
+    private JPanel panel = new JPanel();
 
 
     public ViewTransactionHistoryWindow(UserMenuController umc) {
@@ -36,6 +37,7 @@ public class ViewTransactionHistoryWindow {
         frame.setSize(new Dimension(550, 550));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame.add(panel);
 
        JButton twoWayButton = new JButton(ump.mostRecentTwoWayTrans);
        twoWayButton.setBounds(50, 50, 150, 75);
@@ -55,9 +57,9 @@ public class ViewTransactionHistoryWindow {
                e -> mostTradedWithUsersWindow()
        );
 
-       frame.add(twoWayButton);
-       frame.add(oneWayButton);
-       frame.add(tradedUsersButton);
+        panel.add(twoWayButton);
+        panel.add(oneWayButton);
+        panel.add(tradedUsersButton);
 
     }
     public void mostRecentOneWaysWindow()  { // condense this a bit
