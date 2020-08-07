@@ -3,7 +3,6 @@ package TradingUserGUI;
 import Initialization.Filepaths;
 import Initialization.Serializer;
 import Presenters.UserMenuPresenter;
-import Users.User;
 import Popups.ChangePasswordWindow;
 import Users.UserMenuController;
 
