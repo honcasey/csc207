@@ -80,7 +80,7 @@ public class ViewInventoryWindow {
             if(input == JOptionPane.YES_OPTION) {
                 AddOrDeleteAction action = new AddOrDeleteAction(umc.currentTradingUser, "inventory");
                 action.setRemoved(items.get(itemsList.getSelectedIndex()));
-                acm.addAction(action);
+                acm.addAction(umc.currentTradingUser, action);
                 itemNames.remove(itemsList.getSelectedIndex()); // if YES, remove the item
             }
         });

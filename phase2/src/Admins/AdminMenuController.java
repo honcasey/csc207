@@ -55,7 +55,7 @@ public class AdminMenuController {
             allPendingItems.remove(item);
             AddOrDeleteAction action = new AddOrDeleteAction(user, "inventory");
             action.setAdded(item);
-            acm.addAction(action);
+            acm.addAction(user, action);
         } catch (InvalidTradingUserException e) {
             //
         }
@@ -96,14 +96,14 @@ public class AdminMenuController {
         if(listType.equals("wishlist")) {
             AddOrDeleteAction action = new AddOrDeleteAction(tradingUser, "wishlist");
             action.setAdded(item);
-            acm.addAction(action);
+            acm.addAction(tradingUser, action);
             um.addItem(tradingUser, item, "wishlist");
             //im.addItem(item);//TODO item isn't actually added, need to handle when allItems in ItemManager is null
             isSuccessful = true;
         }else if (listType.equals("inventory")){
             AddOrDeleteAction action = new AddOrDeleteAction(tradingUser, "inventory");
             action.setAdded(item);
-            acm.addAction(action);
+            acm.addAction(tradingUser, action);
             um.addItem(tradingUser, item, "inventory");
             //im.addItem(item);//TODO item isn't actually added, need to handle when allItems in ItemManager is null
             isSuccessful = true;
