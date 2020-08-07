@@ -67,7 +67,6 @@ public class Meeting implements Serializable {
      * This is a getter for location.
      * @return this returns the value of location for the meeting.
      */
-
     public String getLocation(){
         return(this.location);
     }

@@ -11,7 +11,7 @@ import java.util.UUID;
 public class AddOrDeleteAction extends Action {
     private Item added = null;
     private Item removed = null;
-    private String whichList; // either "inventory" or "wishlist"
+    private final String whichList; // either "inventory" or "wishlist"
 
     public AddOrDeleteAction(TradingUser user, String whichList) {
         super(user);
