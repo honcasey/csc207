@@ -11,7 +11,7 @@ import java.awt.*;
 
 public class ChangePasswordWindow {
     private AdminManager am = null;
-    private final TradingUserManager um;
+    private TradingUserManager um = null;
     private final User user;
     private final JLabel newLabel = new JLabel("New password");
     private final JPasswordField newPass = new JPasswordField(20);
@@ -19,9 +19,8 @@ public class ChangePasswordWindow {
     private final JPasswordField confirmPass = new JPasswordField(20);
     private final JButton confirmButton = new JButton("Change password");
 
-    public ChangePasswordWindow(AdminManager am, TradingUserManager um, TradingUser user) {
+    public ChangePasswordWindow(AdminManager am, TradingUser user) {
         this.am = am;
-        this.um = um;
         this.user = user;
     }
 
@@ -78,13 +77,13 @@ public class ChangePasswordWindow {
         String confirmPassText = String.valueOf(confirmPass.getPassword());
 
         // check if passwords match, if so then change password
-        if (am == null) {
+        if (am == null) { // passed um into constructor therefore it's a TradingUser that wants to change pwd
             if (newPassText.equals(confirmPassText)) {
                 um.changePassword((TradingUser) user, newPassText);
             } else { // passwords don't match
                 new PopUpWindow("Passwords do not match").display();
             }
-        } else { // am != null, so am is passed into constructor, so it's an admin trying to change pwd
+        } else if (um == null) { // passed am into constructor therefore it's an Admin that wants to change pwd
             if (newPassText.equals(confirmPassText)) {
                 am.changePassword((AdminUser) user, confirmPassText);
             } else { // passwords don't match
