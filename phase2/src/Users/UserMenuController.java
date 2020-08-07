@@ -19,7 +19,7 @@ import java.util.*;
  * TradingUser to be added to their inventory). <p/>
  */
 public class UserMenuController {
-    private final  TradingUser currentTradingUser = null; // user that's logged in
+    public final  TradingUser currentTradingUser = null; // user that's logged in
     private final AdminManager am;
     private final TradingUserManager um;
     private final CurrentTransactionManager tm;
