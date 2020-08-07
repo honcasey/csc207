@@ -59,7 +59,7 @@ public class UserMenuController {
     public boolean addToWishlist(Item item) {
         AddOrDeleteAction action = new AddOrDeleteAction(currentTradingUser, "wishlist");
         action.setAdded(item);
-        acm.addAction(action);
+        acm.addAction(currentTradingUser, action);
         return um.addItem(currentTradingUser, item, "wishlist");
     }
 
