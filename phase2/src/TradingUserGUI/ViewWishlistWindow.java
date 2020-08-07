@@ -1,8 +1,9 @@
 package TradingUserGUI;
 
+import Actions.ActionManager;
+import Actions.AddOrDeleteAction;
 import Items.Item;
 import Presenters.UserMenuPresenter;
-import Users.TradingUser;
 import Users.UserMenuController;
 
 import javax.swing.*;
@@ -12,11 +13,13 @@ import java.util.List;
 public class ViewWishlistWindow {
     private UserMenuController umc;
     private final UserMenuPresenter ump = new UserMenuPresenter();
+    private final ActionManager acm;
     private String itemName;
     private String itemDesc;
 
-    public ViewWishlistWindow(UserMenuController umc) {
+    public ViewWishlistWindow(UserMenuController umc, ActionManager acm) {
         this.umc = umc;
+        this.acm = acm;
     }
 
     public void display() {
@@ -72,6 +75,9 @@ public class ViewWishlistWindow {
         removeB.addActionListener(e -> {
             int input = JOptionPane.showOptionDialog(null, ump.optionPrompt("remove this item from your Wishlist?"), "Remove Item?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
             if(input == JOptionPane.YES_OPTION) {
+                AddOrDeleteAction action = new AddOrDeleteAction(umc.currentTradingUser, "wishlist");
+                action.setRemoved(items.get(itemsList.getSelectedIndex()));
+                acm.addAction(action);
                 itemNames.remove(itemsList.getSelectedIndex()); // if YES, remove the item
             }
         });

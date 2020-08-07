@@ -1,5 +1,8 @@
 package Users;
 
+import Actions.Action;
+import Actions.ActionManager;
+import Actions.AddOrDeleteAction;
 import Admins.AdminManager;
 import Exceptions.InvalidItemException;
 import Exceptions.InvalidTradingUserException;
@@ -19,20 +22,20 @@ import java.util.*;
  * TradingUser to be added to their inventory). <p/>
  */
 public class UserMenuController {
-    public final  TradingUser currentTradingUser = null; // user that's logged in
+    public TradingUser currentTradingUser = null; // user that's logged in
     private final AdminManager am;
     private final TradingUserManager um;
     private final CurrentTransactionManager tm;
     private final PastTransactionManager ptm;
     private final ItemManager im;
-
+    private final ActionManager acm;
 
     private final Map<Item, TradingUser> allPendingItems;
     private Map<Item, TradingUser> availableItems = getAvailableItems();
 
     public UserMenuController(TradingUserManager tradingUserManager, AdminManager adminManager,
                               CurrentTransactionManager currentTransactionManager,
-                              PastTransactionManager pastTransactionManager, ItemManager itemManager,
+                              PastTransactionManager pastTransactionManager, ItemManager itemManager, ActionManager actionManager,
                               Map<Item, TradingUser> pendingItems) {
         allPendingItems = pendingItems;
         am = adminManager;
@@ -40,6 +43,7 @@ public class UserMenuController {
         tm = currentTransactionManager;
         ptm = pastTransactionManager;
         im = itemManager;
+        acm = actionManager;
     }
 
     /**
@@ -53,6 +57,9 @@ public class UserMenuController {
      * Adds item to a wishlist and returns true if the item was not already in the wishlist. If already in wishlist, returns false.
      */
     public boolean addToWishlist(Item item) {
+        AddOrDeleteAction action = new AddOrDeleteAction(currentTradingUser);
+        action.setAdded(item);
+        acm.addAction(action);
         return um.addItem(currentTradingUser, item, "wishlist");
     }
 

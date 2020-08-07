@@ -11,9 +11,11 @@ import java.util.UUID;
 public class AddOrDeleteAction extends Action {
     private Item added = null;
     private Item removed = null;
+    private String whichList; // either "inventory" or "wishlist"
 
-    public AddOrDeleteAction(UUID id, TradingUser user) {
-        super(id, user);
+    public AddOrDeleteAction(TradingUser user, String whichList) {
+        super(user);
+        this.whichList = whichList;
     }
 
     /**
@@ -43,4 +45,9 @@ public class AddOrDeleteAction extends Action {
             return removed;
         }
     }
+
+    /**
+     * Getter for which list the item is being added to/removed from.
+     */
+    public String getWhichList() {return whichList;}
 }
