@@ -101,7 +101,7 @@ public class TradingUserMenu {
         // add button's to panel
         button1.setBounds(50, 50, 150, 75);
         button1.setBackground(Color.PINK); // DO NOT CHANGE THIS >: ((
-        button1.setForeground(Color.PINK);
+        button1.setForeground(Color.PINK); // LOL why pink of all colours?
         button1.setText(ump.requestAddItem);
         panel.add(button1);
 
