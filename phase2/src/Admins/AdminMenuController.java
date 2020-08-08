@@ -44,10 +44,6 @@ public class AdminMenuController {
         acm = actionManager;
     }
 
-    public TradingUserManager getTUM(){
-        return this.um;
-    }
-
     public void approvePendingItem(Item item) {
         try {
             String username = allPendingItems.get(item).getUsername();
@@ -61,10 +57,6 @@ public class AdminMenuController {
         } catch (InvalidTradingUserException e) {
             //
         }
-    }
-
-    public void rejectPendingItem(Item item) {
-        allPendingItems.remove(item);
     }
 
     /**
@@ -130,6 +122,12 @@ public class AdminMenuController {
         }
     }
 
+    // TODO below are a bunch of getters/setters at need docstrings
+
+    public TradingUserManager getTUM(){
+        return this.um;
+    }
+
     public List<TradingUser> getAllTradingUsers() {
         return um.getAllTradingUsers();
     }
@@ -152,6 +150,10 @@ public class AdminMenuController {
 
     public ActionManager getAcm() {
         return acm;
+    }
+
+    public void rejectPendingItem(Item item) {
+        allPendingItems.remove(item);
     }
 
     public void undoAddOrDeleteAction(TradingUser user, AddOrDeleteAction action) {
