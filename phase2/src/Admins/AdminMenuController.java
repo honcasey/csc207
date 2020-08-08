@@ -3,6 +3,7 @@ package Admins;
 import Actions.Action;
 import Actions.ActionManager;
 import Actions.AddOrDeleteAction;
+import Actions.EditAction;
 import Exceptions.InvalidAdminException;
 import Exceptions.InvalidTradingUserException;
 import Items.Item;
@@ -159,20 +160,24 @@ public class AdminMenuController {
         allPendingItems.remove(item);
     }
 
-    public void undoAddOrDeleteAction(TradingUser user, AddOrDeleteAction action) {
+    public void undoAddOrDeleteAction(AddOrDeleteAction action) {
         if (action.wasAdded()) {
             if (action.isInventory()) {
-                um.removeItem(user, action.getItem(), "inventory");
+                um.removeItem(action.getUser(), action.getItem(), "inventory");
             } else if (action.isWishlist()) {
-                um.removeItem(user, action.getItem(), "wishlist");
+                um.removeItem(action.getUser(), action.getItem(), "wishlist");
             }
         } else if (action.wasRemoved()) {
             if (action.isInventory()) {
-                um.addItem(user, action.getItem(), "inventory");
+                um.addItem(action.getUser(), action.getItem(), "inventory");
             } else if (action.isWishlist()) {
-                um.addItem(user, action.getItem(), "wishlist");
+                um.addItem(action.getUser(), action.getItem(), "wishlist");
             }
         }
+    }
+
+    public void undoEditAction(EditAction action) {
+
     }
 
 }
