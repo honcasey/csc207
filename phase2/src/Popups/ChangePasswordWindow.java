@@ -21,7 +21,7 @@ public class ChangePasswordWindow {
     private final JPasswordField confirmPass = new JPasswordField(20);
     private final JButton confirmButton = new JButton();
 
-    public ChangePasswordWindow(AdminManager am, TradingUser user) {
+    public ChangePasswordWindow(AdminManager am, AdminUser user) {
         this.am = am;
         this.user = user;
     }

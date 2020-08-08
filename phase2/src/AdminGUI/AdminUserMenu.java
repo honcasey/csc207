@@ -5,6 +5,7 @@ import Admins.AdminMenuController;
 import Initialization.Filepaths;
 import Initialization.Serializer;
 import Popups.PopUpWindow;
+import Popups.ChangePasswordWindow;
 import Presenters.AdminMenuPresenter;
 import Users.TradingUserManager;
 
@@ -137,8 +138,7 @@ public class AdminUserMenu {
         // change password menu option
         JMenuItem changePassword = new JMenuItem(amp.changePsw, KeyEvent.VK_C); // press the C key to access this menu item
         changePassword.addActionListener(e -> {
-            ChangePasswordWindow cpw = new ChangePasswordWindow(amc);
-            cpw.display();
+            new ChangePasswordWindow(amc.getAm(),amc.getCurrentAdmin()).display();
         });
 
         // log out menu option

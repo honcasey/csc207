@@ -19,7 +19,7 @@ import java.util.*;
  *  * to their inventory). <p/>
  */
 public class AdminMenuController {
-    protected AdminUser currentAdmin = null; // admin that's logged in
+    private AdminUser currentAdmin = null; // admin that's logged in
     private final AdminManager am;
     private final TradingUserManager um;
     protected final Map<Item, TradingUser> allPendingItems;
@@ -148,5 +148,8 @@ public class AdminMenuController {
         return im;
     }
 
+    public ActionManager getAcm() {
+        return acm;
+    }
 
 }

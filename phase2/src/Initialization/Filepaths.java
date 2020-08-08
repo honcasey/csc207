@@ -9,4 +9,5 @@ public class Filepaths {
     public final String TRANSACTIONS = "transactions.ser";
     public final String ITEMS = "items.ser";
     public final String DEMOUSERS = "demoUsers.ser";
+    public final String ACTIONS = "actions.ser";
 }

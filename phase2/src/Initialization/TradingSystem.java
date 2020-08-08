@@ -1,5 +1,7 @@
 package Initialization;
 
+import Actions.Action;
+import Actions.ActionManager;
 import Admins.AdminManager;
 import Admins.AdminMenuController;
 import Admins.AdminUser;
@@ -36,6 +38,7 @@ public class TradingSystem {
     private AdminMenuController amc;
     private UserMenuController umc;
     private DemoMenuController dmc;
+    private ActionManager acm;
     private MenuPresenter mp;
 
     /**
@@ -62,6 +65,7 @@ public class TradingSystem {
         checkFileExists(fp.TRANSACTIONS);
         checkFileExists(fp.ITEMS);
         checkFileExists(fp.DEMOUSERS);
+        checkFileExists(fp.ACTIONS);
 
         // files exists so we can deserialize them
         Serializer serializer = new Serializer();
@@ -73,19 +77,21 @@ public class TradingSystem {
         Map<UUID, Transaction> transactions = serializer.readTransactionMapFromFile(fp.TRANSACTIONS);
         Map<UUID, Item> items = serializer.readItemMapFromFile(fp.ITEMS);
         List<DemoUser> demoUsers = serializer.readDemoUsersFromFile(fp.DEMOUSERS);
+        LinkedHashMap<TradingUser, List<Action>> actions = serializer.readActionsFromFile(fp.ACTIONS);
 
         // create new Managers
         am = new AdminManager(admins, flaggedAccounts, frozenAccounts);
         tum = new TradingUserManager(tradingUsers, flaggedAccounts, frozenAccounts);
-        tm = new CurrentTransactionManager(transactions);
+        tm = new CurrentTransactionManager(transactions, acm);
         ptm = new PastTransactionManager(transactions);
         im = new ItemManager(items);
         dum = new DemoUserManager(demoUsers);
+        acm = new ActionManager(actions);
 
         // create new controllers
         lc = new LoginController(am, tum, dum);
-        amc = new AdminMenuController(am, tum, pendingItems, im);
-        umc = new UserMenuController(tum, am, tm, ptm, im, pendingItems);
+        amc = new AdminMenuController(am, tum, pendingItems, im, acm);
+        umc = new UserMenuController(tum, am, tm, ptm, im, acm, pendingItems);
         dmc = new DemoMenuController(dum, tum, im);
 
         mp = new MenuPresenter();
@@ -120,6 +126,9 @@ public class TradingSystem {
             } else if (filePath.equals(fp.DEMOUSERS)) {
                 List<DemoUser> demoUsers = new ArrayList<>();
                 serializer.writeDemoUsersToFile(filePath, demoUsers);
+            } else if (filePath.equals(fp.ACTIONS)) {
+                LinkedHashMap<TradingUser, List<Action>> actions = new LinkedHashMap<TradingUser, List<Action>>();
+                serializer.writeActionsToFile(filePath, actions);
             }
         }
     }

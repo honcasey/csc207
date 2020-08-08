@@ -1,5 +1,6 @@
 package Initialization;
 
+import Actions.Action;
 import Admins.AdminUser;
 import Items.Item;
 import Transactions.Transaction;
@@ -7,6 +8,7 @@ import Users.DemoUser;
 import Users.TradingUser;
 
 import java.io.*;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -295,6 +297,33 @@ public class Serializer {
             // return the list
             return demoUsers;
         } catch(IOException e) {
+            System.out.println("IO Exception was caught.");
+            return null;
+        } catch(ClassNotFoundException e) {
+            System.out.println("ClassNotFoundException was caught.");
+            return null;
+        }
+    }
+
+    public void writeActionsToFile(String path, LinkedHashMap<TradingUser, List<Action>> actionMap) {
+        try {
+            OutputStream file = new FileOutputStream(path);
+            ObjectOutput output = new ObjectOutputStream(file);
+            output.writeObject(actionMap);
+            output.close();
+        } catch (IOException e) {
+            System.out.println("IO Exception was caught.");
+        }
+    }
+
+    public LinkedHashMap<TradingUser, List<Action>> readActionsFromFile(String path) {
+        try {
+            InputStream file = new FileInputStream(path);
+            ObjectInput input = new ObjectInputStream(file);
+            LinkedHashMap<TradingUser, List<Action>> actionMap = (LinkedHashMap<TradingUser, List<Action>>) input.readObject();
+            input.close();
+            return actionMap;
+        } catch (IOException e) {
             System.out.println("IO Exception was caught.");
             return null;
         } catch(ClassNotFoundException e) {

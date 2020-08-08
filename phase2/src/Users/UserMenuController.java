@@ -29,7 +29,6 @@ public class UserMenuController {
     private final PastTransactionManager ptm;
     private final ItemManager im;
     private final ActionManager acm;
-
     private final Map<Item, TradingUser> allPendingItems;
     private Map<Item, TradingUser> availableItems = getAvailableItems();
 
@@ -267,5 +266,17 @@ public class UserMenuController {
 
     public TradingUser getCurrentTradingUser() {
         return currentTradingUser;
+    }
+
+    public void setCurrentTradingUser(String username) {
+        try {
+            currentTradingUser = um.getTradingUser(username);
+        } catch(InvalidTradingUserException e) {
+            // TODO
+        }
+    }
+
+    public ActionManager getAcm() {
+        return acm;
     }
 }

@@ -1,8 +1,6 @@
 package Actions;
 
 import Users.TradingUser;
-
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
@@ -11,9 +9,9 @@ import java.util.UUID;
  * Manages and stores all undoable actions in the system.
  */
 public class ActionManager {
-    private LinkedHashMap<UUID, List<Action>> allActions;
+    private LinkedHashMap<TradingUser, List<Action>> allActions;
 
-    public ActionManager(LinkedHashMap<UUID, List<Action>> allActions) {
+    public ActionManager(LinkedHashMap<TradingUser, List<Action>> allActions) {
         this.allActions = allActions;
     }
 
@@ -21,7 +19,7 @@ public class ActionManager {
      * Getter for the LinkedHashMap of all actions (keys) mapped to the Action's UUID (values).
      * @return LinkedHashMap of all actions and their UUIDs.
      */
-    public LinkedHashMap<UUID, List<Action>> getAllActions() {
+    public LinkedHashMap<TradingUser, List<Action>> getAllActions() {
         return allActions;
     }
 

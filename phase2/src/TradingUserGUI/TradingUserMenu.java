@@ -79,14 +79,14 @@ public class TradingUserMenu {
 
         // if clicked "View Wishlist" button
         button5.addActionListener(e -> {
-            ViewWishlistWindow vww = new ViewWishlistWindow(umc, acm);
+            ViewWishlistWindow vww = new ViewWishlistWindow(umc, umc.getAcm());
             vww.display();
 
         });
 
         // if clicked "View Inventory" button
         button6.addActionListener(e -> {
-            ViewInventoryWindow viw = new ViewInventoryWindow(umc, acm);
+            ViewInventoryWindow viw = new ViewInventoryWindow(umc, umc.getAcm());
             viw.display();
         });
         // display the window

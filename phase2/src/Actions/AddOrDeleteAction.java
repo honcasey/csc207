@@ -1,9 +1,7 @@
 package Actions;
 
 import Items.Item;
-import Users.TradingUser;
-
-import java.util.UUID;
+import Users.User;
 
 /**
  * Represents an "adding" or "deleting" action, including adding or deleting an Item from a TradingUser's inventory or wishlist.
@@ -13,7 +11,7 @@ public class AddOrDeleteAction extends Action {
     private Item removed = null;
     private final String whichList; // either "inventory" or "wishlist"
 
-    public AddOrDeleteAction(TradingUser user, String whichList) {
+    public AddOrDeleteAction(User user, String whichList) {
         super(user);
         this.whichList = whichList;
     }
