@@ -4,6 +4,7 @@ import Exceptions.InvalidItemException;
 import Items.Item;
 import Presenters.UserMenuPresenter;
 import Transactions.Meeting;
+import Transactions.TransactionBuilder;
 import Users.TradingUser;
 import Users.UserMenuController;
 
@@ -15,26 +16,22 @@ import java.util.List;
 public class TransactionWindow {
     private UserMenuController umc;
     private final UserMenuPresenter ump = new UserMenuPresenter();
-    private Item selectedItem;
+    // private Item selectedItem;
     private Item offeredItem;
-    private boolean twoWay;
+    // private boolean twoWay;
     private TradingUser selectedItemOwner;
     private JPanel panel1 = new JPanel();
     private JPanel panel2 = new JPanel();
-    private String firstLocation;
-    private Date firstDate;
-    private Date firstTime;
-    private String secondLocation;
-    private Date secondDate;
-    private Date secondTime;
+    private TransactionBuilder tb;
     private JButton submit = new JButton("Submit");
     private Calendar dateCalendar;
     private Calendar timeCalendar;
 
     public TransactionWindow(UserMenuController umc, Item item, TradingUser owner) {
         this.umc = umc;
-        this.selectedItem = item;
+//        this.selectedItem = item;
         this.selectedItemOwner = owner;
+        tb.declareIntent(owner, item.getId()); // this is the selected item that the user chose from the available items window, which would be the desired item and item's owner
     }
 
     public void display() {
@@ -110,7 +107,7 @@ public class TransactionWindow {
         JList<String> suggestions = new JList<>(itemStrings);
 
         // create JComboBox of user's inventory
-        List<Item> inventory = umc.getIm().convertIdsToItems(selectedItemOwner.getInventory());
+        List<Item> inventory = umc.getIm().convertIdsToItems(umc.currentTradingUser.getInventory());
         JComboBox<Item> comboBox = new JComboBox<>();
         for (Item item : inventory) {
             comboBox.addItem(item);
@@ -118,15 +115,18 @@ public class TransactionWindow {
 
         // add event handler for comboBox
         comboBox.addActionListener(e -> {
-            if (comboBox.getSelectedItem() == null) {
-                // offeredItem = null;
-                twoWay = false;
-            }
-            else {
-                twoWay = true;
-                offeredItem = (Item) comboBox.getSelectedItem();
-            }
+            offeredItem = comboBox.getItemAt(comboBox.getSelectedIndex());
+            tb.AddItemOffered(offeredItem.getId()); // this is the item that the current user is offering from their own inventory
         });
+            // if (comboBox.getSelectedItem() == null) {
+                // offeredItem = null;
+                // twoWay = false;
+            //}
+            //else {
+                // twoWay = true;
+                // offeredItem = (Item) comboBox.getSelectedItem();
+
+            //}
 
         // add comboBoxes to panel
         panel2.add(comboBox);
@@ -170,10 +170,10 @@ public class TransactionWindow {
 
         JTextField location = new JTextField("Location");
         location.setBounds(100, 100, 50, 20);
-        location.addActionListener(e -> {
-            if (meetingNum.equals("first")) { firstLocation = location.getText(); }
-            if (meetingNum.equals("second")) { secondLocation = location.getText(); }
-        });
+//        location.addActionListener(e -> {
+//            if (meetingNum.equals("first")) { firstLocation = location.getText(); }
+//            if (meetingNum.equals("second")) { secondLocation = location.getText(); }
+//        });
 
         setDateCalendar();
         SpinnerDateModel dateModel = new SpinnerDateModel();
@@ -182,10 +182,10 @@ public class TransactionWindow {
         JSpinner meetingDate = new JSpinner(dateModel);
         JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(meetingDate, "dd:mm:yyyy");
         meetingDate.setEditor(dateEditor);
-        meetingDate.addChangeListener(e -> {
-            if (meetingNum.equals("first")) { firstDate = dateModel.getDate(); }
-            if (meetingNum.equals("second")) { secondDate = dateModel.getDate(); }
-        });
+//        meetingDate.addChangeListener(e -> {
+//            if (meetingNum.equals("first")) { firstDate = dateModel.getDate(); }
+//            if (meetingNum.equals("second")) { secondDate = dateModel.getDate(); }
+//        });
 
         setTimeCalendar();
         SpinnerDateModel timeModel = new SpinnerDateModel();
@@ -194,10 +194,16 @@ public class TransactionWindow {
         JSpinner meetingTime = new JSpinner(timeModel);
         JSpinner.DateEditor editor = new JSpinner.DateEditor(meetingTime, "hh:mm");
         meetingTime.setEditor(editor);
-        meetingTime.addChangeListener(e -> {
-            if (meetingNum.equals("first")) { firstTime = timeModel.getDate(); }
-            if (meetingNum.equals("second")) { secondTime = timeModel.getDate(); }
-        });
+//        meetingTime.addChangeListener(e -> {
+//            if (meetingNum.equals("first")) { firstTime = timeModel.getDate(); }
+//            if (meetingNum.equals("second")) { secondTime = timeModel.getDate(); }
+//        });
+        if (meetingNum.equals("first")) {
+            tb.buildFirstMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
+        }
+        else if (meetingNum.equals("second")) {
+            tb.buildSecondMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
+        }
 
         panel.add(location);
         panel.add(meetingDate);
@@ -206,29 +212,30 @@ public class TransactionWindow {
     }
 
     private void areYouSureWindow(String type) throws InvalidItemException {
-        List<UUID> itemList = new ArrayList<>();
-        itemList.add(selectedItem.getId());
-        if (twoWay) {
-            itemList.add(offeredItem.getId());
-        }
+//        List<UUID> itemList = new ArrayList<>();
+//        itemList.add(selectedItem.getId());
+//        if (twoWay) {
+//            itemList.add(offeredItem.getId());
+//        }
         JFrame frame = new JFrame();
-        Meeting firstMeeting = new Meeting(firstLocation, firstTime, firstDate);
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            int a = JOptionPane.showConfirmDialog(frame, "Are you sure you want to cancel the transaction?");
-            if (a == JOptionPane.YES_OPTION) {
-                if (type.equals("Perm")) {
-                    umc.buildTransaction(itemList, selectedItemOwner, firstMeeting);
-                    // cancelledWindow();
-                }
-                if (type.equals("Temp")) {
-                    Meeting secondMeeting = new Meeting(secondLocation, secondTime, secondDate);
-                    umc.buildTransaction(itemList, selectedItemOwner, firstMeeting, secondMeeting);
-                }
-            }
-            if (a == JOptionPane.NO_OPTION) {
-                System.exit(0);
-            }
+        // Meeting firstMeeting = new Meeting(firstLocation, firstTime, firstDate);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        int a = JOptionPane.showConfirmDialog(frame, "Are you sure you want to create this transaction?");
+        if (a == JOptionPane.YES_OPTION) {
+            tb.getTransaction(); // TODO
+//                if (type.equals("Perm")) {
+//                    umc.buildTransaction(itemList, selectedItemOwner, firstMeeting);
+//                    cancelledWindow();
+//                }
+//                if (type.equals("Temp")) {
+//                    Meeting secondMeeting = new Meeting(secondLocation, secondTime, secondDate);
+//                    umc.buildTransaction(itemList, selectedItemOwner, firstMeeting, secondMeeting);
+//                }
         }
+        if (a == JOptionPane.NO_OPTION) {
+            System.exit(0);
+        }
+    }
 
     private void secondMeetingWindow() {
             JFrame tempFrame = new JFrame("Second Meeting");
