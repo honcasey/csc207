@@ -42,6 +42,13 @@ public class UserMenuController {
         im = itemManager;
     }
 
+    public TransactionBuilder GetTransBuilder(){
+        TransactionFactory newFactory = new TransactionFactory(tm);
+        TransactionBuilder transactionBuilder = new TransactionBuilder(this.currentTradingUser, newFactory);
+        return transactionBuilder;
+    }
+
+
     /**
      * Method that adds pending items to the current trading user's pending items
      */
@@ -57,53 +64,49 @@ public class UserMenuController {
     }
 
     /**
-     * Creates a temp transaction.
-     * @param items The item that is going to be traded.
-     * @param owner The other user that is currently the owner of the item you want to trade for.
+     * This method updates the rest of the program after a transaction has been made.
+     * @param newTransaction This is the transaction that has been recently made.
      */
-    public void buildTransaction(List<UUID> items, TradingUser owner, Meeting firstMeeting, Meeting secondMeeting) throws InvalidItemException {
-        TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
-        itemMap.put(owner.getUserId(), items);
-        Transaction newTransaction;
-        newTransaction = tm.createTransaction(itemMap, firstMeeting, secondMeeting);
-        tm.updateUsersCurrentTransactions(owner,currentTradingUser,newTransaction);
-        flagAccountIfAboveThreshold(owner);
+    public void transactionUpdate(Transaction newTransaction) throws InvalidItemException {
+        TradingUser otherUser = um.getTradingUserById(newTransaction.getOtherUser(currentTradingUser.getUserId()));
+        tm.updateUsersCurrentTransactions(otherUser,currentTradingUser,newTransaction);
+        List<UUID> items  = newTransaction.getTransactionItems();
+        flagAccountIfAboveThreshold(otherUser);
         for (UUID id : items) {
             Item item = im.getItem(id);
             availableItems.remove(item);
         }
     }
 
-    /**
-     * Creates a perm transaction
-     */
-    public void buildTransaction(List<UUID> items, TradingUser owner, Meeting firstMeeting) throws InvalidItemException {
-        TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
-        itemMap.put(owner.getUserId(), items);
-        Transaction newTransaction;
-        newTransaction = tm.createTransaction(itemMap, firstMeeting);
-        tm.updateUsersCurrentTransactions(owner,currentTradingUser,newTransaction);
-        flagAccountIfAboveThreshold(owner);
-        for (UUID id : items) {
-            Item item = im.getItem(id);
-            availableItems.remove(item);
-        }
-    }
-
-    /**
-     * Creates a virtual transaction
-     */
-    public void buildTransaction(List<UUID> items, TradingUser owner) throws InvalidItemException {
-        TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
-        itemMap.put(owner.getUserId(), items);
-        Transaction newTransaction = tm.createTransaction(itemMap);
-        tm.updateUsersCurrentTransactions(owner, currentTradingUser, newTransaction);
-        flagAccountIfAboveThreshold(owner);
-        for (UUID id : items) {
-            Item item = im.getItem(id);
-            availableItems.remove(item);
-        }
-    }
+//    public void buildTransaction(List<UUID> items, TradingUser owner, Meeting firstMeeting) throws InvalidItemException {
+//        TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
+//        itemMap.put(owner.getUserId(), items);
+//        Transaction newTransaction;
+//        newTransaction = tm.createTransaction(itemMap, firstMeeting);
+//
+//
+//        tm.updateUsersCurrentTransactions(owner,currentTradingUser,newTransaction);
+//        flagAccountIfAboveThreshold(owner);
+//        for (UUID id : items) {
+//            Item item = im.getItem(id);
+//            availableItems.remove(item);
+//        }
+//    }
+//
+//    /**
+//     * Creates a virtual transaction
+//     */
+//    public void buildTransaction(List<UUID> items, TradingUser owner) throws InvalidItemException {
+//        TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
+//        itemMap.put(owner.getUserId(), items);
+//        Transaction newTransaction = tm.createTransaction(itemMap);
+//        tm.updateUsersCurrentTransactions(owner, currentTradingUser, newTransaction);
+//        flagAccountIfAboveThreshold(owner);
+//        for (UUID id : items) {
+//            Item item = im.getItem(id);
+//            availableItems.remove(item);
+//        }
+//    }
 
     public List<Transaction> currentTransactionList() {
         try {
@@ -181,13 +184,12 @@ public class UserMenuController {
         }
     }
 
-    public void setCurrentTradingUser(String username) {
-        try {
-            currentTradingUser = um.getTradingUser(username);
-        } catch (InvalidTradingUserException e) {
-            // TODO
-        }
-    }
+//    public void setCurrentTradingUser(String username) {
+//        try {
+//            currentTradingUser = um.getTradingUser(username);
+//        } catch (InvalidTradingUserException e) {
+//        }
+//    }
 
     public ItemManager getIm(){
         return im;

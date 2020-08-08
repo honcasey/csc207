@@ -16,15 +16,21 @@ public class TransactionBuilder {
     /**
      * This is the builder for a transaction. This will be called by GUI/UserMenuController.
      * @param currentUser The current user using the program.
-     * @param otherUser The other user that you want to make the transaction with.
-     * @param desiredItem The item that the currentUser wants from the transaction.(whether they are borrowing or
-     *                   keeping it.)
      * @param transFact An instance of Transaction Factory.
      */
-    TransactionBuilder(TradingUser currentUser,TradingUser otherUser,UUID desiredItem, TransactionFactory transFact){
+    public TransactionBuilder(TradingUser currentUser, TransactionFactory transFact){
         this.currentUser = currentUser;
-        this.otherUser = otherUser;
         this.transFact = transFact;
+        this.userToItems = new TreeMap<UUID, List<UUID>>();
+    }
+
+    /**
+     * @param otherUser The other user that you want to make the transaction with.
+     * @param desiredItem The item that the currentUser wants from the transaction.(whether they are borrowing or
+     *            keeping it.)
+     */
+    public void declareIntent(TradingUser otherUser, UUID desiredItem){
+        this.otherUser = otherUser;
 
         List<UUID> currentUserItemIds = new ArrayList<>();
 
@@ -37,6 +43,7 @@ public class TransactionBuilder {
         otherUserItemIds.add(desiredItem);
         otherUserItemIds.add(null);
         this.userToItems.put(otherUser.getUserId(),otherUserItemIds);
+
     }
 
     public void buildFirstMeeting(String location, Date meetingTime, Date meetingDate){
