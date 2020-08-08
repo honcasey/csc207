@@ -61,4 +61,12 @@ public class UserMenuPresenter extends MenuPresenter {
         return "Are you sure you want to "+what;
     }
 
+    //demo user string
+    public String demoUserMenu = "Demo User Menu";
+    public String upgradeMessage = "This feature is available in the full version of the program. Upgrade today!";
+    public String upgradeToFull = "Upgrade to Full Account";
+    public String demoCreationTitle = "Demo Account Creation";
+    public String tryDemoMessage = "Create a demo account to try the program out!";
+
+
 }

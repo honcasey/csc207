@@ -12,8 +12,8 @@ public class EditAction extends Action {
     private Meeting previousMeeting;
     private Meeting newMeeting;
 
-    public EditAction(UUID id, TradingUser user, Meeting previousMeeting, Meeting newMeeting) {
-        super(id, user);
+    public EditAction(TradingUser user, Meeting previousMeeting, Meeting newMeeting) {
+        super(user);
         this.newMeeting = newMeeting;
         this.previousMeeting = previousMeeting;
     }

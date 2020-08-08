@@ -2,6 +2,7 @@ package DemoUserGUI;
 
 import Initialization.LoginController;
 import Popups.PopUpWindow;
+import Presenters.UserMenuPresenter;
 import TradingUserGUI.TradingUserMenu;
 import Users.DemoMenuController;
 import Users.DemoUser;
@@ -13,17 +14,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DemoUserRegistrationWindow {
-    private final JLabel userLabel = new JLabel("Username");
+    private final JLabel userLabel = new JLabel();
     private final JTextField userText = new JTextField(20);
-    private final JLabel passwordLabel = new JLabel("Password");
+    private final JLabel passwordLabel = new JLabel();
     private final JPasswordField passwordText = new JPasswordField(20);
     private final JTextField confirmText = new JPasswordField(20);
-    private final JLabel confirmLabel = new JLabel("Confirm");
-    private final JButton createButton = new JButton("Sign up");
-    private final JTextArea desc = new JTextArea("Create a demo account to try the program out!");
+    private final JLabel confirmLabel = new JLabel();
+    private final JButton createButton = new JButton();
+    private final JTextArea desc = new JTextArea();
     private final LoginController lc;
     private final UserMenuController umc;
     private final DemoMenuController dmc;
+    private final UserMenuPresenter ump = new UserMenuPresenter();
 
     public DemoUserRegistrationWindow(LoginController lc, UserMenuController umc, DemoMenuController dmc) {
         this.lc = lc;
@@ -33,7 +35,7 @@ public class DemoUserRegistrationWindow {
 
     public void display() {
         // create the frame
-        JFrame frame = new JFrame("Demo Account Creation");
+        JFrame frame = new JFrame(ump.demoCreationTitle);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // set the frame's size and centre it
@@ -62,10 +64,12 @@ public class DemoUserRegistrationWindow {
         panel.setLayout(null);
 
         // add description
+        desc.setText(ump.tryDemoMessage);
         desc.setBounds(25, 50, 350, 50);
         panel.add(desc);
 
         // add username label to panel
+        userLabel.setText(ump.username);
         userLabel.setBounds(50,140,80,25);
         panel.add(userLabel);
 
@@ -74,6 +78,7 @@ public class DemoUserRegistrationWindow {
         panel.add(userText);
 
         // add password label to panel
+        passwordLabel.setText(ump.password);
         passwordLabel.setBounds(50,190,80,25);
         panel.add(passwordLabel);
 
@@ -82,6 +87,7 @@ public class DemoUserRegistrationWindow {
         panel.add(passwordText);
 
         // add confirm label to panel
+        confirmLabel.setText(ump.confirmPsw);
         confirmLabel.setBounds(50,240,80,25);
         panel.add(confirmLabel);
 
@@ -90,6 +96,7 @@ public class DemoUserRegistrationWindow {
         panel.add(confirmText);
 
         // add "sign up" button to panel
+        createButton.setText(ump.signUp);
         createButton.setBounds(50, 290, 160, 25);
         panel.add(createButton);
     }
@@ -99,7 +106,7 @@ public class DemoUserRegistrationWindow {
             lc.addDemoUser(username, password);
             new DemoUserMenu(dmc,umc,lc).display();
         } else {
-            new PopUpWindow("Username already taken!").display();
+            new PopUpWindow(ump.usernameTaken).display();
         }
     }
 }

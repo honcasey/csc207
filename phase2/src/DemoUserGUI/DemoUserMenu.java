@@ -4,6 +4,7 @@ import Initialization.Filepaths;
 import Initialization.LoginController;
 import Popups.PopUpWindow;
 import Initialization.Serializer;
+import Presenters.UserMenuPresenter;
 import TradingUserGUI.AvailableItemsWindow;
 import Users.DemoMenuController;
 import Users.UserMenuController;
@@ -18,6 +19,7 @@ import java.awt.event.KeyEvent;
 public class DemoUserMenu {
     private final DemoMenuController dmc;
     private final UserMenuController umc;
+    private final UserMenuPresenter ump = new UserMenuPresenter();
     private final LoginController lc;
     private final Filepaths fp = new Filepaths();
     private final JButton button1 = new JButton();
@@ -36,7 +38,7 @@ public class DemoUserMenu {
 
     public void display(){
         // create the frame
-        JFrame frame = new JFrame("Demo User Menu");
+        JFrame frame = new JFrame(ump.demoUserMenu);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // set the frame's size and centre it
@@ -47,7 +49,7 @@ public class DemoUserMenu {
         JMenuBar menuBar = new JMenuBar();
 
         // build a menu
-        JMenu menu = new JMenu("Menu");
+        JMenu menu = new JMenu(ump.menu);
         menu.setMnemonic('M'); // press the M key to access the menu
 
         formatMenuOptions(menu);
@@ -72,12 +74,12 @@ public class DemoUserMenu {
 
         // if clicked "view active transactions" button
         button3.addActionListener(e -> {
-            new PopUpWindow("This feature is available in the full version of the program. Upgrade today!");
+            new PopUpWindow(ump.upgradeMessage);
         });
 
         // if clicked "View Transaction History" button
         button4.addActionListener(e -> {
-            new PopUpWindow("This feature is available in the full version of the program. Upgrade today!");
+            new PopUpWindow(ump.upgradeMessage);
         });
 
         // if clicked "View Wishlist"
@@ -105,37 +107,37 @@ public class DemoUserMenu {
         button1.setBounds(50, 50, 150, 75);
         button1.setBackground(Color.PINK); // DO NOT CHANGE THIS >: ((
         button1.setForeground(Color.PINK);
-        button1.setText("Request Add Item");
+        button1.setText(ump.requestAddItem);
         panel.add(button1);
 
         button2.setBounds(200, 50, 150, 75);
-        button2.setText("Display Available Items");
+        button2.setText(ump.displayAvailableItems);
         panel.add(button2);
 
         button3.setBounds(350, 50, 150, 75);
-        button3.setText("View Active Transactions");
+        button3.setText(ump.viewActiveTrans);
         panel.add(button3);
 
         button4.setBounds(50, 150, 150, 75);
-        button4.setText("View Transaction History");
+        button4.setText(ump.viewTranHistory);
         panel.add(button4);
 
         button5.setBounds(200, 150, 150, 75);
-        button5.setText("View Wishlist");
+        button5.setText(ump.viewWishlist);
         panel.add(button5);
 
         button6.setBounds(350, 150, 150, 75);
-        button6.setText("View Inventory");
+        button6.setText(ump.viewInventory);
         panel.add(button6);
 
         button7.setBounds(300, 250, 150, 75);
-        button7.setText("Upgrade to Full Account");
+        button7.setText(ump.upgradeToFull);
         panel.add(button7);
     }
 
     private void formatMenuOptions(JMenu menu) {
         // log out menu option
-        JMenuItem logOut = new JMenuItem("Log out", KeyEvent.VK_L); // press the L key to access log out option
+        JMenuItem logOut = new JMenuItem(ump.logOut, KeyEvent.VK_L); // press the L key to access log out option
         logOut.addActionListener(e -> {
             writeData();
             System.exit(0);

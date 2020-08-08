@@ -11,8 +11,8 @@ public class Action {
     private UUID id;
     private TradingUser user;
 
-    public Action(UUID id, TradingUser user) {
-        this.id = id;
+    public Action(TradingUser user) {
+        this.id = UUID.randomUUID();;
         this.user = user;
     }
 

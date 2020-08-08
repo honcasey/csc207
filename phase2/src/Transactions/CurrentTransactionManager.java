@@ -1,4 +1,7 @@
 package Transactions;
+import Actions.ActionManager;
+import Actions.AddOrDeleteAction;
+import Actions.EditAction;
 import Users.TradingUser;
 
 import java.util.*;
@@ -7,14 +10,16 @@ import java.util.*;
  * <h1>CurrentTransactionManager</h1>
  * Manages a transaction between two users. A transaction begins once a user expresses interest in an item.
  */
-public class CurrentTransactionManager extends TransactionManager{
+public class CurrentTransactionManager extends TransactionManager {
+    private ActionManager acm;
 
     /**
      * Constructs an instance of the CurrentTransactionManager.
      * @param transactions a map of all transactions to their UUID
      */
-    public CurrentTransactionManager(Map<UUID, Transaction> transactions) {
+    public CurrentTransactionManager(Map<UUID, Transaction> transactions, ActionManager actionManager) {
         super(transactions);
+        this.acm = actionManager;
     }
 
     /**
