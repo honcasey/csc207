@@ -4,7 +4,9 @@ import Initialization.Filepaths;
 import Initialization.Serializer;
 import Presenters.UserMenuPresenter;
 import Popups.ChangePasswordWindow;
+import Users.TradingUser;
 import Users.UserMenuController;
+import Users.UserStatuses;
 
 import javax.swing.*;
 import java.awt.*;
@@ -125,12 +127,6 @@ public class TradingUserMenu {
     }
 
     private void formatMenuOptions(JMenu menu) {
-        // change email option
-        JMenuItem changeEmail = new JMenuItem(ump.changeEmail);
-        changeEmail.addActionListener(e -> {
-            // TODO make change email window
-        });
-
         // change password option
         JMenuItem changePassword = new JMenuItem(ump.changePsw);
         changePassword.addActionListener(e -> {
@@ -141,14 +137,43 @@ public class TradingUserMenu {
         // change home city option
         JMenuItem changeCity = new JMenuItem(ump.changeCity);
         changeCity.addActionListener(e -> {
-            // TODO make change city window
+            String newCity = JOptionPane.showInputDialog(null,
+                    "Enter new city", "Change City");
+            if (newCity != null) {
+                umc.getCurrentTradingUser().setCity(newCity);
+            }
         });
+        menu.add(changeCity);
 
         // request to have your account unfrozen option
         JMenuItem requestUnfrozen = new JMenuItem(ump.requestUnfreeze);
         requestUnfrozen.addActionListener(e -> {
             // TODO make request unfrozen window
         });
+
+        // change your account to vacation status
+        JMenuItem setVacationStatus = new JMenuItem(ump.setVacation);
+        setVacationStatus.addActionListener(e -> {
+            int input = JOptionPane.showConfirmDialog(null,
+                    "Set vacation status?", "Vacation Status", JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+            if (input == JOptionPane.YES_OPTION) {
+                changeVacationStatus(true, umc.getCurrentTradingUser());
+            }
+        });
+        menu.add(setVacationStatus);
+
+        // change your account back to active status
+        JMenuItem unsetVacationStatus = new JMenuItem(ump.unsetVacation);
+        unsetVacationStatus.addActionListener(e -> {
+            int input = JOptionPane.showConfirmDialog(null,
+                    "Unset vacation status?", "Vacation Status", JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+            if (input == JOptionPane.YES_OPTION) {
+                changeVacationStatus(false, umc.getCurrentTradingUser());
+            }
+        });
+        menu.add(unsetVacationStatus);
 
         // log out menu option
         JMenuItem logOut = new JMenuItem(ump.logOut, KeyEvent.VK_L); // press the L key to access log out option
@@ -167,5 +192,13 @@ public class TradingUserMenu {
         serializer.writeAccountsToFile(fp.FROZENACCOUNTS, umc.getUm().getFrozenAccounts());
         serializer.writeTransactionsToFile(fp.TRANSACTIONS, umc.getTm().getAllTransactions());
         serializer.writeItemsMapToFile(fp.ITEMS, umc.getIm().getAllItems());
+    }
+
+    private void changeVacationStatus(boolean b, TradingUser user) {
+        if (b && !user.isFrozen()) {
+            user.setStatus(UserStatuses.VACATION);
+        } else if (!b && !user.isFrozen()) {
+            user.setStatus(UserStatuses.ACTIVE);
+        }
     }
 }

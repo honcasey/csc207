@@ -51,7 +51,8 @@ public class AdminMenuController {
             im.addItem(item); // add to allItems master list of all existing items
             um.addItem(user, item, "inventory"); // add item to the TradingUser's inventory
             allPendingItems.remove(item);
-            AddOrDeleteAction action = new AddOrDeleteAction(user, "inventory");
+            AddOrDeleteAction action = new AddOrDeleteAction(user);
+            action.setIsInventory();
             action.setAdded(item);
             acm.addAction(user, action);
         } catch (InvalidTradingUserException e) {
@@ -88,14 +89,16 @@ public class AdminMenuController {
     public boolean addItemToUser(TradingUser tradingUser, Item item, String listType) throws NullPointerException{
         boolean isSuccessful = false;
         if(listType.equals("wishlist")) {
-            AddOrDeleteAction action = new AddOrDeleteAction(tradingUser, "wishlist");
+            AddOrDeleteAction action = new AddOrDeleteAction(tradingUser);
+            action.setIsWishlist();
             action.setAdded(item);
             acm.addAction(tradingUser, action);
             um.addItem(tradingUser, item, "wishlist");
             //im.addItem(item);//TODO item isn't actually added, need to handle when allItems in ItemManager is null
             isSuccessful = true;
         }else if (listType.equals("inventory")){
-            AddOrDeleteAction action = new AddOrDeleteAction(tradingUser, "inventory");
+            AddOrDeleteAction action = new AddOrDeleteAction(tradingUser);
+            action.setIsInventory();
             action.setAdded(item);
             acm.addAction(tradingUser, action);
             um.addItem(tradingUser, item, "inventory");
