@@ -1,7 +1,7 @@
 package Actions;
 
 import Items.Item;
-import Users.User;
+import Users.TradingUser;
 
 /**
  * Represents an "adding" or "deleting" action, including adding or deleting an Item from a TradingUser's inventory or wishlist.
@@ -9,11 +9,11 @@ import Users.User;
 public class AddOrDeleteAction extends Action {
     private Item added = null;
     private Item removed = null;
-    private final String whichList; // either "inventory" or "wishlist"
+    private boolean wishlist = false;
+    private boolean inventory = false;
 
-    public AddOrDeleteAction(User user, String whichList) {
+    public AddOrDeleteAction(TradingUser user) {
         super(user);
-        this.whichList = whichList;
     }
 
     /**
@@ -44,8 +44,31 @@ public class AddOrDeleteAction extends Action {
         }
     }
 
-    /**
-     * Getter for which list the item is being added to/removed from.
-     */
-    public String getWhichList() {return whichList;}
+    // return true if the action was adding an item, false otherwise
+    public boolean wasAdded() {
+        return added != null;
+    }
+
+    // return true if the action was removing an item, false otherwise
+    public boolean wasRemoved() {
+        return removed != null;
+    }
+
+    public void setIsInventory() {
+        inventory = true;
+    }
+
+    public void setIsWishlist() {
+        wishlist = true;
+    }
+
+    // return true if this action involved the inventory, false otherwise
+    public boolean isInventory() {
+        return inventory;
+    }
+
+    // return true if this action involved the wishlist, false otherwise
+    public boolean isWishlist() {
+        return wishlist;
+    }
 }

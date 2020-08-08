@@ -75,7 +75,8 @@ public class ViewWishlistWindow {
         removeB.addActionListener(e -> {
             int input = JOptionPane.showOptionDialog(null, ump.optionPrompt("remove this item from your Wishlist?"), "Remove Item?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
             if(input == JOptionPane.YES_OPTION) {
-                AddOrDeleteAction action = new AddOrDeleteAction(umc.currentTradingUser, "wishlist");
+                AddOrDeleteAction action = new AddOrDeleteAction(umc.currentTradingUser);
+                action.setIsWishlist();
                 action.setRemoved(items.get(itemsList.getSelectedIndex()));
                 acm.addAction(umc.currentTradingUser, action);
                 itemNames.remove(itemsList.getSelectedIndex()); // if YES, remove the item

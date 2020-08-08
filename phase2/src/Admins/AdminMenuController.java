@@ -1,5 +1,6 @@
 package Admins;
 
+import Actions.Action;
 import Actions.ActionManager;
 import Actions.AddOrDeleteAction;
 import Exceptions.InvalidAdminException;
@@ -8,6 +9,7 @@ import Items.Item;
 import Items.ItemManager;
 import Users.TradingUser;
 import Users.TradingUserManager;
+import Users.User;
 
 import java.util.*;
 
@@ -150,6 +152,22 @@ public class AdminMenuController {
 
     public ActionManager getAcm() {
         return acm;
+    }
+
+    public void undoAddOrDeleteAction(TradingUser user, AddOrDeleteAction action) {
+        if (action.wasAdded()) {
+            if (action.isInventory()) {
+                um.removeItem(user, action.getItem(), "inventory");
+            } else if (action.isWishlist()) {
+                um.removeItem(user, action.getItem(), "wishlist");
+            }
+        } else if (action.wasRemoved()) {
+            if (action.isInventory()) {
+                um.addItem(user, action.getItem(), "inventory");
+            } else if (action.isWishlist()) {
+                um.addItem(user, action.getItem(), "wishlist");
+            }
+        }
     }
 
 }

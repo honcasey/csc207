@@ -1,7 +1,7 @@
 package Actions;
 
 import Transactions.Meeting;
-import Users.User;
+import Users.TradingUser;
 
 
 /**
@@ -11,7 +11,7 @@ public class EditAction extends Action {
     private Meeting previousMeeting;
     private Meeting newMeeting;
 
-    public EditAction(User user, Meeting previousMeeting, Meeting newMeeting) {
+    public EditAction(TradingUser user, Meeting previousMeeting, Meeting newMeeting) {
         super(user);
         this.newMeeting = newMeeting;
         this.previousMeeting = previousMeeting;

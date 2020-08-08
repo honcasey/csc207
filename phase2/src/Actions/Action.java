@@ -1,6 +1,6 @@
 package Actions;
 
-import Users.User;
+import Users.TradingUser;
 
 import java.util.UUID;
 
@@ -9,9 +9,9 @@ import java.util.UUID;
  */
 public class Action {
     private UUID id;
-    private User user;
+    private TradingUser user;
 
-    public Action(User user) {
+    public Action(TradingUser user) {
         this.id = UUID.randomUUID();;
         this.user = user;
     }
@@ -20,7 +20,7 @@ public class Action {
         return id;
     }
 
-    public User getUser() {
+    public TradingUser getUser() {
         return user;
     }
 }
