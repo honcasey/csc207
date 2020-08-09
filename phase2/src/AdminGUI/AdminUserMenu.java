@@ -119,7 +119,7 @@ public class AdminUserMenu {
         panel.add(button2);
 
         button3.setBounds(650, 50, 300, 75);
-      //  button3.setText(amp.createNewAdmin);
+        button3.setText(amp.createNewAdmin);
         panel.add(button3);
 
         button4.setBounds(50, 150, 300, 75);
