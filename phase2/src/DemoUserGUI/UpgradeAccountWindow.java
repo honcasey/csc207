@@ -32,7 +32,7 @@ public class UpgradeAccountWindow {
     public void display(){
         // create the frame
         JFrame frame = new JFrame(ump.accountCreationTitle);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // set the frame's size and centre it
         frame.setSize(new Dimension(400, 250));

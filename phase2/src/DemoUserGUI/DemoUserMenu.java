@@ -74,12 +74,12 @@ public class DemoUserMenu {
 
         // if clicked "view active transactions" button
         button3.addActionListener(e -> {
-            new PopUpWindow(ump.upgradeMessage);
+            new PopUpWindow(ump.upgradeMessage).display();
         });
 
         // if clicked "View Transaction History" button
         button4.addActionListener(e -> {
-            new PopUpWindow(ump.upgradeMessage);
+            new PopUpWindow(ump.upgradeMessage).display();
         });
 
         // if clicked "View Wishlist"
