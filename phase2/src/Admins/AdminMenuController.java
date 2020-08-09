@@ -5,6 +5,7 @@ import Actions.ActionManager;
 import Actions.AddOrDeleteAction;
 import Actions.EditAction;
 import Exceptions.InvalidAdminException;
+import Exceptions.InvalidItemException;
 import Exceptions.InvalidTradingUserException;
 import Items.Item;
 import Items.ItemManager;
@@ -142,6 +143,21 @@ public class AdminMenuController {
 
     public Map<Item, TradingUser> getAllPendingItems() {
         return allPendingItems;
+    }
+
+    /**
+     * This method takes the toString of an item and then returns the owner of that item if the item is in allPendingItems
+     * @param searchItem the toString of the item
+     * @return a TradingUser who requested the item to be added to his inventory
+     * @throws InvalidItemException
+     */
+    public TradingUser getItemOwner(Item searchItem) throws InvalidItemException {
+        for (Item item : allPendingItems.keySet()){
+            if (item.getId().equals(searchItem.getId())){
+                return allPendingItems.get(item);
+            }
+        }
+       throw new InvalidItemException("item not found in allPendingItems");
     }
 
     public AdminManager getAm() {

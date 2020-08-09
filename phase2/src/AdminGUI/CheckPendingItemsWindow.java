@@ -1,6 +1,7 @@
 package AdminGUI;
 
 import Admins.AdminMenuController;
+import Exceptions.InvalidItemException;
 import Items.Item;
 import Presenters.AdminMenuPresenter;
 
@@ -49,7 +50,12 @@ public class CheckPendingItemsWindow {
         //items.setSelectedIndex(0);
         items.addListSelectionListener(e -> {
             // JList<String> items1 = (JList<String>)e.getSource(); // TO-DO: i don't think below is being updated properly
-            //itemUser = amc.getAllPendingItems().get(items.getSelectedValue()).toString();//TODO need to handle nullPointerException
+                try {
+                    Item currItem = listItems.get(items.getSelectedIndex());
+                    itemUser = amc.getItemOwner(currItem).toString();
+                } catch (InvalidItemException invalidItemException) {
+                    invalidItemException.printStackTrace();
+                }
             itemName = pendingItems.get(items.getSelectedIndex());
             itemDesc = itemDescs.get(items.getSelectedIndex());
             String text = amp.itemName + itemName + "\n" + amp.itemDes + itemDesc + "\n" + amp.itemOwner + itemUser;

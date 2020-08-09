@@ -1,6 +1,7 @@
 package Items;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -62,4 +63,6 @@ public class Item implements Serializable {
     public UUID getId() {
         return id;
     }
+
+
 }
