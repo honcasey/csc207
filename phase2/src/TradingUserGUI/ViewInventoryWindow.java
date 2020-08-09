@@ -33,7 +33,7 @@ public class ViewInventoryWindow {
        frame.setLocationRelativeTo(null);
        frame.setVisible(true);
        // LEFT SIDE OF SPLIT
-        List<Item> items = umc.getIm().convertIdsToItems(umc.currentTradingUser.getInventory());
+        List<Item> items = umc.getIm().convertIdsToItems(umc.getCurrentTradingUser().getInventory());
         DefaultListModel<String> itemNames = new DefaultListModel<>();
         DefaultListModel<String> itemDescs = new DefaultListModel<>();
         for (Item item: items){
@@ -78,10 +78,10 @@ public class ViewInventoryWindow {
         removeB.addActionListener(e -> {
             int input = JOptionPane.showOptionDialog(null, ump.optionPrompt("remove this item from your Inventory?"), "Remove Item?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
             if(input == JOptionPane.YES_OPTION) {
-                AddOrDeleteAction action = new AddOrDeleteAction(umc.currentTradingUser);
+                AddOrDeleteAction action = new AddOrDeleteAction(umc.getCurrentTradingUser());
                 action.setIsInventory();
                 action.setRemoved(items.get(itemsList.getSelectedIndex()));
-                acm.addAction(umc.currentTradingUser, action);
+                acm.addAction(umc.getCurrentTradingUser(), action);
                 itemsList.remove(itemsList.getSelectedIndex()); // if YES, remove the item
 
             }
