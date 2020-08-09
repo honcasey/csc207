@@ -16,7 +16,7 @@ public class FrozenUsersWindow {
     private final AdminMenuController amc;
     private final TradingUserManager tum;
     private final AdminMenuPresenter amp = new AdminMenuPresenter();
-    private JComboBox users;
+    private JComboBox<String> users;
     private JButton unfreeze;
     private JPanel mainPanel;
     private JLabel usernameLabel;
@@ -29,25 +29,12 @@ public class FrozenUsersWindow {
     }
 
     public void display() {
-        JFrame frame = new JFrame(amp.unfreezeRequest);
+        JFrame frame = new JFrame("ChangeThresholdWindow");
+        frame.setContentPane(mainPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        // set the frame's size and centre it
-        frame.setSize(new Dimension(700, 500));
-        frame.setLocationRelativeTo(null);
-        // display window
+        frame.pack();
         frame.setVisible(true);
-        frame.add(mainPanel);
 
-        // add labels, textField and textArea
-        mainPanel.setLayout(null);
-        usernameLabel.setBounds(50, 80, 150, 25);
-        mainPanel.add(usernameLabel);
-
-        users.setBounds(180, 80, 250, 25);
-        mainPanel.add(users);
-
-        unfreeze.setBounds(300, 200, 120, 25);
-        mainPanel.add(unfreeze);
 
         List<TradingUser> listUsers = tum.getFrozenAccounts();
 
@@ -56,7 +43,7 @@ public class FrozenUsersWindow {
             String username = curr.getUsername();
             userNames.addElement(username);
         }
-        users = new JComboBox<>(userNames);
+        users.setModel(userNames);
 
 
         users.addActionListener(new ActionListener() {
