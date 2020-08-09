@@ -10,9 +10,9 @@ import java.awt.*;
 
 public class RequestAddItemsWindow {
 
-    private UserMenuController umc;
+    private final UserMenuController umc;
     private final UserMenuPresenter ump = new UserMenuPresenter();
-    private JPanel mainPanel = new JPanel();
+    private final JPanel mainPanel = new JPanel();
     private final JButton requestButton = new JButton(ump.requestItem);
     private final JLabel itemNameLabel = new JLabel(ump.itemName);
     private final JTextField userItemNameText = new JTextField(20);
@@ -40,7 +40,7 @@ public class RequestAddItemsWindow {
             }
             else{
                 umc.addToPendingItems(requestedItem);
-                new PopUpWindow(userItemNameText.getText() + ump.submitForApproval).display();
+                new PopUpWindow(userItemNameText.getText() + ' ' + ump.submitForApproval).display();
             }
         });
     }

@@ -20,7 +20,6 @@ public class ChangeThresholdWindow {
     private final AdminMenuController amc;
     private final TradingUserManager tum;
     private final AdminMenuPresenter amp = new AdminMenuPresenter();
-    private JTextField borrowThreshold;
     private JPanel JPanel1;
     private JButton refreshThresholdsButton;
     private JTextField newBorrowThreshold;
@@ -55,6 +54,13 @@ public class ChangeThresholdWindow {
         }
 
         users.setModel(userNames);
+
+        users.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currUsername = (String) users.getSelectedItem();
+            }
+        });
 
         saveChangesButton.addActionListener(e -> {
             int borrowThreshold = Integer.parseInt(newBorrowThreshold.getText());
@@ -91,23 +97,40 @@ public class ChangeThresholdWindow {
             }
             public void insertUpdate(DocumentEvent e) {
                 warn();
-            }
+            }});
 
-            public void warn() {
-                try {
-                    int newThreshold = Integer.parseInt(newBorrowThreshold.getText());
-                    if (newThreshold <= 0) {
-//                        JOptionPane.showMessageDialog(null,
-//                                "Error: Please enter number bigger than 0", "Error Message",
-//                                JOptionPane.ERROR_MESSAGE);
-                        new PopUpWindow(amp.enter("number bigger than 0")).display();
-                    }
-                } catch (NumberFormatException e) {
-//                    JOptionPane.showMessageDialog(null,
-//                            "Error: Please enter an integer", "Error Message",
-//                            JOptionPane.ERROR_MESSAGE);
-                    new PopUpWindow(amp.enter("an integer")).display();
-                }
+
+        newWeeklyThreshold.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                warn();
             }
-        });
-}}
+            public void removeUpdate(DocumentEvent e) {
+                warn();
+            }
+            public void insertUpdate(DocumentEvent e) {
+                warn();
+            }});
+
+
+        newIncompleteThreshold.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                warn();
+            }
+            public void removeUpdate(DocumentEvent e) {
+                warn();
+            }
+            public void insertUpdate(DocumentEvent e) {
+                warn();
+            }});
+}
+    private void warn() {
+        try {
+            int newThreshold = Integer.parseInt(newBorrowThreshold.getText());
+            if (newThreshold <= 0) {
+                new PopUpWindow(amp.enter("number bigger than 0")).display();
+            }
+        } catch (NumberFormatException e) {
+            new PopUpWindow(amp.enter("an integer")).display();
+        }
+    }
+}
