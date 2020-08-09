@@ -99,7 +99,7 @@ public class TransactionWindow {
         panel2.add(new JLabel(ump.offerItem));
 
         // create JList of suggested items
-        List<Item> itemSuggestions = umc.getIm().itemSuggestions(umc.currentTradingUser, selectedItemOwner);
+        List<Item> itemSuggestions = umc.getIm().itemSuggestions(umc.getCurrentTradingUser(), selectedItemOwner);
         DefaultListModel<String> itemStrings = new DefaultListModel<>();
         for (Item item : itemSuggestions) {
             itemStrings.addElement(item.toString());
@@ -107,7 +107,7 @@ public class TransactionWindow {
         JList<String> suggestions = new JList<>(itemStrings);
 
         // create JComboBox of user's inventory
-        List<Item> inventory = umc.getIm().convertIdsToItems(umc.currentTradingUser.getInventory());
+        List<Item> inventory = umc.getIm().convertIdsToItems(umc.getCurrentTradingUser().getInventory());
         JComboBox<Item> comboBox = new JComboBox<>();
         for (Item item : inventory) {
             comboBox.addItem(item);
