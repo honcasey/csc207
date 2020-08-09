@@ -74,13 +74,13 @@ public class AddOrDeleteAction extends Action {
 
     public String toString() {
         if (added != null) {
-            if (wishlist != false) {
+            if (wishlist) {
                 return getUser() + "added" + added + "to their wishlist.";
             } else {
                 return getUser() + "added" + added + "to their inventory.";
             }
         } else if (removed != null){
-            if (wishlist != false) {
+            if (wishlist) {
                 return getUser() + "removed" + removed + "from their wishlist.";
             } else {
                 return getUser() + "removed" + removed + "from their inventory.";
