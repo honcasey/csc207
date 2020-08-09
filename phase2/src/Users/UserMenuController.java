@@ -22,7 +22,7 @@ import java.util.*;
  * TradingUser to be added to their inventory). <p/>
  */
 public class UserMenuController {
-    public TradingUser currentTradingUser = null; // user that's logged in
+    private TradingUser currentTradingUser = null; // user that's logged in
     private final AdminManager am;
     private final TradingUserManager um;
     private final CurrentTransactionManager tm;
@@ -198,10 +198,6 @@ public class UserMenuController {
 //        }
 //    }
 
-    public ItemManager getIm(){
-        return im;
-    }
-
     /**
      * This method takes in a transaction and the current user using the system. It then formats a string
      * representation of the transaction by making calls to the different managers in the program.
@@ -255,6 +251,10 @@ public class UserMenuController {
             }
             return returnString + "to get " + TheirItemString+ " for " + YourItemString;
         }
+    }
+
+    public ItemManager getIm(){
+        return im;
     }
 
     public CurrentTransactionManager getTm() { return tm; }
