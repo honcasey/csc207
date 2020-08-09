@@ -63,7 +63,8 @@ public class UserMenuController {
      * Adds item to a wishlist and returns true if the item was not already in the wishlist. If already in wishlist, returns false.
      */
     public boolean addToWishlist(Item item) {
-        AddOrDeleteAction action = new AddOrDeleteAction(currentTradingUser, "wishlist");
+        AddOrDeleteAction action = new AddOrDeleteAction(currentTradingUser);
+        action.setIsWishlist();
         action.setAdded(item);
         acm.addAction(currentTradingUser, action);
         return um.addItem(currentTradingUser, item, "wishlist");
