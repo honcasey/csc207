@@ -10,14 +10,25 @@ import Users.TradingUser;
  */
 public class EditAction extends Action {
     private Transaction transaction;
+    private int whichMeeting;
     private Meeting previousMeeting;
     private Meeting newMeeting;
 
-    public EditAction(TradingUser user, Transaction transaction, Meeting previousMeeting, Meeting newMeeting) {
+    public EditAction(TradingUser user, Transaction transaction,
+                      int whichMeeting, Meeting previousMeeting, Meeting newMeeting) {
         super(user);
         this.transaction = transaction;
+        this.whichMeeting = whichMeeting;
         this.newMeeting = newMeeting;
         this.previousMeeting = previousMeeting;
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    public int getWhichMeeting() {
+        return whichMeeting;
     }
 
     public Meeting getNewMeeting() {

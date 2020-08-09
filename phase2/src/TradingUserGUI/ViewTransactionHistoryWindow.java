@@ -69,7 +69,7 @@ public class ViewTransactionHistoryWindow {
         frame.setSize(new Dimension(350, 200));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        List<UUID> mostRecentOneWays = umc.currentTradingUser.getTransactionHistory().mostRecentOneWayTransactions(); // need to handle this when it's null
+        List<UUID> mostRecentOneWays = umc.getCurrentTradingUser().getTransactionHistory().mostRecentOneWayTransactions(); // need to handle this when it's null
         StringBuilder text = new StringBuilder(" ");
         ArrayList<Transaction> allRecentOneWays = umc.getTm().getTransactionsFromIdList(mostRecentOneWays);
         for (Transaction t: allRecentOneWays){
@@ -99,7 +99,7 @@ public class ViewTransactionHistoryWindow {
         frame.setSize(new Dimension(350, 200));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        List<UUID> mostRecentTwoWays = umc.currentTradingUser.getTransactionHistory().mostRecentTwoWayTransactions(); // need to handle this when it's null
+        List<UUID> mostRecentTwoWays = umc.getCurrentTradingUser().getTransactionHistory().mostRecentTwoWayTransactions(); // need to handle this when it's null
 
         StringBuilder text = new StringBuilder(" ");
         ArrayList<Transaction> allRecentOneWays = umc.getTm().getTransactionsFromIdList(mostRecentTwoWays);
@@ -132,7 +132,7 @@ public class ViewTransactionHistoryWindow {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         StringBuilder text = new StringBuilder(" ");
-        List<String> usernames = umc.currentTradingUser.getTransactionHistory().mostTradedWithUsers();
+        List<String> usernames = umc.getCurrentTradingUser().getTransactionHistory().mostTradedWithUsers();
         for (String u: usernames){
             text.append(u).append("/n");
         }
