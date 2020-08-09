@@ -1,12 +1,12 @@
 package TradingUserGUI;
 
+import Actions.EditAction;
 import Popups.PopUpWindow;
 import Presenters.UserMenuPresenter;
 import Transactions.TransactionActions;
 import Transactions.Meeting;
 import Transactions.TransactionStatuses;
 import Transactions.Transaction;
-import Users.User;
 import Users.UserMenuController;
 
 import javax.swing.*;
@@ -58,7 +58,7 @@ public class ViewActiveTransactionsWindow {
             trans.addListSelectionListener(e -> {
                 JList<String> trans1 = (JList<String>)e.getSource();
                 selectedTransaction = allTransactions.get(trans1.getSelectedIndex());
-                transactionDetails = umc.getTransactionString(selectedTransaction, umc.currentTradingUser);
+                transactionDetails = umc.getTransactionString(selectedTransaction, umc.getCurrentTradingUser());
             });
 
             JScrollPane scrollPane = new JScrollPane(); // makes the list scrollable
@@ -200,8 +200,12 @@ public class ViewActiveTransactionsWindow {
     }
 
     private void editMeeting() { // helper method to check if edit threshold has been reached or not if user clicked "edit meeting"
-        if (!umc.editMeetingFlow(umc.currentTradingUser.getUserId(), selectedTransaction, whichMeetingSelected,
+        if (!umc.editMeetingFlow(umc.getCurrentTradingUser().getUserId(), selectedTransaction, whichMeetingSelected,
                 inputLocation, inputTime, inputDate)) {
+            EditAction action = new EditAction(umc.getCurrentTradingUser(), selectedTransaction,
+                    whichMeetingSelected, selectedTransaction.getTransactionMeetings().get(whichMeetingSelected),
+                    new Meeting(inputLocation, inputTime, inputDate));
+            umc.getAcm().addAction(umc.getCurrentTradingUser(), action);
             PopUpWindow edited = new PopUpWindow(ump.successfully("Edited meeting"));
             edited.display();
         }

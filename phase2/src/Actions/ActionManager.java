@@ -1,5 +1,6 @@
 package Actions;
 
+import Transactions.Transaction;
 import Users.TradingUser;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -48,5 +49,10 @@ public class ActionManager {
         return allActions.get(user.getUserId());
     }
 
+    public void clearPreviousEditActions(TradingUser user, Transaction transaction) {
+        for (Action action : getActionsByUser(user)) {
+
+        }
+    }
 
 }

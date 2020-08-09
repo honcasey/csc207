@@ -39,7 +39,7 @@ public class AdminUserMenu {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // set the frame's size and centre it
-        frame.setSize(new Dimension(550, 300));
+        frame.setSize(new Dimension(1020, 300));
         frame.setLocationRelativeTo(null);
 
         // create the menu bar
@@ -108,29 +108,29 @@ public class AdminUserMenu {
         panel.setLayout(null);
 
         // add button's to panel
-        button1.setBounds(50, 50, 150, 75);
-        button1.setBackground(Color.PINK); // DO NOT CHANGE THIS >: ((
-        button1.setForeground(Color.PINK);
+        button1.setBounds(50, 50, 300, 75);
+        //button1.setBackground(Color.PINK); // DO NOT CHANGE THIS >: ((
+        //button1.setForeground(Color.PINK);
         button1.setText(amp.checkPendingItem);
         panel.add(button1);
 
-        button2.setBounds(200, 50, 150, 75);
+        button2.setBounds(350, 50, 300, 75);
         button2.setText(amp.checkFlaggedUser);
         panel.add(button2);
 
-        button3.setBounds(350, 50, 150, 75);
+        button3.setBounds(650, 50, 300, 75);
         button3.setText(amp.createNewAdmin);
         panel.add(button3);
 
-        button4.setBounds(50, 150, 150, 75);
+        button4.setBounds(50, 150, 300, 75);
         button4.setText(amp.addNewItem);
         panel.add(button4);
 
-        button5.setBounds(200, 150, 150, 75);
+        button5.setBounds(350, 150, 300, 75);
         button5.setText(amp.changeThreshold);
         panel.add(button5);
 
-        button6.setBounds(350, 150, 150, 75);
+        button6.setBounds(650, 150, 300, 75);
         button6.setText(amp.unfreezeRequest);
         panel.add(button6);
     }
