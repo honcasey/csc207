@@ -6,6 +6,7 @@ public class AdminMenuPresenter extends MenuPresenter {
     public String permissionDenied = "Permission Denied";
     public String checkPendingItem = "Check Pending Items for Approval";
     public String checkFlaggedUser = "Check Flagged Users";
+    public String createNewAdmin = "Create New Admin User";
     public String addNewItem = "Add New Item to a TradingUser's Wishlist/Inventory";
     public String unfreezeRequest = "Check Unfreeze TradingUser Account Requests";
     public String changeThreshold = "Change a Trading User's Threshold";
