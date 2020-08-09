@@ -33,9 +33,9 @@ public class ChangeThresholdWindow {
     private JTextArea currIncompleteThreshold;
     private String currUsername;
 
-    public ChangeThresholdWindow(AdminMenuController amc, TradingUserManager tum) {
+    public ChangeThresholdWindow(AdminMenuController amc) {
         this.amc = amc;
-        this.tum = tum;
+        this.tum = amc.getTUM();
 
     }
 

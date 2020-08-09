@@ -18,7 +18,6 @@ import java.awt.event.KeyEvent;
  */
 public class AdminUserMenu {
     private final AdminMenuController amc;
-    private final TradingUserManager tum;
     private final Filepaths fp = new Filepaths();
     private final JButton button1 = new JButton();
     private final JButton button2 = new JButton();
@@ -30,7 +29,6 @@ public class AdminUserMenu {
 
     public AdminUserMenu(AdminMenuController amc) {
         this.amc = amc;
-        this.tum = amc.getTUM();
     }
 
     public void display() {
@@ -67,7 +65,7 @@ public class AdminUserMenu {
 
         // if button2 (Check Flagged Users) is clicked
         button2.addActionListener(e -> {
-            FlaggedUsersWindow fuw = new FlaggedUsersWindow(amc,tum);
+            FlaggedUsersWindow fuw = new FlaggedUsersWindow(amc);
             fuw.display();
         });
 
@@ -89,13 +87,13 @@ public class AdminUserMenu {
 
         // if button5 (Change TradingUser Threshold) is clicked
         button5.addActionListener(e ->{
-            ChangeThresholdWindow tw = new ChangeThresholdWindow(amc, tum);
+            ChangeThresholdWindow tw = new ChangeThresholdWindow(amc);
             tw.display();
         });
 
         // if button6 (Check Unfreeze TradingUser Account Requests) is click
         button6.addActionListener(e -> {
-            FrozenUsersWindow frw = new FrozenUsersWindow(amc,tum);
+            FrozenUsersWindow frw = new FrozenUsersWindow(amc);
             frw.display();
         });
 
@@ -154,11 +152,11 @@ public class AdminUserMenu {
 
     private void writeData() {
         Serializer serializer = new Serializer();
-        serializer.writeUsersToFile(fp.USERS, tum.getAllTradingUsers());
+        serializer.writeUsersToFile(fp.USERS, amc.getTUM().getAllTradingUsers());
         serializer.writeAdminsToFile(fp.ADMINS, amc.getAm().getAllAdmins());
         serializer.writeItemsToFile(fp.REQUESTEDITEMS, amc.getAllPendingItems());
-        serializer.writeAccountsToFile(fp.FLAGGEDACCOUNTS, tum.getFlaggedAccounts());
-        serializer.writeAccountsToFile(fp.FROZENACCOUNTS, tum.getFrozenAccounts());
+        serializer.writeAccountsToFile(fp.FLAGGEDACCOUNTS, amc.getTUM().getFlaggedAccounts());
+        serializer.writeAccountsToFile(fp.FROZENACCOUNTS, amc.getTUM().getFrozenAccounts());
         serializer.writeItemsMapToFile(fp.ITEMS, amc.getIm().getAllItems());
     }
 

@@ -23,9 +23,9 @@ public class FrozenUsersWindow {
     private String currUsername;
 
 
-    public FrozenUsersWindow(AdminMenuController amc, TradingUserManager tum) {
+    public FrozenUsersWindow(AdminMenuController amc) {
         this.amc = amc;
-        this.tum = tum;
+        this.tum = amc.getTUM();
     }
 
     public void display() {

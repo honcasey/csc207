@@ -23,9 +23,9 @@ public class FlaggedUsersWindow {
     private JLabel usernameLabel;
     private String currUser;
 
-    public FlaggedUsersWindow(AdminMenuController amc, TradingUserManager tum) {
+    public FlaggedUsersWindow(AdminMenuController amc) {
         this.amc = amc;
-        this.tum = tum;
+        this.tum = amc.getTUM();
     }
 
     public void display() {
