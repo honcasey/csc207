@@ -3,7 +3,6 @@ package Initialization;
 import Admins.AdminManager;
 import Exceptions.InvalidDemoUserException;
 import Exceptions.InvalidTradingUserException;
-import Users.DemoUser;
 import Users.DemoUserManager;
 import Users.TradingUserManager;
 
