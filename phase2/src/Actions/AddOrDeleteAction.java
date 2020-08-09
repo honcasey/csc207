@@ -81,4 +81,20 @@ public class AddOrDeleteAction extends Action {
     public boolean isWishlist() {
         return wishlist;
     }
+
+    public String toString() {
+        if (added != null) {
+            if (wishlist) {
+                return getUser() + "added" + added + "to their wishlist.";
+            } else {
+                return getUser() + "added" + added + "to their inventory.";
+            }
+        } else {
+            if (wishlist) {
+                return getUser() + "removed" + removed + "from their wishlist.";
+            } else {
+                return getUser() + "removed" + removed + "from their inventory.";
+            }
+        }
+    }
 }

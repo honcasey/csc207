@@ -203,7 +203,7 @@ public class ViewActiveTransactionsWindow {
         if (!umc.editMeetingFlow(umc.getCurrentTradingUser().getUserId(), selectedTransaction, whichMeetingSelected,
                 inputLocation, inputTime, inputDate)) {
             EditAction action = new EditAction(umc.getCurrentTradingUser(), selectedTransaction,
-                    selectedTransaction.getTransactionMeetings().get(whichMeetingSelected),
+                    whichMeetingSelected, selectedTransaction.getTransactionMeetings().get(whichMeetingSelected),
                     new Meeting(inputLocation, inputTime, inputDate));
             umc.getAcm().addAction(umc.getCurrentTradingUser(), action);
             PopUpWindow edited = new PopUpWindow(ump.successfully("Edited meeting"));

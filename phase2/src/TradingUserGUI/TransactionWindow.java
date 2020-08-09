@@ -3,7 +3,6 @@ package TradingUserGUI;
 import Exceptions.InvalidItemException;
 import Items.Item;
 import Presenters.UserMenuPresenter;
-import Transactions.Meeting;
 import Transactions.TransactionBuilder;
 import Users.TradingUser;
 import Users.UserMenuController;
