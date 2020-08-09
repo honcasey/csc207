@@ -38,4 +38,8 @@ public class EditAction extends Action {
     public Meeting getPreviousMeeting() {
         return previousMeeting;
     }
+
+    public String toString() {
+        return getUser().toString() + "edited the meeting from" + previousMeeting + "to" + newMeeting;
+    }
 }
