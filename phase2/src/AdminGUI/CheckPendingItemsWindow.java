@@ -30,7 +30,7 @@ public class CheckPendingItemsWindow {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // closes the current frame but doesn't terminate the app
 
         // set the frame's size and centre it
-        frame.setSize(new Dimension(700, 500));
+        frame.setSize(new Dimension(710, 350));
         frame.setLocationRelativeTo(null);
 
         // LEFT SIDE OF SPLITPANE
@@ -76,7 +76,7 @@ public class CheckPendingItemsWindow {
         rightPanel.add(desc);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-        splitPane.setBounds(150, 100, 400, 200);
+        splitPane.setBounds(50, 50, 600, 200);
 
         frame.getContentPane().add(splitPane);
 
