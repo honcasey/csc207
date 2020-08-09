@@ -79,7 +79,7 @@ public class AddOrDeleteAction extends Action {
             } else {
                 return getUser() + "added" + added + "to their inventory.";
             }
-        } else if (removed != null){
+        } else {
             if (wishlist) {
                 return getUser() + "removed" + removed + "from their wishlist.";
             } else {
