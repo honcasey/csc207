@@ -13,7 +13,7 @@ public class EditAction extends Action {
     private Meeting previousMeeting;
     private Meeting newMeeting;
 
-    public EditAction(TradingUser user,Transaction transaction, Meeting previousMeeting, Meeting newMeeting) {
+    public EditAction(TradingUser user, Transaction transaction, Meeting previousMeeting, Meeting newMeeting) {
         super(user);
         this.transaction = transaction;
         this.newMeeting = newMeeting;
