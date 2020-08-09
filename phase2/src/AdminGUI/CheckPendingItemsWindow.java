@@ -15,6 +15,7 @@ public class CheckPendingItemsWindow {
     private String itemName; // name of item
     private String itemDesc; // item description
     private String itemUser; // who the item belongs to
+    private JTextArea desc = new JTextArea();
 
     public CheckPendingItemsWindow(AdminMenuController amc) { this.amc = amc; }
 
@@ -45,12 +46,16 @@ public class CheckPendingItemsWindow {
         // create JList
         JList<String> items = new JList<>(pendingItems);
         items.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        items.setSelectedIndex(0);
+        //items.setSelectedIndex(0);
         items.addListSelectionListener(e -> {
             // JList<String> items1 = (JList<String>)e.getSource(); // TO-DO: i don't think below is being updated properly
-            itemUser = amc.getAllPendingItems().get(items.getSelectedValue()).toString();
+            //itemUser = amc.getAllPendingItems().get(items.getSelectedValue()).toString();//TODO need to handle nullPointerException
             itemName = pendingItems.get(items.getSelectedIndex());
             itemDesc = itemDescs.get(items.getSelectedIndex());
+            String text = amp.itemName + itemName + "\n" + amp.itemDes + itemDesc + "\n" + amp.itemOwner + itemUser;
+            desc.setText(text);
+
+
         });
 
         // create JScrollPane (makes list scrollable)
@@ -60,11 +65,7 @@ public class CheckPendingItemsWindow {
         Panel leftPanel = new Panel();
         leftPanel.add(scrollPane);
 
-        // RIGHT SIDE OF SPLITPANE
-        // create item info into text area
-        String text = amp.itemName + itemName + "\n" + amp.itemDes + itemDesc + "\n" + amp.itemOwner + itemUser;
-        JTextArea desc = new JTextArea(text);
-
+        //RIGHT SIDE OF SPLITPANE
         Panel rightPanel = new Panel();
         rightPanel.add(desc);
 
