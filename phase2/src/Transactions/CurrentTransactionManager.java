@@ -12,8 +12,7 @@ import java.util.*;
  */
 public class CurrentTransactionManager extends TransactionManager {
     private ActionManager acm;
-    private TransactionStatusStrategy ss;
-
+    private final TransactionStatusStrategy ss;
     /**
      * Constructs an instance of the CurrentTransactionManager.
      * @param transactions a map of all transactions to their UUID
