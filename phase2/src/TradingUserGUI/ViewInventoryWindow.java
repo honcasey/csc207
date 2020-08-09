@@ -82,7 +82,8 @@ public class ViewInventoryWindow {
                 action.setIsInventory();
                 action.setRemoved(items.get(itemsList.getSelectedIndex()));
                 acm.addAction(umc.currentTradingUser, action);
-                itemNames.remove(itemsList.getSelectedIndex()); // if YES, remove the item
+                itemsList.remove(itemsList.getSelectedIndex()); // if YES, remove the item
+
             }
         });
 
