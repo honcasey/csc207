@@ -27,4 +27,14 @@ public class EditAction extends Action {
     public Meeting getPreviousMeeting() {
         return previousMeeting;
     }
+
+    @Override
+    public boolean isEditAction() {
+        return true;
+    }
+
+    @Override
+    public boolean isAddorDeleteAction() {
+        return false;
+    }
 }

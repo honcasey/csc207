@@ -16,6 +16,16 @@ public class AddOrDeleteAction extends Action {
         super(user);
     }
 
+    @Override
+    public boolean isEditAction() {
+        return false;
+    }
+
+    @Override
+    public boolean isAddorDeleteAction() {
+        return true;
+    }
+
     /**
      * Sets the Item object of this Action if an item is being added.
      * @param added Item that is being added to a list.

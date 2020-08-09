@@ -177,7 +177,6 @@ public class AdminMenuController {
     }
 
     public void undoEditAction(EditAction action) {
-
     }
 
 }

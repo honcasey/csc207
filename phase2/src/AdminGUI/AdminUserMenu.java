@@ -11,6 +11,8 @@ import Users.TradingUserManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 /**
@@ -26,6 +28,7 @@ public class AdminUserMenu {
     private final JButton button4 = new JButton();
     private final JButton button5 = new JButton();
     private final JButton button6 = new JButton();
+    private final JButton button7 = new JButton();
     private final AdminMenuPresenter amp = new AdminMenuPresenter();
 
     public AdminUserMenu(AdminMenuController amc) {
@@ -98,6 +101,14 @@ public class AdminUserMenu {
             frw.display();
         });
 
+        // view undoable actions
+        button7.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UndoActionWindow uaw = new UndoActionWindow(amc);
+                uaw.display();
+            }
+        });
 
         // display the window
         frame.setVisible(true);
@@ -132,6 +143,11 @@ public class AdminUserMenu {
         button6.setBounds(650, 150, 300, 75);
         button6.setText(amp.unfreezeRequest);
         panel.add(button6);
+
+        button7.setBounds(50, 250, 300, 75);
+        button7.setText("Undo Actions");
+        panel.add(button7);
+
     }
 
     private void formatMenuOptions(JMenu menu) {
