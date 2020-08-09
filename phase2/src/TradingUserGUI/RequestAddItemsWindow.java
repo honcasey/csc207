@@ -17,7 +17,7 @@ public class RequestAddItemsWindow {
     private final JLabel itemNameLabel = new JLabel(ump.itemName);
     private final JTextField userItemNameText = new JTextField(20);
     private final JLabel itemDescriptionLabel = new JLabel(ump.itemDes);
-    private final JTextField userItemDescription = new JTextField(100);
+    private final JTextArea userItemDescription = new JTextArea();
 
     public RequestAddItemsWindow(UserMenuController umc) {
         this.umc = umc;
@@ -35,8 +35,13 @@ public class RequestAddItemsWindow {
         requestButton.addActionListener(e -> {
             Item requestedItem = new Item(userItemNameText.getText());
             requestedItem.setDescription(userItemDescription.getText());
-            umc.addToPendingItems(requestedItem);
-            new PopUpWindow(userItemNameText.getText() + ump.submitForApproval).display();
+            if(userItemNameText.getText().equals("")) {
+                new PopUpWindow("Please give your item a name.").display();
+            }
+            else{
+                umc.addToPendingItems(requestedItem);
+                new PopUpWindow(userItemNameText.getText() + ump.submitForApproval).display();
+            }
         });
     }
 
