@@ -27,7 +27,8 @@ public class FrozenUsersWindow {
         this.amc = amc;
         this.tum = tum;
     }
-    public void display(){
+
+    public void display() {
         JFrame frame = new JFrame(amp.unfreezeRequest);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         // set the frame's size and centre it
@@ -42,10 +43,10 @@ public class FrozenUsersWindow {
         usernameLabel.setBounds(50, 80, 150, 25);
         mainPanel.add(usernameLabel);
 
-        users.setBounds(180,80,250,25);
+        users.setBounds(180, 80, 250, 25);
         mainPanel.add(users);
 
-        unfreeze.setBounds(300,200,120,25);
+        unfreeze.setBounds(300, 200, 120, 25);
         mainPanel.add(unfreeze);
 
         List<TradingUser> listUsers = tum.getFrozenAccounts();
@@ -69,6 +70,9 @@ public class FrozenUsersWindow {
         unfreeze.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (currUsername == null) {
+                    return;
+                }
                 try {
                     TradingUser user = tum.getTradingUser(currUsername);
                     tum.unfreezeAccount(user);
@@ -79,4 +83,5 @@ public class FrozenUsersWindow {
             }
         });
     }
+
 }

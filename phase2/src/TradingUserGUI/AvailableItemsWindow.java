@@ -44,8 +44,7 @@ public class AvailableItemsWindow {
         availableItemsMap = umc.getAvailableItems();
         if (availableItemsMap == null) {
             new PopUpWindow(ump.noItem).display();
-        }
-        else {
+        } else {
             comboBox1 = new JComboBox<>();
 
             for (Item item : availableItemsMap.keySet()) {
@@ -53,7 +52,7 @@ public class AvailableItemsWindow {
             }
 
             comboBox1.addActionListener(e -> {
-                JComboBox cb = (JComboBox)e.getSource();
+                JComboBox cb = (JComboBox) e.getSource();
                 selectedItem = (Item) cb.getSelectedItem();
                 ItemDetailsWindow idw = new ItemDetailsWindow(umc, selectedItem, availableItemsMap);
                 idw.display();
@@ -67,4 +66,5 @@ public class AvailableItemsWindow {
         // add the combo box
         panel.add(comboBox1);
     }
+
 }

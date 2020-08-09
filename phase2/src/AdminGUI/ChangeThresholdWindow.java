@@ -11,30 +11,40 @@ import Users.User;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChangeThresholdForm {
+public class ChangeThresholdWindow {
     private final AdminMenuController amc;
     private final TradingUserManager tum;
     private final AdminMenuPresenter amp = new AdminMenuPresenter();
     private JTextField borrowThreshold;
-    private JPanel panel1;
+    private JPanel JPanel1;
     private JButton refreshThresholdsButton;
     private JTextField newBorrowThreshold;
     private JTextField newWeeklyThreshold;
     private JTextField newIncompleteThreshold;
     private JButton saveChangesButton;
-    private JComboBox users;
-    private JTextArea currBorrowThreshold = new JTextArea("", 1, 1);
-    private JTextArea currWeeklyThreshold = new JTextArea("", 1, 1);
-    private JTextArea currIncompleteThreshold = new JTextArea("", 1, 1);
+    private JComboBox<String> users;
+    private JTextArea currBorrowThreshold;
+    private JTextArea currWeeklyThreshold;
+    private JTextArea currIncompleteThreshold;
     private String currUsername;
 
-    public ChangeThresholdForm(AdminMenuController amc, TradingUserManager tum) {
+    public ChangeThresholdWindow(AdminMenuController amc, TradingUserManager tum) {
         this.amc = amc;
         this.tum = tum;
+
+    }
+
+    public void display() {
+        JFrame frame = new JFrame("ChangeThresholdWindow");
+        frame.setContentPane(JPanel1);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
 
         List<TradingUser> listUsers = amc.getAllTradingUsers();
 
@@ -44,33 +54,33 @@ public class ChangeThresholdForm {
             userNames.addElement(username);
         }
 
-        users = new JComboBox<>(userNames);
+        users.setModel(userNames);
 
-    saveChangesButton.addActionListener(e -> {
-        int borrowThreshold = Integer.parseInt(newBorrowThreshold.getText());
-        int weeklyThreshold = Integer.parseInt(newWeeklyThreshold.getText());
-        int incompleteThreshold = Integer.parseInt(newIncompleteThreshold.getText());
-        try {
-            amc.updateThreshold(currUsername, borrowThreshold,"Borrow");
-            amc.updateThreshold(currUsername, weeklyThreshold, "Weekly");
-            amc.updateThreshold(currUsername, incompleteThreshold, "Incomplete");
-        } catch (InvalidTradingUserException invalidTradingUserException) {
-            //JOptionPane.showMessageDialog(null,
-                    //"Error: UpdateThreshold method in adminController failed, so the threshold wasn't changed", "Error Message",
-                    //JOptionPane.ERROR_MESSAGE);
-            new PopUpWindow(amp.updateThresholdError).display();
-        }
+        saveChangesButton.addActionListener(e -> {
+            int borrowThreshold = Integer.parseInt(newBorrowThreshold.getText());
+            int weeklyThreshold = Integer.parseInt(newWeeklyThreshold.getText());
+            int incompleteThreshold = Integer.parseInt(newIncompleteThreshold.getText());
+            try {
+                amc.updateThreshold(currUsername, borrowThreshold,"Borrow");
+                amc.updateThreshold(currUsername, weeklyThreshold, "Weekly");
+                amc.updateThreshold(currUsername, incompleteThreshold, "Incomplete");
+            } catch (InvalidTradingUserException invalidTradingUserException) {
+                //JOptionPane.showMessageDialog(null,
+                //"Error: UpdateThreshold method in adminController failed, so the threshold wasn't changed", "Error Message",
+                //JOptionPane.ERROR_MESSAGE);
+                new PopUpWindow(amp.updateThresholdError).display();
+            }
 
 
-    });
+        });
 
-    refreshThresholdsButton.addActionListener(e -> {
-        List<Integer> thresholdList = tum.getCurrThresholds(currUsername);
-        currBorrowThreshold.setText(thresholdList.get(0).toString());
-        currWeeklyThreshold.setText(thresholdList.get(1).toString());
-        currIncompleteThreshold.setText(thresholdList.get(2).toString());
+        refreshThresholdsButton.addActionListener(e -> {
+            List<Integer> thresholdList = tum.getCurrThresholds(currUsername);
+            currBorrowThreshold.setText(thresholdList.get(0).toString());
+            currWeeklyThreshold.setText(thresholdList.get(1).toString());
+            currIncompleteThreshold.setText(thresholdList.get(2).toString());
 
-    });
+        });
 
         newBorrowThreshold.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
@@ -100,7 +110,4 @@ public class ChangeThresholdForm {
                 }
             }
         });
-        users.addActionListener(e -> currUsername = (String) users.getSelectedItem());
-    }
-
-}
+}}

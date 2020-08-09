@@ -8,7 +8,7 @@ public class AdminMenuPresenter extends MenuPresenter {
     public String checkFlaggedUser = "Check Flagged Users";
     public String createNewAdmin = "Create New Admin User";
     public String addNewItem = "Add New Item to a TradingUser's Wishlist/Inventory";
-    public String changeThreshold = "Change TradingUser Threshold";
+    public String changeThreshold = "Change Threshold for Trading Users";
     public String unfreezeRequest = "Check Unfreeze TradingUser Account Requests";
 
     public String username = "New Admin Username:";

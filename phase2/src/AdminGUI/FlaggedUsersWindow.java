@@ -27,7 +27,8 @@ public class FlaggedUsersWindow {
         this.amc = amc;
         this.tum = tum;
     }
-    public void display(){
+
+    public void display() {
         JFrame frame = new JFrame(amp.checkFlaggedUser);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         // set the frame's size and centre it
@@ -39,16 +40,16 @@ public class FlaggedUsersWindow {
 
         // add labels, textField and textArea
         mainPanel.setLayout(null);
-        freezeButton.setBounds(180,200,110,25);
+        freezeButton.setBounds(180, 200, 110, 25);
         mainPanel.add(freezeButton);
 
-        unflagButton.setBounds(330,200,110,25);
+        unflagButton.setBounds(330, 200, 110, 25);
         mainPanel.add(unflagButton);
 
         usernameLabel.setBounds(50, 80, 150, 25);
         mainPanel.add(usernameLabel);
 
-        users.setBounds(180,80,250,25);
+        users.setBounds(180, 80, 250, 25);
         mainPanel.add(users);
 
         List<TradingUser> listUsers = tum.getFlaggedAccounts();
@@ -65,6 +66,9 @@ public class FlaggedUsersWindow {
         freezeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (currUser == null) {
+                    return;
+                }
                 try {
                     tum.freezeAccount(tum.getTradingUser(currUser));
                 } catch (InvalidTradingUserException invalidTradingUserException) {
@@ -76,6 +80,9 @@ public class FlaggedUsersWindow {
         unflagButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (currUser == null) {
+                    return;
+                }
                 try {
                     TradingUser user = tum.getTradingUser(currUser);
                     tum.getFlaggedAccounts().remove(user);
@@ -93,4 +100,5 @@ public class FlaggedUsersWindow {
             }
         });
     }
+
 }
