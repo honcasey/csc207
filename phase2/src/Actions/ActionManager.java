@@ -46,7 +46,10 @@ public class ActionManager {
      * Filter list of all actions by a specific user.
      */
     public List<Action> getActionsByUser(TradingUser user) {
-        return allActions.get(user.getUserId());
+        if (allActions.keySet().contains(user)) {
+            return allActions.get(user.getUserId());
+        }
+        return null; // if this TradingUser hasn't made any actions yet
     }
 
     public void clearPreviousEditActions(TradingUser user, Transaction transaction) {

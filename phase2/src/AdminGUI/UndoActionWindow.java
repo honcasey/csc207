@@ -5,7 +5,9 @@ import Actions.ActionManager;
 import Actions.AddOrDeleteAction;
 import Actions.EditAction;
 import Admins.AdminMenuController;
+import Exceptions.InvalidTradingUserException;
 import Items.Item;
+import Popups.PopUpWindow;
 import Users.TradingUser;
 
 import javax.swing.*;
@@ -49,33 +51,41 @@ public class UndoActionWindow {
 
         DefaultListModel<String> actions = new DefaultListModel<>(); // list of all actions by the selected user
         ArrayList<Action> listActions = new ArrayList<>();
-        for (Action action : am.getActionsByUser(selectedUser)) {
-            actions.addElement(action.toString());
-            listActions.add(action);
+        if (am.getActionsByUser(selectedUser) == null) {
+            PopUpWindow pw = new PopUpWindow("No users have made any undoable actions yet!");
+            pw.display();
         }
-
-        JList<String> usersActions = new JList<>(actions);
-        usersActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        usersActions.setSelectedIndex(0);
-        usersActions.addListSelectionListener(e -> selectedAction = listActions.get(usersActions.getSelectedIndex()));
-
-        JButton undo = new JButton("Undo Action");
-        undo.setBounds(600, 300, 100, 50);
-        undo.addActionListener(e -> {
-            if (selectedAction.isAddorDeleteAction()) {
-                amc.undoAddOrDeleteAction((AddOrDeleteAction) selectedAction); // idk how to not have to cast this
+        else {
+            for (Action action : am.getActionsByUser(selectedUser)) {
+                actions.addElement(action.toString());
+                listActions.add(action);
             }
-            else if (selectedAction.isEditAction()) {
-                amc.undoEditAction((EditAction) selectedAction);
-            }
-        });
+            JList<String> usersActions = new JList<>(actions);
+            usersActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            usersActions.setSelectedIndex(0);
+            usersActions.addListSelectionListener(e -> {
+                selectedAction = listActions.get(usersActions.getSelectedIndex());
+            });
 
-        Panel panel = new Panel();
-        panel.add(allUsers);
-        panel.add(usersActions);
-        panel.add(undo);
 
-        frame.getContentPane().add(panel);
-        frame.setVisible(true);
+            JButton undo = new JButton("Undo Action");
+            undo.setBounds(600, 300, 100, 50);
+            undo.addActionListener(e -> {
+                if (selectedAction.isAddorDeleteAction()) {
+                    amc.undoAddOrDeleteAction((AddOrDeleteAction) selectedAction); // idk how to not have to cast this
+                }
+                else if (selectedAction.isEditAction()) {
+                    amc.undoEditAction((EditAction) selectedAction);
+                }
+            });
+
+            Panel panel = new Panel();
+            panel.add(allUsers);
+            panel.add(usersActions);
+            panel.add(undo);
+
+            frame.getContentPane().add(panel);
+            frame.setVisible(true);
+        }
     }
 }
