@@ -13,14 +13,6 @@
           <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
       </hspacer>
-      <component id="6e351" class="javax.swing.JLabel" binding="Thresholds">
-        <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Weekly Threshold"/>
-        </properties>
-      </component>
       <component id="75d71" class="javax.swing.JLabel">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
@@ -232,6 +224,14 @@
           </grid>
         </constraints>
         <properties/>
+      </component>
+      <component id="5f0c7" class="javax.swing.JLabel" binding="WeeklyThresholdLabel">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="WeeklyThreshold"/>
+        </properties>
       </component>
     </children>
   </grid>

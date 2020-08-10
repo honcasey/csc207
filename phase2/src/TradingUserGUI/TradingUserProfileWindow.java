@@ -22,6 +22,7 @@ public class TradingUserProfileWindow {
     private static TradingUser currUser;
     private JPanel mainPanel;
     private JTextArea username;
+    private JLabel WeeklyThresholdLabel;
 
 
     public TradingUserProfileWindow(PastTransactionManager ptm, TradingUser currUser){
