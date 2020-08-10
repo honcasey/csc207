@@ -39,8 +39,9 @@ public class TradingUserManager {
      * @param password account password
      * @return username and userId as string separated by comma.
      */
-    public TradingUser addTradingUser(String username, String password) throws InvalidTradingUserException {
+    public TradingUser addTradingUser(String username, String password, String city) throws InvalidTradingUserException {
         TradingUser newTradingUser = new TradingUser(username, password);
+        newTradingUser.setCity(city);
         if (allTradingUsers.size() == 0) {
             allTradingUsers.add(newTradingUser);
             return newTradingUser;
@@ -74,7 +75,7 @@ public class TradingUserManager {
      * @return List of ints (borrowThreshold, weeklyThreshold, incompleteThreshold)
      */
     public List<Integer> getCurrThresholds(String username) {
-            ArrayList<Integer> thresholdList = new ArrayList<Integer>();
+            ArrayList<Integer> thresholdList = new ArrayList<>();
             try {
                 TradingUser tradingUser = getTradingUser(username);
                 thresholdList.add(tradingUser.getBorrowThreshold());
@@ -147,12 +148,12 @@ public class TradingUserManager {
      */
     public boolean addItem(TradingUser tradingUser, Item item, String listType) {
         if (listType.equals("wishlist")) {
-            if (!tradingUser.getWishlist().contains(item)) {
+            if (!tradingUser.getWishlist().contains(item.getId())) {
                 tradingUser.getWishlist().add(item.getId());
                 return true;
             }
         } else if (listType.equals("inventory")) {
-            if (!tradingUser.getInventory().contains(item)) {
+            if (!tradingUser.getInventory().contains(item.getId())) {
                 tradingUser.getInventory().add(item.getId());
             }
         }
@@ -290,7 +291,7 @@ public class TradingUserManager {
     }
 
     public List<String> getAllTradingUsersUsernames(){
-        List<String> userList = new ArrayList<String>();
+        List<String> userList = new ArrayList<>();
         for(User user : allTradingUsers){
             String username = user.getUsername();
             userList.add(username);
