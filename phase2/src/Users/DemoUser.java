@@ -21,12 +21,6 @@ public class DemoUser extends User implements Serializable {
         wishList = new ArrayList<>();
         inventory = new ArrayList<>();
 
-        Item book = new Item("book");
-//        book.setDescription("Hola, soy un libro");
-        Item notebook = new Item("notebook");
-        wishList.add(book.getId());
-        inventory.add(notebook.getId());
-
     }
 
     public List<UUID> getInventory(){

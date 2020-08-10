@@ -7,7 +7,7 @@ import java.util.UUID;
 /**
  * Represents an undoable action, storing the TradingUser who did the action and the activity/object involved.
  */
-public class Action {
+public abstract class Action {
     private UUID id;
     private TradingUser user;
 
@@ -15,6 +15,10 @@ public class Action {
         this.id = UUID.randomUUID();;
         this.user = user;
     }
+
+    public abstract boolean isEditAction();
+
+    public abstract boolean isAddorDeleteAction();
 
     public UUID getId() {
         return id;

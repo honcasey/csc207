@@ -42,4 +42,14 @@ public class EditAction extends Action {
     public String toString() {
         return getUser() + "edited the meeting from" + previousMeeting + "to" + newMeeting;
     }
+
+    @Override
+    public boolean isEditAction() {
+        return true;
+    }
+
+    @Override
+    public boolean isAddorDeleteAction() {
+        return false;
+    }
 }

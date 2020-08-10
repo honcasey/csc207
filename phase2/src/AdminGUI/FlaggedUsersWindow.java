@@ -31,8 +31,10 @@ public class FlaggedUsersWindow {
     public void display() {
         JFrame frame = new JFrame("ChangeThresholdWindow");
         frame.setContentPane(mainPanel);
+        frame.setSize(new Dimension(500, 300));
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.pack();
+        // frame.pack();
         frame.setVisible(true);
 
 

@@ -11,6 +11,8 @@ import Users.TradingUserManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 /**
@@ -18,26 +20,30 @@ import java.awt.event.KeyEvent;
  */
 public class AdminUserMenu {
     private final AdminMenuController amc;
-    private final AdminMenuPresenter amp = new AdminMenuPresenter();
+    private final TradingUserManager tum;
     private final Filepaths fp = new Filepaths();
-    private final JFrame frame = new JFrame(amp.adminMenuTitle);
     private final JButton button1 = new JButton();
     private final JButton button2 = new JButton();
     private final JButton button3 = new JButton();
     private final JButton button4 = new JButton();
     private final JButton button5 = new JButton();
     private final JButton button6 = new JButton();
+    private final JButton button7 = new JButton();
+    private JFrame frame = new JFrame();
+    private final AdminMenuPresenter amp = new AdminMenuPresenter();
 
     public AdminUserMenu(AdminMenuController amc) {
         this.amc = amc;
+        this.tum = amc.getTUM();
     }
 
     public void display() {
-        // configure the frame
+        // create the frame
+        frame = new JFrame(amp.adminMenuTitle);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // set the frame's size and centre it
-        frame.setSize(new Dimension(1020, 300));
+        frame.setSize(new Dimension(1020, 500));
         frame.setLocationRelativeTo(null);
 
         // create the menu bar
@@ -97,6 +103,11 @@ public class AdminUserMenu {
             frw.display();
         });
 
+        // view undoable actions
+        button7.addActionListener(e -> {
+            UndoActionWindow uaw = new UndoActionWindow(amc);
+            uaw.display();
+        });
 
         // display the window
         frame.setVisible(true);
@@ -131,6 +142,11 @@ public class AdminUserMenu {
         button6.setBounds(650, 150, 300, 75);
         button6.setText(amp.unfreezeRequest);
         panel.add(button6);
+
+        button7.setBounds(50, 250, 300, 75);
+        button7.setText("Undo Actions");
+        panel.add(button7);
+
     }
 
     private void formatMenuOptions(JMenu menu) {

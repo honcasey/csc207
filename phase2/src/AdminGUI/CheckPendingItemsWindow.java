@@ -3,6 +3,7 @@ package AdminGUI;
 import Admins.AdminMenuController;
 import Exceptions.InvalidItemException;
 import Items.Item;
+import Popups.PopUpWindow;
 import Presenters.AdminMenuPresenter;
 
 import javax.swing.*;
@@ -38,64 +39,67 @@ public class CheckPendingItemsWindow {
         DefaultListModel<String> pendingItems = new DefaultListModel<>();
         DefaultListModel<String> itemDescs = new DefaultListModel<>();
         ArrayList<Item> listItems = new ArrayList<>();
-        for (Item curr : amc.getAllPendingItems().keySet()) {
-            listItems.add(curr);
-            pendingItems.addElement(curr.toString());
-            itemDescs.addElement(curr.getDescription());
+        if (amc.getAllPendingItems().isEmpty()) {
+            PopUpWindow pw = new PopUpWindow("No pending items to be checked.");
+            pw.display();
         }
+        else {
+            for (Item curr : amc.getAllPendingItems().keySet()) {
+                listItems.add(curr);
+                pendingItems.addElement(curr.toString());
+                itemDescs.addElement(curr.getDescription());
+            }
 
-        // create JList
-        JList<String> items = new JList<>(pendingItems);
-        items.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        //items.setSelectedIndex(0);
-        items.addListSelectionListener(e -> {
-            // JList<String> items1 = (JList<String>)e.getSource(); // TO-DO: i don't think below is being updated properly
+            // create JList
+            JList<String> items = new JList<>(pendingItems);
+            items.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            items.setSelectedIndex(0);
+            items.addListSelectionListener(e -> {
+                // JList<String> items1 = (JList<String>)e.getSource(); // TO-DO: i don't think below is being updated properly
                 try {
                     Item currItem = listItems.get(items.getSelectedIndex());
                     itemUser = amc.getItemOwner(currItem).toString();
                 } catch (InvalidItemException invalidItemException) {
                     invalidItemException.printStackTrace();
                 }
-            itemName = pendingItems.get(items.getSelectedIndex());
-            itemDesc = itemDescs.get(items.getSelectedIndex());
-            String text = amp.itemName + itemName + "\n" + amp.itemDes + itemDesc + "\n" + amp.itemOwner + itemUser;
-            desc.setText(text);
+                itemName = pendingItems.get(items.getSelectedIndex());
+                itemDesc = itemDescs.get(items.getSelectedIndex());
+                String text = amp.itemName + itemName + "\n" + amp.itemDes + itemDesc + "\n" + amp.itemOwner + itemUser;
+                desc.setText(text);
+            });
+            // create JScrollPane (makes list scrollable)
+            JScrollPane scrollPane = new JScrollPane();
+            scrollPane.getViewport().add(items);
 
+            Panel leftPanel = new Panel();
+            leftPanel.add(scrollPane);
 
-        });
+            //RIGHT SIDE OF SPLITPANE
+            Panel rightPanel = new Panel();
+            rightPanel.add(desc);
 
-        // create JScrollPane (makes list scrollable)
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.getViewport().add(items);
+            JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+            splitPane.setBounds(50, 50, 600, 200);
 
-        Panel leftPanel = new Panel();
-        leftPanel.add(scrollPane);
+            frame.getContentPane().add(splitPane);
 
-        //RIGHT SIDE OF SPLITPANE
-        Panel rightPanel = new Panel();
-        rightPanel.add(desc);
+            //APPROVE AND REJECT BUTTONS
+            Panel sidePanel = new Panel();
+            // if Admin clicked approve item
+            JButton approve = new JButton(amp.approve);
+            approve.setBounds(600,100,100,50);
+            approve.addActionListener(e -> amc.approvePendingItem(listItems.get(items.getSelectedIndex())));
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-        splitPane.setBounds(50, 50, 600, 200);
+            // if Admin clicked reject item
+            JButton reject = new JButton(amp.reject);
+            reject.setBounds(600, 300, 100, 50);
+            reject.addActionListener(e -> amc.rejectPendingItem(listItems.get(items.getSelectedIndex())));
 
-        frame.getContentPane().add(splitPane);
+            sidePanel.add(approve);
+            sidePanel.add(reject);
+            frame.add(sidePanel);
 
-        //APPROVE AND REJECT BUTTONS
-        Panel sidePanel = new Panel();
-        // if Admin clicked approve item
-        JButton approve = new JButton(amp.approve);
-        approve.setBounds(600,100,100,50);
-        approve.addActionListener(e -> amc.approvePendingItem(listItems.get(items.getSelectedIndex())));
-
-        // if Admin clicked reject item
-        JButton reject = new JButton(amp.reject);
-        reject.setBounds(600, 300, 100, 50);
-        reject.addActionListener(e -> amc.rejectPendingItem(listItems.get(items.getSelectedIndex())));
-
-        sidePanel.add(approve);
-        sidePanel.add(reject);
-        frame.add(sidePanel);
-
-        frame.setVisible(true);
+            frame.setVisible(true);
+        }
     }
 }
