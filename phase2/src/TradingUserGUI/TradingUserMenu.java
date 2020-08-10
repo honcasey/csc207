@@ -65,7 +65,8 @@ public class TradingUserMenu {
 
         // if clicked "display available items" button
         button2.addActionListener(e -> {
-            new AvailableItemsWindow(umc).display();
+            AvailableItemsWindow aiw = new AvailableItemsWindow(umc);
+            aiw.display();
         });
 
         // if clicked "view active transactions" button

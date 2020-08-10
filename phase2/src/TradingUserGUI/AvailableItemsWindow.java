@@ -32,25 +32,24 @@ public class AvailableItemsWindow {
 
         // create the panel and the components on it
         JPanel panel = new JPanel();
-        frame.add(panel);
-        placeComponents(panel);
 
         availableItemsMap = umc.getAvailableItems();
         if (availableItemsMap == null) {
             new PopUpWindow(ump.noItem).display();
         } else {
-            comboBox1 = new JComboBox<>();
 
             for (Item item : availableItemsMap.keySet()) {
                 comboBox1.addItem(item.toString());
             }
-
+            panel.add(comboBox1);
             comboBox1.addActionListener(e -> {
                 JComboBox cb = (JComboBox) e.getSource();
                 selectedItem = (Item) cb.getSelectedItem();
                 ItemDetailsWindow idw = new ItemDetailsWindow(umc, selectedItem, availableItemsMap);
                 idw.display();
             });
+            frame.add(panel);
+            placeComponents(panel);
             frame.setVisible(true);
         }
     }

@@ -62,37 +62,13 @@ public class ItemManager {
         return items;
     }
 
-    public Item SameIteminList(List<Item> itemList,Item otherItem){
-        for(Item item: itemList){
-            if(item.getId().equals(otherItem.getId())){
-                return item;
-            }
-        }
-        return null;
-    }
-
-    public Item SimilarIteminList(List<Item> itemList,Item otherItem){
-        for(Item item: itemList){
-            if(areSimilarItems(item,otherItem)){
-                return item;
-            }
-        }
-        return null;
-    }
-
-
-    public Boolean areSimilarItems(Item item1, Item item2){
-        String item2_string = item2.getName().toUpperCase();
-        String item1_string = item1.getName().toUpperCase();
-        return(item2_string.contains(item1_string) | item1_string.contains(item2_string));
-    }
-
-    public Boolean areSameItems(Item item1,Item item2){
-        String item2_string = item2.getName().toUpperCase();
-        String item1_string = item1.getName().toUpperCase();
-        return item1_string.equals(item2_string);
-    }
-
+    /**
+     * Returns a list of suggested items, which are items that the currUser owns (in their inventory) that the otherUser has in their wishlist.
+     * @param currUser the current TradingUser who is logged in
+     * @param otherUser the owner of the object that the current TradingUser is looking at
+     * @return list of suggested items
+     * @throws InvalidItemException item does not exist
+     */
     public List<Item> itemSuggestions(TradingUser currUser, TradingUser otherUser) throws InvalidItemException {
         List<Item> return_list = new ArrayList<>();
         for(UUID inventoryItemId: currUser.getInventory()){
