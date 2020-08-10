@@ -32,12 +32,11 @@ public class AvailableItemsWindow {
 
         // create the panel and the components on it
         JPanel panel = new JPanel();
-        createComboBox();
         frame.add(panel);
         placeComponents(panel);
-
         // display the window
         frame.setVisible(true);
+        createComboBox();
     }
 
     private void createComboBox() {
