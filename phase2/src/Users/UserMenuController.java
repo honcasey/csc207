@@ -257,9 +257,6 @@ public class UserMenuController {
     public void requestUnfreezeAccount() {
         if (currentTradingUser.isFrozen()) {
             am.getFrozenAccounts().add(currentTradingUser);
-            System.out.println(ump.requestedUnfreeze);
-        } else {
-            System.out.println(ump.accountFrozen(false));
         }
     }
 
