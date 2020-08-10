@@ -127,8 +127,11 @@ public class TradingSystem {
                 List<DemoUser> demoUsers = new ArrayList<>();
                 serializer.writeDemoUsersToFile(filePath, demoUsers);
             } else if (filePath.equals(fp.ACTIONS)) {
-                LinkedHashMap<TradingUser, List<Action>> actions = new LinkedHashMap<TradingUser, List<Action>>();
+                LinkedHashMap<TradingUser, List<Action>> actions = new LinkedHashMap<>();
                 serializer.writeActionsToFile(filePath, actions);
+            } else if (filePath.equals(fp.ITEMS)) {
+                Map<UUID, Item> items = new HashMap<>();
+                serializer.writeItemsMapToFile(filePath, items);
             }
         }
     }
