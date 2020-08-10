@@ -18,22 +18,22 @@ import java.awt.event.KeyEvent;
  */
 public class AdminUserMenu {
     private final AdminMenuController amc;
+    private final AdminMenuPresenter amp = new AdminMenuPresenter();
     private final Filepaths fp = new Filepaths();
+    private final JFrame frame = new JFrame(amp.adminMenuTitle);
     private final JButton button1 = new JButton();
     private final JButton button2 = new JButton();
     private final JButton button3 = new JButton();
     private final JButton button4 = new JButton();
     private final JButton button5 = new JButton();
     private final JButton button6 = new JButton();
-    private final AdminMenuPresenter amp = new AdminMenuPresenter();
 
     public AdminUserMenu(AdminMenuController amc) {
         this.amc = amc;
     }
 
     public void display() {
-        // create the frame
-        JFrame frame = new JFrame(amp.adminMenuTitle);
+        // configure the frame
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // set the frame's size and centre it
@@ -144,7 +144,7 @@ public class AdminUserMenu {
         JMenuItem logOut = new JMenuItem(amp.logOut, KeyEvent.VK_L); // press the L key to access log out option
         logOut.addActionListener(e -> {
             writeData();
-            System.exit(0); // TO-DO: instead of exiting the whole system, just go back to the login menu?
+            frame.dispose();
         });
         menu.add(changePassword);
         menu.add(logOut);
