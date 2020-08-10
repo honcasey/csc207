@@ -12,8 +12,6 @@ import Users.UserMenuController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 // ideas taken from https://beginnersbook.com/2015/07/java-swing-tutorial/
 public class LoginWindow {
@@ -41,7 +39,7 @@ public class LoginWindow {
     public void display() {
         // create the frame
         JFrame frame = new JFrame(mp.applicationTitle);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // set the frame's size and centre it
         frame.setSize(new Dimension(350, 200));
@@ -54,30 +52,19 @@ public class LoginWindow {
 
         // add action listeners for our buttons
         // if user clicks "sign in"
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displaySecondaryMenu(userText.getText(), String.valueOf(passwordText.getPassword()));
-            }
-        });
+        loginButton.addActionListener(e -> displaySecondaryMenu(userText.getText(), String.valueOf(passwordText.getPassword())));
 
         // if user clicks "create an account"
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                RegistrationWindow rw = new RegistrationWindow(lc, umc, mp);
-                rw.display();
-                frame.dispose();
-            }
+        registerButton.addActionListener(e -> {
+            RegistrationWindow rw = new RegistrationWindow(lc, umc, mp);
+            rw.display();
+            frame.dispose();
         });
 
-        demoButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                DemoUserRegistrationWindow drw = new DemoUserRegistrationWindow(lc, umc, dmc);
-                drw.display();
-                frame.dispose();
-            }
+        demoButton.addActionListener(e -> {
+            DemoUserRegistrationWindow drw = new DemoUserRegistrationWindow(lc, umc, dmc);
+            drw.display();
+            frame.dispose();
         });
 
         // display the window
@@ -127,17 +114,26 @@ public class LoginWindow {
             amc.setCurrentAdmin(username);
             AdminUserMenu aum = new AdminUserMenu(amc);
             aum.display();
+            clearFields();
         } else if (lc.validUser(username, password)) { // if user and pass matches a trading user account
             umc.setCurrentTradingUser(username);
             TradingUserMenu tum = new TradingUserMenu(umc);
             tum.display();
-        }else if (lc.validDemoUser(username, password)){
+            clearFields();
+        } else if (lc.validDemoUser(username, password)){
             dmc.setCurrentDemoUser(username);
             DemoUserMenu dm = new DemoUserMenu(dmc, umc, lc);
             dm.display();
+            clearFields();
         } else { // they entered something wrong or their account does not exist
             new PopUpWindow(mp.invalidMessage).display();
+            clearFields();
         }
 
+    }
+
+    private void clearFields() {
+        userText.setText("");
+        passwordText.setText("");
     }
 }

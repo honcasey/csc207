@@ -1,6 +1,7 @@
 package TradingUserGUI;
 
 import Initialization.Filepaths;
+import Initialization.LoginWindow;
 import Initialization.Serializer;
 import Presenters.UserMenuPresenter;
 import Popups.ChangePasswordWindow;
@@ -19,6 +20,7 @@ public class TradingUserMenu {
     private final UserMenuController umc;
     private final UserMenuPresenter ump = new UserMenuPresenter();
     private final Filepaths fp = new Filepaths();
+    private final JFrame frame = new JFrame(ump.TradingUserMenuTitle);
     private final JButton button1 = new JButton();
     private final JButton button2 = new JButton();
     private final JButton button3 = new JButton();
@@ -31,8 +33,7 @@ public class TradingUserMenu {
     }
 
     public void display() {
-        // create the frame
-        JFrame frame = new JFrame(ump.TradingUserMenuTitle);
+        // configure the frame
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // set the frame's size and centre it
@@ -179,7 +180,7 @@ public class TradingUserMenu {
         JMenuItem logOut = new JMenuItem(ump.logOut, KeyEvent.VK_L); // press the L key to access log out option
         logOut.addActionListener(e -> {
             writeData();
-            System.exit(0);
+            frame.dispose();
         });
         menu.add(logOut);
     }

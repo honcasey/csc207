@@ -97,7 +97,7 @@ public class AdminUserMenu {
 
         // if button6 (Check Unfreeze TradingUser Account Requests) is click
         button6.addActionListener(e -> {
-            FrozenUsersWindow frw = new FrozenUsersWindow(amc,tum);
+            FrozenUsersWindow frw = new FrozenUsersWindow(amc);
             frw.display();
         });
 
@@ -161,7 +161,7 @@ public class AdminUserMenu {
         JMenuItem logOut = new JMenuItem(amp.logOut, KeyEvent.VK_L); // press the L key to access log out option
         logOut.addActionListener(e -> {
             writeData();
-            System.exit(0); // TO-DO: instead of exiting the whole system, just go back to the login menu?
+            frame.dispose();
         });
         menu.add(changePassword);
         menu.add(logOut);
@@ -169,11 +169,11 @@ public class AdminUserMenu {
 
     private void writeData() {
         Serializer serializer = new Serializer();
-        serializer.writeUsersToFile(fp.USERS, tum.getAllTradingUsers());
+        serializer.writeUsersToFile(fp.USERS, amc.getTUM().getAllTradingUsers());
         serializer.writeAdminsToFile(fp.ADMINS, amc.getAm().getAllAdmins());
         serializer.writeItemsToFile(fp.REQUESTEDITEMS, amc.getAllPendingItems());
-        serializer.writeAccountsToFile(fp.FLAGGEDACCOUNTS, tum.getFlaggedAccounts());
-        serializer.writeAccountsToFile(fp.FROZENACCOUNTS, tum.getFrozenAccounts());
+        serializer.writeAccountsToFile(fp.FLAGGEDACCOUNTS, amc.getTUM().getFlaggedAccounts());
+        serializer.writeAccountsToFile(fp.FROZENACCOUNTS, amc.getTUM().getFrozenAccounts());
         serializer.writeItemsMapToFile(fp.ITEMS, amc.getIm().getAllItems());
     }
 

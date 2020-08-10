@@ -95,6 +95,7 @@ public class RegistrationWindow {
     private void createAccount(String username, String password, String password2) {
         if (lc.availableUsername(username) && password.equals(password2)) {
             lc.addTradingUser(username, password);
+            umc.setCurrentTradingUser(username);
             new TradingUserMenu(umc).display();
         } else {
             new PopUpWindow(mp.usernameTaken).display();
