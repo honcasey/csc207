@@ -7,7 +7,9 @@ import Users.UserMenuController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class DemoUserViewWishlistWindow {
     private DemoMenuController dmc;
@@ -34,9 +36,11 @@ public class DemoUserViewWishlistWindow {
         List<Item> items = umc.getIm().convertIdsToItems(dmc.currentDemoUser.getWishlist());
         DefaultListModel<String> itemNames = new DefaultListModel<>();
         DefaultListModel<String> itemDescs = new DefaultListModel<>();
+        List<UUID> ids = new ArrayList<>();
         for (Item item : items) {
             itemNames.addElement(item.toString());
             itemDescs.addElement(item.getDescription());
+            ids.add(item.getId());
         }
         JList<String> itemsList = new JList<>(itemNames);
         itemsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -73,7 +77,10 @@ public class DemoUserViewWishlistWindow {
         removeB.addActionListener(e -> {
             int input = JOptionPane.showOptionDialog(null, ump.optionPrompt("remove this item from your Wishlist?"), "Remove Item?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
             if(input == JOptionPane.YES_OPTION) {
-                items.remove(itemsList.getSelectedIndex()); // if YES, remove the item
+                itemNames.remove(itemsList.getSelectedIndex()); // if YES, remove the item
+                itemDescs.remove(itemsList.getSelectedIndex());
+                UUID id = ids.get(itemsList.getSelectedIndex());
+                dmc.removeFromWishlist(id);
             }
         });
 

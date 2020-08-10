@@ -20,6 +20,8 @@ public class UserMenuPresenter extends MenuPresenter {
     public String remove = "Remove";
     public String submitForApproval = "has been submitted for admin approval.";
     public String offerItem = "Would you like to offer one of your items?";
+    public String emptyInventory = "Your inventory is empty!";
+    public String emptyWishlist = "Your wishlist is empty!";
 
     //meeting strings
     public String options = "Options";
