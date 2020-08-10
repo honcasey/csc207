@@ -8,6 +8,7 @@ import Exceptions.InvalidItemException;
 import Exceptions.InvalidTradingUserException;
 import Items.Item;
 import Items.ItemManager;
+import Transactions.PastTransactionManager;
 import Users.TradingUser;
 import Users.TradingUserManager;
 
@@ -27,6 +28,7 @@ public class AdminMenuController {
     protected final Map<Item, TradingUser> allPendingItems;
     private final ItemManager im;
     private final ActionManager acm;
+    private final PastTransactionManager ptm;
 
     /**
      * Constructs an instance an AdminMenuController.
@@ -36,12 +38,14 @@ public class AdminMenuController {
      * @param items manager of all Items
      */
     public AdminMenuController(AdminManager adminManager, TradingUserManager tradingUserManager,
-                               Map<Item, TradingUser> pendingItems, ItemManager items, ActionManager actionManager) {
+                               Map<Item, TradingUser> pendingItems, ItemManager items, ActionManager actionManager,
+                               PastTransactionManager pastTransactionManager) {
         allPendingItems = pendingItems;
         um = tradingUserManager;
         am = adminManager;
         im = items;
         acm = actionManager;
+        ptm = pastTransactionManager;
     }
 
     /**
@@ -135,6 +139,11 @@ public class AdminMenuController {
         }
     }
 
+    /**
+     * Getter for PastTransactionManager
+     * @return PastTransactionManager
+     */
+    public PastTransactionManager getPTM(){return this.ptm;}
     /**
      * Getter for a TradingUserManager.
      * @return TradingUserManager

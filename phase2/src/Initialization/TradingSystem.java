@@ -90,7 +90,7 @@ public class TradingSystem {
 
         // create new controllers
         lc = new LoginController(am, tum, dum);
-        amc = new AdminMenuController(am, tum, pendingItems, im, acm);
+        amc = new AdminMenuController(am, tum, pendingItems, im, acm, ptm);
         umc = new UserMenuController(tum, am, tm, ptm, im, acm, pendingItems);
         dmc = new DemoMenuController(dum, tum, im);
 

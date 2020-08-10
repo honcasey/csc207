@@ -4,6 +4,7 @@ import Admins.AdminMenuController;
 import Exceptions.InvalidTradingUserException;
 import Popups.PopUpWindow;
 import Presenters.AdminMenuPresenter;
+import TradingUserGUI.TradingUserProfileWindow;
 import Users.TradingUser;
 import Users.TradingUserManager;
 import Users.User;
@@ -30,11 +31,13 @@ public class ChangeThresholdWindow {
     private JTextArea currBorrowThreshold;
     private JTextArea currWeeklyThreshold;
     private JTextArea currIncompleteThreshold;
+    private JButton viewUserProfile;
     private String currUsername;
 
     public ChangeThresholdWindow(AdminMenuController amc) {
         this.amc = amc;
         this.tum = amc.getTUM();
+
     }
 
     public void display() {
@@ -123,6 +126,21 @@ public class ChangeThresholdWindow {
             public void insertUpdate(DocumentEvent e) {
                 warn();
             }});
+
+        viewUserProfile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TradingUser user;
+                try {
+                    user = tum.getTradingUser(currUsername);
+                    TradingUserProfileWindow tupw = new TradingUserProfileWindow(amc.getPTM(), user);
+                    tupw.display();
+                } catch (InvalidTradingUserException invalidTradingUserException) {
+                    invalidTradingUserException.printStackTrace();
+                }
+
+            }
+        });
 }
     private void warn() {
         try {

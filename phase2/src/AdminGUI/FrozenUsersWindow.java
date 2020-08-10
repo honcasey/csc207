@@ -3,6 +3,7 @@ package AdminGUI;
 import Admins.AdminMenuController;
 import Exceptions.InvalidTradingUserException;
 import Presenters.AdminMenuPresenter;
+import TradingUserGUI.TradingUserProfileWindow;
 import Users.TradingUser;
 import Users.TradingUserManager;
 
@@ -20,6 +21,7 @@ public class FrozenUsersWindow {
     private JButton unfreeze;
     private JPanel mainPanel;
     private JLabel usernameLabel;
+    private JButton userProfile;
     private String currUsername;
 
 
@@ -69,6 +71,20 @@ public class FrozenUsersWindow {
                     invalidTradingUserException.printStackTrace();
                 }
 
+            }
+        });
+
+        userProfile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TradingUser user;
+                try {
+                    user = tum.getTradingUser(currUsername);
+                    TradingUserProfileWindow tupw = new TradingUserProfileWindow(amc.getPTM(), user);
+                    tupw.display();
+                } catch (InvalidTradingUserException invalidTradingUserException) {
+                    invalidTradingUserException.printStackTrace();
+                }
             }
         });
     }
