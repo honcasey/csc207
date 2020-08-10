@@ -253,6 +253,16 @@ public class UserMenuController {
         }
     }
 
+    /* for a frozen TradingUser to request their account to be unfrozen */
+    private void requestUnfreezeAccount() {
+        if (currentTradingUser.isFrozen()) {
+            am.getFrozenAccounts().add(currentTradingUser);
+            System.out.println(ump.requestedUnfreeze);
+        } else {
+            System.out.println(ump.accountFrozen(false));
+        }
+    }
+
     public ItemManager getIm(){
         return im;
     }
