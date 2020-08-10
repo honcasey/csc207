@@ -71,4 +71,28 @@ public class PastTransactionManager extends TransactionManager{
         int numberWeeklyTransactions = numTransactionsInWeek(tradingUser);
         return numberWeeklyTransactions >= threshold;
     }
+
+
+    public int getNumCancelledTransactions(TradingUser user){
+        int count = 0;
+        ArrayList<Transaction> transactions = getTransactionsFromIdList(user.getTransactionHistory().getAllPastTransactions());
+        for (Transaction transaction: transactions){
+            if (transaction.getStatus().equals(TransactionStatuses.CANCELLED)){
+                count ++;
+            }
+        }
+        return count;
+    }
+
+    public int getNumCompletedTransactions(TradingUser user){
+        int count = 0;
+        ArrayList<Transaction> transactions = getTransactionsFromIdList(user.getTransactionHistory().getAllPastTransactions());
+        for (Transaction transaction: transactions){
+            if (transaction.getStatus().equals(TransactionStatuses.COMPLETED)){
+                count ++;
+            }
+        }
+        return count;
+    }
+
 }
