@@ -26,7 +26,7 @@ public class AddAdminUserWindow {
         JFrame frame = new JFrame(amp.createNewAdmin);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         // set the frame's size and centre it
-        frame.setSize(new Dimension(700, 500));
+        frame.setSize(new Dimension(500, 350));
         frame.setLocationRelativeTo(null);
         // display window
         frame.setVisible(true);

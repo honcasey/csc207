@@ -32,7 +32,7 @@ public class ViewActiveTransactionsWindow {
         this.umc = umc; }
 
     public void display() {
-        if (umc.currentTransactionList() == null) {
+        if (umc.currentTransactionList().isEmpty()) {
             PopUpWindow e = new PopUpWindow(ump.noCurrTrans);
             e.display();
         }

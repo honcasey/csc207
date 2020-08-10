@@ -34,12 +34,7 @@ public class AvailableItemsWindow {
         JPanel panel = new JPanel();
         frame.add(panel);
         placeComponents(panel);
-        // display the window
-        frame.setVisible(true);
-        createComboBox();
-    }
 
-    private void createComboBox() {
         availableItemsMap = umc.getAvailableItems();
         if (availableItemsMap == null) {
             new PopUpWindow(ump.noItem).display();
@@ -56,6 +51,7 @@ public class AvailableItemsWindow {
                 ItemDetailsWindow idw = new ItemDetailsWindow(umc, selectedItem, availableItemsMap);
                 idw.display();
             });
+            frame.setVisible(true);
         }
     }
 

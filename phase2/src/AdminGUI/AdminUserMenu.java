@@ -94,6 +94,7 @@ public class AdminUserMenu {
         // if button5 (Change TradingUser Threshold) is clicked
         button5.addActionListener(e ->{
             ChangeThresholdWindow tw = new ChangeThresholdWindow(amc);
+            tw.display();
         });
 
         // if button6 (Check Unfreeze TradingUser Account Requests) is click

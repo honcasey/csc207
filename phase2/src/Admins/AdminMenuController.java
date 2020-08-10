@@ -1,6 +1,5 @@
 package Admins;
 
-import Actions.Action;
 import Actions.ActionManager;
 import Actions.AddOrDeleteAction;
 import Actions.EditAction;
@@ -11,7 +10,6 @@ import Items.Item;
 import Items.ItemManager;
 import Users.TradingUser;
 import Users.TradingUserManager;
-import Users.User;
 
 import java.util.*;
 
@@ -46,6 +44,10 @@ public class AdminMenuController {
         acm = actionManager;
     }
 
+    /**
+     * Adds the item to the TradingUser's inventory if the admin has approved the pending item.
+     * @param item the Item that has been approved.
+     */
     public void approvePendingItem(Item item) {
         try {
             String username = allPendingItems.get(item).getUsername();
@@ -115,6 +117,12 @@ public class AdminMenuController {
         um.changeThreshold(um.getTradingUser(username), newThreshold, whichThreshold);
     }
 
+    /**
+     * Returns whether an admin with the inputted username and password exists.
+     * @param username input username
+     * @param password input password
+     * @return true if admin with the input username and password exists in the system.
+     */
     public boolean validAdmin(String username, String password) {
         return am.validAdmin(username, password);
     }
@@ -127,20 +135,34 @@ public class AdminMenuController {
         }
     }
 
-    // TODO below are a bunch of getters/setters at need docstrings
-
+    /**
+     * Getter for a TradingUserManager.
+     * @return TradingUserManager
+     */
     public TradingUserManager getTUM(){
         return this.um;
     }
 
+    /**
+     * Getter for the list of all trading users in the trading system.
+     * @return list of all TradingUsers in the system.
+     */
     public List<TradingUser> getAllTradingUsers() {
         return um.getAllTradingUsers();
     }
 
+    /**
+     * Getter for the currently logged-in admin user.
+     * @return AdminUser currently logged in.
+     */
     public AdminUser getCurrentAdmin() {
         return currentAdmin;
     }
 
+    /**
+     * Returns a map of all pending items that TradingUser's have requested to be added to their inventory.
+     * @return Map of each pending item and the TradingUser that requested it.
+     */
     public Map<Item, TradingUser> getAllPendingItems() {
         return allPendingItems;
     }
@@ -160,22 +182,43 @@ public class AdminMenuController {
        throw new InvalidItemException("item not found in allPendingItems");
     }
 
+    /**
+     * Getter for an AdminManager
+     * @return AdminManager
+     */
     public AdminManager getAm() {
         return am;
     }
 
+    /**
+     * Getter for an ItemManager.
+     * @return ItemManager
+     */
     public ItemManager getIm() {
         return im;
     }
 
+    /**
+     * Getter for an ActionManager.
+     * @return ActionManager
+     */
     public ActionManager getAcm() {
         return acm;
     }
 
+    /**
+     * Removes an item from the list of all pending items if the admin has decided to reject it.
+     * @param item item that was rejected
+     */
     public void rejectPendingItem(Item item) {
         allPendingItems.remove(item);
     }
 
+    /**
+     * Returns the inventory/wishlist to the previous state by adding or removing an item from the corresponding list,
+     * depending on the action that is being undone.
+     * @param action an AddOrDeleteAction
+     */
     public void undoAddOrDeleteAction(AddOrDeleteAction action) {
         if (action.wasAdded()) {
             if (action.isInventory()) {
@@ -192,6 +235,10 @@ public class AdminMenuController {
         }
     }
 
+    /**
+     * Returns the Meeting of a Transaction to its previous state before the most recent edit was made.
+     * @param action an EditAction
+     */
     public void undoEditAction(EditAction action) {
         action.getTransaction().getTransactionMeetings().set(action.getWhichMeeting(), action.getNewMeeting());
     }

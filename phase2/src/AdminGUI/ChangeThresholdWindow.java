@@ -35,14 +35,15 @@ public class ChangeThresholdWindow {
     public ChangeThresholdWindow(AdminMenuController amc) {
         this.amc = amc;
         this.tum = amc.getTUM();
-
     }
 
     public void display() {
         JFrame frame = new JFrame("ChangeThresholdWindow");
         frame.setContentPane(JPanel1);
+        frame.setSize(new Dimension(800, 500));
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.pack();
+        // frame.pack();
         frame.setVisible(true);
 
         List<TradingUser> listUsers = amc.getAllTradingUsers();
