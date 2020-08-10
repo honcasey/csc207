@@ -1,6 +1,7 @@
 package Users;
 
 import Transactions.Transaction;
+import Transactions.TransactionStatuses;
 
 import java.io.Serializable;
 import java.util.*;
@@ -128,5 +129,4 @@ public class TransactionHistory implements Serializable {
      * @return numItemsBorrowed as an integer
      */
     public int getNumItemsBorrowed() { return numItemsBorrowed; }
-
 }
