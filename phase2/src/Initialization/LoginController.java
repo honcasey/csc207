@@ -34,9 +34,9 @@ public class LoginController {
         }
     }
 
-    public void addTradingUser(String username, String password) {
+    public void addTradingUser(String username, String password, String city) {
         try {
-            um.addTradingUser(username, password);
+            um.addTradingUser(username, password, city);
         } catch (InvalidTradingUserException e) {
             // TODO
         }

@@ -202,10 +202,19 @@ public class ViewActiveTransactionsWindow {
     private void editMeeting() { // helper method to check if edit threshold has been reached or not if user clicked "edit meeting"
         if (!umc.editMeetingFlow(umc.getCurrentTradingUser().getUserId(), selectedTransaction, whichMeetingSelected,
                 inputLocation, inputTime, inputDate)) {
+
+            // create a new action object
             EditAction action = new EditAction(umc.getCurrentTradingUser(), selectedTransaction,
                     whichMeetingSelected, selectedTransaction.getTransactionMeetings().get(whichMeetingSelected),
                     new Meeting(inputLocation, inputTime, inputDate));
+
+            // log this action in the manager
             umc.getAcm().addAction(umc.getCurrentTradingUser(), action);
+
+            // clear old edit actions involving this transaction
+            umc.getAcm().clearPreviousEditActions(umc.getCurrentTradingUser(), selectedTransaction);
+
+            // display msg telling user meeting was edited
             PopUpWindow edited = new PopUpWindow(ump.successfully("Edited meeting"));
             edited.display();
         }

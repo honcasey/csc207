@@ -32,7 +32,6 @@ public class TradingUser extends User implements Serializable {
          inventory = new ArrayList<>();
          wishlist = new ArrayList<>();
          transactionHistory = new TransactionHistory();
-         this.city = city;
      }
 
     /**

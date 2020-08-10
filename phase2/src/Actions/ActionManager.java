@@ -2,6 +2,8 @@ package Actions;
 
 import Transactions.Transaction;
 import Users.TradingUser;
+
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
@@ -52,9 +54,21 @@ public class ActionManager {
         return null; // if this TradingUser hasn't made any actions yet
     }
 
-    public void clearPreviousEditActions(TradingUser user, Transaction transaction) {
+    public List<EditAction> getEditActionsByUser(TradingUser user) {
+        List<EditAction> lst = new ArrayList<>();
         for (Action action : getActionsByUser(user)) {
+            if (action.isEditAction()) {
+                lst.add((EditAction) action);
+            }
+        }
+        return lst;
+    }
 
+    public void clearPreviousEditActions(TradingUser user, Transaction transaction) {
+        for (EditAction action : getEditActionsByUser(user)) {
+            if (action.getTransaction().getId().equals(transaction.getId())) {
+                allActions.get(user).remove(action);
+            }
         }
     }
 
