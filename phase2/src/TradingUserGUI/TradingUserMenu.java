@@ -149,7 +149,12 @@ public class TradingUserMenu {
         // request to have your account unfrozen option
         JMenuItem requestUnfrozen = new JMenuItem(ump.requestUnfreeze);
         requestUnfrozen.addActionListener(e -> {
-            // TODO make request unfrozen window
+            int input = JOptionPane.showConfirmDialog(null,
+                    "Request admin to unfreeze your account?", "Unfreeze Account",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (input == JOptionPane.YES_OPTION) {
+                umc.requestUnfreezeAccount();
+            }
         });
 
         // change your account to vacation status
