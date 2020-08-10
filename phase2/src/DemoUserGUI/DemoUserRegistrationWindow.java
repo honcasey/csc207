@@ -1,11 +1,13 @@
 package DemoUserGUI;
 
 import Initialization.LoginController;
+import Items.Item;
 import Popups.PopUpWindow;
 import Presenters.UserMenuPresenter;
 import TradingUserGUI.TradingUserMenu;
 import Users.DemoMenuController;
 import Users.DemoUser;
+import Users.DemoUserManager;
 import Users.UserMenuController;
 
 import javax.swing.*;
@@ -48,12 +50,9 @@ public class DemoUserRegistrationWindow {
         placeComponents(panel);
 
         // add action listener for the "sign up" button
-        createButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                createAccount(userText.getText(), passwordText.getText(), confirmText.getText());
-                frame.dispose();
-            }
+        createButton.addActionListener(e -> {
+            createAccount(userText.getText(), passwordText.getText(), confirmText.getText());
+            frame.dispose();
         });
 
         // display the window
@@ -100,10 +99,14 @@ public class DemoUserRegistrationWindow {
         createButton.setBounds(50, 290, 160, 25);
         panel.add(createButton);
     }
-
     private void createAccount(String username, String password, String password2) {
         if (lc.availableUsername(username) && password.equals(password2)) {
             lc.addDemoUser(username, password);
+            dmc.setCurrentDemoUser(username);
+            Item item1 = new Item("Book");
+            Item item2 = new Item("Laptop");
+            dmc.addItem(item1, "wishlist");
+            dmc.addItem(item2, "inventory");
             new DemoUserMenu(dmc,umc,lc).display();
         } else {
             new PopUpWindow(ump.usernameTaken).display();
