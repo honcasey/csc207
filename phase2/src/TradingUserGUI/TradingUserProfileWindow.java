@@ -6,7 +6,6 @@ import Users.TradingUser;
 import javax.swing.*;
 
 public class TradingUserProfileWindow {
-    private JTextField Username;
     private JTextArea weeklyThreshold;
     private JTextArea incompleteThreshold;
     private JTextArea numWishlist;
@@ -22,6 +21,7 @@ public class TradingUserProfileWindow {
     private static PastTransactionManager ptm;
     private static TradingUser currUser;
     private JPanel mainPanel;
+    private JTextArea username;
 
 
     public TradingUserProfileWindow(PastTransactionManager ptm, TradingUser currUser){
@@ -39,7 +39,7 @@ public class TradingUserProfileWindow {
         weeklyThreshold.setText(Integer.toString(currUser.getWeeklyThreshold()));
         borrowThreshold.setText(Integer.toString(currUser.getBorrowThreshold()));
         incompleteThreshold.setText(Integer.toString(currUser.getIncompleteThreshold()));
-        Username.setText(currUser.getUsername());
+        username.setText(currUser.getUsername());
         numInventory.setText(Integer.toString(currUser.getInventory().size()));
         UserStatus.setText(currUser.getStatus().toString());
         numWishlist.setText(Integer.toString(currUser.getWishlist().size()));
