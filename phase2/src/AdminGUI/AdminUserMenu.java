@@ -103,12 +103,9 @@ public class AdminUserMenu {
         });
 
         // view undoable actions
-        button7.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                UndoActionWindow uaw = new UndoActionWindow(amc);
-                uaw.display();
-            }
+        button7.addActionListener(e -> {
+            UndoActionWindow uaw = new UndoActionWindow(amc);
+            uaw.display();
         });
 
         // display the window
