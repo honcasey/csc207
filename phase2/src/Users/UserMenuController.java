@@ -268,6 +268,8 @@ public class UserMenuController {
 
     public TradingUserManager getUm() { return um; }
 
+    public PastTransactionManager getPtm(){return ptm;}
+
     public Map<Item, TradingUser> getAllPendingItems() {
         return allPendingItems;
     }

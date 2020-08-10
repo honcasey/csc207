@@ -188,6 +188,15 @@ public class TradingUserMenu {
             frame.dispose();
         });
         menu.add(logOut);
+
+        // view account profile
+        JMenuItem userProfile = new JMenuItem(ump.accountProfile);
+        userProfile.addActionListener(e -> {
+            TradingUserProfileWindow tradingUserProfileWindow = new TradingUserProfileWindow(this.umc.getPtm(), umc.getCurrentTradingUser());
+            tradingUserProfileWindow.display();
+        });
+        menu.add(userProfile);
+
     }
 
     private void writeData() {

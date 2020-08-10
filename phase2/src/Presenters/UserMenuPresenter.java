@@ -14,6 +14,7 @@ public class UserMenuPresenter extends MenuPresenter {
     public String requestUnfreeze = "Request Unfreeze Account";
     public String setVacation = "Set Vacation Mode";
     public String unsetVacation = "Unset Vacation Mode";
+    public String accountProfile = "View Profile";
 
     public String itemDetails = "Item Details";
     public String requestItem = "Request Item";
