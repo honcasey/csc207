@@ -29,6 +29,7 @@ public class AdminUserMenu {
     private final JButton button5 = new JButton();
     private final JButton button6 = new JButton();
     private final JButton button7 = new JButton();
+    private JFrame frame = new JFrame();
     private final AdminMenuPresenter amp = new AdminMenuPresenter();
 
     public AdminUserMenu(AdminMenuController amc) {
@@ -38,7 +39,7 @@ public class AdminUserMenu {
 
     public void display() {
         // create the frame
-        JFrame frame = new JFrame(amp.adminMenuTitle);
+        frame = new JFrame(amp.adminMenuTitle);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // set the frame's size and centre it
@@ -70,7 +71,7 @@ public class AdminUserMenu {
 
         // if button2 (Check Flagged Users) is clicked
         button2.addActionListener(e -> {
-            FlaggedUsersWindow fuw = new FlaggedUsersWindow(amc,tum);
+            FlaggedUsersWindow fuw = new FlaggedUsersWindow(amc);
             fuw.display();
         });
 
@@ -92,7 +93,7 @@ public class AdminUserMenu {
 
         // if button5 (Change TradingUser Threshold) is clicked
         button5.addActionListener(e ->{
-            ChangeThresholdForm tw = new ChangeThresholdForm(amc, tum);
+            ChangeThresholdWindow tw = new ChangeThresholdWindow(amc);
         });
 
         // if button6 (Check Unfreeze TradingUser Account Requests) is click
