@@ -4,6 +4,8 @@ import Exceptions.InvalidDemoUserException;
 import Items.Item;
 import Items.ItemManager;
 
+import java.util.UUID;
+
 public class DemoMenuController {
 
     public DemoUser currentDemoUser = null;
@@ -56,6 +58,24 @@ public class DemoMenuController {
             currentDemoUser = dum.getDemoUser(username);
         } catch (InvalidDemoUserException e) {
             // TODO
+        }
+    }
+
+    public boolean removeFromInventory(UUID itemID){
+        if(currentDemoUser.getInventory().contains(itemID)){
+            currentDemoUser.getInventory().remove(itemID);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean removeFromWishlist(UUID itemID){
+        if(currentDemoUser.getWishlist().contains(itemID)){
+            currentDemoUser.getWishlist().remove(itemID);
+            return true;
+        } else {
+            return false;
         }
     }
 }
