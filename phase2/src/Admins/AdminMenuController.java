@@ -102,7 +102,7 @@ public class AdminMenuController {
             action.setAdded(item);
             acm.addAction(tradingUser, action);
             um.addItem(tradingUser, item, "wishlist");
-            //im.addItem(item);//TODO item isn't actually added, need to handle when allItems in ItemManager is null
+            im.addItem(item);
             isSuccessful = true;
         }else if (listType.equals("inventory")){
             AddOrDeleteAction action = new AddOrDeleteAction(tradingUser);
@@ -110,7 +110,7 @@ public class AdminMenuController {
             action.setAdded(item);
             acm.addAction(tradingUser, action);
             um.addItem(tradingUser, item, "inventory");
-            //im.addItem(item);//TODO item isn't actually added, need to handle when allItems in ItemManager is null
+            im.addItem(item);
             isSuccessful = true;
         }
         return isSuccessful;
