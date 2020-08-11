@@ -15,6 +15,7 @@ import java.awt.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class ViewActiveTransactionsWindow {
     private final UserMenuController umc;
@@ -233,15 +234,16 @@ public class ViewActiveTransactionsWindow {
                 inputLocation, inputTime, inputDate)) {
 
             // create a new action object
-            EditAction action = new EditAction(umc.getCurrentTradingUser().getUserId(), selectedTransaction,
-                    whichMeetingSelected, selectedTransaction.getTransactionMeetings().get(whichMeetingSelected),
-                    new Meeting(inputLocation, inputTime, inputDate));
-
-            // log this action in the manager
-            umc.getAcm().addAction(umc.getCurrentTradingUser().getUserId(), action);
+            UUID userId = umc.getCurrentTradingUser().getUserId();
+            Meeting oldMeeting = selectedTransaction.getTransactionMeetings().get(whichMeetingSelected);
+            Meeting newMeeting = new Meeting(inputLocation, inputTime, inputDate);
+            EditAction action = new EditAction(userId, selectedTransaction, whichMeetingSelected, oldMeeting, newMeeting);
 
             // clear old edit actions involving this transaction
             umc.getAcm().clearPreviousEditActions(umc.getCurrentTradingUser(), selectedTransaction);
+
+            // log this action in the manager
+            umc.getAcm().addAction(userId, action);
 
             // display msg telling user meeting was edited
             PopUpWindow edited = new PopUpWindow(ump.successfully("Edited meeting"));

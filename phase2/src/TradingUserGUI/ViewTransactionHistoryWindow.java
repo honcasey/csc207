@@ -62,7 +62,7 @@ public class ViewTransactionHistoryWindow {
         panel.add(tradedUsersButton);
 
     }
-    public void mostRecentOneWaysWindow()  { // condense this a bit
+    private void mostRecentOneWaysWindow()  { // condense this a bit
         JFrame frame = new JFrame(ump.mostRecentTwoWayTrans);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -90,7 +90,7 @@ public class ViewTransactionHistoryWindow {
         frame.add(descr);
     }
 
-    public void mostRecentTwoWaysWindow(){
+    private void mostRecentTwoWaysWindow(){
         JFrame frame = new JFrame(ump.mostRecentOneWayTrans);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -122,7 +122,7 @@ public class ViewTransactionHistoryWindow {
 
     }
 
-    public void mostTradedWithUsersWindow(){
+    private void mostTradedWithUsersWindow(){
         JFrame frame = new JFrame(ump.mostTradedUser);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
