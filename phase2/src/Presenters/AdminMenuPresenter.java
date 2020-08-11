@@ -22,9 +22,7 @@ public class AdminMenuPresenter extends MenuPresenter {
     public String itemAddedError = "Error: Item has been added already.";
     public String updateThresholdError = "Error: UpdateThreshold method in adminController failed, so the threshold wasn't changed.";
 
-    public String enter(String what){
-        return "Error: Please enter the " + what;
-    }
+
 
 }
 

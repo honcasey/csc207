@@ -37,7 +37,7 @@ public class RequestAddItemsWindow {
             Item requestedItem = new Item(userItemNameText.getText());
             requestedItem.setDescription(userItemDescription.getText());
             if(userItemNameText.getText().equals("")) {
-                new PopUpWindow("Please give your item a name.").display();
+                new PopUpWindow(ump.enter("item name.")).display();
             }
             else{
                 umc.addToPendingItems(requestedItem);

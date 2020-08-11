@@ -137,7 +137,7 @@ public class ViewActiveTransactionsWindow {
                 whichMeetingSelected = whichMeeting.getSelectedIndex();
             });
         } catch (NullPointerException e) {
-            new PopUpWindow("Please select a transaction.").display();
+            new PopUpWindow(ump.pleaseSelect("a transaction.")).display();
         }
 
         // location
