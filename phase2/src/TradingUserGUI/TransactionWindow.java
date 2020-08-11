@@ -3,7 +3,6 @@ package TradingUserGUI;
 import Exceptions.InvalidItemException;
 import Items.Item;
 import Presenters.UserMenuPresenter;
-import Transactions.Transaction;
 import Transactions.TransactionBuilder;
 import Users.TradingUser;
 import Users.UserMenuController;
@@ -138,7 +137,7 @@ public class TransactionWindow {
             panel2 = setMeetingPanel("First");
             submit.addActionListener(e -> {
                 try {
-                    areYouSureWindow(type);
+                    areYouSureWindow();
                 } catch (InvalidItemException invalidItemException) {
                     //
                 }
@@ -149,7 +148,18 @@ public class TransactionWindow {
             panel2 = setMeetingPanel("First");
             submit.addActionListener(e -> secondMeetingWindow());
             panel2.add(submit);
+        } else if (type.equals(ump.virtual)) {
+            submit.addActionListener(e -> {
+                try {
+                    areYouSureWindow();
+                } catch (InvalidItemException invalidItemException) {
+                    //
+                }
+            });
+            panel2.add(submit);
         }
+
+
         frame.add(panel2, BorderLayout.EAST);
         frame.setVisible(true);
     }
@@ -202,7 +212,7 @@ public class TransactionWindow {
         return panel;
     }
 
-    private void areYouSureWindow(String type) throws InvalidItemException {
+    private void areYouSureWindow() throws InvalidItemException {
         JFrame areyousureframe = new JFrame();
         areyousureframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         areyousureframe.setVisible(true);
@@ -221,7 +231,7 @@ public class TransactionWindow {
         JButton submit2 = new JButton("Submit Second Meeting");
         submit2.addActionListener(e -> {
             try {
-                areYouSureWindow("Temp");
+                areYouSureWindow();
             } catch (InvalidItemException invalidItemException) {
                 //
             }
