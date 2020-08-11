@@ -101,6 +101,7 @@ public class TransactionWindow {
     }
 
     private void setupRightPanel(String type) throws InvalidItemException {
+        panel2.setLayout(new BoxLayout(panel2, BoxLayout.PAGE_AXIS));
         panel2.add(new JLabel(ump.offerItem));
 
         // create JList of suggested items
@@ -110,6 +111,7 @@ public class TransactionWindow {
             itemStrings.addElement(item.toString());
         }
         JList<String> suggestions = new JList<>(itemStrings);
+        panel2.add(suggestions);
 
         // create JComboBox of user's inventory
         List<Item> inventory = umc.getIm().convertIdsToItems(umc.getCurrentTradingUser().getInventory());
@@ -124,9 +126,7 @@ public class TransactionWindow {
             tb.AddItemOffered(offeredItem.getId()); // this is the item that the current user is offering from their own inventory
         });
 
-        // add comboBoxes to panel
         panel2.add(comboBox);
-        panel2.add(suggestions);
 
         // add meetings fields
         if (type.equals(ump.perm)) {
@@ -211,6 +211,10 @@ public class TransactionWindow {
 
     private void secondMeetingWindow() {
         JFrame tempFrame = new JFrame("Second Meeting");
+        tempFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        tempFrame.setSize(new Dimension(500, 500));
+        tempFrame.setLocationRelativeTo(null);
+
         JPanel panel3 = setMeetingPanel("second");
         JButton submit2 = new JButton("Submit Second Meeting");
         submit2.addActionListener(e -> {
@@ -222,5 +226,6 @@ public class TransactionWindow {
         });
         panel3.add(submit2);
         tempFrame.add(panel3);
+        tempFrame.setVisible(true);
     }
 }
