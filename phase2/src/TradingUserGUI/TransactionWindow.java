@@ -16,20 +16,20 @@ public class TransactionWindow {
     private UserMenuController umc;
     private final UserMenuPresenter ump = new UserMenuPresenter();
     private Item offeredItem;
-    private TradingUser selectedItemOwner;
-    private JPanel panel1 = new JPanel();
+    private final TradingUser selectedItemOwner;
+    private final JPanel panel1 = new JPanel();
     private JPanel panel2 = new JPanel();
-    private TransactionBuilder tb;
-    private JFrame frame = new JFrame(ump.createTrans);
-    private JButton submit = new JButton("Submit");
+    private final TransactionBuilder tb;
+    private final JFrame frame = new JFrame(ump.createTrans);
+    private final JButton submit = new JButton("Submit");
     private Item item;
     private Calendar dateCalendar;
     private Calendar timeCalendar;
-    private JTextField location = new JTextField("Location");
-    private SpinnerDateModel dateModel = new SpinnerDateModel();
-    private JSpinner meetingDate = new JSpinner(dateModel);
-    private SpinnerDateModel timeModel = new SpinnerDateModel();
-    private JSpinner meetingTime = new JSpinner(timeModel);
+    private final JTextField location = new JTextField("Location");
+    private final SpinnerDateModel dateModel = new SpinnerDateModel();
+    private final JSpinner meetingDate = new JSpinner(dateModel);
+    private final SpinnerDateModel timeModel = new SpinnerDateModel();
+    private final JSpinner meetingTime = new JSpinner(timeModel);
 
     public TransactionWindow(UserMenuController umc, UUID itemId, UUID ownerId) throws InvalidItemException {
         this.umc = umc;

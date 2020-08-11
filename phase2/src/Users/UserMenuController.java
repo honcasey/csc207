@@ -182,10 +182,13 @@ public class UserMenuController {
         UUID otherUserid = transaction.getOtherUser(Currentuser.getUserId());
         String otherUser = um.getTradingUserById(otherUserid).toString();
         if(transaction.isPerm()){
-            returnString = "Permanent Transaction with" +otherUser;
+            returnString = "Permanent Transaction with " +otherUser;
         }
-        else{
-            returnString = "Temporary Transaction with "+ otherUser;
+        else if (transaction.isVirtual()) {
+            returnString = "Virtual Transaction with " + otherUser;
+        }
+        else {
+            returnString = "Temporary Transaction with " + otherUser;
         }
         if(transaction.getItemIdDesired(Currentuser.getUserId()) == null) {
             String YourItemString = null;
@@ -193,7 +196,7 @@ public class UserMenuController {
                 Item YourItem = im.getItem(transaction.getItemIdOwned(Currentuser.getUserId()));
                 YourItemString = YourItem.toString();
             } catch (InvalidItemException e) {
-                System.out.println("Item Manager is not being updated  properly");
+                System.out.println("Item Manager is not being updated properly");
             }
             return returnString + " to give " + YourItemString;
         }
