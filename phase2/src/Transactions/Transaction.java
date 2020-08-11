@@ -96,7 +96,7 @@ public abstract class Transaction implements Serializable {
      * Getter for all the userids that are involved in a transaction.
      */
     public List<UUID> getUsers(){
-        return (List<UUID>) this.userToItems.keySet();
+        return new ArrayList<UUID>(userToItems.keySet());
     }
 
     public void removeUser(UUID user){

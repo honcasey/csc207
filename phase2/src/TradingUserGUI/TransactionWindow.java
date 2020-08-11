@@ -134,7 +134,7 @@ public class TransactionWindow {
 
         // add meetings fields
         if (type.equals(ump.perm)) {
-            panel2 = setMeetingPanel("First");
+            panel2 = setMeetingPanel("first");
             submit.addActionListener(e -> {
                 try {
                     areYouSureWindow();
@@ -145,7 +145,7 @@ public class TransactionWindow {
             panel2.add(submit);
         }
         else if (type.equals(ump.temp)) {
-            panel2 = setMeetingPanel("First");
+            panel2 = setMeetingPanel("first");
             submit.addActionListener(e -> secondMeetingWindow());
             panel2.add(submit);
         } else if (type.equals(ump.virtual)) {
@@ -227,7 +227,7 @@ public class TransactionWindow {
 
     private void secondMeetingWindow() {
         JFrame tempFrame = new JFrame("Second Meeting");
-        JPanel panel3 = setMeetingPanel("Second");
+        JPanel panel3 = setMeetingPanel("second");
         JButton submit2 = new JButton("Submit Second Meeting");
         submit2.addActionListener(e -> {
             try {
