@@ -182,14 +182,6 @@ public class TradingUserMenu {
         });
         menu.add(unsetVacationStatus);
 
-        // log out menu option
-        JMenuItem logOut = new JMenuItem(ump.logOut, KeyEvent.VK_L); // press the L key to access log out option
-        logOut.addActionListener(e -> {
-            writeData();
-            frame.dispose();
-        });
-        menu.add(logOut);
-
         // view account profile
         JMenuItem userProfile = new JMenuItem(ump.accountProfile);
         userProfile.addActionListener(e -> {
@@ -197,6 +189,14 @@ public class TradingUserMenu {
             tradingUserProfileWindow.display();
         });
         menu.add(userProfile);
+
+        // log out menu option
+        JMenuItem logOut = new JMenuItem(ump.logOut, KeyEvent.VK_L); // press the L key to access log out option
+        logOut.addActionListener(e -> {
+            writeData();
+            frame.dispose();
+        });
+        menu.add(logOut);
 
     }
 

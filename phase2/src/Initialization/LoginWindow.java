@@ -58,7 +58,6 @@ public class LoginWindow {
         registerButton.addActionListener(e -> {
             RegistrationWindow rw = new RegistrationWindow(lc, umc, mp);
             rw.display();
-            frame.dispose();
         });
 
         demoButton.addActionListener(e -> {

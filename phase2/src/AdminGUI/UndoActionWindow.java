@@ -37,6 +37,8 @@ public class UndoActionWindow {
         frame.setSize(new Dimension(700, 500));
         frame.setLocationRelativeTo(null);
 
+        JPanel panel = new JPanel();
+
         DefaultListModel<String> users = new DefaultListModel<>(); // list of all users who have made undoable actions
         ArrayList<TradingUser> listUsers = new ArrayList<>();
         for (TradingUser user : am.getAllActions().keySet()) {
@@ -47,7 +49,21 @@ public class UndoActionWindow {
         JList<String> allUsers = new JList<>(users);
         allUsers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         allUsers.setSelectedIndex(0);
-        allUsers.addListSelectionListener(e -> selectedUser = listUsers.get(allUsers.getSelectedIndex()));
+        allUsers.addListSelectionListener(e -> {
+            selectedUser = listUsers.get(allUsers.getSelectedIndex());
+            helper(selectedUser);
+        });
+
+        panel.add(allUsers);
+
+        frame.getContentPane().add(panel);
+        frame.setVisible(true);
+
+    }
+
+    private void helper(TradingUser selectedUser) {
+        JFrame frame2 = new JFrame("Undo Options");
+        frame2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         DefaultListModel<String> actions = new DefaultListModel<>(); // list of all actions by the selected user
         ArrayList<Action> listActions = new ArrayList<>();
@@ -73,19 +89,17 @@ public class UndoActionWindow {
             undo.addActionListener(e -> {
                 if (selectedAction.isAddorDeleteAction()) {
                     amc.undoAddOrDeleteAction((AddOrDeleteAction) selectedAction); // idk how to not have to cast this
-                }
-                else if (selectedAction.isEditAction()) {
+                } else if (selectedAction.isEditAction()) {
                     amc.undoEditAction((EditAction) selectedAction);
                 }
             });
 
-            Panel panel = new Panel();
-            panel.add(allUsers);
+            JPanel panel = new JPanel();
             panel.add(usersActions);
             panel.add(undo);
-
-            frame.getContentPane().add(panel);
-            frame.setVisible(true);
+            frame2.add(panel);
+            frame2.setVisible(true);
         }
+
     }
 }
