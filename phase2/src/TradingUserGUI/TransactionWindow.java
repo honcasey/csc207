@@ -3,6 +3,7 @@ package TradingUserGUI;
 import Exceptions.InvalidItemException;
 import Items.Item;
 import Presenters.UserMenuPresenter;
+import Transactions.Transaction;
 import Transactions.TransactionBuilder;
 import Users.TradingUser;
 import Users.UserMenuController;
@@ -169,10 +170,6 @@ public class TransactionWindow {
 
         JTextField location = new JTextField("Location");
         location.setBounds(100, 100, 50, 20);
-//        location.addActionListener(e -> {
-//            if (meetingNum.equals("first")) { firstLocation = location.getText(); }
-//            if (meetingNum.equals("second")) { secondLocation = location.getText(); }
-//        });
 
         setDateCalendar();
         SpinnerDateModel dateModel = new SpinnerDateModel();
@@ -181,10 +178,6 @@ public class TransactionWindow {
         JSpinner meetingDate = new JSpinner(dateModel);
         JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(meetingDate, "dd:mm:yyyy");
         meetingDate.setEditor(dateEditor);
-//        meetingDate.addChangeListener(e -> {
-//            if (meetingNum.equals("first")) { firstDate = dateModel.getDate(); }
-//            if (meetingNum.equals("second")) { secondDate = dateModel.getDate(); }
-//        });
 
         setTimeCalendar();
         SpinnerDateModel timeModel = new SpinnerDateModel();
@@ -193,10 +186,6 @@ public class TransactionWindow {
         JSpinner meetingTime = new JSpinner(timeModel);
         JSpinner.DateEditor editor = new JSpinner.DateEditor(meetingTime, "hh:mm");
         meetingTime.setEditor(editor);
-//        meetingTime.addChangeListener(e -> {
-//            if (meetingNum.equals("first")) { firstTime = timeModel.getDate(); }
-//            if (meetingNum.equals("second")) { secondTime = timeModel.getDate(); }
-//        });
         if (meetingNum.equals("first")) {
             tb.buildFirstMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
         }
@@ -211,26 +200,12 @@ public class TransactionWindow {
     }
 
     private void areYouSureWindow(String type) throws InvalidItemException {
-//        List<UUID> itemList = new ArrayList<>();
-//        itemList.add(selectedItem.getId());
-//        if (twoWay) {
-//            itemList.add(offeredItem.getId());
-//        }
         JFrame areyousureframe = new JFrame();
-        // Meeting firstMeeting = new Meeting(firstLocation, firstTime, firstDate);
         areyousureframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         areyousureframe.setVisible(true);
         int a = JOptionPane.showConfirmDialog(frame, "Are you sure you want to create this transaction?");
         if (a == JOptionPane.YES_OPTION) {
-            tb.getTransaction(); // TODO
-//                if (type.equals("Perm")) {
-//                    umc.buildTransaction(itemList, selectedItemOwner, firstMeeting);
-//                    cancelledWindow();
-//                }
-//                if (type.equals("Temp")) {
-//                    Meeting secondMeeting = new Meeting(secondLocation, secondTime, secondDate);
-//                    umc.buildTransaction(itemList, selectedItemOwner, firstMeeting, secondMeeting);
-//                }
+            umc.transactionUpdate(tb.getTransaction());
         }
         if (a == JOptionPane.NO_OPTION) {
             System.exit(0);
@@ -238,17 +213,17 @@ public class TransactionWindow {
     }
 
     private void secondMeetingWindow() {
-            JFrame tempFrame = new JFrame("Second Meeting");
-            JPanel panel3 = setMeetingPanel("Second");
-            JButton submit2 = new JButton("Submit Second Meeting");
-            submit2.addActionListener(e -> {
-                try {
-                    areYouSureWindow("Temp");
-                } catch (InvalidItemException invalidItemException) {
-                    //
-                }
-            });
-            panel3.add(submit2);
-            tempFrame.add(panel3);
-        }
+        JFrame tempFrame = new JFrame("Second Meeting");
+        JPanel panel3 = setMeetingPanel("Second");
+        JButton submit2 = new JButton("Submit Second Meeting");
+        submit2.addActionListener(e -> {
+            try {
+                areYouSureWindow("Temp");
+            } catch (InvalidItemException invalidItemException) {
+                //
+            }
+        });
+        panel3.add(submit2);
+        tempFrame.add(panel3);
+    }
     }

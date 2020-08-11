@@ -84,36 +84,6 @@ public class UserMenuController {
         }
     }
 
-//    public void buildTransaction(List<UUID> items, TradingUser owner, Meeting firstMeeting) throws InvalidItemException {
-//        TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
-//        itemMap.put(owner.getUserId(), items);
-//        Transaction newTransaction;
-//        newTransaction = tm.createTransaction(itemMap, firstMeeting);
-//
-//
-//        tm.updateUsersCurrentTransactions(owner,currentTradingUser,newTransaction);
-//        flagAccountIfAboveThreshold(owner);
-//        for (UUID id : items) {
-//            Item item = im.getItem(id);
-//            availableItems.remove(item);
-//        }
-//    }
-//
-//    /**
-//     * Creates a virtual transaction
-//     */
-//    public void buildTransaction(List<UUID> items, TradingUser owner) throws InvalidItemException {
-//        TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
-//        itemMap.put(owner.getUserId(), items);
-//        Transaction newTransaction = tm.createTransaction(itemMap);
-//        tm.updateUsersCurrentTransactions(owner, currentTradingUser, newTransaction);
-//        flagAccountIfAboveThreshold(owner);
-//        for (UUID id : items) {
-//            Item item = im.getItem(id);
-//            availableItems.remove(item);
-//        }
-//    }
-
     public List<Transaction> currentTransactionList() {
         try {
             List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
