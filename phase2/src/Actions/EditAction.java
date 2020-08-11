@@ -4,11 +4,13 @@ import Transactions.Meeting;
 import Transactions.Transaction;
 import Users.TradingUser;
 
+import java.io.Serializable;
+
 
 /**
  * Represents an "edit" action, which includes editing a Meeting's details.
  */
-public class EditAction extends Action {
+public class EditAction extends Action implements Serializable {
     private Transaction transaction;
     private int whichMeeting;
     private Meeting previousMeeting;
