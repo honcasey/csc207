@@ -10,11 +10,11 @@ import java.util.UUID;
  */
 public abstract class Action implements Serializable {
     private UUID id;
-    private TradingUser user;
+    private UUID userId;
 
-    public Action(TradingUser user) {
+    public Action(UUID userId) {
         this.id = UUID.randomUUID();;
-        this.user = user;
+        this.userId = userId;
     }
 
     public abstract boolean isEditAction();
@@ -25,7 +25,7 @@ public abstract class Action implements Serializable {
         return id;
     }
 
-    public TradingUser getUser() {
-        return user;
+    public UUID getUser() {
+        return userId;
     }
 }

@@ -231,7 +231,7 @@ public class ViewActiveTransactionsWindow {
                 inputLocation, inputTime, inputDate)) {
 
             // create a new action object
-            EditAction action = new EditAction(umc.getCurrentTradingUser(), selectedTransaction,
+            EditAction action = new EditAction(umc.getCurrentTradingUser().getUserId(), selectedTransaction,
                     whichMeetingSelected, selectedTransaction.getTransactionMeetings().get(whichMeetingSelected),
                     new Meeting(inputLocation, inputTime, inputDate));
 

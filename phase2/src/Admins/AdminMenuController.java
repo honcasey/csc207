@@ -57,9 +57,9 @@ public class AdminMenuController {
             String username = allPendingItems.get(item).getUsername();
             TradingUser user = um.getTradingUser(username);
             im.addItem(item); // add to allItems master list of all existing items
-            um.addItem(user, item, "inventory"); // add item to the TradingUser's inventory
+            um.addItem(user.getUserId(), item, "inventory"); // add item to the TradingUser's inventory
             allPendingItems.remove(item);
-            AddOrDeleteAction action = new AddOrDeleteAction(user);
+            AddOrDeleteAction action = new AddOrDeleteAction(user.getUserId());
             action.setIsInventory();
             action.setAdded(item);
             acm.addAction(user.getUserId(), action);
@@ -88,28 +88,28 @@ public class AdminMenuController {
 
     /**
      * Manually adds an item to any TradingUser's inventory or wishlist
-     * @param tradingUser trading user in the system
+     * @param tradingUserId trading user in the system
      * @param item an item in the system
      * @param listType either "wishlist" or "inventory" as a stirng
      * @return true iff item has been added successfully
      * @throws NullPointerException
      */
-    public boolean addItemToUser(TradingUser tradingUser, Item item, String listType) throws NullPointerException{
+    public boolean addItemToUser(UUID tradingUserId, Item item, String listType) throws NullPointerException{
         boolean isSuccessful = false;
         if(listType.equals("wishlist")) {
-            AddOrDeleteAction action = new AddOrDeleteAction(tradingUser);
+            AddOrDeleteAction action = new AddOrDeleteAction(tradingUserId);
             action.setIsWishlist();
             action.setAdded(item);
-            acm.addAction(tradingUser.getUserId(), action);
-            um.addItem(tradingUser, item, "wishlist");
+            acm.addAction(tradingUserId, action);
+            um.addItem(tradingUserId, item, "wishlist");
             im.addItem(item);
             isSuccessful = true;
         }else if (listType.equals("inventory")){
-            AddOrDeleteAction action = new AddOrDeleteAction(tradingUser);
+            AddOrDeleteAction action = new AddOrDeleteAction(tradingUserId);
             action.setIsInventory();
             action.setAdded(item);
-            acm.addAction(tradingUser.getUserId(), action);
-            um.addItem(tradingUser, item, "inventory");
+            acm.addAction(tradingUserId, action);
+            um.addItem(tradingUserId, item, "inventory");
             im.addItem(item);
             isSuccessful = true;
         }
@@ -118,7 +118,7 @@ public class AdminMenuController {
 
     /* helper method for changeUserThreshold */
     public void updateThreshold(String username, int newThreshold, String whichThreshold) throws InvalidTradingUserException {
-        um.changeThreshold(um.getTradingUser(username), newThreshold, whichThreshold);
+        um.changeThreshold(um.getTradingUser(username).getUserId(), newThreshold, whichThreshold);
     }
 
     /**
@@ -232,18 +232,18 @@ public class AdminMenuController {
         if (action.wasAdded()) {
             if (action.isInventory()) {
                 um.removeItem(action.getUser(), action.getItem(), "inventory");
-                acm.getAllActions().get(action.getUser().getUserId()).remove(action);
+                acm.getAllActions().get(action.getUser()).remove(action);
             } else if (action.isWishlist()) {
                 um.removeItem(action.getUser(), action.getItem(), "wishlist");
-                acm.getAllActions().get(action.getUser().getUserId()).remove(action);
+                acm.getAllActions().get(action.getUser()).remove(action);
             }
         } else if (action.wasRemoved()) {
             if (action.isInventory()) {
                 um.addItem(action.getUser(), action.getItem(), "inventory");
-                acm.getAllActions().get(action.getUser().getUserId()).remove(action);
+                acm.getAllActions().get(action.getUser()).remove(action);
             } else if (action.isWishlist()) {
                 um.addItem(action.getUser(), action.getItem(), "wishlist");
-                acm.getAllActions().get(action.getUser().getUserId()).remove(action);
+                acm.getAllActions().get(action.getUser()).remove(action);
             }
         }
     }

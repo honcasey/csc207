@@ -83,7 +83,7 @@ public class ViewInventoryWindow {
             removeB.addActionListener(e -> {
                 int input = JOptionPane.showOptionDialog(null, ump.optionPrompt("remove this item from your Inventory?"), "Remove Item?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (input == JOptionPane.YES_OPTION) {
-                    AddOrDeleteAction action = new AddOrDeleteAction(umc.getCurrentTradingUser());
+                    AddOrDeleteAction action = new AddOrDeleteAction(umc.getCurrentTradingUser().getUserId());
                     action.setIsInventory();
                     action.setRemoved(items.get(itemsList.getSelectedIndex()));
                     acm.addAction(umc.getCurrentTradingUser().getUserId(), action);

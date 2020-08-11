@@ -37,18 +37,15 @@ public class TradingUserManager {
      *
      * @param username online identifier of a TradingUser
      * @param password account password
-     * @return username and userId as string separated by comma.
      */
-    public TradingUser addTradingUser(String username, String password, String city) throws InvalidTradingUserException {
+    public void addTradingUser(String username, String password, String city) throws InvalidTradingUserException {
         TradingUser newTradingUser = new TradingUser(username, password);
         newTradingUser.setCity(city);
         if (allTradingUsers.size() == 0) {
             allTradingUsers.add(newTradingUser);
-            return newTradingUser;
         }
         if (checkAvailableUsername(username)) {
             allTradingUsers.add(newTradingUser);
-            return newTradingUser;
         } else {
             throw new InvalidTradingUserException();
         }
@@ -103,22 +100,6 @@ public class TradingUserManager {
         else { return userList; }
     }
 
-    /**
-     * Retreives of a list of TradingUsers that are outside of a city but still ready to trade.
-     * @param city This is the disired city
-     * @return list of TradingUsers outside of that city.
-     */
-    public List<TradingUser> getTradingUsersOutOfCity(String city){
-        List<TradingUser> userList = new ArrayList<>();
-        for (TradingUser tradingUser : allTradingUsers)
-            //check TradingUser is in the desired city and not on vacation status
-            if (!sameCity(tradingUser.getCity(),city)&&(!tradingUser.isOnVacation())) {
-                userList.add(tradingUser);
-            }
-        if (userList.size() == 0) return null; // if there are no TradingUser's in this city
-        else { return userList; }
-    }
-
     private Boolean sameCity(String city1, String city2){
         String All_upper_city1 = city1.toUpperCase();
         String All_upper_city2 = city2.toUpperCase();
@@ -126,27 +107,14 @@ public class TradingUserManager {
     }
 
     /**
-     * Retrieves a list of TradingUsers not on vacation status.
-     * @return list of TradingUsers not on vacation
-     */
-    public List<TradingUser> getTradingUserNotOnVacation(){
-        List<TradingUser> userList = new ArrayList<>();
-        for (TradingUser tradingUser : allTradingUsers){
-            if (!tradingUser.getStatus().equals(UserStatuses.VACATION)){
-                userList.add(tradingUser);
-            }
-        }return userList;
-    }
-
-
-    /**
      * Adds an item to tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
      *
-     * @param tradingUser the tradingUser
+     * @param tradingUserId the tradingUser's UUID
      * @param item an item in the trading system.
      * @param listType either "wishlist" or "inventory" as a String
      */
-    public boolean addItem(TradingUser tradingUser, Item item, String listType) {
+    public boolean addItem(UUID tradingUserId, Item item, String listType) {
+        TradingUser tradingUser = idToUser.get(tradingUserId);
         if (listType.equals("wishlist")) {
             if (!tradingUser.getWishlist().contains(item.getId())) {
                 tradingUser.getWishlist().add(item.getId());
@@ -163,11 +131,12 @@ public class TradingUserManager {
     /**
      * Removes a item from tradingUser's specified list, which is either the Users.TradingUser's wishlist or inventory.
      *
-     * @param tradingUser a tradingUser in the trading system.
+     * @param tradingUserId a tradingUser's UUID
      * @param item an item in the trading system.
      * @param listType either "wishlist" or "inventory" as a String
      */
-    public void removeItem(TradingUser tradingUser, Item item, String listType) {
+    public void removeItem(UUID tradingUserId, Item item, String listType) {
+        TradingUser tradingUser = idToUser.get(tradingUserId);
         if (listType.equals("wishlist")) {
             tradingUser.getWishlist().remove(item.getId());
         } else if (listType.equals("inventory")) {
@@ -182,7 +151,8 @@ public class TradingUserManager {
      * @param thresholdValue new value of threshold as an int
      * @param thresholdType  either "borrow", "weekly", or "incomplete" as a String
      */
-    public void changeThreshold(TradingUser tradingUser, int thresholdValue, String thresholdType) {
+    public void changeThreshold(UUID tradingUserId, int thresholdValue, String thresholdType) {
+        TradingUser tradingUser = idToUser.get(tradingUserId);
         switch (thresholdType) {
             case "Borrow":
                 tradingUser.setBorrowThreshold(thresholdValue);

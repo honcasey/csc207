@@ -5,6 +5,7 @@ import Transactions.Transaction;
 import Users.TradingUser;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 
 /**
@@ -16,9 +17,9 @@ public class EditAction extends Action implements Serializable {
     private Meeting previousMeeting;
     private Meeting newMeeting;
 
-    public EditAction(TradingUser user, Transaction transaction,
+    public EditAction(UUID userId, Transaction transaction,
                       int whichMeeting, Meeting previousMeeting, Meeting newMeeting) {
-        super(user);
+        super(userId);
         this.transaction = transaction;
         this.whichMeeting = whichMeeting;
         this.newMeeting = newMeeting;

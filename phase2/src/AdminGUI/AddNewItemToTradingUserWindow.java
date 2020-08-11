@@ -97,7 +97,7 @@ public class AddNewItemToTradingUserWindow {
             } else {
                 if(!successfullyAdded){//checks if item has been previously added to prevent multiply operation
                     try {//user is selected and item added to inventory successfully
-                        if (amc.addItemToUser(selectedTradingUser, newItem, "inventory")) {
+                        if (amc.addItemToUser(selectedTradingUser.getUserId(), newItem, "inventory")) {
                             successfullyAdded = true;
                             new PopUpWindow(amp.successfully("Item added")).display();
                         }
@@ -122,7 +122,7 @@ public class AddNewItemToTradingUserWindow {
             }else {//item name is given
                 if (!successfullyAdded) {//checks if item has been previously added
                     try {//user is selected and item added to wishlist successfully
-                        if (amc.addItemToUser(selectedTradingUser, newItem, "wishlist")) {
+                        if (amc.addItemToUser(selectedTradingUser.getUserId(), newItem, "wishlist")) {
                             successfullyAdded = true;
                             new PopUpWindow(amp.successfully("Item added")).display();
                         }

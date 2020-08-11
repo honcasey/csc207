@@ -4,6 +4,7 @@ import Items.Item;
 import Users.TradingUser;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * Represents an "adding" or "deleting" action, including adding or deleting an Item from a TradingUser's inventory or wishlist.
@@ -14,8 +15,8 @@ public class AddOrDeleteAction extends Action implements Serializable {
     private boolean wishlist = false;
     private boolean inventory = false;
 
-    public AddOrDeleteAction(TradingUser user) {
-        super(user);
+    public AddOrDeleteAction(UUID userId) {
+        super(userId);
     }
 
     @Override
