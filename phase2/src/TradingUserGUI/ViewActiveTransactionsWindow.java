@@ -36,6 +36,9 @@ public class ViewActiveTransactionsWindow {
         if (umc.currentTransactionList().isEmpty()) {
             PopUpWindow e = new PopUpWindow(ump.noCurrTrans);
             e.display();
+        } else if(umc.getCurrentTradingUser().isFrozen()){
+            PopUpWindow e = new PopUpWindow(ump.userFrozen);
+            e.display();
         }
         else{
             List<Transaction> allTransactions = umc.currentTransactionList();
