@@ -32,7 +32,7 @@ public class ActionManager {
      * @param user the specified TradingUser
      */
     public void addAction(TradingUser user, Action newAction) {
-        if (allActions.isEmpty()) {
+        if (!allActions.containsKey(user)) {
             List<Action> listActions = new ArrayList<>();
             listActions.add(newAction);
             allActions.put(user, listActions);
