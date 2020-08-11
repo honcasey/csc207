@@ -174,6 +174,7 @@ public class AdminUserMenu {
         serializer.writeAccountsToFile(fp.FLAGGEDACCOUNTS, amc.getTUM().getFlaggedAccounts());
         serializer.writeAccountsToFile(fp.FROZENACCOUNTS, amc.getTUM().getFrozenAccounts());
         serializer.writeItemsMapToFile(fp.ITEMS, amc.getIm().getAllItems());
+        serializer.writeActionsToFile(fp.ACTIONS, amc.getAcm().getAllActions());
     }
 
 }

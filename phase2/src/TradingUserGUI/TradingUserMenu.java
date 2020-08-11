@@ -207,6 +207,7 @@ public class TradingUserMenu {
         serializer.writeAccountsToFile(fp.FROZENACCOUNTS, umc.getUm().getFrozenAccounts());
         serializer.writeTransactionsToFile(fp.TRANSACTIONS, umc.getTm().getAllTransactions());
         serializer.writeItemsMapToFile(fp.ITEMS, umc.getIm().getAllItems());
+        serializer.writeActionsToFile(fp.ACTIONS, umc.getAcm().getAllActions());
     }
 
     private void changeVacationStatus(boolean b, TradingUser user) {
