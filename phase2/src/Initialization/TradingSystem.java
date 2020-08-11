@@ -77,7 +77,7 @@ public class TradingSystem {
         Map<UUID, Transaction> transactions = serializer.readTransactionMapFromFile(fp.TRANSACTIONS);
         Map<UUID, Item> items = serializer.readItemMapFromFile(fp.ITEMS);
         List<DemoUser> demoUsers = serializer.readDemoUsersFromFile(fp.DEMOUSERS);
-        LinkedHashMap<TradingUser, List<Action>> actions = serializer.readActionsFromFile(fp.ACTIONS);
+        LinkedHashMap<UUID, List<Action>> actions = serializer.readActionsFromFile(fp.ACTIONS);
 
         // create new Managers
         am = new AdminManager(admins, flaggedAccounts, frozenAccounts);
@@ -127,7 +127,7 @@ public class TradingSystem {
                 List<DemoUser> demoUsers = new ArrayList<>();
                 serializer.writeDemoUsersToFile(filePath, demoUsers);
             } else if (filePath.equals(fp.ACTIONS)) {
-                LinkedHashMap<TradingUser, List<Action>> actions = new LinkedHashMap<>();
+                LinkedHashMap<UUID, List<Action>> actions = new LinkedHashMap<>();
                 serializer.writeActionsToFile(filePath, actions);
             } else if (filePath.equals(fp.ITEMS)) {
                 Map<UUID, Item> items = new HashMap<>();

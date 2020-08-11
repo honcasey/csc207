@@ -12,9 +12,9 @@ import java.util.UUID;
  * Manages and stores all undoable actions in the system.
  */
 public class ActionManager {
-    private final LinkedHashMap<TradingUser, List<Action>> allActions;
+    private final LinkedHashMap<UUID, List<Action>> allActions;
 
-    public ActionManager(LinkedHashMap<TradingUser, List<Action>> allActions) {
+    public ActionManager(LinkedHashMap<UUID, List<Action>> allActions) {
         this.allActions = allActions;
     }
 
@@ -22,7 +22,7 @@ public class ActionManager {
      * Getter for the LinkedHashMap of all actions (keys) mapped to the Action's UUID (values).
      * @return LinkedHashMap of all actions and their UUIDs.
      */
-    public LinkedHashMap<TradingUser, List<Action>> getAllActions() {
+    public LinkedHashMap<UUID, List<Action>> getAllActions() {
         return allActions;
     }
 
@@ -32,31 +32,22 @@ public class ActionManager {
      * @param user the specified TradingUser
      */
     public void addAction(TradingUser user, Action newAction) {
-        if (!allActions.containsKey(user)) {
+        if (!allActions.containsKey(user.getUserId())) {
             List<Action> listActions = new ArrayList<>();
             listActions.add(newAction);
-            allActions.put(user, listActions);
+            allActions.put(user.getUserId(), listActions);
         }
         else {
-            allActions.get(user).add(newAction);
+            allActions.get(user.getUserId()).add(newAction);
         }
     }
-
-//    /**
-//     * Returns the Action object with given Action ID.
-//     * @param actionId UUID of desired Action
-//     * @return Action object
-//     */
-//    public Action getAction(TradingUser user, UUID actionId) {
-//        return allActions.get(actionId);
-//    }
 
     /**
      * Filter list of all actions by a specific user.
      */
     public List<Action> getActionsByUser(TradingUser user) {
-        if (allActions.containsKey(user)) {
-            return allActions.get(user);
+        if (allActions.containsKey(user.getUserId())) {
+            return allActions.get(user.getUserId());
         }
         return null; // if this TradingUser hasn't made any actions yet
     }
@@ -74,7 +65,7 @@ public class ActionManager {
     public void clearPreviousEditActions(TradingUser user, Transaction transaction) {
         for (EditAction action : getEditActionsByUser(user)) {
             if (action.getTransaction().getId().equals(transaction.getId())) {
-                allActions.get(user).remove(action);
+                allActions.get(user.getUserId()).remove(action);
             }
         }
     }
