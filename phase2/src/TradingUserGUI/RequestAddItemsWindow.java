@@ -7,6 +7,7 @@ import Users.UserMenuController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 
 public class RequestAddItemsWindow {
 
@@ -40,6 +41,7 @@ public class RequestAddItemsWindow {
             }
             else{
                 umc.addToPendingItems(requestedItem);
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                 new PopUpWindow(userItemNameText.getText() + " " + ump.submitForApproval).display();
             }
         });

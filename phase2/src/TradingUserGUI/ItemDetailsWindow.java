@@ -29,7 +29,7 @@ public class ItemDetailsWindow {
     public void display() {
         JFrame frame = new JFrame(ump.itemDetails);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setSize(new Dimension(550, 300));
+        frame.setSize(new Dimension(900, 250));
         frame.setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
@@ -41,15 +41,17 @@ public class ItemDetailsWindow {
     }
 
     private void formatPanel(JPanel panel) {
-        JLabel itemLabel = new JLabel(item.toString());
+        panel.setLayout(null);
+        JLabel itemLabel = new JLabel("Item:        "+ item.toString());
         // the user who owns the item
         TradingUser owner = itemsMap.get(item);
-        JLabel user = new JLabel(owner.toString());
-
-        JTextArea desc = new JTextArea(item.getDescription());
-
+        JLabel user = new JLabel("Item Owner:       "+owner.toString());
+        JLabel desc = new JLabel("Item Description:     "+item.getDescription());
+        itemLabel.setBounds(20,20,200,25);
         panel.add(itemLabel);
+        user.setBounds(20,60,500,25);
         panel.add(user);
+        desc.setBounds(20,100,800,25);
         panel.add(desc);
 
         JButton wishlist = new JButton(ump.addToWishlist);
@@ -73,7 +75,9 @@ public class ItemDetailsWindow {
             }
         });
 
+        wishlist.setBounds(20,140,200,25);
         panel.add(wishlist);
+        trans.setBounds(500 , 140,200, 25);
         panel.add(trans);
 
     }
