@@ -88,11 +88,10 @@ public class ViewActiveTransactionsWindow {
                 TransactionStatuses transactionStatus = allTransactions.get(trans.getSelectedIndex()).getStatus();
                 switch (transactionStatus) { // opens a different window depending on the status of the selected transaction
                     case PENDING:
-                        if (selectedTransaction.isVirtual()) {
+                        if (!selectedTransaction.isVirtual()) {
+                            pendingTransactionWindow();
+                            break;
                             // virtual transactions don't have a meeting, do nothing
-                        } else {
-                        pendingTransactionWindow();
-                        break;
                         }
                     case TRADED:
                         tradedTransactionWindow();
@@ -281,7 +280,7 @@ public class ViewActiveTransactionsWindow {
 
     public void tradedTransactionWindow() {
         JFrame frame = new JFrame();
-        frame.setSize(new Dimension(500, 300));
+        frame.setSize(new Dimension(500, 500));
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -319,7 +318,7 @@ public class ViewActiveTransactionsWindow {
 
     public void confirmedTransactionWindow() {
         JFrame frame = new JFrame();
-        frame.setSize(new Dimension(500, 300));
+        frame.setSize(new Dimension(500, 500));
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -339,7 +338,7 @@ public class ViewActiveTransactionsWindow {
         });
 
         JButton claim = new JButton(ump.exchangeNotTakenPlace);
-        claim.setBounds(250, 100, 200, 50);
+        claim.setBounds(100, 300, 200, 50);
         claim.addActionListener(e -> {
             try {
                 umc.updateUsers(selectedTransaction.getId(), TransactionActions.MEETUPINCOMPLETE);

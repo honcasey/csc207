@@ -12,7 +12,7 @@ import java.util.UUID;
  * Manages and stores all undoable actions in the system.
  */
 public class ActionManager {
-    private LinkedHashMap<TradingUser, List<Action>> allActions;
+    private final LinkedHashMap<TradingUser, List<Action>> allActions;
 
     public ActionManager(LinkedHashMap<TradingUser, List<Action>> allActions) {
         this.allActions = allActions;
@@ -55,8 +55,8 @@ public class ActionManager {
      * Filter list of all actions by a specific user.
      */
     public List<Action> getActionsByUser(TradingUser user) {
-        if (allActions.keySet().contains(user)) {
-            return allActions.get(user.getUserId());
+        if (allActions.containsKey(user)) {
+            return allActions.get(user);
         }
         return null; // if this TradingUser hasn't made any actions yet
     }
