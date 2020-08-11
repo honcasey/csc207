@@ -60,7 +60,10 @@ public class UndoActionWindow {
             // frame.setVisible(false);
         });
 
-        panel.add(allUsers);
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.getViewport().add(allUsers);
+
+        panel.add(scrollPane);
 
         frame.getContentPane().add(panel);
         frame.setVisible(true);
