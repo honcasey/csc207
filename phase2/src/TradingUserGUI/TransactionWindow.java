@@ -216,9 +216,10 @@ public class TransactionWindow {
 //        if (twoWay) {
 //            itemList.add(offeredItem.getId());
 //        }
-        JFrame frame = new JFrame();
+        JFrame areyousureframe = new JFrame();
         // Meeting firstMeeting = new Meeting(firstLocation, firstTime, firstDate);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        areyousureframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        areyousureframe.setVisible(true);
         int a = JOptionPane.showConfirmDialog(frame, "Are you sure you want to create this transaction?");
         if (a == JOptionPane.YES_OPTION) {
             tb.getTransaction(); // TODO
