@@ -1,5 +1,6 @@
 package TradingUserGUI;
 
+import Exceptions.InvalidItemException;
 import Popups.PopUpWindow;
 import Items.Item;
 import Presenters.UserMenuPresenter;
@@ -17,7 +18,7 @@ public class AvailableItemsWindow {
     private final UserMenuPresenter ump = new UserMenuPresenter();
     private Map<Item, TradingUser> availableItemsMap;
     private final JPanel panel = new JPanel();
-    private final JButton itemButton = new JButton();
+    private final JButton itemButton = new JButton("Do something with this item");
     private Item selectedItem;
 
     public AvailableItemsWindow(UserMenuController umc) {
@@ -28,7 +29,7 @@ public class AvailableItemsWindow {
         JFrame frame = new JFrame(ump.displayAvailableItems);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        frame.setSize(new Dimension(550, 300));
+        frame.setSize(550, 500);
         frame.setLocationRelativeTo(null);
 
         availableItemsMap = umc.getAvailableItems();
@@ -45,22 +46,27 @@ public class AvailableItemsWindow {
             }
             JList<String> itemsList = new JList<>(itemNames);
             itemsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            itemsList.setSelectedIndex(0);
             itemsList.addListSelectionListener(e -> {
                 JList<String> itemList1 = (JList<String>) e.getSource();
                 selectedItem = itemList.get(itemList1.getSelectedIndex());
             });
 
-            itemButton.setBounds(400, 300, 100, 50);
+            itemButton.setBounds(100, 200, 100, 50);
             itemButton.addActionListener(e -> {
-                ItemDetailsWindow idw = new ItemDetailsWindow(umc, selectedItem, availableItemsMap);
+                ItemDetailsWindow idw = null;
+                try {
+                    idw = new ItemDetailsWindow(umc, selectedItem.getId(), availableItemsMap);
+                } catch (InvalidItemException invalidItemException) {
+                    // invalidItemException.printStackTrace();
+                }
                 idw.display();
             });
 
             panel.add(itemsList);
             panel.add(itemButton);
             frame.setContentPane(panel);
-            panel.setLayout(null);
+            // frame.pack();
+            // panel.setLayout(null);
         }
     }
 
