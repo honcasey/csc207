@@ -3,10 +3,12 @@ package Actions;
 import Items.Item;
 import Users.TradingUser;
 
+import java.io.Serializable;
+
 /**
  * Represents an "adding" or "deleting" action, including adding or deleting an Item from a TradingUser's inventory or wishlist.
  */
-public class AddOrDeleteAction extends Action {
+public class AddOrDeleteAction extends Action implements Serializable {
     private Item added = null;
     private Item removed = null;
     private boolean wishlist = false;

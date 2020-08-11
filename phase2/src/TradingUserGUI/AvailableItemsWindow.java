@@ -32,6 +32,7 @@ public class AvailableItemsWindow {
 
         // create the panel and the components on it
         JPanel panel = new JPanel();
+        panel.add(comboBox1);
 
         availableItemsMap = umc.getAvailableItems();
         if (availableItemsMap == null) {
@@ -49,16 +50,8 @@ public class AvailableItemsWindow {
                 idw.display();
             });
             frame.add(panel);
-            placeComponents(panel);
+
             frame.setVisible(true);
         }
     }
-
-    private void placeComponents(JPanel panel) {
-        panel.setLayout(null);
-
-        // add the combo box
-        panel.add(comboBox1);
-    }
-
 }
