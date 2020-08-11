@@ -10,6 +10,8 @@ import Transactions.Transaction;
 import Users.UserMenuController;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.Calendar;
 import java.util.Date;
@@ -55,8 +57,14 @@ public class ViewActiveTransactionsWindow {
             JList<String> trans = new JList<>(transactionList);
             trans.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             trans.setSelectedIndex(0);
+            trans.addListSelectionListener(new ListSelectionListener() {
+                @Override
+                public void valueChanged(ListSelectionEvent e) {
+
+                }
+            });
             trans.addListSelectionListener(e -> {
-                JList<String> trans1 = (JList<String>)e.getSource();
+                JList trans1 = (JList)e.getSource();
                 selectedTransaction = allTransactions.get(trans1.getSelectedIndex());
                 transactionDetails = umc.getTransactionString(selectedTransaction, umc.getCurrentTradingUser());
             });
@@ -65,13 +73,13 @@ public class ViewActiveTransactionsWindow {
             scrollPane.getViewport().add(trans);
 
             Panel leftPanel = new Panel();
-            leftPanel.setLayout(null);
+            // leftPanel.setLayout(null);
             leftPanel.add(scrollPane);
 
             JTextArea desc = new JTextArea(transactionDetails);
 
             Panel rightPanel = new Panel();
-            rightPanel.setLayout(null);
+            // rightPanel.setLayout(null);
             rightPanel.add(desc);
 
             JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
@@ -97,7 +105,7 @@ public class ViewActiveTransactionsWindow {
             });
 
             Panel bottomPanel = new Panel();
-            bottomPanel.setLayout(null);
+            // bottomPanel.setLayout(null);
             bottomPanel.add(options);
             frame.add(bottomPanel);
             frame.setVisible(true);
@@ -140,7 +148,7 @@ public class ViewActiveTransactionsWindow {
         dateModel.setValue(dateCalendar.getTime());
 
         JSpinner meetingDate = new JSpinner(dateModel);
-        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(meetingDate, "dd:mm:yyyy");
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(meetingDate, "dd/mm/yyyy");
         meetingDate.setEditor(dateEditor);
         meetingDate.addChangeListener(e -> inputDate = dateModel.getDate());
 
@@ -196,7 +204,7 @@ public class ViewActiveTransactionsWindow {
 
     private void setTimeCalendar() { // helper method for making a time JSpinner
         timeCalendar = Calendar.getInstance();
-        timeCalendar.set(Calendar.HOUR_OF_DAY, 24);
+        timeCalendar.set(Calendar.HOUR_OF_DAY, 12);
         timeCalendar.set(Calendar.MINUTE, 0);
     }
 
