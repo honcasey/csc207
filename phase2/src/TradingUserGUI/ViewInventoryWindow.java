@@ -86,7 +86,7 @@ public class ViewInventoryWindow {
                     AddOrDeleteAction action = new AddOrDeleteAction(umc.getCurrentTradingUser());
                     action.setIsInventory();
                     action.setRemoved(items.get(itemsList.getSelectedIndex()));
-                    acm.addAction(umc.getCurrentTradingUser(), action);
+                    acm.addAction(umc.getCurrentTradingUser().getUserId(), action);
                     UUID id = ids.get(itemsList.getSelectedIndex());
                     umc.removeFromInventory(id);
                     itemNames.remove(itemsList.getSelectedIndex()); // if YES, remove the item

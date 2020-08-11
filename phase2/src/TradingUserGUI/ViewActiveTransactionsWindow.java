@@ -236,7 +236,7 @@ public class ViewActiveTransactionsWindow {
                     new Meeting(inputLocation, inputTime, inputDate));
 
             // log this action in the manager
-            umc.getAcm().addAction(umc.getCurrentTradingUser(), action);
+            umc.getAcm().addAction(umc.getCurrentTradingUser().getUserId(), action);
 
             // clear old edit actions involving this transaction
             umc.getAcm().clearPreviousEditActions(umc.getCurrentTradingUser(), selectedTransaction);

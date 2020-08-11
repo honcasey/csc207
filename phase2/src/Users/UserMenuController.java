@@ -64,7 +64,7 @@ public class UserMenuController {
         AddOrDeleteAction action = new AddOrDeleteAction(currentTradingUser);
         action.setIsWishlist();
         action.setAdded(item);
-        acm.addAction(currentTradingUser, action);
+        acm.addAction(currentTradingUser.getUserId(), action);
         return um.addItem(currentTradingUser, item, "wishlist");
     }
 

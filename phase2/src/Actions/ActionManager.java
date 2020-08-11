@@ -29,16 +29,16 @@ public class ActionManager {
     /**
      * Appends an Action to the list of the specified User's actions.
      * @param newAction new Action object
-     * @param user the specified TradingUser
+     * @param userId the specified TradingUser
      */
-    public void addAction(TradingUser user, Action newAction) {
-        if (!allActions.containsKey(user.getUserId())) {
+    public void addAction(UUID userId, Action newAction) {
+        if (!allActions.containsKey(userId)) {
             List<Action> listActions = new ArrayList<>();
             listActions.add(newAction);
-            allActions.put(user.getUserId(), listActions);
+            allActions.put(userId, listActions);
         }
         else {
-            allActions.get(user.getUserId()).add(newAction);
+            allActions.get(userId).add(newAction);
         }
     }
 
