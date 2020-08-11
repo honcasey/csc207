@@ -2,6 +2,7 @@ package Transactions;
 import Actions.ActionManager;
 import Actions.AddOrDeleteAction;
 import Actions.EditAction;
+import Exceptions.InvalidTransactionException;
 import Users.TradingUser;
 
 import java.util.*;
@@ -36,12 +37,13 @@ public class CurrentTransactionManager extends TransactionManager {
     /**
      * Edits a meeting using overloading to selectively edit either the location, time or date
      * @param meetingNum the meeting number that the user wants to edit
-     * @param transaction the transaction to which the meeting belongs to
+     * @param transactionId the transaction to which the meeting belongs to
      * @param userId the UUID of the Users.TradingUser who want to edit the transaction
      * @param newLocation the new location that the user want to the meeting to take place
      * @return True if the meeting was successfully edited
      */
-    public boolean editMeeting(int meetingNum, Transaction transaction, UUID userId, String newLocation) {
+    public boolean editMeeting(int meetingNum, UUID transactionId, UUID userId, String newLocation) throws InvalidTransactionException {
+        Transaction transaction = getTransactionFromId(transactionId);
         int userNum = findUserNum(transaction, userId);
         Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
         if (canEdit(meeting, userNum) && transaction.getStatus().equals(TransactionStatuses.PENDING)) {
@@ -56,13 +58,14 @@ public class CurrentTransactionManager extends TransactionManager {
     /**
      * Edits a meeting using overloading to selectively edit either the location, time or date
      * @param meetingNum the meeting number that the user wants to edit
-     * @param transaction the transaction to which the meeting belongs to
+     * @param transactionId the transaction to which the meeting belongs to
      * @param userId the UUID of the Users.TradingUser who want to edit the transaction
      * @param time the new hour, minute the user want to have the meeting take place, must be in Date format
      * @param date the new Year, month, day the user want to have the meeting take place, must be in Date format
      * @return boolean whether the meeting was successfully edited or not
      */
-    public boolean editMeeting(int meetingNum, Transaction transaction, UUID userId, Date time, Date date) {
+    public boolean editMeeting(int meetingNum, UUID transactionId, UUID userId, Date time, Date date) throws InvalidTransactionException {
+        Transaction transaction = getTransactionFromId(transactionId);
         int userNum = findUserNum(transaction, userId);
         Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
         if (canEdit(meeting, userNum) && transaction.getStatus().equals(TransactionStatuses.PENDING)) {
