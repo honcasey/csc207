@@ -125,6 +125,7 @@ UML
    * Pink: Entity Classes
    * Yellow: Use Case Classes
    * Blue: Presenter, Controller, Gateway Classes
+* Due to a paywall on the website that was used to make the UML, the UML was split into two parts: the main system and GUI + Phase 2 features
 
 
 Authors (alphabetical)

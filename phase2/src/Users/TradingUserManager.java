@@ -123,6 +123,7 @@ public class TradingUserManager {
         } else if (listType.equals("inventory")) {
             if (!tradingUser.getInventory().contains(item.getId())) {
                 tradingUser.getInventory().add(item.getId());
+                return true;
             }
         }
         return false;

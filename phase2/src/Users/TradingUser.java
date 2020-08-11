@@ -89,14 +89,6 @@ public class TradingUser extends User implements Serializable {
         }
     }
 
-    public boolean removeFromInventory(UUID itemID){
-        if(inventory.contains(itemID)){
-            inventory.remove(itemID);
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     /**
      * This method checks for an item id in the wishlist and adds it if not found.
