@@ -161,7 +161,7 @@ public class ViewActiveTransactionsWindow {
         leftPanel.add(location);
         leftPanel.add(meetingDate);
         leftPanel.add(meetingTime);
-        frame.getContentPane().add(leftPanel);
+        frame.getContentPane().add(leftPanel, BorderLayout.PAGE_START);
 
         Panel rightPanel = new Panel();
         // rightPanel.setLayout(null);
@@ -187,7 +187,7 @@ public class ViewActiveTransactionsWindow {
         rightPanel.add(finalizeMeeting);
         rightPanel.add(cancelMeeting);
 
-        frame.getContentPane().add(rightPanel);
+        frame.getContentPane().add(rightPanel, BorderLayout.PAGE_END);
         frame.setVisible(true);
     }
 
