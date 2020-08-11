@@ -46,7 +46,7 @@ public class TransactionFactory {
             tm.getAllTransactions().put(id, transaction);
             return transaction;
         }
-        else return null;
+        return null;
     }
 
 }

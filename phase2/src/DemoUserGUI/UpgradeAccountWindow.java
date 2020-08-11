@@ -102,7 +102,7 @@ public class UpgradeAccountWindow {
     private void createAccount(String username, String password, String password2, String city) {
         if (lc.availableUsername(username) && password.equals(password2)) {
             lc.addTradingUser(username, password, city);
-            UUID oldID = dmc.currentDemoUser.getUserId();
+            UUID oldID = dmc.getCurrentDemoUser().getUserId();
             dmc.getDum().removeDemoUser(oldID);
             new TradingUserMenu(umc).display();
         } else {

@@ -59,7 +59,7 @@ public class ItemDetailsWindow {
 
         // add action listeners for our two buttons
         wishlist.addActionListener(e -> {
-            if (owner.getWishlist().contains(item.getId())) {
+            if (owner.getWishlist().contains(itemId)) {
                 new PopUpWindow(ump.inWishlist).display();
             } else {
                 umc.addToWishlist(item);
@@ -69,7 +69,7 @@ public class ItemDetailsWindow {
 
         trans.addActionListener(e -> {
             try {
-                new TransactionWindow(umc, item.getId(), owner.getUserId()).display();
+                new TransactionWindow(umc, itemId, owner.getUserId()).display();
             } catch (InvalidItemException invalidItemException) {
                 // invalidItemException.printStackTrace();
             }

@@ -22,6 +22,7 @@ public class TransactionBuilder {
         this.currentUserId = currentUserId;
         this.transFact = transFact;
         this.userToItems = new TreeMap<UUID, List<UUID>>();
+        this.meetingList = new ArrayList<>();
     }
 
     /**
@@ -36,22 +37,22 @@ public class TransactionBuilder {
 
         currentUserItemIds.add(null);
         currentUserItemIds.add(desiredItem);
-        this.userToItems.put(currentUserId,currentUserItemIds);
+        userToItems.put(currentUserId,currentUserItemIds);
 
         List<UUID> otherUserItemIds = new ArrayList<>();
 
         otherUserItemIds.add(desiredItem);
         otherUserItemIds.add(null);
-        this.userToItems.put(otherUserId,otherUserItemIds);
+        userToItems.put(otherUserId,otherUserItemIds);
 
     }
 
     public void buildFirstMeeting(String location, Date meetingTime, Date meetingDate){
-        this.meetingList.add(new Meeting(location,meetingTime,meetingDate));
+        meetingList.add(new Meeting(location,meetingTime,meetingDate));
     }
 
     public void buildSecondMeeting(String location, Date meetingTime, Date meetingDate){
-        this.meetingList.add(new Meeting(location,meetingTime,meetingDate));
+        meetingList.add(new Meeting(location,meetingTime,meetingDate));
     }
 
     public void AddItemOffered(UUID otherUserItem){
@@ -62,4 +63,5 @@ public class TransactionBuilder {
     public Transaction getTransaction(){
         return transFact.createTransaction(userToItems,meetingList);
     }
+
 }

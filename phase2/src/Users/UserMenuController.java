@@ -29,19 +29,18 @@ public class UserMenuController {
     private final ItemManager im;
     private final ActionManager acm;
     private final Map<Item, TradingUser> allPendingItems;
-    private Map<Item, TradingUser> availableItems = getAvailableItems();
 
     public UserMenuController(TradingUserManager tradingUserManager, AdminManager adminManager,
                               CurrentTransactionManager currentTransactionManager,
                               PastTransactionManager pastTransactionManager, ItemManager itemManager, ActionManager actionManager,
                               Map<Item, TradingUser> pendingItems) {
         allPendingItems = pendingItems;
-        am = adminManager;
-        um = tradingUserManager;
-        tm = currentTransactionManager;
-        ptm = pastTransactionManager;
-        im = itemManager;
-        acm = actionManager;
+        this.am = adminManager;
+        this.um = tradingUserManager;
+        this.tm = currentTransactionManager;
+        this.ptm = pastTransactionManager;
+        this.im = itemManager;
+        this.acm = actionManager;
     }
 
     public TransactionBuilder GetTransBuilder(){
@@ -70,6 +69,27 @@ public class UserMenuController {
     }
 
     /**
+     * Creates a HashMap of all the available items in other user's inventory.
+     * @return HashMap of items that are available in other user's inventory.
+     */
+    public Map<Item, TradingUser> getAvailableItems(){
+        try {
+            List<TradingUser> allTradingUsersInCity = um.getTradingUserByCity(currentTradingUser.getCity());
+            HashMap<Item, TradingUser> availableItems = new HashMap<>();
+            for (TradingUser tradingUser : allTradingUsersInCity) {
+                if(!tradingUser.equals(currentTradingUser)) {
+                    for (Item item : im.convertIdsToItems(tradingUser.getInventory())) {
+                        availableItems.put(item, tradingUser);
+                    }
+                }
+            }
+            return availableItems;
+        } catch (NullPointerException e) {
+            return null;
+        }
+    }
+
+    /**
      * This method updates the rest of the program after a transaction has been made.
      * @param newTransaction This is the transaction that has been recently made.
      */
@@ -80,39 +100,9 @@ public class UserMenuController {
         flagAccountIfAboveThreshold(otherUser);
         for (UUID id : items) {
             Item item = im.getItem(id);
-            availableItems.remove(item);
+            getAvailableItems().remove(item);
         }
     }
-
-//    public void buildTransaction(List<UUID> items, TradingUser owner, Meeting firstMeeting) throws InvalidItemException {
-//        TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
-//        itemMap.put(owner.getUserId(), items);
-//        Transaction newTransaction;
-//        newTransaction = tm.createTransaction(itemMap, firstMeeting);
-//
-//
-//        tm.updateUsersCurrentTransactions(owner,currentTradingUser,newTransaction);
-//        flagAccountIfAboveThreshold(owner);
-//        for (UUID id : items) {
-//            Item item = im.getItem(id);
-//            availableItems.remove(item);
-//        }
-//    }
-//
-//    /**
-//     * Creates a virtual transaction
-//     */
-//    public void buildTransaction(List<UUID> items, TradingUser owner) throws InvalidItemException {
-//        TreeMap<UUID, List<UUID>> itemMap = new TreeMap<>();
-//        itemMap.put(owner.getUserId(), items);
-//        Transaction newTransaction = tm.createTransaction(itemMap);
-//        tm.updateUsersCurrentTransactions(owner, currentTradingUser, newTransaction);
-//        flagAccountIfAboveThreshold(owner);
-//        for (UUID id : items) {
-//            Item item = im.getItem(id);
-//            availableItems.remove(item);
-//        }
-//    }
 
     public List<Transaction> currentTransactionList() {
         try {
@@ -153,27 +143,6 @@ public class UserMenuController {
         * and remove from current transactions */
         if (um.moveTransactionToTransactionHistory(transaction)) {
             currentTransactionsIds.remove(transaction.getId()); // remove from the list of active transaction's the logged in user sees
-        }
-    }
-
-    /**
-     * Creates a HashMap of all the available items in other user's inventory.
-     * @return HashMap of items that are available in other user's inventory.
-     */
-    public Map<Item, TradingUser> getAvailableItems(){
-        try {
-            List<TradingUser> allTradingUsersInCity = um.getTradingUserByCity(currentTradingUser.getCity());
-            HashMap<Item, TradingUser> availableItems = new HashMap<>();
-            for (TradingUser tradingUser : allTradingUsersInCity) {
-                if(!tradingUser.equals(currentTradingUser)) {
-                    for (Item item : im.convertIdsToItems(tradingUser.getInventory())) {
-                        availableItems.put(item, tradingUser);
-                    }
-                }
-            }
-            return availableItems;
-        } catch (NullPointerException e) {
-            return null;
         }
     }
 

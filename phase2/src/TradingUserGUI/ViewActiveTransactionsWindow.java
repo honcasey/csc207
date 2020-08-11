@@ -100,6 +100,7 @@ public class ViewActiveTransactionsWindow {
             bottomPanel.setLayout(null);
             bottomPanel.add(options);
             frame.add(bottomPanel);
+            frame.setVisible(true);
         }
     }
 

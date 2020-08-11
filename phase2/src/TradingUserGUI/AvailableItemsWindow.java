@@ -53,13 +53,12 @@ public class AvailableItemsWindow {
 
             itemButton.setBounds(100, 200, 100, 50);
             itemButton.addActionListener(e -> {
-                ItemDetailsWindow idw = null;
                 try {
-                    idw = new ItemDetailsWindow(umc, selectedItem.getId(), availableItemsMap);
+                    ItemDetailsWindow idw = new ItemDetailsWindow(umc, selectedItem.getId(), availableItemsMap);
+                    idw.display();
                 } catch (InvalidItemException invalidItemException) {
                     // invalidItemException.printStackTrace();
                 }
-                idw.display();
             });
 
             panel.add(itemsList);

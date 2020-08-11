@@ -80,15 +80,6 @@ public class CurrentTransactionManager extends TransactionManager {
     }
 
     /**
-     * Checks if the transaction has multiple meetings
-     * @param transaction the transaction to be checked
-     * @return true if a transaction has more than one meeting
-     */
-    public boolean transactionHasMultipleMeetings(Transaction transaction){
-        return transaction.getTransactionMeetings().size() > 1;
-    }
-
-    /**
      * This method is ONLY allowed to be used in the createTransactionMenu
      *
      * DO NOT USE THIS METHOD. THERE ARE NO EXCEPTIONS WRITTEN AND THIS METHOD IS OUT OF PLACE
@@ -112,8 +103,6 @@ public class CurrentTransactionManager extends TransactionManager {
                 ss.confirmedToIncomplete(transaction) | ss.confirmedToComplete(transaction) | ss.tradedToComplete(transaction) |
                 ss.tradedToNeverReturned(transaction));
     }
-
-
 
     /**
      * returns if one of the users statuses are pending
