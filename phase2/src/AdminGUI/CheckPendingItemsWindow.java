@@ -54,19 +54,19 @@ public class CheckPendingItemsWindow {
             // create JList
             JList<String> items = new JList<>(pendingItems);
             items.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            items.setSelectedIndex(0);
             items.addListSelectionListener(e -> {
                 // JList<String> items1 = (JList<String>)e.getSource(); // TO-DO: i don't think below is being updated properly
                 try {
                     Item currItem = listItems.get(items.getSelectedIndex());
                     itemUser = amc.getItemOwner(currItem).toString();
+                    itemName = pendingItems.get(items.getSelectedIndex());
+                    itemDesc = itemDescs.get(items.getSelectedIndex());
+                    String text = amp.itemName + itemName + "\n" + amp.itemDes + itemDesc + "\n" + amp.itemOwner + itemUser;
+                    desc.setText(text);
                 } catch (InvalidItemException invalidItemException) {
                     invalidItemException.printStackTrace();
                 }
-                itemName = pendingItems.get(items.getSelectedIndex());
-                itemDesc = itemDescs.get(items.getSelectedIndex());
-                String text = amp.itemName + itemName + "\n" + amp.itemDes + itemDesc + "\n" + amp.itemOwner + itemUser;
-                desc.setText(text);
+
             });
             // create JScrollPane (makes list scrollable)
             JScrollPane scrollPane = new JScrollPane();
