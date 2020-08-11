@@ -162,7 +162,7 @@ public class TradingUserMenu {
         JMenuItem setVacationStatus = new JMenuItem(ump.setVacation);
         setVacationStatus.addActionListener(e -> {
             int input = JOptionPane.showConfirmDialog(null,
-                    "Set vacation status?", "Vacation Status", JOptionPane.YES_NO_OPTION,
+                    "Set vacation status?", ump.vacationStatus, JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE);
             if (input == JOptionPane.YES_OPTION) {
                 changeVacationStatus(true, umc.getCurrentTradingUser());
@@ -174,7 +174,7 @@ public class TradingUserMenu {
         JMenuItem unsetVacationStatus = new JMenuItem(ump.unsetVacation);
         unsetVacationStatus.addActionListener(e -> {
             int input = JOptionPane.showConfirmDialog(null,
-                    "Unset vacation status?", "Vacation Status", JOptionPane.YES_NO_OPTION,
+                    "Unset the vacation status?", ump.vacationStatus, JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE);
             if (input == JOptionPane.YES_OPTION) {
                 changeVacationStatus(false, umc.getCurrentTradingUser());

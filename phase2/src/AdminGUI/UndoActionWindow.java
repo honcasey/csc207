@@ -8,6 +8,7 @@ import Admins.AdminMenuController;
 import Exceptions.InvalidTradingUserException;
 import Items.Item;
 import Popups.PopUpWindow;
+import Presenters.AdminMenuPresenter;
 import Users.TradingUser;
 
 import javax.swing.*;
@@ -25,6 +26,7 @@ public class UndoActionWindow {
     private ActionManager am;
     private UUID selectedUser;
     private Action selectedAction;
+    private AdminMenuPresenter amp = new AdminMenuPresenter();
 
     public UndoActionWindow(AdminMenuController amc) {
         this.amc = amc;
@@ -32,7 +34,7 @@ public class UndoActionWindow {
     }
 
     public void display() {
-        JFrame frame = new JFrame("Undo Actions");
+        JFrame frame = new JFrame(amp.undoAction);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // closes the current frame but doesn't terminate the app
 
         frame.setSize(new Dimension(700, 500));
@@ -71,7 +73,7 @@ public class UndoActionWindow {
     }
 
     private void helper(UUID selectedUserId) {
-        JFrame frame2 = new JFrame("Undo Options");
+        JFrame frame2 = new JFrame(amp.undoOptions);
         frame2.setSize(new Dimension(700, 500));
         frame2.setLocationRelativeTo(null);
         frame2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -80,7 +82,7 @@ public class UndoActionWindow {
         ArrayList<Action> listActions = new ArrayList<>();
         TradingUser selectedUser = amc.getTUM().getTradingUserById(selectedUserId);
         if (am.getActionsByUser(selectedUser) == null) {
-            PopUpWindow pw = new PopUpWindow("No users have made any undoable actions yet!");
+            PopUpWindow pw = new PopUpWindow(amp.noUndoableAction);
             pw.display();
         }
         else {
@@ -95,16 +97,16 @@ public class UndoActionWindow {
                 selectedAction = listActions.get(usersActions.getSelectedIndex());
             });
 
-            JButton undo = new JButton("Undo Action");
+            JButton undo = new JButton(amp.undoAction);
             undo.setBounds(600, 300, 100, 50);
             undo.addActionListener(e -> {
                 if (selectedAction.isAddorDeleteAction()) {
                     amc.undoAddOrDeleteAction((AddOrDeleteAction) selectedAction); // idk how to not have to cast this
-                    PopUpWindow undone = new PopUpWindow("Action has been undone.");
+                    PopUpWindow undone = new PopUpWindow(amp.actionUndone);
                     undone.display();
                 } else if (selectedAction.isEditAction()) {
                     amc.undoEditAction((EditAction) selectedAction);
-                    PopUpWindow undone = new PopUpWindow("Action has been undone.");
+                    PopUpWindow undone = new PopUpWindow(amp.actionUndone);
                     undone.display();
                 }
             });

@@ -41,7 +41,7 @@ public class CheckPendingItemsWindow {
         DefaultListModel<String> itemDescs = new DefaultListModel<>();
         ArrayList<Item> listItems = new ArrayList<>();
         if (amc.getAllPendingItems().isEmpty()) {
-            PopUpWindow pw = new PopUpWindow("No pending items to be checked.");
+            PopUpWindow pw = new PopUpWindow(amp.noPendingItem);
             pw.display();
         }
         else {
@@ -92,7 +92,7 @@ public class CheckPendingItemsWindow {
             approve.addActionListener(e -> {
                 amc.approvePendingItem(listItems.get(items.getSelectedIndex()));
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                new PopUpWindow("This item has been approved").display();
+                new PopUpWindow(amp.itemApproved).display();
             });
 
             // if Admin clicked reject item
@@ -101,7 +101,7 @@ public class CheckPendingItemsWindow {
             reject.addActionListener(e -> {
                 amc.rejectPendingItem(listItems.get(items.getSelectedIndex()));
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                new PopUpWindow("This item has been rejected.").display();
+                new PopUpWindow(amp.itemRejected).display();
             });
 
             sidePanel.add(approve);

@@ -18,7 +18,7 @@ public class AvailableItemsWindow {
     private final UserMenuPresenter ump = new UserMenuPresenter();
     private Map<Item, TradingUser> availableItemsMap;
     private final JPanel panel = new JPanel();
-    private final JButton itemButton = new JButton("Select Item to View");
+    private final JButton itemButton = new JButton();
     private Item selectedItem;
 
     public AvailableItemsWindow(UserMenuController umc) {
@@ -51,10 +51,11 @@ public class AvailableItemsWindow {
                 selectedItem = itemList.get(itemList1.getSelectedIndex());
             });
 
+            itemButton.setText(ump.selectToView);
             itemButton.setBounds(100, 200, 100, 50);
             itemButton.addActionListener(e -> {
                 if(selectedItem == null){
-                    new PopUpWindow(ump.pleaseSelectAnItem).display();
+                    new PopUpWindow(ump.pleaseSelect("an item.")).display();
                 }
                 else{
                     try {

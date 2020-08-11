@@ -16,6 +16,7 @@ public class UserMenuPresenter extends MenuPresenter {
     public String unsetVacation = "Unset Vacation Mode";
     public String accountProfile = "View Profile";
     public String userFrozen = "Your account is frozen!";
+    public String vacationStatus = "Vacation Status";
 
     public String itemDetails = "Item Details";
     public String requestItem = "Request Item";
@@ -24,6 +25,7 @@ public class UserMenuPresenter extends MenuPresenter {
     public String offerItem = "Would you like to offer one of your items?";
     public String emptyInventory = "Your inventory is empty!";
     public String emptyWishlist = "Your wishlist is empty!";
+    public String selectToView = "Select Item to View";
 
     //meeting strings
     public String options = "Options";
@@ -36,7 +38,6 @@ public class UserMenuPresenter extends MenuPresenter {
     public String confirmExchange = "Confirm exchange has taken place";
     public String meetupOccurrenceConfirmed = "Meetup occurrence confirmed";
     public String exchangeNotTakenPlace = "Claim the exchange has not taken place";
-    public String pleaseSelectAnItem = "Please Select an Item";
 
     //transaction strings
     public String requestTrans = "Request Transaction";
