@@ -35,7 +35,10 @@ public class MenuPresenter {
     public String successfully(String what){
         return what + " successfully!";
     }
-
+    public String enter(String what){
+        return "Error: Please enter the " + what;
+    }
+    public String pleaseSelect(String what){return "Error: Please select " + what;}
 
 
 }

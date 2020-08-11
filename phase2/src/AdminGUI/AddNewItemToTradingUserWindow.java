@@ -70,7 +70,6 @@ public class AddNewItemToTradingUserWindow {
         // create JList
         JList<TradingUser> userList = new JList<>(tradingUsers);
         userList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        //userList.setSelectedIndex(0);
         userList.addListSelectionListener(e -> {
             selectedTradingUser = userList.getSelectedValue();
         });
@@ -92,7 +91,6 @@ public class AddNewItemToTradingUserWindow {
             newItem.setDescription(desText.getText());
 
             if(itemNameText.getText().isEmpty()) {//item name is empty give error message
-                //JOptionPane.showMessageDialog(null, amp.enter("item name"), "Invalid Item Name", JOptionPane.WARNING_MESSAGE);
                 new PopUpWindow(amp.enter("item name")).display();
             } else {
                 if(!successfullyAdded){//checks if item has been previously added to prevent multiply operation
@@ -117,7 +115,6 @@ public class AddNewItemToTradingUserWindow {
             newItem.setDescription(desText.getText());
 
             if(itemNameText.getText().isEmpty()){
-                //JOptionPane.showMessageDialog(null, "PLease enter the item name.", "Invalid Item Name", JOptionPane.WARNING_MESSAGE);
                 new PopUpWindow(amp.enter("item name")).display();
             }else {//item name is given
                 if (!successfullyAdded) {//checks if item has been previously added

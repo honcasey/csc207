@@ -74,12 +74,12 @@ public class ViewTransactionHistoryWindow {
         ArrayList<Transaction> allRecentOneWays = umc.getTm().getTransactionsFromIdList(mostRecentOneWays);
         for (Transaction t: allRecentOneWays){
             String id = t.getId().toString();
-            String date = t.getTransactionMeetings().get(t.getTransactionMeetings().size()-1).getDate().toString();
+            // String date = t.getTransactionMeetings().get(t.getTransactionMeetings().size()-1).getDate().toString();
             List<UUID> itemIDs = t.getTransactionItems();
             List<Item> items = umc.getIm().convertIdsToItems(itemIDs);
             String transItems = items.toString();
             String users = umc.getUm().getUsernameListByID(t.getUsers()).toString();
-            text.append("\n").append(ump.transaction).append(id).append("\n").append(ump.date).append(date).append("\n").append(transItems).append("\n").append(users);
+            text.append("\n").append(ump.transaction).append(id).append("\n").append(transItems).append("\n").append(users);
         }
         String fullText = text.toString();
 
@@ -88,8 +88,6 @@ public class ViewTransactionHistoryWindow {
         scrollPane.getViewport().add(descr);
 
         frame.add(descr);
-
-
     }
 
     private void mostRecentTwoWaysWindow(){
@@ -105,12 +103,12 @@ public class ViewTransactionHistoryWindow {
         ArrayList<Transaction> allRecentOneWays = umc.getTm().getTransactionsFromIdList(mostRecentTwoWays);
         for (Transaction t: allRecentOneWays){
             String id = t.getId().toString();
-            String date = t.getTransactionMeetings().get(t.getTransactionMeetings().size()-1).getDate().toString();
+            // String date = t.getTransactionMeetings().get(t.getTransactionMeetings().size()-1).getDate().toString();
             List<UUID> itemIDs = t.getTransactionItems();
             List<Item> items = umc.getIm().convertIdsToItems(itemIDs);
             String transItems = items.toString();
             String users = umc.getUm().getUsernameListByID(t.getUsers()).toString();
-            text.append("\n").append(ump.transaction).append(id).append("\n").append(ump.date).append(date).append("\n").append(transItems).append("\n").append(users);
+            text.append("\n").append(ump.transaction).append(id).append("\n").append(transItems).append("\n").append(users);
         }
 
         String fullText = text.toString();

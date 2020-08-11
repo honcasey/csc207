@@ -9,6 +9,8 @@ import Users.UserMenuController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
 
@@ -16,20 +18,20 @@ public class TransactionWindow {
     private UserMenuController umc;
     private final UserMenuPresenter ump = new UserMenuPresenter();
     private Item offeredItem;
-    private TradingUser selectedItemOwner;
-    private JPanel panel1 = new JPanel();
+    private final TradingUser selectedItemOwner;
+    private final JPanel panel1 = new JPanel();
     private JPanel panel2 = new JPanel();
-    private TransactionBuilder tb;
-    private JFrame frame = new JFrame(ump.createTrans);
-    private JButton submit = new JButton("Submit");
+    private final TransactionBuilder tb;
+    private final JFrame frame = new JFrame(ump.createTrans);
+    private final JButton submit = new JButton("Submit");
     private Item item;
     private Calendar dateCalendar;
     private Calendar timeCalendar;
-    private JTextField location = new JTextField("Location");
-    private SpinnerDateModel dateModel = new SpinnerDateModel();
-    private JSpinner meetingDate = new JSpinner(dateModel);
-    private SpinnerDateModel timeModel = new SpinnerDateModel();
-    private JSpinner meetingTime = new JSpinner(timeModel);
+    private final JTextField location = new JTextField("Location");
+    private final SpinnerDateModel dateModel = new SpinnerDateModel();
+    private final JSpinner meetingDate = new JSpinner(dateModel);
+    private final SpinnerDateModel timeModel = new SpinnerDateModel();
+    private final JSpinner meetingTime = new JSpinner(timeModel);
 
     public TransactionWindow(UserMenuController umc, UUID itemId, UUID ownerId) throws InvalidItemException {
         this.umc = umc;
@@ -41,7 +43,7 @@ public class TransactionWindow {
 
     public void display() {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setSize(new Dimension(1280, 720));
+        frame.setSize(new Dimension(1000, 500));
         frame.setLocationRelativeTo(null);
 
         // set the panels on the frame
@@ -123,17 +125,33 @@ public class TransactionWindow {
         // add event handler for comboBox
         comboBox.addActionListener(e -> {
             offeredItem = comboBox.getItemAt(comboBox.getSelectedIndex());
+        });
+
+        JButton offerItem = new JButton("Offer selected item, don't click if u don't wanna offer smth");
+        offerItem.addActionListener(e -> {
             tb.AddItemOffered(offeredItem.getId()); // this is the item that the current user is offering from their own inventory
         });
 
         panel2.add(comboBox);
+        panel2.add(offerItem);
+
+        if (type.equals(ump.virtual)) {
+            submit.addActionListener(e -> {
+                try {
+                    areYouSureWindow();
+                } catch (InvalidItemException invalidItemException) {
+                    //
+                }
+            });
+            panel2.add(submit);
+        }
 
         // add meetings fields
         if (type.equals(ump.perm)) {
             panel2 = setMeetingPanel("first");
             submit.addActionListener(e -> {
                 try {
-                    tb.buildSecondMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
+                    tb.buildFirstMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
                     areYouSureWindow();
                 } catch (InvalidItemException invalidItemException) {
                     //
@@ -143,16 +161,9 @@ public class TransactionWindow {
         }
         else if (type.equals(ump.temp)) {
             panel2 = setMeetingPanel("first");
-            submit.addActionListener(e -> secondMeetingWindow());
-            panel2.add(submit);
-        } else if (type.equals(ump.virtual)) {
             submit.addActionListener(e -> {
-                try {
-                    tb.buildSecondMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
-                    areYouSureWindow();
-                } catch (InvalidItemException invalidItemException) {
-                    //
-                }
+                tb.buildFirstMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
+                secondMeetingWindow();
             });
             panel2.add(submit);
         }
@@ -163,15 +174,15 @@ public class TransactionWindow {
 
     private void setDateCalendar() { // helper method for making a date JSpinner
         dateCalendar = Calendar.getInstance();
-        dateCalendar.set(Calendar.DATE, 1);
-        dateCalendar.set(Calendar.MONTH, 1);
-        dateCalendar.set(Calendar.YEAR, 2020);
+        // dateCalendar.set(Calendar.DATE, 1);
+        // dateCalendar.set(Calendar.MONTH, 1);
+        // dateCalendar.set(Calendar.YEAR, 2020);
     }
 
     private void setTimeCalendar() { // helper method for making a time JSpinner
         timeCalendar = Calendar.getInstance();
-        timeCalendar.set(Calendar.HOUR_OF_DAY, 12);
-        timeCalendar.set(Calendar.MINUTE, 0);
+        // timeCalendar.set(Calendar.HOUR_OF_DAY, 12);
+        // timeCalendar.set(Calendar.MINUTE, 0);
     }
 
     private JPanel setMeetingPanel(String meetingNum) {
@@ -182,7 +193,6 @@ public class TransactionWindow {
 
         setDateCalendar();
         dateModel.setValue(dateCalendar.getTime());
-
 
         JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(meetingDate, "dd/mm/yyyy");
         meetingDate.setEditor(dateEditor);
@@ -219,6 +229,7 @@ public class TransactionWindow {
         JButton submit2 = new JButton("Submit Second Meeting");
         submit2.addActionListener(e -> {
             try {
+                tb.buildSecondMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
                 areYouSureWindow();
             } catch (InvalidItemException invalidItemException) {
                 //

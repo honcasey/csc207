@@ -15,6 +15,7 @@ import java.awt.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class ViewActiveTransactionsWindow {
     private final UserMenuController umc;
@@ -88,11 +89,13 @@ public class ViewActiveTransactionsWindow {
                 TransactionStatuses transactionStatus = allTransactions.get(trans.getSelectedIndex()).getStatus();
                 switch (transactionStatus) { // opens a different window depending on the status of the selected transaction
                     case PENDING:
-                        if (!selectedTransaction.isVirtual()) {
-                            pendingTransactionWindow();
-                            break;
-                            // virtual transactions don't have a meeting, do nothing
+                        if (selectedTransaction.isVirtual()) {
+                            confirmedTransactionWindow();
                         }
+                        else {
+                            pendingTransactionWindow();
+                        }
+                        break;
                     case TRADED:
                         tradedTransactionWindow();
                         break;
@@ -135,7 +138,7 @@ public class ViewActiveTransactionsWindow {
                 whichMeetingSelected = whichMeeting.getSelectedIndex();
             });
         } catch (NullPointerException e) {
-            new PopUpWindow("Please select a transaction.").display();
+            new PopUpWindow(ump.pleaseSelect("a transaction.")).display();
         }
 
         // location
@@ -196,7 +199,7 @@ public class ViewActiveTransactionsWindow {
 
         // button to cancel transaction
         JButton cancelMeeting = new JButton(ump.cancelTrans);
-        cancelMeeting.setBounds(100, 250, 200, 50);
+        cancelMeeting.setBounds(100, 300, 200, 50);
         cancelMeeting.addActionListener(e -> {
             try {
                 areYouSureWindow();
@@ -231,15 +234,16 @@ public class ViewActiveTransactionsWindow {
                 inputLocation, inputTime, inputDate)) {
 
             // create a new action object
-            EditAction action = new EditAction(umc.getCurrentTradingUser().getUserId(), selectedTransaction,
-                    whichMeetingSelected, selectedTransaction.getTransactionMeetings().get(whichMeetingSelected),
-                    new Meeting(inputLocation, inputTime, inputDate));
-
-            // log this action in the manager
-            umc.getAcm().addAction(umc.getCurrentTradingUser().getUserId(), action);
+            UUID userId = umc.getCurrentTradingUser().getUserId();
+            Meeting oldMeeting = selectedTransaction.getTransactionMeetings().get(whichMeetingSelected);
+            Meeting newMeeting = new Meeting(inputLocation, inputTime, inputDate);
+            EditAction action = new EditAction(userId, selectedTransaction, whichMeetingSelected, oldMeeting, newMeeting);
 
             // clear old edit actions involving this transaction
             umc.getAcm().clearPreviousEditActions(umc.getCurrentTradingUser(), selectedTransaction);
+
+            // log this action in the manager
+            umc.getAcm().addAction(userId, action);
 
             // display msg telling user meeting was edited
             PopUpWindow edited = new PopUpWindow(ump.successfully("Edited meeting"));

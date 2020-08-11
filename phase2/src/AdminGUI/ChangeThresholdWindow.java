@@ -41,7 +41,7 @@ public class ChangeThresholdWindow {
     }
 
     public void display() {
-        JFrame frame = new JFrame("ChangeThresholdWindow");
+        JFrame frame = new JFrame(amp.changeThreshold);
         frame.setContentPane(JPanel1);
         frame.setSize(new Dimension(800, 500));
         frame.setLocationRelativeTo(null);
