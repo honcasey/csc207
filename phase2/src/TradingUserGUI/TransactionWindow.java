@@ -65,6 +65,7 @@ public class TransactionWindow {
         // add event handlers for the buttons
         virtualButton.addActionListener(e -> {
             try {
+                panel2.removeAll();
                 setupRightPanel(ump.virtual);
             } catch (InvalidItemException invalidItemException) {
                 //
@@ -73,6 +74,7 @@ public class TransactionWindow {
 
         permButton.addActionListener(e -> {
             try {
+                panel2.removeAll();
                 setupRightPanel(ump.perm);
             } catch (InvalidItemException invalidItemException) {
                 //
@@ -81,6 +83,7 @@ public class TransactionWindow {
 
         tempButton.addActionListener(e -> {
             try {
+                panel2.removeAll();
                 setupRightPanel(ump.temp);
             } catch (InvalidItemException invalidItemException) {
                 //
