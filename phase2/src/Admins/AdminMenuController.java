@@ -234,20 +234,24 @@ public class AdminMenuController {
                 um.removeItem(action.getUser(), action.getItem(), "inventory");
                 acm.getAllActions().get(action.getUser()).remove(action);
                 removeUserFromAllActions(action.getUser());
+                acm.removeAction(action);
             } else if (action.isWishlist()) {
                 um.removeItem(action.getUser(), action.getItem(), "wishlist");
                 acm.getAllActions().get(action.getUser()).remove(action);
                 removeUserFromAllActions(action.getUser());
+                acm.removeAction(action);
             }
         } else if (action.wasRemoved()) {
             if (action.isInventory()) {
                 um.addItem(action.getUser(), action.getItem(), "inventory");
                 acm.getAllActions().get(action.getUser()).remove(action);
                 removeUserFromAllActions(action.getUser());
+                acm.removeAction(action);
             } else if (action.isWishlist()) {
                 um.addItem(action.getUser(), action.getItem(), "wishlist");
                 acm.getAllActions().get(action.getUser()).remove(action);
                 removeUserFromAllActions(action.getUser());
+                acm.removeAction(action);
             }
         }
     }

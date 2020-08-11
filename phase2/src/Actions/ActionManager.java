@@ -42,6 +42,13 @@ public class ActionManager {
         }
     }
 
+    public void removeAction(Action selectedAction) {
+        for (UUID id : allActions.keySet()) {
+            allActions.get(id).removeIf(action -> action.getId().equals(selectedAction.getId()));
+        }
+
+    }
+
     /**
      * Filter list of all actions by a specific user.
      */
