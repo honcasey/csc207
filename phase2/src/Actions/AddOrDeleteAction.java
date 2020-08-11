@@ -87,15 +87,15 @@ public class AddOrDeleteAction extends Action implements Serializable {
     public String toString() {
         if (added != null) {
             if (wishlist) {
-                return getUser() + "added" + added + "to their wishlist.";
+                return getUser() + " added " + added + " to their wishlist.";
             } else {
-                return getUser() + "added" + added + "to their inventory.";
+                return getUser() + " added " + added + " to their inventory.";
             }
         } else {
             if (wishlist) {
-                return getUser() + "removed" + removed + "from their wishlist.";
+                return getUser() + " removed " + removed + " from their wishlist.";
             } else {
-                return getUser() + "removed" + removed + "from their inventory.";
+                return getUser() + " removed " + removed + " from their inventory.";
             }
         }
     }

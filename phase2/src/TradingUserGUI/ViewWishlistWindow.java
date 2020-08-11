@@ -85,7 +85,7 @@ public class ViewWishlistWindow {
                     AddOrDeleteAction action = new AddOrDeleteAction(umc.getCurrentTradingUser());
                     action.setIsWishlist();
                     action.setRemoved(items.get(itemsList.getSelectedIndex()));
-                    acm.addAction(umc.getCurrentTradingUser(), action);
+                    acm.addAction(umc.getCurrentTradingUser().getUserId(), action);
                     UUID id = ids.get(itemsList.getSelectedIndex());
                     umc.removeFromWishlist(id);
                     itemNames.remove(itemsList.getSelectedIndex()); // if YES, remove the item

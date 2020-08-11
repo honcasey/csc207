@@ -305,7 +305,7 @@ public class Serializer {
         }
     }
 
-    public void writeActionsToFile(String path, LinkedHashMap<TradingUser, List<Action>> actionMap) {
+    public void writeActionsToFile(String path, LinkedHashMap<UUID, List<Action>> actionMap) {
         try {
             OutputStream file = new FileOutputStream(path);
             ObjectOutput output = new ObjectOutputStream(file);
@@ -316,11 +316,11 @@ public class Serializer {
         }
     }
 
-    public LinkedHashMap<TradingUser, List<Action>> readActionsFromFile(String path) {
+    public LinkedHashMap<UUID, List<Action>> readActionsFromFile(String path) {
         try {
             InputStream file = new FileInputStream(path);
             ObjectInput input = new ObjectInputStream(file);
-            LinkedHashMap<TradingUser, List<Action>> actionMap = (LinkedHashMap<TradingUser, List<Action>>) input.readObject();
+            LinkedHashMap<UUID, List<Action>> actionMap = (LinkedHashMap<UUID, List<Action>>) input.readObject();
             input.close();
             return actionMap;
         } catch (IOException e) {

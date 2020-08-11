@@ -18,11 +18,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class UndoActionWindow {
     private AdminMenuController amc;
     private ActionManager am;
-    private TradingUser selectedUser;
+    private UUID selectedUser;
     private Action selectedAction;
 
     public UndoActionWindow(AdminMenuController amc) {
@@ -40,18 +41,23 @@ public class UndoActionWindow {
         JPanel panel = new JPanel();
 
         DefaultListModel<String> users = new DefaultListModel<>(); // list of all users who have made undoable actions
-        ArrayList<TradingUser> listUsers = new ArrayList<>();
-        for (TradingUser user : am.getAllActions().keySet()) {
-            users.addElement(user.getUsername());
-            listUsers.add(user);
+        ArrayList<UUID> listUsers = new ArrayList<>();
+        for (UUID userId : am.getAllActions().keySet()) {
+            // TradingUser user = amc.getTUM().getTradingUserById(userId);
+            while (!listUsers.contains(userId)) {
+                String username = amc.getTUM().getTradingUserById(userId).getUsername();
+                users.addElement(username); // usernames should just
+                listUsers.add(userId);
+            }
         }
 
         JList<String> allUsers = new JList<>(users);
         allUsers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        allUsers.setSelectedIndex(0);
+        // allUsers.setSelectedIndex(0);
         allUsers.addListSelectionListener(e -> {
             selectedUser = listUsers.get(allUsers.getSelectedIndex());
             helper(selectedUser);
+            // frame.setVisible(false);
         });
 
         panel.add(allUsers);
@@ -61,12 +67,15 @@ public class UndoActionWindow {
 
     }
 
-    private void helper(TradingUser selectedUser) {
+    private void helper(UUID selectedUserId) {
         JFrame frame2 = new JFrame("Undo Options");
+        frame2.setSize(new Dimension(700, 500));
+        frame2.setLocationRelativeTo(null);
         frame2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         DefaultListModel<String> actions = new DefaultListModel<>(); // list of all actions by the selected user
         ArrayList<Action> listActions = new ArrayList<>();
+        TradingUser selectedUser = amc.getTUM().getTradingUserById(selectedUserId);
         if (am.getActionsByUser(selectedUser) == null) {
             PopUpWindow pw = new PopUpWindow("No users have made any undoable actions yet!");
             pw.display();
@@ -78,7 +87,7 @@ public class UndoActionWindow {
             }
             JList<String> usersActions = new JList<>(actions);
             usersActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            usersActions.setSelectedIndex(0);
+            // usersActions.setSelectedIndex(0);
             usersActions.addListSelectionListener(e -> {
                 selectedAction = listActions.get(usersActions.getSelectedIndex());
             });
@@ -94,12 +103,12 @@ public class UndoActionWindow {
                 }
             });
 
-            JPanel panel = new JPanel();
-            panel.add(usersActions);
-            panel.add(undo);
-            frame2.add(panel);
-            frame2.setVisible(true);
+            JPanel panel2 = new JPanel();
+            panel2.add(usersActions);
+            panel2.add(undo);
+            frame2.getContentPane().add(panel2);
+            // frame2.setVisible(true);
         }
-
+        frame2.setVisible(true);
     }
 }
