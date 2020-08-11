@@ -166,14 +166,14 @@ public class TransactionWindow {
 
     private void setDateCalendar() { // helper method for making a date JSpinner
         dateCalendar = Calendar.getInstance();
-        dateCalendar.set(Calendar.DAY_OF_MONTH, 1);
+        dateCalendar.set(Calendar.DATE, 1);
         dateCalendar.set(Calendar.MONTH, 1);
         dateCalendar.set(Calendar.YEAR, 2020);
     }
 
     private void setTimeCalendar() { // helper method for making a time JSpinner
         timeCalendar = Calendar.getInstance();
-        timeCalendar.set(Calendar.HOUR_OF_DAY, 24);
+        timeCalendar.set(Calendar.HOUR_OF_DAY, 12);
         timeCalendar.set(Calendar.MINUTE, 0);
     }
 
@@ -189,7 +189,7 @@ public class TransactionWindow {
         dateModel.setValue(dateCalendar.getTime());
 
         JSpinner meetingDate = new JSpinner(dateModel);
-        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(meetingDate, "dd:mm:yyyy");
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(meetingDate, "dd/mm/yyyy");
         meetingDate.setEditor(dateEditor);
 
         setTimeCalendar();
