@@ -32,7 +32,14 @@ public class ActionManager {
      * @param user the specified TradingUser
      */
     public void addAction(TradingUser user, Action newAction) {
-        allActions.get(user.getUserId()).add(newAction);
+        if (allActions.isEmpty()) {
+            List<Action> listActions = new ArrayList<>();
+            listActions.add(newAction);
+            allActions.put(user, listActions);
+        }
+        else {
+            allActions.get(user).add(newAction);
+        }
     }
 
 //    /**

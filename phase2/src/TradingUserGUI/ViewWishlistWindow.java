@@ -8,7 +8,9 @@ import Users.UserMenuController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ViewWishlistWindow {
     private UserMenuController umc;
@@ -36,9 +38,11 @@ public class ViewWishlistWindow {
         List<Item> items = umc.getIm().convertIdsToItems(umc.getCurrentTradingUser().getWishlist()); // need to handle when null
         DefaultListModel<String> itemNames = new DefaultListModel<>();
         DefaultListModel<String> itemDescs = new DefaultListModel<>();
+        List<UUID> ids = new ArrayList<>();
         for (Item item : items) {
             itemNames.addElement(item.toString());
             itemDescs.addElement(item.getDescription());
+            ids.add(item.getId());
         }
         JList<String> itemsList = new JList<>(itemNames);
         itemsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -80,6 +84,8 @@ public class ViewWishlistWindow {
                 action.setRemoved(items.get(itemsList.getSelectedIndex()));
                 acm.addAction(umc.getCurrentTradingUser(), action);
                 itemNames.remove(itemsList.getSelectedIndex()); // if YES, remove the item
+                UUID id = ids.get(itemsList.getSelectedIndex());
+                umc.removeFromWishlist(id);
             }
         });
 

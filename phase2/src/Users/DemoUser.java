@@ -1,6 +1,5 @@
 package Users;
 
-import Items.Item;
 
 import java.io.Serializable;
 import java.util.ArrayList;

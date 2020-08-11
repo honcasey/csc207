@@ -1,6 +1,5 @@
 package Users;
 
-import Actions.Action;
 import Actions.ActionManager;
 import Actions.AddOrDeleteAction;
 import Admins.AdminManager;
@@ -288,5 +287,13 @@ public class UserMenuController {
 
     public ActionManager getAcm() {
         return acm;
+    }
+
+    public void removeFromWishlist(UUID id){
+        currentTradingUser.getWishlist().remove(id);
+    }
+
+    public void removeFromInventory(UUID id){
+        currentTradingUser.getInventory().remove(id);
     }
 }
