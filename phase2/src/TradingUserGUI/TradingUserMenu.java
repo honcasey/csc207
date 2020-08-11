@@ -148,15 +148,15 @@ public class TradingUserMenu {
         menu.add(changeCity);
 
         // request to have your account unfrozen option
-        JMenuItem requestUnfrozen = new JMenuItem(ump.requestUnfreeze);
-        requestUnfrozen.addActionListener(e -> {
-            int input = JOptionPane.showConfirmDialog(null,
-                    "Request admin to unfreeze your account?", "Unfreeze Account",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (input == JOptionPane.YES_OPTION) {
-                umc.requestUnfreezeAccount();
-            }
-        });
+//        JMenuItem requestUnfrozen = new JMenuItem(ump.requestUnfreeze);
+//        requestUnfrozen.addActionListener(e -> {
+//            int input = JOptionPane.showConfirmDialog(null,
+//                    "Request admin to unfreeze your account?", "Unfreeze Account",
+//                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+//            if (input == JOptionPane.YES_OPTION) {
+//                umc.requestUnfreezeAccount();
+//            }
+//        });
 
         // change your account to vacation status
         JMenuItem setVacationStatus = new JMenuItem(ump.setVacation);

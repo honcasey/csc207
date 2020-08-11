@@ -32,7 +32,7 @@ public class ItemManager {
      * @param item item to add to list of all items
      */
     public void addItem (Item item){
-        allItems.put(item.getId(), item);
+         allItems.put(item.getId(), item);
     }
 
     /**
