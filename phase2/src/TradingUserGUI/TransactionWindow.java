@@ -25,6 +25,11 @@ public class TransactionWindow {
     private Item item;
     private Calendar dateCalendar;
     private Calendar timeCalendar;
+    private JTextField location = new JTextField("Location");
+    private SpinnerDateModel dateModel = new SpinnerDateModel();
+    private JSpinner meetingDate = new JSpinner(dateModel);
+    private SpinnerDateModel timeModel = new SpinnerDateModel();
+    private JSpinner meetingTime = new JSpinner(timeModel);
 
     public TransactionWindow(UserMenuController umc, UUID itemId, UUID ownerId) throws InvalidItemException {
         this.umc = umc;
@@ -137,6 +142,7 @@ public class TransactionWindow {
             panel2 = setMeetingPanel("first");
             submit.addActionListener(e -> {
                 try {
+                    tb.buildSecondMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
                     areYouSureWindow();
                 } catch (InvalidItemException invalidItemException) {
                     //
@@ -151,6 +157,7 @@ public class TransactionWindow {
         } else if (type.equals(ump.virtual)) {
             submit.addActionListener(e -> {
                 try {
+                    tb.buildSecondMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
                     areYouSureWindow();
                 } catch (InvalidItemException invalidItemException) {
                     //
@@ -181,30 +188,20 @@ public class TransactionWindow {
         JPanel panel = new JPanel();
         panel.add(new JLabel(meetingNum + "Meeting"));
 
-        JTextField location = new JTextField("Location");
         location.setBounds(100, 100, 50, 20);
 
         setDateCalendar();
-        SpinnerDateModel dateModel = new SpinnerDateModel();
         dateModel.setValue(dateCalendar.getTime());
 
-        JSpinner meetingDate = new JSpinner(dateModel);
+
         JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(meetingDate, "dd/mm/yyyy");
         meetingDate.setEditor(dateEditor);
 
         setTimeCalendar();
-        SpinnerDateModel timeModel = new SpinnerDateModel();
         timeModel.setValue(timeCalendar.getTime());
 
-        JSpinner meetingTime = new JSpinner(timeModel);
         JSpinner.DateEditor editor = new JSpinner.DateEditor(meetingTime, "hh:mm");
         meetingTime.setEditor(editor);
-        if (meetingNum.equals("first")) {
-            tb.buildFirstMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
-        }
-        else if (meetingNum.equals("second")) {
-            tb.buildSecondMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
-        }
 
         panel.add(location);
         panel.add(meetingDate);

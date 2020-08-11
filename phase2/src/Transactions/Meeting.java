@@ -128,7 +128,7 @@ public class Meeting implements Serializable {
 
     @Override
     public String toString(){
-        return("Meeting is at " + this.getDate().toString());
+        return("Meeting is at " + this.getDate().toString())+ " at " + location;
     }
 }
 
