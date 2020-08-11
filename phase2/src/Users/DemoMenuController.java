@@ -61,22 +61,12 @@ public class DemoMenuController {
         }
     }
 
-    public boolean removeFromInventory(UUID itemID){
-        if(currentDemoUser.getInventory().contains(itemID)){
-            currentDemoUser.getInventory().remove(itemID);
-            return true;
-        } else {
-            return false;
-        }
+    public void removeFromInventory(UUID itemID){
+        currentDemoUser.getInventory().remove(itemID);
     }
 
-    public boolean removeFromWishlist(UUID itemID){
-        if(currentDemoUser.getWishlist().contains(itemID)){
-            currentDemoUser.getWishlist().remove(itemID);
-            return true;
-        } else {
-            return false;
-        }
+    public void removeFromWishlist(UUID itemID){
+        currentDemoUser.getWishlist().remove(itemID);
     }
 
     public DemoUser getCurrentDemoUser(){
