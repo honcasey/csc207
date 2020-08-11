@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class DemoMenuController {
 
-    public DemoUser currentDemoUser = null;
+    private DemoUser currentDemoUser = null;
     private final DemoUserManager dum;
     private TradingUserManager tum;
     private ItemManager im;
@@ -77,5 +77,9 @@ public class DemoMenuController {
         } else {
             return false;
         }
+    }
+
+    public DemoUser getCurrentDemoUser(){
+        return currentDemoUser;
     }
 }

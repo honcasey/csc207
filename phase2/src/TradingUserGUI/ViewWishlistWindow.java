@@ -87,6 +87,7 @@ public class ViewWishlistWindow {
                     action.setRemoved(items.get(itemsList.getSelectedIndex()));
                     acm.addAction(umc.getCurrentTradingUser(), action);
                     itemNames.remove(itemsList.getSelectedIndex()); // if YES, remove the item
+                    itemDescs.remove(itemsList.getSelectedIndex());
                     UUID id = ids.get(itemsList.getSelectedIndex());
                     umc.removeFromWishlist(id);
                 }

@@ -3,7 +3,6 @@ package TradingUserGUI;
 import Exceptions.InvalidItemException;
 import Items.Item;
 import Presenters.UserMenuPresenter;
-import Transactions.Transaction;
 import Transactions.TransactionBuilder;
 import Users.TradingUser;
 import Users.UserMenuController;
@@ -149,7 +148,18 @@ public class TransactionWindow {
             panel2 = setMeetingPanel("first");
             submit.addActionListener(e -> secondMeetingWindow());
             panel2.add(submit);
+        } else if (type.equals(ump.virtual)) {
+            submit.addActionListener(e -> {
+                try {
+                    areYouSureWindow();
+                } catch (InvalidItemException invalidItemException) {
+                    //
+                }
+            });
+            panel2.add(submit);
         }
+
+
         frame.add(panel2, BorderLayout.EAST);
         frame.setVisible(true);
     }
