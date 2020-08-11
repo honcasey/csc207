@@ -20,6 +20,7 @@ public class TransactionWindow {
     private JPanel panel1 = new JPanel();
     private JPanel panel2 = new JPanel();
     private TransactionBuilder tb;
+    private JFrame frame = new JFrame(ump.createTrans);
     private JButton submit = new JButton("Submit");
     private Item item;
     private Calendar dateCalendar;
@@ -34,17 +35,14 @@ public class TransactionWindow {
     }
 
     public void display() {
-        JFrame frame = new JFrame(ump.createTrans);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(new Dimension(1280, 720));
         frame.setLocationRelativeTo(null);
 
         // set the panels on the frame
         frame.add(panel1, BorderLayout.WEST);
-        frame.add(panel2, BorderLayout.EAST);
 
         setupLeftPanel();
-
         // display the window
         frame.setVisible(true);
     }
@@ -148,6 +146,8 @@ public class TransactionWindow {
             submit.addActionListener(e -> secondMeetingWindow());
             panel2.add(submit);
         }
+        frame.add(panel2, BorderLayout.EAST);
+        frame.setVisible(true);
     }
 
     private void setDateCalendar() { // helper method for making a date JSpinner
