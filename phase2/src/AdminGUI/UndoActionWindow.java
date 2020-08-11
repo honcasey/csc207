@@ -92,14 +92,17 @@ public class UndoActionWindow {
                 selectedAction = listActions.get(usersActions.getSelectedIndex());
             });
 
-
             JButton undo = new JButton("Undo Action");
             undo.setBounds(600, 300, 100, 50);
             undo.addActionListener(e -> {
                 if (selectedAction.isAddorDeleteAction()) {
                     amc.undoAddOrDeleteAction((AddOrDeleteAction) selectedAction); // idk how to not have to cast this
+                    PopUpWindow undone = new PopUpWindow("Action has been undone.");
+                    undone.display();
                 } else if (selectedAction.isEditAction()) {
                     amc.undoEditAction((EditAction) selectedAction);
+                    PopUpWindow undone = new PopUpWindow("Action has been undone.");
+                    undone.display();
                 }
             });
 
@@ -107,7 +110,6 @@ public class UndoActionWindow {
             panel2.add(usersActions);
             panel2.add(undo);
             frame2.getContentPane().add(panel2);
-            // frame2.setVisible(true);
         }
         frame2.setVisible(true);
     }
