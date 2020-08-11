@@ -22,7 +22,7 @@ public class FlaggedUsersWindow {
     private JButton unflagButton;
     private JPanel mainPanel;
     private JLabel usernameLabel;
-    private JButton UserProfile;
+    private JButton userProfile;
     private String currUser;
 
     public FlaggedUsersWindow(AdminMenuController amc) {
@@ -88,7 +88,7 @@ public class FlaggedUsersWindow {
             }
         });
 
-        UserProfile.addActionListener(new ActionListener() {
+        userProfile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TradingUser user;
