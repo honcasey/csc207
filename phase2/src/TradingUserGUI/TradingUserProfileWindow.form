@@ -143,7 +143,7 @@
           <text value="Number of Cancelled Transaction"/>
         </properties>
       </component>
-      <component id="7aa4c" class="javax.swing.JTextArea" binding="NumLended">
+      <component id="7aa4c" class="javax.swing.JTextArea" binding="numLended">
         <constraints>
           <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="50"/>
@@ -153,7 +153,7 @@
           <text value=""/>
         </properties>
       </component>
-      <component id="4f96b" class="javax.swing.JTextArea" binding="NumBorrowed">
+      <component id="4f96b" class="javax.swing.JTextArea" binding="numBorrowed">
         <constraints>
           <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="50"/>
@@ -163,7 +163,7 @@
           <text value=""/>
         </properties>
       </component>
-      <component id="b54aa" class="javax.swing.JTextArea" binding="NumCompleteTransactions">
+      <component id="b54aa" class="javax.swing.JTextArea" binding="numCompleteTransactions">
         <constraints>
           <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="50"/>
@@ -173,7 +173,7 @@
           <text value=""/>
         </properties>
       </component>
-      <component id="a438d" class="javax.swing.JTextArea" binding="NumCancelledTransactions">
+      <component id="a438d" class="javax.swing.JTextArea" binding="numCancelledTransactions">
         <constraints>
           <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="50"/>
@@ -183,7 +183,7 @@
           <text value=""/>
         </properties>
       </component>
-      <component id="db9c0" class="javax.swing.JTextArea" binding="UserStatus">
+      <component id="db9c0" class="javax.swing.JTextArea" binding="userStatus">
         <constraints>
           <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="50"/>
@@ -209,7 +209,7 @@
           <text value="User Status"/>
         </properties>
       </component>
-      <component id="170fd" class="javax.swing.JTextArea" binding="Score">
+      <component id="170fd" class="javax.swing.JTextArea" binding="score">
         <constraints>
           <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="50"/>
@@ -225,7 +225,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="5f0c7" class="javax.swing.JLabel" binding="WeeklyThresholdLabel">
+      <component id="5f0c7" class="javax.swing.JLabel" binding="weeklyThresholdLabel">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
