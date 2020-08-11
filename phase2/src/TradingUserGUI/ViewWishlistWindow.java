@@ -89,7 +89,6 @@ public class ViewWishlistWindow {
                     UUID id = ids.get(itemsList.getSelectedIndex());
                     umc.removeFromWishlist(id);
                     itemNames.remove(itemsList.getSelectedIndex()); // if YES, remove the item
-                    itemDescs.remove(itemsList.getSelectedIndex());
                 }
             });
 

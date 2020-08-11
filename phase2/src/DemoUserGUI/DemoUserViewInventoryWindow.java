@@ -86,9 +86,9 @@ public class DemoUserViewInventoryWindow {
                 removeB.addActionListener(e -> {
                     int input = JOptionPane.showOptionDialog(null, ump.optionPrompt("remove this item from your Inventory?"), "Remove Item?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (input == JOptionPane.YES_OPTION) {
-                        itemNames.remove(itemsList.getSelectedIndex()); // if YES, remove the item
                         UUID id = ids.get(itemsList.getSelectedIndex());
                         dmc.removeFromInventory(id);
+                        itemNames.remove(itemsList.getSelectedIndex()); // if YES, remove the item
                     }
                 });
 
