@@ -2,6 +2,7 @@ package TradingUserGUI;
 
 import Exceptions.InvalidItemException;
 import Items.Item;
+import Popups.PopUpWindow;
 import Presenters.UserMenuPresenter;
 import Transactions.TransactionBuilder;
 import Users.TradingUser;
@@ -11,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.*;
 import java.util.List;
 
@@ -212,7 +214,10 @@ public class TransactionWindow {
     private void areYouSureWindow() throws InvalidItemException {
         int a = JOptionPane.showConfirmDialog(frame, "Are you sure you want to create this transaction?");
         if (a == JOptionPane.YES_OPTION) {
+            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             umc.transactionUpdate(tb.getTransaction());
+            new PopUpWindow("The Transaction has been made.").display();
         }
         if (a == JOptionPane.NO_OPTION) {
             System.exit(0);
