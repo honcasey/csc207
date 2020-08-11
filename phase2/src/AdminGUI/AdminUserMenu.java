@@ -144,7 +144,7 @@ public class AdminUserMenu {
         panel.add(button6);
 
         button7.setBounds(50, 250, 300, 75);
-        button7.setText("Undo Actions");
+        button7.setText(amp.undoActions);
         panel.add(button7);
 
     }
