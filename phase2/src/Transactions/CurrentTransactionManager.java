@@ -45,7 +45,8 @@ public class CurrentTransactionManager extends TransactionManager {
     public boolean editMeeting(int meetingNum, UUID transactionId, UUID userId, String newLocation) throws InvalidTransactionException {
         Transaction transaction = getTransactionFromId(transactionId);
         int userNum = findUserNum(transaction, userId);
-        Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
+        List<Meeting> list = transaction.getTransactionMeetings();
+        Meeting meeting = list.get(meetingNum);
         if (canEdit(meeting, userNum) && transaction.getStatus().equals(TransactionStatuses.PENDING)) {
             meeting.setLocation(newLocation);
             meeting.userEdits(userNum);
@@ -67,7 +68,7 @@ public class CurrentTransactionManager extends TransactionManager {
     public boolean editMeeting(int meetingNum, UUID transactionId, UUID userId, Date time, Date date) throws InvalidTransactionException {
         Transaction transaction = getTransactionFromId(transactionId);
         int userNum = findUserNum(transaction, userId);
-        Meeting meeting = transaction.getTransactionMeetings().get(meetingNum - 1);
+        Meeting meeting = transaction.getTransactionMeetings().get(meetingNum);
         if (canEdit(meeting, userNum) && transaction.getStatus().equals(TransactionStatuses.PENDING)) {
             meeting.setTime(time);
             meeting.setDate(date);

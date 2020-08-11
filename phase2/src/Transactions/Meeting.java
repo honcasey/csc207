@@ -49,9 +49,9 @@ public class Meeting implements Serializable {
         this.location = location;
         this.meetingDate = meetingDate;
         this.meetingTime = meetingTime;
-        this.numUserEdits = new HashMap<Integer, Integer>();
+        this.numUserEdits = new HashMap<>();
         numUserEdits.put(1, 0);
-        numUserEdits.put(1, 0);
+        numUserEdits.put(2, 0);
     }
 
     /**

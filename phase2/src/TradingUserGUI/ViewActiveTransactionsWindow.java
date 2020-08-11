@@ -55,7 +55,7 @@ public class ViewActiveTransactionsWindow {
 
             JList<String> trans = new JList<>(transactionList);
             trans.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//            trans.setSelectedIndex(0);
+            // trans.setSelectedIndex(0);
             trans.addListSelectionListener(e -> {
                 selectedTransaction = allTransactions.get(trans.getSelectedIndex());
                 transactionDetails = umc.getTransactionString(selectedTransaction, umc.getCurrentTradingUser());
@@ -130,7 +130,7 @@ public class ViewActiveTransactionsWindow {
                 inputDate = selectedMeeting.getDate();
                 inputLocation = selectedMeeting.getLocation();
                 inputTime = selectedMeeting.getTime();
-                whichMeetingSelected = whichMeeting.getSelectedIndex();
+                whichMeetingSelected = whichMeeting.getSelectedIndex() + 1;
             });
         } catch (NullPointerException e) {
             new PopUpWindow("Please select a transaction.").display();
@@ -161,6 +161,7 @@ public class ViewActiveTransactionsWindow {
         meetingTime.setEditor(editor);
         meetingTime.addChangeListener(e -> inputTime = timeModel.getDate());
 
+        leftPanel.add(whichMeeting);
         leftPanel.add(location);
         leftPanel.add(meetingDate);
         leftPanel.add(meetingTime);
