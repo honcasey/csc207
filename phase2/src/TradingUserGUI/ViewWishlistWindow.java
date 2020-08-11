@@ -19,6 +19,7 @@ public class ViewWishlistWindow {
     private final ActionManager acm;
     private String itemName;
     private String itemDesc;
+    private JTextArea desc = new JTextArea();
 
     public ViewWishlistWindow(UserMenuController umc, ActionManager acm) {
         this.umc = umc;
@@ -50,11 +51,12 @@ public class ViewWishlistWindow {
             }
             JList<String> itemsList = new JList<>(itemNames);
             itemsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            itemsList.setSelectedIndex(0);
             itemsList.addListSelectionListener(e -> {
                 JList<String> itemList1 = (JList<String>) e.getSource();
                 itemName = itemNames.get(itemList1.getSelectedIndex());
                 itemDesc = itemDescs.get(itemList1.getSelectedIndex());
+                String text = ump.itemName + itemName + "\n" + ump.itemDes + itemDesc;
+                desc.setText(text);
             });
 
             // create a JScrollPane
@@ -64,9 +66,6 @@ public class ViewWishlistWindow {
             Panel leftPanel = new Panel();
             leftPanel.add(scrollPane);
 
-            // RIGHT SIDE OF SPLIT
-            String text = ump.itemName + itemName + "\n" + ump.itemDes + itemDesc;
-            JTextArea desc = new JTextArea(text);
 
             Panel rightPanel = new Panel();
             rightPanel.add(desc);
