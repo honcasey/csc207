@@ -31,7 +31,7 @@ public class FrozenUsersWindow {
     }
 
     public void display() {
-        JFrame frame = new JFrame("ChangeThresholdWindow");
+        JFrame frame = new JFrame(amp.changeThresholdWindow);
         frame.setContentPane(mainPanel);
         frame.setSize(new Dimension(500, 300));
         frame.setLocationRelativeTo(null);

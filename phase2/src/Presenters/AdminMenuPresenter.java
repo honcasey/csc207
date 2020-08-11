@@ -15,6 +15,7 @@ public class AdminMenuPresenter extends MenuPresenter {
     public String addToInventory = "Add to Inventory";
     public String approve = "Approve";
     public String reject = "Reject";
+    public String changeThresholdWindow = "Change Threshold Window";
 
     //warning message string
     public String selectUser = "Error: Please select an user.";

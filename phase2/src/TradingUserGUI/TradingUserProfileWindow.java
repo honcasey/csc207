@@ -10,19 +10,19 @@ public class TradingUserProfileWindow {
     private JTextArea incompleteThreshold;
     private JTextArea numWishlist;
     private JTextArea numActiveTransactions;
-    private JTextArea NumLended;
-    private JTextArea NumBorrowed;
-    private JTextArea NumCompleteTransactions;
-    private JTextArea NumCancelledTransactions;
-    private JTextArea Score;
+    private JTextArea numLended;
+    private JTextArea numBorrowed;
+    private JTextArea numCompleteTransactions;
+    private JTextArea numCancelledTransactions;
+    private JTextArea score;
     private JTextArea numInventory;
-    private JTextArea UserStatus;
+    private JTextArea userStatus;
     private JTextArea borrowThreshold;
-    private static PastTransactionManager ptm;
-    private static TradingUser currUser;
+    private PastTransactionManager ptm;
+    private TradingUser currUser;
     private JPanel mainPanel;
     private JTextArea username;
-    private JLabel WeeklyThresholdLabel;
+    private JLabel weeklyThresholdLabel;
 
 
     public TradingUserProfileWindow(PastTransactionManager ptm, TradingUser currUser){
@@ -42,7 +42,7 @@ public class TradingUserProfileWindow {
         incompleteThreshold.setText(Integer.toString(currUser.getIncompleteThreshold()));
         username.setText(currUser.getUsername());
         numInventory.setText(Integer.toString(currUser.getInventory().size()));
-        UserStatus.setText(currUser.getStatus().toString());
+        userStatus.setText(currUser.getStatus().toString());
         numWishlist.setText(Integer.toString(currUser.getWishlist().size()));
         numActiveTransactions.setText(Integer.toString(currUser.getCurrentTransactions().size()));
 
@@ -50,11 +50,11 @@ public class TradingUserProfileWindow {
         int borrowed = currUser.getTransactionHistory().getNumItemsBorrowed();
         int cancelled = ptm.getNumCancelledTransactions(currUser);
         int complete = ptm.getNumCompletedTransactions(currUser);
-        NumLended.setText(Integer.toString(lended));
-        NumBorrowed.setText(Integer.toString(borrowed));
-        NumCancelledTransactions.setText(Integer.toString(cancelled));
-        NumCompleteTransactions.setText(Integer.toString(complete));
-        Score.setText(Integer.toString(lended - borrowed + complete - cancelled));
+        numLended.setText(Integer.toString(lended));
+        numBorrowed.setText(Integer.toString(borrowed));
+        numCancelledTransactions.setText(Integer.toString(cancelled));
+        numCompleteTransactions.setText(Integer.toString(complete));
+        score.setText(Integer.toString(lended - borrowed + complete - cancelled));
 
 
     }
