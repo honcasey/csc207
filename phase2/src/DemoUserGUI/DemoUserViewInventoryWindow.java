@@ -19,6 +19,7 @@ public class DemoUserViewInventoryWindow {
     private final UserMenuPresenter ump = new UserMenuPresenter();
     private String itemName;
     private String itemDesc;
+    private final JTextArea desc = new JTextArea();
 
 
     public DemoUserViewInventoryWindow(DemoMenuController dmc, UserMenuController umc) {
@@ -27,8 +28,7 @@ public class DemoUserViewInventoryWindow {
     }
 
     public void display() {
-
-        if (dmc.currentDemoUser.getInventory().isEmpty()) {
+        if (dmc.getCurrentDemoUser().getInventory().isEmpty()) {
             new PopUpWindow(ump.emptyInventory).display();
         } else {
             // create the frame
@@ -38,9 +38,9 @@ public class DemoUserViewInventoryWindow {
             // set the frame's size and centre it
             frame.setSize(new Dimension(700, 500));
             frame.setLocationRelativeTo(null);
-
+            frame.setVisible(true);
             // LEFT SIDE OF SPLIT
-            List<Item> items = umc.getIm().convertIdsToItems(dmc.currentDemoUser.getInventory());
+            List<Item> items = umc.getIm().convertIdsToItems(dmc.getCurrentDemoUser().getInventory());
 
             DefaultListModel<String> itemNames = new DefaultListModel<>();
             DefaultListModel<String> itemDescs = new DefaultListModel<>();
@@ -50,14 +50,14 @@ public class DemoUserViewInventoryWindow {
                     itemDescs.addElement(item.getDescription());
                     ids.add(item.getId());
                 }
-
                 JList<String> itemsList = new JList<>(itemNames);
                 itemsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                itemsList.setSelectedIndex(0);
                 itemsList.addListSelectionListener(e -> {
                     JList<String> itemList1 = (JList<String>) e.getSource();
                     itemName = itemNames.get(itemList1.getSelectedIndex());
                     itemDesc = itemDescs.get(itemList1.getSelectedIndex());
+                    String text = ump.itemName + itemName + "\n" + ump.itemDes + itemDesc;
+                    desc.setText(text);
                 });
 
                 // create a JScrollPane
@@ -68,8 +68,7 @@ public class DemoUserViewInventoryWindow {
                 leftPanel.add(scrollPane);
 
                 // RIGHT SIDE OF SPLIT
-                String text = ump.itemName + itemName + "\n" + ump.itemDes + itemDesc;
-                JTextArea desc = new JTextArea(text);
+
 
                 Panel rightPanel = new Panel();
                 rightPanel.add(desc);
@@ -99,7 +98,7 @@ public class DemoUserViewInventoryWindow {
 
                 // Add the Remove Button on to the Frame
                 frame.add(subPanel);
-                frame.setVisible(true);
+
 
 
 
