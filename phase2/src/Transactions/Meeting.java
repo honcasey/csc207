@@ -32,7 +32,7 @@ public class Meeting implements Serializable {
      * Time, Date, Location. (will be stored in the hashmap)
      * NOTE: getters and setters for certain information still remain camel-case.
      */
-    private HashMap<Integer, Integer> numUserEdits;
+    private HashMap<Integer, Integer> numUserEdits = new HashMap<>();
     private int maxNumEdits = 3;
     private String location;
     private Date meetingDate;
@@ -44,12 +44,10 @@ public class Meeting implements Serializable {
      * @param meetingTime The time of the meetup as a localTime object.
      * @param meetingDate the dateof the meetup as a  LocalDate object.
      */
-
     public Meeting(String location, Date meetingTime, Date meetingDate){
         this.location = location;
         this.meetingDate = meetingDate;
         this.meetingTime = meetingTime;
-        this.numUserEdits = new HashMap<>();
         numUserEdits.put(1, 0);
         numUserEdits.put(2, 0);
     }

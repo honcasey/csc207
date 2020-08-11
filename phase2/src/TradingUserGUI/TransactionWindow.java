@@ -123,15 +123,6 @@ public class TransactionWindow {
             offeredItem = comboBox.getItemAt(comboBox.getSelectedIndex());
             tb.AddItemOffered(offeredItem.getId()); // this is the item that the current user is offering from their own inventory
         });
-            // if (comboBox.getSelectedItem() == null) {
-                // offeredItem = null;
-                // twoWay = false;
-            //}
-            //else {
-                // twoWay = true;
-                // offeredItem = (Item) comboBox.getSelectedItem();
-
-            //}
 
         // add comboBoxes to panel
         panel2.add(comboBox);
@@ -165,7 +156,6 @@ public class TransactionWindow {
             });
             panel2.add(submit);
         }
-
 
         frame.add(panel2, BorderLayout.EAST);
         frame.setVisible(true);
@@ -210,9 +200,6 @@ public class TransactionWindow {
     }
 
     private void areYouSureWindow() throws InvalidItemException {
-//        JFrame areyousureframe = new JFrame();
-//        areyousureframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//        areyousureframe.setVisible(true);
         int a = JOptionPane.showConfirmDialog(frame, "Are you sure you want to create this transaction?");
         if (a == JOptionPane.YES_OPTION) {
             umc.transactionUpdate(tb.getTransaction());
@@ -236,4 +223,4 @@ public class TransactionWindow {
         panel3.add(submit2);
         tempFrame.add(panel3);
     }
-    }
+}

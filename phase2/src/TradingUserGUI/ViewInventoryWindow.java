@@ -80,7 +80,6 @@ public class ViewInventoryWindow {
             removeB.setBounds(600, 300, 100, 50);
             // make a JOptionPane when JButton is pressed
 
-            // TODO: the item isn't actually being removed here
             removeB.addActionListener(e -> {
                 int input = JOptionPane.showOptionDialog(null, ump.optionPrompt("remove this item from your Inventory?"), "Remove Item?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (input == JOptionPane.YES_OPTION) {
@@ -88,10 +87,9 @@ public class ViewInventoryWindow {
                     action.setIsInventory();
                     action.setRemoved(items.get(itemsList.getSelectedIndex()));
                     acm.addAction(umc.getCurrentTradingUser(), action);
-                    itemNames.remove(itemsList.getSelectedIndex()); // if YES, remove the item
                     UUID id = ids.get(itemsList.getSelectedIndex());
                     umc.removeFromInventory(id);
-
+                    itemNames.remove(itemsList.getSelectedIndex()); // if YES, remove the item
                 }
             });
 

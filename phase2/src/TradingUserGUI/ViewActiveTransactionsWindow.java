@@ -130,7 +130,7 @@ public class ViewActiveTransactionsWindow {
                 inputDate = selectedMeeting.getDate();
                 inputLocation = selectedMeeting.getLocation();
                 inputTime = selectedMeeting.getTime();
-                whichMeetingSelected = whichMeeting.getSelectedIndex() + 1;
+                whichMeetingSelected = whichMeeting.getSelectedIndex();
             });
         } catch (NullPointerException e) {
             new PopUpWindow("Please select a transaction.").display();
@@ -286,7 +286,7 @@ public class ViewActiveTransactionsWindow {
         panel.setLayout(null);
 
         JButton confirm = new JButton(ump.itemReturned);
-        confirm.setBounds(100, 100, 100, 50);
+        confirm.setBounds(100, 100, 200, 50);
         confirm.addActionListener(e -> {
             try {
                 umc.updateUsers(selectedTransaction.getId(), TransactionActions.ITEMRETURNED);
@@ -298,7 +298,7 @@ public class ViewActiveTransactionsWindow {
         });
 
         JButton claim = new JButton(ump.itemNotReturned);
-        claim.setBounds(250, 100, 100, 50);
+        claim.setBounds(100, 300, 200, 50);
         claim.addActionListener(e -> {
             try {
                 umc.updateUsers(selectedTransaction.getId(), TransactionActions.ITEMNOTRETURNED);
@@ -324,7 +324,7 @@ public class ViewActiveTransactionsWindow {
         panel.setLayout(null);
 
         JButton confirm = new JButton(ump.confirmExchange);
-        confirm.setBounds(100, 100, 100, 50);
+        confirm.setBounds(100, 100, 200, 50);
         confirm.addActionListener(e -> {
             try {
                 umc.updateUsers(selectedTransaction.getId(), TransactionActions.CONFIRMMEETUP);
@@ -336,7 +336,7 @@ public class ViewActiveTransactionsWindow {
         });
 
         JButton claim = new JButton(ump.exchangeNotTakenPlace);
-        claim.setBounds(250, 100, 100, 50);
+        claim.setBounds(250, 100, 200, 50);
         claim.addActionListener(e -> {
             try {
                 umc.updateUsers(selectedTransaction.getId(), TransactionActions.MEETUPINCOMPLETE);
