@@ -55,7 +55,7 @@ public class ViewActiveTransactionsWindow {
 
             JList<String> trans = new JList<>(transactionList);
             trans.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            trans.setSelectedIndex(0);
+//            trans.setSelectedIndex(0);
             trans.addListSelectionListener(e -> {
                 selectedTransaction = allTransactions.get(trans.getSelectedIndex());
                 transactionDetails = umc.getTransactionString(selectedTransaction, umc.getCurrentTradingUser());
@@ -85,8 +85,12 @@ public class ViewActiveTransactionsWindow {
                 TransactionStatuses transactionStatus = allTransactions.get(trans.getSelectedIndex()).getStatus();
                 switch (transactionStatus) { // opens a different window depending on the status of the selected transaction
                     case PENDING:
+                        if (selectedTransaction.isVirtual()) {
+                            // virtual transactions don't have a meeting, do nothing
+                        } else {
                         pendingTransactionWindow();
                         break;
+                        }
                     case TRADED:
                         tradedTransactionWindow();
                         break;
