@@ -42,7 +42,7 @@ public class DemoUserMenu {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // set the frame's size and centre it
-        frame.setSize(new Dimension(550, 500));
+        frame.setSize(new Dimension(660, 500));
         frame.setLocationRelativeTo(null);
 
         // create the menu bar
@@ -94,7 +94,7 @@ public class DemoUserMenu {
 
         // if clicked "Upgrade to Full Account"
         button7.addActionListener(e -> {
-            new UpgradeAccountWindow(dmc, lc).display();
+            new UpgradeAccountWindow(dmc, lc, umc).display();
         });
 
         // display the window
@@ -104,33 +104,33 @@ public class DemoUserMenu {
         panel.setLayout(null);
 
         // add button's to panel
-        button1.setBounds(50, 50, 150, 75);
+        button1.setBounds(20, 50, 200, 75);
         button1.setBackground(Color.PINK); // DO NOT CHANGE THIS >: ((
         button1.setForeground(Color.PINK);
         button1.setText(ump.requestAddItem);
         panel.add(button1);
 
-        button2.setBounds(200, 50, 150, 75);
+        button2.setBounds(220, 50, 200, 75);
         button2.setText(ump.displayAvailableItems);
         panel.add(button2);
 
-        button3.setBounds(350, 50, 150, 75);
+        button3.setBounds(420, 50, 200, 75);
         button3.setText(ump.viewActiveTrans);
         panel.add(button3);
 
-        button4.setBounds(50, 150, 150, 75);
+        button4.setBounds(20, 150, 200, 75);
         button4.setText(ump.viewTranHistory);
         panel.add(button4);
 
-        button5.setBounds(200, 150, 150, 75);
+        button5.setBounds(220, 150, 200, 75);
         button5.setText(ump.viewWishlist);
         panel.add(button5);
 
-        button6.setBounds(350, 150, 150, 75);
+        button6.setBounds(420, 150, 200, 75);
         button6.setText(ump.viewInventory);
         panel.add(button6);
 
-        button7.setBounds(300, 250, 150, 75);
+        button7.setBounds(20, 250, 200, 75);
         button7.setText(ump.upgradeToFull);
         panel.add(button7);
     }
