@@ -125,6 +125,4 @@ public class DemoUserManager {
         }
         return false;
     }
-
-
 }

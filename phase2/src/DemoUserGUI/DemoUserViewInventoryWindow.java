@@ -45,9 +45,6 @@ public class DemoUserViewInventoryWindow {
             DefaultListModel<String> itemNames = new DefaultListModel<>();
             DefaultListModel<String> itemDescs = new DefaultListModel<>();
             List<UUID> ids = new ArrayList<>();
-            if (items.isEmpty()) {
-                new PopUpWindow(ump.emptyInventory).display();
-            } else {
                 for (Item item : items) {
                     itemNames.addElement(item.toString());
                     itemDescs.addElement(item.getDescription());
@@ -105,7 +102,7 @@ public class DemoUserViewInventoryWindow {
                 frame.setVisible(true);
 
 
-            }
+
         }
     }
 }

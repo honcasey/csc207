@@ -3,6 +3,7 @@ package DemoUserGUI;
 import Initialization.LoginController;
 import Popups.PopUpWindow;
 import Presenters.UserMenuPresenter;
+import TradingUserGUI.TradingUserMenu;
 import Users.DemoMenuController;
 import Users.UserMenuController;
 
@@ -25,11 +26,13 @@ public class UpgradeAccountWindow {
     private final LoginController lc;
     private final DemoMenuController dmc;
     private final UserMenuPresenter ump = new UserMenuPresenter();
+    private final UserMenuController umc;
 
 
-    public UpgradeAccountWindow(DemoMenuController dmc, LoginController lc){
+    public UpgradeAccountWindow(DemoMenuController dmc, LoginController lc, UserMenuController umc){
         this.dmc = dmc;
         this.lc = lc;
+        this.umc = umc;
     }
     public void display(){
         // create the frame
@@ -101,7 +104,7 @@ public class UpgradeAccountWindow {
             lc.addTradingUser(username, password, city);
             UUID oldID = dmc.currentDemoUser.getUserId();
             dmc.getDum().removeDemoUser(oldID);
-
+            new TradingUserMenu(umc).display();
         } else {
             new PopUpWindow(ump.usernameTaken).display();
         }

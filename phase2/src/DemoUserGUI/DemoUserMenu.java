@@ -94,7 +94,7 @@ public class DemoUserMenu {
 
         // if clicked "Upgrade to Full Account"
         button7.addActionListener(e -> {
-            new UpgradeAccountWindow(dmc, lc).display();
+            new UpgradeAccountWindow(dmc, lc, umc).display();
         });
 
         // display the window
