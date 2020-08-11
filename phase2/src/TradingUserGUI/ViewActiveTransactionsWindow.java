@@ -1,6 +1,7 @@
 package TradingUserGUI;
 
 import Actions.EditAction;
+import Exceptions.InvalidTransactionException;
 import Popups.PopUpWindow;
 import Presenters.UserMenuPresenter;
 import Transactions.TransactionActions;
@@ -166,20 +167,36 @@ public class ViewActiveTransactionsWindow {
         // button to submit edit meeting changes
         JButton updateMeeting = new JButton(ump.updateMeeting);
         updateMeeting.setBounds(100, 150, 200, 50);
-        updateMeeting.addActionListener(e -> editMeeting());
+        updateMeeting.addActionListener(e -> {
+            try {
+                editMeeting();
+            } catch (InvalidTransactionException invalidTransactionException) {
+                // invalidTransactionException.printStackTrace();
+            }
+        });
 
         // button to confirm finalized meeting details
         JButton finalizeMeeting = new JButton(ump.finalizeDetail);
         finalizeMeeting.setBounds(100, 200, 200, 50);
         finalizeMeeting.addActionListener(e -> {
-            umc.updateUsers(selectedTransaction, TransactionActions.CONFIRMMEETINGDETAILS);
+            try {
+                umc.updateUsers(selectedTransaction.getId(), TransactionActions.CONFIRMMEETINGDETAILS);
+            } catch (InvalidTransactionException invalidTransactionException) {
+                // invalidTransactionException.printStackTrace();
+            }
             confirmedMeeting();
         });
 
         // button to cancel transaction
         JButton cancelMeeting = new JButton(ump.cancelTrans);
         cancelMeeting.setBounds(100, 250, 200, 50);
-        cancelMeeting.addActionListener(e -> areYouSureWindow());
+        cancelMeeting.addActionListener(e -> {
+            try {
+                areYouSureWindow();
+            } catch (InvalidTransactionException invalidTransactionException) {
+                // invalidTransactionException.printStackTrace();
+            }
+        });
 
         rightPanel.add(updateMeeting);
         rightPanel.add(finalizeMeeting);
@@ -202,8 +219,8 @@ public class ViewActiveTransactionsWindow {
         timeCalendar.set(Calendar.MINUTE, 0);
     }
 
-    private void editMeeting() { // helper method to check if edit threshold has been reached or not if user clicked "edit meeting"
-        if (!umc.editMeetingFlow(umc.getCurrentTradingUser().getUserId(), selectedTransaction, whichMeetingSelected,
+    private void editMeeting() throws InvalidTransactionException { // helper method to check if edit threshold has been reached or not if user clicked "edit meeting"
+        if (!umc.editMeetingFlow(umc.getCurrentTradingUser().getUserId(), selectedTransaction.getId(), whichMeetingSelected,
                 inputLocation, inputTime, inputDate)) {
 
             // create a new action object
@@ -239,12 +256,12 @@ public class ViewActiveTransactionsWindow {
     }
 
     /* https://www.javatpoint.com/java-joptionpane#:~:text=%E2%86%92%20%E2%86%90%20prev-,Java%20JOptionPane,JOptionPane%20class%20inherits%20JComponent%20class. */
-    private void areYouSureWindow() {
+    private void areYouSureWindow() throws InvalidTransactionException {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         int a = JOptionPane.showConfirmDialog(frame, ump.optionPrompt("cancel the transaction?"));
         if (a == JOptionPane.YES_OPTION) {
-            umc.updateUsers(selectedTransaction, TransactionActions.CANCEL);
+            umc.updateUsers(selectedTransaction.getId(), TransactionActions.CANCEL);
             cancelledWindow();
         }
     }
@@ -266,7 +283,11 @@ public class ViewActiveTransactionsWindow {
         JButton confirm = new JButton(ump.itemReturned);
         confirm.setBounds(100, 100, 100, 50);
         confirm.addActionListener(e -> {
-            umc.updateUsers(selectedTransaction, TransactionActions.ITEMRETURNED);
+            try {
+                umc.updateUsers(selectedTransaction.getId(), TransactionActions.ITEMRETURNED);
+            } catch (InvalidTransactionException invalidTransactionException) {
+                // invalidTransactionException.printStackTrace();
+            }
             PopUpWindow confirmed = new PopUpWindow(ump.itemReturnConfirmed);
             confirmed.display();
         });
@@ -274,7 +295,11 @@ public class ViewActiveTransactionsWindow {
         JButton claim = new JButton(ump.itemNotReturned);
         claim.setBounds(250, 100, 100, 50);
         claim.addActionListener(e -> {
-            umc.updateUsers(selectedTransaction, TransactionActions.ITEMNOTRETURNED);
+            try {
+                umc.updateUsers(selectedTransaction.getId(), TransactionActions.ITEMNOTRETURNED);
+            } catch (InvalidTransactionException invalidTransactionException) {
+                // invalidTransactionException.printStackTrace();
+            }
             cancelledWindow();
         });
 
@@ -296,7 +321,11 @@ public class ViewActiveTransactionsWindow {
         JButton confirm = new JButton(ump.confirmExchange);
         confirm.setBounds(100, 100, 100, 50);
         confirm.addActionListener(e -> {
-            umc.updateUsers(selectedTransaction, TransactionActions.CONFIRMMEETUP);
+            try {
+                umc.updateUsers(selectedTransaction.getId(), TransactionActions.CONFIRMMEETUP);
+            } catch (InvalidTransactionException invalidTransactionException) {
+                invalidTransactionException.printStackTrace();
+            }
             PopUpWindow confirmed = new PopUpWindow(ump.meetupOccurrenceConfirmed);
             confirmed.display();
         });
@@ -304,7 +333,11 @@ public class ViewActiveTransactionsWindow {
         JButton claim = new JButton(ump.exchangeNotTakenPlace);
         claim.setBounds(250, 100, 100, 50);
         claim.addActionListener(e -> {
-            umc.updateUsers(selectedTransaction, TransactionActions.MEETUPINCOMPLETE);
+            try {
+                umc.updateUsers(selectedTransaction.getId(), TransactionActions.MEETUPINCOMPLETE);
+            } catch (InvalidTransactionException invalidTransactionException) {
+                invalidTransactionException.printStackTrace();
+            }
             cancelledWindow();
         });
 

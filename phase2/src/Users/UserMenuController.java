@@ -113,14 +113,15 @@ public class UserMenuController {
         }
     }
 
-    public boolean editMeetingFlow(UUID user, Transaction transaction, int meetingNum, String newLocation,
-                                   Date newTime, Date newDate){
-        updateUsers(transaction, TransactionActions.EDITED);
-        return (tm.editMeeting(meetingNum, transaction, user, newLocation) |
-                tm.editMeeting(meetingNum, transaction, user, newTime, newDate));
+    public boolean editMeetingFlow(UUID user, UUID transactionId, int meetingNum, String newLocation,
+                                   Date newTime, Date newDate) throws InvalidTransactionException {
+        updateUsers(transactionId, TransactionActions.EDITED);
+        return (tm.editMeeting(meetingNum, transactionId, user, newLocation) |
+                tm.editMeeting(meetingNum, transactionId, user, newTime, newDate));
     }
 
-    public void updateUsers(Transaction transaction, TransactionActions optionChosen) {
+    public void updateUsers(UUID transactionId, TransactionActions optionChosen) throws InvalidTransactionException {
+        Transaction transaction = tm.getTransactionFromId(transactionId);
         tm.updateStatusUser(currentTradingUser, transaction, optionChosen);
         List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
         tm.updateStatus(transaction); //update status of transaction
