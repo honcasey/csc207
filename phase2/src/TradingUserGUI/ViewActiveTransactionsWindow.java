@@ -10,8 +10,6 @@ import Transactions.Transaction;
 import Users.UserMenuController;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.Calendar;
 import java.util.Date;
