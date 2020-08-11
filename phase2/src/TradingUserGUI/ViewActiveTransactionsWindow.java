@@ -57,15 +57,8 @@ public class ViewActiveTransactionsWindow {
             JList<String> trans = new JList<>(transactionList);
             trans.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             trans.setSelectedIndex(0);
-            trans.addListSelectionListener(new ListSelectionListener() {
-                @Override
-                public void valueChanged(ListSelectionEvent e) {
-
-                }
-            });
             trans.addListSelectionListener(e -> {
-                JList trans1 = (JList)e.getSource();
-                selectedTransaction = allTransactions.get(trans1.getSelectedIndex());
+                selectedTransaction = allTransactions.get(trans.getSelectedIndex());
                 transactionDetails = umc.getTransactionString(selectedTransaction, umc.getCurrentTradingUser());
             });
 
@@ -124,18 +117,21 @@ public class ViewActiveTransactionsWindow {
         // edit meeting stuff
         // which meeting
         JComboBox<String> whichMeeting = new JComboBox<>();
-        List<Meeting> transactionMeetings = selectedTransaction.getTransactionMeetings();
-        for (Meeting meeting : transactionMeetings) {
-            whichMeeting.addItem(meeting.toString());
+        try {
+            List<Meeting> transactionMeetings = selectedTransaction.getTransactionMeetings();
+            for (Meeting meeting : transactionMeetings) {
+                whichMeeting.addItem(meeting.toString());
+            }
+            whichMeeting.addActionListener(e -> {
+                selectedMeeting = transactionMeetings.get(whichMeeting.getSelectedIndex());
+                inputDate = selectedMeeting.getDate();
+                inputLocation = selectedMeeting.getLocation();
+                inputTime = selectedMeeting.getTime();
+                whichMeetingSelected = whichMeeting.getSelectedIndex();
+            });
+        } catch (NullPointerException e) {
+            new PopUpWindow("Please select a transaction.").display();
         }
-
-        whichMeeting.addActionListener(e -> {
-            selectedMeeting = transactionMeetings.get(whichMeeting.getSelectedIndex());
-            inputDate = selectedMeeting.getDate();
-            inputLocation = selectedMeeting.getLocation();
-            inputTime = selectedMeeting.getTime();
-            whichMeetingSelected = whichMeeting.getSelectedIndex();
-        });
 
         // location
         JTextField location = new JTextField(ump.location);
