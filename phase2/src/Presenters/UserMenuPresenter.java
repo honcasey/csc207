@@ -36,6 +36,7 @@ public class UserMenuPresenter extends MenuPresenter {
     public String confirmExchange = "Confirm exchange has taken place";
     public String meetupOccurrenceConfirmed = "Meetup occurrence confirmed";
     public String exchangeNotTakenPlace = "Claim the exchange has not taken place";
+    public String pleaseSelectAnItem = "Please Select an Item";
 
     //transaction strings
     public String requestTrans = "Request Transaction";
