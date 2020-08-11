@@ -112,7 +112,7 @@ public class ViewActiveTransactionsWindow {
         frame.setLocationRelativeTo(null);
 
         Panel leftPanel = new Panel();
-        leftPanel.setLayout(null);
+        // leftPanel.setLayout(null);
 
         // edit meeting stuff
         // which meeting
@@ -161,18 +161,18 @@ public class ViewActiveTransactionsWindow {
         leftPanel.add(location);
         leftPanel.add(meetingDate);
         leftPanel.add(meetingTime);
-        frame.add(leftPanel);
+        frame.getContentPane().add(leftPanel);
 
         Panel rightPanel = new Panel();
-        rightPanel.setLayout(null);
+        // rightPanel.setLayout(null);
         // button to submit edit meeting changes
         JButton updateMeeting = new JButton(ump.updateMeeting);
-        updateMeeting.setBounds(100, 250, 100, 50);
+        updateMeeting.setBounds(100, 150, 200, 50);
         updateMeeting.addActionListener(e -> editMeeting());
 
         // button to confirm finalized meeting details
         JButton finalizeMeeting = new JButton(ump.finalizeDetail);
-        finalizeMeeting.setBounds(100, 350, 100, 50);
+        finalizeMeeting.setBounds(100, 200, 200, 50);
         finalizeMeeting.addActionListener(e -> {
             umc.updateUsers(selectedTransaction, TransactionActions.CONFIRMMEETINGDETAILS);
             confirmedMeeting();
@@ -180,14 +180,14 @@ public class ViewActiveTransactionsWindow {
 
         // button to cancel transaction
         JButton cancelMeeting = new JButton(ump.cancelTrans);
-        cancelMeeting.setBounds(100, 450, 100, 50);
+        cancelMeeting.setBounds(100, 250, 200, 50);
         cancelMeeting.addActionListener(e -> areYouSureWindow());
 
         rightPanel.add(updateMeeting);
         rightPanel.add(finalizeMeeting);
         rightPanel.add(cancelMeeting);
 
-        frame.add(rightPanel);
+        frame.getContentPane().add(rightPanel);
         frame.setVisible(true);
     }
 
