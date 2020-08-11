@@ -8,6 +8,7 @@ import Presenters.AdminMenuPresenter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public class CheckPendingItemsWindow {
@@ -88,12 +89,20 @@ public class CheckPendingItemsWindow {
             // if Admin clicked approve item
             JButton approve = new JButton(amp.approve);
             approve.setBounds(600,100,100,50);
-            approve.addActionListener(e -> amc.approvePendingItem(listItems.get(items.getSelectedIndex())));
+            approve.addActionListener(e -> {
+                amc.approvePendingItem(listItems.get(items.getSelectedIndex()));
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                new PopUpWindow("This item has been approved").display();
+            });
 
             // if Admin clicked reject item
             JButton reject = new JButton(amp.reject);
             reject.setBounds(600, 300, 100, 50);
-            reject.addActionListener(e -> amc.rejectPendingItem(listItems.get(items.getSelectedIndex())));
+            reject.addActionListener(e -> {
+                amc.rejectPendingItem(listItems.get(items.getSelectedIndex()));
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                new PopUpWindow("This item has been rejected.").display();
+            });
 
             sidePanel.add(approve);
             sidePanel.add(reject);
