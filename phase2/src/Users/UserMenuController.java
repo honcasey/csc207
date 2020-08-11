@@ -182,10 +182,10 @@ public class UserMenuController {
         UUID otherUserid = transaction.getOtherUser(Currentuser.getUserId());
         String otherUser = um.getTradingUserById(otherUserid).toString();
         if(transaction.isPerm()){
-            returnString = "Permanent Transaction between you and " +otherUser;
+            returnString = "Permanent Transaction with" +otherUser;
         }
         else{
-            returnString = "Temporary Transaction between you and "+ otherUser;
+            returnString = "Temporary Transaction with "+ otherUser;
         }
         if(transaction.getItemIdDesired(Currentuser.getUserId()) == null) {
             String YourItemString = null;
@@ -195,7 +195,7 @@ public class UserMenuController {
             } catch (InvalidItemException e) {
                 System.out.println("Item Manager is not being updated  properly");
             }
-            return returnString + "to give " + YourItemString;
+            return returnString + " to give " + YourItemString;
         }
         if(transaction.getItemIdOwned(Currentuser.getUserId()) == null){
             String TheirItemString = null;
@@ -205,7 +205,7 @@ public class UserMenuController {
             } catch (InvalidItemException e) {
                 System.out.println("Item Manager is not being updated  properly");
             }
-            return returnString + "to get " + TheirItemString;
+            return returnString + " to get " + TheirItemString;
         }
         else{
             String TheirItemString = null;
@@ -218,7 +218,7 @@ public class UserMenuController {
             } catch (InvalidItemException e) {
                 System.out.println("Item Manager is not being updated  properly");
             }
-            return returnString + "to get " + TheirItemString+ " for " + YourItemString;
+            return returnString + " to get " + TheirItemString+ " for " + YourItemString;
         }
     }
 
