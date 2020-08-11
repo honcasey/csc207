@@ -9,6 +9,8 @@ import Users.UserMenuController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
 
@@ -41,7 +43,7 @@ public class TransactionWindow {
 
     public void display() {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setSize(new Dimension(1280, 720));
+        frame.setSize(new Dimension(1000, 500));
         frame.setLocationRelativeTo(null);
 
         // set the panels on the frame
@@ -123,10 +125,15 @@ public class TransactionWindow {
         // add event handler for comboBox
         comboBox.addActionListener(e -> {
             offeredItem = comboBox.getItemAt(comboBox.getSelectedIndex());
+        });
+
+        JButton offerItem = new JButton("Offer selected item, don't click if u don't wanna offer smth");
+        offerItem.addActionListener(e -> {
             tb.AddItemOffered(offeredItem.getId()); // this is the item that the current user is offering from their own inventory
         });
 
         panel2.add(comboBox);
+        panel2.add(offerItem);
 
         if (type.equals(ump.virtual)) {
             submit.addActionListener(e -> {

@@ -74,7 +74,7 @@ public class ViewTransactionHistoryWindow {
         ArrayList<Transaction> allRecentOneWays = umc.getTm().getTransactionsFromIdList(mostRecentOneWays);
         for (Transaction t: allRecentOneWays){
             String id = t.getId().toString();
-            String date = t.getTransactionMeetings().get(t.getTransactionMeetings().size()-1).getDate().toString();
+            String date = t.getTransactionMeetings().get(t.getTransactionMeetings().size()).getDate().toString();
             List<UUID> itemIDs = t.getTransactionItems();
             List<Item> items = umc.getIm().convertIdsToItems(itemIDs);
             String transItems = items.toString();

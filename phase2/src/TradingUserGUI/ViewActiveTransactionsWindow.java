@@ -88,11 +88,13 @@ public class ViewActiveTransactionsWindow {
                 TransactionStatuses transactionStatus = allTransactions.get(trans.getSelectedIndex()).getStatus();
                 switch (transactionStatus) { // opens a different window depending on the status of the selected transaction
                     case PENDING:
-                        if (!selectedTransaction.isVirtual()) {
-                            pendingTransactionWindow();
-                            break;
-                            // virtual transactions don't have a meeting, do nothing
+                        if (selectedTransaction.isVirtual()) {
+                            confirmedTransactionWindow();
                         }
+                        else {
+                            pendingTransactionWindow();
+                        }
+                        break;
                     case TRADED:
                         tradedTransactionWindow();
                         break;
@@ -196,7 +198,7 @@ public class ViewActiveTransactionsWindow {
 
         // button to cancel transaction
         JButton cancelMeeting = new JButton(ump.cancelTrans);
-        cancelMeeting.setBounds(100, 250, 200, 50);
+        cancelMeeting.setBounds(100, 300, 200, 50);
         cancelMeeting.addActionListener(e -> {
             try {
                 areYouSureWindow();
