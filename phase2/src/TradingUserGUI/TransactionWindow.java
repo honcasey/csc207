@@ -15,22 +15,22 @@ import java.util.List;
 public class TransactionWindow {
     private UserMenuController umc;
     private final UserMenuPresenter ump = new UserMenuPresenter();
-    // private Item selectedItem;
     private Item offeredItem;
-    // private boolean twoWay;
     private TradingUser selectedItemOwner;
     private JPanel panel1 = new JPanel();
     private JPanel panel2 = new JPanel();
     private TransactionBuilder tb;
     private JButton submit = new JButton("Submit");
+    private Item item;
     private Calendar dateCalendar;
     private Calendar timeCalendar;
 
-    public TransactionWindow(UserMenuController umc, Item item, TradingUser owner) {
+    public TransactionWindow(UserMenuController umc, UUID itemId, UUID ownerId) throws InvalidItemException {
         this.umc = umc;
-//        this.selectedItem = item;
-        this.selectedItemOwner = owner;
-        tb.declareIntent(owner, item.getId()); // this is the selected item that the user chose from the available items window, which would be the desired item and item's owner
+        this.tb = umc.GetTransBuilder();
+        selectedItemOwner = umc.getUm().getTradingUserById(ownerId);
+        tb.declareIntent(ownerId, itemId); // this is the selected item that the user chose from the available items window, which would be the desired item and item's owner
+        item = umc.getIm().getItem(itemId);
     }
 
     public void display() {

@@ -66,7 +66,11 @@ public class ItemDetailsWindow {
         });
 
         trans.addActionListener(e -> {
-            new TransactionWindow(umc, item, owner).display();
+            try {
+                new TransactionWindow(umc, item.getId(), owner.getUserId()).display();
+            } catch (InvalidItemException invalidItemException) {
+                // invalidItemException.printStackTrace();
+            }
         });
 
         panel.add(wishlist);

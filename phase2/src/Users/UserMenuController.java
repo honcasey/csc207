@@ -46,7 +46,7 @@ public class UserMenuController {
 
     public TransactionBuilder GetTransBuilder(){
         TransactionFactory newFactory = new TransactionFactory(tm);
-        TransactionBuilder transactionBuilder = new TransactionBuilder(this.currentTradingUser, newFactory);
+        TransactionBuilder transactionBuilder = new TransactionBuilder(this.currentTradingUser.getUserId(), newFactory);
         return transactionBuilder;
     }
 

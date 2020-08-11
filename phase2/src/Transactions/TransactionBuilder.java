@@ -8,41 +8,41 @@ import java.util.*;
 public class TransactionBuilder {
 
     private List<Meeting> meetingList;
-    private TradingUser currentUser;
-    private TradingUser otherUser;
+    private UUID currentUserId;
+    private UUID otherUserId;
     private TreeMap<UUID, List<UUID>> userToItems;
     private TransactionFactory transFact;
 
     /**
      * This is the builder for a transaction. This will be called by GUI/UserMenuController.
-     * @param currentUser The current user using the program.
+     * @param currentUserId The UUID of the current TradingUser using the program.
      * @param transFact An instance of Transaction Factory.
      */
-    public TransactionBuilder(TradingUser currentUser, TransactionFactory transFact){
-        this.currentUser = currentUser;
+    public TransactionBuilder(UUID currentUserId, TransactionFactory transFact){
+        this.currentUserId = currentUserId;
         this.transFact = transFact;
         this.userToItems = new TreeMap<UUID, List<UUID>>();
     }
 
     /**
-     * @param otherUser The other user that you want to make the transaction with.
+     * @param otherUserId The other user that you want to make the transaction with.
      * @param desiredItem The item that the currentUser wants from the transaction.(whether they are borrowing or
      *            keeping it.)
      */
-    public void declareIntent(TradingUser otherUser, UUID desiredItem){
-        this.otherUser = otherUser;
+    public void declareIntent(UUID otherUserId, UUID desiredItem){
+        this.otherUserId = otherUserId;
 
         List<UUID> currentUserItemIds = new ArrayList<>();
 
         currentUserItemIds.add(null);
         currentUserItemIds.add(desiredItem);
-        this.userToItems.put(currentUser.getUserId(),currentUserItemIds);
+        this.userToItems.put(currentUserId,currentUserItemIds);
 
         List<UUID> otherUserItemIds = new ArrayList<>();
 
         otherUserItemIds.add(desiredItem);
         otherUserItemIds.add(null);
-        this.userToItems.put(otherUser.getUserId(),otherUserItemIds);
+        this.userToItems.put(otherUserId,otherUserItemIds);
 
     }
 
@@ -55,8 +55,8 @@ public class TransactionBuilder {
     }
 
     public void AddItemOffered(UUID otherUserItem){
-        this.userToItems.get(currentUser.getUserId()).set(0,otherUserItem);
-        this.userToItems.get(otherUser.getUserId()).set(1,otherUserItem);
+        this.userToItems.get(currentUserId).set(0,otherUserItem);
+        this.userToItems.get(otherUserId).set(1,otherUserItem);
     }
 
     public Transaction getTransaction(){
