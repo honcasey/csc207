@@ -233,17 +233,21 @@ public class AdminMenuController {
             if (action.isInventory()) {
                 um.removeItem(action.getUser(), action.getItem(), "inventory");
                 acm.getAllActions().get(action.getUser()).remove(action);
+                removeUserFromAllActions(action.getUser());
             } else if (action.isWishlist()) {
                 um.removeItem(action.getUser(), action.getItem(), "wishlist");
                 acm.getAllActions().get(action.getUser()).remove(action);
+                removeUserFromAllActions(action.getUser());
             }
         } else if (action.wasRemoved()) {
             if (action.isInventory()) {
                 um.addItem(action.getUser(), action.getItem(), "inventory");
                 acm.getAllActions().get(action.getUser()).remove(action);
+                removeUserFromAllActions(action.getUser());
             } else if (action.isWishlist()) {
                 um.addItem(action.getUser(), action.getItem(), "wishlist");
                 acm.getAllActions().get(action.getUser()).remove(action);
+                removeUserFromAllActions(action.getUser());
             }
         }
     }
@@ -254,6 +258,15 @@ public class AdminMenuController {
      */
     public void undoEditAction(EditAction action) {
         action.getTransaction().getTransactionMeetings().set(action.getWhichMeeting(), action.getNewMeeting());
+    }
+
+    /**
+     * removes user from list of all actions if that user has no undoable actions
+     */
+    private void removeUserFromAllActions(UUID userId) {
+        if (acm.getAllActions().get(userId).isEmpty()) {
+            acm.getAllActions().remove(userId);
+        }
     }
 
 }
