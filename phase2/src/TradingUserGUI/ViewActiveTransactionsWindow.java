@@ -51,7 +51,7 @@ public class ViewActiveTransactionsWindow {
 
             DefaultListModel<String> transactionList = new DefaultListModel<>();
             for (Transaction transaction : allTransactions) {
-                transactionList.addElement(transaction.toString()); //
+                transactionList.addElement(umc.getTransactionString(transaction,umc.getCurrentTradingUser())); //
                 // THERE IS NO toString Implemented (use the method in menupresenter)
 
             }
