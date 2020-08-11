@@ -51,7 +51,6 @@ public class ViewInventoryWindow {
             }
             JList<String> itemsList = new JList<>(itemNames);
             itemsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            itemsList.setSelectedIndex(0);
             itemsList.addListSelectionListener(e -> {
                 JList<String> itemList1 = (JList<String>) e.getSource();
                 itemName = itemNames.get(itemList1.getSelectedIndex());

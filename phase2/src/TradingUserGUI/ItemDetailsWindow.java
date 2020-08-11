@@ -1,5 +1,6 @@
 package TradingUserGUI;
 
+import Exceptions.InvalidItemException;
 import Popups.PopUpWindow;
 import Items.Item;
 import Presenters.UserMenuPresenter;
@@ -9,17 +10,20 @@ import Users.UserMenuController;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
+import java.util.UUID;
 
 public class ItemDetailsWindow {
     private UserMenuController umc;
     private final UserMenuPresenter ump = new UserMenuPresenter();
+    private UUID itemId;
     private Item item;
     private Map<Item, TradingUser> itemsMap;
 
-    public ItemDetailsWindow(UserMenuController umc, Item item,  Map<Item, TradingUser> itemsMap) {
+    public ItemDetailsWindow(UserMenuController umc, UUID itemId,  Map<Item, TradingUser> itemsMap) throws InvalidItemException {
         this.umc = umc;
-        this.item = item;
+        this.itemId = itemId;
         this.itemsMap = itemsMap;
+        item = umc.getIm().getItem(itemId);
     }
 
     public void display() {
@@ -62,7 +66,15 @@ public class ItemDetailsWindow {
         });
 
         trans.addActionListener(e -> {
-            new TransactionWindow(umc, item, owner).display();
+            try {
+                new TransactionWindow(umc, item.getId(), owner.getUserId()).display();
+            } catch (InvalidItemException invalidItemException) {
+                // invalidItemException.printStackTrace();
+            }
         });
+
+        panel.add(wishlist);
+        panel.add(trans);
+
     }
 }

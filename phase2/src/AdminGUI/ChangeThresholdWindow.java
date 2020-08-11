@@ -59,12 +59,7 @@ public class ChangeThresholdWindow {
 
         users.setModel(userNames);
 
-        users.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                currUsername = (String) users.getSelectedItem();
-            }
-        });
+        users.addActionListener(e -> currUsername = (String) users.getSelectedItem());
 
         saveChangesButton.addActionListener(e -> {
             int borrowThreshold = Integer.parseInt(newBorrowThreshold.getText());
