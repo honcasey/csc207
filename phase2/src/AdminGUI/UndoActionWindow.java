@@ -53,11 +53,11 @@ public class UndoActionWindow {
 
         JList<String> allUsers = new JList<>(users);
         allUsers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        allUsers.setSelectedIndex(0);
+        // allUsers.setSelectedIndex(0);
         allUsers.addListSelectionListener(e -> {
             selectedUser = listUsers.get(allUsers.getSelectedIndex());
             helper(selectedUser);
-            frame.setVisible(false);
+            // frame.setVisible(false);
         });
 
         panel.add(allUsers);
@@ -87,7 +87,7 @@ public class UndoActionWindow {
             }
             JList<String> usersActions = new JList<>(actions);
             usersActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            usersActions.setSelectedIndex(0);
+            // usersActions.setSelectedIndex(0);
             usersActions.addListSelectionListener(e -> {
                 selectedAction = listActions.get(usersActions.getSelectedIndex());
             });
