@@ -128,12 +128,23 @@ public class TransactionWindow {
 
         panel2.add(comboBox);
 
+        if (type.equals(ump.virtual)) {
+            submit.addActionListener(e -> {
+                try {
+                    areYouSureWindow();
+                } catch (InvalidItemException invalidItemException) {
+                    //
+                }
+            });
+            panel2.add(submit);
+        }
+
         // add meetings fields
         if (type.equals(ump.perm)) {
             panel2 = setMeetingPanel("first");
             submit.addActionListener(e -> {
                 try {
-                    tb.buildSecondMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
+                    tb.buildFirstMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
                     areYouSureWindow();
                 } catch (InvalidItemException invalidItemException) {
                     //
@@ -143,16 +154,9 @@ public class TransactionWindow {
         }
         else if (type.equals(ump.temp)) {
             panel2 = setMeetingPanel("first");
-            submit.addActionListener(e -> secondMeetingWindow());
-            panel2.add(submit);
-        } else if (type.equals(ump.virtual)) {
             submit.addActionListener(e -> {
-                try {
-                    tb.buildSecondMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
-                    areYouSureWindow();
-                } catch (InvalidItemException invalidItemException) {
-                    //
-                }
+                tb.buildFirstMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
+                secondMeetingWindow();
             });
             panel2.add(submit);
         }
@@ -182,7 +186,6 @@ public class TransactionWindow {
 
         setDateCalendar();
         dateModel.setValue(dateCalendar.getTime());
-
 
         JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(meetingDate, "dd/mm/yyyy");
         meetingDate.setEditor(dateEditor);
@@ -219,6 +222,7 @@ public class TransactionWindow {
         JButton submit2 = new JButton("Submit Second Meeting");
         submit2.addActionListener(e -> {
             try {
+                tb.buildSecondMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
                 areYouSureWindow();
             } catch (InvalidItemException invalidItemException) {
                 //
