@@ -134,7 +134,7 @@ public class ViewTransactionHistoryWindow {
         StringBuilder text = new StringBuilder(" ");
         List<String> usernames = umc.getCurrentTradingUser().getTransactionHistory().mostTradedWithUsers();
         for (String u: usernames){
-            text.append(u).append("/n");
+            text.append(u).append("\n");
         }
 
         String fullText = text.toString();
