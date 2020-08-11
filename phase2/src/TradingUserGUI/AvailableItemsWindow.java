@@ -18,7 +18,7 @@ public class AvailableItemsWindow {
     private final UserMenuPresenter ump = new UserMenuPresenter();
     private Map<Item, TradingUser> availableItemsMap;
     private final JPanel panel = new JPanel();
-    private final JButton itemButton = new JButton("Do something with this item");
+    private final JButton itemButton = new JButton("Select Item to View");
     private Item selectedItem;
 
     public AvailableItemsWindow(UserMenuController umc) {
@@ -29,7 +29,7 @@ public class AvailableItemsWindow {
         JFrame frame = new JFrame(ump.displayAvailableItems);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        frame.setSize(550, 500);
+        frame.setSize(400, 600);
         frame.setLocationRelativeTo(null);
 
         availableItemsMap = umc.getAvailableItems();
