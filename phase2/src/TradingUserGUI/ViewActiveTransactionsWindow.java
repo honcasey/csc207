@@ -130,7 +130,7 @@ public class ViewActiveTransactionsWindow {
                 inputDate = selectedMeeting.getDate();
                 inputLocation = selectedMeeting.getLocation();
                 inputTime = selectedMeeting.getTime();
-                whichMeetingSelected = whichMeeting.getSelectedIndex() + 1;
+                whichMeetingSelected = whichMeeting.getSelectedIndex();
             });
         } catch (NullPointerException e) {
             new PopUpWindow("Please select a transaction.").display();
