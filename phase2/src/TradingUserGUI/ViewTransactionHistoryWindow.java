@@ -63,7 +63,7 @@ public class ViewTransactionHistoryWindow {
 
     }
     private void mostRecentOneWaysWindow()  { // condense this a bit
-        JFrame frame = new JFrame(ump.mostRecentTwoWayTrans);
+        JFrame frame = new JFrame(ump.mostRecentOneWayTrans);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         frame.setSize(new Dimension(350, 200));
@@ -91,7 +91,7 @@ public class ViewTransactionHistoryWindow {
     }
 
     private void mostRecentTwoWaysWindow(){
-        JFrame frame = new JFrame(ump.mostRecentOneWayTrans);
+        JFrame frame = new JFrame(ump.mostRecentTwoWayTrans);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         frame.setSize(new Dimension(350, 200));

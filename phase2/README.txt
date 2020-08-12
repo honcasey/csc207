@@ -120,7 +120,7 @@ Assumptions
 * A given username of a User object is unique from any other User subclass, regardless of its subclass 
 * The actions that are reasonably (defined by our group) undoable are adding/removing an item from a TradingUser’s inventory/wishlist, and editing meeting details before the transaction has taken place.
 * The GUI was made assuming that it would run on a mac computer (everyone in the group has macs)
-
+* When a certain action (like completing a transaction) is performed, the effects of that action (like transaction history updating) will appear AFTER the user logs out and logs back in
 
 UML 
 * The UML diagram is colour coded based on clean architecture

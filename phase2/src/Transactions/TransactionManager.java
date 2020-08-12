@@ -10,7 +10,6 @@ import java.util.*;
  */
 public class TransactionManager {
     private Map<UUID, Transaction> allTransactions;
-// TODO: Can we call this a dependency injection pattern?
     public TransactionManager(Map<UUID, Transaction> transactions) {
         allTransactions = transactions;
     }
