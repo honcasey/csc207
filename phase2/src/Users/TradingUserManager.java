@@ -301,6 +301,14 @@ public class TradingUserManager {
     public void removeFlaggedUsername(String username){
         flaggedAccounts.removeIf(currUser -> currUser.getUsername().equals(username));
     }
+
+    /**
+     * Remove a user from frozenAccounts if a user with username is in the list of frozen accounts
+     * @param username the String username of the user you want to remove
+     */
+    public void removeFrozenUsername(String username){
+        frozenAccounts.removeIf(currUser -> currUser.getUsername().equals(username));
+    }
     /**
      * Retrieves a list of TradingUsers that have had their account frozen after approval by Admin.
      *
@@ -472,6 +480,18 @@ public class TradingUserManager {
     public List<String> convertFlaggedUsersToUsernames() {
         List<String> usernames = new ArrayList<>();
         for (TradingUser user : flaggedAccounts) {
+            usernames.add(user.getUsername());
+        }
+        return usernames;
+    }
+
+    /**
+     * Returns a list of usernames corresponding to the TradingUser's in frozenAccounts.
+     * @return a list of flagged TradingUser's usernames.
+     */
+    public List<String> convertFrozenUsersToUsernames() {
+        List<String> usernames = new ArrayList<>();
+        for (TradingUser user : frozenAccounts) {
             usernames.add(user.getUsername());
         }
         return usernames;
