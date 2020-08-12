@@ -43,12 +43,11 @@ public class UserMenuController {
         this.acm = actionManager;
     }
 
-    public TransactionBuilder GetTransBuilder(){
+    public TransactionBuilder getTransBuilder(){
         TransactionFactory newFactory = new TransactionFactory(tm);
         TransactionBuilder transactionBuilder = new TransactionBuilder(this.currentTradingUser.getUserId(), newFactory);
         return transactionBuilder;
     }
-
 
     /**
      * Method that adds pending items to the current trading user's pending items
@@ -175,13 +174,13 @@ public class UserMenuController {
      * This method should output different strings depending on if the transaction is Permanent/Temporary,
      * One Way/Two Way.
      * @param transaction The transaction whose string representation you want.
-     * @param Currentuser The user who is currently using the program.
+     * @param currentUser The user who is currently using the program.
      * @return returns a string representation for the transaction in the perspective of the user who is using the
      * program.
      */
-    public String getTransactionString(Transaction transaction, User Currentuser){
+    public String getTransactionString(Transaction transaction, User currentUser){
         String returnString;
-        UUID otherUserid = transaction.getOtherUser(Currentuser.getUserId());
+        UUID otherUserid = transaction.getOtherUser(currentUser.getUserId());
         String otherUser = um.getTradingUserById(otherUserid).toString();
         if(transaction.isPerm()){
             returnString = "Permanent Transaction with " +otherUser;
@@ -192,17 +191,17 @@ public class UserMenuController {
         else {
             returnString = "Temporary Transaction with " + otherUser;
         }
-        if(transaction.getItemIdDesired(Currentuser.getUserId()) == null) {
+        if(transaction.getItemIdDesired(currentUser.getUserId()) == null) {
             String YourItemString = null;
             try {
-                Item YourItem = im.getItem(transaction.getItemIdOwned(Currentuser.getUserId()));
+                Item YourItem = im.getItem(transaction.getItemIdOwned(currentUser.getUserId()));
                 YourItemString = YourItem.toString();
             } catch (InvalidItemException e) {
                 System.out.println("Item Manager is not being updated properly");
             }
             return returnString + " to give " + YourItemString;
         }
-        if(transaction.getItemIdOwned(Currentuser.getUserId()) == null){
+        if(transaction.getItemIdOwned(currentUser.getUserId()) == null){
             String TheirItemString = null;
             try {
                 Item TheirItem = im.getItem(transaction.getItemIdOwned(otherUserid));
@@ -218,7 +217,7 @@ public class UserMenuController {
             try {
                 Item TheirItem = im.getItem(transaction.getItemIdOwned(otherUserid));
                 TheirItemString = TheirItem.toString();
-                Item YourItem = im.getItem(transaction.getItemIdOwned(Currentuser.getUserId()));
+                Item YourItem = im.getItem(transaction.getItemIdOwned(currentUser.getUserId()));
                 YourItemString = YourItem.toString();
             } catch (InvalidItemException e) {
                 System.out.println("Item Manager is not being updated  properly");
