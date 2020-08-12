@@ -283,6 +283,9 @@ public abstract class Transaction implements Serializable {
         }
     }
 
+    public boolean isOneWay(){
+        return this.getTransactionItems().size() == 1;
+    }
 
 
 }
