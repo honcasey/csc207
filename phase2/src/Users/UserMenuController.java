@@ -10,6 +10,7 @@ import Items.Item;
 import Items.ItemManager;
 import Transactions.*;
 
+import java.sql.Time;
 import java.util.*;
 
 /**
@@ -112,11 +113,27 @@ public class UserMenuController {
         }
     }
 
-    public boolean editMeetingFlow(UUID user, UUID transactionId, int meetingNum, String newLocation,
-                                   Date newTime, Date newDate) throws InvalidTransactionException {
+    public boolean editMeetingFlow(UUID user, UUID transactionId, int meetingNum, Date newTime, Date newDate) throws InvalidTransactionException {
         updateUsers(transactionId, TransactionActions.EDITED);
-        return (tm.editMeeting(meetingNum, transactionId, user, newLocation) |
-                tm.editMeeting(meetingNum, transactionId, user, newTime, newDate));
+        if (tm.editMeeting(meetingNum, transactionId, user, newTime) | tm.editMeeting(meetingNum, transactionId, user, newDate, true)) {
+            tm.updateEdits(meetingNum, transactionId, user);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean editMeetingFlow(UUID user, UUID transactionId, int meetingNum, String newLocation) throws InvalidTransactionException {
+        updateUsers(transactionId, TransactionActions.EDITED);
+        // newlocation/time/date needs to not be null
+        //if (newLocation == null | newTime == null | newDate == null) {
+        //    return false;
+        //}
+        // else {
+            if (tm.editMeeting(meetingNum, transactionId, user, newLocation)) {
+                tm.updateEdits(meetingNum, transactionId, user);
+                return true;
+            }
+        return false;
     }
 
     public void updateUsers(UUID transactionId, TransactionActions optionChosen) throws InvalidTransactionException {
@@ -160,13 +177,6 @@ public class UserMenuController {
             }
         }
     }
-
-//    public void setCurrentTradingUser(String username) {
-//        try {
-//            currentTradingUser = um.getTradingUser(username);
-//        } catch (InvalidTradingUserException e) {
-//        }
-//    }
 
     /**
      * This method takes in a transaction and the current user using the system. It then formats a string
