@@ -49,7 +49,6 @@ public class UserMenuController {
         return transactionBuilder;
     }
 
-
     /**
      * Method that adds pending items to the current trading user's pending items
      */
