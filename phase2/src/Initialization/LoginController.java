@@ -17,14 +17,38 @@ public class LoginController {
         this.dum = dum;
     }
 
+    /**
+     * Returns if something is a valid TradingUser
+     * @param username username of said User
+     * @param password password of said User
+     * @return boolean
+     */
     public boolean validUser(String username, String password) {
         return um.validUser(username, password);
     }
 
+    /**
+     * Returns if something is a valid DemoUser
+     * @param username username of said User
+     * @param password password of said User
+     * @return boolean
+     */
     public boolean validDemoUser(String username, String password) {return dum.validDemoUser(username, password);}
+
+    /**
+     * Returns if a username is available
+     * @param username desired username
+     * @return boolean
+     */
     public boolean availableUsername(String username) {
         return am.checkAvailableUsername(username) && um.checkAvailableUsername(username) && dum.checkAvailableUsername(username);
     }
+
+    /**
+     * Adds a DemoUser in the system
+     * @param username username of new DemoUser
+     * @param password password of new DemoUser
+     */
 
     public void addDemoUser(String username, String password){
         try{
@@ -33,6 +57,13 @@ public class LoginController {
             //
         }
     }
+
+    /**
+     * Adds a TradingUser in the system
+     * @param username username of new TradingUser
+     * @param password password of new TradingUser
+     * @param city city of new TradingUser
+     */
 
     public void addTradingUser(String username, String password, String city) {
         try {
