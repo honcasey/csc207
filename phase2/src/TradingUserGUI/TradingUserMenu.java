@@ -1,7 +1,6 @@
 package TradingUserGUI;
 
 import Initialization.Filepaths;
-import Initialization.LoginWindow;
 import Initialization.Serializer;
 import Presenters.UserMenuPresenter;
 import Popups.ChangePasswordWindow;
@@ -20,7 +19,7 @@ public class TradingUserMenu {
     private final UserMenuController umc;
     private final UserMenuPresenter ump = new UserMenuPresenter();
     private final Filepaths fp = new Filepaths();
-    private final JFrame frame = new JFrame(ump.TradingUserMenuTitle);
+    private final JFrame frame = new JFrame(ump.tradingUserMenuTitle);
     private final JButton button1 = new JButton();
     private final JButton button2 = new JButton();
     private final JButton button3 = new JButton();

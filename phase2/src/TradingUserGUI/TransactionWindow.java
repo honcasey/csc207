@@ -10,8 +10,6 @@ import Users.UserMenuController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.*;
 import java.util.List;
@@ -37,7 +35,7 @@ public class TransactionWindow {
 
     public TransactionWindow(UserMenuController umc, UUID itemId, UUID ownerId) throws InvalidItemException {
         this.umc = umc;
-        this.tb = umc.GetTransBuilder();
+        this.tb = umc.getTransBuilder();
         selectedItemOwner = umc.getUm().getTradingUserById(ownerId);
         tb.declareIntent(ownerId, itemId); // this is the selected item that the user chose from the available items window, which would be the desired item and item's owner
         item = umc.getIm().getItem(itemId);

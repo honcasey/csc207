@@ -2,7 +2,7 @@ package Presenters;
 
 public class UserMenuPresenter extends MenuPresenter {
     //user main menu strings
-    public String TradingUserMenuTitle = "TradingUser Main Menu";
+    public String tradingUserMenuTitle = "TradingUser Main Menu";
     public String requestAddItem = "Request Add Item";
     public String displayAvailableItems = "Display Available Items";
     public String viewActiveTrans = "View Active Transactions";
