@@ -264,6 +264,7 @@ public class AdminMenuController {
      */
     public void undoEditAction(EditAction action) {
         action.getTransaction().getTransactionMeetings().set(action.getWhichMeeting(), action.getNewMeeting());
+        acm.removeAction(action);
     }
 
     /**
