@@ -68,18 +68,13 @@ public class FlaggedUsersWindow {
         unflagButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (currUser == null) {
-                    return;
-                }
-                try {
-                    TradingUser user = tum.getTradingUser(currUser);
-                    tum.getFlaggedAccounts().remove(user);
-                } catch (InvalidTradingUserException invalidTradingUserException) {
-                    invalidTradingUserException.printStackTrace();
-                }
+                if (!(currUser == null)) {
+                    List<String> flaggedUsernames = tum.convertFlaggedUsersToUsernames();
+                    if (flaggedUsernames.contains(currUser)) {
+                        tum.removeFlaggedUsername(currUser);
+                    }
+                }}});
 
-            }
-        });
         users.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -295,6 +295,13 @@ public class TradingUserManager {
     }
 
     /**
+     * Remove a user from flaggedAccounts if a user with username is in the list of flagged accounts
+     * @param username the String username of the user you want to remove
+     */
+    public void removeFlaggedUsername(String username){
+        flaggedAccounts.removeIf(currUser -> currUser.getUsername().equals(username));
+    }
+    /**
      * Retrieves a list of TradingUsers that have had their account frozen after approval by Admin.
      *
      * @return list of frozen TradingUsers
