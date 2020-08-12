@@ -230,7 +230,7 @@ public class TradingUserManager {
             } else {
                 tH.getUsersNumTradeTimes().put(u2, 1);
             }
-            if (!transaction.isTemp()) {
+            if (!transaction.isOneWay()) {
                 // if the transaction is a twoway, increment borrowed
                 tradingUser.getTransactionHistory().setNumItemsBorrowed();
             }
@@ -245,7 +245,7 @@ public class TradingUserManager {
                 tH.getUsersNumTradeTimes().put(u1, 1);
 
                 // if the transaction is twoway, increment lent
-                if (!transaction.isTemp()) {
+                if (!transaction.isOneWay()) {
                     tradingUser.getTransactionHistory().setNumItemsLended();
                 }
             }
@@ -474,5 +474,4 @@ public class TradingUserManager {
     public void changePassword(TradingUser user, String password) {
         user.setPassword(password);
     }
-
 }
