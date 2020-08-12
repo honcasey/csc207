@@ -117,6 +117,12 @@ public class DemoUserManager {
         allDemoUsers.remove(removed);
     }
 
+    /**
+     * Returns if a DemoUser is a valid DemoUser (exists in the TradingSystem)
+     * @param username username of the DemoUser in question
+     * @param password password of the DemoUser in question
+     * @return boolean
+     */
     public boolean validDemoUser(String username, String password){
         for(DemoUser user: allDemoUsers){
             if(user.getUsername().equals(username) && user.getPassword().equals(password)) {

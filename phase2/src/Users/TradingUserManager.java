@@ -217,7 +217,6 @@ public class TradingUserManager {
      */
     private void updateTransactionHistoryValues(TradingUser tradingUser, Transaction transaction) {
         TransactionHistory tH = tradingUser.getTransactionHistory();
-        // TODO: Refactor this with a design pattern
         // if the user is the person giving away the object (user1) in transaction
         if (transaction.getUser1() == tradingUser.getUserId()) {
             // increment the numLended
@@ -471,6 +470,11 @@ public class TradingUserManager {
         return usernames;
     }
 
+    /**
+     * Changes the password of a TradingUser
+     * @param user user of interest
+     * @param password new password
+     */
     public void changePassword(TradingUser user, String password) {
         user.setPassword(password);
     }

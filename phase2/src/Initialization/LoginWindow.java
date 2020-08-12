@@ -52,13 +52,18 @@ public class LoginWindow {
 
         // add action listeners for our buttons
         // if user clicks "sign in"
-        loginButton.addActionListener(e -> displaySecondaryMenu(userText.getText(), String.valueOf(passwordText.getPassword())));
+        loginButton.addActionListener(e -> {
+            displaySecondaryMenu(userText.getText(), String.valueOf(passwordText.getPassword()));
+            frame.dispose();
+        });
 
         // if user clicks "create an account"
         registerButton.addActionListener(e -> {
             RegistrationWindow rw = new RegistrationWindow(lc, umc, mp);
             rw.display();
+            frame.dispose();
         });
+
 
         demoButton.addActionListener(e -> {
             DemoUserRegistrationWindow drw = new DemoUserRegistrationWindow(lc, umc, dmc);
@@ -114,6 +119,7 @@ public class LoginWindow {
             AdminUserMenu aum = new AdminUserMenu(amc);
             aum.display();
             clearFields();
+
         } else if (lc.validUser(username, password)) { // if user and pass matches a trading user account
             umc.setCurrentTradingUser(username);
             TradingUserMenu tum = new TradingUserMenu(umc);
@@ -123,7 +129,6 @@ public class LoginWindow {
             dmc.setCurrentDemoUser(username);
             DemoUserMenu dm = new DemoUserMenu(dmc, umc, lc);
             dm.display();
-            clearFields();
         } else { // they entered something wrong or their account does not exist
             new PopUpWindow(mp.invalidMessage).display();
             clearFields();

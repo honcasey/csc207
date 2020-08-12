@@ -22,10 +22,18 @@ public class DemoUser extends User implements Serializable {
 
     }
 
+    /**
+     * Returns the inventory of a DemoUser
+     * @return DemoUser Inventory
+     */
     public List<UUID> getInventory(){
         return inventory;
     }
 
+    /**
+     * Returns the wishlist of a DemoUser
+     * @return DemoUser Wishlist
+     */
     public List<UUID> getWishlist(){
         return wishList;
     }
