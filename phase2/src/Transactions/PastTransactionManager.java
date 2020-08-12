@@ -42,19 +42,19 @@ public class PastTransactionManager extends TransactionManager{
         int targetYear;
         // for each transaction in the list, look at the date of the transaction (the date of the last meeting) and compare it to the current dates above
 
-        for (int i = 0; i < allTransactions.size();){
+        for (Transaction transaction: allTransactions){
             Date date;
-            Transaction currTrans = allTransactions.get(i);
-            date = currTrans.getTransactionMeetings().get(currTrans.getTransactionMeetings().size() - 1).getDate();
-            targetCal.setTime(date);
-            targetWeek = targetCal.get(Calendar.WEEK_OF_YEAR);
-            targetYear = targetCal.get(Calendar.YEAR);
+            if (!transaction.isVirtual()) {
+                date = transaction.getTransactionMeetings().get(transaction.getTransactionMeetings().size() - 1).getDate();
+                targetCal.setTime(date);
+                targetWeek = targetCal.get(Calendar.WEEK_OF_YEAR);
+                targetYear = targetCal.get(Calendar.YEAR);
 
-            // if the week number of the date of the transaction matches the current calendar, increment numTransactions
-            if(targetWeek == week && targetYear == year){
-                numTransactions ++;
+                // if the week number of the date of the transaction matches the current calendar, increment numTransactions
+                if(targetWeek == week && targetYear == year){
+                    numTransactions ++;
+                }
             }
-            i++;
         }
         // main idea of this code from: https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
         // answer by Benjamin Cox

@@ -230,7 +230,7 @@ public class TradingUserManager {
             } else {
                 tH.getUsersNumTradeTimes().put(u2, 1);
             }
-            if (!transaction.isTemp()) {
+            if (!transaction.isOneWay()) {
                 // if the transaction is a twoway, increment borrowed
                 tradingUser.getTransactionHistory().setNumItemsBorrowed();
             }
@@ -245,7 +245,7 @@ public class TradingUserManager {
                 tH.getUsersNumTradeTimes().put(u1, 1);
 
                 // if the transaction is twoway, increment lent
-                if (!transaction.isTemp()) {
+                if (!transaction.isOneWay()) {
                     tradingUser.getTransactionHistory().setNumItemsLended();
                 }
             }
@@ -439,9 +439,9 @@ public class TradingUserManager {
                 user2.getInventory().remove(itemidlist.get(0));
                 user2.getInventory().add(itemidlist.get(1));
                 user2.getInventory().remove(itemidlist.get(1));
-            } else if (itemidlist.size() == 1) { // user 1 giving to user 2
-                user1.getInventory().add(itemidlist.get(0));
-                user2.getInventory().remove(itemidlist.get(0));
+            } if (itemidlist.size() == 1) { // user 1 giving to user 2
+                user1.getInventory().remove(itemidlist.get(0));
+                user2.getInventory().add(itemidlist.get(0));
             }
         }
     }
@@ -474,5 +474,4 @@ public class TradingUserManager {
     public void changePassword(TradingUser user, String password) {
         user.setPassword(password);
     }
-
 }
