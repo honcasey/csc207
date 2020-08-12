@@ -1,6 +1,7 @@
 package TradingUserGUI;
 
 import Actions.EditAction;
+import Exceptions.InvalidItemException;
 import Exceptions.InvalidTransactionException;
 import Popups.PopUpWindow;
 import Presenters.UserMenuPresenter;
@@ -29,6 +30,10 @@ public class ViewActiveTransactionsWindow {
     private Calendar timeCalendar;
     private Date inputDate;
     private Date inputTime;
+    private String oldLocation;
+    private Date oldDate;
+    private Date oldTime;
+    private Meeting oldMeeting;
 
     public ViewActiveTransactionsWindow(UserMenuController umc) {
         this.umc = umc; }
@@ -179,6 +184,10 @@ public class ViewActiveTransactionsWindow {
                 inputLocation = location.getText();
                 inputDate = dateModel.getDate();
                 inputTime = timeModel.getDate();
+                oldLocation = selectedTransaction.getTransactionMeetings().get(whichMeetingSelected).getLocation();
+                oldDate = selectedTransaction.getTransactionMeetings().get(whichMeetingSelected).getDate();
+                oldTime = selectedTransaction.getTransactionMeetings().get(whichMeetingSelected).getTime();
+                oldMeeting = new Meeting(oldLocation, oldDate, oldTime);
                 editMeeting();
             } catch (InvalidTransactionException invalidTransactionException) {
                 // invalidTransactionException.printStackTrace();
@@ -233,14 +242,13 @@ public class ViewActiveTransactionsWindow {
         if (umc.editMeetingFlow(umc.getCurrentTradingUser().getUserId(), selectedTransaction.getId(), whichMeetingSelected,
                 inputLocation) | umc.editMeetingFlow(umc.getCurrentTradingUser().getUserId(), selectedTransaction.getId(), whichMeetingSelected, inputTime, inputDate)) {
 
-            // create a new action object
-            UUID userId = umc.getCurrentTradingUser().getUserId();
-            Meeting oldMeeting = selectedTransaction.getTransactionMeetings().get(whichMeetingSelected);
-            Meeting newMeeting = new Meeting(inputLocation, inputTime, inputDate);
-            EditAction action = new EditAction(userId, selectedTransaction, whichMeetingSelected, oldMeeting, newMeeting);
-
             // clear old edit actions involving this transaction
             umc.getAcm().clearPreviousEditActions(umc.getCurrentTradingUser(), selectedTransaction);
+
+            // create a new action object
+            UUID userId = umc.getCurrentTradingUser().getUserId();
+            Meeting newMeeting = new Meeting(inputLocation, inputTime, inputDate);
+            EditAction action = new EditAction(userId, selectedTransaction, whichMeetingSelected, oldMeeting, newMeeting);
 
             // log this action in the manager
             umc.getAcm().addAction(userId, action);
