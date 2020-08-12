@@ -48,18 +48,41 @@ public class TransactionBuilder {
 
     }
 
+    /**
+     * Builds the first meeting of a transaction
+     * @param location meeting location
+     * @param meetingTime time of Meeting
+     * @param meetingDate date of Meeting
+     */
     public void buildFirstMeeting(String location, Date meetingTime, Date meetingDate){
         meetingList.add(new Meeting(location,meetingTime,meetingDate));
     }
+
+    /**
+     * Builds the second meeting of a transaction
+     * @param location meeting location
+     * @param meetingTime time of Meeting
+     * @param meetingDate date of Meeting
+     */
 
     public void buildSecondMeeting(String location, Date meetingTime, Date meetingDate){
         meetingList.add(new Meeting(location,meetingTime,meetingDate));
     }
 
+    /**
+     * Allows user to offer an item for transaction
+     * @param otherUserItem id of the Item being offered for Transaction
+     */
+
     public void AddItemOffered(UUID otherUserItem){
         this.userToItems.get(currentUserId).set(0,otherUserItem);
         this.userToItems.get(otherUserId).set(1,otherUserItem);
     }
+
+    /**
+     * Returns the Transaction created with the inputted information
+     * @return the Transaction created with the information provided
+     */
 
     public Transaction getTransaction(){
         return transFact.createTransaction(userToItems,meetingList);

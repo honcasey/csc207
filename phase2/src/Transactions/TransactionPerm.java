@@ -33,15 +33,30 @@ public class TransactionPerm extends Transaction {
         return firstMeeting;
     }
 
+    /**
+     * Returns if a Transaction is permanent
+     * @return boolean
+     */
+
     @Override
     public boolean isPerm() {
         return true;
     }
 
+    /**
+     * Returns if a Transaction is virtual
+     * @return boolean
+     */
+
     @Override
     public boolean isVirtual() {
         return false;
     }
+
+    /**
+     * Returns a list of Meetings associated with a Transaction
+     * @return a list of Meetings
+     */
 
     @Override
     public List<Meeting> getTransactionMeetings(){
