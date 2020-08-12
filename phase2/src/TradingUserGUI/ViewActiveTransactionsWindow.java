@@ -144,7 +144,6 @@ public class ViewActiveTransactionsWindow {
         // location
         JTextField location = new JTextField(ump.location);
         location.setBounds(100, 100, 50, 20);
-        location.addActionListener(e -> inputLocation = location.getText());
 
         // date
         setDateCalendar();
@@ -179,6 +178,7 @@ public class ViewActiveTransactionsWindow {
         updateMeeting.setBounds(100, 150, 200, 50);
         updateMeeting.addActionListener(e -> {
             try {
+                inputLocation = location.getText();
                 editMeeting();
             } catch (InvalidTransactionException invalidTransactionException) {
                 // invalidTransactionException.printStackTrace();
