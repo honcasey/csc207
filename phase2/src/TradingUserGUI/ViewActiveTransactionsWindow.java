@@ -29,6 +29,10 @@ public class ViewActiveTransactionsWindow {
     private Calendar timeCalendar;
     private Date inputDate;
     private Date inputTime;
+    private String oldLocation;
+    private Date oldDate;
+    private Date oldTime;
+    private Meeting oldMeeting;
 
     public ViewActiveTransactionsWindow(UserMenuController umc) {
         this.umc = umc; }
@@ -179,6 +183,10 @@ public class ViewActiveTransactionsWindow {
                 inputLocation = location.getText();
                 inputDate = dateModel.getDate();
                 inputTime = timeModel.getDate();
+                oldLocation = selectedTransaction.getTransactionMeetings().get(whichMeetingSelected).getLocation();
+                oldDate = selectedTransaction.getTransactionMeetings().get(whichMeetingSelected).getDate();
+                oldTime = selectedTransaction.getTransactionMeetings().get(whichMeetingSelected).getTime();
+                oldMeeting = new Meeting(oldLocation, oldDate, oldTime);
                 editMeeting();
             } catch (InvalidTransactionException invalidTransactionException) {
                 // invalidTransactionException.printStackTrace();
@@ -238,7 +246,6 @@ public class ViewActiveTransactionsWindow {
 
             // create a new action object
             UUID userId = umc.getCurrentTradingUser().getUserId();
-            Meeting oldMeeting = selectedTransaction.getTransactionMeetings().get(whichMeetingSelected);
             Meeting newMeeting = new Meeting(inputLocation, inputTime, inputDate);
             EditAction action = new EditAction(userId, selectedTransaction, whichMeetingSelected, oldMeeting, newMeeting);
 
