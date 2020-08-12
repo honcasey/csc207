@@ -153,7 +153,6 @@ public class ViewActiveTransactionsWindow {
         JSpinner meetingDate = new JSpinner(dateModel);
         JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(meetingDate, "dd/mm/yyyy");
         meetingDate.setEditor(dateEditor);
-        meetingDate.addChangeListener(e -> inputDate = dateModel.getDate());
 
         // time
         setTimeCalendar();
@@ -163,7 +162,6 @@ public class ViewActiveTransactionsWindow {
         JSpinner meetingTime = new JSpinner(timeModel);
         JSpinner.DateEditor editor = new JSpinner.DateEditor(meetingTime, "hh:mm");
         meetingTime.setEditor(editor);
-        meetingTime.addChangeListener(e -> inputTime = timeModel.getDate());
 
         leftPanel.add(whichMeeting);
         leftPanel.add(location);
@@ -179,6 +177,8 @@ public class ViewActiveTransactionsWindow {
         updateMeeting.addActionListener(e -> {
             try {
                 inputLocation = location.getText();
+                inputDate = dateModel.getDate();
+                inputTime = timeModel.getDate();
                 editMeeting();
             } catch (InvalidTransactionException invalidTransactionException) {
                 // invalidTransactionException.printStackTrace();
