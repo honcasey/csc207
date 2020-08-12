@@ -20,6 +20,9 @@ public class DemoUserRequestAddItemsWindow {
     public DemoUserRequestAddItemsWindow() {
     }
 
+    /**
+     * Displays DemoUserRequestAddItemsWindows
+     */
     public void display() {
         JFrame frame = new JFrame(ump.requestAddItem);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

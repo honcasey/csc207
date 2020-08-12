@@ -34,6 +34,10 @@ public class UpgradeAccountWindow {
         this.lc = lc;
         this.umc = umc;
     }
+
+    /**
+     * Displays Upgrade Window
+     */
     public void display(){
         // create the frame
         JFrame frame = new JFrame(ump.accountCreationTitle);

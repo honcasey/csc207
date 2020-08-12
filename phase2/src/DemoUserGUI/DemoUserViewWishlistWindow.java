@@ -26,6 +26,9 @@ public class DemoUserViewWishlistWindow {
         this.umc = umc;
     }
 
+    /**
+     * Displays Wishlist window
+     */
     public void display() {
         // create the frame
 
