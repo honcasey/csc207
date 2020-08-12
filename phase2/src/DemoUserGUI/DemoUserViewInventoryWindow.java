@@ -27,6 +27,9 @@ public class DemoUserViewInventoryWindow {
         this.umc = umc;
     }
 
+    /**
+     * Displays Inventory Window
+     */
     public void display() {
         if (dmc.getCurrentDemoUser().getInventory().isEmpty()) {
             new PopUpWindow(ump.emptyInventory).display();

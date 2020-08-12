@@ -53,22 +53,40 @@ public class DemoMenuController {
         }
     }
 
+    /**
+     * Sets the currentDemoUser
+     * @param username username of DemoUser
+     */
+
     public void setCurrentDemoUser(String username){
         try{
             currentDemoUser = dum.getDemoUser(username);
         } catch (InvalidDemoUserException e) {
-            // TODO
+           //
         }
     }
 
+    /**
+     * Removes item from Inventory
+     * @param itemID id of the item that needs to be removed
+     */
     public void removeFromInventory(UUID itemID){
         currentDemoUser.getInventory().remove(itemID);
     }
+
+    /**
+     * Removes item from Wishlist
+     * @param itemID id of the item that needs to be removed
+     */
 
     public void removeFromWishlist(UUID itemID){
         currentDemoUser.getWishlist().remove(itemID);
     }
 
+    /**
+     * Returns the currentDemoUser
+     * @return the currentDemoUser
+     */
     public DemoUser getCurrentDemoUser(){
         return currentDemoUser;
     }

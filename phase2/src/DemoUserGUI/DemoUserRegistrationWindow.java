@@ -35,6 +35,9 @@ public class DemoUserRegistrationWindow {
         this.dmc = dmc;
     }
 
+    /**
+     * Displays the DemoUserRegistrationWindow
+     */
     public void display() {
         // create the frame
         JFrame frame = new JFrame(ump.demoCreationTitle);
@@ -101,8 +104,12 @@ public class DemoUserRegistrationWindow {
     }
     private void createAccount(String username, String password, String password2) {
         if (lc.availableUsername(username) && password.equals(password2)) {
+            // checks to see if the username is available and if the two password textfields are correct
+
             lc.addDemoUser(username, password);
             dmc.setCurrentDemoUser(username);
+
+            // add Items to the Inventory and WishList as demonstration
             Item item1 = new Item("Book");
             Item item2 = new Item("Laptop");
             dmc.addItem(item1, "wishlist");

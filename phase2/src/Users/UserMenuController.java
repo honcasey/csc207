@@ -236,31 +236,60 @@ public class UserMenuController {
         }
     }
 
-    /* for a frozen TradingUser to request their account to be unfrozen */
+    /**
+     *  Allows for a frozen TradingUser to request their account to be unfrozen
+     *  */
     public void requestUnfreezeAccount() {
         if (currentTradingUser.isFrozen()) {
             am.getFrozenAccounts().add(currentTradingUser);
         }
     }
 
+    /**
+     * Returns the ItemManagers
+     * @return ItemManager
+     */
     public ItemManager getIm(){
         return im;
     }
 
+    /**
+     * Returns the CurrentTransactionManager
+     * @return CurrentTransactionManager
+     */
     public CurrentTransactionManager getTm() { return tm; }
 
+    /**
+     * Returns the TradingUserManager
+     * @return TradingUserManager
+     */
     public TradingUserManager getUm() { return um; }
 
+    /**
+     * Returns the PastTransactionManager
+     * @return PastTransactionManager
+     */
     public PastTransactionManager getPtm(){return ptm;}
 
+    /**
+     * Return all the pending items
+     * @return allPendingItems
+     */
     public Map<Item, TradingUser> getAllPendingItems() {
         return allPendingItems;
     }
 
+    /**
+     * Returns the current trading users
+     * @return the Current Trading User
+     */
     public TradingUser getCurrentTradingUser() {
         return currentTradingUser;
     }
 
+    /**
+     * Sets the CurrentTradingUser
+     */
     public void setCurrentTradingUser(String username) {
         try {
             currentTradingUser = um.getTradingUser(username);
@@ -269,14 +298,26 @@ public class UserMenuController {
         }
     }
 
+    /**
+     * Returns the ActionManager
+     * @return ActionManager
+     */
     public ActionManager getAcm() {
         return acm;
     }
 
+    /**
+     * Removes from the Wishlist
+     * @param id id of the item to be removed
+     */
     public void removeFromWishlist(UUID id){
         currentTradingUser.getWishlist().remove(id);
     }
 
+    /**
+     * Removes from Inventory
+     * @param id id of the item to be removed
+     */
     public void removeFromInventory(UUID id){
         currentTradingUser.getInventory().remove(id);
     }

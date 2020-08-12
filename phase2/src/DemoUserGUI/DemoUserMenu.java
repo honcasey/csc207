@@ -36,6 +36,9 @@ public class DemoUserMenu {
         this.lc = lc;
     }
 
+    /**
+     * Displays DemoUserMenu
+     */
     public void display(){
         // create the frame
         JFrame frame = new JFrame(ump.demoUserMenu);
