@@ -128,10 +128,16 @@ public class TransactionWindow {
         });
 
         JButton offerItem = new JButton("Offer selected item, don't click if u don't wanna offer smth");
-        offerItem.addActionListener(e -> {
-            tb.AddItemOffered(offeredItem.getId()); // this is the item that the current user is offering from their own inventory
-            new PopUpWindow(offeredItem + " selected").display();
-        });
+
+            offerItem.addActionListener(e -> {
+                try {
+                tb.AddItemOffered(offeredItem.getId()); // this is the item that the current user is offering from their own inventory
+                new PopUpWindow(offeredItem + " selected").display();
+                } catch (NullPointerException j)  {
+                    new PopUpWindow(ump.pleaseSelect("an item.")).display(); }
+
+            });
+
 
         panel2.add(comboBox);
         panel2.add(offerItem);
@@ -234,6 +240,8 @@ public class TransactionWindow {
             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             umc.transactionUpdate(tb.getTransaction());
             new PopUpWindow("The Transaction has been made.").display();
+            umc.setCurrentTradingUser(String.valueOf(selectedItemOwner));
+            umc.removeFromInventory(item.getId());
         }
         if (a == JOptionPane.NO_OPTION) {
             System.exit(0);

@@ -29,6 +29,7 @@ How to [generally] use the system (as a TradingUser)
 * If you are running the application for the first time, select the create a new account option in the main menu.
 * Otherwise log into your existing account.
 * Add items to your inventory by submitting item requests to admins.
+    * System must be fully exited before the Admin can approve pending items.
 * Browse available items for trade to add to your wishlist or create a trade for any items of interest.
 * View your active transactions to edit, confirm, or cancel them.
 * If your account ever gets frozen, submit a request to the admins to unfreeze it.
@@ -52,7 +53,7 @@ If any of the below thresholds are reached, the system flags the TradingUser to 
 * borrowThreshold = 1
    * the minimum number of items the TradingUser needs to lend before they can borrow 
 * weeklyThreshold = 3
-   * the maximum number of transactions a TradingUser can be involved in per calendar week 
+   * the maximum number of transactions a TradingUser can be involved in per calendar week (virtual transactions not included)
 * incompleteThreshold = 3
    * the maximum number of incomplete transactions that can occur per TradingUser
 
@@ -119,7 +120,7 @@ Assumptions
 * A given username of a User object is unique from any other User subclass, regardless of its subclass 
 * The actions that are reasonably (defined by our group) undoable are adding/removing an item from a TradingUser’s inventory/wishlist, and editing meeting details before the transaction has taken place.
 * The GUI was made assuming that it would run on a mac computer (everyone in the group has macs)
-
+* When a certain action (like completing a transaction) is performed, the effects of that action (like transaction history updating) will appear AFTER the user logs out and logs back in
 
 UML 
 * The UML diagram is colour coded based on clean architecture

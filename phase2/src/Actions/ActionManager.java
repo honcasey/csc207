@@ -56,7 +56,7 @@ public class ActionManager {
         if (allActions.containsKey(user.getUserId())) {
             return allActions.get(user.getUserId());
         }
-        return null; // if this TradingUser hasn't made any actions yet
+        return new ArrayList<>(); // if this TradingUser hasn't made any actions yet
     }
 
     public List<EditAction> getEditActionsByUser(TradingUser user) {

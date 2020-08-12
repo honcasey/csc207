@@ -8,7 +8,9 @@ import Exceptions.InvalidItemException;
 import Exceptions.InvalidTradingUserException;
 import Items.Item;
 import Items.ItemManager;
+import Transactions.Meeting;
 import Transactions.PastTransactionManager;
+import Transactions.Transaction;
 import Users.TradingUser;
 import Users.TradingUserManager;
 
@@ -262,6 +264,7 @@ public class AdminMenuController {
      */
     public void undoEditAction(EditAction action) {
         action.getTransaction().getTransactionMeetings().set(action.getWhichMeeting(), action.getNewMeeting());
+        acm.removeAction(action);
     }
 
     /**

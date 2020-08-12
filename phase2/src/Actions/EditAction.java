@@ -43,7 +43,7 @@ public class EditAction extends Action implements Serializable {
     }
 
     public String toString() {
-        return getUser() + "edited the meeting from" + previousMeeting + "to" + newMeeting;
+        return getUser() + "changed" + previousMeeting.toString() + "\n" + "to" + newMeeting.toString();
     }
 
     @Override
