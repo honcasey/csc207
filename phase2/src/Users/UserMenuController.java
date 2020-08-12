@@ -129,7 +129,9 @@ public class UserMenuController {
             um.handlePermTransactionItems(transaction); // remove items from both users inventories and wishlists
         }
         /* if transaction is temporary (two meetings) */
-        else { um.handleTempTransactionItems(transaction); } // handles users inventories and wishlists
+        if (transaction.isTemp()){ um.handleTempTransactionItems(transaction); } // handles users inventories and wishlists
+
+        if(transaction.isVirtual()){um.handleVirtTransactionItems(transaction);}
         /* if transaction is cancelled, remove from current transactions */
         if (transaction.getStatus().equals(TransactionStatuses.CANCELLED)) {
             try {

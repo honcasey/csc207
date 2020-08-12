@@ -148,7 +148,7 @@ public class TradingUserManager {
     /**
      * Changes the tradingUser's specified threshold.
      *
-     * @param tradingUser  a tradingUser in the trading system.
+     * @param tradingUserId  a tradingUser in the trading system. (the ID of them)
      * @param thresholdValue new value of threshold as an int
      * @param thresholdType  either "borrow", "weekly", or "incomplete" as a String
      */
@@ -230,7 +230,7 @@ public class TradingUserManager {
             } else {
                 tH.getUsersNumTradeTimes().put(u2, 1);
             }
-            if (!transaction.isOneWay()) {
+            if (!transaction.isTemp()) {
                 // if the transaction is a twoway, increment borrowed
                 tradingUser.getTransactionHistory().setNumItemsBorrowed();
             }
@@ -245,7 +245,7 @@ public class TradingUserManager {
                 tH.getUsersNumTradeTimes().put(u1, 1);
 
                 // if the transaction is twoway, increment lent
-                if (!transaction.isOneWay()) {
+                if (!transaction.isTemp()) {
                     tradingUser.getTransactionHistory().setNumItemsLended();
                 }
             }
@@ -429,6 +429,23 @@ public class TradingUserManager {
         }
     }
 
+    public void handleVirtTransactionItems(Transaction transaction) {
+        if (transaction.getStatus().equals(TransactionStatuses.COMPLETED)){
+            List<UUID> itemidlist = transaction.getTransactionItems();
+            TradingUser user1 = this.getTradingUserById(transaction.getUser1());
+            TradingUser user2 = this.getTradingUserById(transaction.getUser2());
+            if (itemidlist.size() == 2) {
+                user1.getInventory().add(itemidlist.get(0));
+                user2.getInventory().remove(itemidlist.get(0));
+                user2.getInventory().add(itemidlist.get(1));
+                user2.getInventory().remove(itemidlist.get(1));
+            } else if (itemidlist.size() == 1) { // user 1 giving to user 2
+                user1.getInventory().add(itemidlist.get(0));
+                user2.getInventory().remove(itemidlist.get(0));
+            }
+        }
+    }
+
     /**
      * Returns whether the TradingUser's borrow threshold has been exceeded.
      *
@@ -457,4 +474,5 @@ public class TradingUserManager {
     public void changePassword(TradingUser user, String password) {
         user.setPassword(password);
     }
+
 }
