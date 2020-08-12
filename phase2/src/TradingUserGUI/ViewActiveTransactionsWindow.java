@@ -330,7 +330,7 @@ public class ViewActiveTransactionsWindow {
         panel.setLayout(null);
 
         JButton confirm = new JButton(ump.confirmExchange);
-        confirm.setBounds(100, 100, 200, 50);
+        confirm.setBounds(100, 100, 300, 50);
         confirm.addActionListener(e -> {
             try {
                 umc.updateUsers(selectedTransaction.getId(), TransactionActions.CONFIRMMEETUP);
@@ -342,7 +342,7 @@ public class ViewActiveTransactionsWindow {
         });
 
         JButton claim = new JButton(ump.exchangeNotTakenPlace);
-        claim.setBounds(100, 300, 200, 50);
+        claim.setBounds(100, 300, 300, 50);
         claim.addActionListener(e -> {
             try {
                 umc.updateUsers(selectedTransaction.getId(), TransactionActions.MEETUPINCOMPLETE);
