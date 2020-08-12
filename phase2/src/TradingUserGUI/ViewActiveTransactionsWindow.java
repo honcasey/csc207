@@ -233,14 +233,14 @@ public class ViewActiveTransactionsWindow {
         if (umc.editMeetingFlow(umc.getCurrentTradingUser().getUserId(), selectedTransaction.getId(), whichMeetingSelected,
                 inputLocation) | umc.editMeetingFlow(umc.getCurrentTradingUser().getUserId(), selectedTransaction.getId(), whichMeetingSelected, inputTime, inputDate)) {
 
+            // clear old edit actions involving this transaction
+            umc.getAcm().clearPreviousEditActions(umc.getCurrentTradingUser(), selectedTransaction);
+
             // create a new action object
             UUID userId = umc.getCurrentTradingUser().getUserId();
             Meeting oldMeeting = selectedTransaction.getTransactionMeetings().get(whichMeetingSelected);
             Meeting newMeeting = new Meeting(inputLocation, inputTime, inputDate);
             EditAction action = new EditAction(userId, selectedTransaction, whichMeetingSelected, oldMeeting, newMeeting);
-
-            // clear old edit actions involving this transaction
-            umc.getAcm().clearPreviousEditActions(umc.getCurrentTradingUser(), selectedTransaction);
 
             // log this action in the manager
             umc.getAcm().addAction(userId, action);
