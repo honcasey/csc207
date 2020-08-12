@@ -98,6 +98,7 @@ public class UserMenuController {
         tm.updateUsersCurrentTransactions(otherUser,currentTradingUser,newTransaction);
         List<UUID> items  = newTransaction.getTransactionItems();
         flagAccountIfAboveThreshold(otherUser);
+        flagAccountIfAboveThreshold(currentTradingUser);
         for (UUID id : items) {
             Item item = im.getItem(id);
             getAvailableItems().remove(item);
@@ -172,15 +173,24 @@ public class UserMenuController {
 
     /* set a TradingUser to be flagged for admin approval if either the borrow, weekly, or incomplete thresholds have been reached */
     private void flagAccountIfAboveThreshold(TradingUser user) {
-        boolean weeklyThreshold = ptm.weeklyThresholdExceeded(user);
-        boolean TransactionsExceeded = um.incompleteTransactionExceeded(user);
-        boolean borrowThreshold = um.borrowThresholdExceeded(user);
-        if (weeklyThreshold || TransactionsExceeded || borrowThreshold) {
+        if (userFlaggable(user)) {
             List<String> flaggedUsernames = um.convertFlaggedUsersToUsernames();
             if (!flaggedUsernames.contains(user.getUsername())) {
                 um.getFlaggedAccounts().add(user);
             }
         }
+    }
+
+    /**
+     * Return True if a user is exceeding any of the threshold's
+     * @param user Trading User
+     * @return booleen
+     */
+    public boolean userFlaggable(TradingUser user){
+        boolean weeklyThreshold = ptm.weeklyThresholdExceeded(user);
+        boolean TransactionsExceeded = um.incompleteTransactionExceeded(user);
+        boolean borrowThreshold = um.borrowThresholdExceeded(user);
+        return  (weeklyThreshold || TransactionsExceeded || borrowThreshold);
     }
 
     /**

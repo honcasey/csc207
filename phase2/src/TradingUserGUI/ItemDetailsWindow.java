@@ -69,6 +69,10 @@ public class ItemDetailsWindow {
 
         trans.addActionListener(e -> {
             try {
+                if(umc.userFlaggable(umc.getCurrentTradingUser())){
+                   PopUpWindow popUpWindow = new PopUpWindow("This transaction will cause your account to be flagged if you proceed");
+                   popUpWindow.display();
+                }
                 new TransactionWindow(umc, itemId, owner.getUserId()).display();
             } catch (InvalidItemException invalidItemException) {
                 // invalidItemException.printStackTrace();
