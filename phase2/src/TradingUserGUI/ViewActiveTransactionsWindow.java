@@ -230,8 +230,8 @@ public class ViewActiveTransactionsWindow {
     }
 
     private void editMeeting() throws InvalidTransactionException { // helper method to check if edit threshold has been reached or not if user clicked "edit meeting"
-        if (!umc.editMeetingFlow(umc.getCurrentTradingUser().getUserId(), selectedTransaction.getId(), whichMeetingSelected,
-                inputLocation, inputTime, inputDate)) {
+        if (umc.editMeetingFlow(umc.getCurrentTradingUser().getUserId(), selectedTransaction.getId(), whichMeetingSelected,
+                inputLocation) | umc.editMeetingFlow(umc.getCurrentTradingUser().getUserId(), selectedTransaction.getId(), whichMeetingSelected, inputTime, inputDate)) {
 
             // create a new action object
             UUID userId = umc.getCurrentTradingUser().getUserId();

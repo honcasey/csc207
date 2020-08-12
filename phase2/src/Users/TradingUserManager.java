@@ -421,10 +421,10 @@ public class TradingUserManager {
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
             if (itemidlist.size() == 2) {
-                user1.getInventory().add(itemidlist.get(0));
-                user2.getInventory().add(itemidlist.get(1));
+                user1.getInventory().remove(itemidlist.get(0));
+                user2.getInventory().remove(itemidlist.get(1));
             } else if (itemidlist.size() == 1) { // user 1 giving to user 2
-                user1.getInventory().add(itemidlist.get(0));
+                user1.getInventory().remove(itemidlist.get(0));
             }
         }
     }
@@ -435,13 +435,13 @@ public class TradingUserManager {
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
             if (itemidlist.size() == 2) {
-                user1.getInventory().add(itemidlist.get(0));
+                user1.getInventory().remove(itemidlist.get(0));
                 user2.getInventory().remove(itemidlist.get(0));
-                user2.getInventory().add(itemidlist.get(1));
+                user2.getInventory().remove(itemidlist.get(1));
                 user2.getInventory().remove(itemidlist.get(1));
             } if (itemidlist.size() == 1) { // user 1 giving to user 2
                 user1.getInventory().remove(itemidlist.get(0));
-                user2.getInventory().add(itemidlist.get(0));
+                user2.getInventory().remove(itemidlist.get(0));
             }
         }
     }

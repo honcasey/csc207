@@ -5,6 +5,7 @@ import Actions.EditAction;
 import Exceptions.InvalidTransactionException;
 import Users.TradingUser;
 
+import java.sql.Time;
 import java.util.*;
 
 /**
@@ -35,7 +36,7 @@ public class CurrentTransactionManager extends TransactionManager {
     }
 
     /**
-     * Edits a meeting using overloading to selectively edit either the location, time or date
+     * Edits a meeting using overloading to selectively edit the location
      * @param meetingNum the meeting number that the user wants to edit
      * @param transactionId the transaction to which the meeting belongs to
      * @param userId the UUID of the Users.TradingUser who want to edit the transaction
@@ -49,7 +50,6 @@ public class CurrentTransactionManager extends TransactionManager {
         Meeting meeting = list.get(meetingNum);
         if (canEdit(meeting, userNum) && transaction.getStatus().equals(TransactionStatuses.PENDING)) {
             meeting.setLocation(newLocation);
-            meeting.userEdits(userNum);
             return true;
         } else {
             return false;
@@ -57,26 +57,42 @@ public class CurrentTransactionManager extends TransactionManager {
     }
 
     /**
-     * Edits a meeting using overloading to selectively edit either the location, time or date
+     * Edits a meeting using overloading to selectively edit the time
      * @param meetingNum the meeting number that the user wants to edit
      * @param transactionId the transaction to which the meeting belongs to
-     * @param userId the UUID of the Users.TradingUser who want to edit the transaction
-     * @param time the new hour, minute the user want to have the meeting take place, must be in Date format
-     * @param date the new Year, month, day the user want to have the meeting take place, must be in Date format
+     * @param userId the UUID of the TradingUser who want to edit the transaction
+     * @param date the new time/date the user want to have the meeting take place, must be in Date format
      * @return boolean whether the meeting was successfully edited or not
      */
-    public boolean editMeeting(int meetingNum, UUID transactionId, UUID userId, Date time, Date date) throws InvalidTransactionException {
+    public boolean editMeeting(int meetingNum, UUID transactionId, UUID userId, Date date, boolean ifDate) throws InvalidTransactionException {
+        Transaction transaction = getTransactionFromId(transactionId);
+        int userNum = findUserNum(transaction, userId);
+        Meeting meeting = transaction.getTransactionMeetings().get(meetingNum);
+        if (canEdit(meeting, userNum) && transaction.getStatus().equals(TransactionStatuses.PENDING)) {
+            meeting.setDate(date);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean editMeeting(int meetingNum, UUID transactionId, UUID userId, Date time) throws InvalidTransactionException {
         Transaction transaction = getTransactionFromId(transactionId);
         int userNum = findUserNum(transaction, userId);
         Meeting meeting = transaction.getTransactionMeetings().get(meetingNum);
         if (canEdit(meeting, userNum) && transaction.getStatus().equals(TransactionStatuses.PENDING)) {
             meeting.setTime(time);
-            meeting.setDate(date);
-            meeting.userEdits(userNum);
             return true;
         } else {
             return false;
         }
+    }
+
+    public void updateEdits(int meetingNum, UUID transactionId, UUID userId) throws InvalidTransactionException {
+        Transaction transaction = getTransactionFromId(transactionId);
+        int userNum = findUserNum(transaction, userId);
+        Meeting meeting = transaction.getTransactionMeetings().get(meetingNum);
+        meeting.userEdits(userNum);
     }
 
     protected boolean canEdit(Meeting meeting, int userNum) {
