@@ -153,7 +153,7 @@ public abstract class Transaction implements Serializable {
      */
 
     public boolean isTemp(){
-        return this.getTransactionItems().size() == 1;
+        return this.getTransactionMeetings().size() == 1;
     }
 
     /**
