@@ -160,6 +160,7 @@ public class TransactionWindow {
                 JPanel panel3 = setMeetingPanel("first");
                 submit.addActionListener(g -> {
                     try {
+                        frame2.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                         tb.buildFirstMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
                         areYouSureWindow();
                     } catch (InvalidItemException invalidItemException) {
@@ -177,6 +178,7 @@ public class TransactionWindow {
 
                 JPanel panel3 = setMeetingPanel("first");
                 submit.addActionListener(h -> {
+                    frame2.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                     tb.buildFirstMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
                     secondMeetingWindow();
                 });
@@ -247,6 +249,7 @@ public class TransactionWindow {
         JPanel panel3 = setMeetingPanel("second");
         JButton submit2 = new JButton("Submit Second Meeting");
         submit2.addActionListener(e -> {
+            tempFrame.dispatchEvent(new WindowEvent(tempFrame, WindowEvent.WINDOW_CLOSING));
             try {
                 tb.buildSecondMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
                 areYouSureWindow();
