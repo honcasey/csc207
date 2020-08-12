@@ -138,41 +138,55 @@ public class TransactionWindow {
         panel2.add(comboBox);
         panel2.add(offerItem);
 
-        if (type.equals(ump.virtual)) {
-            submit.addActionListener(e -> {
-                try {
-                    areYouSureWindow();
-                } catch (InvalidItemException invalidItemException) {
-                    //
-                }
-            });
-            panel2.add(submit);
-        }
-
-        // add meetings fields
-        if (type.equals(ump.perm)) {
-            panel2 = setMeetingPanel("first");
-            submit.addActionListener(e -> {
-                try {
-                    tb.buildFirstMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
-                    areYouSureWindow();
-                } catch (InvalidItemException invalidItemException) {
-                    //
-                }
-            });
-            panel2.add(submit);
-        }
-        else if (type.equals(ump.temp)) {
-            panel2 = setMeetingPanel("first");
-            submit.addActionListener(e -> {
-                tb.buildFirstMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
-                secondMeetingWindow();
-            });
-            panel2.add(submit);
-        }
-
+        JButton cont = new JButton("Continue making tran");
+        panel2.add(cont);
         frame.add(panel2, BorderLayout.EAST);
         frame.setVisible(true);
+
+        cont.addActionListener(e -> {
+            if (type.equals(ump.virtual)) {
+                try {
+                    areYouSureWindow();
+                } catch (InvalidItemException invalidItemException) {
+                    //
+                }
+            }
+            // panel2.add(submit);
+
+            // add meetings fields
+            if (type.equals(ump.perm)) {
+                JFrame frame2 = new JFrame("make first meeting");
+                frame2.setSize(new Dimension(600, 500));
+                frame2.setLocationRelativeTo(null);
+
+                JPanel panel3 = setMeetingPanel("first");
+                submit.addActionListener(g -> {
+                    try {
+                        tb.buildFirstMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
+                        areYouSureWindow();
+                    } catch (InvalidItemException invalidItemException) {
+                        //
+                    }
+                });
+                panel3.add(submit);
+                frame2.add(panel3, BorderLayout.WEST);
+                frame2.setVisible(true);
+            }
+            else if (type.equals(ump.temp)) {
+                JFrame frame2 = new JFrame("make first meeting");
+                frame2.setSize(new Dimension(600, 500));
+                frame2.setLocationRelativeTo(null);
+
+                JPanel panel3 = setMeetingPanel("first");
+                submit.addActionListener(h -> {
+                    tb.buildFirstMeeting(location.getText(), timeModel.getDate(), dateModel.getDate());
+                    secondMeetingWindow();
+                });
+                panel3.add(submit);
+                frame2.add(panel3, BorderLayout.WEST);
+                frame2.setVisible(true);
+            }
+        });
     }
 
     private void setDateCalendar() { // helper method for making a date JSpinner
