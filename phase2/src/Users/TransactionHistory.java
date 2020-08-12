@@ -1,7 +1,6 @@
 package Users;
 
 import Transactions.Transaction;
-import Transactions.TransactionStatuses;
 
 import java.io.Serializable;
 import java.util.*;
@@ -112,7 +111,7 @@ public class TransactionHistory implements Serializable {
      */
 
     public void setTransactionHistory(Transaction transaction) {
-        if (transaction.isOneWay()) {
+        if (transaction.isTemp()) {
             oneWayTransactions.add(transaction.getId());
         } else {
             twoWayTransactions.add(transaction.getId());

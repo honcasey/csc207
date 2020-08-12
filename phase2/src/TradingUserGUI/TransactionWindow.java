@@ -229,6 +229,7 @@ public class TransactionWindow {
         if (a == JOptionPane.YES_OPTION) {
             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             umc.transactionUpdate(tb.getTransaction());
             new PopUpWindow("The Transaction has been made.").display();
         }

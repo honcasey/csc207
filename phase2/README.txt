@@ -118,6 +118,7 @@ Assumptions
 * When a demoUser removes an item from their wishlist/inventory, they can’t request for the item back 
 * A given username of a User object is unique from any other User subclass, regardless of its subclass 
 * The actions that are reasonably (defined by our group) undoable are adding/removing an item from a TradingUser’s inventory/wishlist, and editing meeting details before the transaction has taken place.
+* The GUI was made assuming that it would run on a mac computer (everyone in the group has macs)
 
 
 UML 
