@@ -152,7 +152,7 @@ public abstract class Transaction implements Serializable {
      * @return returns true if and only if the transaction is one way.
      */
 
-    public boolean isOneWay(){
+    public boolean isTemp(){
         return this.getTransactionItems().size() == 1;
     }
 
@@ -282,5 +282,7 @@ public abstract class Transaction implements Serializable {
             return userslist.get(0);
         }
     }
+
+
 
 }

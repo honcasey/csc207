@@ -118,6 +118,7 @@ Assumptions
 * When a demoUser removes an item from their wishlist/inventory, they can’t request for the item back 
 * A given username of a User object is unique from any other User subclass, regardless of its subclass 
 * The actions that are reasonably (defined by our group) undoable are adding/removing an item from a TradingUser’s inventory/wishlist, and editing meeting details before the transaction has taken place.
+* The GUI was made assuming that it would run on a mac computer (everyone in the group has macs)
 
 
 UML 
@@ -125,8 +126,10 @@ UML
    * Pink: Entity Classes
    * Yellow: Use Case Classes
    * Blue: Presenter, Controller, Gateway Classes
-* Due to a paywall on the website that was used to make the UML, the UML was split into two parts: the main system and GUI + Phase 2 features
-
+* Due to a paywall on the website that was used to make the UML, the UML was split into three parts: the main system, GUI, Phase 2 features
+    * DESIGN1.pdf: UML of the main program
+    * DESIGN2.pdf: Added Features in Phase 2
+    * DESIGN3.pdf: GUI UML
 
 Authors (alphabetical)
 Casey Hon, Annie Liu, Christian Mitrache, Anna Shirkalina, Brandon Tiu, Tingting Marina Zhang
