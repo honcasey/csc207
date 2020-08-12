@@ -148,7 +148,6 @@ public class TradingUserManager {
     /**
      * Changes the tradingUser's specified threshold.
      *
-     * @param tradingUser  a tradingUser in the trading system.
      * @param thresholdValue new value of threshold as an int
      * @param thresholdType  either "borrow", "weekly", or "incomplete" as a String
      */

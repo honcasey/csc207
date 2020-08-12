@@ -132,7 +132,7 @@ public class TransactionWindow {
         JButton offerItem = new JButton("Offer selected item, don't click if u don't wanna offer smth");
         offerItem.addActionListener(e -> {
             tb.AddItemOffered(offeredItem.getId()); // this is the item that the current user is offering from their own inventory
-            new PopUpWindow(offeredItem + "selected").display();
+            new PopUpWindow(offeredItem + " selected").display();
         });
 
         panel2.add(comboBox);
