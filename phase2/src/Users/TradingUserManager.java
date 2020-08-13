@@ -175,6 +175,7 @@ public class TradingUserManager {
     public void freezeAccount(TradingUser tradingUser) {
         tradingUser.setStatus(UserStatuses.FROZEN);
         idToUser.get(tradingUser.getUserId()).setStatus(UserStatuses.FROZEN);
+        frozenAccounts.add(tradingUser);
     }
 
     /**
@@ -185,6 +186,7 @@ public class TradingUserManager {
     public void unfreezeAccount(TradingUser tradingUser) {
         tradingUser.setStatus(UserStatuses.ACTIVE);
         idToUser.get(tradingUser.getUserId()).setStatus(UserStatuses.ACTIVE);
+        removeFrozenUsername(tradingUser.getUsername());
     }
 
     /**
