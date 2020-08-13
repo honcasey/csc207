@@ -1,5 +1,9 @@
 package Initialization;
 
+/**
+ * All the filepaths of the files used in the saving and persistance of information
+ * in this program.
+ */
 public class Filepaths {
     public final String ADMINS = "admins.ser";
     public final String USERS = "users.ser";

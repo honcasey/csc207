@@ -1,5 +1,4 @@
 package Initialization;
-import javax.swing.*;
 
 /**
  * <h1>Initialization.TradingApplication</h1>

@@ -1,7 +1,6 @@
 package TradingUserGUI;
 
 import Actions.EditAction;
-import Exceptions.InvalidItemException;
 import Exceptions.InvalidTransactionException;
 import Popups.PopUpWindow;
 import Presenters.UserMenuPresenter;
@@ -190,7 +189,7 @@ public class ViewActiveTransactionsWindow {
                 oldMeeting = new Meeting(oldLocation, oldDate, oldTime);
                 editMeeting();
             } catch (InvalidTransactionException invalidTransactionException) {
-                // invalidTransactionException.printStackTrace();
+                System.out.println("Meeting was not edited properly.");
             }
         });
 

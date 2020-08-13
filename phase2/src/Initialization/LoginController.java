@@ -6,6 +6,9 @@ import Exceptions.InvalidTradingUserException;
 import Users.DemoUserManager;
 import Users.TradingUserManager;
 
+/**
+ * Contains methods with logic related to checking whether a user's login credentials are valid.
+ */
 public class LoginController {
     private final AdminManager am;
     private final TradingUserManager um;

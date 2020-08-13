@@ -305,6 +305,11 @@ public class Serializer {
         }
     }
 
+    /**
+     * Writes a Map of UUID to a List of Action into a file specified by a filepath.
+     * @param path The filepath corresponding to the file it is written to.
+     * @param actionMap A Map of UUID to a List of Action.
+     */
     public void writeActionsToFile(String path, LinkedHashMap<UUID, List<Action>> actionMap) {
         try {
             OutputStream file = new FileOutputStream(path);
@@ -316,6 +321,11 @@ public class Serializer {
         }
     }
 
+    /**
+     * Reads a Map of UUID to a List of Action into a file specified by a filepath.
+     * @param path The filepath corresponding to the file it is being read from.
+     * @return A Map of UUID to a List of Action.
+     */
     public LinkedHashMap<UUID, List<Action>> readActionsFromFile(String path) {
         try {
             InputStream file = new FileInputStream(path);

@@ -33,7 +33,7 @@ public class TradingUserMenu {
 
     public void display() {
         // configure the frame
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // set the frame's size and centre it
         frame.setSize(new Dimension(660, 300));

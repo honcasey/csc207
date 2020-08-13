@@ -8,8 +8,6 @@ import java.util.*;
  * Note: user 1 originally had item 1 and user 2 originally had item 2.
  */
 public class TransactionTemp extends Transaction {
-    private Meeting firstMeeting;
-    public Meeting secondMeeting;
 
     /**
      * Constructor for Transactions.TransactionTwoWayPerm class. This constructor initializes a 2 way permanent transaction with
@@ -21,8 +19,8 @@ public class TransactionTemp extends Transaction {
     //Constructor with no return time given (default is a month (31 days))
     public TransactionTemp(TreeMap<UUID, List<UUID>> userToItems, Meeting firstMeeting, Meeting secondMeeting){
         super(userToItems);
-        this.secondMeeting = secondMeeting;
-        this.firstMeeting = firstMeeting;
+        this.addMeeting(firstMeeting);
+        this.addMeeting(secondMeeting);
     }
 
     /**
@@ -31,7 +29,7 @@ public class TransactionTemp extends Transaction {
      */
 
     public Meeting getSecondMeeting(){
-        return this.secondMeeting;
+        return this.getTransactionMeetings().get(1);
     }
 
     /**
@@ -39,7 +37,7 @@ public class TransactionTemp extends Transaction {
      * @return returns the first meeting of this transaction.
      */
     public Meeting getFirstMeeting() {
-        return firstMeeting;
+        return this.getTransactionMeetings().get(0);
     }
 
     /**
@@ -65,11 +63,4 @@ public class TransactionTemp extends Transaction {
      * Returns a list of Meetings associated with a Transaction
      * @return a list of Meetings
      */
-    @Override
-    public List<Meeting> getTransactionMeetings(){
-        List<Meeting> MeetingReturnList = new ArrayList<>();
-        MeetingReturnList.add(this.getFirstMeeting());
-        MeetingReturnList.add(this.getSecondMeeting());
-        return(MeetingReturnList);
-    }
 }
