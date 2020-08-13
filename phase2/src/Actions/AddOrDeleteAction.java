@@ -1,7 +1,6 @@
 package Actions;
 
 import Items.Item;
-import Users.TradingUser;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -57,34 +56,54 @@ public class AddOrDeleteAction extends Action implements Serializable {
         }
     }
 
-    // return true if the action was adding an item, false otherwise
+    /**
+     *
+     * @return true if the action was adding an item, false otherwise
+     */
     public boolean wasAdded() {
         return added != null;
     }
 
-    // return true if the action was removing an item, false otherwise
+    /**
+     *
+     * @return true if the action was removing an item, false otherwise.
+     */
     public boolean wasRemoved() {
         return removed != null;
     }
 
+    /**
+     * Sets inventory equal to true of this action involved user's inventory.
+     */
     public void setIsInventory() {
         inventory = true;
     }
 
+    /**
+     * Sets wishlist equal to true of this action involved user's wishlist.
+     */
     public void setIsWishlist() {
         wishlist = true;
     }
 
-    // return true if this action involved the inventory, false otherwise
+    /**
+     * @return true if this action involved the inventory, false otherwise.
+     */
     public boolean isInventory() {
         return inventory;
     }
 
-    // return true if this action involved the wishlist, false otherwise
+    /**
+     * @return true if this action involved the wishlist, false otherwise.
+     */
     public boolean isWishlist() {
         return wishlist;
     }
 
+    /**
+     * A string representation of this Action.
+     * @return a string representation of what user added or removed from their inventory or wishlist.
+     */
     public String toString() {
         if (added != null) {
             if (wishlist) {
