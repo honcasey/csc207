@@ -7,10 +7,13 @@ import Users.UserMenuController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 // ideas taken from https://beginnersbook.com/2015/07/java-swing-tutorial/
+
+/**
+ * The registration window that allows a user to create a new TradingUser account
+ * or a new DemoUser account.
+ */
 public class RegistrationWindow {
     private final JLabel userLabel = new JLabel();
     private final JTextField userText = new JTextField(20);
@@ -31,6 +34,9 @@ public class RegistrationWindow {
         this.mp = mp;
     }
 
+    /**
+     * Displays the registration window.
+     */
     public void display() {
         // create the frame
         JFrame frame = new JFrame(mp.accountCreationTitle);
