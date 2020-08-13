@@ -14,6 +14,10 @@ import javax.swing.*;
 import java.awt.*;
 
 // ideas taken from https://beginnersbook.com/2015/07/java-swing-tutorial/
+
+/**
+ * The login window that allows a user to log into the system.
+ */
 public class LoginWindow {
     private final JLabel userLabel = new JLabel();
     private final JTextField userText = new JTextField(20);
@@ -36,6 +40,9 @@ public class LoginWindow {
         this.mp = mp;
     }
 
+    /**
+     * Displays the login window.
+     */
     public void display() {
         // create the frame
         JFrame frame = new JFrame(mp.applicationTitle);
