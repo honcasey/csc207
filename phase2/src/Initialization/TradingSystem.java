@@ -43,7 +43,8 @@ public class TradingSystem {
 
     /**
      * Calls to different helper methods to read data from saved files, redirects user to
-     * appropriate class depending on user input, and saves changes by writing files.
+     * appropriate class depending on user input, and saves changes by writing files. Manages the
+     * initialization required for the application to run.
      */
     public void run() {
         readData();

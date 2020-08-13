@@ -30,6 +30,9 @@ public class FrozenUsersWindow {
         this.tum = amc.getTUM();
     }
 
+    /**
+     * Displays FrozenUsersWindow
+     */
     public void display() {
         JFrame frame = new JFrame(amp.unfreezeRequest);
         frame.setContentPane(mainPanel);

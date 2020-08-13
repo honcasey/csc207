@@ -42,6 +42,10 @@ public class ActionManager {
         }
     }
 
+    /**
+     * Removes selectedAction from allActions.
+     * @param selectedAction
+     */
     public void removeAction(Action selectedAction) {
         for (UUID id : allActions.keySet()) {
             allActions.get(id).removeIf(action -> action.getId().equals(selectedAction.getId()));
@@ -59,6 +63,11 @@ public class ActionManager {
         return new ArrayList<>(); // if this TradingUser hasn't made any actions yet
     }
 
+    /**
+     * Gets a list of EditActions made by user.
+     * @param user
+     * @return
+     */
     public List<EditAction> getEditActionsByUser(TradingUser user) {
         List<EditAction> lst = new ArrayList<>();
         for (Action action : getActionsByUser(user)) {
@@ -69,6 +78,11 @@ public class ActionManager {
         return lst;
     }
 
+    /**
+     * Clears previous EditActions made by user that involves transaction.
+     * @param user
+     * @param transaction
+     */
     public void clearPreviousEditActions(TradingUser user, Transaction transaction) {
         for (EditAction action : getEditActionsByUser(user)) {
             if (action.getTransaction().getId().equals(transaction.getId())) {

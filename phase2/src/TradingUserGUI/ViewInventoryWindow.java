@@ -27,6 +27,9 @@ public class ViewInventoryWindow {
         this.acm = acm;
     }
 
+    /**
+     * Displays ViewInventoryWindow
+     */
     public void display() {
         if (umc.getCurrentTradingUser().getInventory().isEmpty()) {
             new PopUpWindow(ump.emptyInventory).display();

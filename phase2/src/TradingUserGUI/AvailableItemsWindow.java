@@ -25,6 +25,9 @@ public class AvailableItemsWindow {
         this.umc = umc;
     }
 
+    /**
+     * Displays AvailableItemsWindow
+     */
     public void display() {
         JFrame frame = new JFrame(ump.displayAvailableItems);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

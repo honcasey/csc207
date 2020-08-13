@@ -26,6 +26,9 @@ public class ViewTransactionHistoryWindow {
         this.umc = umc;
 
     }
+    /**
+     * Displays ViewTransactionHistoryWindow
+     */
     public void display(){
 
         // create the frame

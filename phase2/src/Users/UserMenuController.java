@@ -97,7 +97,6 @@ public class UserMenuController {
         TradingUser otherUser = um.getTradingUserById(newTransaction.getOtherUser(currentTradingUser.getUserId()));
         tm.updateUsersCurrentTransactions(otherUser,currentTradingUser,newTransaction);
         List<UUID> items  = newTransaction.getTransactionItems();
-        flagAccountIfAboveThreshold(otherUser);
         flagAccountIfAboveThreshold(currentTradingUser);
         for (UUID id : items) {
             Item item = im.getItem(id);

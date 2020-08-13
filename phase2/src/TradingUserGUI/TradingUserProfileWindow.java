@@ -30,6 +30,9 @@ public class TradingUserProfileWindow {
         this.currUser = currUser;
     }
 
+    /**
+     * Displays TradingUserProfileWindow
+     */
     public void display(){
         JFrame frame = new JFrame("UserProfile");
         frame.setContentPane(mainPanel);
