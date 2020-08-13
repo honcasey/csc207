@@ -240,7 +240,6 @@ public class TransactionWindow {
             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             umc.transactionUpdate(tb.getTransaction());
             new PopUpWindow("The Transaction has been made.").display();
-            umc.setCurrentTradingUser(String.valueOf(selectedItemOwner));
         }
         if (a == JOptionPane.NO_OPTION) {
             System.exit(0);

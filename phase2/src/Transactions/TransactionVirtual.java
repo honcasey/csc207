@@ -22,9 +22,4 @@ public class TransactionVirtual extends Transaction{
     public boolean isVirtual() {
         return true;
     }
-
-    @Override
-    public List<Meeting> getTransactionMeetings() {
-        return new ArrayList<>();
-    }
 }
