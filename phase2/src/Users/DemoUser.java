@@ -19,7 +19,6 @@ public class DemoUser extends User implements Serializable {
         super(username, password);
         wishList = new ArrayList<>();
         inventory = new ArrayList<>();
-
     }
 
     /**

@@ -266,7 +266,9 @@ public class AdminMenuController {
     public void undoEditAction(EditAction action) {
         try {
             Transaction t = ptm.getTransactionFromId(action.getTransaction().getId());
-            t.getTransactionMeetings().set(action.getWhichMeeting(), action.getPreviousMeeting());
+            List<Meeting> meetings = t.getTransactionMeetings();
+            meetings.set(action.getWhichMeeting(), action.getPreviousMeeting());
+            t.setMeetings(meetings);
             acm.removeAction(action);
         } catch (InvalidTransactionException e) {
             System.out.println("An exception was caught :(");
