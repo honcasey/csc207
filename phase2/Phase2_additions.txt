@@ -1,0 +1,27 @@
+Phase 2 Extensions
+
+Adjust Thresholds:
+Allows Admin users to adjust the different thresholds for users. Examples of these include adjusting the borrow threshold, Weekly Transaction threshold, incomplete transaction threshold.
+
+Undo Actions:
+Actions that we have decided were reasonable:
+User inventory actions: remove item, add item.	
+User Wishlist actions: remove item, add item.
+
+Transaction edits: meeting times, meeting locations, meeting dates.
+
+Suggesting Items:
+Once the current user has selected an item that they want to trade for, they are suggested items that they can put up for trade. These items will be in the wish list of the other user and in the inventory of the current user.
+
+New kind of Account:
+A demo user is a user who can only view wish list and inventory.
+
+Home City:
+Allow users to enter their home city when creating an account, so that the system will only show them other users in the same city.
+
+Virtual Trade:
+Users can make a virtual trade which executes the instance both users confirm the items of the trade.
+
+GUI:
+We have implemented a JSwing GUI.
+
