@@ -119,7 +119,6 @@ public class LoginWindow {
             AdminUserMenu aum = new AdminUserMenu(amc);
             aum.display();
             clearFields();
-
         } else if (lc.validUser(username, password)) { // if user and pass matches a trading user account
             umc.setCurrentTradingUser(username);
             TradingUserMenu tum = new TradingUserMenu(umc);

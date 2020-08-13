@@ -6,6 +6,7 @@ import Actions.EditAction;
 import Exceptions.InvalidAdminException;
 import Exceptions.InvalidItemException;
 import Exceptions.InvalidTradingUserException;
+import Exceptions.InvalidTransactionException;
 import Items.Item;
 import Items.ItemManager;
 import Transactions.Meeting;
@@ -263,8 +264,13 @@ public class AdminMenuController {
      * @param action an EditAction
      */
     public void undoEditAction(EditAction action) {
-        action.getTransaction().getTransactionMeetings().set(action.getWhichMeeting(), action.getNewMeeting());
-        acm.removeAction(action);
+        try {
+            Transaction t = ptm.getTransactionFromId(action.getTransaction().getId());
+            t.getTransactionMeetings().set(action.getWhichMeeting(), action.getPreviousMeeting());
+            acm.removeAction(action);
+        } catch (InvalidTransactionException e) {
+            System.out.println("An exception was caught :(");
+        }
     }
 
     /**
