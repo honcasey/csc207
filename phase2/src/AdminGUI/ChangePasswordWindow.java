@@ -20,6 +20,9 @@ public class ChangePasswordWindow {
         this.amc = amc;
     }
 
+    /**
+     * Displays ChangePasswordWindow
+     */
     public void display() {
         JFrame frame = new JFrame(amp.changePsw);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

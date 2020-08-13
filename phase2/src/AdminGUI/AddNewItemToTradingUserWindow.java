@@ -30,6 +30,9 @@ public class AddNewItemToTradingUserWindow {
     public AddNewItemToTradingUserWindow(AdminMenuController amc) {
         this.amc = amc;
     }
+    /**
+     * Displays AddNewItemToTradingUserWindow
+     */
     public void display(){
         //create frame
         JFrame frame = new JFrame(amp.addNewItem);

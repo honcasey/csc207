@@ -22,6 +22,9 @@ public class AddAdminUserWindow {
     public AddAdminUserWindow(AdminMenuController amc) {
         this.amc = amc;
     }
+    /**
+     * Displays AddAdminUserWindow
+     */
     public void display(){
         JFrame frame = new JFrame(amp.createNewAdmin);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
