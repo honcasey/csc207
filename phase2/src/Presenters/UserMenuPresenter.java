@@ -1,5 +1,10 @@
 package Presenters;
 
+/**
+ * <h1>UserMenuPresenter</h1>
+ * Stores all common strings by a TradingUser and DemoUser.
+ */
+
 public class UserMenuPresenter extends MenuPresenter {
     //user main menu strings
     public String tradingUserMenuTitle = "TradingUser Main Menu";
@@ -9,7 +14,6 @@ public class UserMenuPresenter extends MenuPresenter {
     public String viewTranHistory = "View Transaction History";
     public String viewWishlist = "View Wishlist";
     public String viewInventory = "View Inventory";
-    public String changeEmail = "Change Email";
     public String changeCity = "Change City";
     public String requestUnfreeze = "Request Unfreeze Account";
     public String setVacation = "Set Vacation Mode";

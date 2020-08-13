@@ -220,7 +220,7 @@ public class TradingUserManager {
     private void updateTransactionHistoryValues(TradingUser tradingUser, Transaction transaction) {
         TransactionHistory tH = tradingUser.getTransactionHistory();
         // if the user is the person giving away the object (user1) in transaction
-        if (transaction.getUser1() == tradingUser.getUserId()) {
+        if (tradingUser.getUserId().equals(transaction.getUser1())){
             // increment the numLended
             tradingUser.getTransactionHistory().setNumItemsLended();
 

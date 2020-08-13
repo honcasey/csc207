@@ -113,7 +113,6 @@ Assumptions
 * Different users of the TradingApplication program must either use the program on the same computer or use a repository that stores the system to operate on the same program
 * TradingApplication must log out PROPERLY after each use. Otherwise, information will not be serialized and will be lost 
 * There is one master admin user which can create all other admins in the system. The username is: admin, and the password: password to access this account
-* In Transactions, user1 always creates the transaction whereas user2 has the item that user1 desires
 * TradingUser accounts are flagged only when they perform an action past a specific limitation. For example, if a user reaches their weekly transaction limit, they will be flagged when the number of their weekly transactions EXCEEDS the weekly transaction limit
 * For virtual transactions, traders trade digital media outside of the Trading System (for example, by email)
 * When a demoUser removes an item from their wishlist/inventory, they can’t request for the item back 

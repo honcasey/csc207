@@ -190,7 +190,7 @@ public class ViewActiveTransactionsWindow {
                 oldMeeting = new Meeting(oldLocation, oldDate, oldTime);
                 editMeeting();
             } catch (InvalidTransactionException invalidTransactionException) {
-                // invalidTransactionException.printStackTrace();
+                System.out.println("Meeting was not edited properly.");
             }
         });
 

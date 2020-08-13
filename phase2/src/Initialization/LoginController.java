@@ -69,7 +69,7 @@ public class LoginController {
         try {
             um.addTradingUser(username, password, city);
         } catch (InvalidTradingUserException e) {
-            // TODO
+            //
         }
     }
 }
