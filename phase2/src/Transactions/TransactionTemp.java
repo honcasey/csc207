@@ -24,23 +24,6 @@ public class TransactionTemp extends Transaction {
     }
 
     /**
-     * Getter for the second meeting.
-     * @return returns the second meeting of the transaction.
-     */
-
-    public Meeting getSecondMeeting(){
-        return this.getTransactionMeetings().get(1);
-    }
-
-    /**
-     * getter for the first (and only) meeting of this transaction.
-     * @return returns the first meeting of this transaction.
-     */
-    public Meeting getFirstMeeting() {
-        return this.getTransactionMeetings().get(0);
-    }
-
-    /**
      * Returns if a Transaction is permanent
      * @return boolean
      */

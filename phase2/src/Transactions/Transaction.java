@@ -14,7 +14,7 @@ import java.util.*;
  *
  * User2 is the user that initiates the transaction. <br>
  *
- * firstMeeting: The first meeting of a transaction. <br>
+ *meetings: The list of meetings in  a transaction. <br>
  *
  * status: The possible values of this and what they mean are: <br>
  * -- "Pending" -- Status given initially while transaction is still being negotiated. <br>
@@ -242,7 +242,7 @@ public abstract class Transaction implements Serializable {
         this.setUserStatus(user2,newStatus);}
 
     /**
-     * NEEDS TO BE DELETED/CHANGED
+     *
      * Calls either setStatusUser1 or setStatusUser2
      * @param newStatus the new status to be changed
      * @param userId the User's UUID
@@ -255,7 +255,6 @@ public abstract class Transaction implements Serializable {
      * Getter for item that user1 is giving up in the transaction. (it is possible for the method to return null)
      * @return returns the item that user1 has at the beginning of the transaction.
      */
-    //Constructor with a return time manually inputted
     public UUID getItem1(){
         return this.getItemIdOwned(this.getUser1());
     }

@@ -118,6 +118,16 @@ public class UserMenuController {
         }
     }
 
+    /**
+     * This method is responsible for the edit meeting flow of a transaction(editing the date or time).
+     * @param user user who is editing the meeting.
+     * @param transactionId the transaction id of the transaction where the meeting is in.
+     * @param meetingNum to denote the first or second meeting.
+     * @param newTime The new time of the meeting.
+     * @param newDate The new date of the meeting
+     * @return returns a boolean if
+     * @throws InvalidTransactionException if you give it a transaction that is not in the system.
+     */
     public boolean editMeetingFlow(UUID user, UUID transactionId, int meetingNum, Date newTime, Date newDate) throws InvalidTransactionException {
         updateUsers(transactionId, TransactionActions.EDITED);
         if (tm.editMeeting(meetingNum, transactionId, user, newTime) | tm.editMeeting(meetingNum, transactionId, user, newDate, true)) {
@@ -126,6 +136,16 @@ public class UserMenuController {
         }
         return false;
     }
+
+    /**
+     * This method is responsible for the edit meeting flow of a transaction(editing the location).
+     * @param user user who is editing the meeting.
+     * @param transactionId the transaction id of the transaction where the meeting is in.
+     * @param meetingNum to denote the first or second meeting.
+     * @param newLocation this is the new location of the meeting.
+     * @return returns a boolean if
+     * @throws InvalidTransactionException if you give it a transaction that is not in the system.
+     */
 
     public boolean editMeetingFlow(UUID user, UUID transactionId, int meetingNum, String newLocation) throws InvalidTransactionException {
         updateUsers(transactionId, TransactionActions.EDITED);
@@ -141,6 +161,12 @@ public class UserMenuController {
         return false;
     }
 
+    /**
+     * This method is responsible for updating the users that are part of a transaction.
+     * @param transactionId This is the id of the transaction where an action is occuring.
+     * @param optionChosen this is the action as a string.(will be a variable from TransactionActions class.
+     * @throws InvalidTransactionException
+     */
     public void updateUsers(UUID transactionId, TransactionActions optionChosen) throws InvalidTransactionException {
         Transaction transaction = tm.getTransactionFromId(transactionId);
         tm.updateStatusUser(currentTradingUser, transaction, optionChosen);

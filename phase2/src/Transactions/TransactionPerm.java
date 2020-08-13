@@ -10,8 +10,6 @@ import java.util.*;
 
 public class TransactionPerm extends Transaction {
 
-
-    private Meeting firstMeeting;
     /**
      *This is the constructor which takes in the following parameters and makes an instance of a permanent
      * transaction.
