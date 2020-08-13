@@ -34,17 +34,18 @@ public class TransactionBuilder {
     public void declareIntent(UUID otherUserId, UUID desiredItem){
         this.otherUserId = otherUserId;
 
-        List<UUID> currentUserItemIds = new ArrayList<>();
-
-        currentUserItemIds.add(null);
-        currentUserItemIds.add(desiredItem);
-        userToItems.put(currentUserId,currentUserItemIds);
-
         List<UUID> otherUserItemIds = new ArrayList<>();
 
         otherUserItemIds.add(desiredItem);
         otherUserItemIds.add(null);
         userToItems.put(otherUserId,otherUserItemIds);
+
+
+        List<UUID> currentUserItemIds = new ArrayList<>();
+
+        currentUserItemIds.add(null);
+        currentUserItemIds.add(desiredItem);
+        userToItems.put(currentUserId,currentUserItemIds);
 
     }
 

@@ -241,7 +241,6 @@ public class TransactionWindow {
             umc.transactionUpdate(tb.getTransaction());
             new PopUpWindow("The Transaction has been made.").display();
             umc.setCurrentTradingUser(String.valueOf(selectedItemOwner));
-            umc.removeFromInventory(item.getId());
         }
         if (a == JOptionPane.NO_OPTION) {
             System.exit(0);
