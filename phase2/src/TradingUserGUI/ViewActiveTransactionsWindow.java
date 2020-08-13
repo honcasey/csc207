@@ -37,6 +37,9 @@ public class ViewActiveTransactionsWindow {
     public ViewActiveTransactionsWindow(UserMenuController umc) {
         this.umc = umc; }
 
+    /**
+     * Displays ViewActiveTransactionsWindow
+     */
     public void display() {
         if (umc.currentTransactionList().isEmpty()) {
             PopUpWindow e = new PopUpWindow(ump.noCurrTrans);

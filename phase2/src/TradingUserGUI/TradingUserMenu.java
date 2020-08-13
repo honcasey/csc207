@@ -31,6 +31,9 @@ public class TradingUserMenu {
         this.umc = umc;
     }
 
+    /**
+     * Displays TradingUserMenu
+     */
     public void display() {
         // configure the frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

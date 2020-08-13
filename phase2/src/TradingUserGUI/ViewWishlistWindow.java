@@ -26,6 +26,9 @@ public class ViewWishlistWindow {
         this.acm = acm;
     }
 
+    /**
+     * Displays ViewWishlistWindow
+     */
     public void display() {
         if (umc.getCurrentTradingUser().getWishlist().isEmpty()) {
             new PopUpWindow(ump.emptyWishlist).display();
