@@ -1,7 +1,6 @@
 package TradingUserGUI;
 
 import Actions.EditAction;
-import Exceptions.InvalidItemException;
 import Exceptions.InvalidTransactionException;
 import Popups.PopUpWindow;
 import Presenters.UserMenuPresenter;

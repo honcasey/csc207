@@ -109,13 +109,12 @@ public class UserMenuController {
      * This method generates the list of the User's ongoing Transactions
      * @return a list of Transactions
      */
-
     public List<Transaction> currentTransactionList() {
         try {
             List<UUID> currentTransactionsIds = currentTradingUser.getCurrentTransactions();
             return tm.getTransactionsFromIdList(currentTransactionsIds);
         } catch (NullPointerException e) {
-            return null;
+            return new ArrayList<>();
         }
     }
 
