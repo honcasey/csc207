@@ -61,18 +61,14 @@ public class FrozenUsersWindow {
         unfreeze.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (currUsername == null) {
-                    return;
-                }
-                try {
-                    TradingUser user = tum.getTradingUser(currUsername);
-                    tum.unfreezeAccount(user);
-                } catch (InvalidTradingUserException invalidTradingUserException) {
-                    invalidTradingUserException.printStackTrace();
-                }
+                if (!(currUsername == null)) {
+                    List<String> flaggedUsernames = tum.convertFrozenUsersToUsernames();
+                    if (flaggedUsernames.contains(currUsername)) {
+                        tum.removeFrozenUsername(currUsername);
+                    }
 
             }
-        });
+        }});
 
         userProfile.addActionListener(new ActionListener() {
             @Override

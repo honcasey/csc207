@@ -111,7 +111,7 @@ public class TransactionHistory implements Serializable {
      */
 
     public void setTransactionHistory(Transaction transaction) {
-        if (transaction.isTemp()) {
+        if (transaction.isOneWay()) {
             oneWayTransactions.add(transaction.getId());
         } else {
             twoWayTransactions.add(transaction.getId());

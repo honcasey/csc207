@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 public class FlaggedUsersWindow {
@@ -62,24 +63,22 @@ public class FlaggedUsersWindow {
                 } catch (InvalidTradingUserException invalidTradingUserException) {
                     invalidTradingUserException.printStackTrace();
                 }
-
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
+
         });
         unflagButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (currUser == null) {
-                    return;
+                if (!(currUser == null)) {
+                    List<String> flaggedUsernames = tum.convertFlaggedUsersToUsernames();
+                    if (flaggedUsernames.contains(currUser)) {
+                        tum.removeFlaggedUsername(currUser);
+                    }
                 }
-                try {
-                    TradingUser user = tum.getTradingUser(currUser);
-                    tum.getFlaggedAccounts().remove(user);
-                } catch (InvalidTradingUserException invalidTradingUserException) {
-                    invalidTradingUserException.printStackTrace();
-                }
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            }});
 
-            }
-        });
         users.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
