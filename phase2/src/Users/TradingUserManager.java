@@ -397,7 +397,9 @@ public class TradingUserManager {
     }
 
     /**
-     * Removes item(s) temporarily from both users wishlists and inventory when the item(s) is involved in a transaction.
+     * Handles the item changes from both users wishlists and inventory when the item(s) is involved in a transaction.
+     * This method assumes that user2 was the user who made the transaction(consistent with
+     * the assumption made in transaction class).
      * @param transaction the transaction involved.
      */
     protected void handlePermTransactionItems(Transaction transaction) { // if permanent transaction
@@ -406,29 +408,33 @@ public class TradingUserManager {
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
             if (itemidlist.size() == 2) {
-                user1.removeFromWishlist(itemidlist.get(1));
-                user2.removeFromWishlist(itemidlist.get(0));
-                user1.getInventory().remove(itemidlist.get(0));
-                user2.getInventory().remove(itemidlist.get(1));
+                user1.removeFromWishlist(transaction.getItemIdDesired(user1.getUserId()));
+                user2.removeFromWishlist(transaction.getItemIdDesired(user2.getUserId()));
+                user1.getInventory().remove(transaction.getItemIdOwned(user1.getUserId()));
+                user2.getInventory().remove(transaction.getItemIdOwned(user2.getUserId()));
+                user2.getInventory().add(transaction.getItemIdDesired(user2.getUserId()));
+                user1.getInventory().add(transaction.getItemIdDesired(user1.getUserId()));
             } else if (itemidlist.size() == 1) { // user 1 giving to user 2
-                user2.getWishlist().remove(itemidlist.get(0));
-                user1.getInventory().remove(itemidlist.get(0));
+                user2.getWishlist().remove(transaction.getItemIdDesired(user2.getUserId()));
+                user1.getInventory().remove(transaction.getItemIdOwned(user1.getUserId()));
+                user2.getInventory().add(transaction.getItemIdDesired(user2.getUserId()));
             }
         }
     }
 
+    // This method  assumes that user 2 initiated the transaction.
     protected void handleTempTransactionItems(Transaction transaction) { // if temporary transaction
         if (transaction.getStatus().equals(TransactionStatuses.TRADED)) { // after first meeting
             List<UUID> itemidlist = transaction.getTransactionItems();
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
             if (itemidlist.size() == 2) {
-                user1.removeFromWishlist(itemidlist.get(1));
-                user2.removeFromWishlist(itemidlist.get(0));
-                user1.getInventory().remove(itemidlist.get(0));
-                user2.getInventory().remove(itemidlist.get(1));
+                user1.removeFromWishlist(transaction.getItemIdDesired(user1.getUserId()));
+                user2.removeFromWishlist(transaction.getItemIdDesired(user2.getUserId()));
+                user1.getInventory().remove(transaction.getItemIdOwned(user1.getUserId()));
+                user2.getInventory().remove(transaction.getItemIdOwned(user2.getUserId()));
             } else if (itemidlist.size() == 1) { // user 1 giving to user 2
-                user2.getWishlist().remove(itemidlist.get(0));
+                user2.getWishlist().remove(transaction.getItemIdDesired(user2.getUserId()));
                 user1.getInventory().remove(itemidlist.get(0));
             }
         }
@@ -437,10 +443,10 @@ public class TradingUserManager {
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
             if (itemidlist.size() == 2) {
-                user1.getInventory().remove(itemidlist.get(0));
-                user2.getInventory().remove(itemidlist.get(1));
+                user1.getInventory().add(transaction.getItemIdOwned(user1.getUserId()));
+                user2.getInventory().add(transaction.getItemIdOwned(user2.getUserId()));
             } else if (itemidlist.size() == 1) { // user 1 giving to user 2
-                user1.getInventory().remove(itemidlist.get(0));
+                user1.getInventory().add(transaction.getItemIdOwned(user1.getUserId()));
             }
         }
     }
@@ -451,13 +457,16 @@ public class TradingUserManager {
             TradingUser user1 = this.getTradingUserById(transaction.getUser1());
             TradingUser user2 = this.getTradingUserById(transaction.getUser2());
             if (itemidlist.size() == 2) {
-                user1.getInventory().remove(itemidlist.get(0));
-                user2.getInventory().remove(itemidlist.get(0));
-                user2.getInventory().remove(itemidlist.get(1));
-                user2.getInventory().remove(itemidlist.get(1));
+                user1.removeFromWishlist(transaction.getItemIdDesired(user1.getUserId()));
+                user2.removeFromWishlist(transaction.getItemIdDesired(user2.getUserId()));
+                user1.getInventory().remove(transaction.getItemIdOwned(user1.getUserId()));
+                user2.getInventory().remove(transaction.getItemIdOwned(user2.getUserId()));
+                user2.getInventory().add(transaction.getItemIdDesired(user2.getUserId()));
+                user1.getInventory().add(transaction.getItemIdDesired(user1.getUserId()));
             } if (itemidlist.size() == 1) { // user 1 giving to user 2
-                user1.getInventory().remove(itemidlist.get(0));
-                user2.getInventory().remove(itemidlist.get(0));
+                user2.getWishlist().remove(transaction.getItemIdDesired(user2.getUserId()));
+                user1.getInventory().remove(transaction.getItemIdOwned(user1.getUserId()));
+                user2.getInventory().add(transaction.getItemIdDesired(user2.getUserId()));
             }
         }
     }
