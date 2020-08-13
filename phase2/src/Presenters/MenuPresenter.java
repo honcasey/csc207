@@ -1,5 +1,11 @@
 package Presenters;
 
+/**
+ * <h1>MenuPresenter</h1>
+ * Stores all common strings between the menu accessed by an AdminUser, the menu accessed by a TradingUser and DemoUser.
+ * Class variables represent commonly used strings between the AdminMenuPresenter and UserMenuPresenter.
+ */
+
 public class MenuPresenter {
     //labels
     public String username = "Username:";
