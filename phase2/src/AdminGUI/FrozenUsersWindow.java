@@ -62,8 +62,8 @@ public class FrozenUsersWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!(currUsername == null)) {
-                    List<String> flaggedUsernames = tum.convertFrozenUsersToUsernames();
-                    if (flaggedUsernames.contains(currUsername)) {
+                    List<String> frozenUsernames = tum.convertFrozenUsersToUsernames();
+                    if (frozenUsernames.contains(currUsername)) {
                         tum.removeFrozenUsername(currUsername);
                     }
 

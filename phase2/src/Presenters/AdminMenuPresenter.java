@@ -1,5 +1,10 @@
 package Presenters;
 
+/**
+ * <h1>AdminMenuPresenter</h1>
+ * Stores all common strings by an AdminUser.
+ */
+
 public class AdminMenuPresenter extends MenuPresenter {
     //admin main menu strings
     public String adminMenuTitle = "Admin Menu";

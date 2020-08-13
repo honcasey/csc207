@@ -309,7 +309,7 @@ public class UserMenuController {
         try {
             currentTradingUser = um.getTradingUser(username);
         } catch(InvalidTradingUserException e) {
-            // TODO
+            //
         }
     }
 

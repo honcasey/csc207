@@ -138,7 +138,7 @@ public class AdminMenuController {
         try {
             currentAdmin = am.getAdmin(username);
         } catch (InvalidAdminException e) {
-            // TODO
+            //
         }
     }
 
