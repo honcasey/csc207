@@ -21,10 +21,18 @@ public abstract class Action implements Serializable {
 
     public abstract boolean isAddorDeleteAction();
 
+    /**
+     * Getter for the Id of an Action
+     * @return UUID
+     */
     public UUID getId() {
         return id;
     }
 
+    /**
+     * Getter for the User who is involved in an Action
+     * @return UUID of the User
+     */
     public UUID getUser() {
         return userId;
     }
