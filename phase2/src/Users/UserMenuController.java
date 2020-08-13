@@ -140,6 +140,12 @@ public class UserMenuController {
         return false;
     }
 
+    /**
+     * Update users after a transaction has taken place
+     * @param transactionId
+     * @param optionChosen
+     * @throws InvalidTransactionException
+     */
     public void updateUsers(UUID transactionId, TransactionActions optionChosen) throws InvalidTransactionException {
         Transaction transaction = tm.getTransactionFromId(transactionId);
         tm.updateStatusUser(currentTradingUser, transaction, optionChosen);
