@@ -23,6 +23,8 @@ public class CheckPendingItemsWindow {
     public CheckPendingItemsWindow(AdminMenuController amc) { this.amc = amc; }
 
     /**
+     * Displays CheckingPendingItemsWindow
+     *
      * Part of code taken from:
      * https://docs.oracle.com/javase/tutorial/displayCode.html?code=https://docs.oracle.com/javase/tutorial/uiswing/examples/components/SplitPaneDemoProject/src/components/SplitPaneDemo.java
      */

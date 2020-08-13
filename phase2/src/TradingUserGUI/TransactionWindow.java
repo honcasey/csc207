@@ -41,6 +41,9 @@ public class TransactionWindow {
         item = umc.getIm().getItem(itemId);
     }
 
+    /**
+     * Displays TransactionWindow
+     */
     public void display() {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(new Dimension(1000, 500));

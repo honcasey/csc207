@@ -30,6 +30,9 @@ public class FlaggedUsersWindow {
         this.amc = amc;
         this.tum = amc.getTUM();
     }
+    /**
+     * Displays FlaggedUsersWindow
+     */
 
     public void display() {
         JFrame frame = new JFrame(amp.checkFlaggedUser);

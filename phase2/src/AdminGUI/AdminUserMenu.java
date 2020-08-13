@@ -37,6 +37,9 @@ public class AdminUserMenu {
         this.tum = amc.getTUM();
     }
 
+    /**
+     * Displays AdminUserMenuWindow
+     */
     public void display() {
         // create the frame
         frame = new JFrame(amp.adminMenuTitle);

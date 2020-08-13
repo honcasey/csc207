@@ -32,7 +32,9 @@ public class UndoActionWindow {
         this.amc = amc;
         am = amc.getAcm();
     }
-
+    /**
+     * Displays UndoActionWindow
+     */
     public void display() {
         JFrame frame = new JFrame(amp.undoAction);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // closes the current frame but doesn't terminate the app

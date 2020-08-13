@@ -25,6 +25,9 @@ public class ItemDetailsWindow {
         this.itemsMap = itemsMap;
         item = umc.getIm().getItem(itemId);
     }
+    /**
+     * Displays ItemDetailsWindow
+     */
 
     public void display() {
         JFrame frame = new JFrame(ump.itemDetails);
