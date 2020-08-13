@@ -397,7 +397,8 @@ public class TradingUserManager {
     }
 
     /**
-     * Handles the item changes from both users wishlists and inventory when the item(s) is involved in a transaction.
+     * Handles the item changes from both users wishlists and inventory when the item(s) is involved in a permanent
+     * transaction.
      * This method assumes that user2 was the user who made the transaction(consistent with
      * the assumption made in transaction class).
      * @param transaction the transaction involved.
@@ -422,7 +423,13 @@ public class TradingUserManager {
         }
     }
 
-    // This method  assumes that user 2 initiated the transaction.
+    /**
+     * Handles the item changes from both users wishlists and inventory when the item(s) is involved in a temporary
+     * transaction.
+     * This method assumes that user2 was the user who made the transaction(consistent with
+     * the assumption made in transaction class).
+     * @param transaction the transaction involved.
+     */
     protected void handleTempTransactionItems(Transaction transaction) { // if temporary transaction
         if (transaction.getStatus().equals(TransactionStatuses.TRADED)) { // after first meeting
             List<UUID> itemidlist = transaction.getTransactionItems();
@@ -450,6 +457,14 @@ public class TradingUserManager {
             }
         }
     }
+
+    /**
+     * Handles the item changes from both users wishlists and inventory when the item(s) is involved in a virtual
+     * transaction.
+     * This method assumes that user2 was the user who made the transaction(consistent with
+     * the assumption made in transaction class).
+     * @param transaction the transaction involved.
+     */
 
     public void handleVirtTransactionItems(Transaction transaction) {
         if (transaction.getStatus().equals(TransactionStatuses.COMPLETED)){

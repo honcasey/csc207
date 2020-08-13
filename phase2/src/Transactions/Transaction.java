@@ -27,14 +27,13 @@ import java.util.*;
  * -- "Never Returned" -- A user did not show up at meeting 2 and/or items were not returned.(only used for temporary transactions). <br>
  * userStatuses: a list of all user statuses with the position in the list corresponding to the position in the list of
  * users.
- * useritems:
  */
 public abstract class Transaction implements Serializable {
     private UUID id = UUID.randomUUID();
     private TransactionStatuses status;
     private TreeMap<UUID,List<UUID>> userToItems;
     private TreeMap<UUID, TransactionStatuses> userToStatus;
-
+    private ArrayList<Meeting> meetings;
 
     /**
      * This method takes in the parameters and constructs an instance of the abstract class transaction.
@@ -50,6 +49,7 @@ public abstract class Transaction implements Serializable {
             userToStatus.put(id, TransactionStatuses.PENDING);
         }
         this.userToStatus = userToStatus;
+        this.meetings = new ArrayList<>();
     }
 
     /**
@@ -60,6 +60,13 @@ public abstract class Transaction implements Serializable {
         return id;
     }
 
+    /**
+     * This method adds to the meetings list
+     * @param meeting the meeting you want to add.
+     */
+    public void addMeeting(Meeting meeting){
+        this.meetings.add(meeting);
+    }
     /**
      * Setter for status. This will be called by use case classes.
      * @param newStatus the new status.
@@ -136,7 +143,7 @@ public abstract class Transaction implements Serializable {
 
     /**
      * This is an abstract method that checks if you have a one way transaction.
-     * @return returns true iff the transaction you call the method on is a one way transaction.
+     * @return returns true iff the transaction you call the method on is permanent transaction.
      */
     public abstract boolean isPerm();
 
@@ -157,12 +164,14 @@ public abstract class Transaction implements Serializable {
     }
 
     /**
-     * This is an abstract method that get's all of the meetings involved in the transaction. Size of list returned
+     * This is an method that get's all of the meetings involved in the transaction. Size of list returned
      * will depend directly on the type of transaction taking place.
      * @return returns a list of
      *         meetings in the order of them happening in the transaction. (A list of either 1 or 2 meetings.)
      */
-    public abstract List<Meeting> getTransactionMeetings();
+    public List<Meeting> getTransactionMeetings(){
+        return this.meetings;
+    }
 
     /**
      * This is an abstract method that gets all the items involved in the transactions. Size of list returned will

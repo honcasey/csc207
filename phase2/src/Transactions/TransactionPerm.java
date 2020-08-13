@@ -22,15 +22,7 @@ public class TransactionPerm extends Transaction {
     //Constructor with no return time given (default is a month (31 days))
     public TransactionPerm(TreeMap<UUID,List<UUID>> userToItems, Meeting FirstMeeting){
         super(userToItems);
-        this.firstMeeting= FirstMeeting;
-    }
-
-    /**
-     * getter for the first (and only) meeting of this transaction.
-     * @return returns the first meeting.
-     */
-    public Meeting getFirstMeeting() {
-        return firstMeeting;
+        this.addMeeting(FirstMeeting);
     }
 
     /**
@@ -57,11 +49,4 @@ public class TransactionPerm extends Transaction {
      * Returns a list of Meetings associated with a Transaction
      * @return a list of Meetings
      */
-
-    @Override
-    public List<Meeting> getTransactionMeetings(){
-        List<Meeting> MeetingReturnList = new ArrayList<>();
-        MeetingReturnList.add(this.getFirstMeeting());
-        return(MeetingReturnList);
-    }
 }
