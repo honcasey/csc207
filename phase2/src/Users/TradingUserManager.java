@@ -416,7 +416,7 @@ public class TradingUserManager {
                 user2.getInventory().add(transaction.getItemIdDesired(user2.getUserId()));
                 user1.getInventory().add(transaction.getItemIdDesired(user1.getUserId()));
             } else if (itemidlist.size() == 1) { // user 1 giving to user 2
-                user2.getWishlist().remove(transaction.getItemIdDesired(user2.getUserId()));
+                user2.removeFromWishlist(transaction.getItemIdDesired(user2.getUserId()));
                 user1.getInventory().remove(transaction.getItemIdOwned(user1.getUserId()));
                 user2.getInventory().add(transaction.getItemIdDesired(user2.getUserId()));
             }
@@ -441,7 +441,7 @@ public class TradingUserManager {
                 user1.getInventory().remove(transaction.getItemIdOwned(user1.getUserId()));
                 user2.getInventory().remove(transaction.getItemIdOwned(user2.getUserId()));
             } else if (itemidlist.size() == 1) { // user 1 giving to user 2
-                user2.getWishlist().remove(transaction.getItemIdDesired(user2.getUserId()));
+                user2.removeFromWishlist(transaction.getItemIdDesired(user2.getUserId()));
                 user1.getInventory().remove(itemidlist.get(0));
             }
         }
@@ -479,7 +479,7 @@ public class TradingUserManager {
                 user2.getInventory().add(transaction.getItemIdDesired(user2.getUserId()));
                 user1.getInventory().add(transaction.getItemIdDesired(user1.getUserId()));
             } if (itemidlist.size() == 1) { // user 1 giving to user 2
-                user2.getWishlist().remove(transaction.getItemIdDesired(user2.getUserId()));
+                user2.removeFromWishlist(transaction.getItemIdDesired(user2.getUserId()));
                 user1.getInventory().remove(transaction.getItemIdOwned(user1.getUserId()));
                 user2.getInventory().add(transaction.getItemIdDesired(user2.getUserId()));
             }
