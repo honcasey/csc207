@@ -33,7 +33,7 @@ public abstract class Transaction implements Serializable {
     private TransactionStatuses status;
     private TreeMap<UUID,List<UUID>> userToItems;
     private TreeMap<UUID, TransactionStatuses> userToStatus;
-    private ArrayList<Meeting> meetings;
+    private List<Meeting> meetings;
 
     /**
      * This method takes in the parameters and constructs an instance of the abstract class transaction.
@@ -294,6 +294,10 @@ public abstract class Transaction implements Serializable {
 
     public boolean isOneWay(){
         return this.getTransactionItems().size() == 1;
+    }
+
+    public void setMeetings(List<Meeting> meetings) {
+        this.meetings = meetings;
     }
 
 
