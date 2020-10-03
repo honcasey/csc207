@@ -6,7 +6,7 @@ The system has two types of users, TradingUsers which are users that are able to
 
 
 How to run the system
-1. Run the main method located within TradingApplication.
+1. Run the main method located within TradingApplication (located in the phase2 folder).
 2. If running the program for the first time, all .ser files are automatically created if they do not already exist. Otherwise all data is saved and .ser files are updated upon log out.
 
 
